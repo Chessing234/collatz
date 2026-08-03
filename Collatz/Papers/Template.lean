@@ -1,14 +1,14 @@
+import Collatz.Basic
+
 /-!
 Template for formalizing a paper.
 
 Copy this file when adding a source.
 Keep unproved claims as `def ... : Prop` until proved.
-Do not use `axiom`, `admit`, or `sorry`.
+Do not use proof escapes.
 -/
 
-import Cline.Basic
-
-namespace Cline.Papers.Template
+namespace Collatz.Papers.Template
 
 /-- Replace with the exact bibliographic citation. -/
 def citation : String := "Author, title, venue, year"
@@ -20,4 +20,4 @@ def mainStatement : Prop := True
 theorem mainStatement_trivial : mainStatement := by
   trivial
 
-end Cline.Papers.Template
+end Collatz.Papers.Template

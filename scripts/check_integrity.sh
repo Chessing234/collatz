@@ -5,10 +5,10 @@ root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$root"
 
 printf 'checking Lean build\n'
-lake build
+lake build +Collatz
 
 printf 'checking forbidden proof escapes\n'
-if grep -RInE '\b(sorry|admit|axiom)\b' Cline Cline.lean; then
+if grep -RInE '\b(sorry|admit|axiom)\b' Collatz Collatz.lean; then
   printf 'integrity failed: proof escape found\n' >&2
   exit 1
 fi

@@ -1,6 +1,6 @@
 # Blueprint
 
-Goal: turn paper lemmas into checked Lean steps.
+Goal: turn Collatz paper lemmas into checked Lean steps.
 
 Boundary: no proof is claimed until Lean accepts it.
 

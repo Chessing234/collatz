@@ -1,9 +1,9 @@
 import Lake
 open Lake DSL
 
-package Cline where
+package Collatz where
   version := v!"0.1.0"
-  keywords := #["Lean", "formalization", "AI", "conjecture"]
+  keywords := #["Lean", "formalization", "AI", "Collatz"]
 
-lean_lib Cline where
-  roots := #[`Cline]
+lean_lib Collatz where
+  roots := #[`Collatz]

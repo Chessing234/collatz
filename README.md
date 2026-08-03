@@ -1,16 +1,16 @@
-# Cline
+# collatz
 
-A small lab for a large conjecture.
+A small lab for a wild conjecture.
 
 This repo tests the limits of AI.
 
-AI often invents strange useful lemmas.
+AI can suggest odd new lemmas.
 
 AI still fails at the whole proof.
 
 The bet is simple.
 
-Collect enough good lemmas.
+Collect enough useful lemmas.
 
 Check each one in Lean.
 
@@ -18,7 +18,7 @@ Chain them with care.
 
 Maybe a path appears.
 
-The Cline conjecture is the beast.
+The Collatz conjecture is the beast.
 
 No one has tamed it yet.
 
@@ -38,13 +38,13 @@ Every proof must pass CI.
 
 ## Structure
 
-`Cline/` holds Lean code.
+`Collatz/` holds Lean code.
 
 `Papers/` tracks sources.
 
 `Blueprint/` explains the route.
 
-`scripts/` checks project integrity.
+`scripts/` checks integrity.
 
 `.github/workflows/` runs CI.
 
