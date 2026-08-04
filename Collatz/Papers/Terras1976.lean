@@ -75,4 +75,66 @@ theorem hasFiniteStoppingTime_eight : hasFiniteStoppingTime 8 :=
 theorem hasFiniteStoppingTime_sixteen : hasFiniteStoppingTime 16 :=
   Collatz.hasFiniteStoppingTime_of_even (by omega) (by decide)
 
+/-- Doubling preserves finite stopping time: if `m` has finite stopping time,
+so does `2m` (the orbit halves on the first accelerated step). -/
+theorem hasFiniteStoppingTime_double {m : Nat} (hm : hasFiniteStoppingTime m) :
+    hasFiniteStoppingTime (2 * m) :=
+  Collatz.hasFiniteStoppingTime_of_double hm
+
+/-- Multiplying by a positive power of two preserves finite stopping time. -/
+theorem hasFiniteStoppingTime_multiple {m a : Nat} (hm : hasFiniteStoppingTime m) (ha : 0 < a) :
+    hasFiniteStoppingTime (2^a * m) :=
+  Collatz.hasFiniteStoppingTime_of_multiple hm ha
+
+/-- The parity vector of length `k` is periodic with period `2^k`. This is a
+key structural lemma toward Terras's density-`1` stopping-time theorem. -/
+theorem parityVector_periodic (n k : Nat) :
+    Collatz.parityVector n k = Collatz.parityVector (n % 2^k) k :=
+  Collatz.parityVector_mod_pow_two n k
+
+/-- Distinct residues below `2^k` give distinct parity vectors of length `k`. -/
+theorem parityVector_injective (a b k : Nat) (ha : a < 2^k) (hb : b < 2^k) :
+    Collatz.parityVector a k = Collatz.parityVector b k → a = b :=
+  Collatz.parityVector_injective_mod_pow_two k a b ha hb
+
+/-- Every binary pattern of length `k` occurs as a parity vector. In other
+words, the map `a ↦ parityVector a k` from `Fin (2^k)` to `{0,1}^k` is
+surjective (and hence bijective). -/
+theorem parityVector_surjective (k : Nat) (p : List Nat)
+    (hp : p.length = k) (hpval : ∀ x ∈ p, x = 0 ∨ x = 1) :
+    ∃ a : Nat, a < 2^k ∧ Collatz.parityVector a k = p :=
+  Collatz.parityVector_surjective_mod_pow_two k p hp hpval
+
+/-- The input `9` has a finite stopping time (`σ(9) = 2`). -/
+theorem hasFiniteStoppingTime_nine : hasFiniteStoppingTime 9 := by
+  exact ⟨2, ⟨by omega, by decide⟩⟩
+
+/-- The input `10` has a finite stopping time. -/
+theorem hasFiniteStoppingTime_ten : hasFiniteStoppingTime 10 :=
+  Collatz.hasFiniteStoppingTime_of_even (by omega) (by decide)
+
+/-- The input `12` has a finite stopping time. -/
+theorem hasFiniteStoppingTime_twelve : hasFiniteStoppingTime 12 :=
+  Collatz.hasFiniteStoppingTime_of_even (by omega) (by decide)
+
+/-- The input `15` has a finite stopping time (`σ(15) = 7`). -/
+theorem hasFiniteStoppingTime_fifteen : hasFiniteStoppingTime 15 := by
+  exact ⟨7, ⟨by omega, by decide⟩⟩
+
+/-- The input `18` has a finite stopping time. -/
+theorem hasFiniteStoppingTime_eighteen : hasFiniteStoppingTime 18 :=
+  Collatz.hasFiniteStoppingTime_of_even (by omega) (by decide)
+
+/-- The input `20` has a finite stopping time. -/
+theorem hasFiniteStoppingTime_twenty : hasFiniteStoppingTime 20 :=
+  Collatz.hasFiniteStoppingTime_of_even (by omega) (by decide)
+
+/-- The input `24` has a finite stopping time. -/
+theorem hasFiniteStoppingTime_twentyfour : hasFiniteStoppingTime 24 :=
+  Collatz.hasFiniteStoppingTime_of_even (by omega) (by decide)
+
+/-- The input `32` has a finite stopping time. -/
+theorem hasFiniteStoppingTime_thirtytwo : hasFiniteStoppingTime 32 :=
+  Collatz.hasFiniteStoppingTime_of_even (by omega) (by decide)
+
 end Collatz.Papers.Terras1976

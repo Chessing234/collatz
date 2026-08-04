@@ -30,14 +30,14 @@ def everett1977Draft : LemmaDraft where
   name := "everett_1977_stopping_time_density"
   source := "C. J. Everett, Iteration of the number-theoretic function f(2n)=n, f(2n+1)=3n+2, Adv. Math. 25 (1977), 42--45."
   statement := "The set of positive integers with a finite stopping time under the accelerated map has natural density 1."
-  status := "open"
+  status := "partial: parity-vector congruence and equidistribution lemmas proved; main density theorem recorded"
 
 /-- Terras (1976): stopping-time density theorem. -/
 def terras1976Draft : LemmaDraft where
   name := "terras_1976_finite_stopping_time_density_one"
   source := "Riho Terras, A stopping time problem on the positive integers, Acta Arith. 30 (1976), 241--252."
   statement := "The set of positive integers n with a finite stopping time σ(n) = min{k ≥ 1 : T^k(n) < n} has natural density 1, where T(n) = (3n+1)/2 for odd n and T(n) = n/2 for even n."
-  status := "partial: definitions, bounded approximation, and finite computations checked"
+  status := "partial: stopping-time closure lemmas, finite computations, and parity-vector equidistribution proved; main density-1 theorem recorded"
 
 /-- Tao (2022): almost all orbits attain almost bounded values. -/
 def tao2022Draft : LemmaDraft where

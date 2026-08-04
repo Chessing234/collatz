@@ -43,6 +43,26 @@ theorem parity_vector_computable (n j : Nat) :
       (List.range j).map (fun i => (Collatz.acceleratedOrbit i n) % 2) := by
   simp [Collatz.parityVector]
 
+/-- The parity vector of length `k` is periodic with period `2^k`.  This
+congruence structure underlies Everett's probabilistic analysis of the
+accelerated map. -/
+theorem parity_vector_periodic (n k : Nat) :
+    Collatz.parityVector n k = Collatz.parityVector (n % 2^k) k :=
+  Collatz.parityVector_mod_pow_two n k
+
+/-- Distinct residues below `2^k` give distinct parity vectors of length `k`. -/
+theorem parity_vector_injective (a b k : Nat) (ha : a < 2^k) (hb : b < 2^k) :
+    Collatz.parityVector a k = Collatz.parityVector b k → a = b :=
+  Collatz.parityVector_injective_mod_pow_two k a b ha hb
+
+/-- Every binary pattern of length `k` occurs as a parity vector.  In other
+words, the map `a ↦ parityVector a k` from `Fin (2^k)` to `{0,1}^k` is a
+bijection.  This equidistribution is the heart of Everett's density argument. -/
+theorem parity_vector_surjective (k : Nat) (p : List Nat)
+    (hp : p.length = k) (hpval : ∀ x ∈ p, x = 0 ∨ x = 1) :
+    ∃ a : Nat, a < 2^k ∧ Collatz.parityVector a k = p :=
+  Collatz.parityVector_surjective_mod_pow_two k p hp hpval
+
 /-- Everett (1977), main result (recorded, not proved): the set of positive
 integers with a finite stopping time under the accelerated map has natural
 density `1`.  The count uses the bounded approximation
