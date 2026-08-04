@@ -6,14 +6,22 @@ on:
 
 jobs:
   lean:
-    name: Lean integrity
+    name: Lean CI
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: leanprover/lean-action@v1
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build and setup Lean
+        id: lean-action
+        uses: leanprover/lean-action@v1
         with:
+          # The project has no Lake test target, so keep testing disabled.
           auto-config: false
-          build: false
+          build: true
           test: false
+          # lean-action caches the .lake directory by default; make it explicit.
+          use-github-cache: true
+
       - name: Check integrity
         run: ./scripts/check_integrity.sh

@@ -16,7 +16,7 @@ def lagarias1985Draft : LemmaDraft where
   name := "lagarias_1985_equivalence_of_formulations"
   source := "Jeffrey C. Lagarias, The 3x+1 problem and its generalizations, Amer. Math. Monthly 92 (1985), 3--23."
   statement := "The standard Collatz conjecture (every positive orbit under C(n) = n/2 even, 3n+1 odd reaches 1) is equivalent to the accelerated conjecture (every n > 1 under T(n) = n/2 even, (3n+1)/2 odd reaches 1)."
-  status := "partial: easy direction and step-expansion facts proved"
+  status := "proved: equivalence of standard and accelerated formulations"
 
 /-- Lagarias (2003): the accelerated 3x+1 conjecture. -/
 def lagarias2003BibliographyDraft : LemmaDraft where

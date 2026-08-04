@@ -84,6 +84,27 @@ theorem orbit_add (j k n : State) : orbit (j + k) n = orbit j (orbit k n) := by
       _ = orbit (j + 1) (orbit k n) := by
         simp [orbit_succ_steps]
 
+/-- A positive input stays positive after one Collatz step. -/
+theorem step_positive {n : Nat} (hn : n > 0) : step n > 0 := by
+  have hn0 : n ≠ 0 := by omega
+  rw [step]
+  by_cases heven : n % 2 = 0
+  · have heq : n = 2 * (n / 2) := by
+      rw [← Nat.div_add_mod n 2, heven]
+      omega
+    simp [if_neg hn0, if_pos heven]
+    omega
+  · have hodd : n % 2 = 1 := by omega
+    simp [if_neg hn0, if_neg (show n % 2 ≠ 0 by omega)]
+
+/-- The standard orbit of a positive input stays positive. -/
+theorem orbit_positive {n : Nat} (hn : n > 0) (k : Nat) : orbit k n > 0 := by
+  induction k generalizing n with
+  | zero => exact hn
+  | succ k ih =>
+    rw [orbit_succ_steps]
+    exact ih (step_positive hn)
+
 /-- The input `1` reaches `1`. -/
 theorem one_reaches_one : ∃ k : Nat, orbit k 1 = 1 := by
   exact ⟨0, rfl⟩
