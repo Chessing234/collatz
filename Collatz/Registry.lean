@@ -20,9 +20,16 @@ def lagarias2003BibliographyDraft : LemmaDraft where
   statement := "For every positive integer n > 1, the forward orbit under T(n) = (3n+1)/2 for odd n and T(n) = n/2 for even n includes 1."
   status := "open"
 
+/-- A sourced entry for Terras's stopping-time density theorem. -/
+def terras1976Draft : LemmaDraft where
+  name := "terras_1976_finite_stopping_time_density_one"
+  source := "Riho Terras, A stopping time problem on the positive integers, Acta Arith. 30 (1976), 241--252."
+  statement := "The set of positive integers n with a finite stopping time σ(n) = min{k ≥ 1 : T^k(n) < n} has natural density 1, where T(n) = (3n+1)/2 for odd n and T(n) = n/2 for even n."
+  status := "open"
+
 /-- Registry entries known to Lean. -/
 def registry : List LemmaDraft :=
-  [seedDraft, lagarias2003BibliographyDraft]
+  [seedDraft, lagarias2003BibliographyDraft, terras1976Draft]
 
 /-- The registry is nonempty. -/
 theorem registry_nonempty : registry ≠ [] := by
