@@ -3,3 +3,4 @@
 *.ilean
 *.c
 *.setup.json
+.DS_Store

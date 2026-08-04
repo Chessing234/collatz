@@ -52,6 +52,38 @@ def CollatzConjecture : Prop :=
     orbit (k + 1) n = orbit k (step n) := by
   rfl
 
+/-- Iteration commutes with a single step: `C^k(C(n)) = C(C^k(n))`. -/
+theorem orbit_step_commute (k n : State) : orbit k (step n) = step (orbit k n) := by
+  induction k generalizing n with
+  | zero => rfl
+  | succ k ih =>
+    calc
+      orbit (k + 1) (step n) = orbit k (step (step n)) := by
+        simp [orbit_succ_steps]
+      _ = step (orbit k (step n)) := by
+        apply ih (step n)
+      _ = step (step (orbit k n)) := by
+        rw [ih n]
+      _ = step (orbit k.succ n) := by
+        simp [orbit_succ_steps]
+        rw [ih n]
+
+/-- Semigroup law for the standard orbit: `C^(j+k)(n) = C^j(C^k(n))`. -/
+theorem orbit_add (j k n : State) : orbit (j + k) n = orbit j (orbit k n) := by
+  induction j generalizing n with
+  | zero => simp
+  | succ j ih =>
+    calc
+      orbit (j + 1 + k) n = orbit (j + k) (step n) := by
+        rw [show j + 1 + k = (j + k) + 1 by omega]
+        simp [orbit_succ_steps]
+      _ = orbit j (orbit k (step n)) := by
+        apply ih
+      _ = orbit j (step (orbit k n)) := by
+        rw [orbit_step_commute]
+      _ = orbit (j + 1) (orbit k n) := by
+        simp [orbit_succ_steps]
+
 /-- The input `1` reaches `1`. -/
 theorem one_reaches_one : ∃ k : Nat, orbit k 1 = 1 := by
   exact ⟨0, rfl⟩

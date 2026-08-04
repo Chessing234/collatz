@@ -1,5 +1,11 @@
 import Collatz.Basic
+import Collatz.Accelerated
 import Collatz.Registry
+import Collatz.Papers.Lagarias1985
 import Collatz.Papers.Lagarias2003Bibliography
+import Collatz.Papers.Everett1977
 import Collatz.Papers.Terras1976
+import Collatz.Papers.Tao2022
+import Collatz.Papers.KrasikovLagarias2003
+import Collatz.Papers.Conway1972
 import Collatz.Papers.Template
