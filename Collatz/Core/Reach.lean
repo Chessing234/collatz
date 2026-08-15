@@ -279,6 +279,25 @@ theorem reachesOne_accStep_iff {n : Nat} (hn : 0 < n) :
   · rw [accStep_eq_step_of_even heven, reachesOne_iff_step]
   · rw [accStep_eq_step_step_of_odd hn hodd, ← reachesOne_iff_step, ← reachesOne_iff_step]
 
+/-- Reaching `1` is invariant under any number of accelerated steps.  This is
+the workhorse for descent arguments: showing that some accelerated iterate of
+`n` reaches `1` is the same as showing that `n` does. -/
+theorem reachesOne_accOrbit_iff {n : Nat} (hn : 0 < n) (k : Nat) :
+    ReachesOne n ↔ ReachesOne (acceleratedOrbit k n) := by
+  induction k generalizing n with
+  | zero => rw [acceleratedOrbit]
+  | succ k ih =>
+    have hpos : 0 < acceleratedStep n := by
+      have h1 := acceleratedOrbit_positive hn 1
+      rw [acceleratedOrbit, acceleratedOrbit] at h1
+      exact h1
+    rw [acceleratedOrbit, ← ih hpos, ← reachesOne_accStep_iff hn]
+
+/-- If some accelerated iterate reaches `1`, so does the starting point. -/
+theorem reachesOne_of_accOrbit {n k : Nat} (hn : 0 < n)
+    (h : ReachesOne (acceleratedOrbit k n)) : ReachesOne n :=
+  (reachesOne_accOrbit_iff hn k).mpr h
+
 /-- Accelerated reachability of `1` implies standard reachability of `1`. -/
 theorem reachesOne_of_accReachesOne {n : Nat} (hn : 0 < n) (h : AccReachesOne n) :
     ReachesOne n := by
