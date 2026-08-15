@@ -38,7 +38,7 @@ Every proof must pass CI.
 
 ## Status
 
-702 theorems.
+728 theorems.
 
 No `sorry`. No added axioms. No Mathlib.
 
@@ -58,8 +58,6 @@ An accelerated cycle of length `L` with `a` odd steps needs `3^a < 2^L`.
 
 Its least element is odd.
 
-Every `n` up to `10000` reaches `1`, verified inside the kernel.
-
 `T^k` is affine on each residue class mod `2^k`, with multiplier fixed by the residue.
 
 A minimal counterexample survives a residue sieve: only 64 of 1024 classes mod 1024.
@@ -74,15 +72,17 @@ of the analysis reaches every integer.
 
 Collatz follows from the drop property for just three classes mod `16`.
 
-No nontrivial accelerated cycle has length `20` or less.
+No nontrivial accelerated cycle has length `26` or less.
 
 No point of an accelerated cycle is divisible by three.
 
 The greatest point of a cycle is even, and at least twice the least.
 
-Sixty chains of hypotheses, each with a proved implication to Collatz.
+Every `n` up to `60000` reaches `1`, verified inside the kernel.
 
-Fifteen of those hypotheses are refuted outright.
+Seventy-five chains of hypotheses, each with a proved implication to Collatz.
+
+Nineteen of those hypotheses are refuted outright.
 
 ## Structure
 

@@ -4,7 +4,7 @@ import Collatz.Chains.Arithmetic
 /-!
 # Index of chains
 
-Sixty chains, each a *proved* implication from open hypotheses to the Collatz
+Seventy-five chains, each a *proved* implication from open hypotheses to the Collatz
 conjecture.  This file classifies them, because the classification is the useful
 output: it says which decompositions are genuine reductions, which are the same
 problem restated, and which are dead.
@@ -59,6 +59,19 @@ hypothetical accelerated cycle has: length at least `21`, no point divisible by
 three, an odd least point, an even greatest point at least twice the least,
 every point above `10 000`, and both step types present.  Any further property
 incompatible with that list finishes the cycle half.
+
+## The one place chaining actually paid
+
+Chains 61–75 exist because two independently proved lemmas combined to beat
+what either gave alone.  The verified range bounds the *least* point of a
+nontrivial cycle from below; `CycleExtremes.two_mul_min_le_cycleMax` says the
+greatest point is at least twice the least.  Applying the range at the small end
+and the size bound at the large end doubles the effective constant for free, and
+pushed the cycle-length exclusion from `L ≤ 20` to **`L ≤ 26`**
+(`CycleLengthSharp.twentyseven_le_length_of_nontrivial`).
+
+That is the shape of progress this programme can produce: not a proof, but a
+constant moved by combining structure rather than by more computation.
 
 ## The three sharpest targets
 

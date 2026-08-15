@@ -113,6 +113,16 @@ For `L <= 20` that bound falls inside the verified range.
 
 So no nontrivial accelerated cycle has length `20` or less.
 
+Then two lemmas combine and beat either one alone.
+
+The least point of a nontrivial cycle exceeds the verified range.
+
+The greatest point is at least twice the least.
+
+Applying the range at the small end and the bound at the large end doubles the constant.
+
+With verification to `60000` that pushes the exclusion to `L <= 26`.
+
 The cycle half now needs only a cap on cycle length.
 
 That is a smaller target than excluding cycles.
@@ -135,11 +145,11 @@ So the greatest point is even, and its successor `M/2` is still on the cycle.
 
 Hence `M >= 2m`: a cycle spans at least a factor of two.
 
-## Sixty chains
+## Seventy-five chains
 
 Each chain is hypotheses plus a proved implication to Collatz.
 
-Fifteen hypotheses are refuted, not left open.
+Nineteen hypotheses are refuted, not left open.
 
 Four die to the class `-1 mod 2^k`, which takes `k` odd steps in a row.
 
