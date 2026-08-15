@@ -1,16 +1,17 @@
 import Collatz.Chains.Parity
+import Collatz.Chains.Arithmetic
 
 /-!
 # Index of chains
 
-Thirty chains, each a *proved* implication from open hypotheses to the Collatz
+Sixty chains, each a *proved* implication from open hypotheses to the Collatz
 conjecture.  This file classifies them, because the classification is the useful
 output: it says which decompositions are genuine reductions, which are the same
 problem restated, and which are dead.
 
 ## Verdicts
 
-**Refuted (6).**  The hypothesis is false, proved.
+**Refuted (15).**  The hypothesis is false, proved.
 
 | chain | hypothesis                                        | killed by |
 |-------|---------------------------------------------------|-----------|
@@ -21,38 +22,56 @@ problem restated, and which are dead.
 | 26    | some level has no heavy residue                    | obstruction class |
 | 27    | a uniform time budget for subcritical density      | obstruction class |
 | 29    | one level where every class descends               | obstruction class |
+| 41    | every orbit meets a multiple of three              | orbit of `1` |
+| 42    | some cycle contains a multiple of three            | mod-three theorem |
+| 43    | some cycle has an odd greatest point               | `cycleMax_even` |
+| 44    | some short nontrivial cycle exists                 | cycle-length theorem |
+| 45    | the accelerated map has a fixed point              | `no_acc_fixed_point` |
+| 56    | there is a largest counterexample                  | doubling closure |
+| 57    | some counterexample is small                       | verified range |
+| 58    | some power of two is a counterexample              | halving |
 
-Four of these die to the same object: the class `−1 mod 2^k`, which takes `k`
-consecutive odd steps.  **Any hypothesis with a parameter not depending on `n`
-is dead on arrival.**  That is the single most useful thing the thirty chains
-revealed, and it was not visible before building them.
+Two patterns emerge, and neither was visible before building the chains.
+
+**Pattern one: uniformity dies.**  Chains 25, 26, 27, 29 all fall to the class
+`−1 mod 2^k`, which takes `k` consecutive odd steps.  *Any hypothesis with a
+parameter not depending on `n` is dead on arrival.*  The chains that survive are
+exactly those whose parameter varies with `n`.
+
+**Pattern two: the counterexample set is unbounded or empty.**  It is closed
+under doubling, so chains 53, 55 and 56 need no dynamics whatsoever — "finitely
+many counterexamples" or "every counterexample is odd" each already imply there
+are none.  A surprising amount of the problem is concentrated in one number.
 
 **Equivalent to Collatz (proved both directions, so not progress).**
 Chains 1, 3, 6, 7, 12 — and Chain 6 is literally the contrapositive of Chain 1.
-These are restatements: solving them is solving the problem.
 
-**Genuine reductions (the hypothesis is strictly weaker than Collatz, or is a
-finite list of statements).**
-Chains 14, 15, 16 reduce the cycle half to a *length* or *size* bound.
+**Genuine reductions.**
+Chains 14, 15, 16, 36–40 reduce the cycle half to a *length* or *size* bound.
 Chains 19–22 reduce to finitely many residue classes.
-Chains 23, 24 isolate the quantitative content.
-Chain 28 reduces to a doubling step.
+Chains 23, 24, 52 isolate the quantitative content.
+Chains 28, 53, 54 reduce to a closure or induction step.
 
-## The two that stand out
+## The constraints a cycle must satisfy
 
-**Chain 14.**  `Collatz.Structure.CycleLength` proves outright that no
-nontrivial accelerated cycle has length at most `20`.  So the cycle half of the
-conjecture needs only a *cap on cycle length*, not the exclusion of cycles.
-That is a strictly smaller target than anything in the cycle literature this
-project reconstructed, and the cap grows automatically as the verified range
-grows.
+Chains 31–45 exist because the cycle half is now heavily constrained.  A
+hypothetical accelerated cycle has: length at least `21`, no point divisible by
+three, an odd least point, an even greatest point at least twice the least,
+every point above `10 000`, and both step types present.  Any further property
+incompatible with that list finishes the cycle half.
 
-**Chain 23.**  A drop is forced as soon as the multiplier goes subcritical
-(`3 ^ a < 2 ^ k`) *at a time small enough* that `3 ^ k < n + 2 ^ k`.  Both
-conditions are necessary and together they are sufficient — this is exactly the
-content of the bounded affine identity, with nothing left over.  It converts the
-vague heuristic "half the steps halve, so orbits shrink" into a precise finite
-condition on each `n`.
+## The three sharpest targets
+
+**Chain 38.**  A cycle forces `3 ^ a * 10001 + 3 ^ L ≥ 2 ^ L * 10002` — that is,
+`log 2 / log 3` would need an exceptionally good rational approximation `a / L`.
+Verified impossible for every `L ≤ 20`.
+
+**Chain 14/39.**  Capping cycle *length* at `20` finishes the cycle half, since
+those lengths are already excluded.  Strictly smaller than excluding cycles.
+
+**Chain 23/52.**  A drop is forced as soon as the multiplier goes subcritical at
+a time `k` with `3 ^ k < n + 2 ^ k`.  Both conditions necessary, together
+sufficient — exactly the content of the bounded affine identity.
 -/
 
 namespace Collatz
@@ -112,6 +131,28 @@ theorem target_residues (h : H22_survivorsMod1024) : CollatzConjecture := chain2
 
 /-- The induction target: one doubling step. -/
 theorem target_doubling (h : H28_doubling) : CollatzConjecture := chain28 h
+
+/-- The rational-approximation target, the sharpest cycle statement. -/
+theorem target_approximation (h1 : H14a_noAccDivergence) (h2 : H38_approximation) :
+    CollatzConjecture := chain38 h1 h2
+
+/-- The finiteness target: bounding the counterexample set at all empties it. -/
+theorem target_finiteness (h : H53_finitelyMany) : CollatzConjecture := chain53 h
+
+/-- The parity target: no dynamics needed, only closure under doubling. -/
+theorem target_parity (h : H55_allOdd) : CollatzConjecture := chain55 h
+
+/-- The refuted hypotheses, collected across both batches. -/
+theorem all_refuted :
+    (¬ H25_singleLevel) ∧ (¬ H26_noHeavy) ∧ (∀ K : Nat, ¬ H27_uniformTime K) ∧
+    (¬ H29_uniformClassDescent) ∧ (¬ H17_quadraticExcursion) ∧ (¬ H18_linearTime) ∧
+    (¬ H41_orbitHitsThree) ∧ (¬ H42_someCycleHitsThree) ∧ (¬ H43_someCycleMaxOdd) ∧
+    (¬ H44_shortNontrivialCycle) ∧ (¬ H45_fixedPoint) ∧ (¬ H56_largest) ∧
+    (¬ H57_smallCounterexample) ∧ (¬ H58_powerOfTwo) :=
+  ⟨chain25_refuted, chain26_refuted, chain27_refuted, chain29_refuted,
+    chain17_quadratic_refuted, chain18_linear_refuted, chain41_refuted,
+    chain42_refuted, chain43_refuted, chain44_refuted, chain45_refuted,
+    chain56_refuted, chain57_refuted, chain58_refuted⟩
 
 end Chains
 end Collatz

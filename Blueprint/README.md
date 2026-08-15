@@ -117,15 +117,37 @@ The cycle half now needs only a cap on cycle length.
 
 That is a smaller target than excluding cycles.
 
-## Thirty chains
+## What a cycle must look like
+
+After an odd step the value is `2` mod `3`, since `T(2j+1) = 3j+2`.
+
+So a multiple of three is only ever reached by halving.
+
+Run backwards around a cycle and every predecessor is again an even multiple of three.
+
+The cycle would be all halvings, which strictly decrease.
+
+So no point of a cycle is divisible by three.
+
+An odd greatest point would step up to `(3M+1)/2` and escape its own maximum.
+
+So the greatest point is even, and its successor `M/2` is still on the cycle.
+
+Hence `M >= 2m`: a cycle spans at least a factor of two.
+
+## Sixty chains
 
 Each chain is hypotheses plus a proved implication to Collatz.
 
-Six hypotheses are refuted, not left open.
+Fifteen hypotheses are refuted, not left open.
 
 Four die to the class `-1 mod 2^k`, which takes `k` odd steps in a row.
 
 Any hypothesis whose parameter does not depend on `n` is dead on arrival.
+
+The counterexample set is closed under doubling.
+
+So it is empty or unbounded, and three chains need no dynamics at all.
 
 Five chains are proved equivalent to Collatz, so they are restatements.
 

@@ -1,4 +1,4 @@
-import Collatz.Chains.Index
+import Collatz.Chains.Parity
 import Collatz.Structure.CycleExtremes
 import Collatz.Structure.CycleLength
 

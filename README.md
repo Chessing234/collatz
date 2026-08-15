@@ -38,7 +38,7 @@ Every proof must pass CI.
 
 ## Status
 
-639 theorems.
+702 theorems.
 
 No `sorry`. No added axioms. No Mathlib.
 
@@ -76,9 +76,13 @@ Collatz follows from the drop property for just three classes mod `16`.
 
 No nontrivial accelerated cycle has length `20` or less.
 
-Thirty chains of hypotheses, each with a proved implication to Collatz.
+No point of an accelerated cycle is divisible by three.
 
-Six of those hypotheses are refuted outright, four by the same obstruction.
+The greatest point of a cycle is even, and at least twice the least.
+
+Sixty chains of hypotheses, each with a proved implication to Collatz.
+
+Fifteen of those hypotheses are refuted outright.
 
 ## Structure
 
