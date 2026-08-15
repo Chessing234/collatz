@@ -195,6 +195,13 @@ theorem survives_of_not_descends {j r : Nat}
     exact h i hij
   simp [hd]
 
+/-- Failing to survive means descending at some level. -/
+theorem exists_descends_of_not_survives {j r : Nat} (h : ¬ survives j r = true) :
+    ∃ i : Nat, i ≤ j ∧ Descends i (r % 2 ^ i) := by
+  by_cases hc : ∃ i : Nat, i ≤ j ∧ Descends i (r % 2 ^ i)
+  · exact hc
+  · exact absurd (survives_of_not_descends (fun i hi hd => hc ⟨i, hi, hd⟩)) h
+
 /-- `sieveCheck j allowed` verifies that every residue below `2 ^ j` which
 survives the sieve is in the `allowed` list. -/
 def sieveCheck (j : Nat) (allowed : List Nat) : Bool :=

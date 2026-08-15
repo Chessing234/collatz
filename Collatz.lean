@@ -1,11 +1,16 @@
 import Collatz.Basic
 import Collatz.Accelerated
 import Collatz.Core.Arith
+import Collatz.Core.Minimum
 import Collatz.Core.Pigeonhole
 import Collatz.Core.Reach
 import Collatz.Search.Verify
+import Collatz.Structure.Congruence
 import Collatz.Structure.Cycle
 import Collatz.Structure.Divergence
+import Collatz.Structure.Minimal
+import Collatz.Structure.Obstruction
+import Collatz.Strategy.Pillars
 import Collatz.Registry
 import Collatz.Papers.Lagarias1985
 import Collatz.Papers.Lagarias2003Bibliography
