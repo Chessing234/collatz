@@ -18,6 +18,7 @@ import Collatz.Structure.CycleLengthSharp
 import Collatz.Structure.CycleModThree
 import Collatz.Structure.CycleMinClass
 import Collatz.Structure.CycleSum
+import Collatz.Structure.CycleValuation
 import Collatz.Structure.CycleExtremes
 import Collatz.Structure.Congruence
 import Collatz.Structure.Cycle
@@ -40,6 +41,7 @@ import Collatz.Chains.CycleTargets
 import Collatz.Chains.Arithmetic
 import Collatz.Chains.Sharp
 import Collatz.Chains.MinClass
+import Collatz.Chains.Valuation
 import Collatz.Chains.SumChains
 import Collatz.Registry
 import Collatz.Papers.Lagarias1985

@@ -90,5 +90,45 @@ theorem cycleMin_density {n m L : Nat} (hn : 0 < n)
     m % 12 = 7 ∨ m % 12 = 11 :=
   cycleMin_mod_twelve hn hm hmin hgt hcyc
 
+/-! ## Local descent at `1 mod 4`
+
+The argument above is really a statement about *any* number congruent to `1`
+modulo `4`, not just about cycle minima.  Isolating it makes it reusable. -/
+
+/-- **Two-step descent.**  Every `x > 1` congruent to `1` modulo `4` satisfies
+`T²(x) = (3x+1)/4 < x`.  This is the cheapest descent step available, and it is
+why the class `1 mod 4` never survives any sieve. -/
+theorem two_step_descent {x : Nat} (hx : 1 < x) (h : x % 4 = 1) :
+    acceleratedOrbit 2 x < x := by
+  have hodd : x % 2 = 1 := by omega
+  have hstep1 : acceleratedOrbit 1 x = (3 * x + 1) / 2 := by
+    rw [acceleratedOrbit, acceleratedOrbit, acceleratedStep, if_neg (by omega)]
+  have heven : ((3 * x + 1) / 2) % 2 = 0 := by omega
+  have hstep2 : acceleratedOrbit 2 x = ((3 * x + 1) / 2) / 2 := by
+    rw [show (2:Nat) = 1 + 1 from rfl, ← acceleratedOrbit_add]
+    rw [hstep1]
+    rw [acceleratedOrbit, acceleratedOrbit, acceleratedStep, if_pos heven]
+  rw [hstep2]
+  omega
+
+/-- **The successor of a cycle's least point is odd.**  The least point is `3`
+modulo `4`, and `T(4j+3) = 6j+5`. -/
+theorem accStep_min_odd {n m : Nat} (hn : 0 < n)
+    (hm : ∃ i : Nat, acceleratedOrbit i n = m)
+    (hmin : ∀ j : Nat, m ≤ acceleratedOrbit j n) (hgt : 1 < m) :
+    acceleratedStep m % 2 = 1 := by
+  have hfour := cycleMin_mod_four hn hm hmin hgt
+  have hodd : m % 2 = 1 := by omega
+  rw [acceleratedStep, if_neg (by omega)]
+  omega
+
+/-- So a cycle takes two odd steps in a row at its least point: both `m` and
+`T(m)` are odd. -/
+theorem two_odd_steps_at_min {n m : Nat} (hn : 0 < n)
+    (hm : ∃ i : Nat, acceleratedOrbit i n = m)
+    (hmin : ∀ j : Nat, m ≤ acceleratedOrbit j n) (hgt : 1 < m) :
+    m % 2 = 1 ∧ acceleratedStep m % 2 = 1 :=
+  ⟨accCycleMin_odd hn hm hmin, accStep_min_odd hn hm hmin hgt⟩
+
 end CycleMinClass
 end Collatz
