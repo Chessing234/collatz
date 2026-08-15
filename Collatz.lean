@@ -30,6 +30,7 @@ import Collatz.Structure.Minimal
 import Collatz.Structure.MinimalHeavy
 import Collatz.Structure.OrbitMin
 import Collatz.Structure.HeavySet
+import Collatz.Structure.OrbitMinSieve
 import Collatz.Structure.Obstruction
 import Collatz.Structure.Predecessor
 import Collatz.Structure.ShortCycles
@@ -51,6 +52,7 @@ import Collatz.Chains.OddCount
 import Collatz.Chains.MaxClass
 import Collatz.Chains.Heavy
 import Collatz.Chains.OrbitMin
+import Collatz.Chains.OrbitSieve
 import Collatz.Chains.SumChains
 import Collatz.Registry
 import Collatz.Papers.Lagarias1985
