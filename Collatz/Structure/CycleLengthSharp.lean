@@ -100,6 +100,28 @@ theorem improvement {n L : Nat} (hn : 0 < n) (h : AccIsCycleOf n L)
   ⟨CycleLength.twentyone_le_length_of_nontrivial hn h hnr,
     twentyseven_le_length_of_nontrivial hn h hnr⟩
 
+/-! ## One more length, excluded individually
+
+The sweep `allLengthsExcluded 26` stops at the first length the test fails, but
+individual longer lengths can still pass.  Length `28` does: its cycle-point
+bound is `164 230`, comfortably inside `200 000`. -/
+
+set_option maxRecDepth 10000 in
+/-- Length `28` is excluded individually, even though the sweep stops at `26`. -/
+theorem check_twentyeight : CycleLength.lengthExcluded 28 200000 = true := by decide
+
+/-- **A nontrivial cycle does not have length `28`.** -/
+theorem length_ne_twentyeight {n L : Nat} (hn : 0 < n) (h : AccIsCycleOf n L)
+    (hnr : ¬ ReachesOne n) : L ≠ 28 := by
+  intro hL
+  subst hL
+  exact not_accCycle_of_check hn h hnr check_twentyeight
+
+/-- The length profile: at least `27`, and never `28`. -/
+theorem length_profile {n L : Nat} (hn : 0 < n) (h : AccIsCycleOf n L)
+    (hnr : ¬ ReachesOne n) : 27 ≤ L ∧ L ≠ 28 :=
+  ⟨twentyseven_le_length_of_nontrivial hn h hnr, length_ne_twentyeight hn h hnr⟩
+
 /-! ## What a cycle would force about `log 2 / log 3`
 
 The size bound can be read backwards.  Rather than asking which lengths it
