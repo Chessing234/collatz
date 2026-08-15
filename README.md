@@ -38,7 +38,7 @@ Every proof must pass CI.
 
 ## Status
 
-728 theorems.
+834 theorems.
 
 No `sorry`. No added axioms. No Mathlib.
 
@@ -78,11 +78,22 @@ No point of an accelerated cycle is divisible by three.
 
 The greatest point of a cycle is even, and at least twice the least.
 
-Every `n` up to `60000` reaches `1`, verified inside the kernel.
+Every `n` below `102400` reaches `1`, verified inside the kernel by checking
+only the sixty-four residue classes the sieve leaves open.
 
-Seventy-five chains of hypotheses, each with a proved implication to Collatz.
+No point of an accelerated cycle is divisible by a large power of two unless it
+is correspondingly large; in particular no cycle contains a power of two.
 
-Nineteen of those hypotheses are refuted outright.
+The least point of a cycle is odd, `3` mod `4`, not a multiple of three, hence
+`7` or `11` mod `12`, and is followed by a second odd step.
+
+A cycle takes at least two odd steps, and either at least eleven or has length
+at most `33`.
+
+One hundred and forty-five chains of hypotheses, each with a proved implication
+to Collatz.
+
+Twenty-nine of those hypotheses are refuted outright.
 
 ## Structure
 

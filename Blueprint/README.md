@@ -145,11 +145,11 @@ So the greatest point is even, and its successor `M/2` is still on the cycle.
 
 Hence `M >= 2m`: a cycle spans at least a factor of two.
 
-## Seventy-five chains
+## The chains
 
 Each chain is hypotheses plus a proved implication to Collatz.
 
-Nineteen hypotheses are refuted, not left open.
+Twenty-nine hypotheses are refuted, not left open.
 
 Four die to the class `-1 mod 2^k`, which takes `k` odd steps in a row.
 
