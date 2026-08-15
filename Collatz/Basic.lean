@@ -7,25 +7,22 @@ Unproved goals are represented as propositions, not fake theorems.
 
 namespace Collatz
 
-/-- Positive natural states are represented by natural numbers in this seed model. -/
-abbrev State := Nat
-
 /-- The Collatz step map on natural numbers.
 It sends `0` to `0` so the total function stays simple.
 The conjecture below quantifies only over positive inputs. -/
-def step (n : State) : State :=
+def step (n : Nat) : Nat :=
   if n = 0 then 0
   else if n % 2 = 0 then n / 2
   else 3 * n + 1
 
 /-- Repeated application of the Collatz step map. -/
-def orbit : Nat → State → State
+def orbit : Nat → Nat → Nat
   | 0, n => n
   | k + 1, n => orbit k (step n)
 
 /-- The standard Collatz conjecture shell. -/
 def CollatzConjecture : Prop :=
-  ∀ n : State, n > 0 → ∃ k : Nat, orbit k n = 1
+  ∀ n : Nat, n > 0 → ∃ k : Nat, orbit k n = 1
 
 /-- The totalized step map fixes `0`. -/
 @[simp] theorem step_zero : step 0 = 0 := by
@@ -44,16 +41,16 @@ def CollatzConjecture : Prop :=
   simp [step]
 
 /-- Zero iterations leave a state unchanged. -/
-@[simp] theorem orbit_zero_steps (n : State) : orbit 0 n = n := by
+@[simp] theorem orbit_zero_steps (n : Nat) : orbit 0 n = n := by
   rfl
 
 /-- One more iteration applies `step` before the remaining iterations. -/
-@[simp] theorem orbit_succ_steps (k : Nat) (n : State) :
+@[simp] theorem orbit_succ_steps (k : Nat) (n : Nat) :
     orbit (k + 1) n = orbit k (step n) := by
   rfl
 
 /-- Iteration commutes with a single step: `C^k(C(n)) = C(C^k(n))`. -/
-theorem orbit_step_commute (k n : State) : orbit k (step n) = step (orbit k n) := by
+theorem orbit_step_commute (k n : Nat) : orbit k (step n) = step (orbit k n) := by
   induction k generalizing n with
   | zero => rfl
   | succ k ih =>
@@ -69,7 +66,7 @@ theorem orbit_step_commute (k n : State) : orbit k (step n) = step (orbit k n) :
         rw [ih n]
 
 /-- Semigroup law for the standard orbit: `C^(j+k)(n) = C^j(C^k(n))`. -/
-theorem orbit_add (j k n : State) : orbit (j + k) n = orbit j (orbit k n) := by
+theorem orbit_add (j k n : Nat) : orbit (j + k) n = orbit j (orbit k n) := by
   induction j generalizing n with
   | zero => simp
   | succ j ih =>
