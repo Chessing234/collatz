@@ -78,7 +78,7 @@ theorem heavyCount_never_zero {k : Nat} (hk : 0 < k) : heavyCount k ≠ 0 := by
   omega
 
 /-- The two halves side by side: vanishing density, unbounded obstruction. -/
-theorem density_zero_but_obstruction_unbounded {k : Nat} (hk : 0 < k) :
+theorem density_zero_but_obstruction_unbounded {k : Nat} (_hk : 0 < k) :
     (heavyCount k ^ 5 * 8 ^ k ≤ 243 ^ k) ∧
     (∀ N : Nat, ∃ n : Nat, N < n ∧ heavyB k (n % 2 ^ k) = true) :=
   ⟨terras_density k, no_level_suffices k⟩

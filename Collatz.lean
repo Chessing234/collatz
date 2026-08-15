@@ -9,6 +9,9 @@ import Collatz.Search.Descent
 import Collatz.Search.StoppingTime
 import Collatz.Search.Verify
 import Collatz.Structure.AccCycle
+import Collatz.Structure.AccDivergence
+import Collatz.Structure.AffineBound
+import Collatz.Structure.CycleLength
 import Collatz.Structure.Congruence
 import Collatz.Structure.Cycle
 import Collatz.Structure.Density
@@ -20,6 +23,12 @@ import Collatz.Structure.ShortCycles
 import Collatz.Strategy.Pillars
 import Collatz.Strategy.Reductions
 import Collatz.Strategy.Terras
+import Collatz.Chains.Descent
+import Collatz.Chains.Targets
+import Collatz.Chains.Cycles
+import Collatz.Chains.Modular
+import Collatz.Chains.Parity
+import Collatz.Chains.Index
 import Collatz.Registry
 import Collatz.Papers.Lagarias1985
 import Collatz.Papers.Lagarias2003Bibliography
