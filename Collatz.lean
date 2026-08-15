@@ -27,6 +27,7 @@ import Collatz.Structure.Cycle
 import Collatz.Structure.Density
 import Collatz.Structure.Divergence
 import Collatz.Structure.Minimal
+import Collatz.Structure.MinimalHeavy
 import Collatz.Structure.Obstruction
 import Collatz.Structure.Predecessor
 import Collatz.Structure.ShortCycles
@@ -46,6 +47,7 @@ import Collatz.Chains.MinClass
 import Collatz.Chains.Valuation
 import Collatz.Chains.OddCount
 import Collatz.Chains.MaxClass
+import Collatz.Chains.Heavy
 import Collatz.Chains.SumChains
 import Collatz.Registry
 import Collatz.Papers.Lagarias1985
