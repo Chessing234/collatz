@@ -29,6 +29,7 @@ import Collatz.Structure.Divergence
 import Collatz.Structure.Minimal
 import Collatz.Structure.MinimalHeavy
 import Collatz.Structure.OrbitMin
+import Collatz.Structure.HeavySet
 import Collatz.Structure.Obstruction
 import Collatz.Structure.Predecessor
 import Collatz.Structure.ShortCycles
