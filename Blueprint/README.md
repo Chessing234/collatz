@@ -83,6 +83,24 @@ All of these are equivalent to the conjecture.
 
 None of them is easier by virtue of being shorter.
 
+## The density theorem
+
+Weight each residue by `2^{a(r,k)}`, the multiplier's exponent.
+
+Residues pair up: `r` and `r + 2^k` take opposite parity steps at time `k`.
+
+So the pair's weights sum to `3` times the common weight one level down.
+
+Summing over pairs gives `W(k) = 3^k` in one induction.
+
+No binomial coefficients, no entropy bound, no logarithms.
+
+A heavy residue has `3k <= 5a`, which follows from `32^k > 27^k`.
+
+Comparing weight against count gives `heavyCount(k)^5 * 8^k <= 243^k`.
+
+The obstruction has density zero, at a geometric rate.
+
 ## Where the method dies
 
 The class `-1 mod 2^K` takes `K` consecutive odd steps.
@@ -98,5 +116,11 @@ The survivor list is never empty.
 Refining the modulus will not reduce the pillar count to zero.
 
 Any complete proof needs an argument that is not residue descent.
+
+The obstruction set is worse than nonempty: it is unbounded.
+
+For every level `k` there are arbitrarily large integers heavy at level `k`.
+
+Density zero is not emptiness, and here the gap is infinite.
 
 Knowing where the method dies is the point of the blueprint.

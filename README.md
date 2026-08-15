@@ -38,7 +38,7 @@ Every proof must pass CI.
 
 ## Status
 
-500 theorems.
+546 theorems.
 
 No `sorry`. No added axioms. No Mathlib.
 
@@ -65,6 +65,12 @@ Every `n` up to `10000` reaches `1`, verified inside the kernel.
 A minimal counterexample survives a residue sieve: only 64 of 1024 classes mod 1024.
 
 The sieve can never clear, because `-1 mod 2^K` always escapes it.
+
+Terras' density theorem, from scratch: the residues obstructing `k`-step descent
+number at most `(243/256)^{k/5}` of all `2^k` classes.
+
+And the matching negative: that obstruction set is unbounded, so no fixed level
+of the analysis reaches every integer.
 
 Collatz follows from the drop property for just three classes mod `16`.
 
