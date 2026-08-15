@@ -3,6 +3,7 @@ import Collatz.Accelerated
 import Collatz.Core.Arith
 import Collatz.Core.Minimum
 import Collatz.Core.Pigeonhole
+import Collatz.Core.Sum
 import Collatz.Core.Reach
 import Collatz.Search.Descent
 import Collatz.Search.StoppingTime
@@ -10,6 +11,7 @@ import Collatz.Search.Verify
 import Collatz.Structure.AccCycle
 import Collatz.Structure.Congruence
 import Collatz.Structure.Cycle
+import Collatz.Structure.Density
 import Collatz.Structure.Divergence
 import Collatz.Structure.Minimal
 import Collatz.Structure.Obstruction
@@ -17,6 +19,7 @@ import Collatz.Structure.Predecessor
 import Collatz.Structure.ShortCycles
 import Collatz.Strategy.Pillars
 import Collatz.Strategy.Reductions
+import Collatz.Strategy.Terras
 import Collatz.Registry
 import Collatz.Papers.Lagarias1985
 import Collatz.Papers.Lagarias2003Bibliography
