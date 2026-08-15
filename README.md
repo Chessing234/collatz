@@ -38,7 +38,7 @@ Every proof must pass CI.
 
 ## Status
 
-546 theorems.
+639 theorems.
 
 No `sorry`. No added axioms. No Mathlib.
 
@@ -74,6 +74,12 @@ of the analysis reaches every integer.
 
 Collatz follows from the drop property for just three classes mod `16`.
 
+No nontrivial accelerated cycle has length `20` or less.
+
+Thirty chains of hypotheses, each with a proved implication to Collatz.
+
+Six of those hypotheses are refuted outright, four by the same obstruction.
+
 ## Structure
 
 `Collatz/Core/` arithmetic, reachability, pigeonhole, least element.
@@ -83,6 +89,8 @@ Collatz follows from the drop property for just three classes mod `16`.
 `Collatz/Structure/` cycles, divergence, congruences, the sieve, the obstruction.
 
 `Collatz/Strategy/` reductions, and the list of what is left.
+
+`Collatz/Chains/` thirty decompositions, classified in `Index.lean`.
 
 `Papers/` tracks sources.
 

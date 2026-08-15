@@ -101,6 +101,36 @@ Comparing weight against count gives `heavyCount(k)^5 * 8^k <= 243^k`.
 
 The obstruction has density zero, at a geometric rate.
 
+## Cycles are short or nonexistent
+
+On a cycle, `2^L n = 3^a n + b` with `b + 2^L <= 3^L`.
+
+That bound is sharp, and an odd step reproduces it exactly.
+
+Since `3^a < 2^L`, every cycle point is at most `(3^L - 2^L)/(2^L - 3^a)`.
+
+For `L <= 20` that bound falls inside the verified range.
+
+So no nontrivial accelerated cycle has length `20` or less.
+
+The cycle half now needs only a cap on cycle length.
+
+That is a smaller target than excluding cycles.
+
+## Thirty chains
+
+Each chain is hypotheses plus a proved implication to Collatz.
+
+Six hypotheses are refuted, not left open.
+
+Four die to the class `-1 mod 2^k`, which takes `k` odd steps in a row.
+
+Any hypothesis whose parameter does not depend on `n` is dead on arrival.
+
+Five chains are proved equivalent to Collatz, so they are restatements.
+
+The classification lives in `Collatz/Chains/Index.lean`.
+
 ## Where the method dies
 
 The class `-1 mod 2^K` takes `K` consecutive odd steps.
