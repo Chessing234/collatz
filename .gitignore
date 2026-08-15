@@ -4,3 +4,9 @@
 *.c
 *.setup.json
 .DS_Store
+
+# scratch files from interactive probing
+ptmp.lean
+vtmp.lean
+v*_tmp.lean
+*_tmp.lean

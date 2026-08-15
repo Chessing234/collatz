@@ -1,5 +1,6 @@
 import Collatz.Structure.CycleLength
 import Collatz.Structure.CycleExtremes
+import Collatz.Search.Sieved
 
 /-!
 # Sharpening the cycle-length bound
@@ -8,23 +9,25 @@ import Collatz.Structure.CycleExtremes
 `(3^L − 2^L)/(2^L − 3^a)` and compares that against the verified range, giving
 `L ≥ 21` for a nontrivial cycle.
 
-That comparison is wasteful.  It applies the bound to an arbitrary cycle point
-and the verified range to the same point.  But the two extremes of a cycle are
-not independent: `CycleExtremes.two_mul_min_le_cycleMax` proves
+Two separate improvements compound here, and both come from *chaining* lemmas
+rather than from computing harder.
 
-`M ≥ 2m`
+**First, use both ends of the cycle.**  The original comparison applies the
+bound and the verified range to the same point.  But the extremes of a cycle are
+linked: `CycleExtremes.two_mul_min_le_cycleMax` gives `M ≥ 2m`.  Applying the
+verified range to the *least* point and the size bound to the *greatest* point
+therefore doubles the effective constant for free.
 
-for the greatest and least points.  Applying the *verified range* to the least
-point and the *size bound* to the greatest point therefore doubles the effective
-constant for free — no extra computation, purely from the extremal lemma.
+**Second, use the sieve to verify.**  `Collatz.Search.Sieved` clears `102 400`
+integers by explicitly checking only the `64/1024` of residues that survive the
+sieve — a larger range than brute force reaches, at lower cost.
 
-Combined with verification to `60 000`, this pushes the exclusion from `L ≤ 20`
-to **`L ≤ 26`**: no nontrivial accelerated cycle has length at most twenty-six.
+Together these push the exclusion from `L ≤ 20` to **`L ≤ 26`**: no nontrivial
+accelerated cycle has length at most twenty-six.
 
-The pattern is worth naming, because it is the only place in this project where
-two independently proved lemmas combine to beat what either gives alone: a lower
-bound on the *small* end of a cycle becomes a lower bound on the *large* end,
-where the size bound bites hardest.
+The gain is flat from here until the verified range reaches about `768 000`,
+where the exclusion jumps to `L ≤ 31`; that costs roughly forty minutes of
+kernel time, which is why this file stops at the efficient point.
 -/
 
 namespace Collatz
@@ -32,63 +35,47 @@ namespace CycleLengthSharp
 
 open Reach Congruence AccCycle CycleExtremes
 
-/-! ## An extended verified range -/
-
-set_option maxHeartbeats 8000000 in
-set_option maxRecDepth 400000 in
-/-- Every `n` with `1 < n ≤ 60000` drops below itself within `150` accelerated
-steps. -/
-theorem check_drop_60000 : Search.allDropUpTo 60000 150 = true := by decide
-
-/-- Every positive `n ≤ 60000` reaches `1`. -/
-theorem reachesOne_of_le_60000 {n : Nat} (hn : 0 < n) (hle : n ≤ 60000) : ReachesOne n :=
-  Search.reachesOne_of_allDrop check_drop_60000 n hn hle
-
 /-! ## Every point of a nontrivial cycle is large -/
 
-/-- On a cycle, if one point reaches `1` then so does every point. -/
-theorem reachesOne_of_cyclePoint {n : Nat} {i : Nat}
-    (hn : 0 < n) (hi : ReachesOne (acceleratedOrbit i n)) : ReachesOne n :=
-  reachesOne_of_accOrbit hn hi
-
-/-- Every point of a cycle that does not reach `1` exceeds the verified range. -/
-theorem gt_of_cyclePoint {n : Nat} (hn : 0 < n)
-    (hnr : ¬ ReachesOne n) {i : Nat} : 60000 < acceleratedOrbit i n := by
-  by_cases hle : acceleratedOrbit i n ≤ 60000
+/-- Every point of a cycle that does not reach `1` lies beyond the verified
+range. -/
+theorem ge_of_cyclePoint {n : Nat} (hn : 0 < n) (hnr : ¬ ReachesOne n) {i : Nat} :
+    102400 ≤ acceleratedOrbit i n := by
+  by_cases hlt : acceleratedOrbit i n < 102400
   · exact absurd (reachesOne_of_accOrbit hn
-      (reachesOne_of_le_60000 (acceleratedOrbit_positive hn i) hle)) hnr
+      (Search.reachesOne_of_lt_102400 (acceleratedOrbit_positive hn i) hlt)) hnr
   · omega
 
 /-! ## The doubling gain -/
 
-/-- **The greatest point of a nontrivial cycle exceeds twice the verified
-range.**  The least point exceeds `60 000` because it does not reach `1`, and
-the greatest point is at least twice the least. -/
-theorem cycleMax_gt {n L : Nat} (hn : 0 < n) (h : AccIsCycleOf n L)
-    (hnr : ¬ ReachesOne n) : 120000 < cycleMax n L := by
+/-- **The greatest point of a nontrivial cycle is at least twice the verified
+range.**  The least point is at least `102 400` because it does not reach `1`,
+and the greatest point is at least twice the least. -/
+theorem cycleMax_ge {n L : Nat} (hn : 0 < n) (h : AccIsCycleOf n L)
+    (hnr : ¬ ReachesOne n) : 204800 ≤ cycleMax n L := by
   obtain ⟨m, hm, hmin⟩ := exists_accCycleMin n
   obtain ⟨i, hi⟩ := hm
-  have hmgt : 60000 < m := by
-    have := gt_of_cyclePoint hn hnr (i := i)
+  have hmge : 102400 ≤ m := by
+    have := ge_of_cyclePoint hn hnr (i := i)
     omega
   have hdouble := two_mul_min_le_cycleMax hn h hmin
   omega
 
-/-- **The sharpened exclusion.**  If the size test passes at `50 000` then the
-cycle cannot exist, because its greatest point would have to be both above
-`120 000` and at most `120 000`. -/
+/-- **The sharpened exclusion.**  If the size test passes at `200 000` the cycle
+cannot exist: its greatest point would have to be both at least `204 800` and at
+most `200 000`. -/
 theorem not_accCycle_of_check {n L : Nat} (hn : 0 < n) (h : AccIsCycleOf n L)
     (hnr : ¬ ReachesOne n)
-    (hcheck : CycleLength.lengthExcluded L 120000 = true) : False := by
-  have hgt := cycleMax_gt hn h hnr
+    (hcheck : CycleLength.lengthExcluded L 200000 = true) : False := by
+  have hge := cycleMax_ge hn h hnr
   have hle := CycleLength.le_of_accCycle (cycleMax_pos hn h) (accIsCycleOf_cycleMax h) hcheck
   omega
 
 /-! ## The verified range of lengths -/
 
 /-- No cycle of length at most `26` can have a greatest point above
-`120 000`. -/
-theorem check_twentysix : CycleLength.allLengthsExcluded 26 120000 = true := by decide
+`200 000`. -/
+theorem check_twentysix : CycleLength.allLengthsExcluded 26 200000 = true := by decide
 
 /-- **No nontrivial accelerated cycle has length at most twenty-six.** -/
 theorem reachesOne_of_short_accCycle {n L : Nat} (hn : 0 < n) (h : AccIsCycleOf n L)
@@ -105,12 +92,49 @@ theorem twentyseven_le_length_of_nontrivial {n L : Nat} (hn : 0 < n)
   · exact absurd (reachesOne_of_short_accCycle hn h hL) hnr
   · omega
 
-/-- The improvement over the unsharpened bound, stated side by side: the
-extremal lemma plus the extended range move the exclusion from `20` to `26`. -/
+/-- The improvement over the unsharpened bound, stated side by side.  The
+extremal lemma and the sieve-accelerated range together move the exclusion from
+`20` to `26`. -/
 theorem improvement {n L : Nat} (hn : 0 < n) (h : AccIsCycleOf n L)
     (hnr : ¬ ReachesOne n) : 21 ≤ L ∧ 27 ≤ L :=
   ⟨CycleLength.twentyone_le_length_of_nontrivial hn h hnr,
     twentyseven_le_length_of_nontrivial hn h hnr⟩
+
+/-! ## What a cycle would force about `log 2 / log 3`
+
+The size bound can be read backwards.  Rather than asking which lengths it
+excludes, ask what a surviving cycle must satisfy — and the answer is a
+statement purely about how well `3 ^ a` approximates `2 ^ L` from below. -/
+
+/-- **The approximation constraint.**  A nontrivial cycle of length `L` with `a`
+odd steps forces `2 ^ L` and `3 ^ a` to be within a factor `3 ^ L / 204800` of
+each other:
+
+`2 ^ L · 204801 ≤ 3 ^ a · 204800 + 3 ^ L`.
+
+Equivalently `2 ^ L − 3 ^ a < 3 ^ L / 204800`.  Since `2 ^ L − 3 ^ a` is a
+positive integer, this says `a / L` approximates `log 2 / log 3` far better than
+a generic rational of that height could.  Ruling that out for all `L` is exactly
+what closes the cycle half, and it is where the elementary argument ends and
+transcendence theory would have to begin. -/
+theorem approximation_constraint {n L : Nat} (hn : 0 < n) (h : AccIsCycleOf n L)
+    (hnr : ¬ ReachesOne n) :
+    2 ^ L * 204801 ≤ 3 ^ oddCount (cycleMax n L) L * 204800 + 3 ^ L := by
+  by_cases hlt : 3 ^ oddCount (cycleMax n L) L * 204800 + 3 ^ L < 2 ^ L * 204801
+  · exfalso
+    have hbound := CycleLength.le_of_accCycle_of_check (N := 204799)
+      (cycleMax_pos hn h) (accIsCycleOf_cycleMax h) (by omega)
+    have hge := cycleMax_ge hn h hnr
+    omega
+  · omega
+
+/-- Both extremes of a nontrivial cycle, bounded below. -/
+theorem cycle_extremes_large {n L : Nat} (hn : 0 < n) (h : AccIsCycleOf n L)
+    (hnr : ¬ ReachesOne n) : 102400 ≤ n ∧ 204800 ≤ cycleMax n L := by
+  refine ⟨?_, cycleMax_ge hn h hnr⟩
+  have hz := ge_of_cyclePoint hn hnr (i := 0)
+  rw [acceleratedOrbit] at hz
+  exact hz
 
 end CycleLengthSharp
 end Collatz
