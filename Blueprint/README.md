@@ -186,3 +186,21 @@ For every level `k` there are arbitrarily large integers heavy at level `k`.
 Density zero is not emptiness, and here the gap is infinite.
 
 Knowing where the method dies is the point of the blueprint.
+
+## The next lever
+
+The cycle bound scales with the verified range, and verification is the
+bottleneck.
+
+Brute force costs one check per integer, so `60000` already takes minutes of
+kernel time.
+
+But the sieve already settles `960` of every `1024` residue classes.
+
+Checking only the `64` surviving classes would cover sixteen times the range at
+the same cost.
+
+That would push the cycle-length exclusion from `26` to about `31`.
+
+Past that, `L = 27` admits a cycle-point bound near `1.5` million, so the next
+plateau needs verification past `750000`.

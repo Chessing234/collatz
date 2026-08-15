@@ -95,6 +95,27 @@ def pillarsDraft : LemmaDraft where
   statement := "If every sufficiently large n congruent to 7, 11 or 15 modulo 16 has some accelerated iterate below itself, then the Collatz conjecture holds."
   status := "proved (the three hypotheses remain open)"
 
+/-- No cycle contains a multiple of three. -/
+def cycleModThreeDraft : LemmaDraft where
+  name := "not_three_dvd_of_accCycle"
+  source := "this project, Collatz/Structure/CycleModThree.lean"
+  statement := "No point of an accelerated cycle is divisible by three. After an odd step the value is 2 mod 3, so a multiple of three is only ever reached by halving; running backwards around a cycle forces every point to be an even multiple of three, making the cycle all halvings, which is impossible."
+  status := "proved"
+
+/-- The extremes of a cycle. -/
+def cycleExtremesDraft : LemmaDraft where
+  name := "cycleMax_even_and_two_mul_min_le_cycleMax"
+  source := "this project, Collatz/Structure/CycleExtremes.lean"
+  statement := "The greatest point of an accelerated cycle is even, and is at least twice the least point. An odd maximum would step up to (3M+1)/2 and escape its own maximum."
+  status := "proved"
+
+/-- The cycle-length exclusion. -/
+def cycleLengthDraft : LemmaDraft where
+  name := "twentyseven_le_length_of_nontrivial"
+  source := "this project, Collatz/Structure/CycleLengthSharp.lean"
+  statement := "No nontrivial accelerated cycle has length 26 or less. The bounded affine identity pins every cycle point to at most (3^L - 2^L)/(2^L - 3^a); applying the verified range to the least point and that bound to the greatest point, which is at least twice the least, clears every length up to 26."
+  status := "proved"
+
 /-- Registry entries known to Lean. -/
 def registry : List LemmaDraft :=
   [ seedDraft
@@ -103,6 +124,9 @@ def registry : List LemmaDraft :=
   , sieveDraft
   , obstructionDraft
   , pillarsDraft
+  , cycleModThreeDraft
+  , cycleExtremesDraft
+  , cycleLengthDraft
   , lagarias1985Draft
   , lagarias2003BibliographyDraft
   , everett1977Draft
