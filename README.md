@@ -38,7 +38,7 @@ Every proof must pass CI.
 
 ## Status
 
-834 theorems.
+902 theorems.
 
 No `sorry`. No added axioms. No Mathlib.
 
@@ -90,10 +90,16 @@ The least point of a cycle is odd, `3` mod `4`, not a multiple of three, hence
 A cycle takes at least two odd steps, and either at least eleven or has length
 at most `33`.
 
-One hundred and forty-five chains of hypotheses, each with a proved implication
-to Collatz.
+The orbit minimum of any counterexample is odd, `3` mod `4`, above `102400`,
+never drops, and is heavy at every scale below itself.
 
-Twenty-nine of those hypotheses are refuted outright.
+That last fact covers the divergence half too, which the cycle lemmas cannot
+reach.
+
+Nearly two hundred chains of hypotheses, each with a proved implication to
+Collatz.
+
+Thirty-six of those hypotheses are refuted outright.
 
 ## Structure
 
