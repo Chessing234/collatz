@@ -12,6 +12,8 @@ import Collatz.Structure.AccCycle
 import Collatz.Structure.AccDivergence
 import Collatz.Structure.AffineBound
 import Collatz.Structure.CycleLength
+import Collatz.Structure.CycleModThree
+import Collatz.Structure.CycleExtremes
 import Collatz.Structure.Congruence
 import Collatz.Structure.Cycle
 import Collatz.Structure.Density
@@ -29,6 +31,8 @@ import Collatz.Chains.Cycles
 import Collatz.Chains.Modular
 import Collatz.Chains.Parity
 import Collatz.Chains.Index
+import Collatz.Chains.CycleTargets
+import Collatz.Chains.Arithmetic
 import Collatz.Registry
 import Collatz.Papers.Lagarias1985
 import Collatz.Papers.Lagarias2003Bibliography

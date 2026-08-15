@@ -67,17 +67,19 @@ theorem check_of_lengthExcluded {L N a : Nat} (h : lengthExcluded L N = true)
 
 /-! ## Every point of a short cycle is small -/
 
-/-- **The size bound.**  If the exclusion test passes for `(L, N)`, then every
-point of an accelerated cycle of length `L` is at most `N`. -/
-theorem le_of_accCycle {n L N : Nat} (hn : 0 < n) (h : AccIsCycleOf n L)
-    (hcheck : lengthExcluded L N = true) : n ≤ N := by
+/-- **The size bound, core form.**  A single inequality on the odd-step count of
+a cycle already bounds every point of that cycle.
+
+This is the statement to aim at: it says a cycle can only exist when `2 ^ L` is
+extremely close to `3 ^ a` from above, i.e. when `log 2 / log 3` admits an
+exceptionally good rational approximation `a / L`. -/
+theorem le_of_accCycle_of_check {n L N : Nat} (hn : 0 < n) (h : AccIsCycleOf n L)
+    (hchk : 3 ^ oddCount n L * (N + 1) + 3 ^ L < 2 ^ L * (N + 2)) : n ≤ N := by
   -- the cycle equation with a bounded constant
   obtain ⟨b, heq, hb⟩ := AffineBound.affine_of_cycle h.2
-  -- the counting inequality forces `3 ^ a < 2 ^ L` and `a < L`
+  -- the counting inequality forces `3 ^ a < 2 ^ L`
   have hlt : 3 ^ oddCount n L < 2 ^ L :=
     Cycle.two_pow_gt_three_pow_of_accCycle hn h.1 h.2
-  have ha : oddCount n L < L := Cycle.oddCount_lt_length_of_accCycle hn h.1 h.2
-  have hchk := check_of_lengthExcluded hcheck ha hlt
   -- suppose the point were larger than `N`
   by_cases hle : n ≤ N
   · exact hle
@@ -98,6 +100,15 @@ theorem le_of_accCycle {n L N : Nat} (hn : 0 < n) (h : AccIsCycleOf n L)
       have hN : N + 2 = (N + 1) + 1 := by omega
       rw [hN, Nat.mul_succ]
     omega
+
+/-- **The size bound.**  If the exclusion test passes for `(L, N)`, then every
+point of an accelerated cycle of length `L` is at most `N`. -/
+theorem le_of_accCycle {n L N : Nat} (hn : 0 < n) (h : AccIsCycleOf n L)
+    (hcheck : lengthExcluded L N = true) : n ≤ N := by
+  have hlt : 3 ^ oddCount n L < 2 ^ L :=
+    Cycle.two_pow_gt_three_pow_of_accCycle hn h.1 h.2
+  have ha : oddCount n L < L := Cycle.oddCount_lt_length_of_accCycle hn h.1 h.2
+  exact le_of_accCycle_of_check hn h (check_of_lengthExcluded hcheck ha hlt)
 
 /-- With the verified initial segment, a cycle of an excluded length consists of
 numbers that reach `1`. -/
