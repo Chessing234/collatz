@@ -60,9 +60,49 @@ def conway1972Draft : LemmaDraft where
   statement := "For the family of generalized 3x+1 maps g with g(n) = (a_i n + b_i)/m on each residue class n ≡ i (mod m), the question whether a forward orbit reaches 1 is algorithmically undecidable."
   status := "open"
 
+/-- The structural dichotomy: a counterexample diverges or cycles. -/
+def dichotomyDraft : LemmaDraft where
+  name := "collatz_iff_no_divergence_and_no_nontrivial_cycle"
+  source := "this project, Collatz/Structure/Divergence.lean"
+  statement := "The Collatz conjecture is equivalent to the conjunction of: no positive orbit is unbounded, and every cycle is the trivial cycle {1, 4, 2}."
+  status := "proved"
+
+/-- The congruence identity behind all stopping-time analysis. -/
+def congruenceDraft : LemmaDraft where
+  name := "accOrbit_pow_two_mul_add"
+  source := "this project, Collatz/Structure/Congruence.lean; the identity underlying Terras (1976)"
+  statement := "T^k(2^k * m + r) = 3^(a(r,k)) * m + T^k(r), where a(r,k) counts the odd steps in the first k accelerated steps from r. The k-fold accelerated map is affine on each residue class mod 2^k, with multiplier determined by the residue."
+  status := "proved"
+
+/-- The residue sieve on a minimal counterexample. -/
+def sieveDraft : LemmaDraft where
+  name := "minimal_counterexample_residue_sieve"
+  source := "this project, Collatz/Structure/Minimal.lean"
+  statement := "A minimal counterexample lies in none of the descending residue classes. At modulus 1024 only 64 of the 1024 classes survive; at modulus 16 only 7, 11 and 15."
+  status := "proved"
+
+/-- The obstruction: the sieve can never clear. -/
+def obstructionDraft : LemmaDraft where
+  name := "sieve_never_clears"
+  source := "this project, Collatz/Structure/Obstruction.lean"
+  statement := "For every K the residue 2^K - 1 takes K consecutive odd accelerated steps, so its multiplier is 3^K > 2^K and it escapes the descent criterion at every level. No modulus makes elementary residue descent settle the conjecture."
+  status := "proved"
+
+/-- The reduction of the conjecture to finitely many residue classes. -/
+def pillarsDraft : LemmaDraft where
+  name := "collatz_of_three_pillars"
+  source := "this project, Collatz/Strategy/Pillars.lean"
+  statement := "If every sufficiently large n congruent to 7, 11 or 15 modulo 16 has some accelerated iterate below itself, then the Collatz conjecture holds."
+  status := "proved (the three hypotheses remain open)"
+
 /-- Registry entries known to Lean. -/
 def registry : List LemmaDraft :=
   [ seedDraft
+  , dichotomyDraft
+  , congruenceDraft
+  , sieveDraft
+  , obstructionDraft
+  , pillarsDraft
   , lagarias1985Draft
   , lagarias2003BibliographyDraft
   , everett1977Draft

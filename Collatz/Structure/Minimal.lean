@@ -1,5 +1,6 @@
 import Collatz.Structure.Congruence
 import Collatz.Search.Verify
+import Collatz.Search.Descent
 import Collatz.Core.Minimum
 
 /-!
@@ -95,6 +96,10 @@ theorem collatz_iff_no_minimalCounterexample :
 theorem gt_1024_of_minimal {n : Nat} (h : MinimalCounterexample n) : 1024 < n :=
   Search.counterexample_gt_1024 h.1.1 h.1.2
 
+/-- The sharper verified bound, from descent verification. -/
+theorem gt_10000_of_minimal {n : Nat} (h : MinimalCounterexample n) : 10000 < n :=
+  Search.counterexample_gt_10000 h.1.1 h.1.2
+
 /-- A minimal counterexample exceeds one. -/
 theorem gt_one_of_minimal {n : Nat} (h : MinimalCounterexample n) : 1 < n := by
   have := gt_1024_of_minimal h; omega
@@ -131,15 +136,15 @@ theorem not_descends_of_minimal {n : Nat} (h : MinimalCounterexample n) (k : Nat
 /-- The powers of two that the sieve may use, given that a minimal
 counterexample exceeds `1024`. -/
 theorem pow_two_le_of_minimal {n : Nat} (h : MinimalCounterexample n) {k : Nat}
-    (hk : k ≤ 10) : 2 ^ k ≤ n := by
-  have h1 : (2:Nat) ^ k ≤ 2 ^ 10 := Arith.two_pow_le_two_pow hk
-  have h2 : (2:Nat) ^ 10 = 1024 := by decide
-  have h3 := gt_1024_of_minimal h
+    (hk : k ≤ 13) : 2 ^ k ≤ n := by
+  have h1 : (2:Nat) ^ k ≤ 2 ^ 13 := Arith.two_pow_le_two_pow hk
+  have h2 : (2:Nat) ^ 13 = 8192 := by decide
+  have h3 := gt_10000_of_minimal h
   omega
 
 /-- The sieve condition at a modulus at most `2 ^ 10`. -/
 theorem not_descends_of_minimal' {n : Nat} (h : MinimalCounterexample n) {k : Nat}
-    (hk : k ≤ 10) : ¬ Descends k (n % 2 ^ k) :=
+    (hk : k ≤ 13) : ¬ Descends k (n % 2 ^ k) :=
   not_descends_of_minimal h k (pow_two_le_of_minimal h hk)
 
 /-! ## The residue sieve
@@ -155,7 +160,7 @@ theorem mod_pow_two_mod {n j k : Nat} (hjk : j ≤ k) :
 
 /-- **A minimal counterexample survives the sieve at every level up to `10`.** -/
 theorem survives_of_minimal {n : Nat} (h : MinimalCounterexample n) {j : Nat}
-    (hj : j ≤ 10) : survives j (n % 2 ^ j) = true := by
+    (hj : j ≤ 13) : survives j (n % 2 ^ j) = true := by
   refine survives_of_not_descends (fun i hi => ?_)
   rw [mod_pow_two_mod (by omega : i ≤ j)]
   exact not_descends_of_minimal' h (by omega)
@@ -180,6 +185,27 @@ set_option maxRecDepth 40000 in
 theorem sieveCheck_eight :
     sieveCheck 8 [27, 31, 47, 63, 71, 91, 103, 111, 127, 155, 159, 167, 191, 207, 223,
       231, 239, 251, 255] = true := by
+  decide
+
+
+set_option maxRecDepth 100000 in
+/-- At modulus `512` only `38` of `512` classes survive. -/
+theorem sieveCheck_nine :
+    sieveCheck 9
+    [      27, 31, 47, 63, 71, 91, 103, 111, 127, 155, 159, 167, 191, 207, 223, 231, 239, 251,
+      255, 283, 287, 303, 319, 327, 347, 359, 367, 383, 411, 415, 423, 447, 463, 479, 487,
+      495, 507, 511] = true := by
+  decide
+
+set_option maxRecDepth 200000 in
+/-- At modulus `1024` only `64` of `1024` classes survive, a density of
+`1/16`. -/
+theorem sieveCheck_ten :
+    sieveCheck 10
+    [      27, 31, 47, 63, 71, 91, 103, 111, 127, 155, 159, 167, 191, 207, 223, 231, 239, 251,
+      255, 283, 303, 319, 327, 359, 383, 411, 415, 447, 463, 479, 487, 495, 511, 539, 543,
+      559, 603, 615, 623, 639, 667, 671, 679, 703, 719, 743, 751, 763, 767, 795, 799, 831,
+      839, 859, 871, 879, 895, 927, 935, 959, 991, 1007, 1019, 1023] = true := by
   decide
 
 /-- A minimal counterexample is odd, read off the sieve at modulus `2`. -/

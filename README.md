@@ -36,9 +36,47 @@ Every lemma gets a name.
 
 Every proof must pass CI.
 
+## Status
+
+500 theorems.
+
+No `sorry`. No added axioms. No Mathlib.
+
+Everything is proved from the Lean core `Nat` API.
+
+The conjecture itself is open, and this repo does not change that.
+
+## What is proved
+
+Collatz is equivalent to: no orbit diverges, and every cycle is trivial.
+
+Any cycle meeting the basin of `1` is the trivial cycle.
+
+Any nontrivial cycle has minimal period at least four.
+
+An accelerated cycle of length `L` with `a` odd steps needs `3^a < 2^L`.
+
+Its least element is odd.
+
+Every `n` up to `10000` reaches `1`, verified inside the kernel.
+
+`T^k` is affine on each residue class mod `2^k`, with multiplier fixed by the residue.
+
+A minimal counterexample survives a residue sieve: only 64 of 1024 classes mod 1024.
+
+The sieve can never clear, because `-1 mod 2^K` always escapes it.
+
+Collatz follows from the drop property for just three classes mod `16`.
+
 ## Structure
 
-`Collatz/` holds Lean code.
+`Collatz/Core/` arithmetic, reachability, pigeonhole, least element.
+
+`Collatz/Search/` kernel-checked verification and stopping times.
+
+`Collatz/Structure/` cycles, divergence, congruences, the sieve, the obstruction.
+
+`Collatz/Strategy/` reductions, and the list of what is left.
 
 `Papers/` tracks sources.
 
@@ -64,10 +102,9 @@ Run the checks.
 
 Push the smallest useful step.
 
-## Status
+## Build
 
-Day zero scaffold.
+    lake build Collatz
+    bash scripts/check_integrity.sh
 
-No theorem is claimed.
-
-The hunt starts here.
+The hunt continues.
