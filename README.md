@@ -38,7 +38,7 @@ Every proof must pass CI.
 
 ## Status
 
-1082 theorems.
+1092 theorems.
 
 No `sorry`. No added axioms. No Mathlib.
 
@@ -93,6 +93,10 @@ So the surviving classes are proliferating, not dwindling to a few stubborn ones
 The sieve is nested, and its survivors form one coherent tower under reduction.
 
 That tower specifies a single 2-adic integer, `-1`, which survives every level at once.
+
+The density rate is sharpened from `3/5 = 0.600` to `17/27 = 0.62963`, against a true threshold of `0.63093`.
+
+The heavy fraction then decays like `0.9695^k` instead of `0.98965^k`.
 
 `T^k` is affine on each residue class mod `2^k`, with multiplier fixed by the residue.
 

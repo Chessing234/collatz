@@ -305,6 +305,32 @@ It fails at every level for the same reason, and that reason is one object.
 
 No finite level can clear it, because the tower is coherent by construction.
 
+## A sharper density rate
+
+The density theorem derives `3k <= 5a` from heaviness, using only `3^3 < 2^5`, that is `27 < 32`.
+
+That gives `a >= 0.600 k`, against a true threshold of `log 2 / log 3 = 0.63093`.
+
+Any fraction `p/q` with `3^p < 2^q` gives a valid rate.
+
+The convergents of `log 2 / log 3` are `1/2, 3/5, 12/19, 17/27`.
+
+The convergent `12/19` fails: `3^12 = 531441` exceeds `2^19 = 524288`.
+
+That near-miss is the same one that makes Collatz hard in the first place.
+
+The next convergent works: `3^17 = 129140163 < 134217728 = 2^27`.
+
+So heaviness forces `17k <= 27a`, a rate of `0.62963`, within `0.0013` of the threshold.
+
+Propagating through the same weight argument gives `heavyCount k ^ 27 * (2^17)^k <= (3^27)^k`.
+
+The heavy fraction decays like `0.9695^k` instead of `0.98965^k`, roughly tripling the exponent.
+
+It proves nothing new about Collatz.  The heavy set is still nonempty at every level, and `2^k - 1` is in it.
+
+But it is the sharpest rate this argument gives without a fraction of much larger height.
+
 ## The frontier
 
 Target A: no number at least `102400` never drops.  Blocked by the profile being consistent.
