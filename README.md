@@ -38,7 +38,7 @@ Every proof must pass CI.
 
 ## Status
 
-1068 theorems.
+1077 theorems.
 
 No `sorry`. No added axioms. No Mathlib.
 
@@ -85,6 +85,10 @@ Substituting `x' >= x` gives obstructions; substituting the other way proves des
 For `x >= 2^(v+W)`, the first excursion descends if and only if `3^v < 2^(v+W)`.
 
 One excursion is not enough: `102411` has no contracting first excursion.
+
+The sieve's survivor count rises while its density falls: 3, 8, 19, 64 at levels 4, 6, 8, 10.
+
+So the surviving classes are proliferating, not dwindling to a few stubborn ones.
 
 `T^k` is affine on each residue class mod `2^k`, with multiplier fixed by the residue.
 

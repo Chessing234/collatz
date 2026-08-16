@@ -265,6 +265,30 @@ And it takes strictly fewer halvings than odd steps on its first excursion.
 
 None of that is a contradiction, because `2^k - 1` satisfies every clause for large `k`.
 
+## How the sieve fails, quantitatively
+
+`sieve_never_clears` says one class survives at every level.  That leaves a hopeful reading.
+
+Perhaps the surviving set is thin: a few stubborn classes some sharper criterion could pick off.
+
+It is not thin.  The counts at levels 4, 6, 8, 10 are 3, 8, 19, 64.
+
+Continuing: 226, 734, 2114, 7495, 27328 at levels 12, 14, 16, 18, 20.
+
+The density falls, from 18.7 percent to 2.6 percent.
+
+And the count rises, without bound.
+
+So each refinement removes a larger fraction and still leaves more classes standing than the last.
+
+The sieve is not converging on a finite obstruction that a better criterion might clear.
+
+`sieve_never_clears` exhibits one survivor.  The counts say the survivors are proliferating.
+
+A method eliminating a fixed proportion per level never finishes, however many levels are computed.
+
+The work grows like `2^k` and the residue left over grows too.
+
 ## The frontier
 
 Target A: no number at least `102400` never drops.  Blocked by the profile being consistent.
