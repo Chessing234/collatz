@@ -154,6 +154,83 @@ theorem forced_odd_at_three {n m : Nat} (hn : 0 < n)
   · exact absurd (not_two_halvings hn hm hmin hgt h2 he) (fun h => h)
   · exact ho
 
+/-! ## Fewer halvings than odd steps -/
+
+/-- `9 · 4 ^ v ≥ 16 · 3 ^ v` for `v ≥ 2`, with equality at `v = 2`.  This is
+`(4/3) ^ v ≥ 16/9` — the margin by which four beats three. -/
+theorem nine_mul_four_pow_ge : ∀ v : Nat, 2 ≤ v → 16 * 3 ^ v ≤ 9 * 4 ^ v := by
+  intro v
+  induction v with
+  | zero => intro h; omega
+  | succ v ih =>
+    intro hv
+    rcases Nat.lt_or_ge v 2 with hlt | hge
+    · have hv2 : v = 1 := by omega
+      subst hv2
+      decide
+    · have hrec := ih hge
+      have h3 : (3:Nat) ^ (v + 1) = 3 * 3 ^ v := Arith.three_pow_succ v
+      have h4 : (4:Nat) ^ (v + 1) = 4 * 4 ^ v := by
+        rw [Nat.pow_succ, Nat.mul_comm]
+      rw [h3, h4]
+      omega
+
+/-- `2 ^ (2 v) = 4 ^ v`. -/
+theorem two_pow_two_mul (v : Nat) : 2 ^ (2 * v) = 4 ^ v := by
+  rw [Nat.pow_mul]
+
+/-- **The halvings after the minimum's run are strictly fewer than the run
+itself.**
+
+If `v ≤ W` then `2 ^ (v + W) ≥ 4 ^ v`, and the descent bound gives
+`4 ^ v · m + 2 ^ v ≤ 3 ^ v · m + 3 ^ v`.  Multiplying by nine and using
+`16 · 3 ^ v ≤ 9 · 4 ^ v` collapses this to `16 m ≤ 9 m + 9`, i.e. `7 m ≤ 9`.
+So `m ≤ 1`.
+
+The orbit minimum therefore rises for more steps than it falls, on its first
+excursion: `W < v`. -/
+theorem halvings_lt_run {n m v W : Nat}
+    (hm : ∃ i : Nat, acceleratedOrbit i n = m)
+    (hmin : ∀ j : Nat, m ≤ acceleratedOrbit j n) (hgt : 1 < m)
+    (hv : 2 ≤ v) (hrun : OddRun m v)
+    (hhalve : ∀ i : Nat, i < W → acceleratedOrbit (v + i) m % 2 = 0) :
+    W < v := by
+  rcases Nat.lt_or_ge W v with hlt | hge
+  · exact hlt
+  · exfalso
+    have hb := run_descent_bound hm hmin hrun hhalve
+    -- `4 ^ v ≤ 2 ^ (v + W)`
+    have hexp : 2 * v ≤ v + W := by omega
+    have hpow : (4:Nat) ^ v ≤ 2 ^ (v + W) := by
+      rw [← two_pow_two_mul v]
+      exact Arith.two_pow_le_two_pow hexp
+    have hstep1 : 4 ^ v * m + 2 ^ v ≤ 3 ^ v * (m + 1) :=
+      Nat.le_trans (Nat.add_le_add_right (Nat.mul_le_mul_right _ hpow) _) hb
+    -- multiply by nine and apply the margin
+    have hmargin : 16 * 3 ^ v ≤ 9 * 4 ^ v := nine_mul_four_pow_ge v hv
+    have hkey : 3 ^ v * (16 * m) ≤ 3 ^ v * (9 * m + 9) := by
+      calc 3 ^ v * (16 * m) = (16 * 3 ^ v) * m := by
+            rw [Nat.mul_comm (16:Nat) (3 ^ v), Nat.mul_assoc]
+        _ ≤ (9 * 4 ^ v) * m := Nat.mul_le_mul_right _ hmargin
+        _ = 9 * (4 ^ v * m) := by rw [Nat.mul_assoc]
+        _ ≤ 9 * (3 ^ v * (m + 1)) :=
+            Nat.mul_le_mul_left _ (Nat.le_trans (Nat.le_add_right _ (2 ^ v)) hstep1)
+        _ = 3 ^ v * (9 * m + 9) := by
+            rw [Nat.mul_left_comm, Nat.mul_add, Nat.mul_one]
+    have hpos : 0 < (3:Nat) ^ v := Arith.three_pow_pos v
+    have hfin := Nat.le_of_mul_le_mul_left hkey hpos
+    omega
+
+/-- Restated as a statement about the accelerated orbit: at the minimum, the
+number of consecutive halvings following the opening run is at most `v − 1`. -/
+theorem halvings_le {n m v W : Nat}
+    (hm : ∃ i : Nat, acceleratedOrbit i n = m)
+    (hmin : ∀ j : Nat, m ≤ acceleratedOrbit j n) (hgt : 1 < m)
+    (hv : 2 ≤ v) (hrun : OddRun m v)
+    (hhalve : ∀ i : Nat, i < W → acceleratedOrbit (v + i) m % 2 = 0) :
+    W + 1 ≤ v :=
+  halvings_lt_run hm hmin hgt hv hrun hhalve
+
 /-! ## A new residue class is excluded -/
 
 /-- On the class `3 mod 8` the opening run has length exactly two, so the step at

@@ -239,6 +239,48 @@ Density zero is not emptiness, and here the gap is infinite.
 
 Knowing where the method dies is the point of the blueprint.
 
+## One predicate
+
+Say `x` never drops when its own accelerated orbit never goes below `x`.
+
+If `x > 1` never drops it cannot reach `1`, so it is a counterexample.
+
+Conversely every counterexample has an orbit minimum, and an orbit minimum never drops.
+
+So Collatz is exactly the statement that `1` is the only number that never drops.
+
+This needed a bridge that was missing: standard reachability of `1` implies accelerated reachability of `1`.
+
+An even step is an accelerated step, and an odd step is followed by a forced even one.
+
+So a standard run of length `k` contains an accelerated run using strictly fewer standard steps.
+
+Every structural theorem proved for orbit minima specialises, since an orbit minimum is exactly a number that never drops.
+
+A number that never drops is at least `102400`, odd, `3` mod `4`, one of `7, 11, 15` mod `16`.
+
+It survives the sieve to level sixteen, is heavy at every scale, climbs by exactly `9/4` in two steps.
+
+And it takes strictly fewer halvings than odd steps on its first excursion.
+
+None of that is a contradiction, because `2^k - 1` satisfies every clause for large `k`.
+
+## The frontier
+
+Target A: no number at least `102400` never drops.  Blocked by the profile being consistent.
+
+Target B: some scale is light at the orbit minimum.  Blocked because `2^k - 1` has `a = k` at scale `k`.
+
+Target C: every cycle satisfies `2^L <= 3^a`.  Blocked at the summation step.
+
+The local form of Target C is proved: `2^(v+W) <= 3^v` on the minimum's first excursion.
+
+The derivation uses `T^(v+W)(m) >= m`, which holds at the minimum and nowhere else on the cycle.
+
+Summing the local inequality over all excursions would give `2^L <= 3^a` and finish the cycle half.
+
+That sum is the sharpest gap the project has produced: one inequality, proved at one point, needed at all of them.
+
 ## The next lever
 
 The cycle bound scales with the verified range, and verification is the

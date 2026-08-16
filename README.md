@@ -38,7 +38,7 @@ Every proof must pass CI.
 
 ## Status
 
-1016 theorems.
+1055 theorems.
 
 No `sorry`. No added axioms. No Mathlib.
 
@@ -69,6 +69,12 @@ Two halvings can never follow the minimum's opening run.
 Hence the orbit minimum of a counterexample is never `3` modulo `16`.
 
 That is exactly what the residue sieve computes at level four, here derived algebraically.
+
+Say a number never drops when its own orbit never goes below it.
+
+Collatz is exactly the statement that `1` is the only number that never drops.
+
+Every structural theorem here specialises to that one predicate.
 
 `T^k` is affine on each residue class mod `2^k`, with multiplier fixed by the residue.
 
