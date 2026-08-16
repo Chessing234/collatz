@@ -34,6 +34,7 @@ import Collatz.Structure.OrbitMinSieve
 import Collatz.Structure.ForcedSteps
 import Collatz.Structure.Records
 import Collatz.Structure.OddRuns
+import Collatz.Structure.RunBounds
 import Collatz.Structure.Obstruction
 import Collatz.Structure.Predecessor
 import Collatz.Structure.ShortCycles
@@ -56,6 +57,7 @@ import Collatz.Chains.MaxClass
 import Collatz.Chains.Heavy
 import Collatz.Chains.OrbitMin
 import Collatz.Chains.OrbitSieve
+import Collatz.Strategy.Master
 import Collatz.Chains.SumChains
 import Collatz.Registry
 import Collatz.Papers.Lagarias1985
