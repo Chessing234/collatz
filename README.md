@@ -38,7 +38,7 @@ Every proof must pass CI.
 
 ## Status
 
-1077 theorems.
+1082 theorems.
 
 No `sorry`. No added axioms. No Mathlib.
 
@@ -89,6 +89,10 @@ One excursion is not enough: `102411` has no contracting first excursion.
 The sieve's survivor count rises while its density falls: 3, 8, 19, 64 at levels 4, 6, 8, 10.
 
 So the surviving classes are proliferating, not dwindling to a few stubborn ones.
+
+The sieve is nested, and its survivors form one coherent tower under reduction.
+
+That tower specifies a single 2-adic integer, `-1`, which survives every level at once.
 
 `T^k` is affine on each residue class mod `2^k`, with multiplier fixed by the residue.
 

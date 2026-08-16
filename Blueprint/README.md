@@ -289,6 +289,22 @@ A method eliminating a fixed proportion per level never finishes, however many l
 
 The work grows like `2^k` and the residue left over grows too.
 
+The sieve is also nested: surviving to a deeper level implies surviving to every shallower one.
+
+So refining the sieve is literally a refinement, a decreasing chain of residue classes.
+
+And the obstruction classes cohere: `2^(k+1) - 1` reduces mod `2^k` to `2^k - 1`.
+
+So the survivors form one coherent tower, specifying a single 2-adic integer.
+
+That integer is `-1`, and it survives every level at once.
+
+The sieve does not fail level by level for unrelated reasons.
+
+It fails at every level for the same reason, and that reason is one object.
+
+No finite level can clear it, because the tower is coherent by construction.
+
 ## The frontier
 
 Target A: no number at least `102400` never drops.  Blocked by the profile being consistent.
