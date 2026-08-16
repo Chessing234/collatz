@@ -25,18 +25,25 @@ the explicit rate `a ≥ 3(k−1)/5`.
 Where it stops: the rate is a lower bound; producing an upper bound at even one
 scale is the whole difficulty, and `2 ^ k − 1` has `a = k` at scale `k`.
 
-**Target C — global non-expansion.**
-If a cycle satisfied `2 ^ L ≤ 3 ^ a` it could not exist (`targetC`).
-Proved so far: the local form of exactly this inequality holds at the orbit
-minimum — `2 ^ (v + W) ≤ 3 ^ v` for the first excursion, whenever `3 ^ v < m`
-(`RunDescent.pow_dichotomy`).
-Where it stops: the derivation uses `T^{v+W}(m) ≥ m`, which holds at the
-minimum and nowhere else on the cycle.  Summing the local inequality over all
-excursions would give `2 ^ L ≤ 3 ^ a` and finish the cycle half; the sum is
-exactly what is unavailable.
+**Target C — separation of `2 ^ L` from `3 ^ a`.**
+A nontrivial cycle forces `2 ^ L · 204801 ≤ 3 ^ a · 204800 + 3 ^ L`
+(`CycleLengthSharp.approximation_constraint`), so proving the reverse strict
+inequality for every `L` kills the cycle half (`targetC`).
+Proved so far: the exact excursion identity `2 ^ (v+W) · x' + 2 ^ v = 3 ^ v (x+1)`
+(`RunDescent.excursion_identity`), the verified range, and the resulting
+constraint above.
+Where it stops: `2 ^ L − 3 ^ a` is a positive integer, and the constraint says it
+is very small relative to `3 ^ a`.  Bounding it below is a statement about how
+well `a / L` can approximate `log 2 / log 3` — linear forms in logarithms, not
+elementary arithmetic.
 
-The last of these is the sharpest gap the project has produced: a single
-inequality, proved at one point of the cycle, needed at all of them.
+A remark on a target this file previously stated the wrong way round.  One might
+hope to prove `2 ^ L ≤ 3 ^ a` for cycles by summing the local non-expansion
+bound `2 ^ (v+W) ≤ 3 ^ v` proved at the orbit minimum.  That cannot work, and the
+excursion identity says why: multiplying the identities around a cycle
+telescopes to `2 ^ L > 3 ^ a` outright.  So the local bound provably fails at
+some excursion, and no summation argument of that shape exists
+(`targetC_no_summation`).
 -/
 
 namespace Collatz
@@ -78,16 +85,29 @@ theorem targetB_obstacle {x k : Nat} (hgt : 1 < x) (h : NeverDrops x)
 
 /-! ## Target C -/
 
-/-- **Target C.**  A cycle satisfying `2 ^ L ≤ 3 ^ a` is impossible, so proving
-that inequality for every cycle finishes the cycle half. -/
+/-- **Target C.**  Separating `2 ^ L` from `3 ^ a` by more than the approximation
+constraint allows kills every nontrivial cycle. -/
 theorem targetC {n L : Nat} (hn : 0 < n) (hc : AccIsCycleOf n L)
-    (h : 2 ^ L ≤ 3 ^ oddCount n L) : False := by
+    (hnr : ¬ ReachesOne n)
+    (h : 3 ^ oddCount (CycleExtremes.cycleMax n L) L * 204800 + 3 ^ L
+          < 2 ^ L * 204801) : False := by
+  have hcon := CycleLengthSharp.approximation_constraint hn hc hnr
+  omega
+
+/-- **Why no summation argument closes the cycle half.**  Multiplying the
+excursion identities around a cycle telescopes to `3 ^ a < 2 ^ L`, so the local
+non-expansion bound `2 ^ (v + W) ≤ 3 ^ v` — which does hold at the orbit minimum
+— must fail at some other excursion.  Any attempt to sum the local bound over the
+whole cycle is therefore proving something false. -/
+theorem targetC_no_summation {n L : Nat} (hn : 0 < n) (hc : AccIsCycleOf n L) :
+    ¬ (2 ^ L ≤ 3 ^ oddCount n L) := by
   have hlt := Cycle.two_pow_gt_three_pow_of_accCycle hn hc.1 hc.2
   omega
 
 /-- **The local form, proved.**  At the orbit minimum the first excursion does
 satisfy `2 ^ (v + W) ≤ 3 ^ v`, provided the run is short enough that `3 ^ v` does
-not already exceed the minimum. -/
+not already exceed the minimum.  By `targetC_no_summation` this is genuinely a
+statement about the minimum and cannot extend to every excursion. -/
 theorem targetC_local {x v W : Nat} (h : NeverDrops x)
     (hrun : OddRun x v)
     (hhalve : ∀ i : Nat, i < W → acceleratedOrbit (v + i) x % 2 = 0)
@@ -159,8 +179,10 @@ theorem frontier :
     ((∀ x : Nat, 102400 ≤ x → ¬ NeverDrops x) → CollatzConjecture) ∧
     ((∀ x : Nat, 102400 ≤ x → NeverDrops x →
         ∃ k : Nat, 2 ^ k ≤ x ∧ 2 * 3 ^ oddCount x k ≤ 2 ^ k) → CollatzConjecture) ∧
-    (∀ n L : Nat, 0 < n → AccIsCycleOf n L → 2 ^ L ≤ 3 ^ oddCount n L → False) :=
-  ⟨targetA, targetB, fun _ _ hn hc h => targetC hn hc h⟩
+    (∀ n L : Nat, 0 < n → AccIsCycleOf n L → ¬ ReachesOne n →
+        3 ^ oddCount (CycleExtremes.cycleMax n L) L * 204800 + 3 ^ L < 2 ^ L * 204801 →
+        False) :=
+  ⟨targetA, targetB, fun _ _ hn hc hnr h => targetC hn hc hnr h⟩
 
 end Frontier
 end Collatz

@@ -69,6 +69,72 @@ theorem halving_chain : ∀ (W y : Nat), (∀ i : Nat, i < W → acceleratedOrbi
     rw [hA, hstep, hrec]
     omega
 
+/-! ## The excursion identity -/
+
+/-- **The exact relation across one excursion.**  A run of `v` odd steps followed
+by `W` halvings, landing on `x'`, satisfies
+
+`2 ^ (v + W) · x' + 2 ^ v = 3 ^ v · (x + 1)`
+
+with no inequality anywhere.  The run multiplies `x + 1` by `3 ^ v / 2 ^ v` and
+the halvings divide by `2 ^ W`; the `+ 2 ^ v` is the bookkeeping for the shift.
+
+Everything else in this file is a consequence of substituting a bound for `x'`.
+The master inequality below uses `x' ≥ m` at the orbit minimum.  On a cycle the
+product of these identities around all excursions telescopes and yields
+`2 ^ L > 3 ^ a`, which is `Cycle.two_pow_gt_three_pow_of_accCycle` — so the
+identity is consistent with, and in fact reproves, what is already known, and
+the local bound `2 ^ (v + W) ≤ 3 ^ v` provably cannot hold at every excursion. -/
+theorem excursion_identity {x v W : Nat} (hrun : OddRun x v)
+    (hhalve : ∀ i : Nat, i < W → acceleratedOrbit (v + i) x % 2 = 0) :
+    2 ^ (v + W) * acceleratedOrbit (v + W) x + 2 ^ v = 3 ^ v * (x + 1) := by
+  have hshift : ∀ i : Nat, acceleratedOrbit i (acceleratedOrbit v x) = acceleratedOrbit (v + i) x := by
+    intro i
+    rw [acceleratedOrbit_add, Nat.add_comm]
+  have htail : ∀ i : Nat, i < W → acceleratedOrbit i (acceleratedOrbit v x) % 2 = 0 := by
+    intro i hi
+    rw [hshift i]
+    exact hhalve i hi
+  have hchain := halving_chain W (acceleratedOrbit v x) htail
+  rw [hshift W] at hchain
+  have hval := oddRun_value v x hrun
+  calc 2 ^ (v + W) * acceleratedOrbit (v + W) x + 2 ^ v
+      = 2 ^ v * (2 ^ W * acceleratedOrbit (v + W) x) + 2 ^ v := by
+        rw [Nat.pow_add, Nat.mul_assoc]
+    _ = 2 ^ v * (acceleratedOrbit v x + 1) := by rw [hchain, Nat.mul_add, Nat.mul_one]
+    _ = 3 ^ v * (x + 1) := hval
+
+/-- **The excursion identity in quotient form.**  Writing `x + 1 = 2 ^ v · q`,
+the whole excursion reads
+
+`3 ^ v · q = 2 ^ W · x' + 1`,
+
+an equation between odd numbers with no shift left over.  In particular
+`3 ^ v · q ≡ 1 (mod 2 ^ W)`: the halvings impose a congruence on the odd part of
+`x + 1`, which is the exact form of the condition the residue sieve tests. -/
+theorem excursion_quot {x v W q : Nat} (hrun : OddRun x v)
+    (hhalve : ∀ i : Nat, i < W → acceleratedOrbit (v + i) x % 2 = 0)
+    (hq : x + 1 = 2 ^ v * q) :
+    3 ^ v * q = 2 ^ W * acceleratedOrbit (v + W) x + 1 := by
+  have hid := excursion_identity hrun hhalve
+  rw [hq] at hid
+  have hA : (3:Nat) ^ v * (2 ^ v * q) = 2 ^ v * (3 ^ v * q) := by
+    rw [Nat.mul_left_comm]
+  have hB : (2:Nat) ^ (v + W) * acceleratedOrbit (v + W) x + 2 ^ v
+      = 2 ^ v * (2 ^ W * acceleratedOrbit (v + W) x + 1) := by
+    rw [Nat.mul_add, Nat.mul_one, Nat.pow_add, Nat.mul_assoc]
+  rw [hA, hB] at hid
+  exact (Nat.eq_of_mul_eq_mul_left (Arith.two_pow_pos v) hid).symm
+
+/-- The congruence it carries: the odd part of `x + 1`, scaled by `3 ^ v`, is
+`1` modulo the number of halvings that follow. -/
+theorem excursion_congruence {x v W q : Nat} (hrun : OddRun x v)
+    (hhalve : ∀ i : Nat, i < W → acceleratedOrbit (v + i) x % 2 = 0)
+    (hq : x + 1 = 2 ^ v * q) :
+    3 ^ v * q % 2 ^ W = 1 % 2 ^ W := by
+  have h := excursion_quot hrun hhalve hq
+  rw [h, Nat.add_comm, Nat.add_mul_mod_self_left]
+
 /-! ## The master inequality -/
 
 /-- **How many halvings may follow a run.**  At the orbit minimum, a run of

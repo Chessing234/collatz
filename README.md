@@ -38,7 +38,7 @@ Every proof must pass CI.
 
 ## Status
 
-1055 theorems.
+1059 theorems.
 
 No `sorry`. No added axioms. No Mathlib.
 

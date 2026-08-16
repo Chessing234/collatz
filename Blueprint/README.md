@@ -271,15 +271,27 @@ Target A: no number at least `102400` never drops.  Blocked by the profile being
 
 Target B: some scale is light at the orbit minimum.  Blocked because `2^k - 1` has `a = k` at scale `k`.
 
-Target C: every cycle satisfies `2^L <= 3^a`.  Blocked at the summation step.
+Target C: separate `2^L` from `3^a` by more than the approximation constraint allows.
 
-The local form of Target C is proved: `2^(v+W) <= 3^v` on the minimum's first excursion.
+One excursion satisfies the exact identity `2^(v+W) x' + 2^v = 3^v (x+1)`.
 
-The derivation uses `T^(v+W)(m) >= m`, which holds at the minimum and nowhere else on the cycle.
+Written with `x + 1 = 2^v q` it is `3^v q = 2^W x' + 1`, an equation between odd numbers.
 
-Summing the local inequality over all excursions would give `2^L <= 3^a` and finish the cycle half.
+So the halvings impose `3^v q = 1` mod `2^W`, which is the exact condition the sieve tests.
 
-That sum is the sharpest gap the project has produced: one inequality, proved at one point, needed at all of them.
+Substituting `x' >= m` at the minimum gives the master inequality, and `W < v`.
+
+It is tempting to hope the local bound `2^(v+W) <= 3^v` sums over the cycle to give `2^L <= 3^a`.
+
+It cannot.  Multiplying the identities around a cycle telescopes to `3^a < 2^L` outright.
+
+So the local bound provably fails at some excursion, and no summation argument of that shape exists.
+
+What remains is bounding `2^L - 3^a` below, a positive integer the constraint forces to be tiny.
+
+That is a statement about how well `a/L` approximates `log 2 / log 3`.
+
+Linear forms in logarithms, not elementary arithmetic.  That is where this development ends.
 
 ## The next lever
 
