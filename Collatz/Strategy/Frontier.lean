@@ -25,6 +25,10 @@ the explicit rate `a ≥ 3(k−1)/5`.
 Where it stops: the rate is a lower bound; producing an upper bound at even one
 scale is the whole difficulty, and `2 ^ k − 1` has `a = k` at scale `k`.
 
+**Target D — a contracting first excursion.**  Vacuous: its hypothesis is
+refuted by `102 411` (`targetD_hypothesis_false`).  The underlying dichotomy is
+sound; the corrected form is Target B.
+
 **Target C — separation of `2 ^ L` from `3 ^ a`.**
 A nontrivial cycle forces `2 ^ L · 204801 ≤ 3 ^ a · 204800 + 3 ^ L`
 (`CycleLengthSharp.approximation_constraint`), so proving the reverse strict
@@ -127,15 +131,26 @@ theorem targetC_local_weak {x v W : Nat} (hgt : 1 < x) (h : NeverDrops x)
 
 /-! ## Target D: the excursion criterion
 
-The sharpest of the four, because it is the only one whose hypothesis is
-checkable *locally*: it asks nothing about the orbit beyond the first excursion,
-and the condition `3 ^ v < 2 ^ (v + W)` involves only the two counts, not the
-number itself.  `RunDescent.excursion_dichotomy` shows the condition is not
-merely sufficient but exactly equivalent to the first excursion descending. -/
+`RunDescent.excursion_dichotomy` characterises single-excursion descent exactly:
+for `x` at least the contraction factor, the first excursion descends iff
+`3 ^ v < 2 ^ (v + W)`.  That is a true and sharp theorem.
 
-/-- **Target D.**  If every large number has a contracting first excursion —
-more halvings, in the weighted sense `3 ^ v < 2 ^ (v + W)`, than its opening run
-can pay for — then Collatz holds. -/
+The tempting next step — hoping every large number therefore has a contracting
+*first* excursion — is false, and `targetD_hypothesis_false` refutes it with
+`102 411`.  So the target built on it is vacuous, and is kept here only with
+that refutation attached.  Correcting it by allowing any number of steps lands
+back on Target B (`targetD_general`).
+
+The lesson is worth recording: the excursion analysis sharpens the description
+of one step of the descent, but a single step is not enough, and summing steps
+is what the whole problem consists of. -/
+
+/-- **Target D, and why it is vacuous.**  The implication below is proved, but
+its hypothesis is *false*: `targetD_hypothesis_false` exhibits `102 411`, whose
+first excursion cannot contract.  It is recorded because the implication is
+sound and the dichotomy underneath it is the real content; what fails is the
+hope that a single excursion always suffices.  The corrected statement is
+`targetD_general`, which allows any number of steps and is exactly Target B. -/
 theorem targetD
     (h : ∀ x : Nat, 102400 ≤ x → ∃ v W : Nat,
       OddRun x v ∧
@@ -147,6 +162,89 @@ theorem targetD
   obtain ⟨v, W, hrun, hhalve, hgt, hsize⟩ := h x hge
   have hdrop := drops_of_excursion hrun hhalve hgt hsize
   have := hnd (v + W)
+  omega
+
+/-- **The hypothesis of Target D is false.**  Take `x = 102 411`.  Then
+`x + 1 = 102 412 = 4 · 25 603`, so no run exceeds length two; the value at time
+two is even but the value at time three is odd, so at most one halving follows.
+Every admissible pair therefore has `2 ^ (v + W) ≤ 8 < 9 = 3 ^ v`, and no
+excursion of `102 411` contracts.
+
+This is not a defect of the criterion — `excursion_dichotomy` correctly predicts
+that `102 411` does not drop within its first excursion, and it does not.  It is
+a defect of hoping one excursion is enough. -/
+theorem targetD_hypothesis_false :
+    ¬ (∀ x : Nat, 102400 ≤ x → ∃ v W : Nat,
+      OddRun x v ∧
+      (∀ i : Nat, i < W → acceleratedOrbit (v + i) x % 2 = 0) ∧
+      3 ^ v < 2 ^ (v + W) ∧ 2 ^ (v + W) ≤ x) := by
+  intro h
+  obtain ⟨v, W, hrun, hhalve, hgt, _⟩ := h 102411 (by omega)
+  have hdvd : 2 ^ v ∣ 102412 := by
+    have hd := (oddRun_iff v 102411).mp hrun
+    exact hd
+  -- no run longer than two: `8` does not divide `102 412`
+  have hv : v ≤ 2 := by
+    rcases Nat.lt_or_ge v 3 with hlt | hge
+    · omega
+    · exfalso
+      obtain ⟨c, hc⟩ := hdvd
+      have hsplit : (2:Nat) ^ v = 8 * 2 ^ (v - 3) := by
+        rw [show (8:Nat) = 2 ^ 3 from by decide, ← Nat.pow_add]
+        congr 1
+        omega
+      rw [hsplit, Nat.mul_assoc] at hc
+      omega
+  -- and at most one halving after a run of two
+  match v, hv with
+  | 0, _ =>
+    have hW : W = 0 := by
+      rcases Nat.lt_or_ge 0 W with hlt | hge
+      · exfalso
+        have := hhalve 0 hlt
+        revert this
+        decide
+      · omega
+    subst hW
+    revert hgt
+    decide
+  | 1, _ =>
+    have hW : W = 0 := by
+      rcases Nat.lt_or_ge 0 W with hlt | hge
+      · exfalso
+        have := hhalve 0 hlt
+        revert this
+        decide
+      · omega
+    subst hW
+    revert hgt
+    decide
+  | 2, _ =>
+    have hW : W ≤ 1 := by
+      rcases Nat.lt_or_ge 1 W with hlt | hge
+      · exfalso
+        have := hhalve 1 hlt
+        revert this
+        decide
+      · omega
+    have hpow : (2:Nat) ^ (2 + W) ≤ 8 := by
+      have : (2:Nat) ^ (2 + W) ≤ 2 ^ 3 := Arith.two_pow_le_two_pow (by omega)
+      omega
+    have h9 : (3:Nat) ^ 2 = 9 := by decide
+    omega
+
+/-- **The corrected target.**  Allowing any number of steps rather than one
+excursion, the criterion becomes `drops_of_light`, and the target is exactly
+Target B.  So the excursion analysis refines the picture of a single step of the
+descent but does not give a new sufficient condition. -/
+theorem targetD_general
+    (h : ∀ x : Nat, 102400 ≤ x → ∃ j : Nat, 2 ^ j ≤ x ∧ 2 * 3 ^ oddCount x j ≤ 2 ^ j) :
+    CollatzConjecture := by
+  refine collatz_of_no_large_neverDrops ?_
+  intro x hge hnd
+  obtain ⟨j, hj, hlight⟩ := h x hge
+  have hdrop := AffineBoundSharp.drops_of_light (n := x) (k := j) (by omega) hj hlight
+  have := hnd j
   omega
 
 /-- The criterion is exact, not merely sufficient: for `x` at least the
@@ -228,11 +326,19 @@ theorem frontier :
     (∀ n L : Nat, 0 < n → AccIsCycleOf n L → ¬ ReachesOne n →
         3 ^ oddCount (CycleExtremes.cycleMax n L) L * 204800 + 3 ^ L < 2 ^ L * 204801 →
         False) ∧
-    ((∀ x : Nat, 102400 ≤ x → ∃ v W : Nat,
+    ((∀ x : Nat, 102400 ≤ x → ∃ j : Nat, 2 ^ j ≤ x ∧ 2 * 3 ^ oddCount x j ≤ 2 ^ j) →
+        CollatzConjecture) :=
+  ⟨targetA, targetB, fun _ _ hn hc hnr h => targetC hn hc hnr h, targetD_general⟩
+
+/-- The targets that are *not* available, with their refutations, so the record
+of what has been ruled out travels with the record of what remains. -/
+theorem frontier_closed :
+    (∀ n L : Nat, 0 < n → AccIsCycleOf n L → ¬ (2 ^ L ≤ 3 ^ oddCount n L)) ∧
+    ¬ (∀ x : Nat, 102400 ≤ x → ∃ v W : Nat,
         OddRun x v ∧
         (∀ i : Nat, i < W → acceleratedOrbit (v + i) x % 2 = 0) ∧
-        3 ^ v < 2 ^ (v + W) ∧ 2 ^ (v + W) ≤ x) → CollatzConjecture) :=
-  ⟨targetA, targetB, fun _ _ hn hc hnr h => targetC hn hc hnr h, targetD⟩
+        3 ^ v < 2 ^ (v + W) ∧ 2 ^ (v + W) ≤ x) :=
+  ⟨fun _ _ hn hc => targetC_no_summation hn hc, targetD_hypothesis_false⟩
 
 end Frontier
 end Collatz

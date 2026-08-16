@@ -305,7 +305,21 @@ That makes Target D the only one of the four whose hypothesis is checkable local
 
 It asks nothing about the orbit beyond the first excursion, and the condition involves only the two counts.
 
-It is not a strengthening of the problem.  It is the problem, restated one excursion at a time.
+But one excursion is not enough, and Target D as stated is vacuous.
+
+Take `102411`.  Then `102412 = 4 * 25603`, so no run exceeds length two.
+
+The value at time two is even, the value at time three is odd, so at most one halving follows.
+
+Every admissible pair has `2^(v+W) <= 8 < 9 = 3^v`, and no excursion of `102411` contracts.
+
+The dichotomy is not at fault: it correctly predicts that `102411` does not drop in one excursion, and it does not.
+
+Correcting the target by allowing any number of steps lands back on Target B.
+
+So the excursion analysis sharpens the description of one step of the descent.
+
+A single step is not enough, and summing steps is what the whole problem consists of.
 
 ## The next lever
 

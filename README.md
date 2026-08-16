@@ -38,7 +38,7 @@ Every proof must pass CI.
 
 ## Status
 
-1065 theorems.
+1068 theorems.
 
 No `sorry`. No added axioms. No Mathlib.
 
@@ -83,6 +83,8 @@ It satisfies the exact identity `2^(v+W) x' + 2^v = 3^v (x+1)`.
 Substituting `x' >= x` gives obstructions; substituting the other way proves descent.
 
 For `x >= 2^(v+W)`, the first excursion descends if and only if `3^v < 2^(v+W)`.
+
+One excursion is not enough: `102411` has no contracting first excursion.
 
 `T^k` is affine on each residue class mod `2^k`, with multiplier fixed by the residue.
 
