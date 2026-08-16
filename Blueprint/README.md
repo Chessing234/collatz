@@ -293,6 +293,20 @@ That is a statement about how well `a/L` approximates `log 2 / log 3`.
 
 Linear forms in logarithms, not elementary arithmetic.  That is where this development ends.
 
+Target D: every large number has a contracting first excursion.
+
+Substituting `x' >= x` into the identity gives obstructions; substituting the other way proves descent.
+
+If `3^v < 2^(v+W)` and `2^(v+W) <= x` then the first excursion strictly descends.
+
+The converse holds too, so for `x >= 2^(v+W)` descent is equivalent to `3^v < 2^(v+W)`.
+
+That makes Target D the only one of the four whose hypothesis is checkable locally.
+
+It asks nothing about the orbit beyond the first excursion, and the condition involves only the two counts.
+
+It is not a strengthening of the problem.  It is the problem, restated one excursion at a time.
+
 ## The next lever
 
 The cycle bound scales with the verified range, and verification is the

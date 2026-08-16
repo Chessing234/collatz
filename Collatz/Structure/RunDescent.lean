@@ -220,6 +220,65 @@ theorem forced_odd_at_three {n m : Nat} (hn : 0 < n)
   · exact absurd (not_two_halvings hn hm hmin hgt h2 he) (fun h => h)
   · exact ho
 
+/-! ## The converse: an explicit criterion for dropping
+
+Everything above substitutes `x' ≥ x` into the excursion identity to obtain an
+obstruction.  Substituting the other way gives a *positive* result: a criterion
+that proves an excursion descends.  Together the two directions characterise the
+first excursion completely, and the criterion is checkable from `v` and `W`
+alone — no search over the orbit. -/
+
+/-- **The drop criterion.**  If the excursion's expansion factor `3 ^ v` is
+beaten by its contraction factor `2 ^ (v + W)`, and `x` is at least that
+contraction factor, then the excursion strictly descends. -/
+theorem drops_of_excursion {x v W : Nat} (hrun : OddRun x v)
+    (hhalve : ∀ i : Nat, i < W → acceleratedOrbit (v + i) x % 2 = 0)
+    (hgt : 3 ^ v < 2 ^ (v + W)) (hsize : 2 ^ (v + W) ≤ x) :
+    acceleratedOrbit (v + W) x < x := by
+  have hid := excursion_identity hrun hhalve
+  -- `3 ^ v (x + 1) < 2 ^ (v + W) x`, since `3 ^ v + 1 ≤ 2 ^ (v + W) ≤ x`
+  have hstep : 3 ^ v * (x + 1) < 2 ^ (v + W) * x := by
+    have hle : (3 ^ v + 1) * (x + 1) ≤ 2 ^ (v + W) * (x + 1) :=
+      Nat.mul_le_mul_right _ (by omega)
+    have hexp : (3 ^ v + 1) * (x + 1) = 3 ^ v * (x + 1) + (x + 1) := by
+      rw [Nat.add_mul, Nat.one_mul]
+    have hexp2 : (2:Nat) ^ (v + W) * (x + 1) = 2 ^ (v + W) * x + 2 ^ (v + W) := by
+      rw [Nat.mul_add, Nat.mul_one]
+    omega
+  -- so `2 ^ (v + W) x' < 2 ^ (v + W) x`
+  have hmul : 2 ^ (v + W) * acceleratedOrbit (v + W) x < 2 ^ (v + W) * x :=
+    Nat.lt_of_le_of_lt
+      (Nat.le_trans (Nat.le_add_right _ (2 ^ v)) (Nat.le_of_eq hid)) hstep
+  exact Nat.lt_of_mul_lt_mul_left hmul
+
+/-- **The dichotomy for the first excursion.**  For `x` at least the contraction
+factor, the excursion descends exactly when `3 ^ v < 2 ^ (v + W)`.  The forward
+direction is the criterion above; the reverse is the master inequality, since a
+number that never drops cannot descend. -/
+theorem excursion_dichotomy {x v W : Nat} (h : ∀ j : Nat, x ≤ acceleratedOrbit j x)
+    (hrun : OddRun x v)
+    (hhalve : ∀ i : Nat, i < W → acceleratedOrbit (v + i) x % 2 = 0)
+    (hsize : 2 ^ (v + W) ≤ x) :
+    2 ^ (v + W) ≤ 3 ^ v := by
+  rcases Nat.lt_or_ge (3 ^ v) (2 ^ (v + W)) with hlt | hge
+  · exfalso
+    have hdrop := drops_of_excursion hrun hhalve hlt hsize
+    have := h (v + W)
+    omega
+  · exact hge
+
+/-- Stated for `NeverDrops`-style hypotheses at the orbit minimum: the expansion
+must beat the contraction at the first excursion, with no size side condition
+beyond `2 ^ (v + W) ≤ m`. -/
+theorem min_excursion_expands {n m v W : Nat}
+    (hm : ∃ i : Nat, acceleratedOrbit i n = m)
+    (hmin : ∀ j : Nat, m ≤ acceleratedOrbit j n)
+    (hrun : OddRun m v)
+    (hhalve : ∀ i : Nat, i < W → acceleratedOrbit (v + i) m % 2 = 0)
+    (hsize : 2 ^ (v + W) ≤ m) :
+    2 ^ (v + W) ≤ 3 ^ v :=
+  excursion_dichotomy (no_drop hm hmin) hrun hhalve hsize
+
 /-! ## Fewer halvings than odd steps -/
 
 /-- `9 · 4 ^ v ≥ 16 · 3 ^ v` for `v ≥ 2`, with equality at `v = 2`.  This is

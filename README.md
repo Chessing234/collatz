@@ -38,7 +38,7 @@ Every proof must pass CI.
 
 ## Status
 
-1059 theorems.
+1065 theorems.
 
 No `sorry`. No added axioms. No Mathlib.
 
@@ -75,6 +75,14 @@ Say a number never drops when its own orbit never goes below it.
 Collatz is exactly the statement that `1` is the only number that never drops.
 
 Every structural theorem here specialises to that one predicate.
+
+An excursion is a run of odd steps followed by the halvings after it.
+
+It satisfies the exact identity `2^(v+W) x' + 2^v = 3^v (x+1)`.
+
+Substituting `x' >= x` gives obstructions; substituting the other way proves descent.
+
+For `x >= 2^(v+W)`, the first excursion descends if and only if `3^v < 2^(v+W)`.
 
 `T^k` is affine on each residue class mod `2^k`, with multiplier fixed by the residue.
 

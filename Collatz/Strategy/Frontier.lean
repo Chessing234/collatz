@@ -125,6 +125,52 @@ theorem targetC_local_weak {x v W : Nat} (hgt : 1 < x) (h : NeverDrops x)
     W < v :=
   halvings_lt_run_of_neverDrops hgt h hv hrun hhalve
 
+/-! ## Target D: the excursion criterion
+
+The sharpest of the four, because it is the only one whose hypothesis is
+checkable *locally*: it asks nothing about the orbit beyond the first excursion,
+and the condition `3 ^ v < 2 ^ (v + W)` involves only the two counts, not the
+number itself.  `RunDescent.excursion_dichotomy` shows the condition is not
+merely sufficient but exactly equivalent to the first excursion descending. -/
+
+/-- **Target D.**  If every large number has a contracting first excursion —
+more halvings, in the weighted sense `3 ^ v < 2 ^ (v + W)`, than its opening run
+can pay for — then Collatz holds. -/
+theorem targetD
+    (h : ∀ x : Nat, 102400 ≤ x → ∃ v W : Nat,
+      OddRun x v ∧
+      (∀ i : Nat, i < W → acceleratedOrbit (v + i) x % 2 = 0) ∧
+      3 ^ v < 2 ^ (v + W) ∧ 2 ^ (v + W) ≤ x) :
+    CollatzConjecture := by
+  refine collatz_of_no_large_neverDrops ?_
+  intro x hge hnd
+  obtain ⟨v, W, hrun, hhalve, hgt, hsize⟩ := h x hge
+  have hdrop := drops_of_excursion hrun hhalve hgt hsize
+  have := hnd (v + W)
+  omega
+
+/-- The criterion is exact, not merely sufficient: for `x` at least the
+contraction factor, the first excursion descends **iff** `3 ^ v < 2 ^ (v + W)`.
+So Target D is not a strengthening of the problem — it is the problem, restated
+one excursion at a time. -/
+theorem targetD_exact {x v W : Nat} (h : NeverDrops x)
+    (hrun : OddRun x v)
+    (hhalve : ∀ i : Nat, i < W → acceleratedOrbit (v + i) x % 2 = 0)
+    (hsize : 2 ^ (v + W) ≤ x) :
+    2 ^ (v + W) ≤ 3 ^ v :=
+  excursion_dichotomy h hrun hhalve hsize
+
+/-- What Target D must overcome, stated exactly.  A number that never drops has
+`2 ^ (v + W) ≤ 3 ^ v` at its first excursion, so `W` is at most `v · log₂(3/2)`;
+combined with `halvings_lt_run` this is the whole local obstruction. -/
+theorem targetD_obstacle {x v W : Nat} (hgt : 1 < x) (h : NeverDrops x)
+    (hv : 2 ≤ v) (hrun : OddRun x v)
+    (hhalve : ∀ i : Nat, i < W → acceleratedOrbit (v + i) x % 2 = 0)
+    (hsize : 2 ^ (v + W) ≤ x) :
+    2 ^ (v + W) ≤ 3 ^ v ∧ W < v :=
+  ⟨excursion_dichotomy h hrun hhalve hsize,
+   halvings_lt_run_of_neverDrops hgt h hv hrun hhalve⟩
+
 /-! ## Sublemmas: a counterexample supplies many witnesses
 
 Target A asks about a single number.  These lemmas show a counterexample does
@@ -181,8 +227,12 @@ theorem frontier :
         ∃ k : Nat, 2 ^ k ≤ x ∧ 2 * 3 ^ oddCount x k ≤ 2 ^ k) → CollatzConjecture) ∧
     (∀ n L : Nat, 0 < n → AccIsCycleOf n L → ¬ ReachesOne n →
         3 ^ oddCount (CycleExtremes.cycleMax n L) L * 204800 + 3 ^ L < 2 ^ L * 204801 →
-        False) :=
-  ⟨targetA, targetB, fun _ _ hn hc hnr h => targetC hn hc hnr h⟩
+        False) ∧
+    ((∀ x : Nat, 102400 ≤ x → ∃ v W : Nat,
+        OddRun x v ∧
+        (∀ i : Nat, i < W → acceleratedOrbit (v + i) x % 2 = 0) ∧
+        3 ^ v < 2 ^ (v + W) ∧ 2 ^ (v + W) ≤ x) → CollatzConjecture) :=
+  ⟨targetA, targetB, fun _ _ hn hc hnr h => targetC hn hc hnr h, targetD⟩
 
 end Frontier
 end Collatz
