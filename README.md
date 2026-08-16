@@ -38,7 +38,7 @@ Every proof must pass CI.
 
 ## Status
 
-1106 theorems.
+1118 theorems.
 
 No `sorry`. No added axioms. No Mathlib.
 
@@ -101,6 +101,10 @@ The heavy fraction then decays like `0.9695^k` instead of `0.98965^k`.
 The rate argument is stated once for any `p/q` with `3^p < 2^q`, and the old rates become instances.
 
 No rate beats `0.96863^k`, so the method is within 0.1 percent of its own ceiling.
+
+The inverse odd step is a generator: if `3n+1 = 2^j m` and `m` reaches 1, so does `n`.
+
+It yields the family `1, 5, 21, 85, 341, ...`, unbounded, each reaching 1 by an argument not a search.
 
 `T^k` is affine on each residue class mod `2^k`, with multiplier fixed by the residue.
 

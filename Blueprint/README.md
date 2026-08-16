@@ -345,6 +345,32 @@ And no refinement of this kind reaches a density bound strong enough to bear on 
 
 The heavy set is nonempty at every level regardless, since `2^k - 1` is always in it.
 
+## Going backwards
+
+Every positive result here is either brute force or an obstruction.
+
+Nothing generates new numbers known to reach 1 except by checking them one at a time.
+
+The inverse of the odd step does.  Suppose `3n + 1 = 2^j m` with `j >= 1`.
+
+Then `3n+1` is even, so `n` is odd, and its first step is `3n+1 = 2^j m`.
+
+Then `j` halvings land on `m`.  So if `m` reaches 1, so does `n`.
+
+Starting from `m = 1` this gives every `n` with `3n+1` a power of two.
+
+That is the family `1, 5, 21, 85, 341, ...`, namely `(4^k - 1)/3`.
+
+Each lands on `4^k` in one odd step and falls straight to 1.
+
+The family is unbounded, so an infinite set of numbers reaches 1 by argument rather than search.
+
+The generator also applies to every number the search has settled, so each verified value spawns its own family.
+
+It does not bear on the conjecture: a sparse infinite family is not the integers.
+
+But it is the only direction here where new positive facts come from an argument.
+
 ## The frontier
 
 Target A: no number at least `102400` never drops.  Blocked by the profile being consistent.
