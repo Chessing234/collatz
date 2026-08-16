@@ -36,6 +36,7 @@ import Collatz.Structure.Records
 import Collatz.Structure.OddRuns
 import Collatz.Structure.RunBounds
 import Collatz.Structure.RunValue
+import Collatz.Structure.RunDescent
 import Collatz.Structure.Obstruction
 import Collatz.Structure.Predecessor
 import Collatz.Structure.ShortCycles

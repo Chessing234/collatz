@@ -1,8 +1,9 @@
 import Collatz.Chains.OrbitSieve
 import Collatz.Structure.RunValue
+import Collatz.Structure.RunDescent
 
 /-!
-# Chains 206–220: runs of odd steps
+# Chains 206–225: runs of odd steps
 
 `OddRuns.oddRun_iff` characterises consecutive odd steps exactly — `j` of them
 iff `−1 mod 2 ^ j` — and `RunValue.oddRun_value` computes the result of a run in
@@ -207,6 +208,81 @@ theorem chain218_refuted : ¬ H218_cheapClimb := by
   intro ⟨x, j, hx, hrun, hlt⟩
   have := climb_bounded hx hrun
   omega
+
+/-! ## Chains 221–225: the descent bound -/
+
+/-- Hypothesis: some counterexample's orbit minimum takes halvings at both time
+two and time three. -/
+def H221_twoHalvings : Prop :=
+  ∃ n m : Nat, 0 < n ∧ ¬ ReachesOne n ∧ (∃ i : Nat, acceleratedOrbit i n = m) ∧
+    (∀ j : Nat, m ≤ acceleratedOrbit j n) ∧
+    acceleratedOrbit 2 m % 2 = 0 ∧ acceleratedOrbit 3 m % 2 = 0
+
+/-- **Chain 221, refuted.**  Two halvings after the opening run would force
+`16 m + 4 ≤ 9 m + 9`. -/
+theorem chain221_refuted : ¬ H221_twoHalvings := by
+  intro ⟨n, m, hn, hr, hm, hmin, h2, h3⟩
+  have hge := ge_verified hn hr hm
+  exact RunDescent.not_two_halvings hn hm hmin (by omega) h2 h3
+
+/-- Hypothesis: some counterexample's orbit minimum is `3` modulo `16`. -/
+def H222_minThreeModSixteen : Prop :=
+  ∃ n m : Nat, 0 < n ∧ ¬ ReachesOne n ∧ (∃ i : Nat, acceleratedOrbit i n = m) ∧
+    (∀ j : Nat, m ≤ acceleratedOrbit j n) ∧ m % 16 = 3
+
+/-- **Chain 222, refuted.**  The class `3 mod 16` is excluded algebraically, by
+the same argument the sieve performs by search. -/
+theorem chain222_refuted : ¬ H222_minThreeModSixteen := by
+  intro ⟨n, m, hn, hr, hm, hmin, h16⟩
+  have hge := ge_verified hn hr hm
+  exact RunDescent.min_ne_three_mod_sixteen hn hm hmin (by omega) h16
+
+/-- Hypothesis: a counterexample's orbit minimum avoids all three surviving
+classes modulo `16`. -/
+def H223_minNoClassModSixteen : Prop :=
+  ∀ n m : Nat, 0 < n → ¬ ReachesOne n → (∃ i : Nat, acceleratedOrbit i n = m) →
+    (∀ j : Nat, m ≤ acceleratedOrbit j n) →
+    m % 16 ≠ 7 ∧ m % 16 ≠ 11 ∧ m % 16 ≠ 15
+
+/-- **Chain 223.**  The minimum lies in one of those three, so the hypothesis
+closes the problem. -/
+theorem chain223 (h : H223_minNoClassModSixteen) : CollatzConjecture := by
+  intro n hn
+  by_cases hr : ReachesOne n
+  · exact hr
+  · exfalso
+    obtain ⟨m, hm, hmin⟩ := exists_accCycleMin n
+    have hcls := RunDescent.min_mod_sixteen hn hr hm hmin
+    have := h n m hn hr hm hmin
+    omega
+
+/-- Hypothesis: the halvings following the minimum's run are unbounded. -/
+def H224_halvingsUnbounded : Prop :=
+  ∀ n m : Nat, 0 < n → ¬ ReachesOne n → (∃ i : Nat, acceleratedOrbit i n = m) →
+    (∀ j : Nat, m ≤ acceleratedOrbit j n) →
+    ∀ i : Nat, acceleratedOrbit (2 + i) m % 2 = 0
+
+/-- **Chain 224.**  Even two halvings are impossible, so this proves Collatz. -/
+theorem chain224 (h : H224_halvingsUnbounded) : CollatzConjecture := by
+  intro n hn
+  by_cases hr : ReachesOne n
+  · exact hr
+  · exfalso
+    obtain ⟨m, hm, hmin⟩ := exists_accCycleMin n
+    have hge := ge_verified hn hr hm
+    have hall := h n m hn hr hm hmin
+    have h2 := hall 0
+    have h3 := hall 1
+    rw [show 2 + 0 = 2 from rfl] at h2
+    rw [show 2 + 1 = 3 from rfl] at h3
+    exact RunDescent.not_two_halvings hn hm hmin (by omega) h2 h3
+
+/-- **Chain 225.**  The descent-bound chains, collected. -/
+theorem chain225 :
+    (¬ H221_twoHalvings) ∧ (¬ H222_minThreeModSixteen) ∧
+    (H223_minNoClassModSixteen → CollatzConjecture) ∧
+    (H224_halvingsUnbounded → CollatzConjecture) :=
+  ⟨chain221_refuted, chain222_refuted, chain223, chain224⟩
 
 /-! ## Chains 219–220: collected -/
 

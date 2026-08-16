@@ -171,6 +171,32 @@ The two derivations agree, which is a check on the development.
 
 It also names the obstruction exactly: every method here fails on `-1 mod 2^k`, and that class is precisely the one that climbs.
 
+## What must follow a run
+
+A chain of `W` halvings is an exact division: `y = 2^W T^W(y)`.
+
+The orbit minimum is never undercut, so `T^{v+W}(m) >= m`.
+
+Combining with the run identity eliminates `T^v(m)` and gives `2^(v+W) m + 2^v <= 3^v (m + 1)`.
+
+This is heaviness with no slack: the averaging bound `a >= 3(k-1)/5` stated exactly, step by step.
+
+With `v = 2` and `W = 2` it reads `16m + 4 <= 9m + 9`, so `7m <= 5`, which is absurd.
+
+So two halvings never follow the minimum's opening run, and the step at time three is forced odd.
+
+On the class `3` mod `8` that forces `m = 11` mod `16`, so `m` is never `3` mod `16`.
+
+The surviving classes modulo `16` are `7`, `11`, `15`.
+
+Those are exactly the classes the computational sieve leaves at level four.
+
+So the sieve is not an accident: at each level it is this bookkeeping, done by search rather than by algebra.
+
+That also says why enlarging it cannot terminate.
+
+Each level asks the same question about one more halving, and `-1 mod 2^k` always answers it.
+
 ## The chains
 
 Each chain is hypotheses plus a proved implication to Collatz.
