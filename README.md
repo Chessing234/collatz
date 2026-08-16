@@ -38,7 +38,7 @@ Every proof must pass CI.
 
 ## Status
 
-1092 theorems.
+1106 theorems.
 
 No `sorry`. No added axioms. No Mathlib.
 
@@ -97,6 +97,10 @@ That tower specifies a single 2-adic integer, `-1`, which survives every level a
 The density rate is sharpened from `3/5 = 0.600` to `17/27 = 0.62963`, against a true threshold of `0.63093`.
 
 The heavy fraction then decays like `0.9695^k` instead of `0.98965^k`.
+
+The rate argument is stated once for any `p/q` with `3^p < 2^q`, and the old rates become instances.
+
+No rate beats `0.96863^k`, so the method is within 0.1 percent of its own ceiling.
 
 `T^k` is affine on each residue class mod `2^k`, with multiplier fixed by the residue.
 

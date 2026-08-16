@@ -39,6 +39,7 @@ import Collatz.Structure.RunValue
 import Collatz.Structure.RunDescent
 import Collatz.Structure.SieveDensity
 import Collatz.Structure.DensitySharp
+import Collatz.Structure.DensityRate
 import Collatz.Structure.Obstruction
 import Collatz.Structure.Predecessor
 import Collatz.Structure.ShortCycles

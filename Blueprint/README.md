@@ -329,7 +329,21 @@ The heavy fraction decays like `0.9695^k` instead of `0.98965^k`, roughly tripli
 
 It proves nothing new about Collatz.  The heavy set is still nonempty at every level, and `2^k - 1` is in it.
 
-But it is the sharpest rate this argument gives without a fraction of much larger height.
+The whole argument is the same for any `p/q` with `3^p < 2^q`, so it is stated once and instantiated.
+
+Three rates work: `3/5`, `17/27`, `41/65`.  Three fail: `2/3`, `12/19`, `53/84`.
+
+The bound gives decay `2^((0.58496 - p/q) k)`, and `p/q` is capped by `0.63093`.
+
+So no rate beats `2^(-0.04597 k)`, that is `0.96863^k`.  That is the ceiling of the method.
+
+The rate `17/27` already gives `0.96953^k`, within 0.1 percent of it.
+
+Pushing the fraction further is not where any remaining gain lies.
+
+And no refinement of this kind reaches a density bound strong enough to bear on the conjecture.
+
+The heavy set is nonempty at every level regardless, since `2^k - 1` is always in it.
 
 ## The frontier
 
