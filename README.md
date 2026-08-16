@@ -38,7 +38,7 @@ Every proof must pass CI.
 
 ## Status
 
-902 theorems.
+1001 theorems.
 
 No `sorry`. No added axioms. No Mathlib.
 
@@ -57,6 +57,12 @@ Any nontrivial cycle has minimal period at least four.
 An accelerated cycle of length `L` with `a` odd steps needs `3^a < 2^L`.
 
 Its least element is odd.
+
+A number takes `j` consecutive odd steps exactly when it is `-1` modulo `2^j`.
+
+Along such a run, `x + 1` is multiplied by exactly `(3/2)^j`.
+
+So the least point of a cycle climbs to at least `9/4` of itself, improving `M >= 2m`.
 
 `T^k` is affine on each residue class mod `2^k`, with multiplier fixed by the residue.
 

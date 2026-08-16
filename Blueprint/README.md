@@ -145,6 +145,32 @@ So the greatest point is even, and its successor `M/2` is still on the cycle.
 
 Hence `M >= 2m`: a cycle spans at least a factor of two.
 
+## Runs of odd steps
+
+A number takes `j` consecutive odd steps exactly when it is `-1` modulo `2^j`.
+
+The proof is `2(T(x) + 1) = 3(x + 1)` for odd `x`, plus coprimality of three to powers of two.
+
+Iterating that identity gives the closed form `2^j (T^j(x) + 1) = 3^j (x + 1)`.
+
+A run is not merely bounded, it is computed: the whole climb is one multiplication by `3^j`.
+
+Climbing is therefore rationed: `j` steps up in a row need `x >= 2^j - 1`.
+
+On a cycle every point is at most `M`, so no run anywhere exceeds `log2(M + 1)`.
+
+The least point is `3` mod `4`, so it always begins a run of length two.
+
+Hence `4(M + 1) >= 9(m + 1)`, sharpening `M >= 2m` to `M >= 2.25m + 1.25`.
+
+On the class `7` mod `8` the run has length three and the constant rises to `27/8`.
+
+This also re-derives `m = 3` mod `4` by counting odd steps rather than by exhibiting a descent.
+
+The two derivations agree, which is a check on the development.
+
+It also names the obstruction exactly: every method here fails on `-1 mod 2^k`, and that class is precisely the one that climbs.
+
 ## The chains
 
 Each chain is hypotheses plus a proved implication to Collatz.
