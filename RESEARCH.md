@@ -96,6 +96,61 @@ Consistency check: `m = 7 mod 12` when `3` does not divide `m`, and `7 = 1 mod 6
 2-adic valuation by `2^j <= B+1`. `both_caps` states them together.
 **Divergent orbits escape both caps** -- precisely why the divergence half is harder.
 
+### CEILING — the master bound gains nothing from odd steps (PROVED)
+
+`RunInvariance.bound_invariant_under_run`: for a run of length `A` from `x`,
+
+    3^(A+B) M <= 2^(A+B) (T^A(x)+1)   <->   3^B M <= 2^B (x+1)
+
+The factor `3^A` cancels. So pushing the master bound forward through odd steps
+reproduces it exactly, with slack zero. The observed sharpness at `T(m)` and `T^2(m)`
+is an identity, not luck. Supporting peak lemma `three_pow_dvd_run_end`:
+`2^A | (x+1)` and `3^B | (x+1)` imply `3^(A+B) | (T^A(x)+1)`.
+Verified: 0 failures over all odd `x < 400000` (peak lemma) and over 60000 x 400 pairs
+(invariance). **All remaining information must come from EVEN steps**, the only place the
+3-adic valuation is created rather than transported. Companion: `x+1`, `x+2` never both
+divisible by 3, so the first even step after a peak starts from valuation zero.
+
+### CEILING — inverse-tree counting saturates at exponent exactly 1 (Agent C, TESTED + analytic)
+
+Inverse tree of 1: level sizes ratio -> 4/3 (measured to depth 41), residues mod 3
+equidistribute to 1/3 each. The counting exponent is
+`theta(a) = [H(a) - a ln3] / [ln2 - a ln3]`; numerically `theta_max = 1.000000`, attained
+uniquely at `a = 1/2` (identity: numerator = denominator iff `H(a) = ln 2`). `a = 1/2` is
+exactly the generic forward profile. **So density-1 is predicted with ZERO slack** — any
+loss (path dependence, non-uniform legality factor, second-order terms) lands strictly
+below 1. That is why the rigorous record is `N^0.84` and cannot be pushed to `N^1` by
+counting. The convergence of the path sum requires the `3^-b` legality factor, which is
+equidistribution-mod-3 along backward orbits — itself Collatz-hard.
+
+### CEILING — the master bound captures ~2/3 of NeverDrops and no more (Agent C, TESTED)
+
+Fraction of odd `n` whose excursion is killed by the master bound: 0.39068, 0.39183,
+0.39165, 0.39157, 0.39159 for `n < 10^4..5*10^7` — dead constant, no decay. Bucketed by
+excursion length over 2*10^8 odd `n`, the kill rate rises then **plateaus at ~0.67** and
+does not trend to 1. Reason: only points in `[m, 1.5m)` carry weight 1/3, the next band
+1/9, and long excursions sit high up where the test is vacuous; the total is a bounded
+constant. **Fatal for cycles**: a cycle is ONE excursion, so there is no independence to
+accumulate — 0.67 is all there is.
+
+### REFUTED — the 2-adic "dual" is tautological (Agent C)
+
+`2^t | v => T^(i+t)(m) = v/2^t >= m` looks like a second sieve but is a restatement of
+"the orbit does not drop": kill rate 1 on every dropper, zero new leverage. Do not count
+it as independent. This also weakens open direction 2 (joint `2^a 3^b` sieve).
+
+### REFUTED — Lyapunov candidate (Agent C)
+
+`S(v) = log_1.5((v+1)/(m+1)) - v3(v+1)` (master-bound slack): equals 0 at every odd-run
+peak, invariant under odd runs, drops 1.7095 per even step, jumps back at the next peak.
+Not monotone, no well-founded descent.
+
+### NOT STRONGER — Syracuse graph (Agent C)
+
+Syracuse edges are bundles of full-graph edges; the Syracuse tree of 1 and the full tree
+have the same node set up to doubling rays. Any counting bound on `|tree ∩ [1,N]|` is
+identical; only depth grading changes. Do not spend effort here.
+
 ## Obstructions (PROVED / CLOSED)
 
 1. **CLOSED — mod-3 descent.** `3 ∣ v` ⟹ `v` has exactly one preimage, `2v`
@@ -125,8 +180,14 @@ Consistency check: `m = 7 mod 12` when `3` does not divide `m`, and `7 = 1 mod 6
 
 ## Highest-value open directions
 
-1. Push the master bound: for which `i` is `v3(T^i(m)+1)` large? Combine with forward
-   structure to force a contradiction.
+1. ~~Push the master bound forward~~ CLOSED by `RunInvariance.bound_invariant_under_run`.
+   The single live question: along a maximal halving run from a peak `P` with
+   `P+1 = 3^(A+B) w`, the descent points are `P_t = P/2^t` and the bound at `P_t` reads
+   `2^j (P + 2^t) >= 2^t 3^j (m+1)` with `j = v3(P + 2^t)`. **Is `v3(3^(A+B) w - 1 + 2^t)`
+   controllable in `t`?** This is the only step in an excursion not already implied by the
+   bound at the peak. If a lower bound on `max_t v3(P + 2^t)` can be forced from
+   `2^A || (m+1)` on the same `w`, that is a genuine new obstruction; if not, the descent
+   phase is provably free and the master-bound programme is closed at 0.67.
 2. Joint mod-`2^a·3^b` sieve — is any joint survivor set empty?
 3. `≡1 mod 3`: explain the surviving fraction; does it → 0?
 4. A potential/Lyapunov function on `u = x+1` using both valuations.
