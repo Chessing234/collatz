@@ -38,7 +38,7 @@ Every proof must pass CI.
 
 ## Status
 
-1140 theorems.
+1158 theorems.
 
 No `sorry`. No added axioms. No Mathlib.
 
@@ -109,6 +109,12 @@ So a nontrivial cycle has least point above `307200` and greatest point above `6
 Running the map backwards gives infinite descent on the minimal counterexample.
 
 The least number that never drops is not `2` mod `3`, and not `4` mod `9`.
+
+A multiple of three has exactly one preimage, its double, so backward descent provably cannot reach `3 | m`.
+
+Descent works from any point of the orbit, not just from `m`, so no orbit point `= 2` mod `3` lies below `(3m+1)/2`.
+
+That window ends exactly at `T(m)`, so the bound is sharp.
 
 The inverse odd step is a generator: if `3n+1 = 2^j m` and `m` reaches 1, so does `n`.
 
