@@ -70,6 +70,32 @@ Early orbit points sit exactly on the boundaries: `T(m)+1 = 3(m+1)/2` and
 `T^2(m)+1 = 9(m+1)/4`, so `j = 1, 2` hold with equality. No contradiction yet — the
 constraints are all *lower* bounds, and a divergent orbit has no upper bound to clash with.
 
+### Composition: the low window is one residue class (PROVED)
+
+`odd_orbit_not_three_dvd` (general, needs no never-dropping hypothesis): **for odd `x`,
+no `T^k(x)` with `k >= 1` is divisible by 3** -- else `x = 2^k * T^k(x)` is even.
+Verified: 0 violations over 150000 odd starts; for *even* starts it happens ~1/3 of the
+time, so the statement is specific to odd starts and not vacuous.
+
+Composing it with the two windows:
+- no orbit point below `(3m+1)/2` is `= 2 mod 3`;
+- no even orbit point below `3m+1` is `= 1 mod 3`;
+- so an even point in `[m,(3m+1)/2)` would be `= 0 mod 3` -- impossible past time 0.
+
+**`no_even_orbit_below`: the orbit of the least never-dropper has NO even value below
+`(3m+1)/2`.** Sharpened (`orbit_one_mod_six_below`): every orbit value there, past time
+zero, is **exactly `1 mod 6`**. An entire parity class removed from an interval of width
+`m/2` -- neither window does that alone.
+
+Consistency check: `m = 7 mod 12` when `3` does not divide `m`, and `7 = 1 mod 6`.
+
+### 3-adic cap on bounded orbits (PROVED)
+
+`three_pow_le_of_bounded`: orbit bounded by `B` implies `3^j | (T^i(m)+1)` forces
+`3^j (m+1) <= 2^j (B+1)`. The mirror of `RunBounds.oddRun_le_cycleMax`, which caps the
+2-adic valuation by `2^j <= B+1`. `both_caps` states them together.
+**Divergent orbits escape both caps** -- precisely why the divergence half is harder.
+
 ## Obstructions (PROVED / CLOSED)
 
 1. **CLOSED — mod-3 descent.** `3 ∣ v` ⟹ `v` has exactly one preimage, `2v`
