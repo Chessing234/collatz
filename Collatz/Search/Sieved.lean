@@ -118,9 +118,14 @@ check about `6 400` integers and clear `102 400`, because the sieve disposes of
 the other `96 000` with no computation at all — roughly a fourfold saving in
 kernel time over checking every integer directly.
 
-Pushing to `750` blocks would clear `768 000` and lift the cycle-length
-exclusion from `26` to `31`, but costs about forty minutes of kernel time; the
-gain is flat between `100` and `700` blocks, so this is the efficient point. -/
+The range is `300` blocks, clearing `307 200`, in six chunks of fifty.  A chunk
+costs about thirty-five seconds of kernel time, so the whole verification is
+around three and a half minutes.  Splitting into chunks is not cosmetic: a single
+`decide` over all three hundred blocks does not finish, because the cost grows
+non-linearly in the size of one kernel evaluation.
+
+Pushing further is linear in blocks from here: `750` blocks would clear
+`768 000` at roughly nine more minutes. -/
 
 set_option maxHeartbeats 2000000 in
 set_option maxRecDepth 100000 in
@@ -130,21 +135,60 @@ set_option maxHeartbeats 2000000 in
 set_option maxRecDepth 100000 in
 theorem check_r1 : checkRange 50 50 200 = true := by decide
 
-/-- Every surviving residue in every block below `100` drops within `200`
-accelerated steps. -/
-theorem drops_all {m r : Nat} (hm : m < 100) (hr : r ∈ survivorsMod1024) :
-    dropsWithin 200 (2 ^ 10 * m + r) = true := by
-  rcases Nat.lt_or_ge m 50 with h | h
-  · exact drops_of_checkRange check_r0 (by omega) (by omega) hr
-  · exact drops_of_checkRange check_r1 (by omega) (by omega) hr
 
-/-- **Every positive `n` below `102 400` reaches `1`.** -/
-theorem reachesOne_of_lt_102400 {n : Nat} (hn : 0 < n) (hlt : n < 102400) :
+set_option maxHeartbeats 4000000 in
+set_option maxRecDepth 100000 in
+theorem check_r2 : checkRange 100 50 200 = true := by decide
+
+set_option maxHeartbeats 4000000 in
+set_option maxRecDepth 100000 in
+theorem check_r3 : checkRange 150 50 200 = true := by decide
+
+set_option maxHeartbeats 4000000 in
+set_option maxRecDepth 100000 in
+theorem check_r4 : checkRange 200 50 200 = true := by decide
+
+set_option maxHeartbeats 4000000 in
+set_option maxRecDepth 100000 in
+theorem check_r5 : checkRange 250 50 200 = true := by decide
+
+/-- Every surviving residue in every block below `300` drops within `200`
+accelerated steps. -/
+theorem drops_all {m r : Nat} (hm : m < 300) (hr : r ∈ survivorsMod1024) :
+    dropsWithin 200 (2 ^ 10 * m + r) = true := by
+  rcases Nat.lt_or_ge m 150 with h | h
+  · rcases Nat.lt_or_ge m 50 with h1 | h1
+    · exact drops_of_checkRange check_r0 (by omega) (by omega) hr
+    · rcases Nat.lt_or_ge m 100 with h2 | h2
+      · exact drops_of_checkRange check_r1 (by omega) (by omega) hr
+      · exact drops_of_checkRange check_r2 (by omega) (by omega) hr
+  · rcases Nat.lt_or_ge m 200 with h1 | h1
+    · exact drops_of_checkRange check_r3 (by omega) (by omega) hr
+    · rcases Nat.lt_or_ge m 250 with h2 | h2
+      · exact drops_of_checkRange check_r4 (by omega) (by omega) hr
+      · exact drops_of_checkRange check_r5 (by omega) (by omega) hr
+
+/-- **Every positive `n` below `307 200` reaches `1`.** -/
+theorem reachesOne_of_lt_307200 {n : Nat} (hn : 0 < n) (hlt : n < 307200) :
     ReachesOne n := by
-  refine reachesOne_of_blocks (M := 100) (fuel := 200)
+  refine reachesOne_of_blocks (M := 300) (fuel := 200)
     (fun m r hm hr => drops_all hm hr) n hn ?_
-  have hpow : (2:Nat) ^ 10 * 100 = 102400 := by decide
+  have hpow : (2:Nat) ^ 10 * 300 = 307200 := by decide
   omega
+
+/-- **Every positive `n` below `102 400` reaches `1`**, the constant the rest of
+the development is stated against.  Kept as a corollary of the wider range so
+that downstream theorems need no change. -/
+theorem reachesOne_of_lt_102400 {n : Nat} (hn : 0 < n) (hlt : n < 102400) :
+    ReachesOne n :=
+  reachesOne_of_lt_307200 hn (by omega)
+
+/-- A counterexample is at least `307 200`. -/
+theorem counterexample_ge_307200 {n : Nat} (hn : 0 < n) (h : ¬ ReachesOne n) :
+    307200 ≤ n := by
+  by_cases hlt : n < 307200
+  · exact absurd (reachesOne_of_lt_307200 hn hlt) h
+  · omega
 
 /-- A counterexample is at least `102 400`. -/
 theorem counterexample_ge_102400 {n : Nat} (hn : 0 < n) (h : ¬ ReachesOne n) :

@@ -38,7 +38,7 @@ Every proof must pass CI.
 
 ## Status
 
-1118 theorems.
+1129 theorems.
 
 No `sorry`. No added axioms. No Mathlib.
 
@@ -101,6 +101,10 @@ The heavy fraction then decays like `0.9695^k` instead of `0.98965^k`.
 The rate argument is stated once for any `p/q` with `3^p < 2^q`, and the old rates become instances.
 
 No rate beats `0.96863^k`, so the method is within 0.1 percent of its own ceiling.
+
+The verified range is `307200`, three times what the development is stated against.
+
+So a nontrivial cycle has least point above `307200` and greatest point above `691199`.
 
 The inverse odd step is a generator: if `3n+1 = 2^j m` and `m` reaches 1, so does `n`.
 

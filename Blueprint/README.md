@@ -345,6 +345,24 @@ And no refinement of this kind reaches a density bound strong enough to bear on 
 
 The heavy set is nonempty at every level regardless, since `2^k - 1` is always in it.
 
+## The verified range
+
+The sieved search now clears `307200`, in six chunks of fifty blocks.
+
+A chunk costs about thirty-five seconds of kernel time, so the whole verification is about three and a half minutes.
+
+Chunking is not cosmetic: one `decide` over three hundred blocks does not finish, because kernel evaluation cost grows non-linearly.
+
+The old constant `102400` is kept as a corollary so no downstream proof changes.
+
+The sharper forms are recorded separately.
+
+A counterexample's orbit minimum is at least `307200`.
+
+So the greatest point of a nontrivial cycle is at least `614400` by doubling.
+
+And at least `691199` by the `9/4` bound, which combines the computation with the run theory.
+
 ## Going backwards
 
 Every positive result here is either brute force or an obstruction.
