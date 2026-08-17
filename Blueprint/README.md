@@ -363,6 +363,44 @@ So the greatest point of a nontrivial cycle is at least `614400` by doubling.
 
 And at least `691199` by the `9/4` bound, which combines the computation with the run theory.
 
+## Infinite descent on the minimal counterexample
+
+Collatz says `1` is the only number whose orbit never goes below it.
+
+If another exists there is a least one, and it can be attacked by constructing smaller ones.
+
+Run the map backwards.  A value `x` has preimage `2x`, which is larger and useless.
+
+It also has an odd preimage `n` with `3n + 1 = 2x`, which exists exactly when `x = 2` mod `3`.
+
+That one is smaller, since `3n = 2x - 1 < 3x`.
+
+If `m` never drops and `3n + 1 = 2m`, the orbit of `n` is `n` followed by the orbit of `m`.
+
+All of that is at least `m`, which exceeds `n`.  So `n` never drops either, and `n < m`.
+
+Hence the least number that never drops is not `2` mod `3`.
+
+Longer backward words descend too.  Write `p` for the odd preimage, factor `2/3`, and `e` for doubling, factor `2`.
+
+A word descends when the `p`s outweigh the `e`s.  The word `e` then `p` then `p` sends `m` to `(8m - 5)/9`.
+
+That is a net factor `8/9`, and it is available exactly when `m = 4` mod `9`.
+
+So the least never-dropper is also not `4` mod `9`.
+
+This is a sieve modulo powers of three, dual to the sieve modulo powers of two.
+
+It constrains the minimal counterexample rather than every point of an orbit.
+
+Searching all words up to length eight, and requiring one word to work for sixty representatives of a class, `37` of the `81` classes modulo `81` have a descent word.
+
+A word's `p` steps impose congruences modulo `3` to the word length, which is finer than the class, so testing one representative proves nothing.
+
+The surviving classes are `0, 1` mod `3` and `0, 1, 3, 6, 7` mod `9`, exactly what the two proved theorems assert.
+
+The wider search is an observation, not a theorem.  Only the two levels are kernel-checked.
+
 ## Going backwards
 
 Every positive result here is either brute force or an obstruction.

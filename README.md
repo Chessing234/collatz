@@ -38,7 +38,7 @@ Every proof must pass CI.
 
 ## Status
 
-1129 theorems.
+1140 theorems.
 
 No `sorry`. No added axioms. No Mathlib.
 
@@ -105,6 +105,10 @@ No rate beats `0.96863^k`, so the method is within 0.1 percent of its own ceilin
 The verified range is `307200`, three times what the development is stated against.
 
 So a nontrivial cycle has least point above `307200` and greatest point above `691199`.
+
+Running the map backwards gives infinite descent on the minimal counterexample.
+
+The least number that never drops is not `2` mod `3`, and not `4` mod `9`.
 
 The inverse odd step is a generator: if `3n+1 = 2^j m` and `m` reaches 1, so does `n`.
 
