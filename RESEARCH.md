@@ -45,6 +45,31 @@ Contrapositive (`no_low_backward_run`): **no orbit point below `(3/2)^j (m+1)` i
 `−1 mod 3^j`.** Subsumes the whole ad-hoc descent ladder (`j=1,i=0` gives `m ≢ 2 mod 3`).
 Sharp: bounds attained exactly at `T(m)`, `T²(m)`.
 
+## Exact 3-adic step laws (PROVED) — `ThreeAdic`
+
+- **odd step:** `x` odd ⟹ `3^k ∣ (x+1) ↔ 3^(k+1) ∣ (T x + 1)`. The 3-adic valuation of
+  `u` rises by *exactly one*. (`three_pow_odd_step_iff`)
+- **even step:** `x` even ⟹ `3 ∣ (T x + 1) ↔ x ≡ 1 (mod 3)`. (`three_dvd_even_step_iff`)
+- **REFUTED**: the guess that `v3(u)` just counts the current odd run. Even steps *inject*
+  3-divisibility — 32% of even steps do, measured over all orbits from odd starts < 20000.
+  This is why the master bound is not vacuous: the even steps are where it has content.
+
+### New forbidden window (PROVED)
+
+`ThreeAdic.even_orbit_one_mod_three_ge`: **every even orbit point `x ≡ 1 (mod 3)` of the
+least never-dropper satisfies `x ≥ 3m + 1`.** Width-`2m` forbidden region in a class the
+earlier results said nothing about. Now BOTH non-zero classes mod 3 are constrained:
+
+| class | lower bound on orbit points |
+|---|---|
+| `v ≡ 2 (mod 3)` | `v ≥ (3m+1)/2` — sharp, attained at `T(m)` |
+| `v` even, `≡ 1 (mod 3)` | `v ≥ 3m + 1` |
+| `v ≡ 0 (mod 3)` | no constraint (and backward descent CLOSED there) |
+
+Early orbit points sit exactly on the boundaries: `T(m)+1 = 3(m+1)/2` and
+`T^2(m)+1 = 9(m+1)/4`, so `j = 1, 2` hold with equality. No contradiction yet — the
+constraints are all *lower* bounds, and a divergent orbit has no upper bound to clash with.
+
 ## Obstructions (PROVED / CLOSED)
 
 1. **CLOSED — mod-3 descent.** `3 ∣ v` ⟹ `v` has exactly one preimage, `2v`
