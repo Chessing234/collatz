@@ -118,6 +118,44 @@ theorem five_bound_sharp :
     3 ^ 2 * (5 - 1) = 2 ^ 2 * (mirrorOrbit 2 5 - 1) := by
   constructor <;> decide
 
+/-! ## Exactly which ingredient is not mirror-invariant -/
+
+/-- **`5` never reaches `1` in the mirror world.**  Its orbit is confined to
+`{5, 7, 10}`. -/
+theorem five_never_reaches_one (k : Nat) : mirrorOrbit k 5 ≠ 1 := by
+  rcases orbit_five k with h | h | h <;> rw [h] <;> omega
+
+/-- **The verified range is the one thing that fails.**  `Search` proves every
+positive `n < 307 200` reaches `1` under `3n + 1`.  The mirror analogue of that
+statement is *false*, and `5` witnesses it.
+
+So of all the ingredients in this development, the verified range is precisely
+the one that is not mirror-invariant — and therefore the only one that can
+possibly contribute to a proof. -/
+theorem mirror_verified_range_fails :
+    ¬ (∀ n : Nat, 0 < n → n < 307200 → ∃ k : Nat, mirrorOrbit k n = 1) := by
+  intro h
+  obtain ⟨k, hk⟩ := h 5 (by omega) (by omega)
+  exact five_never_reaches_one k hk
+
+/-! ## The one-run cycle equation is mirror-invariant too — and that is the point
+
+`OneRunCycle` derives `3 ^ j (m+1) = 2 ^ L m + 2 ^ j` from the shift identity, so
+its mirror form `3 ^ j (m−1) = 2 ^ L m − 2 ^ j` must hold in the mirror world.
+It does: the `5`-cycle is two odd steps then one halving, so `j = 2`, `L = 3`, and
+`9 · 4 = 36 = 40 − 4`.  The mirror size bound `m + 2 ^ j ≤ 3 ^ j` reads
+`5 + 4 ≤ 9`, with equality.
+
+That is exactly the right behaviour.  The *algebra* of `OneRunCycle` is
+mirror-invariant, as it must be; the *conclusion* `j ≥ 12` is not, because it
+feeds in `m ≥ 307 200`.  In the mirror world the same algebra with `m = 5`
+returns `j = 2`, consistently.  This is the template every further result should
+follow: mirror-invariant identity, non-mirror-invariant numerical input. -/
+
+theorem mirror_one_run_equation : 3 ^ 2 * (5 - 1) + 2 ^ 2 = 2 ^ 3 * 5 := by decide
+
+theorem mirror_size_bound_sharp : 5 + 2 ^ 2 = 3 ^ 2 := by decide
+
 /-! ## What this rules out -/
 
 /-- **The impossibility statement.**  There is a number other than `1` that never
