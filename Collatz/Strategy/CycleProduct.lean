@@ -227,6 +227,109 @@ theorem neverDrops_density {m : Nat} (hgt : 1 < m)
     2 ^ k * m ^ oddCount m k ≤ (3 * m + 1) ^ oddCount m k :=
   neverDrops_product_bound hgt hnd k
 
+/-! ## The window bound: heaviness for ALL windows, not just small ones
+
+`AffineBoundSharp.two_pow_lt_of_no_drop` gives `2 ^ k < 2 · 3 ^ a` only for
+windows with `2 ^ k ≤ m` — that is, `k ≲ log₂ m`, about eighteen steps for a
+counterexample.  The product invariant removes that restriction almost entirely.
+
+Multiplying `neverDrops_product_bound` by `3m` and linearising exactly as in the
+cycle case — but with **no cycle hypothesis** — gives
+
+`3m · 2 ^ k ≤ 3 ^ a · (3m + 2a)`
+
+for every `k`.  Whenever `2a ≤ 3m` the right side is at most `6m · 3 ^ a`, so
+
+**`2 ^ k ≤ 2 · 3 ^ a` for every window with `a ≤ 3m/2`.**
+
+For a counterexample (`m ≥ 307 200`) that covers every window until the odd-step
+count reaches `460 800`, i.e. roughly `730 000` steps — against the previous
+eighteen.  The orbit of a never-dropper is forced to stay heavy for that entire
+stretch, and this is a statement about **divergent** orbits as much as cyclic
+ones.
+
+### Positivity audit
+
+The derivation injects positivity at exactly one line: the odd-step comparison
+`c(3v+1) ≤ v(3c+1)`, which is `c ≤ v` multiplied through by positive quantities.
+Over `ℤ` the ordering, and hence the inequality, reverses — the mirror analogue
+of the invariant is `2 ^ k c ^ a T^k(x) ≥ (3c−1) ^ a x`, a *lower* bound, which
+yields nothing.  So this family is positivity-sensitive in the sense
+`Mirror` demands, unlike the shift identity and the congruence lemmas.
+
+(A caution recorded from experiment: evaluating the `3n+1`-form inequality on
+mirror data is *not* the right test — it can hold there by accident, as it does
+for `5`, whose cycle is heavy with `a/k = 2/3`.  The correct test is whether the
+mirror *derivation* produces a useful bound, and it does not.) -/
+
+/-- **The window bound.**  For any never-dropper and any window,
+`3m · 2 ^ k ≤ 3 ^ a · (3m + 2a)`.  No cycle hypothesis. -/
+theorem neverDrops_window_bound {m : Nat} (hgt : 1 < m)
+    (hnd : ∀ j : Nat, m ≤ acceleratedOrbit j m) (k : Nat)
+    (hsmall : 2 * oddCount m k ≤ 3 * m) :
+    3 * m * 2 ^ k ≤ 3 ^ oddCount m k * (3 * m + 2 * oddCount m k) := by
+  have hbound := neverDrops_product_bound hgt hnd k
+  have hlin := pow_succ_le (oddCount m k) (3 * m) hsmall
+  have hcp : 0 < m ^ oddCount m k := Nat.pow_pos (by omega)
+  have hmul : 2 ^ k * m ^ oddCount m k * (3 * m)
+      ≤ (3 * m + 1) ^ oddCount m k * (3 * m) :=
+    Nat.mul_le_mul_right _ hbound
+  have hchain := Nat.le_trans hmul hlin
+  have hsplit : (3 * m) ^ oddCount m k = 3 ^ oddCount m k * m ^ oddCount m k := by
+    rw [Nat.mul_pow]
+  rw [hsplit] at hchain
+  have hL : 2 ^ k * m ^ oddCount m k * (3 * m)
+      = (3 * m * 2 ^ k) * m ^ oddCount m k := by
+    simp [Nat.mul_comm, Nat.mul_assoc, Nat.mul_left_comm]
+  have hR : 3 ^ oddCount m k * m ^ oddCount m k * (3 * m + 2 * oddCount m k)
+      = (3 ^ oddCount m k * (3 * m + 2 * oddCount m k)) * m ^ oddCount m k := by
+    simp [Nat.mul_comm, Nat.mul_assoc, Nat.mul_left_comm]
+  rw [hL, hR] at hchain
+  exact Nat.le_of_mul_le_mul_right hchain hcp
+
+/-- **Heaviness holds for every window with `a ≤ 3m/2`.**  This extends
+`AffineBoundSharp.two_pow_lt_of_no_drop`, which was restricted to `2 ^ k ≤ m`,
+to essentially the whole orbit of a counterexample. -/
+theorem neverDrops_heavy_window {m : Nat} (hgt : 1 < m)
+    (hnd : ∀ j : Nat, m ≤ acceleratedOrbit j m) (k : Nat)
+    (hsmall : 2 * oddCount m k ≤ 3 * m) :
+    2 ^ k ≤ 2 * 3 ^ oddCount m k := by
+  have hw := neverDrops_window_bound hgt hnd k hsmall
+  have hsum : 3 * m + 2 * oddCount m k ≤ 3 * m + 3 * m := by omega
+  have hle : 3 ^ oddCount m k * (3 * m + 2 * oddCount m k)
+      ≤ 3 ^ oddCount m k * (3 * m + 3 * m) := Nat.mul_le_mul_left _ hsum
+  have hchain := Nat.le_trans hw hle
+  have e : 3 ^ oddCount m k * (3 * m + 3 * m) = (2 * 3 ^ oddCount m k) * (3 * m) := by
+    rw [Nat.mul_add, ← Nat.two_mul, Nat.mul_assoc]
+  have hR : 3 * m * 2 ^ k = 2 ^ k * (3 * m) := Nat.mul_comm _ _
+  rw [e, hR] at hchain
+  exact Nat.le_of_mul_le_mul_right hchain (by omega)
+
+/-- **A light window forces an enormous odd-step count.**  If any window
+satisfies `2 · 3 ^ a ≤ 2 ^ k`, then `3m ≤ 2a`.  Together with the previous
+theorem this says: a never-dropper's orbit is heavy on every window until the
+odd-step count reaches `3m/2`. -/
+theorem light_window_forces_large_oddCount {m k : Nat} (hgt : 1 < m)
+    (hnd : ∀ j : Nat, m ≤ acceleratedOrbit j m)
+    (hlight : 2 * 3 ^ oddCount m k ≤ 2 ^ k) :
+    3 * m ≤ 2 * oddCount m k := by
+  rcases Nat.lt_or_ge (3 * m) (2 * oddCount m k) with h | h
+  · omega
+  · have hw := neverDrops_window_bound hgt hnd k h
+    have hmul : 3 * m * (2 * 3 ^ oddCount m k) ≤ 3 * m * 2 ^ k :=
+      Nat.mul_le_mul_left _ hlight
+    have hchain := Nat.le_trans hmul hw
+    have e1 : 3 * m * (2 * 3 ^ oddCount m k) = 2 * (3 ^ oddCount m k * (3 * m)) := by
+      simp [Nat.mul_comm, Nat.mul_assoc, Nat.mul_left_comm]
+    have e2 : 3 ^ oddCount m k * (3 * m + 2 * oddCount m k)
+        = 3 ^ oddCount m k * (3 * m) + 3 ^ oddCount m k * (2 * oddCount m k) := by
+      rw [Nat.mul_add]
+    rw [e1, e2] at hchain
+    have hle2 : 3 ^ oddCount m k * (3 * m)
+        ≤ 3 ^ oddCount m k * (2 * oddCount m k) := by omega
+    have hcancel := Nat.le_of_mul_le_mul_left hle2 (Arith.three_pow_pos (oddCount m k))
+    omega
+
 /-! ## Excluding cycle lengths
 
 `cycle_min_bound` says `3c · 2 ^ L ≤ 3 ^ a · (3c + 2a)`.  A length `L` is

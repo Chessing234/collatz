@@ -299,6 +299,47 @@ window shorter than about `10^6` steps, and weaker beyond. Both hold, so take th
 Honest assessment: a real sharpening, not a qualitative change — the asymptotic density
 requirement is still `a/k >~ log2/log3`, which is the known wall.
 
+## *** THE WINDOW BOUND — heaviness for ALL windows (PROVED) — the bridge ***
+
+`AffineBoundSharp.two_pow_lt_of_no_drop` gave `2^k < 2*3^a` only for windows with
+`2^k <= m`, i.e. `k <~ log2 m` -- about **18 steps** for a counterexample. The product
+invariant removes that restriction almost entirely, with NO cycle hypothesis:
+
+    neverDrops_window_bound:   3m * 2^k <= 3^a * (3m + 2a)      for every k
+    neverDrops_heavy_window:   2^k <= 2 * 3^a                   whenever 2a <= 3m
+    light_window_forces_large_oddCount:  2*3^a <= 2^k  =>  3m <= 2a
+
+For `m >= 307200` this forces the orbit to stay heavy on **every window until the
+odd-step count reaches 460800**, i.e. roughly **730000 steps** -- against 18 before.
+This is a statement about DIVERGENT orbits as much as cyclic ones, and it is the first
+such statement in the project.
+
+Verification before formalizing: the implication `2^k m^a <= (3m+1)^a  =>
+3m 2^k <= 3^a(3m+2a)` checked on 1,058,099 exact cases, 0 failures.
+
+### POSITIVITY AUDIT (mandatory table)
+
+| Result | Mirror survives? | Positivity used? | Useful? |
+|---|---|---|---|
+| shift identity `2(T(x)+1)=3(x+1)` | YES (mirror: `2(T(x)-1)=3(x-1)`) | no | NO |
+| congruence / residue lemmas | YES | no | NO |
+| valuation lemmas (`OddRuns`, `ThreeAdic`) | YES | no | NO |
+| master bound (`BackwardRun`) | YES (holds for 5 with equality) | no | NO |
+| verified range `m >= 307200` | NO (mirror least is 5) | YES | YES |
+| `CycleProduct` floor `c` | NO (inequality reverses) | YES | YES |
+| `neverDrops_product_bound` | NO | YES | YES |
+| **window bound / heavy window** | **NO** | **YES** | **YES** |
+
+**Positivity injection point, exactly one line:** the odd-step comparison
+`c(3v+1) <= v(3c+1)`, which is `c <= v` multiplied through by positive quantities.
+Over Z the ordering reverses, so the mirror analogue of the invariant is
+`2^k c^a T^k(x) >= (3c-1)^a x` -- a LOWER bound, which yields nothing.
+
+**Methodological caution (learned the hard way):** evaluating the `3n+1`-form inequality
+on mirror data is NOT the right mirror test. It can hold there by accident -- it does for
+`m=5`, whose cycle is heavy (`a/k = 2/3 > log2/log3`). The correct test is whether the
+mirror *derivation* produces a useful bound. Test the derivation, not the formula.
+
 ## Obstructions (PROVED / CLOSED)
 
 1. **CLOSED — mod-3 descent.** `3 ∣ v` ⟹ `v` has exactly one preimage, `2v`
