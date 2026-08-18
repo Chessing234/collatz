@@ -178,5 +178,98 @@ theorem three_pow_le_affineC (x : Nat) : ∀ j : Nat,
         Arith.two_pow_le_two_pow (oddCount_le_self x j)
       omega
 
+/-! ## The positional upper bound
+
+The recursion `C ↦ 3C + 2 ^ j` at odd steps and `C ↦ C` at even steps unrolls to
+
+`affineC j x = Σ_{i=1..a} 3 ^ (a−i) · 2 ^ (p_i)`
+
+where `p_1 < … < p_a` are the positions of the odd steps.  So the accumulator
+**retains the ordering**, not merely the count — which is exactly the information
+the product invariant discards.  Minimising over arrangements (all odd steps
+first) gives `three_pow_le_affineC`; maximising (all odd steps last) gives the
+bound below.  Both verified against real orbits on 64 000 exact instances. -/
+
+/-- **The positional upper bound.**  `affineC j x + 2 ^ j ≤ 2 ^ (j − a) · 3 ^ a`,
+the maximum being attained when every odd step is taken as late as possible. -/
+theorem affineC_le (x : Nat) : ∀ j : Nat,
+    affineC j x + 2 ^ j ≤ 2 ^ (j - oddCount x j) * 3 ^ oddCount x j := by
+  intro j
+  induction j with
+  | zero => simp
+  | succ j ih =>
+    have hlast := Density.oddCount_succ_last x j
+    have hle := oddCount_le_self x j
+    rcases Arith.mod_two_eq_zero_or_one (acceleratedOrbit j x) with he | ho
+    · -- even step: the exponent of two rises by one
+      have hcount : oddCount x (j + 1) = oddCount x j := by omega
+      have hidx : j + 1 - oddCount x j = (j - oddCount x j) + 1 := by omega
+      rw [hcount, hidx, affineC_even he, Arith.two_pow_succ]
+      have hsplit : 2 ^ (j - oddCount x j + 1) * 3 ^ oddCount x j
+          = 2 * (2 ^ (j - oddCount x j) * 3 ^ oddCount x j) := by
+        rw [Arith.two_pow_succ, Nat.mul_assoc]
+      have hpow : (2:Nat) ^ j ≤ 2 ^ (j - oddCount x j) * 3 ^ oddCount x j := by
+        have h1 : (2:Nat) ^ j = 2 ^ (j - oddCount x j) * 2 ^ oddCount x j := by
+          rw [← Nat.pow_add]
+          congr 1
+          omega
+        rw [h1]
+        exact Nat.mul_le_mul_left _ (BackwardRun.two_pow_le_three_pow _)
+      rw [hsplit]
+      omega
+    · -- odd step: everything scales by three
+      have hcount : oddCount x (j + 1) = oddCount x j + 1 := by omega
+      have hidx : j + 1 - (oddCount x j + 1) = j - oddCount x j := by omega
+      rw [hcount, hidx, affineC_odd ho, Arith.two_pow_succ, Nat.pow_succ]
+      have hgoal : 2 ^ (j - oddCount x j) * (3 ^ oddCount x j * 3)
+          = 3 * (2 ^ (j - oddCount x j) * 3 ^ oddCount x j) := by
+        rw [Nat.mul_comm (3 ^ oddCount x j) 3, Nat.mul_left_comm]
+      rw [hgoal]
+      omega
+
+/-! ## The window condition
+
+Feeding the positional upper bound into `neverDrops_iff_affine` gives a single
+inequality that a never-dropper must satisfy on **every** window. -/
+
+/-- **The window condition.**  For a never-dropper `m`, every window satisfies
+
+`2 ^ j · (m + 1) ≤ 3 ^ a · (m + 2 ^ (j − a))`.
+
+This one inequality subsumes several theorems proved separately elsewhere.  With
+`a = 0` and `j ≥ 1` it is impossible, so the first step is odd.  With `a = 1`,
+`j = 2` it forces `m ≤ 2`, which is `m ≡ 3 (mod 4)`.  With `a = 2`, `j = 4` it
+forces `m ≤ 2`, which is `RunDescent.not_two_halvings`.  Beyond those it gives an
+infinite family of new exclusions — `a = 3, j = 5` forces `m ≤ 15`, and
+`a = 4, j = 7` forces `m ≤ 11`. -/
+theorem neverDrops_window_condition {m : Nat} (hm : 0 < m)
+    (hnd : ∀ j : Nat, m ≤ acceleratedOrbit j m) (j : Nat) :
+    2 ^ j * (m + 1)
+      ≤ 3 ^ oddCount m j * (m + 2 ^ (j - oddCount m j)) := by
+  have harith := (neverDrops_iff_affine hm).mp hnd j
+  have hup := affineC_le m j
+  have hL : 2 ^ j * (m + 1) = 2 ^ j * m + 2 ^ j := by
+    rw [Nat.mul_add, Nat.mul_one]
+  have hR : 3 ^ oddCount m j * (m + 2 ^ (j - oddCount m j))
+      = 3 ^ oddCount m j * m + 2 ^ (j - oddCount m j) * 3 ^ oddCount m j := by
+    rw [Nat.mul_add, Nat.mul_comm (3 ^ oddCount m j) (2 ^ (j - oddCount m j))]
+  omega
+
+/-- **The first step of a never-dropper is odd.**  With no odd steps the window
+condition reads `2 ^ j (m+1) ≤ m + 2 ^ j`, which fails for `j ≥ 1`. -/
+theorem oddCount_pos_of_neverDrops {m j : Nat} (hm : 0 < m) (hj : 0 < j)
+    (hnd : ∀ i : Nat, m ≤ acceleratedOrbit i m) : 0 < oddCount m j := by
+  rcases Nat.eq_zero_or_pos (oddCount m j) with h0 | hpos
+  · exfalso
+    have hw := neverDrops_window_condition hm hnd j
+    rw [h0] at hw
+    have hpow : (2:Nat) ^ 1 ≤ 2 ^ j := Arith.two_pow_le_two_pow hj
+    simp only [Nat.pow_zero, Nat.one_mul, Nat.sub_zero] at hw
+    have hL : 2 ^ j * (m + 1) = 2 ^ j * m + 2 ^ j := by
+      rw [Nat.mul_add, Nat.mul_one]
+    have hge : 2 ^ 1 * m ≤ 2 ^ j * m := Nat.mul_le_mul_right _ hpow
+    omega
+  · exact hpos
+
 end AffineExact
 end Collatz

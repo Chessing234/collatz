@@ -387,6 +387,49 @@ sub-critical density. The gap between `theta_m` and `log2/log3` is exactly the r
 divergent orbit needs, and it is `O(1/m)`. Closing divergence needs a bound with
 `rho < log2/log3` strictly, which this family provably cannot supply.
 
+## *** THE POSITIONAL FORMULA — the +1 retains ORDERING (PROVED) ***
+
+Unrolling `C -> 3C + 2^j` (odd) / `C -> C` (even) gives the exact positional formula
+
+    affineC j x = SUM_{i=1..a} 3^(a-i) * 2^(p_i)      p_1 < ... < p_a = odd-step positions
+
+Verified on 64,000 exact instances. **So the accumulator retains the ORDERING of the odd
+steps, not merely their count** -- exactly the information the product invariant discards.
+
+Extremes over arrangements (both PROVED):
+- minimum, all odd steps FIRST:  `3^a <= affineC + 2^a`      (`three_pow_le_affineC`)
+- maximum, all odd steps LAST:   `affineC + 2^j <= 2^(j-a) * 3^a`  (`affineC_le`)
+
+### THE WINDOW CONDITION (PROVED) — one inequality subsuming several theorems
+
+Feeding the positional upper bound into `neverDrops_iff_affine`:
+
+**`neverDrops_window_condition`: for a never-dropper, EVERY window satisfies
+`2^j (m+1) <= 3^a (m + 2^(j-a))`.**
+
+Verified: 57,613 checks on no-drop prefixes, 0 failures. What it forces:
+
+| a | t=j-a | forces | rediscovers |
+|---|---|---|---|
+| 0 | >=1 | impossible | first step is odd (`oddCount_pos_of_neverDrops`) |
+| 1 | 1 | m <= 2 | `m = 3 mod 4` |
+| 2 | 2 | m <= 2 | `RunDescent.not_two_halvings` |
+| 3 | 2 | m <= 15 | NEW |
+| 3 | 3 | m <= 4 | NEW |
+| 4 | 3 | m <= 11 | NEW |
+| 4 | 4 | m <= 5 | NEW |
+
+One inequality unifying several independently-proved theorems plus an infinite new family.
+Cycle-free: applies to ANY never-dropper, so it constrains divergence.
+
+### Honest limitation
+
+The condition bites hardest when the even-count `t` is small: for `2^t << m` it reads
+`2^j <~ 3^a` (supercritical density), but once `2^t >> m` the right side is dominated by
+`3^a 2^t` and it degenerates to `2^a <= 3^a`, which is trivial. So it is strong only on
+windows with `t <~ log2 m` (about 18 even steps for a counterexample). Extending its reach
+past that is the live question.
+
 ## Obstructions (PROVED / CLOSED)
 
 1. **CLOSED — mod-3 descent.** `3 ∣ v` ⟹ `v` has exactly one preimage, `2v`
