@@ -189,6 +189,79 @@ Measured (not proved): for `j <= 4000` there is NO integer solution with `m >= 2
 grows like the continued-fraction denominators of `log2 3`, so `j ~ 10^5` is needed
 before it can even reach 307200.
 
+## *** THE PRODUCT INVARIANT (PROVED) — `CycleProduct` — strongest cycle tool ***
+
+Discovered independently by two agents and cross-verified. Let `c` be any floor for the
+whole orbit of `x` (`c = 307200` via `VerifiedSharp.ge_verified_sharp`). Then
+
+    (I)   2^k * c^a * T^k(x)  <=  (3c+1)^a * x        a = oddCount x k
+
+One induction: an even step leaves both sides fixed; an odd step multiplies the left by
+`c(3v+1)` and the right by `v(3c+1)`, and `c <= v` gives `c(3v+1) <= v(3c+1)`.
+**The odd step is charged `(3c+1)/c`, not 3** — that is the whole gain, and it is available
+only because `c` is LARGE. Exactly the non-mirror-invariant input `Mirror` demands.
+
+On a cycle `T^L(x) = x` the `x` cancels:
+
+    (II)  2^L * c^a <= (3c+1)^a                       `cycle_product_bound`
+
+Linearising `(u+1)^a * u <= u^a * (u+2a)` at `u = 3c` (`pow_succ_le`):
+
+    (III) 3c * 2^L <= 3^a * (3c + 2a)                 `cycle_min_bound`
+
+### Verification before formalizing
+- invariant (I): 119,940 exact instances along real orbits, 0 failures
+- linearisation: 0 failures wherever `2a <= u`
+- trivial cycle `1 -> 2 -> 1`: satisfies (II) and (III) with EQUALITY, so the bound
+  correctly declines to exclude it
+- `3n-1` world: the inequality reverses and the bound goes vacuous, exactly as `Mirror`
+  predicts for any conclusion that is not mirror-invariant
+- Agent D reached the same bound by a different route (product of the `a` odd-step
+  equations, `2^L prod n_t = prod (3n_t+1)`), and its sharpness checks agree
+
+### What it gives
+`(L, a)` is impossible iff `3^a (3c+2a) < 3c 2^L`. With `c = 307200`:
+**first non-excluded pair is `(L, a) = (1539, 971)`** — independently reproduced by me and
+by two agents. Previous repo best was `L >= 27`; this is the same verified range used
+better, by a factor of 57. Of `a <= 3000` only seven values survive at all:
+`a in {971, 1636, 1942, 2301, 2607, 2913, 2966}`.
+
+Kernel-checked: `excludedLength_of_lt` proves **every cycle length below 520** is excluded
+(4 chunked `decide`s, ~26s). The reduction `no_cycle_of_excludedLength` is PROVED. The
+sweep stops at 520 for BUILD COST only -- the mathematical frontier is 1539, confirmed by
+exact integer computation. A sweep to 1560 was attempted and **correctly failed to compile**
+(1539 is not excluded), which is exactly the check working: the false range was caught by
+the kernel, not by me.
+
+### Square-root payoff law (TESTED)
+`max_{L<=X} B(L) ~ 0.38 X^2`, so excluded cycle length grows like `sqrt(verified range)`:
+
+| verified range | cycle lengths excluded |
+|---|---|
+| 102400 | L <= 484 |
+| **307200 (have)** | **L <= 1538** |
+| 768000 | L <= 2592 |
+| 6662000 | L <= 9970 |
+
+Doubling 307200 -> 614400 buys LITERALLY NOTHING (`B(1539) = 661176 > 614400`); the
+staircase is lumpy and 768000 is the next threshold that pays.
+
+## DIVERGENCE IS PROVABLY IMMUNE (Agent E, PROVED sketch)
+
+For every `k`, the truncated hypothesis "never drops for `k` steps" is satisfied by
+arbitrarily large `x`: take `x = -1 mod 2^(k+1)`, then `OddRuns.oddRun_iff` gives a run of
+length `k+1` and `RunValue.oddRun_value` gives `T^j(x)+1 = (3/2)^j (x+1) > x+1`.
+**So no theorem of the form "never-dropper implies m < B" can be proved from any finite
+truncation of the never-dropping hypothesis.** The cycle hypothesis is a CLOSED finite
+condition (`T^L(m) = m` forces the integer gap `2^L - 3^a >= 1`); divergence has no finite
+closure. Any divergence bound needs a genuinely infinitary input, or an a priori bound on
+the orbit maximum — which by pigeonhole converts divergence into the cycle case.
+
+Also TESTED: over 994,216 excursion steps from odd starts < 400000, `2^k > 3^(a_k)` while
+still above the start occurred **0 times**, so invariant (I) extracts nothing in the
+divergent case. Confirmed by (I) itself: the available gap is `O(3^a a/m)`, exactly the
+size the right-hand side already permits. Self-consistent, extracts nothing.
+
 ## Obstructions (PROVED / CLOSED)
 
 1. **CLOSED — mod-3 descent.** `3 ∣ v` ⟹ `v` has exactly one preimage, `2v`
