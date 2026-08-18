@@ -340,6 +340,53 @@ on mirror data is NOT the right mirror test. It can hold there by accident -- it
 `m=5`, whose cycle is heavy (`a/k = 2/3 > log2/log3`). The correct test is whether the
 mirror *derivation* produces a useful bound. Test the derivation, not the formula.
 
+## *** NEVER-DROPPING ARITHMETISED (PROVED) — `AffineExact` ***
+
+The additive correction is now computed outright, not merely bounded. Writing `C j x`:
+
+    odd step:   C -> 3C + 2^j          even step:  C unchanged
+    2^j * T^j(x) = 3^(oddCount x j) * x + affineC j x        (affine_exact)
+
+Verified on 120,000 exact instances before formalizing. So the ENTIRE additive content
+of the `+1` in `3n+1` is one accumulator fed only by odd steps.
+
+**`neverDrops_iff_affine`: m never drops  <->  for all j,
+`2^j * m <= 3^(oddCount m j) * m + affineC j m`.**
+The dynamical hypothesis is GONE; only `2^j`, `3^a` and one explicit integer remain.
+This is the cleanest available statement of the problem.
+
+`three_pow_le_affineC`: `3^a <= affineC j x + 2^a` (minimum attained by taking all odd
+steps first). Plus `oddCount_le_self`.
+
+### HONEST NEGATIVE: the sandwich carries no information
+
+`neverDrops_iff_affine` is a LOWER bound on C; `CycleProduct.neverDrops_product_bound` is
+an UPPER bound on the same C. Together:
+
+    (2^j - 3^a) m  <=  C  <=  m ((3+1/m)^a - 3^a)
+
+The two are compatible **precisely when** `2^j <= (3+1/m)^a` -- which is the product bound
+restated. So the "two inequalities on the same intermediate quantity" idea is exhausted
+here. Recorded so it is not re-attempted.
+
+### CORRECTION: `a = 3m/2` is an artifact, there is no second regime
+
+The threshold comes from `pow_succ_le`, which needs `2a <= 3m`. The underlying bound
+`2^k m^a <= (3m+1)^a` has **no side condition** and stays active well past it -- checked
+at `m = 101`, where at `a = 152 > 3m/2 = 151.5` it still forces `a/k >= 0.6307`.
+Simplified forms like `2^k <= 2*3^a` introduce thresholds of their own (`a <~ 2.08m`), but
+the threshold belongs to the simplification, not the mathematics. **No two-regime
+architecture is needed.**
+
+### Where the real wall is
+
+`neverDrops_product_bound` forces `a/k >= theta_m` with `theta_m = ln2/ln(3+1/m)`, and
+`theta_m < log2/log3` for every finite `m`, approaching it from BELOW as `m -> inf`.
+So the product bound does NOT force super-critical density -- it forces slightly
+sub-critical density. The gap between `theta_m` and `log2/log3` is exactly the room a
+divergent orbit needs, and it is `O(1/m)`. Closing divergence needs a bound with
+`rho < log2/log3` strictly, which this family provably cannot supply.
+
 ## Obstructions (PROVED / CLOSED)
 
 1. **CLOSED — mod-3 descent.** `3 ∣ v` ⟹ `v` has exactly one preimage, `2v`

@@ -76,6 +76,7 @@ import Collatz.Strategy.RunInvariance
 import Collatz.Strategy.OneRunCycle
 import Collatz.Strategy.Mirror
 import Collatz.Strategy.CycleProduct
+import Collatz.Strategy.AffineExact
 import Collatz.Strategy.Frontier
 import Collatz.Strategy.Master
 import Collatz.Chains.SumChains
