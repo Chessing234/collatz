@@ -430,6 +430,50 @@ The condition bites hardest when the even-count `t` is small: for `2^t << m` it 
 windows with `t <~ log2 m` (about 18 even steps for a counterexample). Extending its reach
 past that is the live question.
 
+## *** COMPRESSION RESULT: the arrangement architecture IS the sieve ***
+
+The proposed "Realizable-Arrangement Theory" (characterise which odd/even words a genuine
+orbit can produce, hope the extremal ones are unrealizable) collapses. Three measurements:
+
+1. **Every parity word of length `j` is realized by EXACTLY ONE residue mod `2^j`** — a
+   bijection, verified for `j <= 12`, 0 failures. So NO arrangement is arithmetically
+   unrealizable. The premise of the architecture is false.
+
+2. **`(oddCount x j, affineC j x)` depend ONLY on `x mod 2^j`** — 40,950 checks, 0 failures.
+   So the whole affine data of a window is a function of the residue.
+
+3. **The never-drop-compatible words are EXACTLY the sieve survivors.** Enumerating all
+   `2^j` words and filtering by the prefix conditions at `m = 307200` gives counts
+
+       j  = 1  2  3  4  5  6  7   8   9  10  11  12  13  14
+       ok = 1  1  2  3  4  8 13  19  38  64 128 226 367 734
+
+   Compare the independently measured mod-`2^k` sieve survivor counts at
+   `k = 4,6,8,10,12,14`: **3, 8, 19, 64, 226, 734** — an exact match.
+
+**Conclusion (mathematical compression).** "Which arrangements are realizable by a
+never-dropper" is not a new question; it is the mod-`2^k` drop sieve, already mapped:
+density falls, count RISES, survivors form a coherent tower converging to the 2-adic
+integer `-1`, and it provably never clears. Attacking arrangements is attacking the sieve.
+
+4. **The worst-case bound cannot be improved this way.** `maxC(never-drop compatible) =
+   maxC(all words)` at every level tested, ratio exactly 1.0000. The C-maximising word is
+   itself never-drop compatible, so replacing the combinatorial extremum by the
+   "realizable" extremum gains **nothing**.
+
+### FAILED APPROACHES DATABASE (do not re-attempt)
+
+| approach | why it fails | evidence |
+|---|---|---|
+| realizable-arrangement theory | all words realizable (bijection with residues) | j <= 12, 0 failures |
+| improve `affineC_le` via realizability | extremal word is compatible | ratio 1.0000, j <= 14 |
+| the C-sandwich | compatibility condition IS the product bound | algebraic identity |
+| two-regime split at `a = 3m/2` | threshold is a linearisation artifact | m=101, a=152 still active |
+| floor-comparison family for divergence | `theta_m < log2/log3` always | asymptotic |
+| `alpha log u + beta v2 + gamma v3` Lyapunov | 4 explicit witness families | PROVED |
+| inverse-tree counting | exponent saturates at exactly 1, zero slack | analytic + measured |
+| master bound forward-pushing | invariant under odd runs | PROVED |
+
 ## Obstructions (PROVED / CLOSED)
 
 1. **CLOSED — mod-3 descent.** `3 ∣ v` ⟹ `v` has exactly one preimage, `2v`
