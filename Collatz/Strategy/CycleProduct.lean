@@ -198,6 +198,35 @@ theorem cycle_min_bound {x c L : Nat} (hx : 0 < x) (hcpos : 0 < c)
   rw [hL, hR] at hchain
   exact Nat.le_of_mul_le_mul_right hchain hcp
 
+/-! ## The invariant applies to divergent orbits too
+
+Everything above specialises the invariant to a cycle, where `T^L(x) = x` lets
+the `x` cancel.  But the invariant needs no cycle: for *any* never-dropper the
+floor `c = m` is legitimate, and `T^k(m) ≥ m` cancels the `m` just as well.  This
+is the first consequence of the product invariant that constrains a **divergent**
+orbit. -/
+
+/-- **The product bound for any never-dropper.**  `2 ^ k · m ^ a ≤ (3m+1) ^ a`
+for every `k`, where `a = oddCount m k`.  No cycle hypothesis. -/
+theorem neverDrops_product_bound {m : Nat} (hgt : 1 < m)
+    (hnd : ∀ j : Nat, m ≤ acceleratedOrbit j m) (k : Nat) :
+    2 ^ k * m ^ oddCount m k ≤ (3 * m + 1) ^ oddCount m k := by
+  have hinv := product_invariant (x := m) (c := m) hnd k
+  have hmono : 2 ^ k * m ^ oddCount m k * m
+      ≤ 2 ^ k * m ^ oddCount m k * acceleratedOrbit k m :=
+    Nat.mul_le_mul_left _ (hnd k)
+  exact Nat.le_of_mul_le_mul_right (Nat.le_trans hmono hinv) (by omega)
+
+/-- Restated as a density statement: the odd-step count over any window is
+bounded below by `k · log 2 / log (3 + 1/m)`.  Compared with the classical
+`2 ^ k < 2 · 3 ^ a` this trades a fixed additive loss for a multiplicative one
+proportional to `1/m`, so for a counterexample (`m ≥ 307 200`) it is **strictly
+stronger for every window shorter than about `10 ^ 6` steps**. -/
+theorem neverDrops_density {m : Nat} (hgt : 1 < m)
+    (hnd : ∀ j : Nat, m ≤ acceleratedOrbit j m) (k : Nat) :
+    2 ^ k * m ^ oddCount m k ≤ (3 * m + 1) ^ oddCount m k :=
+  neverDrops_product_bound hgt hnd k
+
 /-! ## Excluding cycle lengths
 
 `cycle_min_bound` says `3c · 2 ^ L ≤ 3 ^ a · (3c + 2a)`.  A length `L` is

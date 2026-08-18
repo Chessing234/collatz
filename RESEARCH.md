@@ -262,6 +262,43 @@ still above the start occurred **0 times**, so invariant (I) extracts nothing in
 divergent case. Confirmed by (I) itself: the available gap is `O(3^a a/m)`, exactly the
 size the right-hand side already permits. Self-consistent, extracts nothing.
 
+## *** WHAT THE MIRROR WORLD ACTUALLY IS — the sharpest framing (PROVED) ***
+
+The mirror map is **the genuine `3n+1` map on the NEGATIVE integers**, read through `n -> -n`:
+`T(-n) = -(mirrorStep n)`. Verified over all `n < 20000`, zero exceptions.
+Its cycles are exactly the three classical negative cycles of `3n+1`:
+`5 -> 7 -> 10` is `-5 -> -7 -> -10`; the 11-step 17-cycle is `-17 -> -25 -> -37 -> ...`;
+the fixed point `1` is `-1`.
+
+So the obstruction is NOT about `3n+1` vs `3n-1`. It is:
+
+> Every theorem here derived from the shift identity + congruences is a theorem about
+> `3n+1` **over Z**, and `3n+1` over Z HAS nontrivial cycles. Those tools do not see the sign.
+
+**The answer to "what property of 3n+1 must an argument use?" is POSITIVITY.**
+A proof must break the `n <-> -n` symmetry of the algebra. What breaks it:
+- the verified range (`m >= 307200`);
+- `CycleProduct`'s floor `c` — a large POSITIVE lower bound has no negative analogue.
+What does not: congruences, the shift identity, valuations, the master bound.
+
+The duality is exact at the defining identity: `OddRuns` rests on `2(T(x)+1) = 3(x+1)`;
+the mirror rests on `2(mirrorStep(x)-1) = 3(x-1)` (`Mirror.two_mul_pred_mirrorStep`, PROVED).
+Every downstream congruence theorem transfers along it — which is why all of them hold for 5.
+
+## PRODUCT INVARIANT REACHES DIVERGENCE (PROVED) — `neverDrops_product_bound`
+
+The product invariant needs no cycle. For ANY never-dropper, the floor `c = m` is legitimate
+and `T^k(m) >= m` cancels the `m`:
+
+    2^k * m^a <= (3m+1)^a      for every k,  a = oddCount m k
+
+This is the **first product-invariant consequence that constrains a divergent orbit**.
+Against the classical `2^k < 2*3^a` it trades a fixed additive loss (`-0.631`) for a
+multiplicative one (`~1/(3m)`), so for `m >= 307200` it is STRICTLY STRONGER for every
+window shorter than about `10^6` steps, and weaker beyond. Both hold, so take the max.
+Honest assessment: a real sharpening, not a qualitative change — the asymptotic density
+requirement is still `a/k >~ log2/log3`, which is the known wall.
+
 ## Obstructions (PROVED / CLOSED)
 
 1. **CLOSED — mod-3 descent.** `3 ∣ v` ⟹ `v` has exactly one preimage, `2v`

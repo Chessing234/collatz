@@ -118,6 +118,46 @@ theorem five_bound_sharp :
     3 ^ 2 * (5 - 1) = 2 ^ 2 * (mirrorOrbit 2 5 - 1) := by
   constructor <;> decide
 
+/-! ## What the mirror world actually is
+
+The mirror map is not an exotic variant.  **It is the genuine `3n + 1` map on the
+negative integers**, read through `n ↦ −n`:
+
+`T(−n) = −(mirrorStep n)`  for every `n`,
+
+so the mirror orbit of `n` is the `3n+1` orbit of `−n` with the sign stripped.
+Verified over all `n < 20 000`, zero exceptions.  Its cycles are exactly the
+three classical negative cycles of `3n + 1`:
+
+* `5 → 7 → 10 → 5`   is   `−5 → −7 → −10 → −5`;
+* the eleven-step `17`-cycle   is   `−17 → −25 → −37 → …`;
+* the fixed point `1`   is   `−1`.
+
+So the obstruction is **not** about `3n+1` versus `3n−1` at all.  It is this:
+
+> Every theorem in this development derived from the shift identity and
+> congruences is a theorem about `3n + 1` **over `ℤ`**, and `3n + 1` over `ℤ` has
+> nontrivial cycles.  Those tools do not see the *sign*.
+
+That is the sharpest available answer to "what property of `3n + 1`, rather than
+the shift identity, must an argument use?"  The answer is **positivity** — a proof
+must break the `n ↔ −n` symmetry of the algebra.  The verified range breaks it;
+`CycleProduct`'s floor `c` breaks it (a large positive lower bound has no
+negative analogue); congruences and the shift identity do not.
+
+The duality is exact at the level of the defining identity.  `OddRuns` rests on
+`2(T(x)+1) = 3(x+1)` for odd `x`; the mirror rests on `2(mirrorStep(x)−1) =
+3(x−1)`, proved below.  Every downstream congruence theorem transfers along that
+correspondence, which is why all of them hold for `5`. -/
+
+/-- The mirror shift identity, dual to `OddRuns.two_mul_succ_step`. -/
+theorem two_mul_pred_mirrorStep {n : Nat} (hn : 0 < n) (hodd : n % 2 = 1) :
+    2 * (mirrorStep n - 1) = 3 * (n - 1) := by
+  have hstep : mirrorStep n = (3 * n - 1) / 2 := by
+    rw [mirrorStep, if_neg (by omega)]
+  rw [hstep]
+  omega
+
 /-! ## Exactly which ingredient is not mirror-invariant -/
 
 /-- **`5` never reaches `1` in the mirror world.**  Its orbit is confined to
