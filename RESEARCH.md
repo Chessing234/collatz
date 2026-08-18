@@ -151,6 +151,44 @@ Syracuse edges are bundles of full-graph edges; the Syracuse tree of 1 and the f
 have the same node set up to doubling rays. Any counting bound on `|tree ∩ [1,N]|` is
 identical; only depth grading changes. Do not spend effort here.
 
+## *** THE DECISIVE OBSTRUCTION (PROVED) — `Mirror` ***
+
+Replace `3n+1` by `3n-1` and the shift `u = x+1` by `u = x-1`. The mirror identity
+`2(T(x)-1) = 3(x-1)` holds verbatim, so **every theorem here derived from the shift
+identity plus congruences has an exact analogue in the mirror world.**
+
+But the mirror world has nontrivial cycles: `5 -> 7 -> 10 -> 5`. Kernel-checked:
+- `Mirror.five_neverDrops`: `5` never drops there, and `5 != 1`;
+- `Mirror.five_mod_four`: `4 | (5-1)` -- analogue of `m = 3 mod 4`;
+- `Mirror.five_not_two_mod_three`: `3 nmid (5-1)` -- analogue of `m != 2 mod 3`;
+- `Mirror.five_master_bound`: the master bound `3^j (m-1) <= 2^j (v-1)` holds at
+  EVERY orbit point, for every `j`;
+- `Mirror.five_bound_sharp`: with **equality** at `T(m)` and `T^2(m)` -- exactly the
+  sharpness `OrbitDescent.windows_sharp` reports for `3n+1`.
+- `Mirror.seventeen_cycles`: `17` is an independent second witness (11-cycle).
+
+`Mirror.mirror_model_of_the_profile` packages this as a **model in which every
+hypothesis holds and the conclusion fails**.
+
+**CONSEQUENCE: no combination of `OddRuns`, `RunValue`, `BackwardRun`, `ThreeAdic`,
+`Descent`, `OrbitDescent` can prove Collatz.** They are blind to the sign of the 1.
+This is not about effort; it is a statement about what those hypotheses entail.
+
+**The only non-mirror-invariant asset is the verified range `m >= 307200`** — a
+computation about `3n+1` specifically (the mirror least never-dropper is `5`). So any
+completion MUST use the verified range *quantitatively*, in the shape
+"every never-dropper is `< B`" for explicit `B`. That reshapes the whole programme.
+
+### First result of the required shape (PROVED) — `OneRunCycle`
+
+A cycle of shape "`j` odd steps up, then pure halving down" satisfies exactly
+`3^j (m+1) = 2^L m + 2^j`, hence `3^j < 2^L` and — crucially, an **upper** bound on `m` —
+`m + 2^j <= 3^j`. With `m >= 307200` this forces `j >= 12`.
+Measured (not proved): for `j <= 4000` there is NO integer solution with `m >= 2`, and
+`max (3^j-2^j)/(2^L-3^j) = 1243`, a factor 247 below the verified range; the maximum
+grows like the continued-fraction denominators of `log2 3`, so `j ~ 10^5` is needed
+before it can even reach 307200.
+
 ## Obstructions (PROVED / CLOSED)
 
 1. **CLOSED — mod-3 descent.** `3 ∣ v` ⟹ `v` has exactly one preimage, `2v`

@@ -73,6 +73,8 @@ import Collatz.Strategy.BackwardRun
 import Collatz.Strategy.ThreeAdic
 import Collatz.Strategy.OrbitWindows
 import Collatz.Strategy.RunInvariance
+import Collatz.Strategy.OneRunCycle
+import Collatz.Strategy.Mirror
 import Collatz.Strategy.Frontier
 import Collatz.Strategy.Master
 import Collatz.Chains.SumChains
