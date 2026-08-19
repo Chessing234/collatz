@@ -474,6 +474,52 @@ integer `-1`, and it provably never clears. Attacking arrangements is attacking 
 | inverse-tree counting | exponent saturates at exactly 1, zero slack | analytic + measured |
 | master bound forward-pushing | invariant under odd runs | PROVED |
 
+## *** THE SIZE INTERACTION, EXACTLY (PROVED) — and a correction to my own report ***
+
+Never-drop is `(2^j - 3^a) m <= affineC j m`; the positional bound gives
+`affineC j m <= 2^t 3^a` with `t = j - a`. So the growth ratio `rho = 2^j/3^a` obeys
+
+    rho - 1  <=  2^t / m           <-- THIS QUOTIENT IS THE ENTIRE SIZE INTERACTION
+
+At `m = 307200`: the quotient is `1.0e-4` at `t=5`, `0.0033` at `t=10`, `0.85` at `t=18`,
+`109` at `t=25`, `3.6e6` at `t=40`. It is harmless while `2^t <= m` and explodes after.
+
+PROVED: `heavy_while_few_even` -- if `2^(j-a) <= m` then `2^j <= 2*3^a`.
+Verified on 86,515 no-drop-prefix checks, 0 failures. Also `affine_slack_bound`.
+
+### CORRECTION to the previous frontier report
+
+I previously wrote that the window machinery is "strong only for `t <~ log2 m`, about 18
+even steps". **That understated the reach by about four orders of magnitude.** It is true
+of `neverDrops_window_condition` specifically, but `CycleProduct.neverDrops_heavy_window`
+reaches far further by a DIFFERENT mechanism: it requires only `2a <= 3m`, i.e.
+`a <= 460800`, which at the critical density is `j ~ 730000` steps and
+**`t ~ 269000` even steps**. The two routes are complementary; the product route dominates.
+
+So the current best heaviness statement for a never-dropper with `m >= 307200` is:
+`2^j <= 2*3^a` for every window with either `2^(j-a) <= m` (t <= 18) OR `2a <= 3m`
+(t <~ 269000). The second subsumes the first in practice.
+
+### THE STRUCTURAL WALL, stated precisely
+
+All routes converge on the same limit, and there is a reason. `never-drops` is EXACTLY
+`for all j, (2^j - 3^a) m <= C_j` (`neverDrops_iff_affine`, an iff). Since `C_j >= 0` and
+`C_j <= 2^t 3^a`, this pins `rho = 2^j/3^a` into `[?, 1 + 2^t/m]`. Asymptotically that is
+`density >= log2/log3`, approached FROM BELOW by every bound in the project:
+
+| route | density lower bound | approaches log2/log3 from |
+|---|---|---|
+| classical `2^k < 2*3^a` | `(k-1)/log2(3) / k` | below (additive loss) |
+| product invariant | `ln2/ln(3+1/m)` | below (multiplicative loss) |
+| window condition | `log2/log3 - log(1+2^t/m)/(j ln3)` | below |
+| heavy_while_few_even | same, with `2^t <= m` | below |
+
+**Never-dropping IS the density condition `3^a >~ 2^j`.** Any elementary bound recovers it
+and nothing more, because it is not an approximation of the hypothesis -- it is the
+hypothesis. To beat it one needs a reason an ACTUAL orbit cannot sustain
+`density >= log2/log3`, and that is not implied by any local structure, since every
+parity word is realized by a residue class (see the compression result above).
+
 ## Obstructions (PROVED / CLOSED)
 
 1. **CLOSED — mod-3 descent.** `3 ∣ v` ⟹ `v` has exactly one preimage, `2v`

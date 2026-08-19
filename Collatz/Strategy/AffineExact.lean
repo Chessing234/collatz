@@ -271,5 +271,53 @@ theorem oddCount_pos_of_neverDrops {m j : Nat} (hm : 0 < m) (hj : 0 < j)
     omega
   · exact hpos
 
+/-! ## The size interaction, exactly
+
+The never-drop condition is `(2 ^ j − 3 ^ a) · m ≤ affineC j m`, and the
+positional bound gives `affineC j m ≤ 2 ^ t · 3 ^ a` with `t = j − a`.  So the
+growth ratio `ρ = 2 ^ j / 3 ^ a` obeys
+
+`ρ − 1 ≤ 2 ^ t / m`.
+
+**That quotient is the entire size interaction.**  While `2 ^ t ≤ m` it is at most
+one, and heaviness follows outright; once `2 ^ t` passes `m` it explodes
+(at `m = 307 200` the quotient is `0.85` at `t = 18` and `109` at `t = 25`).
+
+So this particular route reaches `t ≈ log₂ m`, about eighteen even steps.  Note
+that `CycleProduct.neverDrops_heavy_window` reaches very much further by a
+different mechanism — it needs only `2a ≤ 3m`, which at the critical density is
+`t ≈ 269 000` even steps.  The two are complementary, and the product route is
+the stronger of the two by roughly four orders of magnitude. -/
+
+/-- **Heaviness while the even count is small.**  If a window of a never-dropper
+uses at most `log₂ m` even steps, it is heavy: `2 ^ j ≤ 2 · 3 ^ a`. -/
+theorem heavy_while_few_even {m j : Nat} (hm : 0 < m)
+    (hnd : ∀ i : Nat, m ≤ acceleratedOrbit i m)
+    (hfew : 2 ^ (j - oddCount m j) ≤ m) :
+    2 ^ j ≤ 2 * 3 ^ oddCount m j := by
+  have hw := neverDrops_window_condition hm hnd j
+  have hsum : m + 2 ^ (j - oddCount m j) ≤ m + m := Nat.add_le_add_left hfew m
+  have hstep : 3 ^ oddCount m j * (m + 2 ^ (j - oddCount m j))
+      ≤ 3 ^ oddCount m j * (m + m) := Nat.mul_le_mul_left _ hsum
+  have hchain := Nat.le_trans hw hstep
+  have hL : 2 ^ j * (m + 1) = 2 ^ j * m + 2 ^ j := by
+    rw [Nat.mul_add, Nat.mul_one]
+  have hR : 3 ^ oddCount m j * (m + m) = (2 * 3 ^ oddCount m j) * m := by
+    rw [← Nat.two_mul, Nat.mul_left_comm, Nat.mul_assoc]
+  rw [hL, hR] at hchain
+  have hge : 2 ^ j * m ≤ (2 * 3 ^ oddCount m j) * m :=
+    Nat.le_trans (Nat.le_add_right _ (2 ^ j)) hchain
+  exact Nat.le_of_mul_le_mul_right hge hm
+
+/-- The exact size interaction, stated as it is used: the additive slack the
+never-drop condition can draw on is at most `2 ^ (j − a) · 3 ^ a`. -/
+theorem affine_slack_bound {m j : Nat} (hm : 0 < m)
+    (hnd : ∀ i : Nat, m ≤ acceleratedOrbit i m) :
+    2 ^ j * m ≤ 3 ^ oddCount m j * m + 2 ^ (j - oddCount m j) * 3 ^ oddCount m j := by
+  have harith := (neverDrops_iff_affine hm).mp hnd j
+  have hup := affineC_le m j
+  have hpos : 0 < (2:Nat) ^ j := Arith.two_pow_pos j
+  omega
+
 end AffineExact
 end Collatz
