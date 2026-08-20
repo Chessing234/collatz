@@ -560,3 +560,76 @@ parity word is realized by a residue class (see the compression result above).
 2. Joint mod-`2^a·3^b` sieve — is any joint survivor set empty?
 3. `≡1 mod 3`: explain the surviving fraction; does it → 0?
 4. A potential/Lyapunov function on `u = x+1` using both valuations.
+
+
+---
+
+# Cycle: ten-field branch (2026-08-20)
+
+The size/density route bottoms out at `log 2 / log 3`.  Ten fields were run
+independently against that wall.  Results, most decisive first.
+
+## Kernel-checked this cycle (count 1248 -> 1263)
+
+| theorem | file | content |
+|---|---|---|
+| `length_ge_520` | `CycleLength520` | **every nontrivial cycle has L >= 520** (was 27) |
+| `no_class_ranking` | `NoFiniteRanking` | no rank constant on classes mod `2^k`,`3^l` can decrease |
+| `heavy_return_value/_congr/_grows` | `NoFiniteRanking` | the returning family `n+1 = 2^(k+L) 3^l s` |
+| `affineC_not_three_dvd` | `AccumulatorArith` | **v3(C) = 0** permanently, once one odd step has occurred |
+| `three_not_dvd_orbit_of_odd_step` | `AccumulatorArith` | sharp form of `odd_orbit_not_three_dvd` |
+| `affineC_odd_of_odd` | `AccumulatorArith` | v2(C) is a timestamp, not a size |
+| `affineC_add`, `oddCount_add` | `AccumulatorArith` | **the accumulator is a cocycle** |
+| `full_density_iff_dvd`, `full_density_size` | `HeavyState` | full density = the single class `-1 mod 2^k`, costing `2^k <= x+1` |
+
+## The unifying discovery: every field hit the same object, `-1`
+
+Independent fields converged on one obstruction, the 2-adic fixed point `-1`:
+
+* **graph/automata** — max mean cycle of the mod-`2^k` quotient is `log(3/2)` at
+  every `k = 4..14`, pinned by the self-loop at `-1`.  Adding a 3-adic
+  coordinate (all `k<=10`, `l<=3`) leaves it unchanged; `-1` is fixed there too.
+  Second-worst cycle is `log(3/2) - (log 3)/k`: **more resolution is monotonically
+  less useful**.
+* **Lyapunov search** — LP over `log x`, `v2(x)`, `v2(x+1)`, `v2(3x+1)`, classes
+  mod `2^8` and `3^3`: optimal margin **exactly 0** at every window `L = 1..8`
+  and every modulus to `2^14 3^4`.  Certificate is the family above.
+* **2-adic** — integrality is not 2-adically visible; every class mod `2^j`
+  contains integers, odd-denominator rationals and irrational 2-adics alike.
+* **ergodic** — the only integers on infinite no-drop branches, over all periods
+  `L <= 20`, are `-1, -5, -17`: exactly the three known negative cycles.
+
+This is `Mirror` in four new languages.  `full_density_size` is the only thing
+in the development that separates `2^k - 1` from `-1`, and it does so by size.
+
+## Killed, with reasons
+
+| approach | verdict |
+|---|---|
+| v3(C) sparsity | **v3(C) = 0 always** — no 3-adic slack exists to exploit |
+| Lyapunov on finite quotient | impossible in principle (proved, `no_class_ranking`) |
+| graph SCC / ranking | quotient is a single SCC at every `k`; MMC pinned at `log(3/2)` |
+| Sturmian/balanced extremal words | factor complexity 2,4,8,16,31,55,87,118 vs Sturmian `k+1` — pseudorandom |
+| smallness of admissible words | `N(j) ~ 2^(0.95 j)`, entropy `H(theta) = 0.94996` — exponentially many |
+| descent by class-minimisation mod `2^L` | rigid: for a never-dropper `2^L > m` always, so the map is the identity |
+| phantom-cycle filtering | there are none: integrality + positivity **imply** self-consistency |
+| counting/divisibility heuristic for cycles | predicts `~J/2` cycles to length `J` — does not give finiteness |
+
+## Computational, not proved
+
+* `k <= 5` cycles excluded for all `j <= 50`; `(j,a) = (46,29)` checked
+  exhaustively over 39,144,869 shapes, 0 hits.
+* No nontrivial cycle with `j <= 24` (exhaustive over all position sets).
+* Survivor counts `S_k ~ C * lambda^k * k^(-3/2)`, `lambda = 2^H(theta) = 1.9318131`.
+* The `S_{k+1} = 2 S_k - N_k` recursion has its doubling levels on the
+  **Sturmian word of slope theta** — S-adic, not a finite substitution.
+* Semigroup `<A,B>` is free (all `2^j` words, `j <= 22`, zero collisions).
+
+## What remains
+
+The obstruction is now two-sided and named.  Local/congruence information cannot
+work: every finite quotient retains `-1`.  Global inequalities cannot work:
+never-dropping *is* the density condition.  The only quantity separating the two
+worlds is archimedean — `3^a (x+1) > 2^j`, i.e. `full_density_size` and its
+relatives.  A proof must be built on that, and no field surveyed supplies a
+second independent constraint to combine with it.
