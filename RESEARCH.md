@@ -918,3 +918,293 @@ of a heavy window, so anything carrying window data must keep carrying the pair
 Note also that this question could never have been decisive: `C(w,d) = d·C(w,1)`
 and heaviness is `d`-free, so it was literally the same statement for `3x−1` and
 `3x+5`.  The soundness filter would have caught it before the search did.
+
+---
+
+# Round III — the obstruction moves from size to distribution
+
+Fifteen agents, eleven in parallel, in eleven different mathematical languages.
+The round's finding is structural and can be stated in one paragraph.
+
+**The cycle problem is now one-dimensional, the size route has a proved ceiling,
+and what remains is a question about how `C(w)` is distributed modulo the gap.**
+
+## The collapse: `L` is a function of `a`
+
+`GapSandwich.cycle_length_determined` — for a nontrivial accelerated cycle with
+minimum `m` and odd-step count `a < 1152000`,
+
+`L = ⌊a · log₂ 3⌋ + 1`   exactly.
+
+The repo previously had only the one-sided `fexp a < L`.  Two-sidedness collapses
+the search from two parameters to one and fixes `G = 2^(fexp a + 1) − 3^a` as the
+*least* gap available at that `a`.  `MinimalCycle.ledge_rigid` reaches the same
+statement independently through the product invariant rather than the realizable
+ceiling — two routes, one ledge.
+
+It is also **certificate-free**.  `GapSandwich.Bstar`/`Ecap` degrade where
+`RealizableBound`'s induction collapses, so `L ≥ 2593` now follows with *zero*
+kernel computation, replacing a 2592-index `decide` over 1400-digit numerals with
+a three-line induction.
+
+Only **358** values of `a` below 40000 survive the size sandwich, one `L` each.
+They are exactly `a = 306k + 665j`, and the gaps between consecutive survivors
+are exactly the continued-fraction denominators of `log₂ 3` — `12, 41, 29, 17,
+53, 5, 94, 147, 200, 253, 306, 359, 665` — and nothing else.
+
+## The ceiling: how much the archimedean route can ever buy
+
+`ArchimedeanCeiling.sandwich_vacuous` — the inequality that produces *every*
+frontier bound in this development is satisfiable outright once `a ≥ 3N`.  Powers
+of two are never more than a factor two apart, so the least `L` overshoots `3^a`
+by at most `3^a`, while the permitted gap grows *linearly* in `a`.
+
+So the family is capped at `a < 3N`, and no sharpening of the analysis around
+that inequality reaches past it.  The *achieved* bound is far below the ceiling,
+and now explained: the argument stops at the first `a` whose distance from an
+integer multiple of `log₂ 3` dips below a linear-in-`a` threshold, which by
+three-distance is of order `√N`.  **That is the empirical square-root law**, and
+the criterion reproduces the repo's own product bounds on the nose:
+
+| `N` | first admissible `a` | `L` | bound recorded in the repo |
+|---|---|---|---|
+| 102 400 | 306 | 485 | 520 |
+| 307 200 | 971 | **1539** | **1539** |
+| 768 000 | 1636 | **2593** | **2593** |
+
+Extrapolating: `N = 10⁷` buys `L = 12079`; `N = 10⁹` buys `75235`; `N = 10¹²`
+buys `301994`.  The cost is quadratic in the bound.  This route will not reach a
+proof, and the round's remaining work was directed accordingly.
+
+## The measurement that redirected the round
+
+`CycleLanguage`.  The heavy language grows at exactly `H₂(log 2/log 3) = 0.94996`
+bits per letter, and that entire drop from one bit is the *density*, which
+`3^a < 2^L` already forces.  `heavy_pad` shows the factor set of the heavy
+language is all of `{0,1}^*` — prefixing any block with `2k` odd steps keeps every
+prefix heavy — so there are **no forbidden blocks**, the language is not sofic,
+and every finite-block SFT over-approximation of it is the full shift.  No finite
+automaton can ever see the 0.94996.
+
+The cyclic constraint costs a factor `L` and no entropy: by the cycle lemma no
+word has two heavy rotations, and at `(4701, 2966)` the heavy count equals
+`binom(4701, 2966)/4701` exactly.
+
+Then the key number, and it came out the opposite way from what was feared.  At
+the frontier pair the number of heavy words is `2^(−243.63)` times the gap, and
+the deficit *grows* linearly at `0.05019` bits per step of `L`.  Independently
+recomputed: `log₂ N = 4447.169`, `log₂ G = 4690.795`.
+
+**The counting budget is in surplus by 243 bits and widening.**  A counting
+argument is therefore not dead a priori.  What is missing is a nontrivial bound
+on the exponential sum
+
+`S(k) = Σ_{w heavy} e(k · C(w) / G)`,  `k ≢ 0 (mod G)`,
+
+and the bridge must be **statistical, not injective** — injectivity of `w ↦ C(w)`
+was refuted last round at length 83.
+
+## Closed by proof this round
+
+* **Every odd modulus is independent of the parity word.**
+  `ValuationBudget.word_residue_free`: for every `x`, window length `j`, odd `m`
+  and target `r` there is a `y ≥ x` with the *identical* window — same `oddCount`
+  and same `affineC` at every index — and `y ≡ r (mod m)`.  The witness is
+  explicit: `2` is a unit mod odd `m` with inverse `((m+1)/2)`, so `x + 2^j t`
+  sweeps every residue while fixing the whole word.  Hence no proper invariant
+  residue set at any odd modulus, and heavy windows of every length carry every
+  residue mod every odd `m`.  Any future `p`-adic, covering-system or
+  automaton-mod-`p` proposal should be checked against this before any effort.
+* **`v₃(C) = 0` has no analogue at any `p ≥ 5`.**  The heavy word `oo` already has
+  `C = 5`.  Two and three are the only primes in the recursion, so they are the
+  only primes with a structural law.
+* **`(oddCount, length, runA)` is a complete invariant of the word.**
+  `RunAlgebra.runA_word_eq`.  This is the honest replacement for the refuted
+  accumulator injectivity, and it is consistent with that refutation: every
+  `affineC` collision at fixed length has distinct odd-count, the length-83 one
+  included.  Verified exhaustively over all `2^20` words.
+* **Word surgery is closed.**  `(a, L, A)` determining the word means no block can
+  be merged or shortened, so no compression descent exists.
+* **There are no forbidden runs.**  The joint law of `(oᵢ, eᵢ)` is exactly the
+  Terras product measure `2^(−o−e)`; every pattern with `o, e ≤ 3` is realised;
+  `oᵢ` and `eᵢ` are independent.  The target theorem *"every cycle contains a
+  structurally impossible run"* is **false as stated**.
+* **No single-step edit of a cycle word produces another cycle.**  Even-step edits
+  are dead twice over — the gap `2^(L−e) − 3^a` is not even positive, and the
+  target is off the ledge.  Odd-step edits are on-ledge for `2 − log₂ 3 = 41.5 %`
+  of `a` and then need divisibility by a number `≥ 2^(L−1)/3`.  The reason, cleanly:
+  a cycle exists because `|2^L − 3^a|` is exceptionally small, a continued-fraction
+  property of `log₂ 3`; no edit of size one can preserve it, and the smallest that
+  could is twelve.
+* **The min-cut/max-cut idea has no second inequality.**  `MinimalCycle.cut_exact`:
+  chaining the two block equations returns `3^a ≤ 2^L` and nothing else, because
+  the reassembly *is* the cocycle law and the slack is exactly zero.
+* **The pigeonhole across rotations does not exist.**  `G ∣ C` at one rotation
+  implies it at all `L` rotations (`AccumulatorCap.dvd_affineC_shift`), so the
+  simultaneous condition is exactly equivalent to the single one.  Confirmed
+  exhaustively over all words to length 22.
+* **The verified-range bootstrap closes but loses.**  Gain exactly
+  `3(1 − (2/3)^a)/a` — `0.833` at `a = 2`, `0.00101` at the frontier.  The whole
+  loss is the spread of the accumulator at fixed odd-count, and both ends are
+  attained: the ceiling by the Beatty word, the floor `3^a − 2^a` by the one-run
+  word.  What the verified range buys is a *staircase*, not a loop: each rung
+  costs a new sweep and multiplies the range by about `1.096`.
+* **Generalising the mod-four law is literally the sieve.**
+  `Bootstrap.affineC_mod_pow` — `C` is always a 3-adic unit times a seed depending
+  only on the first `m` letters — and the bootstrap holds exactly when the heavy
+  words admit a *single* seed.  The seed count is on the nose
+  `SieveGrowth.safeCount m = 1, 1, 1, 2, 3, 4, 8, 13, 19, 38, 64, …`.  So `m = 2`
+  is the last modulus with one seed, a boundary effect of `2² > 3¹`, and the
+  generalisation is the sieve, already proved never to clear.  Counterexample:
+  `x = 11`, word `1101`, heavy at every prefix, `C = 23` against `3³ = 27` —
+  equal mod 4, different mod 8.
+
+## New positive structure
+
+* `Rotation.light_of_max` — the word read from an orbit **maximum** is light at
+  *every* prefix.  Hence the largest point of any cycle is even and the smallest
+  is odd.  `exists_cycle_max` supplies the argmax the repo lacked.
+* `Rotation.no_cycle_of_no_three_power` — no cycle heavy at its last prefix exists
+  at any length with no power of three in `[2^(L−1), 2^L)`, about 35 % of lengths.
+* `RunAlgebra.runA` — the accumulator of the shifted coordinate `u = x + 1`, fed
+  only by *even* steps where `affineC` is fed only by odd ones, with
+  `A + 3^a = C + 2^L` and no subtraction.  `phi_const_odd`/`phi_incr_even`:
+  `2^j(T^j x + 1)/3^a` is exactly constant across every odd step and increases
+  only on even ones.  All new information comes from even steps — now an identity,
+  not a slogan.
+* `RunAlgebra.heavy_run_count` — a heavy word with `a` odd steps has fewer than
+  `10a/17` complete runs, from `3^17 < 2^27`.  Sharp to one:
+  `1101101101011011010` has `10B − 17r = 1`.
+* `Bootstrap.affineC_ge_pow` — `3^a ≤ C + 2^a`, no hypotheses.  The exact dual of
+  `AccumulatorCap.affineC_cap`; the repo had only the upper side.
+* `MinimalCycle.append_even_descends` — unconditional: if `(L,a,C,n)` and
+  `(L+1,a,C,n')` are both certificates then `2n' < n`.
+
+## Corrections, including to this file
+
+The adversarial agent audited every headline claim against the Lean source.  The
+mathematics survived; the prose did not.
+
+* **A real axiom leak, now closed.**  Seven `native_decide` calls were live in
+  `Papers/Conway1972.lean`, imported by `Collatz.lean`, each compiling to a
+  trusted axiom — and `check_integrity.sh` printed `integrity passed` with them in
+  place, because its grep was `\b(sorry|admit|axiom)\b` and nothing else.  That
+  misses `sorryAx` (`\bsorry\b` does not match it), `native_decide`,
+  `ofReduceBool`, `unsafe`, `partial`, `opaque`, `@[implemented_by]` and
+  `@[extern]`.  All eight now fail the check, verified against probe files.  The
+  script also gates on `#print axioms` directly, which no keyword list can fool.
+  No frontier theorem depended on the leaked facts — they were "27 reaches 1 in
+  111 steps" — but the repo's central safety claim was false as written.
+* **The soundness-filter asset list was incomplete, and would have caused false
+  kills.**  There are four `d = 1` assets, not two: the verified range;
+  `accOrbit_small`; **sign(d) = +1** — for `d < 0` the gap is negative and the Nat
+  argument does not typecheck, and this is what `OneRunOrder` actually uses; and
+  **`|d| < 2`** — exclusion inequalities of the shape `2^m + |d|·6^a ≤ 2^(m+a)`
+  can only hold for `|d| ≤ 2`, and with `|d| = 5` or `7` the analogue holds for
+  *zero* `a` in `1..59`.  A mechanism using neither of the first two is not
+  automatically unsound.  Note `(c)` and `(d)` together still do not separate
+  `d = 1` from `d = 5`.
+* **The order obstruction's range was overstated here by 100×.**  Corrected in
+  place: the Lean theorem clears `a < 2048`, the kernel budget of `gapOK_sweep`.
+* **"Strictly supersedes `neverDrops_heavy_window`" was false.**  Corrected in
+  place: the new lemma drops the factor of two and extends *exact* heaviness from
+  `j ≤ 2592` to `j ≤ 4700`, but `neverDrops_heavy_window` reaches `a ≤ 1 152 000`,
+  roughly 390× further.
+* **Two numbers inside `RealizableBound`'s own docstrings were wrong** and are
+  fixed: the margin at the top of the certified range is `620 858` at `i = 2301`,
+  not `767 707` (which occurs nowhere), so the slack is 19 % rather than 0.04 %;
+  and the mirror audit's `m = 5` first fails at `i = 5`, not `i = 3`.
+* **`Σᵢ v₂(nᵢ) = L − a` is false**, found independently by two agents.  Each even
+  run of length `r` contributes `r(r+1)/2`.  The `3x−1` cycle through 17 has
+  `L − a = 4` but `Σ v₂ = 7`.
+* **The frontier bounds are about the accelerated map.**  A raw `3n+1` cycle of
+  the same orbit has length `L + a ≈ 1.63 L`, so the numbers are conservative,
+  but "length" has been used unqualified.
+* **`ExchangeRate.no_valuation_size_ranking` is a *global* statement**, quantified
+  over all `x > N`, not over an orbit.  A rank of that shape decreasing only
+  *along* a counterexample orbit is not excluded.  The failed-approaches table
+  overstated it.
+* **The theorem count of 1558 was stale**, not inflated.  Kernel constants filtered
+  to `.thmInfo` with the `Collatz` prefix: **1694** before this round.
+
+## The question Round II left open is now answered — and closed
+
+Round II ended naming one frontier: *"the open link being the collapse for
+`k ≥ 2` runs"*, sharpened to whether a two-term S-unit relation can bound its own
+modulus.  It can, exactly, and the bound is attained.
+
+`SUnitRelation.run_telescope` (LEAN_PROVED, all `r`, over `List (Nat × Nat)`)
+generalises `TwoRunOrder`'s `r = 2` identity to every number of runs:
+
+`A + 3^a = C + 2^L`,   i.e.   `A = C + G`,   unconditionally, for every word.
+
+Verified on all **2 097 151** words of length 2…22 that start odd and end even,
+against `affineC` computed from its recursion: zero failures.  For a cycle this
+gives `A = G·(m+1)`, and since only the first term of `A` carries `2^(o₁)` while
+every other carries `2^(o₁+e₁)`, and `G` is odd:
+
+> **`SUnitRelation.cycle_gap_lead_le` : `G · 2^(o₁) ≤ A`.**
+
+At `r = 1` this *is* `OneRunOrder`'s bound, so it is the correct `k`-run
+generalisation of the order obstruction.  And it is **attained**, at every `r`
+that has a genuine cycle to test it with:
+
+| map | cycle | runs | `G` | `A` | `|G|·2^(o₁)` |
+|---|---|---|---|---|---|
+| `3x−1` | 17 | (4,1),(3,3) | −139 | 2224 | **2224 — equal** |
+| `3x−1` | 5 | (2,1) | −1 | 4 | **4 — equal** |
+| `3x+5` | 5 | (1,1) | 1 | 2 | **2 — equal** |
+| `3x+1` | 1 | (1,1) | 1 | 2 | **2 — equal** |
+
+Equality holds iff `m + 1 = 2^(o₁)`.  So **any strengthening is unsound**, and the
+order route at `r ≥ 2` is *complete and closed*, not merely open.  The reason is
+structural rather than technical: `G·(m+1) = A` is an **identity**, so `G ∣ A` is
+the cycle equation restated.  No order information can be extracted that is not
+already the cycle equation.  This is a re-coordinatisation, and now provably the
+last one available.
+
+This is strictly sharper than the ledger's earlier "`A = d` attained": the real
+attained bound carries the factor `2^(o₁)`.
+
+Three by-products worth keeping, all from the same file:
+
+* **`one_run_gap_ineq`** — a one-run cycle forces `2^a·(G+1) ≤ 3^a + G`.  That is
+  `OneRunOrder.gapOK` with `L` eliminated, so with
+  `GapSandwich.cycle_length_determined` supplying `L`, it becomes a
+  one-parameter test.
+* **`one_run_min_ge`** — a one-run cycle has minimum `≥ 2^a − 1`, using **no
+  verified range**.  Tight at the trivial cycle.
+* The one-run branch is far stronger than this ledger recorded.  Elementary
+  continued-fraction input — Legendre's criterion, Baker-free but real-analytic,
+  hence not formalisable without Mathlib — clears **`4 ≤ a ≤ 397 573 379`**, a
+  190 000× extension of the kernel sweep's `a < 2048`.  It annihilates the
+  archimedean survivor `a = 15601`, `L = 24727` by a factor of `2^15586`.
+  (`minLen(15601) = 24727`; an earlier note here said 24728.)
+
+Zsigmondy was adapted honestly and is vacuous exactly where it would matter.
+With `g = gcd(L, a)`, `G = X^g − Y^g` for `X = 2^(L/g)`, `Y = 3^(a/g)`, so
+Zsigmondy applies and gives `p ∣ G` with `p ≡ 1 (mod g)` — but for a one-run cycle
+with `L ≥ 8` one has `g = 1` and the statement is empty.  Over `a ≤ 400`,
+`L ≤ 800` the only pair passing the one-run test at all is the trivial `(1, 2)`.
+
+One further computational fact closes off a hoped-for source of extra constraints:
+over all words of length ≤ 22, `G ∣ C` with `C/G > 0` holds for exactly **11**
+words, and **all 11 are genuinely realised** — the Terras consistency condition
+adds nothing beyond `G ∣ C`.  The S-unit condition is *equivalent* to a cycle,
+not merely necessary.
+
+## The single remaining question
+
+Every mechanism this round examined either closed by proof or reduced to one
+statement.  Stated as sharply as the round can state it:
+
+> Let `a` be a surviving odd-count, `L = ⌊a log₂ 3⌋ + 1`, `G = 2^L − 3^a`.  Is
+> there a nontrivial bound on `S(k) = Σ_{w heavy} e(k · C(w)/G)` for
+> `k ≢ 0 (mod G)`?
+
+A bound of `|S(k)| < G · N / (G − 1)`-strength would give `#{w : G ∣ C(w)} < 1`,
+hence zero, hence no cycle at that `(L, a)` — a genuinely new mechanism, and one
+with 243 bits of room at the frontier.  The natural attack is the cocycle law:
+splitting `w` at a midpoint makes `S(k)` a bilinear form in `(C(u), C(v))`, which
+is where a Weyl or large-sieve input would enter.  Nothing in this round bears on
+whether such a bound exists.
