@@ -77,6 +77,7 @@ import Collatz.Strategy.RunInvariance
 import Collatz.Strategy.OneRunCycle
 import Collatz.Strategy.Mirror
 import Collatz.Strategy.Denominator
+import Collatz.Strategy.DenominatorScalar
 import Collatz.Strategy.CycleProduct
 import Collatz.Strategy.AffineExact
 import Collatz.Strategy.AccumulatorArith
