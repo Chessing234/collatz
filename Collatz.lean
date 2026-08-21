@@ -100,6 +100,9 @@ import Collatz.Strategy.MinimalCycle
 import Collatz.Strategy.SUnitRelation
 import Collatz.Strategy.NewModels
 import Collatz.Strategy.ExpSum
+import Collatz.Strategy.GapPrimes
+import Collatz.Search.VerifiedExtended
+import Collatz.Strategy.RealizableFrontier6809
 import Collatz.Strategy.SieveGrowth
 import Collatz.Strategy.Profile
 import Collatz.Strategy.ExchangeRate

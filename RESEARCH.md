@@ -1322,6 +1322,123 @@ reproducing the counting figure.  Both facts coexist: expected colliding pairs a
 unsurprising, but `2^4183 ≪ N`, so almost every value of `C` is attained exactly
 once.
 
+## The many-primes thesis, refuted three ways
+
+The most natural remaining idea was: `G ∣ C` is a system of `ω(G)` simultaneous
+conditions, so a gap with many prime factors is overdetermined.  It is wrong, and
+the refutations are independent.
+
+**Structurally**, by CRT the `ω(G)` conditions `C ≡ 0 (mod p_i^(e_i))` *are* the
+single condition `C ≡ 0 (mod G)`.  Splitting `G` into primes adds nothing and
+removes nothing; the strength is `1/G` whatever `ω(G)` is.  More primes means
+*weaker* individual conditions, not more of them.
+
+**Computationally**, `ω(G)` is small and does not grow — mean 1.85 below `L = 40`
+rising only to 5.00 for `L ∈ [160, 200]`, the Erdős–Kac `log log G` rate.  And `G`
+is **outright prime** at `(L, a) = (89,56), (97,61), (110,69), (116,73),
+(121,76)`.  So a cycle-plausible gap need not have many prime factors at all, and
+no elementary lower bound on `ω(2^L − 3^a)` can exist — any such bound would deny
+those five.
+
+**And a genuine cycle settles it.**  The `3x+5` cycles of length 27 have
+`(L, a) = (27, 17)` and `G = 2^27 − 3^17 = 5 077 565 = 5 · 71 · 14303`, `ω = 3`.
+For *both* of them, the `d`-free accumulator satisfies **two of the three prime
+conditions exactly**:
+
+| minimum | `C(w,1)` | mod 5 | mod 71 | mod 14303 |
+|---|---|---|---|---|
+| 187 | 189 900 931 | 1 | **0** | **0** |
+| 347 | 352 383 011 | 1 | **0** | **0** |
+
+Independently verified.  `71 · 14303 = 1 015 513` divides `C(w,1)` in both cases;
+the only failing condition is `p = 5`, which is exactly `gcd(d, G) = 5` — the
+`d = 5` rescue.  If "several prime conditions cannot all hold" had content, it
+would fail right here.  It does not.
+
+The scan behind this was large and negative: the 358 survivors below 40000 plus
+`a = 79335, 190537`, against every prime `5 ≤ p < 2·10⁶`.  Mean 2.653 small prime
+factors per gap against 2.8787 predicted by the exact lattice model — statistically
+ordinary.  **34 survivors have no prime factor below `2·10⁶` at all.**  And for
+`a = 2966`, 400 admissible heavy words hit every residue mod every `p ≤ 23`,
+including 0, at exactly rate `1/p`.  The shape "some small `p ∣ G` has `C ≡ 0
+(mod p)` incompatible with heaviness" **does not exist** at any `p < 2·10⁶` for any
+of the 360 surviving `a`.
+
+What survives is a clean classifier rather than an obstruction.  The set
+`{(L,a) : p ∣ 2^L − 3^a}` is a sublattice of `Z²` of index exactly
+`M_p = lcm(ord_p 2, ord_p 3)`, giving density `1/M_p` — and for the first three
+primes this is decidable from `(L, a)` alone:
+
+* `GapPrimes.five_dvd_gap_iff` : `5 ∣ 2^L − 3^a ↔ (L + a) % 4 = 0`
+* `GapPrimes.seven_dvd_gap_iff` : `7 ∣ 2^L − 3^a ↔ (a + 4L) % 6 = 0`
+* `GapPrimes.thirteen_dvd_gap_iff` : `13 ∣ 2^L − 3^a ↔ (L + 8a) % 12 = 0`
+
+checked against brute force over all `L < 400` with zero violations, and against
+the wild scan with exact agreement (5 divides `G` for 88 of 360 survivors against
+a predicted `1/4`; 7 for 58 against `1/6`; 13 for 28 against `1/12`).  Composed
+with `cycle_length_determined` these become conditions on `a` alone.
+
+Also proved: every nontrivial divisor of a gap is `≥ 5` (`gap_divisor_ge_five`),
+and the divisor set is closed under exponent addition (`gap_add_dvd`,
+`gap_dvd_scale`).  The latter is worth its own note — since `L = fexp(a)+1` is not
+additive, the scaled pairs `(kL, ka)` are never themselves survivors for `k ≥ 2`,
+so non-primitive cycles carry no new information.  Together with the rotation
+result this says the divisibility is invariant under both symmetries of the
+problem, and neither yields an extra constraint.
+
+The honest quantitative summary of the whole direction: at `(L, a)` the words
+number `2^(0.95 L)` and the constraint has strength `1/G`, so with
+`δ = L − log₂ G` the expected solution count is `2^(δ − 0.05L)`, and `δ` was
+measured in `[1.00, 6.74]` over all 136 near-critical pairs with `L ≤ 200`.  The
+constraint beats the freedom by 0.05 bits per step — but closing the sum over `L`
+needs an effective bound `δ ≤ o(L)`, i.e. an effective irrationality measure for
+`log₂ 3`.  That is exactly the Baker-type input this development forbids, and
+"expected count → 0" is not "count = 0".
+
+## The frontier moved twice: 4701 -> 6809
+
+The one lever that still pays was priced exactly by the gap sandwich and then
+paid.  The verified range went from **768 000 to 1 086 464** (1061 blocks of
+1024), and the cycle frontier crossed *two* risers at once:
+
+`RealizableFrontier6809.length_ge_6809` — no nontrivial accelerated cycle has
+length below **6809**.
+
+Two rungs came for one sweep because 768 000 was sitting only 3 477 short of the
+first riser.  The `G`-records, independently recomputed, are spaced by exactly
+665 — the continued-fraction denominator, again:
+
+| record index `i` | `G(i)` | `fexp i` | frontier `L` |
+|---|---|---|---|
+| 971 | 238 670 | 1538 | 1539 |
+| 1636 | 420 842 | 2592 | 2593 |
+| 2301 | 620 858 | 3646 | 3647 |
+| 2966 | 841 477 | 4700 | 4701 |
+| 3631 | 1 086 055 | 5754 | 5755 |
+| **4296** | **1 358 718** | **6808** | **6809** |
+
+Verified independently: `max_{i<4296} G(i) = 1 086 055 < 1 086 464 = c`, and
+`G(4296) = 1 358 718 > c`, so the certificate genuinely stops at 4296 and
+`fexp(4296) = 6808`.  Axiom footprint `[propext, Classical.choice, Quot.sound]`.
+
+The machinery is reused verbatim — sieve modulus `2^10`, 64 survivor residues,
+`Sieved.reachesOne_of_blocks`, fuel 200 — and the added build cost is 140 s wall,
+against 274 s for the existing sweep.
+
+**The stopping point was forced, and the reason is worth recording.**  Fuel 200
+covers every survivor through block 1060.  The first block needing more is
+`m = 1099` (`n = 1 126 015`, requiring 224 accelerated steps), so 1100 blocks
+would have broken the uniform-fuel aggregation and required a `dropsWithin`
+fuel-monotonicity lemma.  Stopping at 1061 keeps the structure intact.  The next
+rung — range 1 358 718, frontier `L ≥ 7863` — needs 267 more blocks (~190 s), that
+monotonicity lemma, and a `cert 4961` at ~2370-digit numerals.  Affordable, no
+longer free.
+
+This is the staircase `Bootstrap` priced: each rung costs a fresh sweep and
+multiplies the range by about 1.1.  It is not a bootstrap, and by
+`ArchimedeanCeiling.sandwich_vacuous` it cannot pass `a = 3N` however far it is
+pushed.
+
 ## What is actually left
 
 Every mechanism this round examined closed.  Setting them side by side, the
