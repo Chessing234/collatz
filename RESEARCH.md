@@ -816,3 +816,47 @@ points now fix the price of the archimedean asset: `102400 → 520`,
 `307200 → 1539`, `768000 → 2593`; the bound grows like the square root of the
 verified range.  Everything else the round produced is either a sharpening of
 what was known, or a proof that a hoped-for mechanism cannot exist.
+
+
+## The frontier, final for this round: 4701
+
+The product bound compares `3^a·(2c + a)` against `2c·2^j`, and its accumulator
+input is `C ≤ a·3^(a−1)`.  That input is loose, and not by a little: the odd-step
+*times are integers*, so the true ceiling is the recursion
+
+`Bcap(a+1) = 3·Bcap(a) + 2^(⌊a·log₂3⌋)`,
+
+whose steps land on the integer points of `i·log₂3` rather than on a smooth
+envelope.  Realizability, not size.  The gain is a constant factor — measured
+`0.7213 = 1/(2 ln 2)`, which is `∫₀¹2^(−u)du`, forced because `log₂ρᵢ = tᵢ −
+i·log₂3` is pinned modulo one — and constant factors move this frontier a long
+way, because it grows like the square root of its input.
+
+| verified range | product bound | realizability bound |
+|---|---|---|
+| 102 400 | 520 | 1539 |
+| 307 200 | 1539 | 2593 |
+| 614 400 | — | 3647 |
+| 768 000 | 2593 | **4701** |
+
+The realizability bound at a given range matches the product bound at about two
+and a half times that range.
+
+Two simplifications made it cheap.  The induction needs no odd-step-time
+bookkeeping at all — the time at which the `(a+1)`-st odd step is taken *is* the
+`j` at which it is taken — and the cycle exclusion needs no sweep over lengths,
+because the same lemma applied at `j = L` gives `L ≤ ⌊a·log₂3⌋` and contradicts
+`3^a < 2^L` outright.  One `decide`, 2966 facts on integers up to 1418 digits,
+under a second.
+
+The window lemma that comes out is sharper than the one it was built for: it
+holds at **every** time, not only at odd-step times, so it bounds `2^j` by
+`3^(oddCount m j)` with no factor of two and no cap on `j` — only on the odd-step
+count.  That strictly supersedes both `HeavyWord.heavy_window_2592` and
+`CycleProduct.neverDrops_heavy_window`.
+
+Recorded because it was checked and found wrong: the tidy majorant
+`4C ≤ (a+1)·3^a` is true but **not** provable by the obvious induction — the step
+needs `frac(a·log₂3) ≥ log₂(4/3)`, which fails at about 40 % of indices, and no
+constant strengthening repairs it (the two `⌊i·log₂3⌋` jump cases force
+incompatible constants).  `Bcap` itself is sharper and no harder for the kernel.
