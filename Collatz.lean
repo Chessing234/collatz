@@ -103,6 +103,7 @@ import Collatz.Strategy.ExpSum
 import Collatz.Strategy.GapPrimes
 import Collatz.Search.VerifiedExtended
 import Collatz.Strategy.RealizableFrontier6809
+import Collatz.Strategy.JointRank
 import Collatz.Strategy.SieveGrowth
 import Collatz.Strategy.Profile
 import Collatz.Strategy.ExchangeRate

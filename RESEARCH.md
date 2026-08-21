@@ -1464,6 +1464,66 @@ multiplies the range by about 1.1.  It is not a bootstrap, and by
 `ArchimedeanCeiling.sandwich_vacuous` it cannot pass `a = 3N` however far it is
 pushed.
 
+## The last surviving hypothesis class is now closed too
+
+The paragraph below this one, as first written, named the joint rank
+`Φ(x) = f(x mod m, ⌊log₂ x⌋)` as "the unique survivor of eleven independent
+attacks and untouched by every impossibility theorem in the development."  It is
+now touched.
+
+> **`JointRank.no_joint_class_ranking`** — for every modulus `m ≥ 1`, every window
+> `L ≥ 2`, every threshold `B`, and every `Φ` constant on pairs
+> `(x mod m, ⌊log₂ x⌋)`, there is no `x > B` with `Φ(T^L x) < Φ(x)` for all such
+> `x`.  `no_joint_ranking_wf` gives the same for **any well-founded codomain**,
+> ordinals included.
+
+Two things about how it was proved are worth keeping, because both correct
+guesses recorded here.
+
+**The collapse I conjectured does not happen.**  The guess was that since the
+residue mod `2^L` determines the drift (Terras), taking `m = 2^L` would make the
+archimedean coordinate a function of the residue and reduce the joint rank to a
+pure congruence rank, already closed.  It does not.  The residue pins the *ratio*
+`T^L(x)/x`, but `⌊log₂⌋` of a pinned ratio still depends on the **mantissa** of
+`x`, which the residue does not see.  Measured over 200 000 consecutive `x` near
+`2^20`: at `L = 8`, `m = 2^8`, 112 of the 256 residue classes carry **two**
+distinct drift values, spread exactly 1.  So the joint class is strictly larger
+than the closed congruence class, and these theorems are not corollaries of
+`AnyModulusRanking`.
+
+**Cycle detection is the wrong test, and the old witness does not work.**  The
+`AnyModulusRanking` witness `n = 2^L·m − 1` fails here: `T^L(n) = 3^L·m − 1` and
+`3^L ≥ 2^(L+1)` for `L ≥ 2`, so `⌊log₂⌋` *strictly increases* and no descent is
+contradicted.  (At `L = 1` it does work — `m = 5`, `n = 9`, `T(9) = 14`, same
+residue and same bucket — which is why the theorems carry `L ≥ 2`.)  Nor is the
+realized `(residue, bucket)` graph the right object: it is **infinite**, so
+acyclicity would not give a ranking, and it does contain cycles anyway.
+
+The killing object is an **infinite strictly-ascending path at constant residue
+with prescribed bucket**.  For target bucket `H`, put `P = 2^(H−L)`,
+`M = m·(⌊P/m⌋ + 1)`, `wit = 2^L·M − 1`.  Then `P < M ≤ 2P` gives
+`⌊log₂ wit⌋ = H` exactly, `wit ≡ T^L(wit) ≡ −1 (mod m)`, and
+`T^L(wit) + 1 = 3^L·M ≥ 2^(H+1)` so the bucket strictly rises.  Descent then gives
+`g(H') < g(H)` with `H' > H` for every `H ≥ L + m + B` — an infinite descent in a
+well-founded codomain.  Independently verified on 11 264 witnesses
+(`m ≤ 64`, `2 ≤ L ≤ 12`, 16 buckets each), zero failures, with `T^L` recomputed
+from the map each time.
+
+A sharp structural distinction falls out.  `AnyModulusRanking.no_ranking_general`
+needed only *irreflexivity*, because its witness forced an **equality** of ranks.
+Here the witness forces a strict decrease along an ascending chain, so
+**well-foundedness is exactly what is consumed** — which is what "ranking
+function" means, so nothing is lost.  A non-well-founded codomain genuinely
+escapes, and is not a ranking function.
+
+What is left free, stated precisely: a rank reading a *finer* archimedean datum
+than the bucket (at the limit, `x` itself, where a rank trivially exists — so this
+is the real boundary); a rank decreasing only *along* a counterexample orbit
+rather than globally, the same caveat that applies to
+`ExchangeRate.no_valuation_size_ranking`; and variable windows together with the
+bucket simultaneously, which `joint_step` should transport to but which was not
+proved.
+
 ## What is actually left
 
 Every mechanism this round examined closed.  Setting them side by side, the
