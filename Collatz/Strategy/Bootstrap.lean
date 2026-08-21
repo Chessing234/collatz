@@ -66,17 +66,17 @@ theorem affineC_ge_pow (x : Nat) :
     ∀ j : Nat, 3 ^ oddCount x j ≤ affineC j x + 2 ^ oddCount x j := by
   intro j
   induction j with
-  | zero => simp [affineC, oddCount]
+  | zero => simp [affineC, oddCount, parityVector]
   | succ j ih =>
     have hlast := Density.oddCount_succ_last x j
     have hle : oddCount x j ≤ j := oddCount_le_self x j
     have hpow : (2:Nat) ^ oddCount x j ≤ 2 ^ j := Arith.two_pow_le_two_pow hle
     rcases Arith.mod_two_eq_zero_or_one (acceleratedOrbit j x) with ho | ho
     · have hc : affineC (j + 1) x = affineC j x := affineC_even ho
-      have hcount : oddCount x (j + 1) = oddCount x j := by rw [hlast, ho]
+      have hcount : oddCount x (j + 1) = oddCount x j := by omega
       rw [hc, hcount]; exact ih
     · have hc : affineC (j + 1) x = 3 * affineC j x + 2 ^ j := affineC_odd ho
-      have hcount : oddCount x (j + 1) = oddCount x j + 1 := by rw [hlast, ho]
+      have hcount : oddCount x (j + 1) = oddCount x j + 1 := by omega
       rw [hc, hcount, Arith.three_pow_succ, Arith.two_pow_succ]
       omega
 
@@ -118,19 +118,17 @@ theorem bootstrap_loop {m L c : Nat} (hm : 0 < m) (hc : c ≤ m)
       ≤ oddCount m L * 3 ^ oddCount m L * m := by
   have hstep := bootstrap_step hm hc h hheavy
   have hfloor := bootstrap_floor hm h
-  -- `3 c (3^a − 2^a) ≤ 3 c G m ≤ (a 3^a) m`
-  have h1 : 3 * (c * (3 ^ oddCount m L - 2 ^ oddCount m L))
-      ≤ 3 * (c * ((2 ^ L - 3 ^ oddCount m L) * m)) := by
-    have : 3 ^ oddCount m L - 2 ^ oddCount m L ≤ (2 ^ L - 3 ^ oddCount m L) * m := by
-      omega
-    exact Nat.mul_le_mul_left _ (Nat.mul_le_mul_left _ this)
-  have h2 : 3 * (c * ((2 ^ L - 3 ^ oddCount m L) * m))
-      ≤ oddCount m L * 3 ^ oddCount m L * m := by
-    have hx : 3 * ((2 ^ L - 3 ^ oddCount m L) * c) * m
-        ≤ oddCount m L * 3 ^ oddCount m L * m := Nat.mul_le_mul_right _ hstep
-    have hy : 3 * (c * ((2 ^ L - 3 ^ oddCount m L) * m))
-        = 3 * ((2 ^ L - 3 ^ oddCount m L) * c) * m := by ring
+  -- `3 c (3^a − 2^a) ≤ 3 c (G m) = (3 G c) m ≤ (a 3^a) m`
+  have hsub : 3 ^ oddCount m L - 2 ^ oddCount m L ≤ (2 ^ L - 3 ^ oddCount m L) * m := by
     omega
+  have h1 : 3 * (c * (3 ^ oddCount m L - 2 ^ oddCount m L))
+      ≤ 3 * (c * ((2 ^ L - 3 ^ oddCount m L) * m)) :=
+    Nat.mul_le_mul_left _ (Nat.mul_le_mul_left _ hsub)
+  have hy : 3 * (c * ((2 ^ L - 3 ^ oddCount m L) * m))
+      = 3 * ((2 ^ L - 3 ^ oddCount m L) * c) * m := by
+    simp [Nat.mul_comm, Nat.mul_left_comm]
+  have hx : 3 * ((2 ^ L - 3 ^ oddCount m L) * c) * m
+      ≤ oddCount m L * 3 ^ oddCount m L * m := Nat.mul_le_mul_right _ hstep
   omega
 
 /-! ## The verdict: the gain factor is `3 (1 − (2/3) ^ a) / a`
@@ -151,9 +149,11 @@ theorem bootstrap_loses {a c : Nat} (hc : 0 < c) (ha : 4 ≤ a) :
   have hA : 3 * (3 ^ a - 2 ^ a) < 3 * 3 ^ a := by omega
   have hB : 3 * 3 ^ a ≤ a * 3 ^ a := Nat.mul_le_mul_right _ (by omega)
   have hlt : 3 * (3 ^ a - 2 ^ a) < a * 3 ^ a := by omega
-  calc 3 * (c * (3 ^ a - 2 ^ a)) = (3 * (3 ^ a - 2 ^ a)) * c := by ring
-    _ < (a * 3 ^ a) * c := Nat.mul_lt_mul_right hc hlt
-    _ = a * 3 ^ a * c := rfl
+  have heq : 3 * (c * (3 ^ a - 2 ^ a)) = (3 * (3 ^ a - 2 ^ a)) * c := by
+    simp [Nat.mul_comm, Nat.mul_left_comm]
+  have hmul : (3 * (3 ^ a - 2 ^ a)) * c < (a * 3 ^ a) * c :=
+    (Nat.mul_lt_mul_right hc).mpr hlt
+  omega
 
 /-! ## Where the loss comes from: the accumulator window spans a factor `a`
 
@@ -176,6 +176,9 @@ theorem bcap_ge_pow : ∀ a : Nat, a * 3 ^ a ≤ 6 * Bcap a := by
     -- `6 Bcap(a+1) = 18 Bcap a + 6 · 2^(fexp a) ≥ 3 a 3^a + 3 · 3^a = (a+1) 3^(a+1)`
     have hkey : 3 * 3 ^ a ≤ 6 * 2 ^ fexp a := by omega
     have h18 : 3 * (a * 3 ^ a) ≤ 3 * (6 * Bcap a) := Nat.mul_le_mul_left _ ih
+    have hexp : (a + 1) * (3 * 3 ^ a) = 3 * (a * 3 ^ a) + 3 * 3 ^ a := by
+      rw [Nat.succ_mul]
+      simp [Nat.mul_left_comm]
     rw [hB, h3]
     omega
 
@@ -183,9 +186,39 @@ theorem bcap_ge_pow : ∀ a : Nat, a * 3 ^ a ≤ 6 * Bcap a := by
 overtakes its floor, so the loop's return value is below its input. -/
 theorem bcap_gt_pow {a : Nat} (ha : 7 ≤ a) : 3 ^ a < Bcap a := by
   have h := bcap_ge_pow a
-  have h3 : (0:Nat) < 3 ^ a := Nat.pos_pow_of_pos' a
+  have h3 : (0:Nat) < 3 ^ a := Nat.pow_pos (by omega)
   have h7 : 7 * 3 ^ a ≤ a * 3 ^ a := Nat.mul_le_mul_right _ ha
   omega
+
+/-! ## The mod-`2 ^ m` bootstrap dies at `m = 3`, and exactly why
+
+`HeavyResidue.affineC_mod_four` is a genuine bootstrap: heaviness at `i = 1, 2`
+forces the first two steps odd, every later odd step contributes `2 ^ j` with
+`j ≥ 2` — invisible mod four — and multiplies `C` and `3 ^ a` alike.  The natural
+generalisation `C ≡ 3 ^ a (mod 2 ^ m)` would need heaviness to force the first
+`m` steps odd.  It forces exactly two, because
+
+  `2 ^ 1 > 3 ^ 0`,   `2 ^ 2 > 3 ^ 1`,   but   `2 ^ 3 = 8 ≤ 9 = 3 ^ 2`.
+
+The third step is free, and the two branches split `C` mod eight: `C ≡ 3 ^ a` if
+it is odd, `C ≡ 3 ^ a + 4` if it is even.  The witness below is the second
+branch — the smallest one. -/
+
+/-- `x = 11` has parity word `1101` over four steps and is heavy throughout. -/
+theorem heavy_eleven :
+    2 ^ 1 ≤ 3 ^ oddCount 11 1 ∧ 2 ^ 2 ≤ 3 ^ oddCount 11 2 ∧
+      2 ^ 3 ≤ 3 ^ oddCount 11 3 ∧ 2 ^ 4 ≤ 3 ^ oddCount 11 4 := by decide
+
+/-- **Mod four holds on it** — `affineC 4 11 = 23 ≡ 3 ≡ 27 = 3 ^ 3`. -/
+theorem eleven_mod_four : affineC 4 11 % 4 = 3 ^ oddCount 11 4 % 4 := by decide
+
+/-- **Mod eight fails on it**: `23 % 8 = 7` while `27 % 8 = 3`.  So no bootstrap
+of the form `C ≡ 3 ^ a (mod 2 ^ m)` on heavy windows survives past `m = 2`. -/
+theorem eleven_mod_eight : affineC 4 11 % 8 ≠ 3 ^ oddCount 11 4 % 8 := by decide
+
+/-- The exact obstruction: heaviness cannot force a third odd step, because
+`2 ^ 3 ≤ 3 ^ 2`.  (Contrast `2 ^ 2 > 3 ^ 1`, which is why mod four works.) -/
+theorem third_step_free : (2:Nat) ^ 3 ≤ 3 ^ 2 ∧ (3:Nat) ^ 1 < 2 ^ 2 := by decide
 
 end Bootstrap
 end Collatz

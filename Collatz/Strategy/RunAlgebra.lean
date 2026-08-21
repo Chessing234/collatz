@@ -1,4 +1,5 @@
 import Collatz.Strategy.TwoRunOrder
+import Collatz.Strategy.HeavyWord
 
 /-!
 # Run algebra: the shifted accumulator, and what runs can and cannot do
@@ -107,6 +108,20 @@ hence fewer than `10 a / 17` complete runs (`heavy_run_count`).  The constant is
 essentially sharp: the extremal heavy prefix found by exhaustive search over all
 words of length `≤ 22` has `B = 12` odd steps in `r = 7` runs, and
 `10 · 12 = 120 > 119 = 17 · 7` by one.
+
+## The conserved quantity
+
+Normalising the defect by the multiplier gives
+
+`Φ_j = 2 ^ j · (T^j(x) + 1) / 3 ^ (oddCount x j) = (x + 1) + runA j x / 3 ^ (oddCount x j)`.
+
+`Φ` is **exactly constant along odd steps** (`phi_const_odd`) and **strictly
+increases at every even step**, by `2 ^ j / 3 ^ (oddCount x j)`
+(`phi_incr_even`).  So `Φ` is a monotone, run-graded Lyapunov quantity, and it is
+the quantitative form of `RunInvariance.bound_invariant_under_run`: odd runs
+carry it with slack exactly zero.  Measured on 3 000 orbits over 60 steps: `runA`
+monotone, `Φ` nondecreasing, constant on every odd step, strictly increasing on
+every even step, in every instance.
 
 ## Soundness filter
 
@@ -305,6 +320,26 @@ theorem cycle_shifted {n L : Nat} (hn : 0 < n) (h : AccIsCycleOf n L) :
     rw [Nat.mul_add, Nat.mul_one]
   omega
 
+/-! ## The conserved quantity -/
+
+/-- **`Φ` is constant along odd steps.**  Cleared of denominators:
+`3 ^ a_j · A_{j+1} = 3 ^ a_{j+1} · A_j`. -/
+theorem phi_const_odd {x j : Nat} (h : acceleratedOrbit j x % 2 = 1) :
+    3 ^ oddCount x j * runA (j + 1) x = 3 ^ oddCount x (j + 1) * runA j x := by
+  have hlast := Density.oddCount_succ_last x j
+  have hcount : oddCount x (j + 1) = oddCount x j + 1 := by omega
+  rw [hcount, runA_odd h, Arith.three_pow_succ]
+  rw [Nat.mul_left_comm, Nat.mul_assoc]
+
+/-- **`Φ` strictly increases at every even step**, by exactly
+`2 ^ j / 3 ^ a_j`. -/
+theorem phi_incr_even {x j : Nat} (h : acceleratedOrbit j x % 2 = 0) :
+    3 ^ oddCount x j * runA (j + 1) x
+      = 3 ^ oddCount x (j + 1) * runA j x + 3 ^ oddCount x j * 2 ^ j := by
+  have hlast := Density.oddCount_succ_last x j
+  have hcount : oddCount x (j + 1) = oddCount x j := by omega
+  rw [hcount, runA_even h, Nat.mul_add]
+
 /-! ## Rigidity: the invariants determine the word -/
 
 /-- One step of the shifted accumulator, split at the *front* rather than the
@@ -345,6 +380,167 @@ theorem runA_parity (x k : Nat) :
   · intro h
     rw [runA_head x k, runA_one_even h, Nat.mul_one]
     have := three_pow_odd (oddCount (acceleratedOrbit 1 x) k)
+    omega
+
+/-- Odd-step count of a single step. -/
+theorem oddCount_one_odd {x : Nat} (h : x % 2 = 1) : oddCount x 1 = 1 := by
+  have h0 : acceleratedOrbit 0 x % 2 = 1 := h
+  have := Density.oddCount_succ_last x 0
+  simp at this
+  omega
+
+theorem oddCount_one_even {x : Nat} (h : x % 2 = 0) : oddCount x 1 = 0 := by
+  have h0 : acceleratedOrbit 0 x % 2 = 0 := h
+  have := Density.oddCount_succ_last x 0
+  simp at this
+  omega
+
+/-- **Rigidity: the invariants determine the parity word.**  If two starting
+points have the same odd-step count and the same shifted accumulator over a
+window of length `j`, they take the same parity at every one of those `j` steps.
+
+This is the converse of `AccumulatorClass.oddCount_congr_of_mod` and
+`AccumulatorClass.affineC_congr_of_mod`, and it is *false* for `affineC`: the
+refuted collision at length `83` has `a = 53` against `a' = 55`, so it violates
+the odd-count hypothesis, not the accumulator one.  In the shifted coordinate the
+two hypotheses together are rigid. -/
+theorem runA_word_eq : ∀ (j x y : Nat), oddCount x j = oddCount y j →
+    runA j x = runA j y → ∀ i : Nat, i < j →
+      acceleratedOrbit i x % 2 = acceleratedOrbit i y % 2 := by
+  intro j
+  induction j with
+  | zero => intro x y _ _ i hi; omega
+  | succ j ih =>
+    intro x y hcount hA i hi
+    have hsucc : j + 1 = 1 + j := by omega
+    have hcx := AccumulatorArith.oddCount_add x 1 j
+    have hcy := AccumulatorArith.oddCount_add y 1 j
+    rw [← hsucc] at hcx hcy
+    have hstepx : ∀ i : Nat, acceleratedOrbit (i + 1) x
+        = acceleratedOrbit i (acceleratedOrbit 1 x) := by
+      intro i; rw [acceleratedOrbit_add i 1 x]
+    have hstepy : ∀ i : Nat, acceleratedOrbit (i + 1) y
+        = acceleratedOrbit i (acceleratedOrbit 1 y) := by
+      intro i; rw [acceleratedOrbit_add i 1 y]
+    -- the leading bits agree
+    have hlead : x % 2 = y % 2 := by
+      rcases Arith.mod_two_eq_zero_or_one x with hx | hx <;>
+        rcases Arith.mod_two_eq_zero_or_one y with hy | hy
+      · omega
+      · exfalso
+        have h1 := (runA_parity x j).2 hx
+        have h2 := (runA_parity y j).1 hy
+        rw [hsucc] at hA
+        omega
+      · exfalso
+        have h1 := (runA_parity x j).1 hx
+        have h2 := (runA_parity y j).2 hy
+        rw [hsucc] at hA
+        omega
+      · omega
+    -- the tails agree
+    have htail : runA j (acceleratedOrbit 1 x) = runA j (acceleratedOrbit 1 y) ∧
+        oddCount (acceleratedOrbit 1 x) j = oddCount (acceleratedOrbit 1 y) j := by
+      rcases Arith.mod_two_eq_zero_or_one x with hx | hx
+      · have hy : y % 2 = 0 := by omega
+        have hcx1 := oddCount_one_even hx
+        have hcy1 := oddCount_one_even hy
+        have hoc : oddCount (acceleratedOrbit 1 x) j = oddCount (acceleratedOrbit 1 y) j := by
+          rw [hcx1] at hcx; rw [hcy1] at hcy; omega
+        refine ⟨?_, hoc⟩
+        rw [hsucc, runA_head x j, runA_head y j, runA_one_even hx, runA_one_even hy,
+          hoc] at hA
+        omega
+      · have hy : y % 2 = 1 := by omega
+        have hcx1 := oddCount_one_odd hx
+        have hcy1 := oddCount_one_odd hy
+        have hoc : oddCount (acceleratedOrbit 1 x) j = oddCount (acceleratedOrbit 1 y) j := by
+          rw [hcx1] at hcx; rw [hcy1] at hcy; omega
+        refine ⟨?_, hoc⟩
+        rw [hsucc, runA_head x j, runA_head y j, runA_one_odd hx, runA_one_odd hy] at hA
+        omega
+    rcases Nat.eq_zero_or_pos i with hi0 | hipos
+    · rw [hi0]; simpa using hlead
+    · obtain ⟨i', hi'⟩ : ∃ i', i = i' + 1 := ⟨i - 1, by omega⟩
+      rw [hi', hstepx i', hstepy i']
+      exact ih (acceleratedOrbit 1 x) (acceleratedOrbit 1 y) htail.2 htail.1 i' (by omega)
+
+/-! ## What heaviness costs a run pattern -/
+
+/-- `3 ^ 17 < 2 ^ 27`: the rational approximation `log 2 / log (3/2) > 17/10`
+that converts heaviness into a linear inequality. -/
+theorem three_pow_seventeen : (3:Nat) ^ 17 < 2 ^ 27 := by decide
+
+/-- **Heaviness, linearised.**  If `2 ^ (B + E) ≤ 3 ^ B` and `E > 0` then
+`17 · E < 10 · B`. -/
+theorem pow_ratio_bound {B E : Nat} (h : 2 ^ (B + E) ≤ 3 ^ B) (hE : 0 < E) :
+    17 * E < 10 * B := by
+  have hB : 0 < B := by
+    rcases Nat.eq_zero_or_pos B with hb | hb
+    · exfalso
+      rw [hb] at h
+      simp at h
+      have : (2:Nat) ^ 1 ≤ 2 ^ E := Arith.two_pow_le_two_pow hE
+      omega
+    · exact hb
+  have h17 : ((2:Nat) ^ (B + E)) ^ 17 ≤ ((3:Nat) ^ B) ^ 17 := Nat.pow_le_pow_left h 17
+  have hl : ((2:Nat) ^ (B + E)) ^ 17 = 2 ^ (17 * B + 17 * E) := by
+    rw [← Nat.pow_mul]
+    congr 1
+    omega
+  have hr : ((3:Nat) ^ B) ^ 17 = ((3:Nat) ^ 17) ^ B := by
+    rw [← Nat.pow_mul, ← Nat.pow_mul, Nat.mul_comm]
+  have hstrict : ((3:Nat) ^ 17) ^ B < ((2:Nat) ^ 27) ^ B :=
+    Nat.pow_lt_pow_left three_pow_seventeen (by omega)
+  have hr2 : ((2:Nat) ^ 27) ^ B = 2 ^ (27 * B) := by
+    rw [← Nat.pow_mul, Nat.mul_comm]
+  rw [hl, hr] at h17
+  rw [hr2] at hstrict
+  have hlt : (2:Nat) ^ (17 * B + 17 * E) < 2 ^ (27 * B) := by omega
+  rcases Nat.lt_or_ge (17 * B + 17 * E) (27 * B) with hgood | hbad
+  · omega
+  · exfalso
+    have := Arith.two_pow_le_two_pow hbad
+    omega
+
+/-- **A heavy window has few even steps.**  If the window of length `j` at `x` is
+heavy, then `17` times the number of even steps is less than `10` times the
+number of odd steps. -/
+theorem heavy_even_bound {x j : Nat} (h : 2 ^ j ≤ 3 ^ oddCount x j)
+    (hE : 0 < j - oddCount x j) :
+    17 * (j - oddCount x j) < 10 * oddCount x j := by
+  have hle := AffineExact.oddCount_le_self x j
+  have hj : j = oddCount x j + (j - oddCount x j) := by omega
+  refine pow_ratio_bound ?_ hE
+  rw [← hj]
+  exact h
+
+/-- **A heavy window has few runs.**  Each complete run contains at least one
+even step, so `r` complete runs force `17 · r < 10 · a`: a heavy word with `a`
+odd steps has fewer than `10 a / 17` runs.  The constant is essentially sharp —
+the extremal heavy prefix of length at most `22` has `a = 12` in `r = 7` runs,
+and `120 > 119`. -/
+theorem heavy_run_count {x j r : Nat} (h : 2 ^ j ≤ 3 ^ oddCount x j)
+    (hr : 0 < r) (hle : r ≤ j - oddCount x j) :
+    17 * r < 10 * oddCount x j := by
+  have := heavy_even_bound h (by omega)
+  omega
+
+/-- Composed with `HeavyWord.heavy_window_of_counterexample_2592`: a
+counterexample's orbit minimum takes more than `1632` odd steps in its first
+`2592`, hence has fewer than `960` complete runs there. -/
+theorem counterexample_run_count {n m : Nat} (hn : 0 < n)
+    (hnr : ¬ ReachesOne n) (hm : ∃ i : Nat, acceleratedOrbit i n = m)
+    (hnd : ∀ i : Nat, m ≤ acceleratedOrbit i m) :
+    1632 < oddCount m 2592 := by
+  have hheavy := HeavyWord.heavy_window_of_counterexample_2592 hn hnr hm hnd
+    (j := 2592) (by omega)
+  have hle := AffineExact.oddCount_le_self m 2592
+  rcases Nat.eq_or_lt_of_le hle with heq | hlt
+  · rw [heq] at hheavy ⊢
+    have : (2:Nat) ^ 2592 ≤ 3 ^ 2592 := hheavy
+    omega
+  · have := heavy_even_bound hheavy (by omega)
     omega
 
 end RunAlgebra
