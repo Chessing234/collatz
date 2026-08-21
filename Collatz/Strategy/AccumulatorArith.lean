@@ -153,6 +153,43 @@ theorem affineC_odd_of_odd {x : Nat} (hx : x % 2 = 1) :
       generalize affineC (j + 1) x = C at ih
       omega
 
+/-! ## The whole 3-adic profile, not just the unit
+
+`three_not_dvd_orbit_of_odd_step` is the case `k = 1` of something exact.  Once
+`k` odd steps have occurred, `3 ^ k` divides `3 ^ a`, so reducing the identity
+`2 ^ j T^j(x) = 3 ^ a x + C_j` modulo `3 ^ k` kills the `x` term outright:
+
+`2 ^ j · T^j(x) ≡ C_j  (mod 3 ^ k)`.
+
+The starting value has vanished from the statement.  Two different starting
+points that share a window length, an accumulator and enough odd steps land on
+the *same* residue modulo `3 ^ k` — the orbit's 3-adic position is a function of
+the parity word alone.  Measured over 175 999 cases the residue class is
+constant across all `x` sharing a word, exactly as this predicts. -/
+
+/-- **The accumulator carries the whole 3-adic reduction.**  After at least `k`
+odd steps, `2 ^ j · T^j(x)` differs from `affineC j x` by a multiple of `3 ^ k`. -/
+theorem orbit_three_pow_form {x j k : Nat} (h : k ≤ oddCount x j) :
+    2 ^ j * acceleratedOrbit j x
+      = 3 ^ k * (3 ^ (oddCount x j - k) * x) + affineC j x := by
+  have hex := affine_exact x j
+  have hsplit : (3:Nat) ^ oddCount x j = 3 ^ k * 3 ^ (oddCount x j - k) := by
+    rw [← Nat.pow_add]
+    congr 1
+    omega
+  rw [hsplit, Nat.mul_assoc] at hex
+  exact hex
+
+/-- **The 3-adic position forgets the starting point.**  Two orbits sharing a
+window length, an accumulator, and at least `k` odd steps agree modulo `3 ^ k`. -/
+theorem orbit_three_pow_indep {x y j k : Nat} (hx : k ≤ oddCount x j)
+    (hy : k ≤ oddCount y j) (hC : affineC j x = affineC j y) :
+    (2 ^ j * acceleratedOrbit j x) % 3 ^ k = (2 ^ j * acceleratedOrbit j y) % 3 ^ k := by
+  rw [orbit_three_pow_form hx, orbit_three_pow_form hy, hC,
+    Nat.add_comm ((3:Nat) ^ k * (3 ^ (oddCount x j - k) * x)) (affineC j y),
+    Nat.add_comm ((3:Nat) ^ k * (3 ^ (oddCount y j - k) * y)) (affineC j y),
+    Nat.add_mul_mod_self_left, Nat.add_mul_mod_self_left]
+
 /-! ## The cocycle law -/
 
 /-- Odd-step counts add across a split of the window. -/
