@@ -35,16 +35,36 @@ Verified before formalising: the general `k` identity on 168 944 random words,
 and this closed form exhaustively over all `b₁, e₁, b₂, e₂ ≤ 9`, in both cases
 with no failures.
 
-## What this does and does not give
+## What this does and does not give — the honest reading
 
-It does not yet exclude anything.  At `k = 1` the single unit term forces the
-size bound `d ≤ 2 ^ (L−a) − 1`, which is what kills the short one-run cycles;
-with two terms one gets a relation between two `S`-units instead, and a relation
-does not bound `d` by itself.  What the file establishes is that the *mechanism*
-is not confined to one run — the obstruction is a statement about the even
-blocks of the word, at every `k`, and the question is now whether a two-term
-`S`-unit relation can be made to bound its own modulus.  That is a sharper and
-much more standard question than the one it replaces.
+It excludes nothing, and the reason is worth stating precisely, because it is
+the reason the whole mechanism stops at one run.
+
+The collapsed sum is not merely congruent to the accumulator: writing
+`A = Σᵢ 3 ^ (a−Bᵢ) · 2 ^ sᵢ · (2 ^ eᵢ − 1)` for the right-hand side, one has
+
+`A = C + d`  **exactly**, for every word and every `k`
+
+(this file proves that identity at `k = 2`, inside `two_run_order`; it was
+verified on 200 000 random words at every `k`).  So passing from `d ∣ C` to
+`d ∣ A` is a *re-coordinatisation*, not an elimination — no information has been
+created, only moved.  What the move exposes is the factor `2 ^ b₁`: one has
+`v₂(A) = b₁` always, so the only strippable content is the leading odd run, and
+`2 ^ b₁ ≤ m + 1` is the classical run condition, already known.
+
+At `k = 1` that is enough, because there `b₁ = a`: the whole odd-step count sits
+in the exposed factor and the remaining term is the *fixed* value `2 ^ (L−a) − 1`,
+which bounds `d`.  At `k ≥ 2` the leading run is only the run at the global
+minimum, `b₁ ≪ a`, and the residual system is the Simons–de Weger cyclic system
+with `2(k−1)` free exponents — an exponential Diophantine problem needing Baker
+bounds and lattice reduction, neither of which is available here.  Measured
+exclusion power confirms it: `A < d` rules out 92.4 % of two-run words but
+plateaus with 7.6 % surviving, and three runs are *worse*, at 12.7 %.
+
+The soundness filter is what makes this final rather than merely discouraging.
+The genuine `3x−1` cycle through `17` is a two-run cycle with `A = d` exactly.
+So `d ≤ A` is *attained on a real cycle of a real map obeying the same identity*,
+and any strengthening to `d < A` is unsound, not merely unproved.
 -/
 
 namespace Collatz
