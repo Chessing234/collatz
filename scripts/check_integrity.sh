@@ -20,6 +20,8 @@ printf 'checking axiom footprint of the frontier\n'
 cat > /tmp/collatz_axcheck.lean <<'LEAN'
 import Collatz
 #print axioms Collatz.RealizableBound.length_ge_4701
+#print axioms Collatz.RealizableFrontier6809.length_ge_6809
+#print axioms Collatz.Search.reachesOne_of_lt_1086464
 #print axioms Collatz.GapSandwich.cycle_length_determined
 #print axioms Collatz.Papers.Conway1972.reachesOne_step_27
 LEAN

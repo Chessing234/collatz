@@ -43,8 +43,9 @@ This is the whole diagnosis of the edit programme.  A cycle exists because its
 gap `G = 2 ^ L − 3 ^ a` is *exceptionally small* (it must divide `C`, and `n =
 C / G`).  Every single-step edit moves `(L, a)` off the ledge
 `2 ^ (L−1) ≤ 3 ^ a < 2 ^ L` and produces a gap of size `Θ(2 ^ L)`.  Smallness of
-the gap is a continued-fraction property of `log₂ 3`, and the convergent
-denominators are `1, 2, 5, 12, 29, 41, 53, 306, …`: no edit of size one can
+the gap is a continued-fraction property of `log₂ 3`, whose convergent
+denominators are `1, 2, 5, 12, 41, 53, 306, 665, …` (an earlier draft listed
+`29` among them; `29` is a *semiconvergent*): no edit of size one can
 preserve it.
 
 ## The descent direction is insertion — and it is dead too (`append_even_descends`)

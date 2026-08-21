@@ -38,7 +38,9 @@ So the entire family of arguments is capped at
 
 `a < 3 N`,  equivalently  `L < 3 N · log₂ 3 ≈ 4.75 N`,
 
-and at the current verified range that ceiling is `a < 2304000`, `L < 3651000`.
+and at the current verified range that ceiling is `a < 2304000`, `L < 3651752`
+(`3·768000·log₂3 = 3651751.6`; an earlier draft rounded this *down* to
+`3 651 000`, which is the unsafe direction for a ceiling).
 Raising `N` moves the ceiling linearly; the ceiling is not the obstacle in
 practice, because the *achieved* bound is far below it.
 
@@ -67,8 +69,12 @@ satisfiable, with the smooth realizable constant `K = 0.7213` in place of the
 
 — the repo's two product bounds, reproduced on the nose from a two-line
 Diophantine criterion.  Extrapolating: `N = 10⁷` buys `L = 12079`, `N = 10⁹`
-buys `L = 75235`, `N = 10¹²` buys `L = 301994`.  The cost is quadratic in the
-bound, which is why this route will not reach a proof.
+buys `L = 75235`, `N = 10¹²` buys `L = 301994`.  The `√N` heuristic is a good
+average law but not a clean exponent: `L/√N` across those rows is `3.82, 2.38,
+0.302`, so the points spread over a factor of twelve, and `N ∝ L²` would predict
+a `31.6×` rise from `10⁹` to `10¹²` where `4.01×` is observed.  What is exact is
+the *ceiling* below, not the rate of approach to it.  Either way the cost grows
+faster than the bound, and this route will not reach a proof.
 
 Nothing here is an obstruction to *some other* mechanism; it is a measurement of
 one particular mechanism's price.  Its point is that the remaining work must be

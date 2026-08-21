@@ -211,26 +211,83 @@ theorem deficit_of_witness {L a e G : Nat} (h : 3 ^ L * 2 ^ e < 2 ^ a * G) :
   exact Nat.lt_of_le_of_lt
     (Nat.mul_le_mul_right (2 ^ e) (heavyCount_mul_two_pow_le L a)) h
 
+/-- **The two-term deficit interface.**  The cycle language at `(L+1, a+1)` splits
+on its last letter into the two heavy classes at length `L`, so what has to be
+bounded is `heavyCount L (a+1) + heavyCount L a`.  Raising the smaller class to
+the common power costs a factor two, so the combined majorant is `3 · 3 ^ L`
+rather than `3 ^ L`, and the witness carries that three.
+
+The common power is a *variable* `M` rather than `2 ^ (a+1)`: stating it as a
+successor makes Lean unify `?a + 1` against a numeral in the four-digit range at
+every use site, and that unification is what made an earlier version of this file
+fail to elaborate at all. -/
+theorem deficit_of_witness_sum {L e G M N₁ N₂ : Nat}
+    (h1 : N₁ * M ≤ 3 ^ L) (h2 : N₂ * M ≤ 2 * 3 ^ L)
+    (h : 3 * (3 ^ L * 2 ^ e) < M * G) :
+    (N₁ + N₂) * 2 ^ e < G := by
+  refine Nat.lt_of_mul_lt_mul_left (a := M) ?_
+  have hsum : (N₁ + N₂) * M ≤ 3 * 3 ^ L := by rw [Nat.add_mul]; omega
+  have hrw : M * ((N₁ + N₂) * 2 ^ e) = (N₁ + N₂) * M * 2 ^ e := by
+    rw [← Nat.mul_assoc, Nat.mul_comm M _]
+  rw [hrw]
+  exact Nat.lt_of_le_of_lt (Nat.mul_le_mul_right (2 ^ e) hsum)
+    (by rw [Nat.mul_assoc]; exact h)
+
 set_option exponentiation.threshold 40000
+set_option maxRecDepth 8000
+set_option maxHeartbeats 2000000
+
+/-! ### The cycle language is counted at `L − 1`, not at `L`
+
+`heavyCount L a` demands heaviness at *every* prefix, the last one included.  A
+cycle word cannot be heavy at `i = L`: heaviness there is `2 ^ L ≤ 3 ^ a`, which
+is exactly the negation of the gap being positive.  So at every pair of interest
+`heavyCount L a = 0` — for instance `heavyCount 4701 2966 = 0`, because
+`fexp 2966 = 4700` puts `3 ^ 2966` strictly below `2 ^ 4701`.
+
+An earlier version of this file stated the two deficit theorems at `(L, a)` and
+so proved only `0 < G`.  The count that matters is over words heavy at every
+*proper* prefix, which splits on the last letter:
+
+`#cycle-language(L, a) = heavyCount (L−1) a + heavyCount (L−1) (a−1)`.
+
+Both terms are genuinely nonzero, and both are bounded by
+`heavyCount_mul_two_pow_le` at `L − 1`, so the same witness serves.  The
+advertised exponents are unchanged by the repair — `205` and `254` are still
+exactly tight, and `206` and `255` are both false. -/
 
 /-- **The frontier pair.**  `(L,a) = (4701, 2966)` is the shortest length at
 which the gap `G = 2 ^ L − 3 ^ a` is small enough to permit a cycle minimum
 `≥ 768000` (the same pair as `RealizableBound.length_ge_4701`, found here from
-the counting side).  Every heavy parity word of that shape put together still
-misses the residues mod `G` by a factor `2 ^ 205`.
+the counting side).  Every word of that shape heavy at every proper prefix, put
+together, still misses the residues mod `G` by a factor `2 ^ 205`.
 
 The exact figures behind this: `log₂ (#cyclic-heavy words) = 4447.17`,
 `log₂ G = 4690.79`, deficit `2 ^ (−243.6)`.  The `205` is what survives the
 crude entropy bound. -/
 theorem count_lt_gap_4701 :
-    heavyCount 4701 2966 * 2 ^ 205 < 2 ^ 4701 - 3 ^ 2966 :=
-  deficit_of_witness (by decide)
+    (heavyCount 4700 2966 + heavyCount 4700 2965) * 2 ^ 205 < 2 ^ 4701 - 3 ^ 2966 := by
+  refine deficit_of_witness_sum (M := 2 ^ 2966)
+    (heavyCount_mul_two_pow_le 4700 2966) ?_ (by decide)
+  have h2 := heavyCount_mul_two_pow_le 4700 2965
+  have hpow : (2 : Nat) ^ 2966 = 2 ^ 2965 * 2 := by
+    rw [show (2966 : Nat) = 2965 + 1 from rfl, Nat.pow_succ]
+  rw [hpow, ← Nat.mul_assoc]
+  calc heavyCount 4700 2965 * 2 ^ 2965 * 2 ≤ 3 ^ 4700 * 2 := Nat.mul_le_mul_right 2 h2
+    _ = 2 * 3 ^ 4700 := Nat.mul_comm _ _
 
 /-- The next cycle-plausible pair; the deficit grows with `L`, by the measured
 `0.05004` bits per step. -/
 theorem count_lt_gap_5755 :
-    heavyCount 5755 3631 * 2 ^ 254 < 2 ^ 5755 - 3 ^ 3631 :=
-  deficit_of_witness (by decide)
+    (heavyCount 5754 3631 + heavyCount 5754 3630) * 2 ^ 254 < 2 ^ 5755 - 3 ^ 3631 := by
+  refine deficit_of_witness_sum (M := 2 ^ 3631)
+    (heavyCount_mul_two_pow_le 5754 3631) ?_ (by decide)
+  have h2 := heavyCount_mul_two_pow_le 5754 3630
+  have hpow : (2 : Nat) ^ 3631 = 2 ^ 3630 * 2 := by
+    rw [show (3631 : Nat) = 3630 + 1 from rfl, Nat.pow_succ]
+  rw [hpow, ← Nat.mul_assoc]
+  calc heavyCount 5754 3630 * 2 ^ 3630 * 2 ≤ 3 ^ 5754 * 2 := Nat.mul_le_mul_right 2 h2
+    _ = 2 * 3 ^ 5754 := Nat.mul_comm _ _
 
 /-! ## No forbidden block: the heavy language is not sofic -/
 

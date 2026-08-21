@@ -51,16 +51,36 @@ Consequently, for a cycle with least point `m` (so `G · m = C`):
 At `r = 1` this *is* `OneRunOrder`: there `A = 2 ^ a · (2 ^ (L−a) − 1)` and `o₁ = a`,
 so the inequality reads `G ≤ 2 ^ (L−a) − 1`, the order bound.
 
-At `r ≥ 2` it is **attained**, and therefore final.  The genuine `3x−1` cycle
-through `17` has word `11110111000`, runs `[(4,1),(3,3)]`, `a = 7`, `L = 11`,
-gap `2 ^ 11 − 3 ^ 7 = −139`, accumulator `C = 2363`, and
+At `r ≥ 2` it is **attained**, and therefore sharp.  Two separate claims are
+involved here and an earlier draft of this docstring ran them together; they are
+kept apart below because they have different scopes.
 
-`A = 2224 = 2 ^ 4 · 139 = 2 ^ o₁ · |G|`  exactly.
+**Inside this theorem's hypotheses.**  `hgap` is a `Nat` statement, so it needs a
+non-negative gap.  Exhaustive search over every run list with `runLen ≤ 24`
+satisfying the hypotheses finds equality exactly at `rs = (10)^r`, for every
+`r ≥ 1`: `[(1,1),(1,1)]` gives `a = 2`, `L = 4`, `G = 7`, `C = 7`, `m = 1`,
+`A = 14 = 7 · 2^1`.  So the bound is sharp at `r ≥ 2` — but **every** in-scope
+equality case has `m = 1`, i.e. is the trivial cycle traversed `r` times.  A
+strengthening that consumes `m ≥ 2` is therefore *not* refuted by anything here.
 
-The same equality holds on `3x−1`'s `5 → 7 → 10` (`A = 4 = 2 ^ 2 · 1`), on `3x+5`'s
-`5 → 10` (`A = 2 = 2 ^ 1 · 1`) and on the trivial `1 → 2` (`A = 2 = 2 ^ 1 · 1`).
-So `G · 2 ^ o₁ ≤ A` is an equality on four genuine cycles of three different maps:
-**no strengthening of it is sound.**  Equality holds exactly when `m + 1 = 2 ^ o₁`.
+**Outside them, as a soundness check.**  The genuine `3x−1` cycle through `17`
+has word `11110111000`, runs `[(4,1),(3,3)]`, `a = 7`, `L = 11`, and gap
+`2 ^ 11 − 3 ^ 7 = −139` — **negative**, so it cannot instantiate `hgap` at all,
+and the equality it satisfies is the sign-flipped `A = |G| · (m − 1) = 139 · 16`,
+not this theorem's `A = G · (m + 1)`.  The same holds for `3x−1`'s `5 → 7 → 10`.
+What those witnesses establish is narrower than "no strengthening is sound", and
+is the thing that matters: the *magnitude* inequality `|G| · 2 ^ o₁ ≤ |A|` holds
+for `|d| = 1` in both signs and is attained in the `d = −1` world at `m = 17`, so
+any strengthening resting only on `|d| = 1` is dead.  Only one additionally
+consuming `sign(d) = +1` remains formally possible.
+
+The universal identity underneath is `d · A = G · (m + d)`, and equality holds
+exactly when `|m + d| / |d| = 2 ^ o₁`; for `d = 1` that is `m + 1 = 2 ^ o₁`.  (The
+earlier draft stated the criterion as `m + 1 = 2 ^ o₁` while citing witnesses with
+`m = 17`, `m = 5`, `m = 5`, which violate it — the criterion is right for `d = 1`
+and the witnesses were out of scope.)  Note also that `3x+5`'s `5 → 10` is not an
+independent witness: its run list is `[(1,1)]` with `G = 1`, `A = 2`, the same row
+as the trivial `3x+1` cycle, and `m` does not appear in the inequality.
 
 ## Where `d = 1` enters, quantitatively
 

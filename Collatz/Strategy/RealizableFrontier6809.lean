@@ -28,19 +28,21 @@ widely spaced risers:
 | `c` at least | `A(c)` | frontier |
 |---|---|---|
 | `307 200` | `1636` | `L ≥ 2593` |
-| `420 842` | `2966` | `L ≥ 4701` |
+| `420 842` | `2301` | `L ≥ 3647` |
+| `620 859` | `2966` | `L ≥ 4701` |
 | `841 478` | `3631` | `L ≥ 5755` |
 | `1 086 055` | `4296` | **`L ≥ 6809`** |
 | `1 358 718` | `4961` | `L ≥ 7863` |
 
-The old range `768 000` sat on the second riser with `G(2966) = 841 477` just out
-of reach — a margin of `3 477` integers.  Verifying `311` more blocks clears both
+The old range `768 000` sat with `G(2966) = 841 477` just out of reach — a margin
+of `73 477` integers.  Verifying `311` more blocks clears both
 `841 477` and `1 086 054` at once, which is why the gain is two risers and not
 one: the frontier moves `4701 → 6809`, a `45 %` improvement, and the odd-step
 budget `A` moves `2966 → 4296`.
 
 Note the arithmetic of the trade.  The risers are spaced by a factor tending to
-`3/2 · ...` — empirically `G`'s records grow by roughly `272 664` each — while the
+`3/2 · ...` — empirically `G`'s records grow by roughly `272 664` each, and the
+record *indices* are spaced by exactly `665` — while the
 kernel cost is linear in `c`.  So each additional riser costs a *fixed* number of
 blocks (about `267`), and each buys a *fixed* `1054` on the frontier.  In this
 regime the ladder is, unusually, not getting steeper; what makes it a poor

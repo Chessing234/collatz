@@ -947,10 +947,22 @@ It is also **certificate-free**.  `GapSandwich.Bstar`/`Ecap` degrade where
 kernel computation, replacing a 2592-index `decide` over 1400-digit numerals with
 a three-line induction.
 
-Only **358** values of `a` below 40000 survive the size sandwich, one `L` each.
+Only **358** values of `a` below 40000 survive the size sandwich under the exact
+`Bstar` criterion, one `L` each.  (Survivor counts in this file are criterion-
+sensitive: the crude majorant `2a·3^a/3` gives 2216 below 60000, the smooth
+constant `K = 0.7213` gives 2393, and the exact `Bstar` gives 811.  Any count
+quoted without naming its criterion should be distrusted.)
 They are exactly `a = 306k + 665j`, and the gaps between consecutive survivors
-are exactly the continued-fraction denominators of `log₂ 3` — `12, 41, 29, 17,
-53, 5, 94, 147, 200, 253, 306, 359, 665` — and nothing else.
+are drawn from the small set `5, 12, 17, 29, 41, 53, 94, 147, 200, 253, 306, 359,
+665` and nothing else.  *Corrected:* an earlier version of this paragraph called
+these "exactly the continued-fraction denominators of `log₂ 3`".  They are not —
+the convergent denominators are `1, 2, 5, 12, 41, 53, 306, 665, 15601`, and
+`17, 29, 94, 147, 200, 253, 359` appear nowhere in that list.  They are the
+**semiconvergents** (intermediate fractions): `17 = 5 + 12`, `29 = 5 + 2·12`,
+`94 = 41 + 53`, and then `147, 200, 253, 306, 359` each adding a further `53`.
+The distinction matters, because semiconvergents are exactly what the
+three-distance theorem produces, and convergents alone would have been a much
+stronger and much less generic statement.
 
 ## The ceiling: how much the archimedean route can ever buy
 
@@ -1125,7 +1137,9 @@ mathematics survived; the prose did not.
   *along* a counterexample orbit is not excluded.  The failed-approaches table
   overstated it.
 * **The theorem count of 1558 was stale**, not inflated.  Kernel constants filtered
-  to `.thmInfo` with the `Collatz` prefix: **1694** before this round.
+  to `.thmInfo` with the `Collatz` prefix: **1694** before this round, **1945**
+  after it — the two independent measurements reconcile exactly (1937 taken before
+  `JointRank` landed, plus its 8 theorems).
 
 ## The question Round II left open is now answered — and closed
 
@@ -1283,6 +1297,106 @@ Three further models were taken up and returned negative results with reasons:
   which is not a finite quotient and so is untouched by the existing theorems.
   Recorded as the live remnant.
 
+## The counting theorem was vacuous, and the measurement was not
+
+A second adversarial pass audited this round's *own* new claims.  The mathematics
+held again; four things did not, and this is the one that matters.
+
+`CycleLanguage.count_lt_gap_4701` and `count_lt_gap_5755`, as first written,
+**counted the empty set.**  `heavyCount L a` demands heaviness at *every* prefix,
+the last one included — and a cycle word cannot be heavy at `i = L`, because
+heaviness there is `2^L ≤ 3^a`, exactly the negation of the gap being positive.
+Since `fexp 2966 = 4700` puts `3^2966` strictly below `2^4701`,
+
+`heavyCount 4701 2966 = 0`,
+
+so the theorem asserted `0 < G`.  The file's own §"The three languages" defines
+the cycle language as heavy at every *proper* prefix; `heavyCount` does not, and
+the two disagree at precisely the pairs of interest.  A definitional mismatch the
+file named and then walked into.
+
+**The measurement was never in doubt** — `log₂(binom(4701,2966)/4701) = 4447.1688`
+and `log₂ G = 4690.7951` were recomputed independently three times, and the
+`2^(−243.6)` surplus stands.  What was missing was a theorem about it.
+
+The repair is exact and costs nothing.  The cycle-language count splits on the
+last letter:
+
+`#cycle-language(L, a) = heavyCount (L−1) a + heavyCount (L−1) (a−1)`,
+
+both terms nonzero.  Raising the smaller class to the common power costs a factor
+two, so the combined majorant is `3·3^(L−1)` and the witness carries that three
+(`deficit_of_witness_sum`).  The split identity was checked exhaustively: over
+every `(L, a)` with `L ≤ 16` and `3^a < 2^L`, the number of words heavy at every
+proper prefix equals `heavyCount (L−1) a + heavyCount (L−1) (a−1)` — **zero
+mismatches** — and `heavyCount L a` is zero at *every one* of those pairs, not
+only at the two the theorems used.  **Both advertised exponents survive unchanged**:
+`205` and `254` are still exactly tight, and `206` and `255` are both false.  So
+the headline numbers were right and only the object being counted was wrong.
+
+One Lean-technique note, because it cost an hour and will recur: the repaired
+lemma must take the common power as a *variable* `M`, not as `2 ^ (a+1)`.  Stating
+it as a successor makes the elaborator unify `?a + 1` against a four-digit numeral
+at each use site, and that unification does not terminate in any practical time —
+the file simply never elaborated.  With `M` a variable and the successor
+arithmetic done at the call site, both theorems compile in seconds.
+
+Recorded as a standing gap: `heavyCount` is still not *proved* equal to the
+cardinality of the heavy language.  The recursion is transparently the right
+transfer count and reproduces the exhaustive figures (`heavyCount 20 13 = 8045`),
+but the identification is an unproved bridge, and the deficit theorems should be
+read as bounds on the recursion, not on a set.
+
+### The other three kills
+
+* **A staircase row was off by a whole riser.**  `RealizableFrontier6809`'s table
+  claimed `c ≥ 420 842 ⟹ A = 2966 ⟹ L ≥ 4701`.  The `G`-records are
+  `238 670, 420 841, 620 858, 841 477, 1 086 054, 1 358 717`, so `A(420 842) =
+  2301` and the frontier is `L ≥ 3647`; the threshold for `A = 2966` is
+  `c ≥ 620 859`.  The table silently deleted the `A = 2301` riser.  Every other
+  row was exact.  Also corrected there: the margin by which `768 000` missed was
+  `73 477`, not `3 477` — a dropped digit.
+* **The S-unit sharpness argument cited cycles that cannot instantiate its own
+  theorem.**  `cycle_gap_lead_le`'s `hgap` is a `Nat` statement needing a
+  non-negative gap, so the `3x−1` witnesses fall outside it — the equality they
+  satisfy is the sign-flipped `A = |G|·(m−1)`.  Worse, exhaustive search over
+  every run list with `runLen ≤ 24` *inside* the hypotheses finds equality only at
+  `rs = (10)^r`, and **every in-scope equality case has `m = 1`** — the trivial
+  cycle traversed `r` times.  So "sharp at `r ≥ 2`" survives, but a strengthening
+  consuming `m ≥ 2` is not refuted by any in-scope witness.  The closure argument
+  rests on the out-of-scope `d = −1` witnesses, which kill any `|d| = 1`-only
+  strengthening; that is what it establishes, and no more.
+* **A docstring cited a theorem that does not exist** — `word_denominator_least`
+  appears nowhere in the repository, and minimality of `δ` is never proved.
+
+### And the claim about continued fractions was wrong in three files
+
+This ledger, `GapSandwich` and `MinimalCycle` all said the gaps between
+consecutive surviving `a` "are exactly the continued-fraction denominators of
+`log₂ 3`".  They are not.  The convergent denominators are `1, 2, 5, 12, 41, 53,
+306, 665, 15 601`; the observed gaps include `17, 29, 94, 147, 200, 253, 359`,
+none of which is in that list.  They are **semiconvergents** — `17 = 5 + 12`,
+`29 = 5 + 2·12`, `94 = 41 + 53`, then `147, 200, 253, 306, 359` each adding a
+further `53`.  That is what the three-distance theorem produces, and it is a
+weaker, more generic statement than the one it replaces.  `MinimalCycle` also
+listed `29` as a convergent denominator, which it is not.
+
+Two smaller repairs: `Rotation`'s "both sets are empty" holds for `a ≥ 1` but not
+for the all-even word, which has `C = 0` and is divisible by every gap; and
+`ArchimedeanCeiling`'s "the cost is quadratic in the bound" is contradicted by its
+own table (`L/√N` spreads over a factor of twelve across the rows), so the `√N`
+law is an average, not an exponent — what is exact is the ceiling, not the rate of
+approach to it.
+
+Verified clean under this second audit, with independent recomputation: the whole
+`6809` frontier including a direct simulation of all 19 904 surviving residues in
+blocks 750–1060 (**max steps-to-drop 183**, against fuel 200, first failure at
+block 1099 exactly as claimed); `GapSandwich`'s entire induction chain, with
+`affineC_le_Bstar` stress-tested on 200 000 real orbit prefixes for zero
+violations; `word_is_cycle_word` exhaustively to `L = 14`; `ExpSum`'s Parseval
+normalisation and all nine rows of its measurement table; both completeness
+theorems; and `sandwich_vacuous`'s constant.
+
 ## The exponential-sum route is closed too — by an unconditional barrier
 
 The 243-bit surplus is real and was confirmed from a second direction.  It is
@@ -1430,8 +1544,8 @@ paid.  The verified range went from **768 000 to 1 086 464** (1061 blocks of
 length below **6809**.
 
 Two rungs came for one sweep because 768 000 was sitting only 3 477 short of the
-first riser.  The `G`-records, independently recomputed, are spaced by exactly
-665 — the continued-fraction denominator, again:
+first riser.  The `G`-records, independently recomputed, are spaced by exactly 665 — which *is*
+a convergent denominator of `log₂ 3`, unlike the survivor gaps above:
 
 | record index `i` | `G(i)` | `fexp i` | frontier `L` |
 |---|---|---|---|

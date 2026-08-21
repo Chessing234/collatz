@@ -28,9 +28,12 @@ consequence is negative and worth stating flatly:
 as restrictive as requiring it for one.**  Verified exhaustively: for every
 `L ≤ 22` and every `a` with `2 ^ L > 3 ^ a`, the set of words of length `L` with
 `a` odd letters whose accumulator is divisible by `G` coincides with the set
-whose *every* rotation is divisible by `G` (both sets are empty unless
-`L = 2a`, where both have exactly two elements — the rotations of the trivial
-cycle).  No pigeonhole over rotations exists to be exploited.
+whose *every* rotation is divisible by `G`.  For `a ≥ 1` both sets are empty
+unless `L = 2a`, where both have exactly two elements — the rotations of the
+trivial cycle.  (The `a = 0` row is a one-element exception at every `L`: the
+all-even word has `C = 0`, which every `G` divides.  An earlier draft of this
+paragraph said "empty" without that caveat.)  No pigeonhole over rotations exists
+to be exploited.
 
 ## What rotation does give: the maximum
 

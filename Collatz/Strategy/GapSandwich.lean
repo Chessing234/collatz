@@ -77,7 +77,7 @@ a range of `73 478` integers.  The next surviving pairs and their windows:
 | 5932 | 9402 | 841 477 |
 
 so the frontier as a function of the verified range `c` continues
-`768 000 → 4701`, `841 478 → 5755`, `1 086 263 → 6809`, `1 359 157 → 7863`,
+`768 000 → 4701`, `841 478 → 5755`, `1 086 055 → 6809`, `1 359 157 → 7863`,
 `2 011 151 → 9971`, `2 405 251 → 11 025`.  Every step of that staircase costs a
 genuine extension of the verified range; the ratio `m_max / c` is only about
 `1.1`, so the bootstrap does not run by itself.
@@ -109,18 +109,36 @@ The right-hand side *grows* linearly in `a`, while `δ_a` is as small as
 `1 / q_{k+1}` infinitely often (`q_k` the convergent denominators of `log₂ 3`:
 `1, 2, 5, 12, 41, 53, 306, 665, 15 601, 31 867, 79 335, 111 202, 190 537, …`).
 So the number of surviving `a` below `A` is asymptotically `A² / (3 c ln 2)` —
-counted exactly: `2216` survivors below `60 000` at `c = 768 000`, against the
-prediction `2254`.  It diverges for every fixed `c`.  **The sandwich, and every
+counted under the *crude* majorant `2a·3^a/3`: `2216` survivors below `60 000` at
+`c = 768 000`, against the prediction `2254`.  It diverges for every fixed `c`.
+
+Note the criterion switch, because it is easy to conflate: the survivor **table**
+above uses the exact `Bstar` recursion and gives `811` below `60 000`; the count
+just quoted uses the crude majorant and gives `2216`; the smooth constant
+`K = 0.7213` gives `2393`.  All three are the same phenomenon at different
+constants, and the divergence conclusion holds for each, but no survivor count
+should be quoted here without naming its criterion.  **The sandwich, and every
 sharpening of its constant, can only ever prove a frontier, never `H36`.**
 
 The surviving `a` are not arbitrary.  With `δ₃₀₆ = 1.474779·10⁻³` and
 `ε = 1 − δ₆₆₅ = 6.298·10⁻⁵`, the good indices are `a = 306 k + 665 j` with
 `δ_a = k·δ₃₀₆ − j·ε`; the survivor list begins
 `2966 = 306 + 4·665`, `3631 = 306 + 5·665`, `4296`, `4961`, `5626`,
-`5932 = 2·306 + 8·665`, … and the *gaps between consecutive survivors* are
-exactly the continued-fraction denominators `5, 12, 17, 29, 41, 53, 94, 147,
-200, 253, 306, 359, 665` (5547 gaps of `12`, 853 of `41`, 843 of `29`, 826 of
-`17`, 600 of `53`, … over the first 9032 survivors).  This is the same
+`5932 = 2·306 + 8·665`, … and the *gaps between consecutive survivors* are drawn
+from `5, 12, 17, 29, 41, 53, 94, 147, 200, 253, 306, 359, 665` and nothing else
+(under the `K = 0.7213` criterion, over the 2393 survivors below `60 000`:
+1363 gaps of `12`, 293 of `29`, 290 of `41`, 205 of `53`, 200 of `17`, 7 of `5`,
+and single figures for the rest).
+
+*Corrected:* these are **not** "the continued-fraction denominators".  The
+convergent denominators are listed four lines above — `1, 2, 5, 12, 41, 53, 306,
+665, 15 601, …` — and `17, 29, 94, 147, 200, 253, 359` appear in none of them.
+They are the **semiconvergents**: `17 = 5 + 12`, `29 = 5 + 2·12`, `94 = 41 + 53`,
+then `147, 200, 253, 306, 359` each adding a further `53`.  That is exactly what
+the three-distance theorem produces, and it is a weaker and more generic
+statement than the convergent claim it replaces.  An earlier draft also gave a
+gap histogram that does not reproduce under any of the three criteria; the figures
+above are recomputed.  This is the same
 staircase `RealizableBound` names: the quality of the rational approximations to
 `log 3 / log 2`, and nothing else.
 -/

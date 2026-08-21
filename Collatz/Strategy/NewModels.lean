@@ -61,7 +61,9 @@ fixed point `C / (2 ^ L − 3 ^ a)`.  The elementary shadow of that statement is
 The consequence is the **denominator of a word**: for `g = gcd(C, G)` and
 `δ = G / g`, the integer `n = C / g` solves the cycle equation of the word `w`
 for the map `x ↦ (3x + δ)/2` exactly (`word_denominator_equation`), and `δ` is
-the least such constant (`word_denominator_least`).  So every word with a
+the least such constant — an observation, not a theorem: minimality of `δ` is
+not proved anywhere in this development, and an earlier draft of this docstring
+cited a `word_denominator_least` that does not exist.  So every word with a
 positive gap *is* the parity word of a genuine `3x + δ` cycle, for one explicit
 odd `δ` computable from the word alone.  `δ = 1` happens iff `G ∣ C`, which is
 the cycle criterion.
