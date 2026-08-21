@@ -740,3 +740,79 @@ architecture, if there is one, now looks like:
 with the open link being the collapse for `k ≥ 2` runs.  Everything else the
 round touched is either a sharpening of what was already known, or a proof that a
 hoped-for mechanism cannot exist.
+
+
+## Round 2, second half — what the follow-up agents settled
+
+### The order mechanism, generalised and then closed
+
+Grouping the accumulator by runs makes it telescope: with `Sᵢ = 2^tᵢ·3^(a−Bᵢ₋₁)`
+each summand is `Sᵢ − Sᵢ₊₁·2^(−eᵢ)`, the endpoints are `3^a` and `2^L`, and those
+are the same number modulo the gap.  So
+
+`C ≡ Σᵢ μᵢ·(2^eᵢ − 1)  (mod d)`, one term per **even block**, `μᵢ` a unit —
+
+which at `k = 1` *is* `OneRunOrder`.  Proved at `k = 2` in `TwoRunOrder`.
+
+And then closed, honestly.  The collapsed sum satisfies `A = C + d` **exactly**,
+for every word and every `k`, so the passage is a re-coordinatisation and not an
+elimination.  What it exposes is `v₂(A) = b₁`, the leading odd run; only at
+`k = 1` does that carry the whole odd-step count, and there the residual term is
+the *fixed* `2^(L−a) − 1`, which bounds `d`.  Past one run the residue is the
+Simons–de Weger cyclic system with `2(k−1)` free exponents.  Measured exclusion:
+`A < d` kills 92.4 % of two-run words and plateaus at 7.6 % surviving; three runs
+are *worse*, 12.7 %.  Decisively, the genuine two-run `3x−1` cycle through `17`
+attains `A = d`, so any strengthening is **unsound**, not merely unproved.
+
+### Where the constant `d` lives (`DenominatorScalar`)
+
+`C(w, d) = d · C(w, 1)` exactly: the parity word supplies the accumulator, the
+constant supplies only a scalar.  A cycle needs `gap ∣ d · U`, so at word level
+the entire problem is uniform in `d` **except through `gcd(d, gap)`**.  That
+leaves exactly two non-uniform levers: `gcd(d, gap)` — which is trivial precisely
+when `d = 1`, so `d = 1` is the hard case, not an easy one — and positivity, i.e.
+the verified range.  `3x+5` has its cycle at `(5, 3)` because the gap there is 5.
+
+### The backward side, closed with a number
+
+Forward runs convert `v₂(u)` into `v₃(u)` one for one, and `RunInvariance` says
+the master bound is invariant under exactly that conversion — so combining the
+two mirror rations is an **algebraic identity**, not a new constraint.  Measured
+to prefix length 220 over 4 M starts: the master bound multiplies the no-drop
+survivor density by a constant `0.52`, flat from `k = 20` to `k = 150` — the same
+exponent, a fixed gap of `0.85–0.94` bits.  Covering systems are closed too: the
+backward classes form a nested 3-adic filtration with all moduli distinct powers
+of three, and by Davenport–Mirsky–Newman–Rado no finite exact cover exists.
+
+`HeavyWord` is provably inert here: heaviness *is* never-dropping in the log
+coordinate, the same quantity the master bound is measured against.  Its only
+backward consequence is a count — at most 956 master-bound tests exist inside the
+proved-heavy prefix of 2592 steps.
+
+### Corrections to earlier entries in this file
+
+* **The verified range is not the only non-`d`-uniform asset.**
+  `orbit_backward_bound` also consumes `accOrbit_small` ("the orbit of 1 stays
+  ≤ 2"), which **fails for `d = 7, 11`** — there the master bound is false at the
+  minimum itself (`d = 7`, `m = 5`, `u = 12`: `24 < 36`).  The soundness filter
+  is unaffected, since `d = −1` and `d = 5` have both bounded orbits of 1 and
+  genuine cycles.
+* **"32 % of even steps inject 3-divisibility" is not randomness.**  In the
+  shifted coordinate `u = x + d`, the residue mod 3 is a three-state machine:
+  odd steps land on `0`, even steps swap `0 ↔ 2`, and `3 ∣ x` is an unreachable
+  fixed point.  So `3 ∣ u` happens at *exactly every second point* of an even
+  run — deterministic, period two.  This is the same fact `ThreeResidue` proves
+  from the accumulator, arrived at from the orbit side.
+* **Realizability was measured wrong.**  "Ratio 1.0000, gains nothing" was taken
+  with `a` free, where the maximiser is the all-odd word and the ratio is 1
+  vacuously.  Per `(j, a)` the ratios are `0.722, 0.460, 0.274, 0.166`.  The
+  conclusion — that realizability alone does not break the density wall — stands.
+
+### The state of the frontier
+
+`CycleLength2593` and `HeavyWord.heavy_window_2592` reach the same `(2593, 1636)`
+from opposite sides, and both stop where the same certificate first fails.  Three
+points now fix the price of the archimedean asset: `102400 → 520`,
+`307200 → 1539`, `768000 → 2593`; the bound grows like the square root of the
+verified range.  Everything else the round produced is either a sharpening of
+what was known, or a proof that a hoped-for mechanism cannot exist.
