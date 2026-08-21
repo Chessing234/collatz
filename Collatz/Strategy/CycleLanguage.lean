@@ -87,6 +87,14 @@ namespace CycleLanguage
 
 /-! ## Pascal's triangle, with no Mathlib -/
 
+/-- `1 ≤ 3 ^ n`, needed because `Nat.pos_pow_of_pos` is off-limits here. -/
+theorem three_pow_pos : ∀ n : Nat, 1 ≤ 3 ^ n
+  | 0 => Nat.le_refl 1
+  | n + 1 => by
+      have := three_pow_pos n
+      rw [Nat.pow_succ]
+      omega
+
 /-- `binom n k` is the number of length-`n` parity words with `k` odd steps. -/
 def binom : Nat → Nat → Nat
   | _, 0 => 1
@@ -101,11 +109,13 @@ def binom : Nat → Nat → Nat
 theorem binom_succ_succ (n k : Nat) :
     binom (n + 1) (k + 1) = binom n k + binom n (k + 1) := rfl
 
-/-- **The crude entropy bound.**  `binom n k · 2 ^ k ≤ 3 ^ n`, the `x = 2` case
-of the binomial theorem, proved directly from Pascal's rule.  At the cycle
-density `k / n = log 2 / log 3` this reads `binom ≤ 2 ^ (0.95405 n)`: strictly
-fewer than `2 ^ n` words, by a provable `0.04595` bits per letter. -/
-theorem binom_mul_two_pow_le (n : Nat) : ∀ k : Nat, binom n k * 2 ^ k ≤ 3 ^ n := by
+/-- **The crude entropy bound.**  `binom n k · 2 ^ k ≤ 3 ^ n` — the `x = 2` case
+of the binomial theorem, proved straight from Pascal's rule.  At the cycle
+density `k / n = log 2 / log 3` it reads `binom ≤ 2 ^ (0.95405 · n)`: strictly
+fewer words than the full shift's `2 ^ n`, by a provable `0.04595` bits per
+letter.  (The truth is `0.94996`; the loss is the price of an integer proof.) -/
+theorem binom_mul_two_pow_le : ∀ (n k : Nat), binom n k * 2 ^ k ≤ 3 ^ n := by
+  intro n
   induction n with
   | zero =>
       intro k
@@ -116,7 +126,136 @@ theorem binom_mul_two_pow_le (n : Nat) : ∀ k : Nat, binom n k * 2 ^ k ≤ 3 ^ 
       intro k
       cases k with
       | zero =>
-          simp only [binom_zero_right, Nat.pow_zero, Nat.mul_one]
-          exact Nat.one_le_two_pow_iff_ne_zero.mp (Nat.one_le_iff_ne_zero.mpr
-            (by exact Nat.pos_iff.mp (Nat.pos_pow_of_pos_aux)) ) |>.elim
-      | succ k => exact absurd rfl rfl
+          have h := three_pow_pos (n + 1)
+          simpa using h
+      | succ k =>
+          have ha := ih k
+          have hb := ih (k + 1)
+          have key : binom n k * 2 ^ (k + 1) = binom n k * 2 ^ k * 2 := by
+            rw [Nat.pow_succ, ← Nat.mul_assoc]
+          calc binom (n + 1) (k + 1) * 2 ^ (k + 1)
+              = binom n k * 2 ^ (k + 1) + binom n (k + 1) * 2 ^ (k + 1) := by
+                rw [binom_succ_succ, Nat.add_mul]
+            _ = binom n k * 2 ^ k * 2 + binom n (k + 1) * 2 ^ (k + 1) := by rw [key]
+            _ ≤ 3 ^ n * 2 + 3 ^ n :=
+                Nat.add_le_add (Nat.mul_le_mul_right 2 ha) hb
+            _ = 3 ^ (n + 1) := by rw [Nat.pow_succ]; omega
+
+/-! ## The exact transfer count of the heavy language -/
+
+/-- `heavyCount i a` is the number of parity words of length `i` with `a` odd
+steps all of whose prefixes are heavy (`2 ^ j ≤ 3 ^ a_j` for every `j ≤ i`).
+This is the transfer recursion: append one letter, and kill the branch the
+moment the prefix goes light.  The `a = 0` row at positive length is zero
+because `2 ^ (i+1) ≤ 3 ^ 0 = 1` is false — the arithmetic reason a heavy word
+must start with an odd step. -/
+def heavyCount : Nat → Nat → Nat
+  | 0, 0 => 1
+  | 0, _ + 1 => 0
+  | _ + 1, 0 => 0
+  | i + 1, a + 1 =>
+      if 2 ^ (i + 1) ≤ 3 ^ (a + 1) then heavyCount i (a + 1) + heavyCount i a else 0
+
+theorem heavyCount_succ_succ (i a : Nat) :
+    heavyCount (i + 1) (a + 1) =
+      if 2 ^ (i + 1) ≤ 3 ^ (a + 1) then heavyCount i (a + 1) + heavyCount i a else 0 := rfl
+
+/-- Heaviness only ever removes words: the transfer count is at most Pascal. -/
+theorem heavyCount_le_binom : ∀ (i a : Nat), heavyCount i a ≤ binom i a := by
+  intro i
+  induction i with
+  | zero =>
+      intro a
+      cases a with
+      | zero => exact Nat.le_refl 1
+      | succ a => exact Nat.le_refl 0
+  | succ i ih =>
+      intro a
+      cases a with
+      | zero => simp [heavyCount]
+      | succ a =>
+          rw [heavyCount_succ_succ, binom_succ_succ]
+          by_cases h : 2 ^ (i + 1) ≤ 3 ^ (a + 1)
+          · rw [if_pos h, Nat.add_comm (binom i a)]
+            exact Nat.add_le_add (ih (a + 1)) (ih a)
+          · rw [if_neg h]
+            exact Nat.zero_le _
+
+/-- **The heavy language is smaller than the full shift, provably.**
+`heavyCount L a · 2 ^ a ≤ 3 ^ L`. -/
+theorem heavyCount_mul_two_pow_le (L a : Nat) : heavyCount L a * 2 ^ a ≤ 3 ^ L :=
+  Nat.le_trans (Nat.mul_le_mul_right _ (heavyCount_le_binom L a))
+    (binom_mul_two_pow_le L a)
+
+/-- Sanity: the transfer recursion reproduces the exhaustive count.  There are
+exactly `8045` heavy parity words of length `20` carrying `13` odd steps — the
+lightest count heaviness permits there — against `binom 20 13 = 77520`
+unconstrained.  The ratio `9.6` is the cycle-lemma factor `Θ(L)`; the heavy rows
+`a = 13 … 20` sum to `27328 = 2 ^ (0.7369 · 20)`. -/
+theorem heavyCount_20 : heavyCount 20 13 = 8045 := by decide
+
+theorem heavyCount_5 : heavyCount 5 4 = 3 := by decide
+
+/-! ## The gap outweighs the language -/
+
+/-- **The deficit interface.**  If the concrete inequality
+`3 ^ L · 2 ^ e < 2 ^ a · G` holds, then the whole heavy language at `(L,a)` is
+smaller than the gap `G` by a factor `2 ^ e`.  Every instance below is this
+lemma plus one `decide`. -/
+theorem deficit_of_witness {L a e G : Nat} (h : 3 ^ L * 2 ^ e < 2 ^ a * G) :
+    heavyCount L a * 2 ^ e < G := by
+  refine Nat.lt_of_mul_lt_mul_left (a := 2 ^ a) ?_
+  have hrw : 2 ^ a * (heavyCount L a * 2 ^ e) = heavyCount L a * 2 ^ a * 2 ^ e := by
+    rw [← Nat.mul_assoc, Nat.mul_comm (2 ^ a) (heavyCount L a)]
+  rw [hrw]
+  exact Nat.lt_of_le_of_lt
+    (Nat.mul_le_mul_right (2 ^ e) (heavyCount_mul_two_pow_le L a)) h
+
+set_option exponentiation.threshold 40000
+
+/-- **The frontier pair.**  `(L,a) = (4701, 2966)` is the shortest length at
+which the gap `G = 2 ^ L − 3 ^ a` is small enough to permit a cycle minimum
+`≥ 768000` (the same pair as `RealizableBound.length_ge_4701`, found here from
+the counting side).  Every heavy parity word of that shape put together still
+misses the residues mod `G` by a factor `2 ^ 205`.
+
+The exact figures behind this: `log₂ (#cyclic-heavy words) = 4447.17`,
+`log₂ G = 4690.79`, deficit `2 ^ (−243.6)`.  The `205` is what survives the
+crude entropy bound. -/
+theorem count_lt_gap_4701 :
+    heavyCount 4701 2966 * 2 ^ 205 < 2 ^ 4701 - 3 ^ 2966 :=
+  deficit_of_witness (by decide)
+
+/-- The next cycle-plausible pair; the deficit grows with `L`, by the measured
+`0.05004` bits per step. -/
+theorem count_lt_gap_5755 :
+    heavyCount 5755 3631 * 2 ^ 254 < 2 ^ 5755 - 3 ^ 3631 :=
+  deficit_of_witness (by decide)
+
+/-! ## No forbidden block: the heavy language is not sofic -/
+
+/-- **Padding lemma.**  Prefix any block of length `k` with `2k` odd steps and
+every prefix inside the block is heavy: `2 ^ (2k + i) ≤ 2 ^ (3k) = 8 ^ k ≤
+9 ^ k = 3 ^ (2k)`.  Since the block was arbitrary, *every* word over `{0,1}`
+occurs as a factor of a heavy word.  The heavy language therefore has full
+factor complexity `2 ^ k`, its shift closure is the full shift, and no forbidden
+block — hence no subshift of finite type, hence no shift-invariant finite
+automaton — can separate it.  Its entropy `0.94996` is not a sofic entropy: the
+constraint is a random walk with irrational drift `log 2 / log 3` conditioned to
+stay nonnegative, which needs an unbounded counter. -/
+theorem heavy_pad (k i : Nat) (h : i ≤ k) : 2 ^ (2 * k + i) ≤ 3 ^ (2 * k) := by
+  have h1 : 2 ^ (2 * k + i) ≤ 2 ^ (3 * k) :=
+    Nat.pow_le_pow_right (by decide) (by omega)
+  have h2 : (2 : Nat) ^ (3 * k) = 8 ^ k := by rw [Nat.pow_mul]
+  have h3 : (3 : Nat) ^ (2 * k) = 9 ^ k := by rw [Nat.pow_mul]
+  have h4 : (8 : Nat) ^ k ≤ 9 ^ k := Nat.pow_le_pow_left (by decide) k
+  omega
+
+/-- The same statement with the odd-step count only bounded below: any block of
+length `k` sitting at height `a ≥ 2k` stays heavy throughout. -/
+theorem no_forbidden_block (k a i : Nat) (hi : i ≤ k) (ha : 2 * k ≤ a) :
+    2 ^ (2 * k + i) ≤ 3 ^ a :=
+  Nat.le_trans (heavy_pad k i hi) (Nat.pow_le_pow_right (by decide) ha)
+
+end CycleLanguage
+end Collatz

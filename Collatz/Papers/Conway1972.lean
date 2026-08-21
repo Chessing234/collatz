@@ -253,31 +253,33 @@ theorem reachesOne_step_one : reachesOne collatzStepGeneralized 1 := ⟨0, rfl�
 
 /-- A checked arm: `2` reaches `1` in the classical map. -/
 theorem reachesOne_step_two : reachesOne collatzStepGeneralized 2 :=
-  ⟨1, by native_decide⟩
+  ⟨1, by decide⟩
 
 /-- A checked arm: `3` reaches `1` in the classical map. -/
 theorem reachesOne_step_three : reachesOne collatzStepGeneralized 3 :=
-  ⟨7, by native_decide⟩
+  ⟨7, by decide⟩
 
 /-- A checked arm: `4` reaches `1` in the classical map. -/
 theorem reachesOne_step_four : reachesOne collatzStepGeneralized 4 :=
-  ⟨2, by native_decide⟩
+  ⟨2, by decide⟩
 
 /-- A checked arm: `16` reaches `1` in the classical map. -/
 theorem reachesOne_step_sixteen : reachesOne collatzStepGeneralized 16 :=
-  ⟨4, by native_decide⟩
+  ⟨4, by decide⟩
 
+set_option maxRecDepth 4000 in
 /-- The classical arm of `27` reaches `1` in 111 steps. -/
 theorem reachesOne_step_27 : reachesOne collatzStepGeneralized 27 :=
-  ⟨111, by native_decide⟩
+  ⟨111, by decide⟩
 
 /-- The accelerated arm of `3` reaches `1` in 3 steps. -/
 theorem reachesOne_accel_three : reachesOne collatzAccelGeneralized 3 :=
-  ⟨5, by native_decide⟩
+  ⟨5, by decide⟩
 
+set_option maxRecDepth 4000 in
 /-- The accelerated arm of `27` reaches `1` in 70 steps. -/
 theorem reachesOne_accel_27 : reachesOne collatzAccelGeneralized 27 :=
-  ⟨70, by native_decide⟩
+  ⟨70, by decide⟩
 
 /-- The decision routine Conway's theorem rules out: an oracle that reads a
     generalized map (and, optionally, a starting value) and answers a reachability
