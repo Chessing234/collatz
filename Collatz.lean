@@ -92,6 +92,7 @@ import Collatz.Strategy.SieveGrowth
 import Collatz.Strategy.Profile
 import Collatz.Strategy.ExchangeRate
 import Collatz.Strategy.TwoRunOrder
+import Collatz.Strategy.RealizableBound
 import Collatz.Strategy.AccumulatorSharp
 import Collatz.Strategy.AccumulatorLocal
 import Collatz.Strategy.AccumulatorCap
