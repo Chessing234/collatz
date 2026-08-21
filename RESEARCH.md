@@ -1546,27 +1546,36 @@ parity word can obstruct a cycle.  Everything in the table above is a word-level
 property.  They were never going to work, and now that is a theorem rather than a
 pattern.
 
-So the remaining target is not a lemma about words.  It is:
+Add to that table one more row, closed after it was first written:
+
+| ranking on residue **together with** `⌊log₂ x⌋` | **closed** — `JointRank`, by an ascending path, not a collapse |
+
+So the remaining target is not a lemma about words, and it is not a ranking
+function of any shape the development has been able to pose.  It is:
 
 > **Bound `δ(w) = (2^L − 3^a) / gcd(affineC(w), 2^L − 3^a)` away from 1, using
 > data that is not a function of the word alone.**
 
-The archimedean lever bounds `x_w = C/G` from above and is capped.  The one
-arithmetic lever — the order of 2 modulo the gap — is now closed.  What survives
-is only their *combination*, and two independent lines of this round converge on
-the same shape for it:
+That is the honest end state, and it should be read with its context rather than
+as an invitation.  The two levers available are the archimedean one, which bounds
+`x_w = C/G` from above and is capped by `sandwich_vacuous`, and the arithmetic
+one, the order of 2 modulo the gap, which `SUnitRelation` closed.  And they are
+**not independent**: the attempt to refute range-plus-word arguments failed
+precisely because `δ = n/x_w`, so a large `n` at small `δ` demands a large `x_w`,
+which is the realizability ceiling again.  *The two levers are the same lever.*
 
-* `NewModels` could not close exactly one ranking hypothesis: a rank on **class
-  mod `m` together with the archimedean datum `⌊log₂ x⌋`**.  That is not a finite
-  quotient, so `NoFiniteRanking` and `AnyModulusRanking` do not reach it.
-* `NewModels`'s own attempt to refute range-plus-word arguments failed, and
-  instructively: `δ = n/x_w`, so a large `n` at small `δ` demands a large `x_w`,
-  which is the realizability ceiling. **The two levers turn out to be the same
-  lever** — which is exactly why neither alone can finish, and why only a genuinely
-  joint object could.
+This round therefore ends differently from the last two.  Round II ended naming a
+frontier — the two-run S-unit collapse — and this round closed it.  Round III ends
+naming **no viable mechanism at all**.  Every route it examined is either closed
+by proof or capped by a proved ceiling, and the one hypothesis class that survived
+eleven attacks was closed by the twelfth.  What remains is a sharply stated target
+with an empty list of known-viable approaches to it.
 
-That is the round's answer to "what is the smallest statement that would close the
-gap": not an inequality we can name, but a *hypothesis class* — congruence data
-paired with the archimedean datum — which is the unique survivor of eleven
-independent attacks and is untouched by every impossibility theorem in the
-development.
+That is not a claim that the problem is hopeless, and it is not a claim that the
+list of approaches is exhaustive — it is the list this development has tried.  It
+is a claim about where the next generation must look: **not at the parity word,
+because that is now provably impotent; not at a ranking function, because every
+form is closed; and not at size, because the ceiling is proved.**  The one object
+that no theorem here constrains is `gcd(affineC(w), 2^L − 3^a)` itself, and
+nothing in fifteen agents' work says anything about it beyond that it is what the
+problem reduces to.
