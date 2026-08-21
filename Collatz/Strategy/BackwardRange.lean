@@ -26,11 +26,11 @@ i.e. only when `2y − 1 < 3·1086464`, i.e. only when `y ≤ 1629696`.  Hence
 
 * `pred_ge_of_ge_threshold`: **every** positive preimage of every `y ≥ 1629697` is
   itself `≥ 1086464`;
-* `pruning_window_nonempty`: and `1629696` is sharp — `1086463 → 1629695` is a real
+* `pruning_window_nonempty`: and the sharp threshold is `1629696`, not `1629697`: `1629696 ≡ 0 (mod 3)`, so `2y − 1` is not divisible by 3 and it has no odd preimage at all — `1086463 → 1629695` is a real
   deleted edge.
 
 So the whole content of the verified range for the reverse tree is a condition on
-the single interval `[1086464, 1629696]`, `543233` integers wide.  Everywhere else
+the single interval `[1086464, 1629696]`, `543232` integers wide, of which only the `181078` nodes congruent to `2 (mod 3)` actually have an odd preimage to lose.  Everywhere else
 the reverse tree is untouched.  A path is deleted exactly when it re-enters that
 window from above and then takes the odd branch — and each odd branch multiplies
 by only `2/3` while each doubling branch multiplies by `2`, so re-entry is a

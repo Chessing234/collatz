@@ -46,11 +46,25 @@ false**, and the failure is compactness.
   integers is **countable** — one word per integer, by
   `InfiniteWord.eq_of_parityVector_eq_all` — so it has entropy **0**, against **1**
   for the full shift.  The margin is the maximum possible.
-* *"The only orbit information a finite word does not carry is magnitude."*  False in
-  both directions.  For a **cycle** there is no residual at all: `n = C(w)/G(w)` is a
-  function of the word, hence so are `r` and `m`.  For a general orbit the residual
-  relative to the *infinite* word is nil, and relative to a length-`L` window it is
-  not magnitude but simply **the letters after time `L`**.
+* *"The only orbit information a finite word does not carry is magnitude."*  Half
+  false.  For a **cycle** there is no residual at all: `n = C(w)/G(w)` is a function of
+  the word, hence so are `r` and `m`.  That half stands.
+
+  *But the other half of this bullet was itself wrong, and is corrected here.*  It said
+  the residual is "not magnitude but simply the letters after time `L`", as though those
+  were different things.  **They are the same datum**: given the length-`L` prefix, a
+  continuation of length `k` and the value of `m mod 2^k` determine each other
+  bijectively, so the later letters *are* the binary expansion of `m`.  Verified.
+
+  And the inconsistency I then derived — that closing multi-window arguments while
+  asking for a statement about `m` is self-contradictory — is **false**.
+  `window_sequence_realized` produces *some* `x` realising `u ++ v`, with **no bound on
+  `x`**.  It does not say a *given* `x` admits every continuation.  A constraint of the
+  form "if `x < B` then this continuation is impossible" is untouched by the collapse,
+  and such constraints exist and are sharp: **no `x < 1086464` admits a non-dropping
+  continuation of length 183**.  Multi-window composition is closed in the unbounded
+  category; asset (a) is a bound, which is a different category.  The two directives
+  were consistent after all.
 
 The last point makes the two directives of the Round VI brief jointly inconsistent:
 it closed multi-window arguments while requiring the next attack to be about `m` —

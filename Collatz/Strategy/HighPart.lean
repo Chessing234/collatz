@@ -310,9 +310,21 @@ theorem high_part_fix_forces_zero {a m r : Nat} (ha : 0 < a)
   · subst hm; simp at h; omega
   · exact absurd h (by have := high_part_expands (a := a) (m := m) (r := r) ha hm; omega)
 
-/-- **No well-founded descent on the high part.**  For every window with at
-least one odd step the high part strictly increases, so it is a ranking function
-in the wrong direction and cannot be used for descent. -/
+/-- **The high part is below the orbit value.**  `highPart L x < T^L(x)` when the
+window has an odd step and the high part is positive.
+
+*Corrected:* an earlier docstring here said this shows the high part "strictly
+increases", and used it to conclude that no descent on the high part exists.  Both
+are wrong.  The theorem compares a *high part* with an *orbit value* — incommensurable
+objects — and the quantity a descent argument would rank, `highPart L (T^L x)` against
+`highPart L x`, actually **decreases** in the cycle-plausible regime, since
+`highPart L (T^L x) = ⌊(3^a m + r')/2^L⌋ < m` whenever `3^a < 2^L`.  Counterexample to
+the old claim: `x = 13`, `L = 2` gives `highPart = 3` and `highPart (T² 13) = highPart 10
+= 2`.
+
+The branch is still uninteresting, but for a different reason: at a cycle the high part
+is identically `0` by `cycle_high_zero_of_accumulator`, so there is nothing to descend
+on. -/
 theorem no_descent_on_high_part {L x : Nat} (ha : 0 < oddCount x L)
     (hm : 0 < highPart L x) : highPart L x < acceleratedOrbit L x := by
   have h := orbit_high L x

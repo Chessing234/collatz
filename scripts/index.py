@@ -13,6 +13,30 @@ Run from the repository root.  Regenerate INDEX.md with:  python3 scripts/index.
 """
 import re, os, sys, collections
 
+def strip_comments(text):
+    """Remove /- ... -/ blocks (nesting aware) and -- lines.
+
+    Without this the extractor harvests English words out of docstrings as
+    theorem names -- `at`, `this`, `plus`, `says`, `that` were all being indexed,
+    and they carried tags from the surrounding prose, inflating pair counts.
+    """
+    out, i, depth = [], 0, 0
+    while i < len(text):
+        if text.startswith('/-', i):
+            depth += 1; i += 2; continue
+        if text.startswith('-/', i):
+            depth = max(0, depth - 1); i += 2; continue
+        if depth == 0 and text.startswith('--', i):
+            j = text.find('\n', i)
+            i = len(text) if j < 0 else j
+            continue
+        if depth == 0:
+            out.append(text[i])
+        elif text[i] == '\n':
+            out.append('\n')
+        i += 1
+    return ''.join(out)
+
 def load():
     th = []
     for root, _, fs in os.walk('Collatz'):
@@ -20,7 +44,7 @@ def load():
             if not f.endswith('.lean'):
                 continue
             p = os.path.join(root, f)
-            lines = open(p).read().split('\n')
+            lines = strip_comments(open(p).read()).split('\n')
             for i, l in enumerate(lines):
                 m = re.match(r"^(?:@\[[^\]]*\]\s*)?(theorem|lemma)\s+([A-Za-z_][A-Za-z0-9_.'!?]*)", l)
                 if not m:
@@ -35,12 +59,17 @@ def load():
     return th
 
 CONCEPT = {
- 'parity word':        [r'parityVector', r'\bones\b'],
+ 'parity word':        [r'parityVector', r'\bones\b', r'List Bool', r'List Nat'],
  'affine accumulator': [r'affineC', r'\bwC\b', r'runA', r'Bcap', r'Bstar', r'\bCw\b'],
  'gap G=2^L-3^a':      [r'2 \^ \w+ - 3 \^', r'\bgap'],
  'heavy words':        [r'heavy'],
  'Beatty/Sturmian':    [r'fexp', r'Beatty', r'[Ll]edge'],
- 'C mod G':            [r'delta', r'\bgcd\b'],
+ # `G | C` is written four ways in this repo: `gap w ∣ C w`, `(2^L - 3^a) ∣ affineC`,
+ # `(2^L - 3^a) * n = affineC`, and via `delta`/`gcd`.  Missing the last three made
+ # this cluster look isolated when 18 further theorems state it.
+ 'C mod G':            [r'delta', r'\bgcd\b',
+                        r'2 \^ \w+ - 3 \^ \w+\s*\)?\s*[∣*]', r'gap \w+ [∣*]',
+                        r'dvd_affineC', r'gap_dvd', r'denominator'],
  'C mod 2^j':          [r'% 2 \^', r'mod_four', r'two_adic'],
  '2-adic valuation':   [r'\bv2\b', r'two_pow_dvd', r'valuation'],
  '3-adic valuation':   [r'% 3', r'three_pow', r'three_adic', r'three_dvd'],
