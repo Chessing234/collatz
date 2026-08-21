@@ -1,6 +1,6 @@
 # Concept index
 
-2169 theorems/lemmas across 153 files.
+2172 theorems/lemmas across 153 files.
 
 ## Cluster sizes
 
@@ -8,7 +8,7 @@
 - cycle equations: 230
 - affine accumulator: 197
 - descent: 170
-- divisibility: 150
+- divisibility: 151
 - 3-adic valuation: 143
 - counting/entropy: 141
 - heavy words: 125

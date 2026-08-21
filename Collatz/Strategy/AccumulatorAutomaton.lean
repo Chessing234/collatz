@@ -90,9 +90,12 @@ the letter-`1` map.  Any invariant that forgets `j` is vacuous.
 * Consecutive-gap coprimality: `gcd(G, G') = 1` for every `(L, a)` with
   `L ≤ 300`, `3 ^ a < 2 ^ L`, and both legal letters.  Zero exceptions.
 * Reachable-set growth (ungraded, `L = ⌊a log₂ 3⌋ + 1`): the sizes
-  `2, 4, 8, 16, 31, 60, 116, 225, 438, 855, 1674, 3282, 6445, …` are the same
-  for *every* pair until they saturate `G` — the automaton is as free as the
-  integer accumulator, whose distinct-value count grows like `1.96 ^ j`.
+  `2, 4, 8, 16, 31, 60, 116, 225, 438, 855, 1674, 3282, …` are the same for
+  *every* pair until reduction mod `G` starts to bite, and they are exactly the
+  numbers of distinct **integer** values of `C` over words of length `j`
+  (`2, 4, 8, 16, 31, 60, 116, 225, 438, 855, 1674, 3282, 6446, 12675, …`,
+  growing like `1.96 ^ j`).  The automaton is therefore as free as the integer
+  accumulator: no collision beyond the ones `C` already has, and no obstruction.
 * Graded reachability: `#{w : |w| = L, oddCount w = a, G ∣ C w} = 0` for every
   `(L, a)` with `L = ⌊a log₂ 3⌋ + 1` and `a ≤ 13`, except `(L,a) = (4,2)` where
   it is `2` — the two rotations of the trivial cycle `1 → 2 → 1`, `C = 7 = G`.
@@ -188,6 +191,23 @@ theorem odd_dvd_two_pow {d : Nat} (hd : d % 2 = 1) : ∀ {k : Nat}, d ∣ 2 ^ k 
     rw [hrw] at h
     exact h
 
+/-- A divisor of both `m` and `n` divides `m - n` (core Lean has no `Nat.dvd_sub'`). -/
+theorem dvd_sub_of_dvd {d m n : Nat} (hm : d ∣ m) (hn : d ∣ n) : d ∣ m - n := by
+  obtain ⟨p, hp⟩ := hm
+  obtain ⟨q, hq⟩ := hn
+  refine ⟨p - q, ?_⟩
+  rcases Nat.le_total p q with h | h
+  · have hmn : m ≤ n := by
+      rw [hp, hq]; exact Nat.mul_le_mul_left d h
+    have h1 : m - n = 0 := by omega
+    have h2 : p - q = 0 := by omega
+    rw [h1, h2, Nat.mul_zero]
+  · have hsplit : d * (p - q) + d * q = d * p := by
+      rw [← Nat.mul_add]
+      have : p - q + q = p := by omega
+      rw [this]
+    omega
+
 /-- Auxiliary: a common divisor of `2 ^ L − 3 ^ a` and of `3 ^ a` is `1`. -/
 theorem eq_one_of_dvd_gap_and_three_pow {d L a : Nat} (h1 : 3 ^ a < 2 ^ L)
     (hg : d ∣ 2 ^ L - 3 ^ a) (h3 : d ∣ 3 ^ a) : d = 1 := by
@@ -199,6 +219,11 @@ theorem eq_one_of_dvd_gap_and_three_pow {d L a : Nat} (h1 : 3 ^ a < 2 ^ L)
     exact ⟨u + v, by rw [← hsum, hu, hv, Nat.mul_add]⟩
   exact odd_dvd_two_pow hodd this
 
+theorem sub_arith_even {x y : Nat} (h : y < x) : (2 * x - y) - 2 * (x - y) = y := by omega
+
+theorem sub_arith_odd {x y : Nat} (h : y < x) (h3 : 3 * y < 2 * x) :
+    2 * (x - y) - (2 * x - 3 * y) = y := by omega
+
 /-- **Even letter: the two moduli are coprime.** -/
 theorem gap_gcd_even {L a : Nat} (h1 : 3 ^ a < 2 ^ L) :
     Nat.gcd (2 ^ L - 3 ^ a) (2 ^ (L + 1) - 3 ^ a) = 1 := by
@@ -209,8 +234,9 @@ theorem gap_gcd_even {L a : Nat} (h1 : 3 ^ a < 2 ^ L) :
     Nat.gcd_dvd_right _ _
   have hdtwice : Nat.gcd (2 ^ L - 3 ^ a) (2 ^ (L + 1) - 3 ^ a) ∣ 2 * (2 ^ L - 3 ^ a) :=
     Nat.dvd_trans hd1 ⟨2, Nat.mul_comm _ _⟩
-  have hsub := Nat.dvd_sub' hd2 hdtwice
-  have hval : (2 ^ (L + 1) - 3 ^ a) - 2 * (2 ^ L - 3 ^ a) = 3 ^ a := by omega
+  have hsub := dvd_sub_of_dvd hd2 hdtwice
+  have hval : (2 ^ (L + 1) - 3 ^ a) - 2 * (2 ^ L - 3 ^ a) = 3 ^ a := by
+    rw [hL]; exact sub_arith_even h1
   rw [hval] at hsub
   exact eq_one_of_dvd_gap_and_three_pow h1 hd1 hsub
 
@@ -225,8 +251,10 @@ theorem gap_gcd_odd {L a : Nat} (h1 : 3 ^ a < 2 ^ L) (h2 : 3 ^ (a + 1) < 2 ^ (L 
     Nat.gcd_dvd_right _ _
   have hdtwice : Nat.gcd (2 ^ L - 3 ^ a) (2 ^ (L + 1) - 3 ^ (a + 1)) ∣ 2 * (2 ^ L - 3 ^ a) :=
     Nat.dvd_trans hd1 ⟨2, Nat.mul_comm _ _⟩
-  have hsub := Nat.dvd_sub' hdtwice hd2
-  have hval : 2 * (2 ^ L - 3 ^ a) - (2 ^ (L + 1) - 3 ^ (a + 1)) = 3 ^ a := by omega
+  have hsub := dvd_sub_of_dvd hdtwice hd2
+  have hval : 2 * (2 ^ L - 3 ^ a) - (2 ^ (L + 1) - 3 ^ (a + 1)) = 3 ^ a := by
+    rw [hL, ha] at h2 ⊢
+    exact sub_arith_odd h1 h2
   rw [hval] at hsub
   exact eq_one_of_dvd_gap_and_three_pow h1 hd1 hsub
 
@@ -277,9 +305,10 @@ theorem run_mod : ∀ (G : Nat) (w : List Bool) (j s : Nat),
       exact ih (j + 1) s
     | true =>
       show run G w (j + 1) ((3 * (s % G) + 2 ^ j) % G) = accC w (j + 1) (3 * s + 2 ^ j) % G
+      have h1 : (3 * (s % G)) % G = (3 * s) % G := by
+        rw [Nat.mul_mod 3 (s % G) G, Nat.mod_mod_of_dvd s (Nat.dvd_refl G), ← Nat.mul_mod]
       have hkey : (3 * (s % G) + 2 ^ j) % G = (3 * s + 2 ^ j) % G := by
-        rw [Nat.add_mod, Nat.mul_mod 3 (s % G) G, Nat.mul_mod 3 s G,
-          Nat.mod_mod_of_dvd s (Nat.dvd_refl G)]
+        rw [Nat.add_mod, h1, ← Nat.add_mod]
       rw [hkey, ih (j + 1) (3 * s + 2 ^ j)]
 
 /-- **Faithfulness.**  The automaton state after reading `w` is `C w mod G`. -/
@@ -288,11 +317,10 @@ theorem run_eq_C_mod (G : Nat) (w : List Bool) : run G w 0 0 = C w % G := by
   simpa [C] using h
 
 /-- Reaching state `0` is exactly the cycle condition. -/
-theorem run_eq_zero_iff (G : Nat) (w : List Bool) (hG : 0 < G) :
+theorem run_eq_zero_iff (G : Nat) (w : List Bool) :
     run G w 0 0 = 0 ↔ G ∣ C w := by
   rw [run_eq_C_mod]
-  exact ⟨fun h => Nat.dvd_of_mod_eq_zero h, fun h => Nat.eq_zero_of_dvd_of_lt h |>.elim
-    (fun _ => by exact Nat.mod_eq_zero_of_dvd h) (fun _ => by exact Nat.mod_eq_zero_of_dvd h)⟩
+  exact ⟨fun h => Nat.dvd_of_mod_eq_zero h, fun h => Nat.dvd_iff_mod_eq_zero.mp h⟩
 
 /-! ### State invariants cannot obstruct anything -/
 
@@ -362,7 +390,7 @@ theorem accC_eq_Crel : ∀ (w : List Bool) (j c : Nat),
     accC w j c = 3 ^ oddCount w * c + Crel (times w j) := by
   intro w
   induction w with
-  | nil => intro j c; simp [accC, Crel, oddCount]
+  | nil => intro j c; simp [accC, oddCount, times, Crel]
   | cons b w ih =>
     intro j c
     cases b with
@@ -379,7 +407,9 @@ theorem accC_eq_Crel : ∀ (w : List Bool) (j c : Nat),
       rw [times_length w (j + 1)]
       have h3 : (3:Nat) ^ (1 + oddCount w) = 3 ^ oddCount w * 3 := by
         rw [Nat.add_comm, Nat.pow_succ]
-      rw [h3, Nat.mul_add]
+      have hassoc : 3 ^ oddCount w * (3 * c) = 3 ^ oddCount w * 3 * c :=
+        (Nat.mul_assoc _ _ _).symm
+      rw [h3, Nat.mul_add, hassoc]
       omega
 
 /-- **`C` as a function of the odd-step times.**  `times w 0` is the increasing
@@ -400,7 +430,7 @@ theorem relaxed_hits_zero :
 theorem relaxed_gap : (2:Nat) ^ 13 - 3 ^ 8 = 1631 := by decide
 
 theorem relaxed_dvd : (2 ^ 13 - 3 ^ 8) ∣ Crel [1, 1, 1, 1, 0, 0, 1, 1] :=
-  ⟨4, by rw [relaxed_hits_zero]; omega⟩
+  ⟨4, by rw [relaxed_hits_zero]⟩
 
 end AccumulatorAutomaton
 end Collatz
