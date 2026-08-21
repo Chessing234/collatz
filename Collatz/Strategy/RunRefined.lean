@@ -247,8 +247,15 @@ theorem pair_bound (x j : Nat) : 2 * oddCount x j ≤ pairCount x j + j + 1 := b
 
 Since a heavy window has `j ≤ a · log₂ 3`, this is `C ≲ 0.2873 · a · 3 ^ a`,
 against the stored `0.3333` of `heavy_accumulator_bound_sharp` — a 14 %
-improvement carrying no certificate.  Measured exactly tight (worst ratio
-`1.0000`) over all 59 058 heavy words of length at most 20. -/
+improvement carrying no certificate.  Measured worst ratio **0.85185** (`= 23/27`) over the 12 449 words of length ≤ 21
+heavy at every *proper* prefix with positive gap.
+
+*Corrected:* an earlier version of this docstring said "exactly tight (worst ratio
+1.0000) over all 59 058 heavy words of length at most 20".  That population is
+heaviness at **every** prefix including the last — which, as the header explains,
+contains no positive-gap word at all, so the measurement was over a class holding no
+cycle word, and ratio 1 is attained only at the length-1 word `1`.  This is the same
+defect the header repairs, left live one screen further down. -/
 theorem accumulator_closed_bound (x j : Nat)
     (hheavy : ∀ i : Nat, i < j → 2 ^ i ≤ 3 ^ oddCount x i) :
     9 * affineC j x ≤ (oddCount x j + j + 1) * 3 ^ oddCount x j := by

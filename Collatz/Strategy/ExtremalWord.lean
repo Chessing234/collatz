@@ -13,7 +13,21 @@ the *same* answer:
 This file explains the coincidence, and it is not a coincidence: the heavy words
 with `a` odd steps form a *box* in the odd-step-time coordinates,
 
-`heavy  ⟺  t i ≤ fexp i  for every i < a`,        (`heavy_le_fexp`)
+`heavy  ⟹  t i ≤ fexp i  for every i < a`         (`heavy_le_fexp`)
+
+— **one direction only.**  An earlier version of this header wrote `⟺`, and the
+converse is false: `a = 1`, `t₀ = 0`, `J = 2` (the word `100`) lies in the box
+(`t₀ = 0 = fexp 0`) but is not heavy, since `2² = 4 > 3 = 3¹`.  The exact statement
+is
+
+`heavy on [0, J]  ⟺  (∀ i < a, t i ≤ fexp i)  ∧  2^J ≤ 3^a`,
+
+the missing conjunct being the endpoint.  The box picture is therefore valid **on
+the ledge** `L = fexp a + 1`, where `2^(L−1) ≤ 3^a` holds automatically, and only
+there.  Measured: at ledge pairs the box count and the true proper-prefix-heavy
+count agree exactly (`a = 1..12`: 1, 1, 2, 3, 7, 12, 30, 85, 173, 476, 961, 2652);
+at `L = fexp a + 3` the box counts the same numbers while the true count is **zero**
+in every case.
 
 `fexp i = ⌊i log₂ 3⌋`, and the Beatty word `t = fexp` is its unique maximal
 corner.  The accumulator is strictly increasing in every coordinate
@@ -32,7 +46,9 @@ equality case of `affineC_le_Bcap` exactly.
 
 ## The equality case, and why it does not become a mechanism
 
-`Cw_eq_Bcap_iff` says `C = Bcap a` **iff** the word is the Beatty word.  So a
+`Cw_eq_Bcap_iff` says `C = Bcap a` **iff** the word's odd-step times are
+`⌊i log₂ 3⌋` — it pins `t i` for `i < a` only, so trailing even letters, and hence
+the length, are not determined.  So a
 cycle word achieving the ceiling would be completely explicit, and one could
 simply read off `gcd(C, G)`.  Computationally (a ≤ 3000, ledge pairs
 `L = ⌊a log₂ 3⌋ + 1`): `gcd(Bcap a, 2 ^ L − 3 ^ a) = 1` for 2646 of the 3000
@@ -174,7 +190,8 @@ theorem cnt_at_time {t : Nat → Nat} (hst : StrictInc t) :
       rw [cnt_succ, if_neg hno, hall]
       omega
 
-/-- **Heaviness is the box.**  If every prefix up to `J` is heavy and the word's
+/-- **Heaviness implies the box** (the converse needs the endpoint `2^J ≤ 3^a`; see
+the header).  If every prefix up to `J` is heavy and the word's
 odd steps all happen by time `J`, then `t i ≤ fexp i` for every `i`: the word
 lies in the box whose top corner is the Beatty word. -/
 theorem heavy_le_fexp {t : Nat → Nat} (hst : StrictInc t) {a J : Nat}

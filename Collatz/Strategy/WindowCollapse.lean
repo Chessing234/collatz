@@ -22,16 +22,48 @@ Two facts already in the development, never before put together:
 * `parityVector_surjective_mod_pow_two` (`Accelerated.lean:909`) — every binary
   word of length `k` is realised, by some `a < 2^k`.
 
-Together: **every sequence of consecutive windows is realised by an actual orbit**
-(`window_sequence_realized`).  The language of orbit-consistent window sequences
-equals the language of arbitrary binary words.  There is no compatibility condition
-between adjacent windows to exploit.
+Together: **every finite sequence of consecutive windows is realised by an actual
+orbit** (`window_sequence_realized`).  For every finite `N`, the words of length `N`
+are in bijection with the residues mod `2^N`, so no finite family of consecutive
+windows is stronger than one word of the total length.  Finite multi-window
+arguments are closed.
 
-Measured independently before this was proved: for every `N ≤ 14`, all `2^N` words
-occur, each by *exactly one* residue class mod `2^N`.  So the "shrinking
-intersection of possible states" shrinks by exactly one bit per letter — the maximum
-conceivable — and is never empty; every prefix extends to every continuation.  The
-growth rate of compatible window sequences equals the word entropy exactly.
+Measured before it was proved: for every `N ≤ 14`, all `2^N` words occur, each by
+exactly one residue class mod `2^N`.
+
+## What this does NOT license — the limit
+
+An earlier version of this file drew three further conclusions.  **All three are
+false**, and the failure is compactness.
+
+* *"The shrinking intersection of possible states is never empty; every prefix
+  extends."*  True in `Z₂`, which is compact.  **False in `ℕ_{>0}`.**  Every prefix
+  of `0^∞` is realised by the positive integer `2^N`, and every prefix of `1^∞` by
+  `2^N − 1` (the repo's own `heavy_two_pow_sub_one`) — yet no positive integer
+  realises either infinite word.  The nested intersection is empty.
+* *"The growth rate of compatible window sequences equals the word entropy."*  True
+  only at a fixed finite length.  The set of infinite words realised by positive
+  integers is **countable** — one word per integer, by
+  `InfiniteWord.eq_of_parityVector_eq_all` — so it has entropy **0**, against **1**
+  for the full shift.  The margin is the maximum possible.
+* *"The only orbit information a finite word does not carry is magnitude."*  False in
+  both directions.  For a **cycle** there is no residual at all: `n = C(w)/G(w)` is a
+  function of the word, hence so are `r` and `m`.  For a general orbit the residual
+  relative to the *infinite* word is nil, and relative to a length-`L` window it is
+  not magnitude but simply **the letters after time `L`**.
+
+The last point makes the two directives of the Round VI brief jointly inconsistent:
+it closed multi-window arguments while requiring the next attack to be about `m` —
+but `m` is determined by the later letters, i.e. by a longer window, which the same
+collapse argument closes.  Either longer windows are admissible, or magnitude is
+closed too.
+
+**And the gap between the two models is the conjecture itself.**
+`InfiniteWord.periodicity_equiv_no_divergence`: every positive integer has an
+eventually periodic parity word iff no positive integer diverges.  Asserting that
+the orbit-realised words are all the words assumes no divergence.
+
+## What this closes
 
 ## What this closes
 
@@ -48,6 +80,12 @@ For a window of length `L` the word determines `x mod 2^L` exactly, so the resid
 information is the *high part*: `x = r + 2^L · m` with `r` fixed by the word.  That
 — magnitude — is the only orbit information a finite word does not carry, and it is
 asset (a), capped for the size sandwich by `ArchimedeanCeiling.sandwich_vacuous`.
+
+The constructive residue, for the record: the genuinely `d`-sensitive lever here is
+not `m` but the *word function* `C(w)/G(w)` measured against the verified range —
+`C(w) ≥ 1086464·G(w)` — since `C/G` is `d`-free while the cycle point `n_d =
+d·C/G` scales with `d`.  That is exactly the mechanism `RealizableFrontier6809`
+already runs.
 
 One correction recorded here.  Round IV's descent agent and Round V's sink agent
 both listed Terras surjectivity as a *missing bridge* and carried it as an explicit
