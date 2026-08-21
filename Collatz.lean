@@ -87,6 +87,7 @@ import Collatz.Strategy.GapOne
 import Collatz.Strategy.CycleCriterion
 import Collatz.Strategy.OneRunOrder
 import Collatz.Strategy.HeavyWord
+import Collatz.Strategy.SieveGrowth
 import Collatz.Strategy.AccumulatorSharp
 import Collatz.Strategy.AccumulatorLocal
 import Collatz.Strategy.AccumulatorCap
