@@ -2019,3 +2019,198 @@ comparison — and the branch then died to measurement rather than to the filter
 The program should stop spending rounds on primes.  What is left is unchanged
 from Round IV: bound `δ(w) = G/gcd(C, G)` away from 1, or bound a cycle's spread
 `M/n`.  Neither is a statement about which primes divide anything.
+
+
+---
+
+# Round V — the substitution route is closed, and the sink was never a bad measure
+
+Five agents.  The round set out to bound the cycle spread `M/n`; that target was
+wrong in both directions, and the correct statement is stronger.
+
+## The criterion had a spurious term
+
+Round IV's substitution criterion `log₂(M/n) > 0.1025·L − 2.05·δ` is invalid.  A
+partner must satisfy `RepetitionDescent.subst_dvd`'s hypothesis `ones q = ones p`,
+which is forced, not decorative: changing the odd count changes `a`, hence `G`, so
+the divisibility would be by the **wrong gap**.  The pool is therefore words of
+fixed length *and* fixed odd count — size `binom L a`, independent of the spread.
+The `M/n` factor came from letting `a` range over a band, which the hypothesis
+forbids.
+
+> **A partner is forced iff `binom L a > G`.**
+
+On the ledge this holds at exactly six pairs — `a ∈ {1, 3, 5, 10, 17, 29}` — and
+never for `a ≥ 30`.  The deficit then grows linearly at `(1 − H(log₃2))·L ≈ 0.05 L`
+bits: `+0.73` at `a = 17`, `+0.01` at `a = 29`, `−3.37` at 30, **`−231.4`** at 2966,
+**`−337.0`** at 4296.  It cannot be forced asymptotically either, since `δ > 0.05L`
+would need `ε < 2^(−0.05L+0.53)` against `ε ≫ a^(−4.2)` from the irrationality
+measure of `log₂3`.  This is `CycleLanguage`'s 243-bit surplus, reached from the
+substitution side.
+
+## The spread computation, restated correctly
+
+An exact DP over words heavy at every proper prefix gives minimum spread `1.5098`
+at `L = 27` rising to `1.5837` at `L = 4701` — converging to `log₂3`, a constant.
+The minimiser is the greedy Sturmian word `a_i = ⌈i·log₃2⌉`, so this is a **closed
+form**, `minspread(L) = max_(i<L)(⌈i log₃2⌉ log₂3 − i) < log₂3`, uniform in `L`.
+
+That is a *minimum*, and I originally used it to conclude "substitution is never
+forced".  **That inference is invalid** — the conclusion needs a bound on the
+*maximum*.  There is none: `1^a 0^(L−a)` is heavy at every proper prefix at
+`(4701, 2966)` with spread `1735`.  Heaviness confines the spread only to
+`[≈1.58, ≈0.585a]` and pins neither end.
+
+What it does prove, with `NewModels.word_is_cycle_word`:
+
+> **No `d`-free mechanism can lower-bound a cycle's spread.**  The Sturmian word at
+> `(4701, 2966)` is a genuine cycle of `3x + δ(w)` — `δ` 1413 digits, minimum 1418
+> digits — with spread **exactly 2.99930**.
+
+A spread bound must consume an asset; heaviness will not deliver one.
+
+## The sink was never a bad measure — no second measure can exist
+
+`SinkStructure.wC_inj`: on binary words, `(length, ones, wC)` is a **complete
+invariant** (independently verified, zero collisions over all 524 286 words to
+length 18; consistent with the length-83 refutation, which had different odd
+counts).  So the fibres of `w ↦ wC` at fixed `(L,a)` are **singletons**, and:
+
+* `lex_collapses` — for **any** `μ`, a strict lexicographic decrease of `(wC, μ)`
+  across a shape-preserving operation is already a strict decrease of `wC`.  Runs,
+  max run, run multiset, rotation index, `v₂` profile: all functions of the word,
+  hence of `C`, hence redundant.
+* `no_descent_on_list` — if `S` is finite, `T₂` maps `S` into `S`, and **any** `ν`
+  strictly decreases along `T₂`, then `S = ∅`.  `ν` carries no hypotheses, so this
+  covers every second operation and every measure at once.  `sink_rigid_17` is the
+  witness: `S(11,7,139)` is the eleven rotations of the `3x−1` cycle, decided in the
+  kernel, nonempty.  The same argument runs at `(27,17)` for the `3x+5` cycles.
+
+Also established exhaustively (135 non-empty blocks, every length ≤ 28, three
+worlds, zero exceptions): **every** element of `S` is a genuine cycle word, not
+merely every sink.  Divisibility alone, not minimality, makes a cycle word.  So
+Round IV's hoped-for equivalence is true-but-vacuous forward and false in reverse.
+
+**Verdict: the descent architecture is complete.**  The sink is the statement that
+`S(L,a,G)` is a nonempty finite set whenever a cycle exists, and no strictly
+decreasing map exists on such a set.  Any contradiction needs `S(L,a,G) = ∅`, which
+is the original problem verbatim.
+
+## The extremal coincidence is a theorem
+
+`ExtremalWord`.  Re-coordinatising heaviness by odd-step times gives
+
+> **heaviness ⟺ `t_i ≤ fexp(i)` for every `i < a`** —
+
+so the heavy words with `a` odd steps are exactly the integer points of a **box**,
+whose unique top corner is the Beatty word.  `C` is strictly increasing in every
+`t_i`, so it is maximised at the corner; the prefix odd-count profile is antitone,
+so the spread is minimised at the *same* corner.  Two objectives monotone in
+opposite directions along one partial order.
+
+Consequences: `max C = Bcap a` is a **tautology**, not luck — "exactly attained for
+`a ≤ 12`" needed no coincidence; the corner minimises *every* monotone functional of
+the profile simultaneously; and equality in `C ≤ Bcap` holds **iff** the word is the
+Beatty word (`Cw_eq_Bcap_iff`).  Agreement measured 15/15 on the ledge, both
+extremisers unique.
+
+The near-extremality mechanism is nevertheless **dead**, and instructively.  On a
+cycle `C = G·m` with `m ≥ 1086464`, so the forced ratio `C/Bcap ≥ G·m/Bcap` — and
+computing it just reproduces the frontier: the first `a` where it drops below 1 is
+`a = 4296`, `L = 6809`, *exactly* `RealizableFrontier6809`.  So "the cycle word is
+near-extremal" is a restatement of the frontier bound, available only where the
+frontier already closes the case.  Past it the median forced ratio over surviving
+`a ≤ 40000` is 0.494, minimum 0.0053.  Explicit witness: the `3x−1` cycle through 17
+sits at 63 % of its ceiling.  Cycle words are not near-extremal.
+
+Also computed: `gcd(Bcap a, G) = 1` for 88.2 % of `a ≤ 3000`, maximum 22139 at
+`a = 2773` against a gap of `2^4397`.  **The Beatty word is never a cycle word.**
+
+## `δ` collapses onto counting
+
+`DeltaSpectrum`.  Exhaustive over the cycle language to `L = 40` (up to
+820 236 724 words; growth rate `1.9318^L`): the Round III observation that heaviness
+suppresses `gcd(C,G)` is **a sample-size artifact**.  Past `L = 20` the maximum gcd
+explodes — 1 015 513 at `L = 27`, 1 320 539 363 at `L = 40` — and `min δ` does not
+grow: 5 at `L = 27`, 13 at 24, 191 at 40.
+
+Against the null model `C` uniform mod `G`: `P(gcd = 1)` matches `∏_{p|G}(1−1/p)` to
+four decimals; `χ² = 182` on 27 dof, with the *entire* excess at `p = 5` and of
+opposite sign at different lengths.  Measured growth `log₂ δ_min ≈ 0.050768·L +
+13.22` against the theoretical `1 − H(log₃2) = 0.0500445`.  So `δ → ∞`
+heuristically, but **the mechanism is pure counting and heaviness contributes zero
+suppression** — `δ = 1` cannot be excluded this way.
+
+`delta_no_growing_bound` (axiom-free): any length-indexed lower bound on `δ` over
+heavy words is pinned at five lengths by non-increasing values, so `δ ≥ 6` is
+formally false.
+
+## Nothing survives in the prime direction
+
+`PrimeLedge`.  All three remaining angles are real and none obstructs, for one
+reason stated three times: each delivers information about the *factorisation* of
+`G`, which by CRT carries none about `G ∣ C`.
+
+* **Primitive divisors are live but useless** — and they correct this ledger.
+  `ledge_descend` proves `Ledge (g·L') (g·a') → Ledge L' a'`, so the claim above
+  that *"the scaled pairs `(kL, ka)` are never survivors for `k ≥ 2`"* is **false**:
+  `δ_(ka) = k·δ_a`, and **137 of the 357** survivors below 40000 have `gcd(L,a) > 1`.
+  Round III found Zsigmondy vacuous because it looked at the one-run branch where
+  `g = 1`; on the ledge `g > 1` is common.  It yields `ω(G) ≥ d(g) − 1` — a lower
+  bound on `ω(G)`, which Round III already proved buys nothing.
+* **`v_p(C)` versus `v_p(G)`: refuted with the law.**  Both follow the same geometric
+  distribution with ratio `1/p` and no cutoff.  `max v_p(G)` on the ledge grows like
+  `log X/log p` (max 5 for `p = 5` over `a ≤ 20000`); `v_p(C)` over the cycle
+  language matches the prediction to three figures.  At `(4701,2966)` the constraint
+  removes 11.6 of 4447 bits.  Pushing to the cap recovers exactly `1/G` and not one
+  bit more.
+* **The ledge is non-random and it is exactly explained.**  Every one of the 8847
+  survivors below `a = 200000` is `k·(485,306) + j·(1054,665)` with zero exceptions.
+  Screening `p < 300` gives exactly three outliers beyond `|z| > 2.5`, all one
+  mechanism: `37 ∣ 3^665 − 2^1054` makes `j` irrelevant, so `37 ∣ G` iff `36 ∣ k` —
+  predicted 245.75, observed **150**, and the survivors with `36 ∣ k` number exactly
+  150.  New: `gap_translate_iff`, the `↔` strengthening of `GapPrimes.gap_add_dvd`.
+  A sign correction fell out: the second generator's gap is **negative**,
+  `2^1054 < 3^665`.
+
+## Corrections, including four to my own work
+
+* **The Round IV substitution criterion is invalid** (spurious `M/n` term) — above.
+* **My spread inference used the wrong extremum** — above.
+* **`RunRefined` "exactly tight (worst ratio 1.0000)" is false.**  Ratio 1 is
+  attained at exactly three words, all of length ≤ 3.  At every heavy length ≥ 4 the
+  ratio is ≤ 0.958; at `L = 20` the maximum is 0.86840.  The asymptotic slack is
+  13 %, so the true extremal constant is nearer 0.250 — closer to `Bcap`'s 0.2404
+  than claimed.  The advertised extremal profile `[2,2,2,1,2,2,1]` at `L = 20` has
+  35 of its 36 words non-heavy, and the one heavy word has ratio 0.857.
+* **`RunRefined`'s headline measurement was against the wrong class** — the same
+  empty-set error Round III found, now in my own file.  "12 448 heavy words with
+  positive gap" used *proper*-prefix heaviness while the theorem hypothesised
+  heaviness at every `i ≤ j`; under that hypothesis the positive-gap class is
+  **empty**.  The correct count is 12 449.  **Repaired for free**: the induction
+  never uses heaviness at `i = j`, so the hypothesis weakens to `i < j` — which is
+  what makes the bound applicable to a cycle word at all.  Both theorems now carry
+  the weaker hypothesis.
+* **`heavy_accumulator_bound_sharp` has equality iff `a ≤ 1`**, and is off by a
+  factor 1.386 forever (`sup 3C/(a·3^a) → 1/(2 ln 2)`).
+* Docstring kills, Lean correct in each case: `PAdicJoint.cycle_three_adic_vacuous`
+  quantifies `C` and `n` freely, so it is "a unit is surjective mod `3^j`" rather
+  than a statement about the fixed point `n = C/G`; `ReverseTree` contains an
+  `Iff.rfl` between character-identical sides, a theorem proving `2 = 2`, and a
+  `d mod 3` claim that ignores preimage *values* (`(2y−d)/3` is 3 for `d=1` and 1 for
+  `d=7` at `y=5`); `InfiniteWord`'s docstring says "never-dropping" where the Lean
+  says *heavy* — `n = 1` never drops and its word `(10)^∞` contains no `11`.
+
+## Where Round V leaves it
+
+The substitution architecture is closed at **both** ends: it cannot be entered
+(pigeonhole fails by `0.05·L` bits past `a = 29`) and it cannot be extended (no
+second measure exists, since the fibres are singletons).  The word-only program is
+now empirically exhausted as well: heaviness is *statistically invisible* to
+`C mod G` — `P(gcd=1)` matches the Euler product to four decimals, and the only
+detectable bias is 0.35 % at `p = 5` and changes sign.
+
+Every route examined in Rounds III–V reduces to the same object: `C mod G`
+equidistributes on the heavy language, and the counting surplus is `0.05·L` bits.
+The honest remaining leverage is asset (a) — the verified range — applied to
+something that is **not** a word invariant at all.

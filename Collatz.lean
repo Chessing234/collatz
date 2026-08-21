@@ -113,6 +113,7 @@ import Collatz.Strategy.RepetitionDescent
 import Collatz.Strategy.SpreadFloor
 import Collatz.Strategy.SinkStructure
 import Collatz.Strategy.ExtremalWord
+import Collatz.Strategy.DeltaSpectrum
 import Collatz.Strategy.SieveGrowth
 import Collatz.Strategy.Profile
 import Collatz.Strategy.ExchangeRate
