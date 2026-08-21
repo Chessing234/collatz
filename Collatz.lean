@@ -81,6 +81,7 @@ import Collatz.Strategy.AccumulatorArith
 import Collatz.Strategy.AccumulatorClass
 import Collatz.Strategy.AccumulatorValuation
 import Collatz.Strategy.CycleAccumulator
+import Collatz.Strategy.CycleCriterion
 import Collatz.Strategy.ClassCap
 import Collatz.Strategy.ThreeResidue
 import Collatz.Strategy.HeavyState
