@@ -84,6 +84,7 @@ import Collatz.Strategy.CycleAccumulator
 import Collatz.Strategy.GapOne
 import Collatz.Strategy.CycleCriterion
 import Collatz.Strategy.AccumulatorSharp
+import Collatz.Strategy.DensitySharper
 import Collatz.Strategy.ClassCap
 import Collatz.Strategy.ThreeResidue
 import Collatz.Strategy.HeavyState
