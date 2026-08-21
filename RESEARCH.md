@@ -860,3 +860,51 @@ Recorded because it was checked and found wrong: the tidy majorant
 needs `frac(a·log₂3) ≥ log₂(4/3)`, which fails at about 40 % of indices, and no
 constant strengthening repairs it (the two `⌊i·log₂3⌋` jump cases force
 incompatible constants).  `Bcap` itself is sharper and no harder for the kernel.
+
+
+## The round's one unexplained measurement, refuted
+
+`w ↦ C(w)` looked injective on heavy words — exhaustively to length 28, while
+colliding freely on arbitrary words.  Had it been true, `C` alone would have
+determined a never-dropper's residue class.
+
+**False.  First collision at length 83:**
+
+    r  = 682585550255899720490087    a  = 53
+    r' = 5448846481649007412081903   a' = 55
+    C  = 212525282698140465463422331
+
+Both heavy at all 83 prefixes.  Five collisions there, twenty more at 86.
+Injectivity is *proved* below 58 and exhausted by a complete decision procedure
+to 82 — the measurement was honest, the search was short.
+
+Two facts explain the whole shape, and both are now in `HeavyResidue`:
+
+* **`C ≡ 3^a (mod 4)` on every heavy window.**  Heaviness at `i = 2` needs
+  `4 ≤ 3^a₂`, so a heavy word starts with *two* odd steps; every later odd step
+  adds `2^j` with `j ≥ 2`, invisible mod 4, and multiplies both sides by three.
+  So `C` knows `a` modulo two, and the cheapest collision — counts differing by
+  one — is impossible.  This is why the joint search over `(r, 3^(−k)r)` returns
+  literally zero both-heavy pairs for odd `k`.
+* **Size closes the window only temporarily.**  With
+  `C/3^(a−1) = Σ 2^tᵢ/3^(i−1)`, heaviness caps every term at one so the sum is
+  at most `≈ 0.7213a`, and ordering floors it at three.  A collision at
+  `a' = a+2` needs two such sums a factor of nine apart inside `[3, 0.7213a]` —
+  impossible until `a ≈ 37`, i.e. `j ≈ 58`.  The margin shrinks **linearly**: the
+  ceiling grows with `a`, the target is the constant 27.  The window opens at 58;
+  the first collision lands at 83, with the ratio exactly 9.
+
+Two by-products worth keeping.  The factor of two that `HeavyWord` removes from
+the older window bound is *precisely* what makes the mod-four law available:
+relaxing heaviness to `2^i ≤ c·3^aᵢ` survives to 24 at `c = 3/2` but breaks at
+`c = 2` with an **odd** count difference, because `c = 2` is the constant that
+admits a word beginning `OE`.  And `heavy_accumulator_bound_sharp` improves the
+stored bound by a factor `3/2` from the identical induction.
+
+The negative conclusion constrains future work: `C` is not a complete invariant
+of a heavy window, so anything carrying window data must keep carrying the pair
+`(oddCount, affineC)`.
+
+Note also that this question could never have been decisive: `C(w,d) = d·C(w,1)`
+and heaviness is `d`-free, so it was literally the same statement for `3x−1` and
+`3x+5`.  The soundness filter would have caught it before the search did.
