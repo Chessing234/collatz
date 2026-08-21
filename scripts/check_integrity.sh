@@ -25,6 +25,9 @@ import Collatz
 #print axioms Collatz.GapSandwich.cycle_length_determined
 #print axioms Collatz.NewModels.word_is_cycle_word
 #print axioms Collatz.Papers.Conway1972.reachesOne_step_27
+#print axioms Collatz.PrimeLedge.ledge_descend
+#print axioms Collatz.PrimeLedge.gap_translate_iff
+#print axioms Collatz.PrimeLedge.gap_translate_iff_neg
 LEAN
 axout="$(lake env lean /tmp/collatz_axcheck.lean)"
 printf '%s\n' "$axout"

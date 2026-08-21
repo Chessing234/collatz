@@ -1525,6 +1525,16 @@ so non-primitive cycles carry no new information.  Together with the rotation
 result this says the divisibility is invariant under both symmetries of the
 problem, and neither yields an extra constraint.
 
+**>>> CORRECTED in Round V — the sentence above is FALSE. <<<**  Writing
+`δ_a = L − a log₂ 3 ∈ (0,1)`, one has `δ_(ka) = k·δ_a`, so the scaled pair
+`(kL, ka)` stays on the ledge for **every** `k` with `k·δ_a < 1`, and ledge
+survivors have `δ_a ≈ 10⁻³`.  Measured: over every ledge point with `a < 200 000`,
+dividing `(L, a)` by any common divisor lands back on the ledge — zero exceptions
+— and 137 of the 357 sandwich survivors below 40 000 have `gcd(L, a) > 1`.  At the
+frontier, `(9402, 5932) = 2·(4701, 2966)`, `(14103, 8898) = 3·(4701, 2966)` and
+`(23505, 14830) = 5·(4701, 2966)` are all ledge points and all survivors.  See
+`PrimeLedge.ledge_descend`.
+
 The honest quantitative summary of the whole direction: at `(L, a)` the words
 number `2^(0.95 L)` and the constraint has strength `1/G`, so with
 `δ = L − log₂ G` the expected solution count is `2^(δ − 0.05L)`, and `δ` was
@@ -1864,3 +1874,148 @@ The single open input is now sharper than "bound the gcd".  It is:
 That is an honest statement of a mechanism that is *correct and formalised* but
 non-terminating, together with the exact quantity that would decide whether it can
 even begin.
+
+---
+
+# Round V — the prime direction, closed with measurements
+
+One question: **does anything survive in the prime direction?**  Round III
+refuted the many-primes thesis three ways; Round IV killed the `p`-adic route by
+a trivial Hasse principle.  Three angles were left explicitly open.  All three
+turn out to be **real** — each contains a true, previously unrecorded structural
+fact — and all three deliver information about `G` alone, which by CRT is worth
+exactly nothing against `G ∣ C`.  New file: `Collatz/Strategy/PrimeLedge.lean`
+(11 theorems, axiom footprint `[propext, Quot.sound]`, no `Classical.choice`).
+
+## Admission test
+
+The prime direction *does* see something the density / affine-magnitude
+framework cannot: `v_p(C)` against `v_p(G)` is a multiplicative comparison of `C`
+to `G`, it is not a function of magnitudes, and it is not invariant under
+`C ↦ d·C` (`v_p(d·C) = v_p(d) + v_p(C)`).  So it passes the corrected soundness
+filter and the branch was admitted.  What it then turns out to be, once measured,
+is the CRT collapse in valuation clothing — which is a *result*, not a filter
+failure.
+
+## 1.  The ledge is closed under common divisors — and the ledger was wrong
+
+`PrimeLedge.ledge_descend` (LEAN_PROVED).  Define
+`Ledge L a := 2^L ≤ 2·3^a ∧ 3^a < 2^L`, which `ledge_iff` proves equivalent to
+`L = fexp a + 1`.  Then for every `g ≥ 1`,
+
+> `Ledge (g·L') (g·a')  →  Ledge L' a'`
+
+by pure `Nat` monotonicity of `x ↦ x^g` in both halves — no real analysis.  With
+`GapPrimes.gap_dvd_scale` this gives `ledge_gap_dvd`: at a ledge point whose
+exponents share a factor `g`, the gap of the primitive point `(L/g, a/g)` — which
+is itself a ledge point — divides the gap; and `ledge_cycle_gap_dvd` carries that
+into the cycle criterion.
+
+This **falsifies** the Round III sentence "the scaled pairs `(kL, ka)` are never
+themselves survivors for `k ≥ 2`" (corrected in place above).  The smallest
+kernel-checked witness is `Ledge 16 10 → Ledge 8 5`, with
+`2^8 − 3^5 = 13 ∣ 6487 = 2^16 − 3^10` (`gap_13_dvd_6487`).
+
+Consequence for Zsigmondy, which Round III found vacuous because it looked at the
+one-run branch where `g = 1`: on the *ledge* `g > 1` is common (137 of 357
+survivors below 40 000), Zsigmondy's hypotheses hold (`gcd(2^(L/g), 3^(a/g)) = 1`;
+the `g = 2` exception needs `X + Y` a power of two and `2^(L/2) + 3^(a/2)` is
+odd), so `G` has a primitive prime divisor `p ≡ 1 (mod g)`, and running over the
+divisors of `g` gives `ω(G) ≥ d(g) − 1`.  **Non-vacuous and useless**: Round III
+proved that any lower bound on `ω(G)` is worth nothing, because by CRT the `ω(G)`
+conditions *are* `G ∣ C`.
+
+## 2.  `v_p(C)` is not structurally bounded.  REFUTED, with the law
+
+The route needs `v_p(G)` forced large while `v_p(C)` is capped.  Both halves fail
+and both distributions are exactly geometric with ratio `1/p`.
+
+*`v_p(G)` on the ledge*, exhaustive over `1 ≤ a ≤ 20 000` with exact integer gaps:
+
+| `p` | `v_p = 1` | `2` | `3` | `4` | `5` | max |
+|---|---|---|---|---|---|---|
+| 5 | 4001 | 799 | 162 | 32 | 8 | **5** at `a = 351` |
+| 7 | 2846 | 407 | 63 | 9 | 1 | **5** at `a = 4606` |
+| 11 | 1819 | 163 | 15 | 1 | 0 | **4** at `a = 3428` |
+| 13 | 1546 | 116 | 8 | 1 | 0 | **4** at `a = 7548` |
+
+So `max_{a ≤ X} v_p(G)` grows like `log X / log p`.  (The brief's `5^4 ∣ G` at
+`a = 31708` and `5^3` at `a = 20203` are ordinary members of this distribution.)
+
+*`v_p(C)` on heavy words*, exhaustive over the cycle language:
+
+| `L` | words | `v₅(C) = 0,1,2,3,4,5,6` | geometric prediction |
+|---|---|---|---|
+| 20 | 29 980 | 23983, 4798, 957, 189, 43, 8, 2 | 23984, 4797, 959, 192, 38, 8, 2 |
+| 22 | 93 222 | 74626, 14878, 2977, 588, 117, 29, 7 | 74578, 14916, 2983, 597, 119, 24, 5 |
+
+and the same agreement at `p = 7, 11, 13`.  **No cap, no cutoff, no tail
+structure.**  Quantitatively at `(L, a) = (4701, 2966)`: `2^4447` words, `v₅(G) ≤ 5`
+in the measured range, fraction with `v₅(C) ≥ 5` equal to `5^(−5) = 2^(−11.6)`,
+leaving `2^4435` survivors of the `p = 5` condition.  Pushing to the absolute cap
+`p^(v_p(G)) ≤ G` (`gap_prime_power_le`) recovers the fraction `1/G` — i.e.
+exactly `G ∣ C` and not one bit more.  **The valuation route is CRT again.**
+
+## 3.  The ledge and the prime lattices *do* interact non-randomly — exactly
+
+Over all ledge points with `a < 40 000`, the frequency of `p ∣ G` matches
+`1 / lcm(ord_p 2, ord_p 3)` to four decimals for every `p < 200`.  The **survivor
+set** is different, and the deviation is not noise.
+
+Every one of the **8847** sandwich survivors below `a = 200 000` (criterion
+`c·G ≤ 0.2404·a·3^a` at `c = 768 000`, which reproduces Round III's 357 below
+40 000 and 807 below 60 000) is **exactly**
+
+`(L, a) = k·(485, 306) + j·(1054, 665)`,  `k ∈ [1, 70]`,  `j ∈ [4, 294]`
+
+with **zero exceptions**.  Divisibility of `G` by `p` is then a condition on
+`(k, j)` modulo `(u_p, v_p)`, the multiplicative orders of `2^485/3^306` and
+`2^1054/3^665` mod `p`.  Since the survivor profile is skewed (`k` small, `j`
+large), primes with `v_p` small and `u_p` large are systematically **rare**.
+Screening every `p < 300` against 8847 survivors gives exactly three outliers at
+`|z| > 2.5`, and all three are this mechanism:
+
+| `p` | `u_p` | `v_p` | observed | naive `n/M_p` | `z` |
+|---|---|---|---|---|---|
+| **37** | 36 | **1** | **150** | 245.75 | **−6.11** |
+| 173 | large | large | 29 | 51.44 | −3.13 |
+| 251 | 250 | **5** | 18 | 35.39 | −2.92 |
+
+`p = 37` is exact to the unit: `37 ∣ 3^665 − 2^1054`, so `v₃₇ = 1` and `j` is
+irrelevant; `u₃₇ = 36`, so `37 ∣ G` iff `36 ∣ k`, iff `k = 36` in range — and the
+number of survivors with `36 ∣ k` is **150**, matching the observed count of
+`37 ∣ G` exactly.
+
+The theorem behind it is new: `PrimeLedge.gap_translate_iff` and its
+negative-gap companion `gap_translate_iff_neg`, with iterated forms.  If `m`
+divides the gap of a "null" pair `(K, b)` and `2` is invertible mod `m` (explicit
+inverse `(m+1)/2` for odd `m`, `two_inv_of_odd`), then
+
+> `m ∣ 2^(L+K) − 3^(a+b)  ↔  m ∣ 2^L − 3^a`.
+
+`GapPrimes.gap_add_dvd` had only `→`; the converse is what makes the divisibility
+a function of one lattice coordinate.  Kernel-checked instances:
+`929 ∣ 2^485 − 3^306` (`nine_two_nine_k_blind`) and `37 ∣ 3^665 − 2^1054`
+(`thirtyseven_j_blind`).  Note the sign — the second generator's own gap is
+**negative**, `2^1054 < 3^665`, which is exactly the `δ_a = k·δ₃₀₆ − j·ε`
+decomposition `GapSandwich` records, and is why the two companions are needed.
+
+**And it is still not an obstruction.**  It classifies *which* primes divide `G`.
+Round III measured `C mod p` over heavy words at `a = 2966` for every `p ≤ 23`
+and found every residue, `0` included, at rate `1/p`; the shape "some small
+`p ∣ G` forces `p ∣ C` incompatibly with heaviness" does not exist for any
+`p < 2·10⁶` at any of 360 surviving `a`.  Non-random *selection of the primes*
+composed with equidistributed *`C` mod each prime* is still strength `1/G`.
+
+## Verdict
+
+**Nothing survives in the prime direction.**  Every angle left open by Rounds III
+and IV is real and none of them obstructs, for one reason stated three times: all
+of them are information about the factorisation of `G`, and by CRT the
+factorisation of `G` carries no information about `G ∣ C`.  The soundness filter
+admitted the branch correctly — `v_p(C)` vs `v_p(G)` genuinely is a multiplicative
+comparison — and the branch then died to measurement rather than to the filter.
+
+The program should stop spending rounds on primes.  What is left is unchanged
+from Round IV: bound `δ(w) = G/gcd(C, G)` away from 1, or bound a cycle's spread
+`M/n`.  Neither is a statement about which primes divide anything.

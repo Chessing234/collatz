@@ -105,12 +105,14 @@ import Collatz.Search.VerifiedExtended
 import Collatz.Strategy.RealizableFrontier6809
 import Collatz.Strategy.JointRank
 import Collatz.Strategy.PAdicJoint
+import Collatz.Strategy.PrimeLedge
 import Collatz.Strategy.ReverseTree
 import Collatz.Strategy.InfiniteWord
 import Collatz.Strategy.RunRefined
 import Collatz.Strategy.RepetitionDescent
 import Collatz.Strategy.SpreadFloor
 import Collatz.Strategy.SinkStructure
+import Collatz.Strategy.ExtremalWord
 import Collatz.Strategy.SieveGrowth
 import Collatz.Strategy.Profile
 import Collatz.Strategy.ExchangeRate
