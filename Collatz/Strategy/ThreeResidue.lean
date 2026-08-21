@@ -102,5 +102,34 @@ theorem orbit_mod_three_of_last_odd {x t k : Nat} (hodd : acceleratedOrbit t x %
     rcases hj with ⟨hjp, hjv⟩ | ⟨hjp, hjv⟩ <;> rcases ht with ⟨htp, htv⟩ | ⟨htp, htv⟩ <;>
       rcases hr with h | h | h <;> rw [hjv, h] at hmod3 <;> omega
 
+
+/-! ## The deterministic placement of three-divisibility
+
+`RESEARCH.md` recorded, from measurement, that "32 % of even steps inject
+3-divisibility", and read that as a statistical fact.  It is not statistical at
+all.  In the shifted coordinate `u = x + 1`, `3 ∣ u` says `x ≡ 2 (mod 3)`, which
+by the clock above happens exactly when the number of halvings since the last
+odd step is **even**.  So along an even run the divisibility alternates with
+period two, starting at the run's first point — deterministic placement, not a
+frequency. -/
+
+/-- **Three divides `x + 1` at exactly every second point of an even run.**  The
+condition is the parity of the number of halvings since the last odd step. -/
+theorem three_dvd_succ_iff_even_halvings {x t k : Nat} (hodd : acceleratedOrbit t x % 2 = 1)
+    (htail : oddCount (acceleratedOrbit (t + 1) x) k = 0) :
+    3 ∣ (acceleratedOrbit (t + 1 + k) x + 1) ↔ k % 2 = 0 := by
+  obtain ⟨heven, hoddk⟩ := orbit_mod_three_of_last_odd hodd htail
+  constructor
+  · intro hdvd
+    rcases Arith.mod_two_eq_zero_or_one k with hk | hk
+    · exact hk
+    · exfalso
+      obtain ⟨c, hc⟩ := hdvd
+      have h1 := hoddk hk
+      omega
+  · intro hk
+    have h2 := heven hk
+    exact ⟨(acceleratedOrbit (t + 1 + k) x + 1) / 3, by omega⟩
+
 end ThreeResidue
 end Collatz
