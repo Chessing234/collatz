@@ -9,6 +9,7 @@ import Collatz.Search.Descent
 import Collatz.Search.StoppingTime
 import Collatz.Search.Sieved
 import Collatz.Search.Verify
+import Collatz.Search.Verified768000
 import Collatz.Structure.AccCycle
 import Collatz.Structure.AccDivergence
 import Collatz.Structure.AffineBound
@@ -96,6 +97,7 @@ import Collatz.Strategy.AnyModulusRanking
 import Collatz.Strategy.TransitionInvariant
 import Collatz.Strategy.CycleLength520
 import Collatz.Strategy.CycleLength1539
+import Collatz.Strategy.CycleLength2593
 import Collatz.Strategy.Frontier
 import Collatz.Strategy.Master
 import Collatz.Chains.SumChains
