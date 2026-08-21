@@ -79,6 +79,7 @@ import Collatz.Strategy.CycleProduct
 import Collatz.Strategy.AffineExact
 import Collatz.Strategy.AccumulatorArith
 import Collatz.Strategy.AccumulatorClass
+import Collatz.Strategy.AccumulatorValuation
 import Collatz.Strategy.HeavyState
 import Collatz.Strategy.NoFiniteRanking
 import Collatz.Strategy.CycleLength520
