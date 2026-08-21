@@ -117,6 +117,7 @@ import Collatz.Strategy.DeltaSpectrum
 import Collatz.Strategy.WindowCollapse
 import Collatz.Strategy.BackwardRange
 import Collatz.Strategy.HighPart
+import Collatz.Strategy.ImageDensity
 import Collatz.Strategy.SieveGrowth
 import Collatz.Strategy.Profile
 import Collatz.Strategy.ExchangeRate

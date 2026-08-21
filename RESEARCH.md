@@ -2214,3 +2214,139 @@ Every route examined in Rounds III–V reduces to the same object: `C mod G`
 equidistributes on the heavy language, and the counting surplus is `0.05·L` bits.
 The honest remaining leverage is asset (a) — the verified range — applied to
 something that is **not** a word invariant at all.
+
+
+---
+
+# Round VI — the surplus is 2-adic, and the gap is odd
+
+Five agents.  The round proposed attacking with *state-dependent* quantities the
+parity word does not determine.  The premise was half right, and the half that was
+wrong was mine.
+
+## What collapsed, and what I over-claimed
+
+`WindowCollapse.window_sequence_realized`: for any two words `u`, `v` there is an
+actual orbit whose first window is `u` and whose next is `v`.  For every **finite**
+`N` the words of length `N` biject with residues mod `2^N`, so no finite family of
+consecutive windows is stronger than one word of the total length.  **Finite
+multi-window arguments are closed** — that operational conclusion stands.
+
+I drew three further conclusions and all three are **false**, by compactness:
+
+* *"The shrinking intersection is never empty; every prefix extends."*  True in `Z₂`;
+  **false in `ℕ_{>0}`**.  Every prefix of `0^∞` is realised by `2^N`, every prefix of
+  `1^∞` by `2^N − 1`, and no positive integer realises either infinite word.
+* *"The growth rate of compatible window sequences equals the word entropy."*  Only
+  at fixed finite length.  The infinite words realised by positive integers are
+  **countable** — entropy 0 against 1 for the full shift.
+* *"The only residual information is magnitude."*  False both ways.  For a cycle
+  `n = C(w)/G(w)` is word-determined, so nothing is residual; for a general orbit the
+  residual is not magnitude but **the letters after time `L`**.
+
+That last error made my two directives jointly inconsistent — closing multi-window
+arguments while requiring the next attack to be about `m`, which later letters
+determine.  And the gap between the two models *is* the conjecture
+(`InfiniteWord.periodicity_equiv_no_divergence`).
+
+## The high part is identically zero
+
+`HighPart`.  The only place non-word information could hide is `x = r + 2^L·m`.  The
+law is `T^L(x) = 3^a·m + T^L(r)` — the offset is the orbit of the *smallest* member
+of the class, manufactured from `(2^L, 3^a, C)` — so the coordinate is a
+re-coordinatisation, not new information.  `renorm_faithful` and `renorm_compose`
+make the renormalisation an isomorphism onto the same problem: the group is `Z`, the
+cocycle is `3^(oddCount)`, and **the gap is the renormalisation eigenvalue**.  That
+is why every word-level attack recurs verbatim at every scale.
+
+And the coordinate is zero.  From `C ≤ 2^(L−a)(3^a − 2^a)`, every cycle element is
+below `2^L` whenever `G·2^a > 3^a` — true for every `a ≤ 20000` except `a = 1`, with
+a margin of **4285 bits** at the frontier pair.  The exception is the `3x+5` cycle
+`5 → 10 → 5`.
+
+## The surplus lives at the prime 2, and `G` is odd
+
+`ImageDensity` — the round's sharpest result.
+
+**The map is essentially injective mod `G`.**  Exhaustive to `L = 34`:
+`image/N ≥ 0.98` everywhere and `= 1` in 15 of 20 shapes; collisions never exceed
+the birthday prediction.  So there is **no structural compression** — the image is a
+sparse `N`-element subset of `Z/G`, and the question is a covering question about a
+sparse set, exactly what the L¹ barrier says size alone cannot settle.
+
+**Where the surplus lives.**  The number of distinct values of `C mod 2^j` over the
+cycle language is *exactly* the number of heavy prefixes of length `j`
+(1, 1, 2, 3, 4, 8, 13, 19, 38, 64, 128, 226, …), so the image has density
+`2^(−0.05j)` in `Z/2^j` — the same `0.05`, realised at the prime **2**.  And
+`G = 2^L − 3^a` is **odd**.  So `2^j` is invertible mod `G`, every class mod `2^j`
+already contains a multiple of `G`, and by CRT the entire surplus is worth
+**exactly zero** against the target.  Proved: `two_power_vacuous`,
+`mod_four_excludes_nothing`.  The mod-4 law is not an extra constraint — it *is*
+heaviness at prefix 2.
+
+**What `0.05` counts.**  `1 − H₂(log₃2) = 0.0500445` is the large-deviation cost
+`D(log₃2 ‖ ½)` of fixing `a = ⌊L·log₃2⌋`.  It is **not** the cost of heaviness: by
+the cycle lemma heaviness costs a factor `L` and *no entropy*.
+
+**Rigorous asymptotic** (paper, not Lean): with Rhin's `μ(log₂3) ≤ 5.117`,
+`surplus ≥ 0.0500445·L − 4.117·log₂L − O(1) → ∞` unconditionally, and
+`Σ 2^(−surplus)` converges.  This upgrades `CycleLanguage.count_lt_gap` from one
+pair with the crude constant `0.95405` to an asymptotic with an effective constant.
+Measured slope over 7570 shapes with `L ≤ 12000`: **0.05039**.
+
+**The accounting.**  To make counting work outright needs `N < 1`, i.e. a further
+**0.94996 bits/letter** — 19× the surplus.  Every known constraint: heaviness 0
+(cycle lemma); mod-4 and the whole 2-adic image 0 against odd `G`; Beatty box 0 (it
+*is* the heavy language); run structure 0 (`heavy_pad`: no forbidden block exists);
+necklace 0; `δ` 0 asymptotically.  **The combination cannot reach 0.06.**
+
+## The reverse tree, and one identification worth keeping
+
+`BackwardRange`.  The verified range buys a constant factor, never an exponent:
+pruned branching factor `4/3` to four decimals, identical to unpruned, stabilising
+by depth 16, with the range's entire reverse-tree content confined to the single
+window `[1086464, 1629696]`.  `backward_range_is_forward_range` proves the two
+conditions are one predicate.
+
+The find: the counting exponent for bounded reverse paths is exactly
+`1 − H(log₃2) = 0.05004` — the same deficit, and **not by analogy**: the weight
+`binom(k,a)·3^(−a)` *is* the forward heaviness generating function.  Two quantities
+treated as separate for three rounds are one.
+
+## Corrections
+
+* Three of my `WindowCollapse` conclusions (above), and the inconsistency between my
+  own two directives.
+* `ExtremalWord`'s `heavy ⟺ box` is **false**; only `⟹` is proved.  Counterexample
+  `a = 1`, `t₀ = 0`, `J = 2` (word `100`): the box holds, `2² = 4 > 3 = 3¹`.  The
+  exact statement needs `2^J ≤ 3^a`, so the box picture is valid **on the ledge
+  only** — verified: off-ledge the box counts `1,1,2,3,7,12,30,85,173` while the
+  truth is **zero** in every case.
+* `RunRefined` still carried, one screen below the header that repairs it, the stale
+  *"worst ratio 1.0000 over 59 058 heavy words"* — a population with no positive-gap
+  member.  Now `0.85185` over the 12 449 proper-prefix-heavy positive-gap words.
+* **`delta_no_growing_bound` does not close what I said it closes.**  It refutes only
+  `L`-indexed *growing* lower bounds on `δ`.  The constant bound `δ ≥ 2` is untouched
+  and every measurement supports it — `δ = 1` occurs only at `L = 2`, with
+  `min δ ≥ 5` at every `4 ≤ L ≤ 40`.  My brief said the `δ` direction "contributes no
+  asymptotic suppression", conflating the two.  Caveat the adversary did not add:
+  **`δ ≥ 2` is the conjecture restated**, so it states the target correctly rather
+  than advancing on it.
+* `SinkStructure`'s "every element of `S` is a genuine cycle word" is **vacuous on
+  the `d = 1` side**: `S(L,a,G) = ∅` at every ledge pair with `L ≤ 24`.  Its content
+  is in the `d = −1` and `d = 5` worlds.
+* Terras surjectivity and the high-part identity were both flagged as *missing
+  bridges* by earlier agents.  Both are already proved in the repo
+  (`parityVector_surjective_mod_pow_two`, `Congruence.accOrbit_pow_two_mul_add`).
+  Third such rediscovery this round — the development needs an index.
+
+## Where Round VI leaves it
+
+Every route now reduces to one statement, and its shape is finally exact:
+
+> The image of `w ↦ C(w) mod G` on the cycle language is a sparse, essentially
+> injective, structureless `N`-element subset of `Z/G`, with `N/G = 2^(−0.05L)`.
+> Whether it contains `0` is the conjecture.  The surplus is real and provably
+> growing; it is also **2-adic, while `G` is odd**, so it is orthogonal to the
+> target — and no known constraint contributes at any modulus sharing a factor
+> with `G`.

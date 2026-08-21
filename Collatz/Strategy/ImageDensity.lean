@@ -19,30 +19,49 @@ This file answers two questions about `Φ`, one measured and one proved.
 For every shape with `L ≤ 29` (only one `a` per `L` has a nonempty language — see
 `shape_unique` below) the exact image size was computed:
 
-| L  | a  | G          | N      | image  | collisions | birthday model |
-|----|----|------------|--------|--------|-----------|----------------|
-| 16 | 10 | 6487       | 476    | 474    | 2         | 17.0           |
-| 18 | 11 | 84997      | 961    | 961    | 0         | 5.4            |
-| 20 | 12 | 517135     | 2652   | 2652   | 0         | 6.8            |
-| 21 | 13 | 502829     | 8045   | 8045   | 0         | 64.0           |
-| 23 | 14 | 3605639    | 17637  | 17637  | 0         | 43.1           |
-| 24 | 15 | 2428309    | 51033  | 50951  | 82        | 532.5          |
-| 26 | 16 | 24062143   | 108950 | 108950 | 0         | 246.3          |
-| 27 | 17 | 5077565    | 312455 | 307338 | 5117      | 9419.5         |
-| 29 | 18 | 149450423  | 663535 | 663521 | 14        | 1470.8         |
+| L  | a  | G          | N        | image    | collisions | birthday model |
+|----|----|------------|----------|----------|-----------|----------------|
+| 16 | 10 | 6487       | 476      | 474      | 2         | 17.0           |
+| 18 | 11 | 84997      | 961      | 961      | 0         | 5.4            |
+| 20 | 12 | 517135     | 2652     | 2652     | 0         | 6.8            |
+| 21 | 13 | 502829     | 8045     | 8045     | 0         | 64.0           |
+| 23 | 14 | 3605639    | 17637    | 17637    | 0         | 43.1           |
+| 24 | 15 | 2428309    | 51033    | 50951    | 82        | 532.5          |
+| 26 | 16 | 24062143   | 108950   | 108950   | 0         | 246.3          |
+| 27 | 17 | 5077565    | 312455   | 307338   | 5117      | 9419.5         |
+| 29 | 18 | 149450423  | 663535   | 663521   | 14        | 1470.8         |
+| 31 | 19 | 985222181  | 1900470  | 1900470  | 0         | 1831.8         |
+| 32 | 20 | 808182895  | 5936673  | 5933908  | 2765      | 21751.2        |
+| 34 | 21 | 6719515981 | 13472296 | 13472296 | 0         | 13496.6        |
 
-`image / N ≥ 0.98` everywhere and `= 1` in thirteen of the eighteen shapes with
-`L ≤ 29`.  Collisions never *exceed* the birthday prediction `N − G(1 − e^{−N/G})`
-and are usually far below it.  **There is no structural compression.**  The image
+`image / N ≥ 0.98` everywhere and `= 1` in fifteen of the twenty shapes with
+`L ≤ 34`.  Collisions never *exceed* the birthday prediction `N − G(1 − e^{−N/G})`
+and are usually far below it (part of the deficit is forced: `mod_four_constant`
+gives `4 ∣ C₁ − C₂`, and `G` odd then forces the multiplier `k` in `C₁ − C₂ = k·G`
+to be divisible by `4`).  **There is no structural compression.**  The image
 is a sparse `N`-element subset of `ℤ/G` and nothing folds it up.  Consequently the
 only remaining question is a covering question about a sparse set, which is exactly
 what the unconditional `L¹` barrier of `ExpSum` says cannot be settled by size alone.
+
+The image is not a union of cosets of any nontrivial subgroup of `ℤ/G`: at
+`(29,18)` the image has `663521` elements and `G = 137 · 1090879`, and `663521` is
+divisible by neither factor (`663521 = 137·4843 + 30`); at `(26,16)` the image has
+`108950` elements and `G = 7 · 233 · 14753`, and `7 ∤ 108950`.  A union of cosets of
+a subgroup `H` must have `|H|` dividing its size, so no such `H` exists.
 
 Equally, `#{w : p ∣ wC w}` matches `N / p` to within Poisson noise for **every**
 prime `p ∣ G` at every shape measured (e.g. `L = 26`: `p = 7` gives `15580` against
 `15564.3`; `p = 233` gives `462` against `467.6`; `p = 14753` gives `7` against
 `7.4`).  So `0` is missed *by counting*, never structurally: `0 ∈ Φ(S)` only at
-`(L,a) = (2,1)`, the trivial cycle, in the whole measured range.
+`(L,a) = (2,1)`, the trivial cycle, in the whole measured range `L ≤ 34`.
+
+The one genuinely structural miss has a different source and is already known.  `wC`
+is bounded on the language — `max wC / 3 ^ a` grows like `a/4` — and at `(4,2)` the
+maximum is `0.7·G`, so *no* word can reach even `1·G` and `0 ∉ Φ(S)` for a magnitude
+reason rather than a counting one.  That is the Archimedean/realizability filter
+(`RealizableBound`, `RealizableFrontier6809`) in miniature, and it is the only
+mechanism in this circle of ideas that ever excludes `0` outright.  It uses asset
+(a); everything else in this file uses none of (a)–(d).
 
 ## 2. Proved: the surplus is a 2-adic phenomenon, and `G` is odd
 
