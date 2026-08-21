@@ -75,6 +75,7 @@ import Collatz.Strategy.OrbitWindows
 import Collatz.Strategy.RunInvariance
 import Collatz.Strategy.OneRunCycle
 import Collatz.Strategy.Mirror
+import Collatz.Strategy.Denominator
 import Collatz.Strategy.CycleProduct
 import Collatz.Strategy.AffineExact
 import Collatz.Strategy.AccumulatorArith
@@ -90,6 +91,7 @@ import Collatz.Strategy.ThreeResidue
 import Collatz.Strategy.HeavyState
 import Collatz.Strategy.NoFiniteRanking
 import Collatz.Strategy.AnyModulusRanking
+import Collatz.Strategy.TransitionInvariant
 import Collatz.Strategy.CycleLength520
 import Collatz.Strategy.CycleLength1539
 import Collatz.Strategy.Frontier
