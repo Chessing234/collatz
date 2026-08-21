@@ -104,7 +104,12 @@ theorem gap_le_half {n c L : Nat} (hn : 0 < n) (hcpos : 0 < c)
       ≤ 3 ^ oddCount n L * (3 * c + 3 * c) :=
     Nat.mul_le_mul_left _ (by omega)
   have hre : 3 ^ oddCount n L * (3 * c + 3 * c) = (3 * c) * (2 * 3 ^ oddCount n L) := by
-    simp [Nat.mul_comm, Nat.mul_assoc, Nat.mul_left_comm, Nat.mul_add, Nat.add_mul]
+    have e1 : 3 * c + 3 * c = 2 * (3 * c) := by omega
+    rw [e1]
+    calc 3 ^ oddCount n L * (2 * (3 * c))
+        = (3 ^ oddCount n L * 2) * (3 * c) := (Nat.mul_assoc _ _ _).symm
+      _ = (2 * 3 ^ oddCount n L) * (3 * c) := by rw [Nat.mul_comm (3 ^ oddCount n L) 2]
+      _ = (3 * c) * (2 * 3 ^ oddCount n L) := Nat.mul_comm _ _
   have hchain : (3 * c) * 2 ^ L ≤ (3 * c) * (2 * 3 ^ oddCount n L) := by
     rw [← hre]; exact Nat.le_trans hmin hstep
   exact Nat.le_of_mul_le_mul_left hchain (by omega)
@@ -193,6 +198,7 @@ theorem append_even_descends {L a C n n' : Nat}
   obtain ⟨hn, hlt, heq⟩ := h
   obtain ⟨hn', hlt', heq'⟩ := h'
   have h2 : (2:Nat) ^ (L + 1) = 2 * 2 ^ L := Arith.two_pow_succ L
+  have h3pos : 0 < (3:Nat) ^ a := Nat.pow_pos (by omega)
   -- the new gap exceeds twice the old one
   have hgap : 2 * (2 ^ L - 3 ^ a) < 2 ^ (L + 1) - 3 ^ a := by omega
   have hstrict : 2 * ((2 ^ L - 3 ^ a) * n') < (2 ^ (L + 1) - 3 ^ a) * n' :=
@@ -211,12 +217,14 @@ theorem append_even_descends {L a C n n' : Nat}
 
 /-- **…but it needs a large accumulator.**  A positive solution of the appended
 equation forces `C > 2 ^ L`. -/
-theorem append_even_needs_large {L a C n' : Nat} (h' : Cert (L + 1) a C n') :
-    2 ^ L < C := by
+theorem append_even_needs_large {L a C n n' : Nat} (h : Cert L a C n)
+    (h' : Cert (L + 1) a C n') : 2 ^ L < C := by
+  obtain ⟨hn, hlt, heq⟩ := h
   obtain ⟨hn', hlt', heq'⟩ := h'
   have h2 : (2:Nat) ^ (L + 1) = 2 * 2 ^ L := Arith.two_pow_succ L
   have hone : (2 ^ (L + 1) - 3 ^ a) * 1 ≤ (2 ^ (L + 1) - 3 ^ a) * n' :=
     Nat.mul_le_mul_left _ hn'
+  rw [Nat.mul_one] at hone
   have hpos : 0 < (2:Nat) ^ L := Arith.two_pow_pos L
   omega
 
@@ -248,7 +256,7 @@ theorem cut_no_gain {n y s k b c C1 C2 : Nat}
     rw [Nat.pow_add, Nat.mul_assoc]
   have hexp3 : (3:Nat) ^ (b + c) * n = 3 ^ c * (3 ^ b * n) := by
     rw [Nat.pow_add, Nat.mul_comm ((3:Nat) ^ b) ((3:Nat) ^ c), Nat.mul_assoc]
-  rw [hexp2, hexp3, hstep, Nat.mul_add]
+  rw [hexp2, hexp3, hstep, Nat.mul_add, Nat.add_assoc]
 
 /-- The same statement for the genuine accumulators of the two blocks: the
 cocycle law says the reassembly is exact, so the min/max cut yields precisely
@@ -263,7 +271,7 @@ theorem cut_exact {n s k : Nat} (hn : 0 < n) (hcyc : AccIsCycleOf n (s + k)) :
 /-- The only inequality the cut produces.  With `y = T^s(n)` any point of the
 cycle, chaining "`y` is at least `3 ^ b n / 2 ^ s`" with "`y` is at most
 `2 ^ k n / 3 ^ c`" gives back the gap positivity and nothing else. -/
-theorem cut_yields_only_gap {n y s k b c C1 C2 : Nat} (hn : 0 < n)
+theorem cut_yields_only_gap {n y s k b c C1 C2 : Nat}
     (h1 : 2 ^ s * y = 3 ^ b * n + C1) (h2 : 2 ^ k * n = 3 ^ c * y + C2) :
     3 ^ (b + c) * n ≤ 2 ^ (s + k) * n := by
   have := cut_no_gain h1 h2

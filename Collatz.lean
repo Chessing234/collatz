@@ -93,6 +93,7 @@ import Collatz.Strategy.ValuationBudget
 import Collatz.Strategy.ArchimedeanCeiling
 import Collatz.Strategy.Rotation
 import Collatz.Strategy.GapSandwich
+import Collatz.Strategy.RunAlgebra
 import Collatz.Strategy.SieveGrowth
 import Collatz.Strategy.Profile
 import Collatz.Strategy.ExchangeRate
