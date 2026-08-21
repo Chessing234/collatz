@@ -1146,22 +1146,47 @@ every other carries `2^(o₁+e₁)`, and `G` is odd:
 > **`SUnitRelation.cycle_gap_lead_le` : `G · 2^(o₁) ≤ A`.**
 
 At `r = 1` this *is* `OneRunOrder`'s bound, so it is the correct `k`-run
-generalisation of the order obstruction.  And it is **attained**, at every `r`
-that has a genuine cycle to test it with:
+generalisation of the order obstruction.
+
+The universal identity behind it, verified on every genuine cycle in every
+`d`-world tested, is
+
+`d · A = G · (m + d)`.
+
+The Lean theorem is a `Nat` statement carrying `3^a < 2^L`, so it is about
+`d = 1`.  Its `d`-dependence is **asset (d), `|d| < 2`**, and that is not a
+formality: for `d = 5` the inequality is simply **false** — the cycle through 19
+has `|G|·2^(o₁) = 40` against `A = 24` — because `5 ∤ 19`, so `A/G` is not an
+integer and the 2-adic argument never starts.
+
+What the table below establishes is therefore narrower than "the bound is
+`d`-free", and is the thing that actually matters: the *magnitude* inequality
+`|G|·2^(o₁) ≤ |A|` holds for `|d| = 1` in **both** signs, and is **attained** in
+the `d = −1` world.  So any strengthening resting only on `|d| = 1` is dead.  Only
+a strengthening that additionally consumes **asset (c), sign(d) = +1**, remains
+formally possible — and no such thing is in sight, because the identity above
+leaves nothing to strengthen.
 
 | map | cycle | runs | `G` | `A` | `|G|·2^(o₁)` |
 |---|---|---|---|---|---|
-| `3x−1` | 17 | (4,1),(3,3) | −139 | 2224 | **2224 — equal** |
-| `3x−1` | 5 | (2,1) | −1 | 4 | **4 — equal** |
-| `3x+5` | 5 | (1,1) | 1 | 2 | **2 — equal** |
 | `3x+1` | 1 | (1,1) | 1 | 2 | **2 — equal** |
+| `3x−1` | 5 | (2,1) | −1 | 4 | **4 — equal** |
+| `3x−1` | 17 | (4,1),(3,3) | −139 | 2224 | **2224 — equal** |
+| `3x+5` | 5 | (1,1) | 1 | 2 | **2 — equal** |
+| `3x+5` | 19 | (3,2) | 5 | 24 | 40 — **inequality fails** |
 
-Equality holds iff `m + 1 = 2^(o₁)`.  So **any strengthening is unsound**, and the
-order route at `r ≥ 2` is *complete and closed*, not merely open.  The reason is
-structural rather than technical: `G·(m+1) = A` is an **identity**, so `G ∣ A` is
-the cycle equation restated.  No order information can be extracted that is not
-already the cycle equation.  This is a re-coordinatisation, and now provably the
-last one available.
+Equality holds exactly when `|m + d| / |d| = 2^(o₁)`; for `d = 1` that reads
+`m + 1 = 2^(o₁)`.  (An earlier draft of this paragraph wrote the condition as
+`m + d = 2^(o₁)`, which is wrong in both sign and scale — it fails at `d = −1`,
+`m = 17`, where `|m+d|/|d| = 16 = 2⁴` but `m + d = 16` only coincidentally, and at
+`d = 5`, `m = 5`, where `m + d = 10` is not a power of two at all while
+`|m+d|/|d| = 2` is.  Corrected after checking all eight known cycles.)
+
+The order route at `r ≥ 2` is therefore *complete and closed*, not merely open,
+and the reason is structural rather than technical: `d·A = G·(m+d)` is an
+**identity**, so `G ∣ A` is the cycle equation restated.  No order information can
+be extracted that is not already the cycle equation.  This is a
+re-coordinatisation, and now provably the last one available.
 
 This is strictly sharper than the ledger's earlier "`A = d` attained": the real
 attained bound carries the factor `2^(o₁)`.
