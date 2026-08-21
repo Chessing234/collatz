@@ -88,6 +88,7 @@ import Collatz.Strategy.GapOne
 import Collatz.Strategy.CycleCriterion
 import Collatz.Strategy.OneRunOrder
 import Collatz.Strategy.HeavyWord
+import Collatz.Strategy.HeavyResidue
 import Collatz.Strategy.SieveGrowth
 import Collatz.Strategy.Profile
 import Collatz.Strategy.ExchangeRate
