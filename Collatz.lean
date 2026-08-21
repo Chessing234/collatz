@@ -85,6 +85,7 @@ import Collatz.Strategy.ClassCap
 import Collatz.Strategy.ThreeResidue
 import Collatz.Strategy.HeavyState
 import Collatz.Strategy.NoFiniteRanking
+import Collatz.Strategy.AnyModulusRanking
 import Collatz.Strategy.CycleLength520
 import Collatz.Strategy.Frontier
 import Collatz.Strategy.Master
