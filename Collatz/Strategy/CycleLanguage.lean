@@ -251,8 +251,16 @@ so proved only `0 < G`.  The count that matters is over words heavy at every
 
 `#cycle-language(L, a) = heavyCount (L−1) a + heavyCount (L−1) (a−1)`.
 
-Both terms are genuinely nonzero, and both are bounded by
-`heavyCount_mul_two_pow_le` at `L − 1`, so the same witness serves.  The
+Both terms are bounded by `heavyCount_mul_two_pow_le` at `L − 1`, so the same
+witness serves.  *Corrected:* an earlier version of this paragraph said both terms
+are nonzero.  They are not — at both pairs used below the `(a−1)` term **vanishes**,
+because `2^(L−1) > 3^(a−1)` (`2^4700 > 3^2965`, `2^5754 > 3^3630`).  The content of
+the theorems is therefore that every cycle word at these pairs ends in an even
+step, which is true and worth knowing, but it is not what the prose claimed.  The
+surviving `heavyCount (L−1) a` term is genuinely nonzero — its logarithm is
+`4447.16881` against `log₂(binom(4701,2966)/4701) = 4447.16881`, agreeing to twelve
+figures — so the theorems are **not** vacuous.  The split is kept because it is the
+correct identity in general; the vanishing is pair-specific.  The
 advertised exponents are unchanged by the repair — `205` and `254` are still
 exactly tight, and `206` and `255` are both false. -/
 
