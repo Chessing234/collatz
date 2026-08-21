@@ -1,24 +1,24 @@
 # Concept index
 
-2101 theorems/lemmas across 150 files.
+2169 theorems/lemmas across 153 files.
 
 ## Cluster sizes
 
-- orbit windows: 484
-- cycle equations: 229
+- orbit windows: 490
+- cycle equations: 230
 - affine accumulator: 197
-- descent: 166
-- divisibility: 145
-- 3-adic valuation: 142
-- counting/entropy: 130
-- heavy words: 116
-- gap G=2^L-3^a: 116
-- C mod 2^j: 102
-- parity word: 49
-- reverse paths: 45
+- descent: 170
+- divisibility: 150
+- 3-adic valuation: 143
+- counting/entropy: 141
+- heavy words: 125
+- gap G=2^L-3^a: 122
+- C mod 2^j: 104
+- parity word: 54
+- reverse paths: 49
 - Beatty/Sturmian: 35
-- residue classes: 33
-- C mod G: 21
+- residue classes: 34
+- C mod G: 24
 - 2-adic valuation: 15
 - finite-state: 12
 
@@ -60,7 +60,6 @@ Heuristic: a regex over statement text, so treat these as *candidates* for a mis
 - affine accumulator <-> finite-state
 - counting/entropy <-> finite-state
 - counting/entropy <-> parity word
-- counting/entropy <-> reverse paths
 - cycle equations <-> finite-state
 - divisibility <-> finite-state
 - finite-state <-> gap G=2^L-3^a
@@ -77,10 +76,10 @@ Heuristic: a regex over statement text, so treat these as *candidates* for a mis
 | object | magnitude | mod 2^j | mod 3^j | valuation | word struct | cross-window | actual orbit | divisibility |
 |---|---|---|---|---|---|---|---|---|
 | C (accumulator) | 91 | 22 | 4 | 2 | 153 | 18 | 73 | 35 |
-| G (the gap) | 105 | 8 | 5 | . | 65 | 7 | 27 | 40 |
-| parity word | 15 | 6 | . | . | 50 | 14 | 10 | 3 |
-| orbit state x | 348 | 40 | 26 | 4 | 230 | 23 | 447 | 46 |
+| G (the gap) | 109 | 8 | 5 | . | 66 | 8 | 27 | 42 |
+| parity word | 19 | 6 | . | . | 55 | 15 | 11 | 3 |
+| orbit state x | 353 | 40 | 26 | 4 | 231 | 24 | 453 | 46 |
 | cycle min n | 151 | 3 | 4 | 1 | 76 | 7 | 80 | 28 |
-| delta = G/gcd | 4 | . | . | . | . | . | . | 2 |
-| heavy language | 99 | 7 | 1 | . | 37 | . | 26 | 1 |
-| reverse path | 33 | . | 14 | . | 5 | . | 21 | 7 |
+| delta = G/gcd | 7 | . | . | . | 1 | 1 | . | 2 |
+| heavy language | 107 | 7 | 1 | . | 37 | 2 | 26 | 1 |
+| reverse path | 36 | . | 14 | . | 5 | . | 21 | 7 |
