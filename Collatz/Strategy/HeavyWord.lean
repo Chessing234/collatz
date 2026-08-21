@@ -1,5 +1,6 @@
 import Collatz.Strategy.AffineExact
 import Collatz.Strategy.CycleLength1539
+import Collatz.Strategy.CycleLength2593
 
 /-!
 # The parity word of a never-dropper is heavy, with no factor of two
@@ -241,9 +242,9 @@ frozen at `a = oddCount m j`; were the word to fall below the line, `a` would be
 an exponent with `3 ^ a < 2 ^ (j+1)`, hence at most `topIndex (j+1)`, and
 monotonicity would carry the window inequality to the one place the certificate
 has already refuted it. -/
-theorem heavy_even_step {m j : Nat} (hm : 0 < m) (hbig : 307200 ≤ m)
+theorem heavy_even_step {c m j : Nat} (hm : 0 < m) (hbig : c ≤ m)
     (hnd : ∀ i : Nat, m ≤ acceleratedOrbit i m)
-    (hc : heavyCert 307200 (j + 1) = true)
+    (hc : heavyCert c (j + 1) = true)
     (hprev : ∀ i : Nat, i ≤ j → 2 ^ i ≤ 3 ^ oddCount m i)
     (he : acceleratedOrbit j m % 2 = 0) :
     2 ^ (j + 1) ≤ 3 ^ oddCount m j := by
@@ -273,7 +274,7 @@ theorem heavy_even_step {m j : Nat} (hm : 0 < m) (hbig : 307200 ≤ m)
         omega
       · exact hfine
     have hmono := S_mono m hale
-    have hwide := cert_widen (c := 307200) (m := m)
+    have hwide := cert_widen (c := c) (m := m)
       (t := CycleLength1539.topIndex (j + 1)) (j := j + 1) hbig htop
     omega
   · exact hok
@@ -281,9 +282,9 @@ theorem heavy_even_step {m j : Nat} (hm : 0 < m) (hbig : 307200 ≤ m)
 /-- **Theorem C.**  A never-dropper at size at least `307200` whose window
 lengths `1 … J` all pass the certificate is heavy on every window `j ≤ J`:
 `2 ^ j ≤ 3 ^ (oddCount m j)`, with no factor of two. -/
-theorem heavy_of_certificate {m J : Nat} (hm : 0 < m) (hbig : 307200 ≤ m)
+theorem heavy_of_certificate {c m J : Nat} (hm : 0 < m) (hbig : c ≤ m)
     (hnd : ∀ i : Nat, m ≤ acceleratedOrbit i m)
-    (hcert : ∀ j : Nat, 0 < j → j ≤ J → heavyCert 307200 j = true) :
+    (hcert : ∀ j : Nat, 0 < j → j ≤ J → heavyCert c j = true) :
     ∀ j : Nat, j ≤ J → 2 ^ j ≤ 3 ^ oddCount m j := by
   have key : ∀ j : Nat, j ≤ J → ∀ i : Nat, i ≤ j → 2 ^ i ≤ 3 ^ oddCount m i := by
     intro j
@@ -377,6 +378,57 @@ theorem length_ge_1539_of_light {m j : Nat} (hm : 0 < m) (hbig : 307200 ≤ m)
     (hlight : 3 ^ oddCount m j < 2 ^ j) : 1539 ≤ j := by
   rcases Nat.lt_or_ge j 1539 with hlt | hge
   · exact absurd (heavy_window_1538 hm hbig hnd (j := j) (by omega)) (by omega)
+  · exact hge
+
+
+/-! ## The same sweep at the larger verified range
+
+`Search.Verified768000` raises the verified range to `768000`, and the
+certificate is monotone in that constant — `cert_widen` is exactly the statement
+that a larger size only makes it easier to pass.  So the sweep may be rerun at
+the new constant, and it clears every window length below `2593`, the same
+frontier the cycle bound reaches from the same input.  Nothing in the argument
+changes; only the number does.
+
+The two frontiers coinciding is not a coincidence: a cycle's full period is a
+light window, so the cycle bound is the special case of the window statement,
+and both stop where the certificate first fails — at `(2593, 1636)`. -/
+
+set_option maxHeartbeats 40000000 in
+set_option exponentiation.threshold 6000 in
+set_option maxRecDepth 4000000 in
+theorem sweep_2592 :
+    ((List.range 2592).map (fun i => i + 1)).all (fun j => heavyCert 768000 j) = true := by
+  decide
+
+theorem heavyCert_of_le_2592 {j : Nat} (hpos : 0 < j) (hj : j ≤ 2592) :
+    heavyCert 768000 j = true := by
+  have h := sweep_2592
+  rw [List.all_eq_true] at h
+  exact h j (List.mem_map.mpr ⟨j - 1, List.mem_range.mpr (by omega), by omega⟩)
+
+/-- **The parity word of a never-dropper is heavy for 2592 steps.**  The same
+theorem at the extended verified range. -/
+theorem heavy_window_2592 {m : Nat} (hm : 0 < m) (hbig : 768000 ≤ m)
+    (hnd : ∀ i : Nat, m ≤ acceleratedOrbit i m) {j : Nat} (hj : j ≤ 2592) :
+    2 ^ j ≤ 3 ^ oddCount m j :=
+  heavy_of_certificate hm hbig hnd (fun _ hpos hle => heavyCert_of_le_2592 hpos hle) j hj
+
+/-- The window statement for the orbit of a counterexample at the extended
+range. -/
+theorem heavy_window_of_counterexample_2592 {n m : Nat} (hn : 0 < n)
+    (hnr : ¬ ReachesOne n) (hm : ∃ i : Nat, acceleratedOrbit i n = m)
+    (hnd : ∀ i : Nat, m ≤ acceleratedOrbit i m) {j : Nat} (hj : j ≤ 2592) :
+    2 ^ j ≤ 3 ^ oddCount m j := by
+  have hbig : 768000 ≤ m := CycleLength2593.ge_verified_768000 hn hnr hm
+  exact heavy_window_2592 (by omega) hbig hnd hj
+
+/-- **A never-dropper's window is never light below 2593.** -/
+theorem length_ge_2593_of_light {m j : Nat} (hm : 0 < m) (hbig : 768000 ≤ m)
+    (hnd : ∀ i : Nat, m ≤ acceleratedOrbit i m)
+    (hlight : 3 ^ oddCount m j < 2 ^ j) : 2593 ≤ j := by
+  rcases Nat.lt_or_ge j 2593 with hlt | hge
+  · exact absurd (heavy_window_2592 hm hbig hnd (j := j) (by omega)) (by omega)
   · exact hge
 
 end HeavyWord
