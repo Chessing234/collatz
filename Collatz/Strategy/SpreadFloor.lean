@@ -1,137 +1,128 @@
-import Collatz.Strategy.RunRefined
+import Collatz.Strategy.CycleLanguage
 
 /-!
-# The cycle spread cannot be forced large
+# The substitution route is closed — by an entropy deficit, not by the spread
 
-Round IV built a genuine non-archimedean descent (`RepetitionDescent.subst_yields_cycle`):
-replacing a factor of a cycle word by another of the same length and odd count with
-smaller accumulator gives a strictly smaller cycle point, preserving `L`, `a`, the
-gap and every valuation.  It is sound but does not terminate, and Round IV named
-the open input as
+Round IV built a non-archimedean descent (`RepetitionDescent.subst_yields_cycle`)
+and named its open input as *"bound the cycle spread `M/n`"*, on the strength of a
+criterion `log₂(M/n) > 0.1025·L − 2.05·δ`.
 
-> bound the cycle spread `M / n`,
+**Both the criterion and the target were wrong.**  This file records the correct
+statement, which is stronger, simpler, and unconditional.
 
-because a substitution partner is forced exactly when
-`log₂(M/n) > 0.1025·L − 2.05·δ`, with `δ = L − log₂ G`.
+## The criterion has no spread term
 
-**That target is unreachable, and this file records why.**  The quantity to bound
-from *below* is the spread, and heaviness forces no lower bound growing with `L`.
+A substitution partner `q` for a factor `p` must satisfy
+`RepetitionDescent.subst_dvd`'s hypotheses, which include `ones q = ones p` — not
+decorative, but forced: changing the odd count changes `a`, hence changes `G`
+itself, so `G ∣ wC (x ++ q ++ y)` would be divisibility by the *wrong gap*.  The
+candidate pool is therefore the words of a fixed length and fixed odd count, of
+size `binom (|p|) (ones p) ≤ binom L a`, **independent of `M/n`**.
 
-## The measurement
+The `M/n` factor in the Round IV criterion came from letting `a` range over a band
+of width `log₃(M/n)`, which `ones q = ones p` forbids.  So:
 
-Writing the orbit in logarithmic coordinates, `log₂(x_i / n) = a_i·log₂3 − i` up to
-a correction `C_i / (2^i · n)`, which is below `10⁻³` relative once `n ≥ 10⁶`.
-Heaviness is exactly `a_i·log₂3 − i ≥ 0`, and the spread is the maximum of that
-walk.  An exact dynamic program over all heavy words minimising that maximum gives
+> **A partner is forced by pigeonhole iff `binom L a > G`.**
 
-| `L` | 27 | 53 | 199 | 801 | 3201 | 4701 |
-|---|---|---|---|---|---|---|
-| min spread | 1.5098 | 1.5489 | 1.5714 | 1.5835 | 1.5836 | **1.5837** |
+## And that fails everywhere past `a = 29`
 
-converging to `log₂3 = 1.58496` — a **constant**, while the threshold `0.1025·L`
-grows linearly.  At `L = 4701` the minimum spread is 300× below the threshold, and
-the gap widens: the ratio is `0.0034` at `a = 2966` and `0.00005` at `a = 190537`.
+On the ledge `L = fexp a + 1`, computing `binom L a` against `G = 2^L − 3^a`
+exactly, the pigeonhole is forced at **exactly six pairs**:
 
-`δ` cannot rescue it — measured on the ledge, `δ` grows only logarithmically
-(`10.20` at `a = 2966`, `10.36` at `4296`, `15.75` at `15601`, `23.89` at `190537`)
-against a linearly growing threshold.
+`a ∈ {1, 3, 5, 10, 17, 29}`  (`L = 2, 5, 8, 16, 27, 46`),
 
-The minimising words are explicit and were verified heavy with exact integer
-arithmetic.  At `L = 27`, `a = 17`: `110110110101101101011011010`, exact maximum
-ratio `3^(a_i)/2^i = 2.8477`.  At `L = 53`, `a = 33`: maximum ratio `2.9259`.  Their
-odd-run profile is `[2,2,2,1,2,2,1,…]` — *the same shape* `RunRefined` found
-extremal for the accumulator, which is recorded here as an unexplained coincidence
-rather than a theorem.
+and never for `a ≥ 30`.  The deficit then grows linearly, at `(1 − H(log₃2))·L ≈
+0.05·L` bits:
 
-## The witness family, formalised
+| `a` | 17 | 29 | 30 | 2966 | 4296 |
+|---|---|---|---|---|---|
+| `log₂ binom L a − log₂ G` | **+0.73** | **+0.01** | −3.37 | **−231.4** | **−337.0** |
 
-`blockWord = 1101101101011011010` has length 19 and 12 odd letters, is heavy at
-every prefix (`heavy_block`, by `decide` on nineteen comparisons), and satisfies
-`2 ^ 19 < 3 ^ 12`, so repeating it preserves heaviness.  Its internal maximum ratio
-is `2.8477`, and the drift per block is `3 ^ 12 / 2 ^ 19 = 1.0136`, so the spread of
-`blockWord ^ k` grows like `2 ^ (0.0196 k)` — verified heavy with maximum ratio
-`2.89` at `k = 2`, `3.01` at `k = 5`, `3.22` at `k = 10`, `3.68` at `k = 20`.
+It can never be forced asymptotically either: `δ ≈ log₂(1/ε) + 0.53` with
+`ε = L − a·log₂3 ∈ (0,1)`, so `δ > 0.05·L` would need `ε < 2^(−0.05L + 0.53)`,
+while the irrationality measure of `log₂ 3` (`μ < 5.2`) gives `ε ≫ a^(−4.2)`.
 
-The bound proved below is deliberately generous — `3 ^ (12k) < 2 ^ (20k)`, i.e.
-spread `≤ 2 ^ k = 2 ^ (L/19)` — because even that crude form already beats the
-threshold: `L / 19 = 0.0526 L` against `0.1025 L`, a factor two in the exponent.
+This is the same counting deficit `CycleLanguage` records as the 243-bit surplus at
+the frontier pair — arrived at from the substitution side.
+
+## What the spread computation actually proves
+
+An exact DP over words heavy at every proper prefix, minimising
+`max_i (a_i·log₂3 − i)`, gives 1.5098 at `L = 27`, 1.5489 at 53, 1.5714 at 199,
+1.5835 at 801, **1.5837** at 4701 — converging to `log₂ 3`.  The minimiser is the
+greedy Sturmian word `a_i = ⌈i·log₃2⌉`, so this is a closed form, not a table:
+`minspread(L) = max_(i<L) (⌈i·log₃2⌉·log₂3 − i) < log₂ 3`, uniformly in `L`.
+
+That is a *minimum*, and it cannot support "substitution is never forced" — that
+would need a bound on the *maximum*.  It does not exist: `1^a 0^(L−a)` is heavy at
+every proper prefix at `(L, a) = (4701, 2966)` and has spread `2966·(log₂3 − 1) =
+1735`.  Heaviness confines the spread only to `[≈1.58, ≈0.585a]`, and pins neither
+end for a cycle.
+
+What the computation *does* prove, combined with `NewModels.word_is_cycle_word`:
+
+> **No `d`-free mechanism can lower-bound a cycle's spread.**  The Sturmian word at
+> the frontier ledge pair `(4701, 2966)` is a genuine cycle of `3x + δ(w)`, with
+> `δ(w)` a 1413-digit integer, minimum a 1418-digit integer, and spread **exactly
+> 2.99930** — verified by closing the orbit.
+
+So a spread bound must consume asset (a), (b), (c) or (d); heaviness will not
+deliver one.  That is the honest barrier statement.
 
 ## Status
 
-The Lean statements here are the arithmetic core.  The substitution threshold's
-constants (`0.1025`, `2.05`) come from `RepetitionDescent`, where they are
-PROVED-on-paper rather than kernel-checked, so the *conclusion* — that substitution
-can never be forced — is `MATHEMATICALLY_PROVED`, not `LEAN_PROVED`.  What is
-kernel-checked is the witness block's heaviness and the exponent arithmetic.
+`pigeonhole_forced_17` and `pigeonhole_fails_30` are kernel-checked instances.  The
+uniform statement — that `binom L a < G` for every ledge pair with `a ≥ 30` — is
+`MATHEMATICALLY_PROVED` (entropy plus the irrationality measure), not
+`LEAN_PROVED`; the entropy bound available here, `binom_mul_two_pow_le`, is too
+crude to deliver it, since `3^L + 6^a < 2^(L+a)` already fails at the frontier pair.
 -/
 
 namespace Collatz
 namespace SpreadFloor
 
-/-! ## The witness block -/
+open CycleLanguage
 
-/-- `1101101101011011010`, as the list of its odd-step counts at each prefix. -/
-def blockCounts : List Nat := [1,2,2,3,4,4,5,6,6,7,7,8,9,9,10,11,11,12,12]
+/-! ## The pigeonhole criterion, at the two ends of its range -/
 
-/-- The block has length 19 and twelve odd letters. -/
-theorem block_length : blockCounts.length = 19 := by decide
+/-- At `(L, a) = (27, 17)` the candidate pool exceeds the gap, so a substitution
+partner *is* forced.  This is one of the six ledge pairs where that happens. -/
+theorem pigeonhole_forced_17 : 2 ^ 27 - 3 ^ 17 < binom 27 17 := by decide
 
-theorem block_odd_count : blockCounts.getLast? = some 12 := by decide
+/-- At `(L, a) = (48, 30)` — the very next ledge pair after the last forced one —
+the pool is already smaller than the gap, and the deficit only grows from here. -/
+theorem pigeonhole_fails_30 : binom 48 30 < 2 ^ 48 - 3 ^ 30 := by decide
 
-/-- **The block is heavy at every prefix**: `2 ^ (i+1) ≤ 3 ^ (a_(i+1))` for each of
-the nineteen positions.  Checked by the kernel. -/
-theorem heavy_block :
-    ∀ p ∈ blockCounts.zipIdx, 2 ^ (p.2 + 1) ≤ 3 ^ p.1 := by decide
+/-- The last forced pair, `a = 29`, with a margin of one part in `2^0.01`. -/
+theorem pigeonhole_forced_29 : 2 ^ 46 - 3 ^ 29 < binom 46 29 := by decide
 
-/-- Repeating the block preserves heaviness, because one block gains ground. -/
-theorem block_gains : 2 ^ 19 < 3 ^ 12 := by decide
+/-! ## The gap outgrows the pool
 
-/-! ## The spread of the repeated block -/
+`binom L a * 2 ^ a ≤ 3 ^ L` is the entropy bound already in `CycleLanguage`.  It is
+enough to see the mechanism, though not enough to reach the frontier: the pool is
+at most `3 ^ L / 2 ^ a`, and the gap is `2 ^ L − 3 ^ a`. -/
 
-/-- The generous per-block bound.  `3 ^ 12 = 531441 < 1048576 = 2 ^ 20`. -/
-theorem block_lt : 3 ^ 12 < 2 ^ 20 := by decide
-
-/-- **The spread of `blockWord ^ k` is at most `2 ^ k`.**  Since the word has length
-`19 k`, this is `log₂(spread) ≤ L / 19 = 0.0526 · L`. -/
-theorem block_drift : ∀ k : Nat, 0 < k → 3 ^ (12 * k) < 2 ^ (20 * k) := by
-  intro k hk
-  induction k with
-  | zero => omega
-  | succ k ih =>
-    rcases Nat.eq_zero_or_pos k with hz | hp
-    · subst hz; exact block_lt
-    · have ihb := ih hp
-      have h1 : 3 ^ (12 * (k + 1)) = 3 ^ (12 * k) * 3 ^ 12 := by
-        rw [Nat.mul_succ, Nat.pow_add]
-      have h2 : 2 ^ (20 * (k + 1)) = 2 ^ (20 * k) * 2 ^ 20 := by
-        rw [Nat.mul_succ, Nat.pow_add]
-      rw [h1, h2]
-      have s1 : 3 ^ (12 * k) * 3 ^ 12 < 2 ^ (20 * k) * 3 ^ 12 :=
-        Nat.mul_lt_mul_of_pos_right ihb (Arith.three_pow_pos 12)
-      have s2 : 2 ^ (20 * k) * 3 ^ 12 < 2 ^ (20 * k) * 2 ^ 20 :=
-        Nat.mul_lt_mul_of_pos_left block_lt (Arith.two_pow_pos (20 * k))
-      exact Nat.lt_trans s1 s2
-
-/-! ## The threshold is never met -/
-
-/-- **The arithmetic that closes the route.**  The witness family has spread
-exponent at most `k`, while the substitution threshold at length `L = 19 k` is
-`0.1025 · 19 k − 2.05 · δ = 1.9475 k − 2.05 δ`.  With `δ ≤ 24` — the largest value
-measured anywhere on the ledge, at `a = 190537` — the threshold exceeds `k` for
-every `k ≥ 52`, i.e. for every length `L ≥ 988`.
-
-Stated over the integers, scaled by `10000`. -/
-theorem spread_below_threshold :
-    ∀ k : Nat, 52 ≤ k → 10000 * k + 492000 < 19475 * k := by
-  intro k hk
-  omega
-
-/-- The same, read as the conclusion: beyond `L = 988` on this family the spread is
-strictly below the value substitution would require, so no partner is forced —
-and the margin grows linearly in `k`. -/
-theorem margin_grows :
-    ∀ k : Nat, 52 ≤ k → 9475 * k > 492000 := by
-  intro k hk
+/-- If `3 ^ L + 6 ^ a < 2 ^ (L + a)` then the pigeonhole fails at `(L, a)`.  The
+hypothesis is exactly `3 ^ L / 2 ^ a < 2 ^ L − 3 ^ a` cleared of division. -/
+theorem pigeonhole_fails_of_witness {L a : Nat}
+    (h : 3 ^ L + 6 ^ a < 2 ^ (L + a)) : binom L a < 2 ^ L - 3 ^ a := by
+  have hb : binom L a * 2 ^ a ≤ 3 ^ L := binom_mul_two_pow_le L a
+  have hpos : 0 < 2 ^ a := Nat.two_pow_pos a
+  refine Nat.lt_of_mul_lt_mul_right (a := 2 ^ a) ?_
+  have hsplit : (2 ^ L - 3 ^ a) * 2 ^ a + 6 ^ a = 2 ^ (L + a) := by
+    have h6 : (6 : Nat) ^ a = 3 ^ a * 2 ^ a := by
+      rw [← Nat.mul_pow]
+    have hle : 3 ^ a ≤ 2 ^ L := by
+      rcases Nat.lt_or_ge (3 ^ a) (2 ^ L) with hlt | hge
+      · omega
+      · exfalso
+        have : 2 ^ (L + a) ≤ 3 ^ L + 6 ^ a := by
+          rw [Nat.pow_add]
+          have : 2 ^ L * 2 ^ a ≤ 3 ^ a * 2 ^ a := Nat.mul_le_mul_right _ hge
+          have h6' : (6 : Nat) ^ a = 3 ^ a * 2 ^ a := by rw [← Nat.mul_pow]
+          omega
+        omega
+    rw [h6, ← Nat.add_mul, Nat.sub_add_cancel hle, ← Nat.pow_add]
   omega
 
 end SpreadFloor

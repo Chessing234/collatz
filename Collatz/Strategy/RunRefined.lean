@@ -39,14 +39,24 @@ With `r` the number of odd runs, `p = a − r`, so the bound reads
 
 `153 · C ≤ (44 a + 17) · 3 ^ a`,   i.e.   `C ≲ 0.2876 · a · 3 ^ a`,
 
-a 15 % improvement on the stored constant, **certificate-free** — no realizability
-recursion and no kernel sweep.
+a 13.7 % improvement on the stored constant, **certificate-free** — no realizability
+recursion and no kernel sweep.  (An earlier draft said 15 %.)
 
-Measured, exhaustively over all 12 448 heavy words of length ≤ 21 with positive
-gap: `9 C ≤ (2a + r) 3 ^ a` holds with **zero** failures and is **exactly tight**
-(worst ratio `1.0000`).  The extremal words are not what the per-step bound would
-suggest — they have odd runs of length **two**, e.g. `runs = [2,2,2,1,2,2,1]` at
-`L = 20`, `a = 12`.  That is the shape the refinement is detecting.
+Measured, exhaustively over all **12 449** words of length ≤ 21 heavy at every
+*proper* prefix with positive gap: zero failures, worst ratio **0.85185**.
+
+*Two corrections to an earlier version of this paragraph, both found by adversarial
+audit and both mine.*  First, it claimed the bound is "exactly tight (worst ratio
+1.0000)".  It is not: ratio 1 is attained at exactly three words, `1`, `11` and
+`110`, all of length ≤ 3.  At every heavy length ≥ 4 the ratio is ≤ 0.958, and at
+`L = 20` the maximum is 0.86840.  So the asymptotic slack is about 13 %, and the
+true extremal constant is nearer 0.250 — much closer to `Bcap`'s 0.2404 than
+claimed.  Second, it quoted "12 448 heavy words with positive gap" measured against
+*proper*-prefix heaviness, while the theorem then hypothesised heaviness at every
+`i ≤ j`.  Under that stronger hypothesis the positive-gap class is **empty**, since
+heaviness at `i = j` is exactly the negation of a positive gap.  The hypothesis is
+now weakened to `i < j` — which the induction never needed, and which is what makes
+the bound applicable to a cycle word at all.
 
 ## Honest comparison, and why this does not move the frontier
 
@@ -127,7 +137,7 @@ theorem three_two_pow_le {x j : Nat}
 `HeavyResidue.heavy_accumulator_bound_sharp`; every adjacent odd pair buys a
 further `3 ^ a / 9`. -/
 theorem accumulator_pair_bound (x : Nat) : ∀ j : Nat,
-    (∀ i : Nat, i ≤ j → 2 ^ i ≤ 3 ^ oddCount x i) →
+    (∀ i : Nat, i < j → 2 ^ i ≤ 3 ^ oddCount x i) →
     9 * affineC j x + pairCount x j * 3 ^ oddCount x j
       ≤ 3 * (oddCount x j * 3 ^ oddCount x j) := by
   intro j
@@ -135,7 +145,7 @@ theorem accumulator_pair_bound (x : Nat) : ∀ j : Nat,
   | zero => intro _; simp
   | succ j ih =>
     intro hheavy
-    have ihb := ih (fun i hi => hheavy i (Nat.le_succ_of_le hi))
+    have ihb := ih (fun i hi => hheavy i (Nat.lt_succ_of_lt hi))
     have hlast := Density.oddCount_succ_last x j
     rcases Arith.mod_two_eq_zero_or_one (acceleratedOrbit j x) with he | ho
     · -- even step: accumulator, odd-count and pair-count all unchanged
@@ -150,7 +160,7 @@ theorem accumulator_pair_bound (x : Nat) : ∀ j : Nat,
     · -- odd step
       have hcount : oddCount x (j + 1) = oddCount x j + 1 := by omega
       have hC : affineC (j + 1) x = 3 * affineC j x + 2 ^ j := affineC_odd ho
-      have hj : 2 ^ j ≤ 3 ^ oddCount x j := hheavy j (Nat.le_succ j)
+      have hj : 2 ^ j ≤ 3 ^ oddCount x j := hheavy j (Nat.lt_succ_self j)
       have hpow : (3 : Nat) ^ (oddCount x j + 1) = 3 ^ oddCount x j * 3 := Nat.pow_succ 3 _
       -- the right-hand side, expanded once so `omega` sees only atoms
       have hRHS := alg_rhs (oddCount x j) (3 ^ oddCount x j)
@@ -240,7 +250,7 @@ against the stored `0.3333` of `heavy_accumulator_bound_sharp` — a 14 %
 improvement carrying no certificate.  Measured exactly tight (worst ratio
 `1.0000`) over all 59 058 heavy words of length at most 20. -/
 theorem accumulator_closed_bound (x j : Nat)
-    (hheavy : ∀ i : Nat, i ≤ j → 2 ^ i ≤ 3 ^ oddCount x i) :
+    (hheavy : ∀ i : Nat, i < j → 2 ^ i ≤ 3 ^ oddCount x i) :
     9 * affineC j x ≤ (oddCount x j + j + 1) * 3 ^ oddCount x j := by
   have hmain := accumulator_pair_bound x j hheavy
   have hpair := pair_bound x j
