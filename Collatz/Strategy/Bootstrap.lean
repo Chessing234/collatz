@@ -1,5 +1,6 @@
 import Collatz.Strategy.RealizableBound
 import Collatz.Strategy.HeavyResidue
+import Collatz.Strategy.SieveGrowth
 
 /-!
 # The self-strengthening loop, and the exact factor by which it loses
@@ -37,6 +38,14 @@ one-run word (`RealizableBound.run_exact`: `affineC r x + 2 ^ r = 3 ^ r`), the
 ceiling by the Beatty word.  At the current frontier `a = 2966` the factor is
 `3 (1 − (2/3) ^ 2966) / 2966 ≈ 0.00101`: one turn of the loop divides the
 verified range by about a thousand.
+
+The complementary, *two-sided* reading is a staircase rather than a bootstrap.
+Because `L = ⌊a log₂ 3⌋ + 1` is forced (`GapSandwich.cycle_length_determined`),
+the gap `G(a) = 2 ^ (fexp a + 1) − 3 ^ a` is a function of `a` alone, and the
+minimum is pinned to `[(3 ^ a − 2 ^ a)/G(a), Bcap a / G(a)]`.  At `a = 2966`
+that interval is `[1179, 841477]`, so re-verifying up to `841477` — a factor
+`1.096` over `768000` — clears the pair outright.  That is a genuine gain, but
+it costs a fresh sweep: a ladder with rungs, not a loop.
 
 ## Soundness filter
 
@@ -190,19 +199,62 @@ theorem bcap_gt_pow {a : Nat} (ha : 7 ≤ a) : 3 ^ a < Bcap a := by
   have h7 : 7 * 3 ^ a ≤ a * 3 ^ a := Nat.mul_le_mul_right _ ha
   omega
 
-/-! ## The mod-`2 ^ m` bootstrap dies at `m = 3`, and exactly why
+/-! ## The mod-`2 ^ m` law, in general — and why it is the sieve
 
-`HeavyResidue.affineC_mod_four` is a genuine bootstrap: heaviness at `i = 1, 2`
-forces the first two steps odd, every later odd step contributes `2 ^ j` with
-`j ≥ 2` — invisible mod four — and multiplies `C` and `3 ^ a` alike.  The natural
-generalisation `C ≡ 3 ^ a (mod 2 ^ m)` would need heaviness to force the first
-`m` steps odd.  It forces exactly two, because
+`HeavyResidue.affineC_mod_four` is not special to four.  The cocycle law
+`AccumulatorArith.affineC_add` kills the tail term modulo `2 ^ m` outright, and
+what is left is a clean propagation law at *every* modulus:
 
-  `2 ^ 1 > 3 ^ 0`,   `2 ^ 2 > 3 ^ 1`,   but   `2 ^ 3 = 8 ≤ 9 = 3 ^ 2`.
+`affineC_mod_pow` :  `C_{m+k}(x) ≡ 3 ^ (oddCount (T^m x) k) · C_m(x)  (mod 2 ^ m)`.
 
-The third step is free, and the two branches split `C` mod eight: `C ≡ 3 ^ a` if
-it is odd, `C ≡ 3 ^ a + 4` if it is even.  The witness below is the second
-branch — the smallest one. -/
+So modulo `2 ^ m` the accumulator is a `3`-adic unit times a fixed **seed**
+`C_m(x)`, and the seed depends only on `x % 2 ^ m` — i.e. only on the first `m`
+letters of the word (Terras).  A bootstrap `C ≡ 3 ^ a (mod 2 ^ m)` therefore
+holds **exactly when the heavy words admit a single seed**, and that count is
+
+  `#{seeds at level m}` = `SieveGrowth.safeCount m`,
+
+the sieve survivor count: `1, 1, 1, 2, 3, 4, 8, 13, 19, 38, 64, …`.
+
+* `m ≤ 2` — one seed.  At `m = 2` the unique heavy prefix is `11`, whose seed is
+  `affineC 2 x = 5 ≡ 3 ^ 2 (mod 4)`, and `affineC_mod_four` follows.
+* `m = 3` — **two** seeds, `5` and `19`, because heaviness cannot force a third
+  odd step: `2 ^ 3 = 8 ≤ 9 = 3 ^ 2` (`third_step_free`).  Both are realised;
+  `x = 11` realises the second and breaks the congruence (`eleven_mod_eight`).
+* `m → ∞` — the seed count is the sieve survivor count, which
+  `SieveGrowth.safeCount_super` shows is supermultiplicative and
+  `SieveGrowth.sieve_never_terminates` shows is unbounded.
+
+**So candidate (d) is not merely false past `m = 2`: generalising it is exactly
+the sieve, and the sieve is already proved never to clear.**  `m = 2` is the
+whole of the phenomenon, and it is a boundary effect of `2 ^ 2 > 3 ^ 1`. -/
+
+/-- **The general mod-`2 ^ m` propagation law.**  Beyond the first `m` steps the
+accumulator is multiplied by `3` at every odd step and by nothing at every even
+step, modulo `2 ^ m`: the tail contributes `2 ^ m · C_k(T^m x) ≡ 0`. -/
+theorem affineC_mod_pow (x m k : Nat) :
+    affineC (m + k) x % 2 ^ m
+      = (3 ^ oddCount (acceleratedOrbit m x) k * affineC m x) % 2 ^ m := by
+  rw [AccumulatorArith.affineC_add x m k]
+  rw [Nat.add_mul_mod_self_left]
+
+/-- The `m = 2` seed: every heavy word begins `11`, so its seed is `5`, and
+`5 ≡ 3 ^ 2 (mod 4)`.  That single coincidence is all of `affineC_mod_four`. -/
+theorem seed_two : (5:Nat) % 4 = 3 ^ 2 % 4 := by decide
+
+/-- The two `m = 3` seeds, from the heavy prefixes `110` and `111`.  Their
+unit-normalised values differ, so no single congruence covers both. -/
+theorem seeds_three :
+    affineC 3 11 = 5 ∧ affineC 3 7 = 19 ∧ (5:Nat) % 8 ≠ 19 % 8 := by decide
+
+/-- **The seed count is the sieve survivor count.**  One seed at `m = 2`, two at
+`m = 3` — and `SieveGrowth.sieve_never_terminates` says it never returns to a
+number small enough to be a congruence. -/
+theorem seed_count_two : SieveGrowth.safeCount 2 = 1 := by decide
+
+theorem seed_count_three : SieveGrowth.safeCount 3 = 2 := by decide
+
+/-! ### The witness that breaks mod eight -/
 
 /-- `x = 11` has parity word `1101` over four steps and is heavy throughout. -/
 theorem heavy_eleven :

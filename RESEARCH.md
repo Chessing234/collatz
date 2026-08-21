@@ -680,8 +680,13 @@ For a **one-run** cycle, `2^L ≡ 3^a (mod d)` collapses the cycle equation to
     d | 2^(L−a) − 1,   hence   d ≤ 2^(L−a) − 1.
 
 This is a *multiplicative order* obstruction — the first constraint found that is
-neither a magnitude estimate nor a congruence class.  It excludes every one-run
-cycle with `a ≤ 200000`, uses **no verified range**, and is Baker-free.  Its
+neither a magnitude estimate nor a congruence class.  It uses **no verified
+range** and is Baker-free.  *Corrected:* the Lean theorem
+`OneRunOrder.no_one_run_of_run_lt` excludes every one-run cycle with **`a <
+2048`** — that is the kernel budget of `gapOK_sweep`.  The figures 20 000 and
+200 000 were checked *outside* the kernel; the file's own docstring says so, and
+this ledger previously dropped the qualifier and quoted the outside number as
+the theorem's scope.  Its
 weakness is its hypothesis: for `k ≥ 2` runs the accumulator mixes independent
 `(tᵢ, Bᵢ)` pairs and the collapse fails.  That is the single highest-value open
 problem the round produced.
@@ -852,8 +857,13 @@ under a second.
 The window lemma that comes out is sharper than the one it was built for: it
 holds at **every** time, not only at odd-step times, so it bounds `2^j` by
 `3^(oddCount m j)` with no factor of two and no cap on `j` — only on the odd-step
-count.  That strictly supersedes both `HeavyWord.heavy_window_2592` and
-`CycleProduct.neverDrops_heavy_window`.
+count.  That supersedes `HeavyWord.heavy_window_2592` (whose `j ≤ 2592` implies
+`a ≤ 2592 < 2966`).  *Corrected:* it does **not** supersede
+`CycleProduct.neverDrops_heavy_window`, which is weaker by a factor of two but
+reaches far further — its side condition `2a ≤ 3m` admits `a ≤ 1 152 000` at
+`m = 768 000`, roughly 390× the new lemma's `a < 2966`.  The new lemma drops the
+factor of two and extends the *exact*-heaviness range from `j ≤ 2592` to
+`j ≤ 4700`; it does not extend the factor-two heaviness.
 
 Recorded because it was checked and found wrong: the tidy majorant
 `4C ≤ (a+1)·3^a` is true but **not** provable by the obvious induction — the step

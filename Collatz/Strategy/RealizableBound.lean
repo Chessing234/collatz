@@ -141,7 +141,9 @@ ways past it are a larger verified range or a genuinely non-word-based input.
 The certificate uses `c` quantitatively and in the direction `G(i) < c`, so
 nothing here is mirror-invariant, exactly as `Mirror` requires of anything that
 could decide the question.  For the mirror least never-dropper `m = 5` the
-condition fails already at `i = 3` and the argument collapses, as it must.
+condition holds at `i = 1, 2, 3, 4` and first fails at `i = 5`
+(`G(5) = 24.54 > 5`), after which the argument collapses, as it must.  (An
+earlier draft said `i = 3`; the conclusion is unchanged, the index was wrong.)
 
 ### Relation to `HeavyWord`
 
@@ -435,10 +437,13 @@ theorem affineC_le_of_initial_run (x r k : Nat)
 
 /-! ## The certificate, discharged
 
-`cert 2966 768000 0 1 1` is 2966 comparisons between integers of up to 1415
+`cert 2966 768000 0 1 1` is 2966 comparisons between integers of up to 1418
 decimal digits, carried out in a single forward pass by the kernel.  The margin
-is thin at the top: the largest `G(i)` on the range is `767 707` against the
-verified `768 000`, and `i = 2966` itself breaches it. -/
+at the top is `620 858` — the largest `G(i)` on the range, at `i = 2301` — against
+the verified `768 000`, so there is 19 % of slack; `i = 2966` itself breaches it
+at `G = 841 477`.  (An earlier draft of this paragraph said `767 707`, which
+occurs nowhere in the record list and made the margin look 500× thinner than it
+is.  Corrected after an independent recomputation.) -/
 
 set_option maxHeartbeats 4000000 in
 set_option maxRecDepth 40000 in

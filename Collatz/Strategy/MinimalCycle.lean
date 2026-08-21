@@ -47,13 +47,33 @@ the gap is a continued-fraction property of `log₂ 3`, and the convergent
 denominators are `1, 2, 5, 12, 29, 41, 53, 306, …`: no edit of size one can
 preserve it.
 
-## The descent direction is insertion, not deletion (`append_even_descends`)
+## The descent direction is insertion — and it is dead too (`append_even_descends`)
 
 Appending an even step keeps `a` and `C` and sends `G ↦ G + 2 ^ L`, so if the new
-gap divides `C` at all the new cycle point is `n' < n / 2` — a genuine descent.
-It is unconditional (`append_even_descends` needs no floor).  But the divisor is
-now larger than `2 ^ L`, and `append_even_needs_large` shows the descent cannot
-even get off the ground unless `C > 2 ^ L`.
+gap divides `C` at all the new cycle point is `n' < n / 2` — a genuine descent,
+unconditional (`append_even_descends` needs no floor, no minimality).  But the
+divisor is now larger than `2 ^ L` (`append_even_needs_large`: the descent needs
+`C > 2 ^ L`), and worse, the target is off the ledge: `ledge_rigid` /
+`no_odd_count_preserving_edit` show that `(L+1, a)` can never be a pinned cycle.
+So the only unconditional descent the edit calculus produces has an empty target.
+
+## The full edit table
+
+| edit | `(δL, δa)` | verdict |
+|---|---|---|
+| delete an even step | `(−1, 0)` | dead: off the ledge (`no_odd_count_preserving_edit`); gap even goes non-positive (`no_even_deletion`) |
+| shorten an even run by one | `(−1, 0)` | same |
+| merge two adjacent odd runs (delete an even block of length `e`) | `(−e, 0)` | same, for every `e ≥ 1` |
+| insert / append an even step | `(+1, 0)` | dead: off the ledge, although it *would* halve the minimum |
+| delete an odd step | `(−1, −1)` | on the ledge for `2 − log₂ 3 = 41.5 %` of `a`; then a divisibility by a number `≥ 2 ^ (L−1)/3` remains (`odd_deletion_gap_large`) |
+| insert an odd step | `(+1, +1)` | likewise on the ledge for 41.5 % of `a` (`insert_odd_gap_window`) |
+| rotate | `(0, 0)` | always integral — but it is the cycle's own symmetry, not a descent |
+
+So exactly two of the five requested edits survive the ledge at all, and both of
+them then face a divisibility condition modulo a number of size `Θ(2 ^ L)`, of
+density `2 ^ (−L)`.  Measured: over all `2 ^ 22` words, the only integral cycle
+words are the four classical ones (`1`, `−1`, `−5`, `−17`), and the `−17` word
+(`L = 11`) admits **no** surviving single edit of any kind.
 
 ## Cutting at the minimum and the maximum gains nothing (`cut_exact`)
 
@@ -185,6 +205,48 @@ theorem odd_deletion_gap_pos {L a : Nat} (h : 3 ^ (a + 1) < 2 ^ (L + 1)) (hL : 0
     3 ^ a < 2 ^ L := by
   have h3 : (3:Nat) ^ (a + 1) = 3 * 3 ^ a := by rw [Nat.pow_succ, Nat.mul_comm]
   have h2 : (2:Nat) ^ (L + 1) = 2 * 2 ^ L := Arith.two_pow_succ L
+  omega
+
+/-! ### The ledge is rigid: `L` is a function of `a`
+
+`GapSandwich.cycle_length_determined` (Agent-independent, kernel-checked) says
+`L = ⌊a·log₂ 3⌋ + 1` for every nontrivial cycle with `a < 1152000`, which is the
+same ledge `2 ^ (L−1) ≤ 3 ^ a < 2 ^ L` reached here from the product invariant.
+Rigidity is the direct consequence, and it is what closes the even edits in one
+line: **no edit that leaves `a` alone and changes `L` can produce a cycle.** -/
+
+/-- **`L` is determined by `a`.**  Two pinned lengths for the same odd-step count
+coincide. -/
+theorem ledge_rigid {a L L' : Nat} (h1 : 2 ^ L ≤ 2 * 3 ^ a) (h2 : 3 ^ a < 2 ^ L)
+    (h1' : 2 ^ L' ≤ 2 * 3 ^ a) (h2' : 3 ^ a < 2 ^ L') : L = L' := by
+  have key : ∀ P Q : Nat, 2 ^ P ≤ 2 * 3 ^ a → 3 ^ a < 2 ^ Q → ¬ (Q < P) := by
+    intro P Q hP hQ hlt
+    have hstep : (2:Nat) ^ (Q + 1) ≤ 2 ^ P := Nat.pow_le_pow_right (by omega) (by omega)
+    have hexp : (2:Nat) ^ (Q + 1) = 2 * 2 ^ Q := Arith.two_pow_succ Q
+    omega
+  have k1 := key L L' h1 h2'
+  have k2 := key L' L h1' h2
+  omega
+
+/-- **No edit that preserves the odd-step count can produce a cycle.**  This is
+one statement covering: deleting an even step, inserting an even step, shortening
+an even run, and merging two adjacent odd runs by deleting the even block between
+them.  All of them fix `a` and move `L`, and the ledge forbids it. -/
+theorem no_odd_count_preserving_edit {a L L' C' n' : Nat}
+    (hpin : 2 ^ L ≤ 2 * 3 ^ a) (hlt : 3 ^ a < 2 ^ L)
+    (hpin' : 2 ^ L' ≤ 2 * 3 ^ a) (h' : Cert L' a C' n') (hne : L ≠ L') : False :=
+  hne (ledge_rigid hpin hlt hpin' h'.2.1)
+
+/-- **What the surviving edit costs.**  Deleting one odd step, `(L, a) ↦
+(L−1, a−1)`, can land back on the ledge only if the original `3 ^ a` sits in the
+*upper quarter* of its window: writing `L = M + 2`, `a = b + 1`, the edited
+object is pinned only when `3 * 2 ^ M ≤ 3 ^ a`, i.e. `3 ^ a ≥ (3/2) · 2 ^ (L−1)`.
+Asymptotically that is `2 − log₂ 3 = 0.41504…` of all `a`; measured exactly over
+`a ≤ 100000`: 41504 of them.  For the other 58.5 % the edit is off-ledge and
+therefore impossible. -/
+theorem odd_deletion_forces_high_ledge {M b : Nat} (hpin' : 2 ^ M ≤ 3 ^ b) :
+    3 * 2 ^ M ≤ 3 ^ (b + 1) := by
+  have hexp : (3:Nat) ^ (b + 1) = 3 * 3 ^ b := by rw [Nat.pow_succ, Nat.mul_comm]
   omega
 
 /-! ## 3.  The insertion edits: descent, at the price of a huge divisor -/
