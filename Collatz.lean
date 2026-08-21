@@ -88,6 +88,7 @@ import Collatz.Strategy.HeavyState
 import Collatz.Strategy.NoFiniteRanking
 import Collatz.Strategy.AnyModulusRanking
 import Collatz.Strategy.CycleLength520
+import Collatz.Strategy.CycleLength1539
 import Collatz.Strategy.Frontier
 import Collatz.Strategy.Master
 import Collatz.Chains.SumChains
