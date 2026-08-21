@@ -2350,3 +2350,153 @@ Every route now reduces to one statement, and its shape is finally exact:
 > growing; it is also **2-adic, while `G` is odd**, so it is orthogonal to the
 > target — and no known constraint contributes at any modulus sharing a factor
 > with `G`.
+
+
+---
+
+# Round VII — cartography, and one theorem that localises the problem
+
+The protocol changed: build an index before attacking.  Four specialists, one
+adversary, and the adversary was right about almost everything.
+
+## The deliverable, and its repair
+
+`scripts/index.py` + `INDEX.md` — a regenerable concept map: 2165 declarations,
+17 clusters, concept pairs no theorem mentions together, and a what-is-known matrix.
+`python3 scripts/index.py find <regex>` answers the question that caused this round
+(three times in Round VI an agent flagged a "missing bridge" already proved here).
+
+**The first version was broken three ways** and the adversary found all three.  It
+never stripped comments, so it indexed English words from docstrings as theorem
+names — `at`, `this`, `plus`, `says`, `that` — which carried tags from surrounding
+prose and inflated 41 pair counts.  It covered 64.7 % of declarations while
+asserting that *no theorem anywhere* mentions two concepts together.  And its
+vocabulary caught only one of the four idioms this repo uses for `G ∣ C`, hiding 18
+theorems that state exactly that; `RepetitionDescent.subst_yields_cycle` alone closes
+seven of the reported gaps.
+
+**My headline was an artifact.**  I reported "`C mod G` is the most isolated
+cluster, zero bridges to seven others".  My own JSON said *twelve*, not seven — I
+misread my own output — and after the repair `C mod G` has **four** unbridged pairs
+and is not the most isolated cluster at all.  The genuinely isolated clusters are
+**Beatty/Sturmian** and **finite-state** (nine unbridged pairs each), then 2-adic
+valuation and reverse paths (eight each).  That is where the next round should look.
+
+## The theorem: consecutive gaps are coprime
+
+`AccumulatorAutomaton.gap_coprime_snoc` — independent of the index, and it stands.
+
+`gcd(2^L − 3^a, 2^(L+1) − 3^(a+d)) = 1` for both legal letters `d ∈ {0,1}`, whenever
+both gaps are positive.  Two subtraction-free identities do it: even letter
+`G' = 2G + 3^a`, odd letter `2G = G' + 3^a`, so a common divisor divides `3^a`, hence
+is odd, hence divides `2^L = G + 3^a`, hence is 1.  Zero exceptions over `L ≤ 300`.
+
+By CRT the residue before a letter constrains the residue after by **exactly zero
+bits**.  There is no transition law between `C mod G` at consecutive lengths and
+there cannot be one, so any bridge to that cluster must live at *fixed* `(L,a)`.
+Coprimality is special to the two legal successors; illegal shifts give non-coprime
+pairs readily.
+
+And inside fixed `(L,a)` both obstruction shapes die.  State invariants are vacuous
+(letter `0` is the identity and the start state is `0`, so no subset of `Z/G` closed
+under both letters and avoiding `0` exists).  Time-blind graded invariants are
+vacuous too: `C w = Crel(times w)`, the sum over the **strictly increasing** odd-step
+times, and dropping *only* the increasing condition hits zero at once —
+`Crel[1,1,1,1,0,0,1,1] = 6524 = 4·(2^13 − 3^8)`.  Verified.
+
+> **The entire content of the cycle problem is the ordering `t₁ < ⋯ < t_a < L`.**
+> The hoped-for interaction between the multiplier 3 and the modulus `G` does not
+> exist — they generate everything mod `G` in two steps.  What remains is
+> combinatorial, not arithmetic.
+
+That is a different answer from Rounds III–VI, which kept concluding "this arithmetic
+route is closed".  This one says the arithmetic is *free*.
+
+## Every 0.05004 is one number
+
+`ForwardReverse`.  Terras gives every length-`L` word one class mod `2^L`, so the
+forward density is `2^(−L)`.  `endpoint_class` gives it one class mod `3^a`, so the
+reverse density is `3^(−a)`.  And heaviness, `2^L ≤ 3^a`, **is** the statement
+`3^(−a) ≤ 2^(−L)`: *the reverse class is no denser than the forward class*.  The
+heavy language is defined by the inequality that equates the two weightings, so the
+exponents cannot fail to agree; the only arithmetic input is `log₃2 · log₂3 = 1`.
+
+So the two counts are not in bijection and none exists — they are one coefficient
+vector under two weightings.  `1 − H(log₃2) = D(log₃2 ‖ ½)` is a **large-deviation
+rate**, not a Perron eigenvalue (the language is non-sofic in both directions) and
+not a pressure zero.  Every `0.05004` in this repository — `ImageDensity`'s,
+`SieveGrowth`'s, `BackwardRange`'s, the record sequence's — is this one number.
+Real, and vacuous: the whole content is a relation between two functionals of
+`(L,a)`, and `C(w)` is the coordinate a transfer operator integrates out.
+
+New and worth keeping: `reverse_branching`, `Σ_a binom(L,a)·3^(L−a) = 4^L` — the
+first *proof* of the `4/3` reverse branching factor, which Round VI only measured.
+
+## Architecture A is circular
+
+`FiniteInfinite`.  The canonical-representative characterisation is true — realized
+by a natural iff the representative tower is eventually constant, positive iff the
+eventual value is nonzero — but it is `ℕ ⊆ Z₂` by truncations with a bijection glued
+on.  And in `divergent_rep_stabilises` the divergence hypothesis is *bound to an
+underscore*: a divergent orbit is by standing hypothesis the orbit of a positive
+integer, so its representatives stabilise regardless.  Integrality is the hypothesis
+in disguise.
+
+`minNonDrop L → ∞` is **equivalent to full Collatz** — strictly stronger than the
+divergence half, against my expectation, since a cycle's minimum never drops and caps
+the record exactly as a divergent orbit does.  Its growth law is
+`D(L) = Θ(2^L / heavyCount L)`, carrying no arithmetic beyond the survivor count.
+
+## Corrections — seven of them mine
+
+* **The index**, above.
+* **My Round VI correction was itself wrong.**  I "corrected" `WindowCollapse` to say
+  the residual is "the letters after time `L`, not magnitude", as though those
+  differed.  They are the **same datum** — given the prefix, a continuation of length
+  `k` and `m mod 2^k` determine each other bijectively, so the later letters *are* the
+  binary expansion of `m`.  Verified.  And the inconsistency I derived is false:
+  `window_sequence_realized` produces *some* `x` with no bound and says nothing about
+  whether a *given* `x` admits a continuation.  Bounded-`x` constraints are untouched
+  and sharp.  **The two directives were consistent; I over-corrected.**
+* **`HighPart` claimed the high part strictly increases.**  It *decreases*:
+  `x = 13`, `L = 2` gives `3 → 2`.  The theorem compared a high part with an orbit
+  value, which are incommensurable.  The branch is uninteresting for a different
+  reason — a cycle's high part is identically zero.
+* **My `0.084 bits/step` was a two-point chord**, not a fit.  OLS gives 0.096–0.099,
+  and the true law is `0.05004·L + 1.5·log₂L`, so no single slope over `L ≤ 400` is
+  meaningful.  The record sequence itself was verified correct, values and labels.
+* **"The finite/infinite gap reduces to the verified range" is wrong.**  It *is* the
+  conjecture.  And the sharpest quantification of asset (a) yet: the largest `L` for
+  which some `x < 1086464` is non-dropping is **182**, so the verified range
+  discharges the boundary at `L = 183` and no further — **183 of 6809 steps, 2.7 %**,
+  about 9 of the ~341 bits of surplus at the frontier.
+* **`BackwardRange`'s window**: the sharp threshold is `1629696`, not `1629697`
+  (`1629696 ≡ 0 mod 3`, so it has no odd preimage at all); the interval is 543232
+  wide; and only the **181078** nodes `≡ 2 (mod 3)` actually lose a predecessor — a
+  third of the figure quoted.  All verified.
+* **`ImageDensity`'s "the surplus is worth zero"** is `YELLOW`, not clean.
+  `two_power_vacuous` proves a mod-`2^j` congruence *alone, over unbounded `n`*
+  excludes no multiple of `G`.  The surplus is a **cardinality** deficit, and against
+  the bounded target `{kG : k ≤ max C/G}` the 2-adic image density is worth exactly
+  its `2^(−0.05L)`.  The worry about a modulus sharing a factor with `G` is genuinely
+  covered, though — `3 ∤ G` too, so both known structural handles sit at moduli
+  coprime to `G`.
+
+Also confirmed, from a long-running background check: Round V's forced-extremality
+ratio first drops below 1 at exactly `a = 4296`, `L = 6809` — independently
+reproducing `RealizableFrontier6809` — and `max gcd(Bcap a, G) = 22139` at `a = 2773`.
+
+## Where Round VII leaves it
+
+The problem is now localised more sharply than at any previous round, and not where
+six rounds of arithmetic looked:
+
+> `C mod G` is arithmetically free — consecutive moduli are coprime, the automaton on
+> `Z/G` is unobstructed, and 3 with the powers of 2 generate everything in two steps.
+> **All remaining content sits in the ordering `t₁ < ⋯ < t_a < L` of the odd-step
+> times.**  Any invariant blind to that ordering is provably vacuous.
+
+The two most isolated clusters in the corrected index — Beatty/Sturmian and
+finite-state — are exactly the two that speak about *orderings*.  That is the next
+round's target, and it is the first time the map and the mathematics have pointed at
+the same place.
