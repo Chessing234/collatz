@@ -109,6 +109,7 @@ import Collatz.Strategy.ReverseTree
 import Collatz.Strategy.InfiniteWord
 import Collatz.Strategy.RunRefined
 import Collatz.Strategy.RepetitionDescent
+import Collatz.Strategy.SpreadFloor
 import Collatz.Strategy.SieveGrowth
 import Collatz.Strategy.Profile
 import Collatz.Strategy.ExchangeRate
