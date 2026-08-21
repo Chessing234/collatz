@@ -1693,3 +1693,174 @@ form is closed; and not at size, because the ceiling is proved.**  The one objec
 that no theorem here constrains is `gcd(affineC(w), 2^L − 3^a)` itself, and
 nothing in fifteen agents' work says anything about it beyond that it is what the
 problem reduces to.
+
+
+---
+
+# Round IV — the filter was wrong, and one real non-archimedean descent
+
+Five agents, and a correction to this file that reopens territory it had closed.
+
+## The correction: word-level mechanisms are NOT dead
+
+Round III concluded from `NewModels.word_is_cycle_word` that *"no property of the
+parity word can obstruct a cycle"*, and Round IV's whole strategy was built on it.
+**It is false.**
+
+`δ(w) = G/gcd(C, G)` is itself a function of the word.  So `δ(w) = 1` is a
+word-only property, and it is *exactly* the obstruction — indeed the no-cycle half
+of Collatz **is** a statement about parity words (`for every heavy word of length
+L with a odd letters, G(w) ∤ C(w)`), so any proof of it is necessarily a word-only
+mechanism.  This file contradicted itself about it five lines apart, at the
+"localised onto `gcd(affineC L r, 2^L − 3^a)`" sentence.
+
+Verified directly: for the `3x+5` cycles of length 27 (minima 187 and 347), `δ(w)`
+computed **from the word alone** equals 5.  The word separates `d = 1` from
+`d = 5` perfectly.
+
+**The corrected filter.**  Dead is word-only *and invariant under `C ↦ d·C`* —
+heaviness, density, factor complexity, block structure, `ω(G)`, `ord₂` mod `G`,
+magnitude bounds on `C`.  Live is anything comparing `C(w)` to `G(w)`
+**multiplicatively**: `gcd`, `v_p(C)` against `v_p(G)`, `C mod G`.  And the filter
+is quantitatively far weaker than advertised: 87.5 % of words (`L ≤ 12`) have
+`gcd(C,G) = 1`, hence `δ(w) = G ≈ 2^L`, so any argument using a bound `d < 2^k`
+for `k ≪ L` is untouched.  Only arguments *uniform in `d` over the full range* are
+forbidden.
+
+## A non-archimedean descent that is real, and where it stops
+
+`RepetitionDescent.subst_yields_cycle` (LEAN_PROVED).  Substituting one factor `p`
+of a cycle word by another factor `q` of the same length and the same odd count,
+with `wC q < wC p`, produces a **strictly smaller cycle point** — while leaving
+`L`, `a`, the gap `G`, `v₂`, `v₃` and every orbit magnitude fixed.  The descending
+measure is the accumulator itself.  That is the answer to "find a descent whose
+measure is not integer magnitude", and it is the first one this development has.
+
+The bridge that made it possible was missing until now:
+`RepetitionDescent.wC_parityVector : wC (parityVector r L) = affineC L r`, with the
+free-monoid law `wC (u ++ v) = 3^(ones v) · wC u + 2^|u| · wC v`.  Word-level
+statements now transfer to the cycle criterion mechanically.
+
+**Where it stops, measured exactly.**  The descent halts at the minimum of
+`S(L,a,G) = {w : |w| = L, ones w = a, G ∣ wC w}`, and that set is a union of
+rotation classes of genuine cycles.  Independently verified:
+
+* `S(11, 7, 139)` has **exactly 11** elements, and their `C/G` values are
+  `{17, 25, 34, 37, 41, 55, 61, 68, 82, 91, 136}` — precisely the eleven elements
+  of the `3x−1` cycle through 17.  Nothing outside the rotation class.
+* `S(19, 12, 7153)` is **empty** (all 50 388 words checked).
+* `S(27, 17, 1 015 513)` has 54 elements — the two rotation classes of the two
+  `3x+5` 27-cycles, and nothing else.  Note that **two distinct cycles share one
+  `(L, a)` and one gap**, so even uniqueness of the minimal configuration fails.
+
+So the failure is *termination, not soundness*: reaching a contradiction requires
+`S = ∅`, which is the original problem verbatim.  The named open input is a bound
+on a cycle's **spread** `M/n`: a substitution partner is forced iff
+`log₂(M/n) > 0.1025 L − 2.05 δ`, giving `M/n > 2^474` at `(4701, 2966)` and
+`2^690` at `(6809, 4296)`.  The crude `M/n ≤ (3/2)^L = 2^(0.585 L)` does not decide
+it.
+
+Also killed here, with theorems rather than assertions: Architecture C (a repeated
+*state* is not a repeated *value* — `state_repeat_not_value` exhibits `2^k·M`
+returning to its class at the different value `M`; and the expanding branch is
+realised at every odd orbit point, so the dichotomy is not separately excludable);
+the ledge edit as a uniform rule (`fexp(a+j) − fexp(a)` takes **both** values for
+every ledge step `j ∈ {5,12,17,29,41,53}`, over `a < 20000`); and any modulus other
+than `G` (substituting at `M ≠ G` destroys `G ∣ C`).
+
+## The run-refined accumulator bound
+
+`heavy_accumulator_bound_sharp` proves `3C ≤ a·3^a` one odd step at a time, and its
+induction is exactly tight at every step — so no per-step argument improves it.
+The missing information is **adjacency**: if the step before an odd step was also
+odd then `a_j = a_(j−1) + 1`, and heaviness one step earlier gives
+`2^j = 2·2^(j−1) ≤ 2·3^(a_j − 1)`, a factor `3/2` stronger than heaviness at `j`.
+Counting those occurrences as `pairCount p`:
+
+`RunRefined.accumulator_pair_bound : 9·C + p·3^a ≤ 3·(a·3^a)`
+
+— the stored bound exactly when `p = 0`, strictly sharper otherwise.  With the
+combinatorial lemma `pair_bound` (`2a ≤ p + j + 1`, since odd runs are separated by
+even steps) this closes to
+
+`RunRefined.accumulator_closed_bound : 9·C ≤ (a + j + 1)·3^a`,
+
+i.e. `C ≤ 0.2873·a·3^a` against the stored `0.3333` — a 14 % improvement carrying
+**no certificate**.  Measured exactly tight (worst ratio 1.0000) over all 59 058
+heavy words of length ≤ 20.  The extremal words are not what the per-step bound
+suggests: they have odd runs of length **two**, e.g. `[2,2,2,1,2,2,1]` at `L = 20`.
+
+It does **not** beat `RealizableBound.Bcap` (`0.2404`), which was confirmed here to
+be *exactly attained* — `max C = Bcap a` on the nose for every `a ≤ 12`.  So it
+does not move the frontier; its value is a different mechanism at zero certificate
+cost.
+
+## Branches closed
+
+* **3-adic / simultaneous p-adic.**  Dead by a trivial Hasse principle: the cycle
+  criterion is *one linear equation in one unknown*, so solvability in every `Z_p`
+  is definitionally `G ∣ C`.  There is no room for a joint local obstruction.  At
+  `p = 3` it is worse than redundant — `v₃(G) = 0` always, so the 3-adic closure
+  has a unique solution for **every** exponent vector
+  (`PAdicJoint.cycle_three_adic_vacuous`).  The by-product is the real result:
+  `word_free_dyadic` pins the word-preserving witness to a *prescribed dyadic
+  block*, so no obstruction may use `⌊log₂ x⌋` either — closing Round III's last
+  opening by a second route, in a stronger form than `JointRank`.
+* **Reverse tree.**  A relabeling: `ReverseTree.reverse_eq_forward` proves the
+  backward and forward relations are literally the same equation.  Its one
+  genuinely `d`-dependent feature — the branch condition `2y ≡ d (mod 3)` — depends
+  on `d` only through `d mod 3`, and `3x+7` (with `7 ≡ 1`) has the cycle
+  `5 → 11 → 20 → 10 → 5`; `branching_cannot_decide` is the kernel-checked obituary.
+  Genuinely new and kept: `odd_pred_exists_iff` (the exact branch criterion) and
+  `reverse_determined` (the dual of Terras — a word plus an endpoint names one
+  integer).  Also corrected: "branch points = odd steps" is **false**; the true
+  count is `B = a + Σ⌊r_i/2⌋`, and the two `3x+5` 27-cycles have branch counts 20
+  and 19 despite sharing `(L,a)`.
+* **Infinite words.**  The argument "an integer is rational, so its parity word is
+  eventually periodic" is a **trap**, and now a documented one.  It conflates the
+  *binary expansion* coordinate with the *parity-vector* coordinate, which `Φ`
+  exchanges.  What it assumes is exactly the Bernstein–Lagarias **Periodicity
+  Conjecture** `Φ(Q ∩ Z₂) = Q ∩ Z₂` — only the useless inclusion `⊆` is known, and
+  BL prove the conjecture equivalent to no-divergence for *all* `3x+k`,
+  `k ≡ ±1 (mod 6)`.  `InfiniteWord.periodicity_equiv_no_divergence` proves the
+  circularity in Lean.  New and kept: **every heavy word of length ≥ 4 contains the
+  block `11`** (`not_noAdjOdd_of_heavy`) — a *required* block, complementing Round
+  III's "no forbidden blocks", and exactly the `p ≥ 1` that `RunRefined` needs.
+
+## Corrections from the adversary
+
+* The `(a−1)` summand of the `CycleLanguage` split **vanishes** at both pairs used
+  (`2^4700 > 3^2965`), so the docstring's "both terms nonzero" was false.  The
+  theorems are *not* vacuous — the surviving term's logarithm is `4447.16881`
+  against `log₂(binom(4701,2966)/4701) = 4447.16881`, agreeing to twelve figures —
+  but the content is "every cycle word at these pairs ends in an even step", which
+  is not what was claimed.
+* `check_integrity.sh` had a **fail-closed** bug (an axiom-free theorem prints
+  `does not depend on any axioms`, which failed the gate) and a **fail-open** hole
+  (`set_option debug.skipKernelTC` was unblocked, which would disable kernel
+  typechecking entirely).  Both fixed, along with modifier prefixes
+  (`private unsafe def`), and `word_is_cycle_word` added to the gate.
+* `JointRank`'s `L = 1` case is **not** closed in general — the file supports it
+  with a single instance (`m = 5`, `9 ↦ 14`).  The adversary supplied a general
+  witness, `wit1 m H = 2m(2^H/(2m) + 1) − 1`, verified for all `m ≤ 79`.  Recorded
+  as an open repair.
+* And a genuine impossibility: the **variable-window** joint rank cannot be closed
+  at all.  With `m = 1`, `φ = ⌊log₂⌋`, "for every `x` there is `L` with
+  `⌊log₂ T^L x⌋ < ⌊log₂ x⌋`" is *equivalent* to Collatz.  That target should be
+  removed from the list rather than attacked.
+* `word_is_cycle_word` admits the degenerate `a = 0` instance, where `n = 0`; and
+  "of period `L`" should read "with `L` as a period", since primitivity is never
+  proved.
+
+## Where Round IV leaves it
+
+The single open input is now sharper than "bound the gcd".  It is:
+
+> **Bound a cycle's spread `M/n`.**  If `log₂(M/n) < 0.1025 L − 2.05 δ`, no
+> substitution partner is forced and `subst_yields_cycle` cannot start; if it
+> exceeds that, the descent runs — and still bottoms out at `S(L,a,G)`, whose
+> emptiness is the theorem itself.
+
+That is an honest statement of a mechanism that is *correct and formalised* but
+non-terminating, together with the exact quantity that would decide whether it can
+even begin.

@@ -326,6 +326,54 @@ theorem subst_shape (x p q y : List Nat)
   · simp [List.length_append, hlen]
   · simp [ones_append, hones]
 
+/-! ## Part 4b — when is a substitution partner *forced*?
+
+The substitution needs a second word `q` with the same length and odd count as a
+factor `p` of the cycle word and `wC q ≡ wC p (mod G)`.  Pigeonhole forces one as
+soon as the number of admissible `q` exceeds `G`.  The admissible `q` are
+constrained two-sidedly by the orbit, and that is what `factor_profile_band`
+records: reading the word from the cycle minimum `n` with maximum `M`, the affine
+law gives, for every prefix length `u`,
+
+  `2 ^ u * n ≤ 3 ^ A_u * n + C_u`   (the orbit never drops below `n`)
+  `3 ^ A_u * n ≤ 2 ^ u * M`         (the orbit never rises above `M`)
+
+so `A_u` is pinned to `u·log₃2 + O(log₃(M/n))`, and every factor of the word has
+odd-step density within `log₃(M/n)` of `log₃ 2 = 0.63093`.  Counting the words in
+that band against the modulus:
+
+  `log₂ #{q} ≈ H(0.63093)·L + 0.48821·log₂(M/n) = 0.94996 L + 0.48821·log₂(M/n)`
+  `log₂ G     = L − δ`,  `δ = L − log₂ G`
+
+so a partner is **forced** exactly when
+
+  `log₂(M/n) > (0.05004 L − δ) / 0.48821 ≈ 0.1025 L − 2.05 δ`.
+
+At the frontier pair `(L, a) = (6809, 4296)` (`δ = 10.362`) that reads
+`M/n > 2^690.5`; at `(4701, 2966)`, `M/n > 2^474.2`; at the archimedean survivor
+`(24727, 15601)`, `M/n > 2^2518.6`.  The `3x − 1` cycle through 17 has
+`M/n = 136/17 = 2³` against a threshold of `2^(−6.8)`, so a partner is forced
+there — and indeed `S(11, 7, 139)` has eleven elements.  **The missing input is a
+bound on a cycle's spread `M/n`.**  The crude bound is `M/n ≤ (3/2)^L = 2^0.585L`,
+which does not decide it.  This is the sharp form of the "is a collision forced?"
+question and it is recorded as open, not as closed.
+-/
+
+/-- **The factor-profile band.**  Both inequalities are the exact affine law read
+against the two extremes of the cycle.  Together they pin the odd-step count of
+every prefix — hence of every factor — to `log₃ 2` times its length, up to
+`log₃(M / n)`. -/
+theorem factor_profile_band {n u M : Nat}
+    (hlow : n ≤ acceleratedOrbit u n) (hhigh : acceleratedOrbit u n ≤ M) :
+    2 ^ u * n ≤ 3 ^ oddCount n u * n + affineC u n ∧
+      3 ^ oddCount n u * n ≤ 2 ^ u * M := by
+  have hex := affine_exact n u
+  constructor
+  · have : 2 ^ u * n ≤ 2 ^ u * acceleratedOrbit u n := Nat.mul_le_mul_left _ hlow
+    omega
+  · have : 2 ^ u * acceleratedOrbit u n ≤ 2 ^ u * M := Nat.mul_le_mul_left _ hhigh
+    omega
+
 /-! ## Part 5 — the mechanism produces a genuine cycle, and then halts
 
 The realiser hypothesis `hr'` is the one bridge this file does not prove; see the
