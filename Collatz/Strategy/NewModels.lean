@@ -39,6 +39,14 @@ for every length.
 The proof is two lines from `two_pow_dvd_affine`: both `x` and `y` satisfy
 `3 ^ a · · + C ≡ 0 (mod 2 ^ L)`, and `3 ^ a` is odd, so it cancels.
 
+Independently and in parallel, `RunAlgebra.runA_word_eq` reached the same
+completeness statement for the dual accumulator `A = C + G` by an induction on
+the word.  The two are the same fact — `A` and `C` differ by `2 ^ L − 3 ^ a`,
+which is a function of the data already fixed — but the route here is different:
+no induction at all, only the class equation `2 ^ L ∣ 3 ^ a · x + C`, and the
+conclusion is the congruence `x ≡ y (mod 2 ^ L)` rather than the pointwise
+equality of parities.
+
 Note what this does *not* contradict: the refuted statement was injectivity of
 `w ↦ C_w` on heavy words with `a` free (collision at length 83, `a = 53` against
 `a' = 55`).  Holding `a` fixed restores injectivity at every length.
@@ -290,8 +298,12 @@ theorem genOddCount_head (d : Nat) : ∀ (k n : Nat),
     intro n
     have h1 : genOddCount d 1 n
         = genOddCount d 0 n + (if genOrbit d 0 n % 2 = 1 then 1 else 0) := rfl
-    rw [h1]
-    simp
+    have h2 : genOrbit d 0 n = n := rfl
+    rcases Arith.mod_two_eq_zero_or_one n with h | h
+    · rw [h1, h2, if_neg (by omega : ¬ n % 2 = 1)]
+      simp
+    · rw [h1, h2, if_pos h]
+      simp
   | succ k ih =>
     intro n
     have h1 : genOddCount d (k + 1 + 1) n
@@ -400,6 +412,12 @@ theorem gen_cycle_of_gap_dvd {d r L x : Nat} (hd : d % 2 = 1)
 /-! ### Scaling: every `3x + 1` word is a `3x + d` word -/
 
 /-- **`T_d` on multiples of `d` is `d` times `T_1`.** -/
+theorem mul_mod_two {d y : Nat} (hd : d % 2 = 1) : (d * y) % 2 = y % 2 := by
+  have h := Nat.mul_mod d y 2
+  rw [hd, Nat.one_mul] at h
+  omega
+
+/-- **`T_d` on multiples of `d` is `d` times `T_1`.** -/
 theorem genOrbit_scale {d : Nat} (hd : d % 2 = 1) : ∀ (j x : Nat),
     genOrbit d j (d * x) = d * acceleratedOrbit j x := by
   intro j
@@ -408,13 +426,21 @@ theorem genOrbit_scale {d : Nat} (hd : d % 2 = 1) : ∀ (j x : Nat),
   | succ j ih =>
     intro x
     have hstep : genStep d (d * x) = d * acceleratedStep x := by
+      have hpar : (d * x) % 2 = x % 2 := mul_mod_two hd
       rcases Arith.mod_two_eq_zero_or_one x with hx | hx
-      · have hev : (d * x) % 2 = 0 := by omega
-        rw [genStep, if_pos hev, acceleratedStep, if_pos hx]
+      · have hxe : d * x = 2 * (d * (x / 2)) := by
+          have h2 : 2 * (x / 2) = x := by omega
+          calc d * x = d * (2 * (x / 2)) := by rw [h2]
+            _ = 2 * (d * (x / 2)) := by rw [Nat.mul_left_comm]
+        rw [genStep, if_pos (by omega), acceleratedStep, if_pos hx]
         omega
-      · have hod : (d * x) % 2 = 1 := by
-          have : d * x = d * x := rfl
-          omega
+      · have hd3 : d * (3 * x + 1) = 3 * (d * x) + d := by
+          rw [Nat.mul_add, Nat.mul_one, ← Nat.mul_assoc, Nat.mul_comm d 3, Nat.mul_assoc]
+        have hhalf : 2 * ((3 * x + 1) / 2) = 3 * x + 1 := by omega
+        have hkey : 3 * (d * x) + d = 2 * (d * ((3 * x + 1) / 2)) := by
+          have e1 : 2 * (d * ((3 * x + 1) / 2)) = d * (2 * ((3 * x + 1) / 2)) :=
+            Nat.mul_left_comm 2 d _
+          rw [e1, hhalf, hd3]
         rw [genStep, if_neg (by omega), acceleratedStep, if_neg (by omega)]
         omega
     rw [genOrbit_succ, hstep, ih, acceleratedOrbit_succ]
@@ -430,7 +456,7 @@ theorem gen_scale_data {d : Nat} (hd : d % 2 = 1) : ∀ (j x : Nat),
     intro x
     have horb : genOrbit d j (d * x) = d * acceleratedOrbit j x := genOrbit_scale hd j x
     have hpar : genOrbit d j (d * x) % 2 = acceleratedOrbit j x % 2 := by
-      rw [horb]; omega
+      rw [horb]; exact mul_mod_two hd
     obtain ⟨hc, hu⟩ := ih x
     have hlast := Density.oddCount_succ_last x j
     rcases Arith.mod_two_eq_zero_or_one (acceleratedOrbit j x) with he | ho
@@ -448,6 +474,131 @@ theorem gen_scale_data {d : Nat} (hd : d % 2 = 1) : ∀ (j x : Nat),
         rw [h1, if_pos hgo, hc]
         omega
       · rw [genU_odd hgo, AffineExact.affineC_odd ho, hu]
+
+/-! ### The denominator of a word, and the soundness filter as a theorem -/
+
+/-- A divisor of an odd number has odd cofactor. -/
+theorem odd_quotient {G g q : Nat} (hGq : G = g * q) (hG : G % 2 = 1) : q % 2 = 1 := by
+  rcases Arith.mod_two_eq_zero_or_one q with h0 | h1
+  · exfalso
+    have hq2 : q = 2 * (q / 2) := by omega
+    have e : g * q = 2 * (g * (q / 2)) :=
+      calc g * q = g * (2 * (q / 2)) := by rw [← hq2]
+        _ = 2 * (g * (q / 2)) := Nat.mul_left_comm g 2 _
+    have hG2 : G = 2 * (g * (q / 2)) := by rw [hGq, e]
+    omega
+  · exact h1
+
+/-- The gap of a nonempty window with at least one odd step is odd. -/
+theorem gap_odd {r L : Nat} (hL : 0 < L) (hgap : 3 ^ oddCount r L ≤ 2 ^ L) :
+    (2 ^ L - 3 ^ oddCount r L) % 2 = 1 := by
+  have h3 : (3:Nat) ^ oddCount r L % 2 = 1 := Arith.three_pow_odd _
+  have h2 : (2:Nat) ^ L % 2 = 0 := by
+    have hsplit : (2:Nat) ^ L = 2 * 2 ^ (L - 1) := by
+      rw [← Arith.two_pow_succ]
+      congr 1
+      omega
+    omega
+  omega
+
+/-- **Every word is a cycle word.**  Fix any window `L ≥ 1` and any residue `r`
+whose multiplier is contracting, and let `g` be any common divisor of the
+accumulator `C = affineC L r` and the gap `G = 2 ^ L − 3 ^ a`.  Then the integer
+`n = C / g` is a genuine cycle point, of period `L`, of the map
+`x ↦ (3x + δ)/2` with `δ = G / g` — and it carries exactly the parity word of
+`r`, being congruent to `δ · r` modulo `2 ^ L`.
+
+Taking `g = gcd(C, G)` makes `δ` the least constant that works: the **denominator
+of the word**.  `δ = 1` is precisely `G ∣ C`, the cycle criterion for `3x + 1`.
+
+This is the soundness filter of the development, promoted from a heuristic to a
+theorem.  No property of the parity word alone — heaviness, density, any
+congruence, the multiplicative order of `2` modulo the gap, any bound on `C` —
+can obstruct a cycle, because `C(w, d) = d · C(w, 1)` makes every such property
+independent of `d`, and the word *is* a cycle word for `d = δ(w)`. -/
+theorem word_is_cycle_word {r L g : Nat} (hL : 0 < L) (hg : 0 < g)
+    (hgap : 3 ^ oddCount r L ≤ 2 ^ L)
+    (hCg : g ∣ affineC L r) (hGg : g ∣ (2 ^ L - 3 ^ oddCount r L)) :
+    genOrbit ((2 ^ L - 3 ^ oddCount r L) / g) L (affineC L r / g) = affineC L r / g ∧
+      (affineC L r / g) % 2 ^ L
+        = (((2 ^ L - 3 ^ oddCount r L) / g) * r) % 2 ^ L := by
+  obtain ⟨q, hq⟩ := hGg
+  obtain ⟨c, hc⟩ := hCg
+  have hdodd : ((2 ^ L - 3 ^ oddCount r L) / g) % 2 = 1 := by
+    have hdiv : (2 ^ L - 3 ^ oddCount r L) / g = q := by
+      rw [hq, Nat.mul_div_cancel_left _ hg]
+    rw [hdiv]
+    exact odd_quotient hq (gap_odd hL hgap)
+  have hscale := gen_scale_data hdodd L r
+  have hkey : (2 ^ L - 3 ^ genOddCount ((2 ^ L - 3 ^ oddCount r L) / g) L
+        (((2 ^ L - 3 ^ oddCount r L) / g) * r)) * (affineC L r / g)
+      = ((2 ^ L - 3 ^ oddCount r L) / g)
+          * genU ((2 ^ L - 3 ^ oddCount r L) / g) L (((2 ^ L - 3 ^ oddCount r L) / g) * r) := by
+    rw [hscale.1, hscale.2, hq, hc, Nat.mul_div_cancel_left _ hg, Nat.mul_div_cancel_left _ hg]
+    rw [Nat.mul_assoc, Nat.mul_comm q (g * c), Nat.mul_assoc]
+    simp [Nat.mul_comm]
+  have hgap' : 3 ^ genOddCount ((2 ^ L - 3 ^ oddCount r L) / g) L
+      (((2 ^ L - 3 ^ oddCount r L) / g) * r) ≤ 2 ^ L := by
+    rw [hscale.1]; exact hgap
+  exact gen_cycle_of_gap_dvd hdodd hgap' hkey
+
+/-- **The denominator is one exactly when the gap divides the accumulator**, and
+then the `3x + δ` cycle of `word_is_cycle_word` is a genuine `3x + 1` cycle. -/
+theorem denominator_one {r L : Nat} (hL : 0 < L)
+    (hgap : 3 ^ oddCount r L ≤ 2 ^ L)
+    (hdvd : (2 ^ L - 3 ^ oddCount r L) ∣ affineC L r) :
+    acceleratedOrbit L (affineC L r / (2 ^ L - 3 ^ oddCount r L))
+        = affineC L r / (2 ^ L - 3 ^ oddCount r L) := by
+  have hgpos : 0 < 2 ^ L - 3 ^ oddCount r L := by
+    have := gap_odd hL hgap
+    omega
+  have h := word_is_cycle_word (g := 2 ^ L - 3 ^ oddCount r L) hL hgpos hgap hdvd
+    (Nat.dvd_refl _)
+  have hone : (2 ^ L - 3 ^ oddCount r L) / (2 ^ L - 3 ^ oddCount r L) = 1 :=
+    Nat.div_self hgpos
+  rw [hone] at h
+  have := h.1
+  rw [genOrbit_one] at this
+  exact this
+
+/-! ## Model 3 — the accumulator set as a uniquely-representable sumset
+
+`affineC L x = Σ_{i=1..a} 3 ^ (a−i) · 2 ^ (t_i)` with `t_1 < ⋯ < t_a < L` the
+odd-step times, so the set of accumulators at length `L` with `a` odd steps is
+the sumset `{3^(a−1)·2^j} + {3^(a−2)·2^j} + ⋯ + {2^j}` restricted to strictly
+increasing exponents.  Model 1 says this sumset has **unique representation**:
+distinct exponent sets give distinct sums.  So the additive-combinatorial
+question "is a fixed residue class modulo `G` hit rarely?" has no Freiman-type
+structure to exploit — the sumset is as spread out as a sumset can be, and the
+development's own measurement ("`C mod p` equidistributes for every `p ∤ 6` once
+`a ≥ 9`") is the correct picture.
+
+What unique representation *does* buy is a decoding algorithm, and its first two
+steps are theorems already: `AccumulatorValuation.affineC_valuation` gives
+`t_1 = v₂(C)`, and the peeling identity below strips the leading term.  The
+decoding is what makes `C ↦ w` effective, and it is the reason the collision at
+length 83 needed `a` to move: with `a` fixed there is nothing to collide.
+-/
+
+/-- **Peeling the leading odd step.**  For odd `x`, the accumulator of a window
+is `3 ^ (a−1)` plus twice the accumulator of the window one step later.  This is
+the recursion that decodes `C` back into its odd-step times. -/
+theorem affineC_peel_odd {x k : Nat} (hx : x % 2 = 1) :
+    affineC (1 + k) x
+      = 3 ^ (oddCount x (1 + k) - 1) + 2 * affineC k (acceleratedStep x) := by
+  have hadd := AccumulatorArith.affineC_add x 1 k
+  have hcnt := AccumulatorArith.oddCount_add x 1 k
+  have h1 : acceleratedOrbit 1 x = acceleratedStep x := rfl
+  have hC1 : affineC 1 x = 1 := by
+    have h := affineC_odd (j := 0) (x := x) hx
+    simpa using h
+  have hcnt1 : oddCount x 1 = 1 := by
+    have h := oddCount_succ_of_odd hx 0
+    simpa using h
+  rw [h1, hC1, Nat.mul_one] at hadd
+  rw [hcnt1] at hcnt
+  rw [hadd, hcnt]
+  simp
 
 end NewModels
 end Collatz

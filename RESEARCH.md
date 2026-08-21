@@ -1193,18 +1193,178 @@ words, and **all 11 are genuinely realised** — the Terras consistency conditio
 adds nothing beyond `G ∣ C`.  The S-unit condition is *equivalent* to a cycle,
 not merely necessary.
 
-## The single remaining question
+## The soundness filter is now a theorem, and it names the target
 
-Every mechanism this round examined either closed by proof or reduced to one
-statement.  Stated as sharply as the round can state it:
+`NewModels.word_is_cycle_word` / `denominator_one` (LEAN_PROVED).  Let `w` be any
+parity word of length `L` with `a` odd letters, `C = affineC L r`,
+`G = 2^L − 3^a > 0`.  Put `δ(w) = G / gcd(C, G)` and `n = C / gcd(C, G)`.  Then
 
-> Let `a` be a surviving odd-count, `L = ⌊a log₂ 3⌋ + 1`, `G = 2^L − 3^a`.  Is
-> there a nontrivial bound on `S(k) = Σ_{w heavy} e(k · C(w)/G)` for
-> `k ≢ 0 (mod G)`?
+> **`n` is a genuine cycle point of period `L` of `x ↦ (3x + δ(w))/2`, carrying
+> exactly the parity word `w`.**
 
-A bound of `|S(k)| < G · N / (G − 1)`-strength would give `#{w : G ∣ C(w)} < 1`,
-hence zero, hence no cycle at that `(L, a)` — a genuinely new mechanism, and one
-with 243 bits of room at the frontier.  The natural attack is the cocycle law:
-splitting `w` at a midpoint makes `S(k)` a bilinear form in `(C(u), C(v))`, which
-is where a Weyl or large-sieve input would enter.  Nothing in this round bears on
-whether such a bound exists.
+and `δ(w) = 1` is precisely the `3x+1` cycle criterion.  Checked exhaustively over
+all **112 892** words of length 2…16 with positive gap: zero failures; the only
+words with `δ = 1` are the rotations of the trivial cycle, `n = 1` and `n = 2`.
+
+This converts the soundness filter from an argument-from-two-examples into a
+proof.  Heaviness, density, congruence class, multiplicative order of 2 mod the
+gap, and every bound on `C` are functions of `w` alone.  Since **every** word with
+a positive gap is a cycle word — of `3x + δ(w)` — **no property of the parity word
+can obstruct a cycle.**  The whole problem is localised onto one quantity:
+
+`gcd(affineC L r, 2^L − 3^a)`.
+
+The decomposition this forces is sharp and exhausts the options.  For every word
+`x_w = C/G ∈ ℚ₊` is determined and `n = δ·x_w`, so:
+
+* the **archimedean** input (the verified range) bounds `max_w x_w` from above at
+  each `L` — that is exactly `RealizableBound`, and is why the frontier is 4701;
+* the **arithmetic** input must bound the **denominator** `δ(w)` away from 1.
+
+Nothing else is left.  This is why the order obstruction was the only live
+arithmetic channel — and `SUnitRelation` has now closed it.
+
+One boundary, stated explicitly so the theorem is not overread: it refutes
+*word-level* arguments, not arguments that use the verified range.  The attempt to
+exhibit a heavy word with small `δ` and large `n` — which would have refuted those
+too — fails, and instructively: `δ = n/x_w`, so a large `n` at small `δ` demands a
+large `x_w`, which is the realizability ceiling again.  Measured minimum `δ` over
+cycle-shaped words with `n ≥ 768000`: none at all below `L = 19`, then `347141`,
+`517135`, `502829`, `2599981` at `L = 19…22`.  **The two levers are the same
+lever.**
+
+Three further models were taken up and returned negative results with reasons:
+
+* **The word semigroup is free** — `NewModels.word_of_count_and_accum`, three
+  lines and no induction, giving `class mod 2^L ↔ (a, C)` as an iff.  Parallel
+  discovery with `RunAlgebra.runA_word_eq`, recorded as such.  Its consequence is
+  that the accumulator **sumset has unique representation**, so Freiman-type
+  structure is absent *by theorem*: there is no additive structure to exploit, and
+  the "is a fixed class mod `G` hit rarely" question has no handle.
+* **Generating functions are dead because of freeness.**  The monoid law
+  `(L,a,C)·(L',a',C') = (L+L', a+a', 3^(a')C + 2^L C')` rescales the `C`-coordinate
+  by a base change depending on the *other* factor, so it is not a convolution in
+  any variable and no functional equation in `(x, y, z)` exists.
+* **Thermodynamic formalism fails the soundness filter before any work.**  A
+  potential on the shift is a function of the word, hence `d`-uniform.  A "second,
+  arithmetic potential" would have to see `C mod G`, and `G` depends on the whole
+  word — it is not locally constant, so it is not a potential at all.
+* **Two more hatches in the ranking obstruction are now shut.**
+  `no_variable_window_ranking`: no class function mod `m` can drop over a
+  *variable* window, for any step family at all.  `no_ranking_on_heavy_prefix`: no
+  finite heaviness side condition helps, because `2^L·m − 1` sits on an odd run of
+  length `L` and survives every finite filter.  The one hypothesis that could not
+  be closed is a rank on "class mod `m` **plus** the archimedean datum `⌊log₂ x⌋`",
+  which is not a finite quotient and so is untouched by the existing theorems.
+  Recorded as the live remnant.
+
+## The exponential-sum route is closed too — by an unconditional barrier
+
+The 243-bit surplus is real and was confirmed from a second direction.  It is
+also **unreachable by any absolute-value or character method**, and the reason is
+a two-line barrier rather than a hard estimate.
+
+For **any** map `f : W → Z/G` with `|W| = N ≥ 1`, let
+`R = #{(w,w') : f(w) = f(w')} ≥ N`.  Parseval gives `Σ_k |S(k)|² = G·R`, and
+`|S(k)| ≤ |S(0)| = N`, so
+
+`Σ_{k=0}^{G−1} |S(k)| ≥ (Σ_k |S(k)|²)/max_k |S(k)| = G·R/N ≥ G.`
+
+Hence `Σ_{k≠0} |S(k)| ≥ G − N`, and the triangle bound
+`Z ≤ N/G + (1/G)Σ_{k≠0}|S(k)|` has right-hand side **≥ 1, always** — for every
+`W`, every `f`, every `G`.  The circle-method route to `Z < 1` is not hard; it is
+**vacuous**.  It applies verbatim to every divisor `q ∣ G`, so no smaller modulus
+escapes.  Verified numerically, and the barrier is *tight* exactly at perfect
+equidistribution.
+
+The measurements, taken before the theory as instructed (exact FFT over all `k`,
+full enumeration of the cycle language):
+
+| `L` | `a` | `G` | `N` | `max|S|/N` | `mean|S|/√N` | `Σ_{k≠0}|S|/G` |
+|---|---|---|---|---|---|---|
+| 8 | 5 | 13 | 7 | 0.394 | 0.641 | 1.57 |
+| 13 | 8 | 1631 | 85 | 0.530 | 0.749 | 6.90 |
+| 16 | 10 | 6487 | 476 | 0.373 | 0.690 | 15.05 |
+| 18 | 11 | 84997 | 961 | 0.687 | 0.687 | 21.31 |
+| 20 | 12 | 517135 | 2652 | 0.836 | 0.653 | 33.64 |
+
+So square-root cancellation **is** present on average (`mean|S|/√N ≈ 0.65–0.89`,
+stable) — the naive question answers *yes*.  But there are always major arcs at
+`k ≈ G/q` for small `q`, because `C` is genuinely non-equidistributed at small
+moduli (`t₁ = 0` always, so `C` is odd; and `C ≢ 0 mod 3` always).  And the column
+that matters is the last: the bridge needs `Σ_{k≠0}|S(k)| < G − N`, and it is
+measured at 1.5 to 33.6 times `G`, growing like `0.65√N`.
+
+At the frontier pair even a *perfect* `|S(k)| ≤ √N` gives `G·√N = 2^6914.4`
+against a budget of `2^4690.8` — **short by 2224 bits**.
+
+Two supporting closures, both exact:
+
+* **The transfer matrix is provably blind to `k`.**  Writing
+  `S(k) = e₀ᵀ M_{L−1}(k)⋯M_0(k) e_a`, each `M_j(k) = I + D·S` with `D` diagonal
+  *unitary*; conjugating by a diagonal unitary gives `V*M_jV = I + S`, phase-free.
+  So `‖M_j(k)‖` is independent of `k` and of `j`, and the product bound is `≈2^L`,
+  *worse* than the trivial `N = 2^(0.94996 L)`.
+* **The bilinear form gives exactly square-root cancellation and no more.**  The
+  cocycle split must condition on `b = a_u`, and Cauchy–Schwarz across the `a+1`
+  blocks yields `|S(k)| ≲ √((a+1)N)` — precisely the bound that is 2224 bits short.
+* **No small prime divisor of `G` is structurally avoided.**  For every `p ∣ G` at
+  every enumerable pair, `#{w : p ∣ C(w)}` matches `N/p` within ordinary
+  fluctuation.  There is no cheap small-modulus obstruction.
+
+One correction to my own framing of this task, recorded because it was wrong: I
+described the situation as collision-forced, with `2^4447` words mapping into
+73478 admissible targets.  That is not the shape.  `C` maps into its own *range*
+`[0, a·3^a/2]` and is **sparse** there — density `2^(−264.4)` — and the ~`10⁶`
+admissible multiples of `G` then give expected hits `2^(−243.7)`, independently
+reproducing the counting figure.  Both facts coexist: expected colliding pairs are
+`N²/range = 2^4183`, which is why `HeavyResidue`'s length-83 collision is
+unsurprising, but `2^4183 ≪ N`, so almost every value of `C` is attained exactly
+once.
+
+## What is actually left
+
+Every mechanism this round examined closed.  Setting them side by side, the
+closures have a shape:
+
+| route | status after this round |
+|---|---|
+| archimedean (verified range + size ceiling) | capped at `a < 3N`, achieves `≈√N` |
+| order / S-unit, any number of runs | **closed** — the sharp bound is attained by a genuine `3x−1` cycle |
+| counting / exponential sums | **closed** — unconditional L¹ barrier |
+| congruence at any odd modulus | **closed** — word and modulus provably independent |
+| ranking, any finite quotient or well-order | **closed** (earlier rounds), plus variable windows and finite heaviness filters |
+| word surgery, compression, minimality descent | **closed** — no single-step edit survives |
+| rotation / cyclic symmetry | **closed** — the simultaneous condition equals the single one |
+| forbidden blocks or runs | **closed** — none exist; the factor set is everything |
+
+And `NewModels.word_is_cycle_word` explains *why* they all close together: **every
+word with a positive gap is a cycle word of `3x + δ(w)`**, so no property of the
+parity word can obstruct a cycle.  Everything in the table above is a word-level
+property.  They were never going to work, and now that is a theorem rather than a
+pattern.
+
+So the remaining target is not a lemma about words.  It is:
+
+> **Bound `δ(w) = (2^L − 3^a) / gcd(affineC(w), 2^L − 3^a)` away from 1, using
+> data that is not a function of the word alone.**
+
+The archimedean lever bounds `x_w = C/G` from above and is capped.  The one
+arithmetic lever — the order of 2 modulo the gap — is now closed.  What survives
+is only their *combination*, and two independent lines of this round converge on
+the same shape for it:
+
+* `NewModels` could not close exactly one ranking hypothesis: a rank on **class
+  mod `m` together with the archimedean datum `⌊log₂ x⌋`**.  That is not a finite
+  quotient, so `NoFiniteRanking` and `AnyModulusRanking` do not reach it.
+* `NewModels`'s own attempt to refute range-plus-word arguments failed, and
+  instructively: `δ = n/x_w`, so a large `n` at small `δ` demands a large `x_w`,
+  which is the realizability ceiling. **The two levers turn out to be the same
+  lever** — which is exactly why neither alone can finish, and why only a genuinely
+  joint object could.
+
+That is the round's answer to "what is the smallest statement that would close the
+gap": not an inequality we can name, but a *hypothesis class* — congruence data
+paired with the archimedean datum — which is the unique survivor of eleven
+independent attacks and is untouched by every impossibility theorem in the
+development.
