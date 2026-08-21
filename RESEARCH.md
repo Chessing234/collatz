@@ -609,7 +609,7 @@ in the development that separates `2^k - 1` from `-1`, and it does so by size.
 | v3(C) sparsity | **v3(C) = 0 always** — no 3-adic slack exists to exploit |
 | Lyapunov on finite quotient | impossible in principle (proved, `no_class_ranking`) |
 | graph SCC / ranking | quotient is a single SCC at every `k`; MMC pinned at `log(3/2)` |
-| Sturmian/balanced extremal words | factor complexity 2,4,8,16,31,55,87,118 vs Sturmian `k+1` — pseudorandom |
+| Sturmian/balanced extremal words | **corrected**: the earlier table 2,4,8,16,31,55,87,118 was measured at one fixed word length, not in the limit. The admissible language's factor set is *all* of `{0,1}^*` (`1^N u` is heavy for every `u`), so `p(k) = 2^k` and its shift closure is the full shift. Pseudorandom was an understatement |
 | smallness of admissible words | `N(j) ~ 2^(0.95 j)`, entropy `H(theta) = 0.94996` — exponentially many |
 | descent by class-minimisation mod `2^L` | rigid: for a never-dropper `2^L > m` always, so the map is the identity |
 | phantom-cycle filtering | there are none: integrality + positivity **imply** self-consistency |
@@ -633,3 +633,110 @@ never-dropping *is* the density condition.  The only quantity separating the two
 worlds is archimedean — `3^a (x+1) > 2^j`, i.e. `full_density_size` and its
 relatives.  A proof must be built on that, and no field surveyed supplies a
 second independent constraint to combine with it.
+
+
+# Round 2 — the thirteen-field branch program
+
+Thirteen fields were run independently against the obstruction, then chained.
+What follows is the ledger: what became a theorem, what became a bridge, and
+what is now closed by proof rather than by discouragement.
+
+## The reframing that organised everything
+
+The gap `d = 2^L − 3^a` of a hypothetical cycle is **odd**.  So `C/d` is always a
+2-adic integer: **ℤ₂ places no condition whatsoever on cycle integrality.**  With
+`v₃(C) = 0` already known, the entire cycle obstruction is localised away from
+both 2 and 3, onto the odd primes dividing `d`.  Three fields reached this
+independently (2-adic, accumulator, semigroup), and it is what makes the order
+mechanism below the only live arithmetic channel.
+
+Beside it sits the sharpened criterion: a cycle is *exactly* a word whose gap
+divides its accumulator (`CycleCriterion.cycle_of_gap_dvd`, both directions).
+There is no residual dynamical side condition, and no positivity content either
+— every word with `2^L > 3^a` already has a positive rational fixed point.  The
+cycle problem is 100% the divisibility.
+
+## New theorems (PROVED this round)
+
+| statement | file | note |
+|---|---|---|
+| no nontrivial cycle shorter than **1539** | `CycleLength1539` | was 520; the scan over odd-step counts was replaced by two self-certifying comparisons at the top exponent |
+| cycles ⟺ words whose gap divides their accumulator | `CycleCriterion` | converse included; the orbit is eliminated entirely |
+| `C` and `3^a` are class functions mod `2^j` | `AccumulatorClass` | the bridge from Terras' word↔class dictionary to the arithmetic of `C` |
+| `v₂(C)` = time of the first odd step, exactly | `AccumulatorValuation` | divisibility and sharpness both proved |
+| orbit residue mod 3 = clock on the current halving run | `ThreeResidue` | the non-divisibility statement was one third of this |
+| a class caps its own never-droppers | `ClassCap` | one accumulator kills a whole progression |
+| `2^j = 3^a+1` only at `(1,0),(2,1)`; `3^a = 2^j+1` only at `(1,1),(3,2)` | `GapOne` | gap 1 ⟹ trivial cycle; gaps 2, 3 impossible; nontrivial gap ≥ 5 |
+| sharp accumulator bound `2^a(C + 2^j) ≤ 3^a 2^j`, attained | `AccumulatorSharp` | dominates the two bounds the development was storing |
+| heavy-density exponent **0.95096** | `DensitySharper` | tilt matched to the rate; floor is 0.94996 |
+| **no modulus at all** admits a decreasing rank | `AnyModulusRanking` | any `m`, any codomain with an irreflexive relation |
+| no congruence-definable transition invariant | `TransitionInvariant` | kills SCT, lexicographic and multiphase certificates too |
+| `3x+5` has cycles, and the run identity is uniform in `d` | `Denominator` | any `d`-uniform argument is unsound |
+
+## The one new mechanism: order, not size
+
+For a **one-run** cycle, `2^L ≡ 3^a (mod d)` collapses the cycle equation to
+
+    d | 2^(L−a) − 1,   hence   d ≤ 2^(L−a) − 1.
+
+This is a *multiplicative order* obstruction — the first constraint found that is
+neither a magnitude estimate nor a congruence class.  It excludes every one-run
+cycle with `a ≤ 200000`, uses **no verified range**, and is Baker-free.  Its
+weakness is its hypothesis: for `k ≥ 2` runs the accumulator mixes independent
+`(tᵢ, Bᵢ)` pairs and the collapse fails.  That is the single highest-value open
+problem the round produced.
+
+## CLOSED by proof this round (do not reopen)
+
+* **Scale-increasing / adaptive ranking functions.** The returning witness
+  `2^L·m − 1` exists at *every* modulus and forces an equality of ranks, so
+  growing precision, orbit-dependent moduli and ordinal-valued ranks all die at
+  once.  The escape from the finite-quotient obstruction is precision, and full
+  precision *is* the conjecture.
+* **Transition invariants / Ramsey certificates / SCT / lexicographic ranks**,
+  whenever the components are congruence-definable.
+* **Any argument uniform in the constant `d`** of `3x+d`, or blind to the sign of
+  `2^L − 3^a`: `3x+5` has cycles (smallest `5 → 10 → 5`), `3x−1` has three, and
+  the entire run-identity/congruence/density/parity theory is uniform in `d`.
+  Every surviving proof must use the verified initial segment or something else
+  specific to `d = 1`.
+* **Sparsity of `C`.** `C mod p` equidistributes for every `p ∤ 6` once `a ≥ 9`.
+  Prime exclusions do bite, but structurally only up to `a ≈ 8`.
+* **Fourier / discrepancy on ℤ/2^k.** The joint law of `(x mod 2^k, T^j x mod 2^k)`
+  is *exactly* uniform for `j ≥ k` — every nontrivial coefficient vanishes.  There
+  is no discrepancy to bound.
+* **Exceptional-set improvement.** The count of `n < N` failing to descend in `k`
+  steps is a ballot-path count `≈ N^0.9500`; at the verified `2^68` that is a
+  *floor* of `3.6 × 10^17`, missing by 17.6 orders of magnitude, and the method
+  saturates exactly at `k = log₂ N`.
+* **Lattice / geometry-of-numbers framing.** `t ↦ 2^t` is not linear and the
+  coefficient `3^(a−i)` depends on the rank of `t` in the set, so no lattice
+  exists to run CVP or LLL against.  Measured: 23.4% of `(j,a)` pairs come within
+  2 of a multiple of `d` — the misses are as near as arithmetic allows.
+* **Descent by cycle surgery.** Over all `2^22` words there are exactly four
+  primitive integral cycle words (`1`, `−1`, `−5`, `−17`); every deletion,
+  insertion, merge, split, swap and reversal breaks integrality, and only rotation
+  survives — and rotation is already a cycle symmetry, not a descent.
+* **Idempotents / Büchi-Ramsey factorisation.** A cycle word's image in any
+  finite quotient has an idempotent power automatically, so the argument carries
+  zero arithmetic content.
+* **Sieve refinement past level ~12.** Kernel cost quadruples per level while the
+  survivor density falls only from 6.25% to 3.2%; break-even is level 12–14 and
+  the current level 10 is near-optimal.  Worse, the survivor count is
+  supermultiplicative: safe words concatenate, so the number of surviving classes
+  grows like `2^0.95k` at every depth and the sieve provably never clears.
+
+## What is left
+
+The archimedean input — the verified range — remains the only asset that is not
+`d`-uniform, and the cycle bound scales with its square root; that is why 520
+became 1539 by evaluation alone.  Against it stands one genuinely arithmetic
+mechanism, the order obstruction, currently confined to a single run.  A proof
+architecture, if there is one, now looks like:
+
+    cycle → gap divides accumulator → order of 2 modulo the gap
+          → collapse of the mixed-base sum → contradiction
+
+with the open link being the collapse for `k ≥ 2` runs.  Everything else the
+round touched is either a sharpening of what was already known, or a proof that a
+hoped-for mechanism cannot exist.
