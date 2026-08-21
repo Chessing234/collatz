@@ -89,6 +89,7 @@ import Collatz.Strategy.OneRunOrder
 import Collatz.Strategy.HeavyWord
 import Collatz.Strategy.AccumulatorSharp
 import Collatz.Strategy.AccumulatorLocal
+import Collatz.Strategy.AccumulatorCap
 import Collatz.Strategy.DensitySharper
 import Collatz.Strategy.ClassCap
 import Collatz.Strategy.ThreeResidue
