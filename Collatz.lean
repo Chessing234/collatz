@@ -136,6 +136,7 @@ import Collatz.Strategy.MachineModel
 import Collatz.Strategy.DigitAutomaton
 import Collatz.Strategy.PhantomMediant
 import Collatz.Strategy.Coupling
+import Collatz.Strategy.Linearizing
 import Collatz.Strategy.SieveGrowth
 import Collatz.Strategy.Profile
 import Collatz.Strategy.ExchangeRate
