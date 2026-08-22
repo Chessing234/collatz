@@ -31,7 +31,15 @@ Its consequence for the survivor:
 > a state that is a function of `x mod 2^n`, hence of the parity word of length
 > `n`.**  The entire state trajectory is a parity-word statistic.
 
-So the survivor does **not** escape the admission rule by reading digits.  Its only
+**This inference is weaker than an earlier draft claimed, and the gap matters.**  The
+admission rule (`CLOSURE.md` Class 4, now diagnostic 3) kills invariance under
+`C ↦ d·C`, *not* being a function of the word.  `C_L(w, d)` is a function of the word
+for each fixed `d` and is plainly not `d`-blind.  The survivor was flagged precisely
+because the carry rules of the `3x+d` rewrite system put `d` in the **weights**, and
+Step 1 constrains only the **state space**.  So Step 1 shows the state is small; it
+does **not** show the survivor is `d`-blind, and on its own it narrows nothing.
+
+With that correction, the honest reading is:  Its only
 information beyond the parity word is *where the reading stops* — the digit length
 `⌊log₂ x⌋ + 1`, i.e. the magnitude.  That is the archimedean cut again, and it is
 the same one `Height.canonical_height_vanishes` isolates: topological degree `2`
@@ -48,8 +56,19 @@ stopping time is **linear** in the digit length: the mean of `σ` over `n`-digit
 inputs advances by about `4.5` per digit, `σ(x) ≈ 6.83 · ln x` on `n < 200000`.
 
 Linear-in-length is exactly what dimension `2` supplies and dimension `1` cannot —
-a unipotent block `[[1,1],[0,1]]`.  **That is the real reason the survivor's floor is
-dimension 2**, and it is a sharper reason than "dimension 1 fails four evaluations".
+a unipotent block `[[1,1],[0,1]]`.
+
+**But this is a statement about the mean only, and an earlier draft of this header
+stated it pointwise, which is false.**  `σ(31) = 66` at 5 bits while `σ(127) = 30` at
+7 bits: `σ` is nowhere near monotone in digit length.  Only the *average* over a
+bit-block advances near-linearly (by 4.4–4.9 per bit).  So "linear in the digit
+length" is a claim about `E[σ | n bits]`, and the argument built on it is heuristic,
+not a reason.  Worse, the honest obstruction to dimension `1` is not a growth type at
+all: `V x = ρ^(digits x)` fails because digit length is not monotone under `T`
+(`3 → 5` takes 2 bits to 3), and that kills the proposed dimension-`2` affine
+`α·digits x + β` for exactly the same reason.  **The claimed "sharper reason than
+dimension 1 fails four evaluations" is withdrawn; `no_linear_interpretation` remains
+the actual argument.**
 
 `stopping_two_pow` below is the ray where this works perfectly: on `x = 2^m` the
 accelerated orbit just halves, `σ` is exactly `m`, and a two-dimensional automaton
@@ -68,6 +87,15 @@ Measured over `ℚ`, on `σ` restricted to a digit ray:
 | `2^m + 3` | **12** | **20** | **30** |
 | `3·2^m − 1` | **12** | **20** | **30** |
 
+**Correction: these are two independent rays, not four.**  `3·2^m − 1 = T(2^(m+1) − 1)`
+is one Collatz step, so `σ(3·2^m − 1) = σ(2^(m+1) − 1) − 1` identically (checked
+`m = 1..39`); and `σ(2^m + 3) = σ(2^(m−1) + 1) + 1` identically (`m = 4..39`).  Hankel
+rank is invariant under index shift and moves by at most 2 under an additive constant,
+so rows 2/5 and 3/4 agree by force, not by corroboration.  The evidence base is
+`2^m − 1` and `2^m + 1`.  (Saturation does persist further than stated — rank
+`40, 50, 60` at `80, 100, 120` terms — so the phenomenon is real; only its
+multiplicity was overcounted.)
+
 Every entry but the first row is **saturating** — the rank equals the largest value
 the truncation can express, at every size, on four independent rays.  A sequence
 with a linear recurrence of order `k` has Hankel rank `k` at every truncation past
@@ -76,10 +104,18 @@ with a linear recurrence of order `k` has Hankel rank `k` at every truncation pa
 > **COMPUTATIONAL: `σ` restricted to a single digit ray has unbounded Hankel rank,
 > so no finite-dimensional weighted automaton over `ℚ` computes it.**
 
-Together with an exhaustive search — all `419904` interpretations of dimension `2`
-with matrix and vector entries in `{0,1,2}`, LSB-first, required to satisfy
+Together with an exhaustive search — `419904 = 81² · 8²` interpretations of dimension
+`2`: two `2×2` matrices with entries in `{0,1,2}` (`3⁴ = 81` each) and two vectors
+drawn from the `8` nonzero elements of `{0,1,2}²`, LSB-first, required to satisfy
 `V (T x) < V x` for `3 ≤ x ≤ 119` — which returns **zero** ranking functions, the
-shape is closed at the dimension where it had to work.
+search finds nothing at the dimension where the growth-type heuristic predicted it
+should work.  That is evidence, not closure; and since the growth-type argument is
+withdrawn above, the prediction it counts against is itself weakened.
+
+*Reproducibility caveat:* both this search and the Hankel computation were run in the
+session transcript and have no script under `scripts/`, so neither can be re-run from
+the repository as it stands.  Treat both as reported measurements pending a committed
+script.
 
 ## Status, stated against the previous round's claim
 

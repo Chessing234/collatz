@@ -348,7 +348,43 @@ theorem split_band (s t p q : Nat) :
       rw [hl, hr]; exact h2
     exact (Nat.mul_lt_mul_left hpos).mp this
 
-/-! ### The band is empty at the ledge lengths
+/-! ### RETRACTION — "the band is empty at the ledge lengths" is a selection artefact
+
+The `existsHH` results below are individually correct and reproduce exactly.  **The
+conclusion drawn from them does not.**
+
+Over every ledge `L = fexp a + 1` with `a < 260`, the band is empty at only **10 of
+259** shapes: `(2,1), (5,3), (8,5), (27,17), (46,29), (65,41), (149,94), (233,147),
+(317,200), (401,253)`.  The frontier ladder is a subset of that list **by
+construction**: the ladder is the sequence of record-small `L − a·log₂ 3`, and the
+band width *is* `L − a·log₂ 3`, so the band is empty at `(L,a)` exactly when no
+shorter `s` beats it — i.e. exactly when `(L,a)` is a record.  Testing only the ladder
+guarantees the answer, so it is no evidence at all.
+
+At cycle-admissible shapes the domain is generically **nonempty**.  Over the 104
+ledges with `4296 ≤ a ≤ 4399` — all at or above the current frontier — exactly one has
+an empty band, namely the tested `(6809, 4296)`.  The neighbouring ledge
+**`(6816, 4300)` has band size 2839**, first split point `(s,p) = (2,1)`.
+
+Two supporting claims were also wrong.  *"`(L,a)` is a continued-fraction convergent
+of `γ`"*: six of the ten empty shapes are **semiconvergents**, not convergents — the
+convergents of `log₂ 3` are `2/1, 8/5, 19/12, 65/41, 84/53, 485/306, 1054/665`, so
+`(27,17), (46,29), (1539,971), (2593,1636), (4701,2966), (6809,4296)` are not among
+them, and semiconvergents lack the best-approximation property the argument invoked.
+And `(53,33)` and `(306,193)` are **genuine cycle-admissible ledges** with band sizes
+`22` and `18`, listed here as "non-convergent shapes where the band is open" without
+noticing that they contradict the headline.
+
+The 88-split measurement over the eight known genuine cycle words is exact — `0` with
+both halves in the band — but every one of those words has `L ≤ 27` and sits at or
+beside an empty-band shape, so it re-measures the same selection.
+
+**Repair, and the branch should be reopened, not retired:** the honest statement is
+*the mediant descent has empty domain at record (best-approximation) shapes and
+nonempty domain at roughly 96% of cycle-admissible shapes*.  A concrete entry point
+above the frontier is `(6816, 4300)`.
+
+### The band at the ledge lengths
 
 `existsHH L a` decides whether *any* split point of *any* word of shape `(L, a)`
 has both halves heavy.  It depends on `(L, a)` alone — not on the word — because

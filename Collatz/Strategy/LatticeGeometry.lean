@@ -39,7 +39,7 @@ caps are `fexp 0 − 0 = 0` and `fexp 1 − 1 = 0`, so the `a`-dimensional volum
 *exactly zero*: the body is not even full dimensional.  Comparing in the
 remaining `a − 2` coordinates, where it is, the lattice-point count against the
 volume: `a = 24`: `2.6 · 10 ^ 8` against `251.2`; `a = 48`: `6.7 · 10 ^ 18`
-against `5.5 · 10 ^ 6`, the ratio growing like `1.78 ^ a`.  So the count is
+against `5.5 · 10 ^ 6`, the ratio growing like `1.79 ^ a`.  So the count is
 **not** the volume to leading order, in either direction, and the excess is
 exactly the `(1 + 1/0.585) ^ a` that an `O(1)`-thick body always shows.
 Geometry of numbers adds nothing because its entire regime — lattice points

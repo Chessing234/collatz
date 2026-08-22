@@ -33,13 +33,28 @@ replacement, and the whole conjecture then sits at `Π₂` with no slack.
 
 **2.  The cycle half is `Π₁`, and that is a strong constraint.**  A `Π₁`
 sentence is refuted by a single finite object (`cycleHalf_refuted_by_witness`),
-which is why the computational assets of this project — the verified range, the
-`L = 6809` frontier — are exactly the right shape for the cycle half and give
-literally nothing for the divergence half, whose failure is not witnessed by any
-finite object.  It also means that if the cycle half is independent of a `Σ₁`-sound
-theory then it is *true*: a false `Π₁` sentence is refutable by evaluation.
+which is why the `L = 6809` **frontier** is exactly the right shape for the cycle
+half and gives nothing for the divergence half, whose failure is not witnessed by any
+finite object.
 
-**3.  The frontier programme is an ω-rule.**  `cycleHalf_iff_forall_bound` says
+**Correction — this does not extend to every computational asset, and an earlier draft
+said it did.**  The **verified range** is different in kind: "every `n < B` reaches 1"
+bounds a *divergent* orbit's minimum below by `B`, so it bites on both halves.  The
+repository already uses it that way — `MinClass.lean` carries `102400 ≤ m`, and the
+never-drops profile uses `m ≥ 307200`.  `RESEARCH.md` Part IV states this correctly;
+the sentence here was the one that was wrong.  Frontier: cycle half only.  Verified
+range: both.
+
+It also means that if the cycle half is independent of a `Σ₁`-**complete** theory then
+it is *true*: a false `Π₁` sentence is refutable by evaluation there.  (An earlier
+draft said `Σ₁`-*sound*; the property needed for the refutation to be carried out is
+completeness — containing `Q` — not soundness.)
+
+**3.  The frontier programme is an ω-rule.**  (Scope note: the ω-rule observation
+holds for *any* `Π₁` sentence presented as a family of finite instances, so that half
+is generic and not a discovery about Collatz.  What is Collatz-specific is the cost
+accounting — instances here are `Θ(L)`, because the frontier is driven by the verified
+range at `L ≈ V/160`.)  `cycleHalf_iff_forall_bound` says
 the cycle half is the conjunction over all `Lmax` of the finitary statements the
 frontier files prove.  The conjunction is *true* as soon as every conjunct is
 true, so the programme is sound; but no formal theory is closed under that
@@ -220,9 +235,10 @@ theorem collatz_iff_noNeverDrops : CollatzConjecture ↔ NoNeverDrops := by
 
 /-! ## `Π₁` has finite refutations; `Π₂` does not -/
 
-/-- **A single finite object refutes the cycle half.**  This is what `Π₁` means,
-and it is why every computational asset in this project bears on the cycle half
-and on nothing else. -/
+/-- **A single finite object refutes the cycle half.**  This is what `Π₁` means, and
+it is why the *frontier* bears on the cycle half and on nothing else.  It is **not**
+true of every computational asset: the verified range bounds a divergent orbit's
+minimum and so bites on both halves.  See the correction in the header. -/
 theorem cycleHalf_refuted_by_witness {m L : Nat} (hm : 0 < m) (hL : 0 < L)
     (hcy : orbit L m = m) (hnt : ¬ InTrivialCycle m) : ¬ CycleHalf :=
   fun h => hnt (h m L hm hL hcy)

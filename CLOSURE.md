@@ -101,12 +101,39 @@ The **only** `d = 1`-specific assets:
 * multi-window composition — every finite window sequence is realised, so it is the
   single-word attack at larger `L`.
 
-## Two diagnostics worth reusing
+## Three diagnostics worth reusing
 
 1. **`disc_append`**: if a proposed finite-state statistic is additive along the
    word, it is dead on arrival.
 2. **`wC_inj`**: if a proposed invariant is determined by `(L, a, C, G)`, it carries
    no information.
+3. **Homogeneity** — *added after it mis-fired three times in a single round.*  If a
+   proposed quantity is **homogeneous of degree 0 under `C ↦ d·C`** (equivalently:
+   scale-invariant in `d/x`), it is `d`-free and Class 4 refutes it.
+
+### The error diagnostic 3 exists to prevent
+
+Three files in Round IX — two of them the orchestrator's — argued:
+
+> "`Q` is a function of the parity word" ⟹ "`Q` is a word invariant" ⟹ "the soundness
+> filter refutes `Q`".
+
+**That inference is invalid**, and the middle step is where it breaks.  What Class 4
+kills is invariance under `C ↦ d·C`, *not* being a function of the word.  Two
+counterexamples already in this development:
+
+* `C_L(w, d)` is, for each fixed `d`, a function of the parity word — and is
+  manifestly not `d`-blind.
+* `δ(w) = G/gcd(C,G)` is a function of the word and is exactly the `d`-separating
+  residual listed below as belonging to no class.
+
+An explicit coupling quantity that evades the "no `Q` can help" claim of
+`Coupling.lean`: `Q(x, j) := 2^j·x_j − 3^(A_j)·x − C_j(w, 1)`, which equals
+`(d − 1)·C_j(w,1)` and so vanishes on exactly the `d = 1` cycles and is nonzero on the
+genuine cycles of `3x+5` (759603724 at `n=187`), `3x−1` (−4726 at `n=17`), `3x+7`
+(30 at `n=5`), `3x+13` (293638596 at `n=131`) and `3x+59` (66410 at `n=229`).  It is a
+function of `(x, window)`, it is not a word invariant, and the filter does not touch
+it.  *Being word-computable is not the death condition; degree-0 homogeneity is.*
 
 ## What is *not* in any class
 

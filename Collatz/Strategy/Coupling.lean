@@ -53,6 +53,31 @@ The reason is one line, and it is the point of the file:
 > `G · n = C L`, so `n = C L / G` is determined by the word.  There is nothing left
 > to couple.
 
+*Attribution: that sentence is not new here.*  It is the header of
+`CycleAccumulator.lean` — "`cycle_eq_div` — the cycle point is `C / (2^L − 3^a)`, so
+it is **not free**: it is a function of the parity word."  This file supplies the
+consequence for the coupling, not the observation.
+
+*Two of the four theorems below are duplicates, and are kept only as named entry
+points:* `point_determined` is `CycleAccumulator.cycle_gap_mul` under a new name, and
+`gap_dvd_accumulator` is character-for-character `CycleAccumulator.cycle_gap_dvd`,
+same proof term.  Cite the originals.
+
+*`collapse_iff_cycle` is a cancellation lemma, not an equivalence of theories.*  It
+carries no cycle hypothesis — its binders are unconstrained naturals — and it is
+`Nat.eq_of_mul_eq_mul_right` in context.  An earlier draft called it "the collapse
+*is* the criterion"; what it licenses is the substitution step, nothing more.
+
+*Asset (c) is consumed, twice, and silently.*  `cycle_gap_mul` routes through
+`accCycle_bounds` to `3^a < 2^L`, which is `sign d = +1`; and the bridge bound rests on
+`orbit_lower`, which is `C_j ≥ 0`.  Both fail at the witnesses this header advertises:
+at `d = −1`, `n = 17`, `L = 11`, `a = 7` we have `3^7 = 2187 > 2048 = 2^11`, so in
+`Nat` the gap truncates to `0` and `coupling_collapses` at that data would assert
+`C_j · C_L = 0`, which is false.  The `d < 0` rows of the verification table were
+checked in exact rationals *outside* Lean; the Lean statement cannot express them.
+Relatedly, "`r` runs from `0` to `G/3^a`" holds for `d > 0`; for `d < 0` it runs from
+`G/3^a` (negative) up to `0` — at `d = −1`, `n = 17` the range is `[−139/2187, 0]`.
+
 ## Sharpening, from the statistical-mechanics branch — the coupling has exactly one
 ## archimedean number in it
 
@@ -79,13 +104,33 @@ It also caps what any future coupling device can carry: one real number.
 The consequence is a dichotomy, and it is sharper than the Part VI statement it
 replaces:
 
-* **Cycle half.**  No coupling quantity can help, ever.  Any `Q(x, window)` evaluated
-  on a cycle is a function of `(word, d)` because `n` itself is; and `C(w,d) =
-  d·C(w,1)` then scales `d` out.  So `Q` is a word invariant, and the soundness filter
-  refutes it with `3x+5`, `3x−1`, `3x+7`, `3x+11`, `3x+13` as it has refuted every
-  other word invariant in this development.  **This is why every route in this
-  programme dies on the cycle half specifically**, and it is a stronger statement than
-  any individual closure: it does not name a mechanism, it names the reason.
+* **Cycle half — RETRACTED AND REPAIRED.**  An earlier draft of this file claimed
+  *"no coupling quantity can help, ever"*, by the chain: `n` is a function of
+  `(word, d)`, so `Q(x, window)` is too, so `C(w,d) = d·C(w,1)` scales `d` out, so `Q`
+  is a word invariant and the filter refutes it.  **The third step is invalid.**
+  `n = d·C_L(w,1)/G(w)` is homogeneous of degree *one* in `d`, not degree zero, and
+  scaling `d` out is legitimate only for degree-zero quantities.  `r j` happens to be
+  one — which is the only reason this file's own example collapses — but the class is
+  not all of `Q`.
+
+  The claim is refuted by an explicit witness.  Take
+  `Q(x, j) := 2^j·x_j − 3^(A_j)·x − C_j(w, 1)`, the accumulator measured against the
+  `d = 1` accumulator of the same word.  Then `Q = (d − 1)·C_j(w,1)`, so `Q` vanishes
+  on exactly the `d = 1` cycles and is nonzero on every other: `759603724` on the
+  `3x+5` cycle at `n = 187`, `−4726` on `3x−1` at `n = 17`, `30` on `3x+7` at `n = 5`,
+  `293638596` on `3x+13` at `n = 131`, `66410` on `3x+59` at `n = 229`.  It is a
+  function of `(x, window)`, it is not a word invariant, and the soundness filter does
+  not touch it.
+
+  **What survives is the degree-0 statement:** *no coupling quantity homogeneous of
+  degree 0 under `C ↦ d·C` retains content on a cycle.*  That is `CLOSURE.md` Class 4
+  restated for this coordinate, not a new dichotomy — and `CLOSURE.md` now carries it
+  as diagnostic 3, since the same faulty inference appeared in three files this round.
+
+  A second correction to the same paragraph: *"this is why every route in this
+  programme dies on the cycle half specifically"* is also too strong.
+  `Rewriting.no_simplification_order` dies because `bits x` embeds in `bits (T x)`,
+  failing already at `x = 3` — nothing to do with cycles.
 * **Divergence half.**  Here `n` is *not* determined by any word — a divergent orbit
   never closes, so no relation `G·n = C L` exists to eliminate it.  The coupling
   retains its content exactly here.

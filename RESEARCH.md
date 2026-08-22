@@ -2811,3 +2811,116 @@ the entire frontier ladder `(2,1), (8,5), (27,17), (46,29), (65,41), (485,306),
 (1539,971), (2593,1636), (4701,2966), (6809,4296)`, each reproduced exactly.  Its
 own summary is the same rule in different words: *the only escapes from the complete
 invariant are objects on the fibre `(word, magnitude)`, or objects sensitive to `d`*.
+
+---
+
+# Round IX wave two — the required ledger
+
+Five agents, the standing maximum.  Four inventions and a permanent adversary.  The
+adversary killed two headline claims, one of them the orchestrator's, and found the
+same logical error in three files.  That error is now a permanent diagnostic.
+
+## Part I — existing closure
+
+`CLOSURE.md`, unchanged in its four classes, but its diagnostic list grew from two to
+three.  The new one is the round's most reusable output:
+
+> **Diagnostic 3 (homogeneity).**  A quantity dies to Class 4 iff it is **homogeneous
+> of degree 0 under `C ↦ d·C`** — *not* because it is a function of the parity word.
+
+Three files argued *"`Q` is word-computable ⟹ `Q` is a word invariant ⟹ refuted"*.
+The middle step is invalid: `C_L(w,d)` is word-computable for each fixed `d` and is
+not `d`-blind, and `δ(w) = G/gcd(C,G)` is word-computable and is precisely the
+`d`-separating residual that belongs to no class.
+
+## Part II — new devices
+
+| device | file | escapes via | assets used | verdict |
+|---|---|---|---|---|
+| floor schedule (occupation measure on odd steps) | `FloorSchedule` | `(word, magnitude)` fibre | **(a), (c), (d)** | passes the filter, obstructs nothing |
+| cut game + strategy memory | `CutGame` | arena quotient | (a) | **unifies the cycle/divergence split** |
+| ground state `wTermMax` | `GroundState` | — | none | closure device: no phase transition |
+| tropical defect | `TropicalDefect` | — | (a), (c), (d) for one corollary | exact accounting of what tropicalisation destroys |
+| linearising coordinate | `Linearizing`, `Coupling` | `d/n` | (c), silently | rank one |
+
+## Part III — the best five, ranked by information the framework cannot see
+
+**1. Strategy memory (`finMem_ultimately_periodic`).**  *Definition:* the state space of
+a winning strategy in the cut game, an invariant of the arena quotient, not of a play.
+*First theorem:* finite memory ⇒ ultimately periodic run ⇒ eventual genuine cycle ⇒
+refuted by asset (a).  *Why it ranks first:* it unifies two facts held separately —
+the frontier and verified range are cycle-half assets **because** they are exactly what
+refutes finite-memory strategies, and the coupling lives only on the divergence half
+**because** that is where play is not eventually periodic.  *Missing bridge:* a
+finite-memory play whose tower does not stabilise yields unboundedly many
+never-dropping integers rather than one cycle; nothing refutes that.  *Lean:*
+LEAN_PROVED.
+
+**2. The floor schedule.**  *Definition:* `f i ≤ T^i(x)` discretising the occupation
+measure on odd steps; invariant `∫log(1 + d/(3t))dν` instead of a constant rate.
+*Evidence:* the only device this round to consume three assets and to escape the
+complete invariant honestly — `x = 3` and `x = 259` share the length-8 word and have
+charge ratios `512/3` and `82.04`.  *Counterexample:* none; it is simply not an
+obstruction — the vanishing-slack words are still exponentially many.  *Lean:*
+LEAN_PROVED.
+
+**3. Diagnostic 3.**  Not an object but a filter, and it corrected three files in one
+round.  Ranked here because a wrong filter costs more than a wrong theorem.
+
+**4. The rank-one theorem.**  `r_j = (d/n)·W_j(word)`.  *Why it matters:* it **caps**
+what any coupling device can carry — exactly one real number.  Reached independently by
+two agents and confirmed in exact rationals on seven cycles.  *Lean:* the `Nat` halves
+are proved; the factorisation is COMPUTATIONAL.
+
+**5. The mediant descent, reopened.**  Not new, but wrongly retired: its "domain
+emptiness" was a selection artefact, and it has nonempty domain at ~96% of
+cycle-admissible shapes.  *Entry point:* `(6816, 4300)`, band size 2839.
+
+## Part IV — three architectures
+
+**A. Cycle half, mediant descent.**  At a non-record ledge take a split with both
+halves in the band; mediant betweenness puts one phantom strictly below the cycle
+minimum; if that phantom is integral, a smaller cycle exists, contradicting
+minimality.  *Missing bridge:* integrality of the sub-phantom — `δ` of the half must
+be 1, and `δ = 1` is rigid (only `(10)^k` and the all-even word to `L ≤ 22`).
+
+**B. Divergence half, strategy memory.**  Show a winning play must have finite memory;
+`finMem_ultimately_periodic` then forces an eventual cycle, refuted by asset (a).
+*Missing bridge:* the memory is at least `ω`, and nothing bounds it.  This is the
+architecture the round most wants and least supports.
+
+**C. The fibre.**  The floor schedule pins the archimedean coordinate to the word
+within a fixed multiplicative constant, permanently.  Combine with a count of
+vanishing-slack words.  *Missing bridge:* that count is `2^{0.94996 L}` — Class 2,
+and the unconditional `L¹` barrier already blocks the counting route.
+
+## Part V — the deepest surviving idea
+
+**Strategy memory**, chosen on the stated criterion rather than on evidence.  It is
+provably not a word invariant (`escape_word`: `n` and `n + 2^L` share every word to
+level `L`), its composition law is a supremum rather than a sum so `disc_append` does
+not reach it, and it is the only object this round that *explains* the cycle/divergence
+split rather than restating it.  It has almost no supporting computation, which is
+exactly why it is chosen here.
+
+## Part VI — the object that is missing, named
+
+Round IX's first pass named *a quantity coupling the 2-adic and archimedean data*.
+That object now exists, is understood, and is capped: it is `r_j`, it carries exactly
+one real number `d/n`, and it collapses on the cycle half.  So Part VI must be renamed,
+and the round's sharpest new fact names it:
+
+> **The missing object is a refuting witness family for the divergence half.**
+
+Every filter this programme owns is a cycle witness.  The soundness filter works
+because genuine cycles of `3x−1, 3x+5, 3x+7, 3x+11, 3x+13` exist and refute `d`-free
+cycle mechanisms on contact.  **No divergent orbit of any `3x+d` is known.**  So a
+divergence-half mechanism faces *no filter at all* — which is not permissive but
+disabling: there is currently no way to tell a good divergence-half device from a
+vacuous one, and Round IX proved the divergence half is the only place the coupling
+can live.
+
+Building that filter — a family of `d` (or of maps in a wider class) with provably
+divergent orbits, against which a divergence mechanism can be tested — is now a
+first-class task, and it is a concrete, checkable one in a way "find a new invariant"
+never was.

@@ -51,7 +51,10 @@ the contrapositive in the form actually used:
 > levels.
 
 So "no cycle below `1086464`" is not a family of infinitely many facts — it is one
-empty level, and the level index is exactly the `182` of `RESEARCH.md`.
+empty level.  (Index convention, since this file uses both numbers: the last
+*nonempty* level is `182`, witnessed by `x = 1027431` surviving to `L = 182`, and the
+first *empty* level is therefore `K = 183`.  Both appear below; they are consecutive,
+not inconsistent.)
 -/
 
 namespace Collatz
@@ -193,8 +196,22 @@ theorem dvd_shift (G c m : Int) : G ∣ c ↔ G ∣ (c - G * m) := by
 /-! ### `d`-linearity — the soundness filter is a theorem about additive functors -/
 
 /-- **The class scales.**  `Ext¹` is an additive bifunctor, so the world `3x + d`
-multiplies the class by `d`.  Every additive invariant of the transfer extension is
-therefore `d`-linear, and the soundness filter kills all of them at once. -/
+multiplies the class by `d`.
+
+**Read the status honestly: what is kernel-checked below is one line of `Nat`
+divisibility, `G ∣ c → G ∣ d * c`.**  The categorical reading — that every additive
+invariant of the transfer extension is `d`-linear — is `PROVED-on-paper` and rests on
+`Ext¹` being an additive bifunctor, which is not formalised here.  An earlier draft
+presented the two as one result and `RESEARCH.md` Part III called it "the one real
+theorem the round produced"; the gap between them was unlabelled.
+
+**And the conclusion drawn from it was backwards.**  `d`-linearity of the class means
+the obstruction group carries a `d`-*action* — i.e. the invariant is `d`-**sensitive**,
+which is the opposite of `d`-blind.  This same file proves the sharp form three
+theorems below: `delta_realises` says `w` is a `3x+d` cycle word iff `δ(w) ∣ d`, a
+complete `d`-separating criterion.  `CLOSURE.md` already lists `δ(w)` under "what is
+*not* in any class".  What Class 4 kills is degree-0 homogeneity under `C ↦ d·C`, not
+`d`-linearity; see `CLOSURE.md` diagnostic 3. -/
 theorem class_scales (G c d : Nat) (h : G ∣ c) : G ∣ d * c := by
   obtain ⟨k, rfl⟩ := h
   exact ⟨d * k, (Nat.mul_left_comm d G k)⟩
@@ -324,6 +341,15 @@ example : (U 1).mul (tri 9 (5 - (16 - 9) * 1) 16) = (tri 9 5 16).mul (U 1) :=
   the only obstruction available on the tower is an *empty level*, which requires the
   archimedean cut.  Asset (a) is exactly one empty level.
 -/
+
+/-! ## Axiom audit — this file was the only Round IX arrival without one. -/
+
+#print axioms transfer_eq
+#print axioms splits_iff_dvd
+#print axioms class_scales
+#print axioms bounded_tower
+#print axioms tower_global_section
+
 
 end ExtensionClass
 end Collatz
