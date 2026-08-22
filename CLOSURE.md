@@ -1,0 +1,119 @@
+# The closure map
+
+*What is now proven equivalent, and what each equivalence costs.*
+
+Rounds III–VIII repeatedly discovered that apparently different attacks were the
+same attack in different coordinates.  This file records the equivalences with their
+exact translations, so a future round can check membership before spending a cycle.
+Regenerate the theorem index with `python3 scripts/index.py`; this file is written by
+hand because the content is mathematical, not syntactic.
+
+---
+
+## Class 1 — the magnitude/ordering class
+
+All of these are the same quantity, with the stated translation error.
+
+| quantity | translation | error |
+|---|---|---|
+| spread `log₂(M/n)` | — | — |
+| discrepancy width `max_j D(j) − min_j D(j)` | `× log₂3` | `< 1` bit |
+| accumulator position in the box `[3^a − 2^a, Bcap a]` | monotone in each `t_i` | exact |
+
+**Bridge**: `Discrepancy.bridge_two_sided`, `|log₂(x_j/n) − log₂3·D(j)| ≤ L − a·log₂3 < 1`.
+Logarithm-free: `3^(A(j))·n ≤ 2^j·x_j` and `3^a·(2^j·x_j) ≤ 2^L·(3^(A(j))·n)`.
+
+**Endpoints agree**: min spread `→ log₂3` **is** `Dwidth → 1`; max spread `0.585a`
+**is** `Dwidth = 0.369a`, since `log₂3 × 0.369 = 0.5849`.
+
+**The barrier on the whole class**: no `d`-free mechanism bounds any of them.
+Witness — the Sturmian word at `(4701, 2966)` is a genuine cycle of `3x + δ(w)` with
+`δ` a 1413-digit integer and spread exactly `2.99930` (`SpreadFloor`).
+
+## Class 2 — the counting class
+
+Every appearance of `0.05004` is one number: `1 − H(log₃2) = D(log₃2 ‖ ½)`, a
+**large-deviation rate**, not a Perron eigenvalue and not a pressure zero.
+
+It appears as: the heavy-language density deficit; the image density of
+`w ↦ C mod G`; the bounded-reverse-path exponent; the exponent of the record
+sequence `D(L) = Θ(2^L / heavyCount L)`.
+
+**Why forwards and backwards agree** (`ForwardReverse`): Terras gives each word one
+class mod `2^L`, density `2^(−L)`; `endpoint_class` gives it one class mod `3^a`,
+density `3^(−a)`; and heaviness `2^L ≤ 3^a` **is** `3^(−a) ≤ 2^(−L)`.  The heavy
+language is *defined* by the inequality equating the two weightings.  Only input:
+`log₃2 · log₂3 = 1`.
+
+**The barrier**: the unconditional L¹ barrier — for **any** `f : W → Z/G`,
+`Σ_k |S(k)| ≥ G`, so the circle-method bound is `≥ 1` always.  Vacuous, not hard.
+
+## Class 3 — the word class
+
+`(length, ones, wC)` is a **complete invariant** of a binary word
+(`SinkStructure.wC_inj`; zero collisions over all 524 286 words to length 18).
+Consequences:
+
+* any secondary measure is a function of `C`, hence redundant (`lex_collapses`);
+* no second operation admits a strictly decreasing measure (`no_descent_on_list`);
+* anything determined by `(L, a, C, G)` carries **zero** new information.
+
+**Membership test for a proposed invariant**: is it determined by `(L,a,C,G)`?  If
+yes, it is in this class and is dead.
+
+## Class 4 — the `d`-free class
+
+`C(w,d) = d·C(w,1)` and heaviness is `d`-free, so any mechanism invariant under
+`C ↦ d·C` is refuted by the genuine cycles of `3x−1`, `3x+5`, `3x+7`, `3x+11`,
+`3x+13`.  Everything in Classes 1–3 is in this class.
+
+The **only** `d = 1`-specific assets:
+
+| asset | what it is | what it is worth |
+|---|---|---|
+| (a) | verified range, no cycle minimum `< 1086464` | exactly `L = 183` of 6809 (2.7 %) |
+| (b) | `accOrbit_small`, orbit of 1 stays `≤ 2` | false for `d = 7, 11` |
+| (c) | `sign(d) = +1` | `Nat` statements do not typecheck for `d < 0` |
+| (d) | `|d| < 2` | exclusions `2^m + |d|·6^a ≤ 2^(m+a)` need `|d| ≤ 2` |
+
+---
+
+## Closed by proof (do not reopen without a genuinely new invariant)
+
+* order / S-unit at every run count — sharp bound attained by a genuine `3x−1` cycle;
+* congruence at any odd modulus — word and modulus provably independent;
+* ranking functions — finite quotients, any well-order, variable windows, and
+  class-mod-`m` together with `⌊log₂ x⌋`;
+* word surgery, compression, single-step edits, minimality descent;
+* rotation — `G ∣ C` at one rotation implies it at all `L`; the walk is closed, so
+  max and min are rotation-**invariant**;
+* forbidden blocks and runs — none exist; the factor set is everything;
+* prime factorisation of `G` — CRT collapses `ω(G)` conditions to one; a genuine
+  `3x+5` cycle meets 2 of its 3 prime conditions;
+* Beatty / balance — genuine cycles have balance 3, 4, 5; one genuine cycle *is*
+  balanced, so balance is not a discriminator;
+* the substitution descent — forced iff `binom(L,a) > G`, true at exactly six ledge
+  pairs, never for `a ≥ 30`, deficit growing at `0.05·L` bits;
+* the ordering automaton — the discrepancy is **additive** (`disc_append`), so the
+  admissible language is a monoid language;
+* `C mod G` across lengths — consecutive gaps are **coprime**
+  (`gap_coprime_snoc`), so CRT carries exactly zero bits;
+* multi-window composition — every finite window sequence is realised, so it is the
+  single-word attack at larger `L`.
+
+## Two diagnostics worth reusing
+
+1. **`disc_append`**: if a proposed finite-state statistic is additive along the
+   word, it is dead on arrival.
+2. **`wC_inj`**: if a proposed invariant is determined by `(L, a, C, G)`, it carries
+   no information.
+
+## What is *not* in any class
+
+The residual after all of the above is:
+
+* `gcd(C, G)`, equivalently `δ(w) = G/gcd(C,G)` — 13 theorems, the least connected
+  cluster in the index, and `δ ≥ 2` is the conjecture restated;
+* the **ordering** `t₁ < ⋯ < t_a < L` — but Round VIII mapped it, and every
+  statistic of it examined lands in Class 1 or Class 3;
+* the four assets, of which (a) is quantified above and the rest are structural.
