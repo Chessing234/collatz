@@ -299,6 +299,62 @@ theorem heavy_split_iff_band {Lu au Lv av : Nat} :
     3 ^ av < 2 ^ Lv ↔ 3 ^ (au + av) * 2 ^ Lu < 3 ^ au * 2 ^ (Lu + Lv) :=
   ⟨heavy_split_forces_band, band_forces_heavy_split⟩
 
+
+/-- Both halves of a split are heavy exactly when the split point sits in the
+**band** `G(w)/2^L < 3^p/2^s < 1`: the prefix ratio must be below `1` and above
+the whole word's ratio.  Written with `L = s + t`, `a = p + q`. -/
+theorem split_band (s t p q : Nat) :
+    (3 ^ p < 2 ^ s ∧ 3 ^ q < 2 ^ t) ↔
+      (3 ^ p < 2 ^ s ∧ 3 ^ (p + q) * 2 ^ s < 3 ^ p * 2 ^ (s + t)) := by
+  have hpos : 0 < 3 ^ p * 2 ^ s :=
+    Nat.mul_pos (Nat.pow_pos (by decide)) (Nat.two_pow_pos s)
+  have hl : (3 ^ p * 2 ^ s) * 3 ^ q = 3 ^ (p + q) * 2 ^ s := by
+    rw [Nat.pow_add]; nring
+  have hr : (3 ^ p * 2 ^ s) * 2 ^ t = 3 ^ p * 2 ^ (s + t) := by
+    rw [Nat.pow_add]; nring
+  constructor
+  · intro ⟨h1, h2⟩
+    refine ⟨h1, ?_⟩
+    have := (Nat.mul_lt_mul_left hpos).mpr h2
+    rw [hl, hr] at this
+    exact this
+  · intro ⟨h1, h2⟩
+    refine ⟨h1, ?_⟩
+    have : (3 ^ p * 2 ^ s) * 3 ^ q < (3 ^ p * 2 ^ s) * 2 ^ t := by
+      rw [hl, hr]; exact h2
+    exact (Nat.mul_lt_mul_left hpos).mp this
+
+/-! ### The band is empty at the ledge lengths
+
+`existsHH L a` decides whether *any* split point of *any* word of shape `(L, a)`
+has both halves heavy.  It depends on `(L, a)` alone — not on the word — because
+the band condition only involves the split's `(s, p)`.  So a single `decide`
+settles a whole shape. -/
+
+/-- Does some `(s, p)` with `0 < s < L`, `p ≤ a` put both halves in the band? -/
+def existsHH (L a : Nat) : Bool :=
+  (List.range L).any fun s =>
+    !(s == 0) && (List.range (a + 1)).any fun p =>
+      decide (3 ^ p < 2 ^ s) && decide (3 ^ (a - p) < 2 ^ (L - s))
+
+/-- Sanity: at a generic shape the band is wide and splits exist. -/
+theorem existsHH_19_11 : existsHH 19 11 = true := by decide
+
+/-- **The ledge `(27, 17)` admits no heavy split.**  This is the shape of the
+`3x+5` cycles at `187` and `347`, and of any `3x+1` cycle of length `27`. -/
+theorem existsHH_27_17 : existsHH 27 17 = false := by decide
+
+/-- **The ledge `(46, 29)` admits no heavy split.**  `a = 29` is the last of the
+six substitution ledges. -/
+theorem existsHH_46_29 : existsHH 46 29 = false := by decide
+
+/-- **The ledge `(65, 41)` admits no heavy split.** -/
+theorem existsHH_65_41 : existsHH 65 41 = false := by decide
+
+/-- Immediately above a ledge the band reopens, so the vanishing is a property
+of the continued-fraction approximation and not of large `L`. -/
+theorem existsHH_53_33 : existsHH 53 33 = true := by decide
+
 /-! ## 5.  Negative controls
 
 The `3x+5` cycle word of `187` has `L = 27`, `a = 17`, `G = 5077565`,

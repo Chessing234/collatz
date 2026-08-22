@@ -2634,3 +2634,133 @@ The barrier is unchanged and now has three equivalent statements: no `d`-free
 mechanism can bound a cycle's spread, its discrepancy width, or its accumulator
 position in the box.  What would break it must consume asset (a), (b), (c) or (d) —
 and asset (a) is worth exactly 183 of 6809 steps.
+
+---
+
+# Round IX — the invention round
+
+The mandate was not another inequality: *invent a mathematical object that
+distinguishes a genuine positive-integer Collatz trajectory from an arbitrary
+locally realizable parity sequence.*  The **New Object Rule** rejected anything
+that turned out to be another function of the discrepancy path.
+
+Every branch that reported closed itself.  That is the correct outcome for an
+invention round and it is reported as such — no branch was talked into surviving.
+
+## Part II — what was invented, and how each one died
+
+| field | object | how it died |
+|---|---|---|
+| heights | canonical height for `T` | the naive one **is** the discrepancy path; and `canonical_height_vanishes` proves the only `H` with `H(Tx) = k·H(x)`, `k ≥ 2`, is `H ≡ 0` |
+| transfer operators | `L`-sub-eigenfunction | it **is** a forward ranking function with geometric rate; `cycle_forces_zero` makes it vanish on the trivial cycle |
+| rewriting | simplification orders | `no_simplification_order` — `bits x` embeds in `bits (T x)`; fails already at `x = 3` |
+| logic | quantifier prefix of each half | `d`-independent, so a ledger entry, not a mechanism — but see Part IV |
+| coding theory | transposition syndrome `σ(y)` | the code's `dmin` is **twice the run count**, an invariant already in the development; cycle words are run-rich |
+| geometry of numbers | the box, and its dual lattice | Minkowski's hypothesis fails by `1.23^a`; the one theorem with *absence* polarity needs a dual vector a determinant count forbids past `a ≈ 9` |
+| homological algebra | `Ext¹` of the transfer module | `= ℤ/G` with class `C mod G`, and the `d`-action is scalar multiplication |
+| machine models | weighted automaton on digits | see Part V |
+
+## Part III — the one real theorem the round produced
+
+Not a new object; a closure of a whole class of them.
+
+> **The soundness filter is a corollary of additivity.**  The obstruction group of
+> the transfer module is `ℤ/G` with class `C mod G`, and `3x+d` acts on it by
+> multiplication by `d` (`class_scales`, `delta_realises`, verified exhaustively at
+> `L ≤ 12`, `1 ≤ d ≤ 59`, zero mismatches).  Hence **every** invariant obtained by
+> applying an additive functor to the transfer module is `d`-linear, hence refuted.
+
+Any future proposal phrased in homological algebra over the transfer matrix is dead
+before it is written.  This upgrades the filter from a rule of thumb about past
+attempts to a theorem about abelian categories.
+
+Second, and independent: **the 2-adic tower has no gluing obstruction at all.**
+`lim¹` of an inverse system of finite sets always vanishes, so local sections always
+glue and the glued object is a 2-adic integer.  Collatz is not a local-to-global
+failure.  The only obstruction the tower supports is an **empty level**, which
+requires the archimedean cut — and at `B = 1086464` that level is exactly `K = 183`,
+witnessed by `x = 1027431` surviving to `L = 182`.  Asset (a) is not an infinite
+family of facts; it is one empty level of one inverse system.
+
+## Part IV — two results that change how this program should be run
+
+**The frontier is a cycle-half asset only.**  The cycle half is `Π⁰₁` and the
+divergence half is `Π⁰₂` (`collatz_iff_halves`, proved both directions).  A `Π₁`
+sentence has finite refutations; a divergent orbit is not a finite object.  So
+`L ≥ 6809` says **nothing whatever about divergence**.  The verified range is
+different — it bounds a divergent orbit's minimum, so it does bite on both.
+
+**The frontier programme is an instance of the ω-rule.**  Truth of every instance
+gives truth of the sentence; provability of every instance gives provability in *no*
+formal theory.  Closing it needs a proof uniform in `Lmax`, and
+`RealizableFrontier6809.length_ge_6809` takes `Lmax` as a numeral.  Worse, instances
+are not cheap: the frontier is driven by the verified range at `L ≈ V/160`, linear,
+so the `L`-th instance costs `Θ(L)`.  **Frontier increments should be scored as
+compute expenditure, not as progress toward the sentence.**
+
+Two families are also retired outright.  *Independence via a fast-growing witness*:
+`σ(n) ≈ 6.83·ln n` measured to `n < 200000`, far below any Paris–Harrington
+threshold, so if Collatz is independent of PA it is not for a growth reason.  *Any
+compactness or limit argument*: a model of PA with an element `> 1` satisfying
+`NeverDrops` exists **iff** PA does not prove Collatz.  So "get a nonstandard
+counterexample from compactness" *is* an independence proof.  That is the exact
+reason every limit argument in this program has been circular — the object
+compactness builds is one quantifier short, and closing that quantifier is the whole
+problem.
+
+## Part V — the survivor, named and then narrowed
+
+Round IX's one open mechanism was **matrix interpretations of dimension `≥ 2`**,
+unwound as an `N`-weighted automaton reading the **binary digits of `x`** — flagged
+as the first mechanism to escape `C ↦ d·C` for a structural reason.
+
+The escape is illusory.  By Terras, `x mod 2^n` and the parity word of length `n`
+are the same datum (`low_digits_iff_word`, `word_eq_iff_mod`), so a digit-reading
+automaton's entire state trajectory is a parity-word statistic.  Its only extra
+information is **where the reading stops** — the digit length, i.e. the magnitude.
+
+Its dimension floor has a better reason than the one first given: a dimension-`1`
+automaton yields `ρ^(digits x)`, purely exponential in length, while a ranking
+function must track something the size of the stopping time, which is **linear** in
+the digit length.  Linear-in-length is exactly a dimension-`2` unipotent block.
+
+And at that dimension it is unreachable.  Hankel rank is the exact dimension of the
+smallest weighted automaton computing a sequence; on `σ` restricted to a digit ray it
+**saturates** — rank `12, 20, 30` at `24, 40, 60` terms — on `2^m − 1`, `2^m + 1`,
+`2^m + 3` and `3·2^m − 1` alike.  The lone exception is `2^m`, where the map is pure
+halving (`stopping_two_pow`), which is why that ray is not evidence for the others.
+An exhaustive search of all `419904` dimension-`2` interpretations with entries in
+`{0,1,2}` returns zero ranking functions.
+
+Honest status: not refuted outright, since a ranking function need not be `σ`.
+Downgraded to *open only for a ranking function nobody has exhibited, on the same
+archimedean datum every other route needs*.
+
+## Part VI — the object that is missing, named
+
+Not "try another approach".  The object.
+
+Every device in this development is a function of the parity word.  The parity word
+of length `L` is exactly `x mod 2^L` — one residue, and by Terras every residue
+occurs.  So the parity word is **free**: it carries no obstruction, and every
+mechanism built on it inherits `C(w,d) = d·C(w,1)`, which is why `3x+5`, `3x−1`,
+`3x+7`, `3x+11`, `3x+13` refute each one in turn.  Round IX closed eight further
+fields on exactly this ground, and Part III makes it a theorem for a whole class.
+
+The missing object is therefore not another word statistic.  It is:
+
+> **A quantity that couples the 2-adic datum to the archimedean one — that reads
+> `x mod 2^L` and `log₂ x` together, and is not a function of either alone.**
+
+Three independent routes now name the same gap in the same terms.  Heights: the
+topological degree of `T` on `ℤ₂` is `2`, the archimedean expansion is `1`, and for
+a degree-`d` morphism of `P¹` those are *forced* to agree — Collatz is exactly where
+they come apart.  Homological algebra: `lim¹` on the 2-adic tower vanishes
+identically, so the only obstruction is an empty level, and a level can only be empty
+after an archimedean cut.  Machine models: a digit automaton's state is a parity-word
+statistic and its only further datum is the length.
+
+The development already knows the two sides agree to **within one bit** —
+`bridge_two_sided`, `|log₂(x_j/n) − log₂3·D(j)| ≤ E < 1`.  That one bit is the entire
+remaining content of the problem, and nothing in this program yet computes it.  The
+object to invent is whatever *does*.
