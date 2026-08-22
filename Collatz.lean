@@ -122,6 +122,7 @@ import Collatz.Strategy.FiniteInfinite
 import Collatz.Strategy.ForwardReverse
 import Collatz.Strategy.AccumulatorAutomaton
 import Collatz.Strategy.OrderBox
+import Collatz.Strategy.OrderAutomaton
 import Collatz.Strategy.SieveGrowth
 import Collatz.Strategy.Profile
 import Collatz.Strategy.ExchangeRate
