@@ -1,26 +1,26 @@
 # Concept index
 
-2237 theorems/lemmas across 157 files.
+2346 theorems/lemmas across 163 files.
 
 ## Cluster sizes
 
-- orbit windows: 507
-- cycle equations: 239
-- affine accumulator: 202
-- descent: 169
-- divisibility: 155
-- 3-adic valuation: 143
+- orbit windows: 517
+- cycle equations: 245
+- affine accumulator: 210
+- descent: 171
+- divisibility: 156
+- 3-adic valuation: 144
 - counting/entropy: 138
 - heavy words: 126
 - gap G=2^L-3^a: 122
-- parity word: 107
+- parity word: 115
 - C mod 2^j: 103
 - C mod G: 58
+- Beatty/Sturmian: 56
 - reverse paths: 49
-- Beatty/Sturmian: 47
 - residue classes: 31
-- 2-adic valuation: 15
-- finite-state: 12
+- 2-adic valuation: 16
+- finite-state: 14
 
 ## Concept pairs with no theorem mentioning both
 
@@ -65,10 +65,10 @@ Heuristic: a regex over statement text, so treat these as *candidates* for a mis
 
 | object | magnitude | mod 2^j | mod 3^j | valuation | word struct | cross-window | actual orbit | divisibility |
 |---|---|---|---|---|---|---|---|---|
-| C (accumulator) | 95 | 22 | 4 | 2 | 154 | 18 | 74 | 35 |
+| C (accumulator) | 98 | 22 | 4 | 2 | 155 | 21 | 74 | 35 |
 | G (the gap) | 109 | 8 | 5 | . | 66 | 8 | 27 | 42 |
 | parity word | 21 | 6 | . | . | 61 | 17 | 11 | 3 |
-| orbit state x | 369 | 40 | 26 | 4 | 241 | 23 | 471 | 46 |
+| orbit state x | 376 | 40 | 26 | 4 | 241 | 23 | 480 | 46 |
 | cycle min n | 161 | 3 | 4 | 1 | 86 | 7 | 90 | 28 |
 | delta = G/gcd | 7 | . | . | . | 1 | 1 | . | 2 |
 | heavy language | 108 | 7 | 1 | . | 38 | 3 | 25 | 1 |

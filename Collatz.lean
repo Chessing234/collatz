@@ -125,6 +125,9 @@ import Collatz.Strategy.OrderBox
 import Collatz.Strategy.OrderAutomaton
 import Collatz.Strategy.CyclicOrder
 import Collatz.Strategy.Discrepancy
+import Collatz.Strategy.Height
+import Collatz.Strategy.TransferOperator
+import Collatz.Strategy.Rewriting
 import Collatz.Strategy.SieveGrowth
 import Collatz.Strategy.Profile
 import Collatz.Strategy.ExchangeRate
