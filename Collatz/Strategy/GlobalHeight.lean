@@ -30,11 +30,23 @@ large as one likes on a tail, so:
 
 > **the pin constant tends to `1`.**  For every `k` and every `j` there is a
 > tail window of length `k` on which `2 ^ k · T^k(x)` and `3 ^ (a k) · x` agree
-> to within `1 + 1/j` (`pin_tends_to_one`).
+> to within `1 + 1/j` (`pin_ratio`, and `pin_tends_to_one` from the divergence
+hypothesis itself).
 
 In logarithmic form: `log₂ x_{N+k} − log₂ x_N = a·log₂3 − k + O(1/j)`.  The
 archimedean coordinate of a divergent orbit is *not one bit away* from the word
 datum — it **is** the word datum in the limit.
+
+## The hypothesis, and where it comes from
+
+`pin_tends_to_one` takes divergence in the escape form
+`∀ B, ∃ N, ∀ i ≥ N, B ≤ T^i(x)`.  `Escape.divergent_escapes` proves exactly this
+shape from mere unboundedness — for the unaccelerated orbit; the accelerated
+statement `AccDivergent n → ∀ B, ∃ N, ∀ i ≥ N, B < T^i n` is the one missing
+link, and it is a transcription, not a new idea (an accelerated orbit that
+repeats a value is periodic, hence bounded).  Until it is transcribed the
+hypothesis is carried explicitly, which is also the honest form: every theorem
+below states what it consumes.
 
 ## Non-circularity
 
@@ -238,6 +250,33 @@ theorem pin_two {x c k : Nat} (hfloor : 2 * k ≤ c)
     2 ^ k * acceleratedOrbit k x ≤ 2 * (3 ^ oddCount x k * x) := by
   have h := pin_ratio (j := 1) (by omega) (by omega) hc
   omega
+
+/-- **The pin constant tends to `1` along a divergent orbit.**  Hypothesis: the
+orbit is eventually above every bound — the exact content of divergence, and
+available on the divergence half only.  Conclusion: for every window length `k`
+and every accuracy `j`, some tail start `N` has
+
+`j · (2 ^ k · T^k(y)) ≤ (j+1) · (3 ^ (a k) · y)`,   `y = T^N(x)`,
+
+i.e. the archimedean coordinate and the word datum agree to within `1 + 1/j`.
+Together with `FloorSchedule.pin_lower` (which needs no hypothesis) this is a
+two-sided pin with error `→ 1`.  Round IX's "one open bit" is therefore *zero*
+bits asymptotically on the divergence half: `log₂ x_{N+k} − log₂ x_N` is the word
+statistic `a·log₂3 − k` in the limit, and no quantity coupling the two data can
+be a function of neither. -/
+theorem pin_tends_to_one {x : Nat}
+    (hdiv : ∀ B : Nat, ∃ N : Nat, ∀ i : Nat, N ≤ i → B ≤ acceleratedOrbit i x)
+    (k j : Nat) (hj : 0 < j) :
+    ∃ N : Nat, j * (2 ^ k * acceleratedOrbit k (acceleratedOrbit N x))
+      ≤ (j + 1) * (3 ^ oddCount (acceleratedOrbit N x) k * acceleratedOrbit N x) := by
+  obtain ⟨N, hN⟩ := hdiv (2 * j * k)
+  refine ⟨N, ?_⟩
+  refine pin_ratio (c := 2 * j * k) hj (Nat.le_refl _) ?_
+  intro i
+  have e : acceleratedOrbit i (acceleratedOrbit N x) = acceleratedOrbit (i + N) x :=
+    acceleratedOrbit_add i N x
+  rw [e]
+  exact hN (i + N) (by omega)
 
 /-! ## What it sees, and what it forbids -/
 

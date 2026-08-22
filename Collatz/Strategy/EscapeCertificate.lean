@@ -5,7 +5,110 @@ import Collatz.Core.Minimum
 /-!
 # Round X, Sections VII–IX — termination certificates for escape dynamics
 
-Placeholder header; filled in below.
+The brief: build a *divergence-half* filter, attacking **well-foundedness** rather
+than recurrence, since a graph can have no cycles and still have infinite paths.
+This file carries out that attack over the three standard termination
+frameworks — ranking functions into rich well-founded orders, well-quasi-orders
+(the WSTS toolkit), and size-change termination — and each one closes.  The
+closures are sharp enough to name what is missing, which is the deliverable.
+
+## The four results
+
+**VII — the rank-target collapse.**  `rank_target_collapses`: for a
+*deterministic unary* system on `ℕ`, a ranking certificate valued in an arbitrary
+relation with no infinite descending chain exists **iff** one valued in `(ℕ, <)`
+exists, and `rank_iff_halting` shows both are equivalent to "every orbit halts".
+So lexicographic products, ordinal notations, multiset orders, tree embeddings
+and matrix orders — every richer target `W` — buy exactly nothing.  A transfinite
+rank pays off only when the transition relation **branches**; here the descending
+chain a rank produces *is* the orbit, whose length is already a natural number.
+`collatz_iff_rank` is the instance: producing any well-founded ranking for the
+Collatz step map is the whole conjecture, not a step toward it.  **A ranking is
+therefore never a half-filter** — it refutes cycles and divergence in one stroke,
+which is precisely why the first objective of the round is unreachable as stated.
+
+**VIII.1 — the WQO family is refuted outright.**  The divergence half is
+literally "every orbit contains a repetition" (`Complexity.DivergenceHalf`), which
+is a Ramsey-flavoured finiteness statement, not a well-foundedness one — so the
+natural framework is well-quasi-orders and well-structured transition systems.
+`no_wqo_divergence_filter` kills it: the principle *a monotone map on a
+well-quasi-ordered state space has bounded orbits* is **false**, witnessed by the
+successor map on `(ℕ, ≤)`, which is a WQO (`nat_le_wqo`) and for which successor
+is strictly monotone and injective (`no_strict_wqo_divergence_filter`).  Dickson,
+Higman and Kruskal deliver a **good pair** `x_i ⊑ x_j`; the divergence half needs
+an **equality** `x_i = x_j`.  The gap between `⊑` and `=` is the whole content,
+and no choice of WQO closes it.
+
+**VIII.2 — size-change termination is vacuous over the mixed abstraction.**
+`mixed_block_self_loop` produces, for every pair of moduli `2 ^ k, 3 ^ l` and
+every block length `L`, a genuine `n > 1` whose next `L` states are *at every
+intermediate time* congruent to `n` at both moduli **and** strictly larger than
+`n`.  This strengthens `TransitionInvariant.exists_congruent_step` twice over:
+from one step to a block of any length, and from congruence coordinates alone to
+congruence coordinates together with magnitude coordinates — which is exactly the
+coordinate list the brief asks for (`log₂ x`, `v₂`, `v₃`, odd-step count, residue
+complexity, distance to a scale boundary).  `no_mixed_block_descent` and
+`no_mixed_sct` draw the conclusion: no size-change, lexicographic, multiphase or
+disjunctive certificate over such coordinates has a strict arc.
+
+**IX — the record ladder, and the trichotomy that closes it.**  The one genuinely
+asymptotic object available on the divergence half is the **record ladder**
+`orbitMax n i`: it is non-decreasing, unbounded exactly when the orbit is
+(`records_unbounded`), every rung is an actual orbit value
+(`orbitMax_attained`), and it is *finite* on the cycle half — so it is not a
+cycle-detector in disguise.  Reading the three natural kinds of size parameter
+against it gives a complete kill:
+
+| coordinate kind | verdict | theorem |
+|---|---|---|
+| congruence-definable | frozen along an arbitrarily long genuine block | `mixed_block_self_loop` |
+| monotone in magnitude | strictly **increasing** along that same block | `no_mixed_block_descent` |
+| anti-monotone in magnitude | eventually **constant** on the record ladder | `antitone_family_freezes` |
+
+`no_antitone_certificate_on_divergent` assembles the third: past a finite index,
+no anti-monotone coordinate ever strictly decreases again, while the ladder keeps
+rising without bound.  A size-change certificate needs infinitely many strict arcs
+on every infinite run; none of the three kinds can supply them.
+
+The one *positive* theorem is `divergent_record_steps_odd`: along a divergent
+orbit, for every `N` there is `i ≥ N` at which the running maximum jumps, the
+orbit strictly grows, and the orbit value is **odd**.  The record ladder of a
+divergent orbit is carried by odd steps, for ever.  Proved from unboundedness,
+positivity and "the even branch halves" alone.
+
+## The certificate shape the divergence half actually admits
+
+`barrier_complete`: the orbit of `n` is bounded **iff** there is a bounded
+inductive invariant — a set containing `n`, closed under the step map, contained
+in a finite initial segment.  That is a *safety* certificate; there is no
+well-foundedness anywhere in it, and the canonical one is the reachable set.
+
+Put beside `rank_iff_halting`, this is the structural diagnosis the round asked
+for:
+
+> **The divergence half is a safety property and wants an invariant; a ranking
+> certificate is sound *and complete* for the whole conjecture, so it can never
+> isolate a half.  Termination machinery is liveness machinery.  That is why a
+> repository this good at "no finite mechanism supports a cycle" has nothing
+> aimed at "no orbit escapes".**
+
+## Non-circularity
+
+Everything in Sections VII and VIII.1 is proved for an **arbitrary** `f : ℕ → ℕ`
+and never mentions the Collatz map, so no direction can be smuggling the
+conjecture.  Section VIII.2 uses only `NoFiniteRanking`'s returning family.
+Section IX uses only determinism, positivity of the orbit, and the fact that the
+even branch halves.  The named independent principles are: well-founded induction
+(VII), Dickson/Higman/Kruskal and the WSTS compatibility theorem (VIII.1), the
+Lee–Jones–Ben-Amram size-change theorem and Podelski–Rybalchenko disjunctive
+well-foundedness (VIII.2), and the least-element principle (IX).
+
+**A caution recorded honestly.**  `barrier_complete` is *complete* for the
+divergence half and therefore, on its own, **fails the round's non-circularity
+test**: "exhibit a bounded inductive invariant" is a restatement of "the orbit is
+bounded", so step (1) of the test would read "because divergence means...".  It is
+recorded here as a *shape* theorem — it says what a divergence-half certificate
+must look like — not as a filter.  No filter is claimed in this file.
 -/
 
 namespace Collatz
@@ -507,6 +610,65 @@ theorem no_antitone_certificate_on_divergent {n : Nat} (hdiv : Divergent n) (m :
   have := hN i j hi hj c hc
   omega
 
+
+/-! ## Section IX.3 — what the record ladder is made of -/
+
+/-- Between two record levels there is an index at which the running maximum
+jumps. -/
+theorem exists_max_jump {n N M : Nat} (h : orbitMax n N < orbitMax n M) :
+    ∃ i : Nat, N ≤ i ∧ i < M ∧ orbitMax n i < orbitMax n (i + 1) := by
+  induction M with
+  | zero =>
+    exact absurd (orbitMax_mono (n := n) (Nat.zero_le N)) (by omega)
+  | succ M ih =>
+    by_cases hstep : orbitMax n N < orbitMax n M
+    · obtain ⟨i, hi1, hi2, hi3⟩ := ih hstep
+      exact ⟨i, hi1, by omega, hi3⟩
+    · have hNM : N ≤ M := by
+        by_cases hle : N ≤ M
+        · exact hle
+        · exact absurd (orbitMax_mono (n := n) (show M + 1 ≤ N by omega)) (by omega)
+      exact ⟨M, hNM, by omega, by omega⟩
+
+/-- A jump of the running maximum is a genuine growth step of the orbit. -/
+theorem growth_of_max_jump {n i : Nat} (h : orbitMax n i < orbitMax n (i + 1)) :
+    orbit i n < orbit (i + 1) n := by
+  have hmax : orbit i n ≤ orbitMax n i := le_orbitMax i (Nat.le_refl i)
+  rw [orbitMax_succ] at h
+  by_cases hlt : orbitMax n i < orbit (i + 1) n
+  · omega
+  · rw [if_neg hlt] at h; omega
+
+/-- **Every growth step is an odd step.**  The even branch halves. -/
+theorem odd_of_growth {y : Nat} (hy : 0 < y) (h : y < step y) : y % 2 = 1 := by
+  by_cases hpar : y % 2 = 0
+  · rw [Reach.step_even hy hpar] at h
+    omega
+  · omega
+
+/-- **The record ladder of a divergent orbit is carried by odd steps, for ever.**
+For every `N` there is an index `i ≥ N` at which the orbit is odd and strictly
+grows, and at which the running maximum jumps.
+
+This is the positive statement of Section IX.  It is proved from unboundedness
+alone — no property of the Collatz map beyond determinism, positivity and "the
+even branch halves" — so it assumes nothing about the conjecture, and it says
+something about an orbit *that never comes back*: it must keep hitting odd
+numbers at arbitrarily late record times.  It is exactly the kind of statement
+the cycle-half machinery cannot make, because on a cycle the record ladder is
+finite and stops jumping. -/
+theorem divergent_record_steps_odd {n : Nat} (hn : 0 < n) (hdiv : Divergent n) (N : Nat) :
+    ∃ i : Nat, N ≤ i ∧ orbit i n % 2 = 1 ∧ orbit i n < orbit (i + 1) n ∧
+      orbitMax n i < orbitMax n (i + 1) := by
+  obtain ⟨M, hM1, hM2⟩ := records_unbounded hdiv N (orbitMax n N)
+  obtain ⟨i, hi1, _, hi3⟩ := exists_max_jump hM2
+  have hgrow := growth_of_max_jump hi3
+  have hstep : orbit (i + 1) n = step (orbit i n) := by
+    rw [Nat.add_comm, orbit_add, orbit_succ_steps]; rfl
+  refine ⟨i, hi1, ?_, hgrow, hi3⟩
+  refine odd_of_growth (orbit_positive hn i) ?_
+  rw [← hstep]; exact hgrow
+
 /-! ## Section IX.2 — the certificate shape the divergence half actually admits -/
 
 /-- A **bounded inductive invariant** for the orbit of `n`: a set containing `n`,
@@ -557,6 +719,7 @@ theorem barrier_complete (n : Nat) : Bounded n ↔ ∃ S : Nat → Prop, Bounded
 #print axioms no_mixed_sct
 #print axioms no_antitone_certificate_on_divergent
 #print axioms barrier_complete
+#print axioms divergent_record_steps_odd
 
 end EscapeCertificate
 end Collatz

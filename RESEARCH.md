@@ -2924,3 +2924,234 @@ Building that filter — a family of `d` (or of maps in a wider class) with prov
 divergent orbits, against which a divergence mechanism can be tested — is now a
 first-class task, and it is a concrete, checkable one in a way "find a new invariant"
 never was.
+
+---
+
+# Round X, Sections XV–XVII — the pin constant tends to 1, and the product formula is empty
+
+*Arithmetic-dynamics desk.  New file: `Collatz/Strategy/GlobalHeight.lean` (compiles
+clean, zero errors, zero warnings, no `sorry`/`axiom`).  `Height.lean` is not
+repeated: nothing here obeys a functional equation, and nothing here is a local
+decomposition `α·log₂x + β·v₂ + γ·v₃`.*
+
+## XV — A global height, and the one hypothesis no cycle supplies
+
+The device is not a new function on `ℕ`.  It is the **explicit evaluation of the pin
+constant** that `FloorSchedule.sched_pin` left as an unevaluated product, using the
+one hypothesis the divergence half owns: *the orbit is eventually above every bound.*
+
+**Arithmetic core** (`pow_step_bound`, LEAN_PROVED):
+`c · (3c+1)^a ≤ (c + 2a) · 3^a · c^a` whenever `2a ≤ 5c`.
+So `(1 + 1/(3c))^a ≤ 1 + 2a/c` — the schedule defect is **linear in the window
+length**, not exponential, as soon as the floor exceeds it.
+
+**The pin** (`pin_explicit`, LEAN_PROVED): if `c ≤ T^i(x)` for every `i`, then
+
+> `3^(a k)·x ≤ 2^k·T^k(x)` and `c·(2^k·T^k(x)) ≤ (c + 2·a k)·(3^(a k)·x)`.
+
+**The limit** (`pin_ratio`, `pin_two`, `pin_tends_to_one`, LEAN_PROVED): floor
+`c ≥ 2jk` gives error `1 + 1/j`.  Hence along a divergent orbit, for every window
+length `k` and every accuracy `j`, some tail window has
+
+> `|log₂ x_{N+k} − log₂ x_N − (a·log₂3 − k)| ≤ log₂(1 + 1/j)`.
+
+Comparison, stated exactly.  `bridge_two_sided` is a **cycle-half** statement: its
+error factor is the spread `2^L/3^a` of a closed window, and it has no divergence-half
+analogue.  `sched_pin` is the divergence-half one, but leaves the error as an
+unevaluated product and can only assert it is a constant "along an orbit growing at
+least geometrically".  This evaluates that constant, replaces the geometric-growth
+hypothesis by mere divergence, and drives the constant to `1`.
+
+**What it does to Round IX's coupling.**  `r_j = C_j/(3^(A_j)·n)` is exactly the pin
+defect, so `pin_ratio` says `r_j ≤ 2·a/c → 0`.  Round IX found the coupling
+*collapses to a word invariant on the cycle half*; the divergence half is worse:
+
+> **the coupling tends to `0` on the divergence half.**  Both halves are therefore
+> asymptotically word statements, which is the structural reason every route in this
+> programme lands in Classes 1–3.
+
+Consequently the divergence half reduces, with error `→ 1`, to the pure word
+statement *"every tail window of the orbit's infinite parity word is heavy"* —
+`heavy_of_never_drop` (LEAN_PROVED): under a floor `2k ≤ c` and `x ≤ T^k(x)`,
+`2^k ≤ 2·3^(a k)`, uniformly in `k`.
+
+**Non-circularity.**  (1) divergence ⇒ F: `pin_tends_to_one` + `heavy_of_never_drop`,
+proved from the affine identity and `pow_step_bound` alone.  (2) F ⇒ contradiction:
+**not achieved**, and the missing principle is named — a lower bound on the
+accumulated valuation `Σ v₂(3y+1)` over some high window.  (3) neither implication
+mentions termination.  (4) the independent principle would have to be a **normality**
+statement for the 2-adic expansion of `x`; by Terras every finite valuation vector is
+realised, so no finite computation can ever supply it.  Reported as step (1) in its
+sharpest known form together with the exact shape of step (2) — not as a proof.
+
+**Not a cycle detector** (`cycle_hypothesis_fails`, `bounded_orbit_hypothesis_fails`,
+LEAN_PROVED): on a bounded orbit the hypothesis `2k ≤ c ≤ min orbit` is *unsatisfiable*
+for `k ≥ 2`.  The device has the opposite polarity to every other filter here: it says
+nothing whatever about cycles, so Class 4's `3x+d` cycle witnesses cannot touch it.
+What it sees in an orbit that never returns (`deficit_of_growth`): a 2-adic deficit
+`3^(a k)/2^k ≥ T^k(x)/(2x)` — **growing proportionally to the archimedean size**,
+where on a cycle the same deficit is bounded.
+
+## XVI — The product formula, answered exactly, and it is empty
+
+*Which absolute values carry independent information.*
+
+* `p = 2`: **expanding by exactly 2** on each branch (`|Tx − Ty|₂ = 2|x − y|₂`).  The
+  whole topological degree lives here.  `v₂(x_n)` is not free data: it equals the
+  length of the run of even steps beginning at `n` (verified, 1 245 989 orbit points,
+  zero mismatches).  So the 2-adic size of an orbit point **is** a parity-word
+  statistic — Class 3.
+* `p = 3`: the odd branch has multiplier `3/2`, so `T` is a 3-adic **contraction** by
+  `1/3`.  A contraction has no obstruction; this is `PAdicJoint.three_adic_free` in
+  metric form.  Its one archimedean consequence is already in the repository
+  (`Records.not_three_dvd_record`, `ThreeObstruction.orbit_not_three_dvd_of_neverDrops`):
+  orbit points after an odd step avoid a residue class, tightening "a divergent orbit
+  visits `[1,B]` at most `B+1` times" to `(2/3)B + O(1)`.  Useless as a filter, and
+  recorded as such.
+* `p ≥ 5`: both branches are affine with **unit** multipliers `1/2`, `3/2`, so `T` is a
+  `p`-adic **isometry**.  No expansion, no contraction, no dynamics.
+* `∞`: multiplier `1/2` or `3/2`.
+
+**The product formula for the multiplier is satisfied step by step, identically.**
+Odd step: `log2 (at 2) − log3 (at 3) + log(3/2) (at ∞) = 0`.  Even step:
+`log2 − 0 − log2 = 0`.  Of course — the multipliers are the *rational numbers* `1/2`
+and `3/2`, and every rational satisfies the product formula.  **Total information
+content of the product formula for this map: zero.**  It is not a hard case; it is a
+vacuous one.
+
+And the sharp reason it cannot be repaired, which is the diagnosis this desk offers:
+
+> A divergent orbit differs from an arbitrary heavy 2-adic word **only** by the
+> integrality of the starting point.  Integrality is a condition at the places
+> `p ≥ 3`.  Those are exactly the places where `T` is an isometry (or a contraction).
+> **The places that certify integrality are precisely the places where the dynamics is
+> trivial.**  That is why no product-formula argument can reach the divergence half.
+
+Per the adversary's brief: the 3-adic side is empty, this is stated, and this branch
+stops here.
+
+## XVII — Valuations along the orbit, measured
+
+* `v₃(x_n) = 0` for every `n` after the first odd step; `v₂(x_n)` = the current even
+  run.  1 245 989 orbit points from all starts `< 20 000`, zero exceptions.
+* The pin ratio `2^k·x_k/(3^(a k)·x)` equals `∏(1 + 1/(3x_i))` **exactly** (it is the
+  same identity), measured at `x = 27, 703, 9663, 77671, 113383, 159487, 1027431,
+  670617279`: maxima `1.199, 1.210, 1.113, 1.151, 1.108, 1.214, 1.235, 1.183`.  Even
+  from small starts the coupling is already within 24 % of `1`.
+* `pin_two` checked on 1 138 103 windows drawn from 400 random starts in `[10⁶,10⁷]`:
+  zero violations.
+* Syracuse budgets `M_K/K = Σv₂(3y+1)/K`: `1.7073 (27)`, `1.7419 (703)`,
+  `1.7319 (1027431)`, `1.6649 (670617279)` — all **above** `log₂3 = 1.5850`, which is
+  precisely why these orbits terminate.  A divergent orbit must hold this average
+  below `1.5850` forever.  That single number is the whole divergence half.
+* The observable is unbounded exactly on a divergent orbit and empirically grows only
+  logarithmically otherwise: the longest window that is simultaneously never-dropping
+  and above `2k` has mean `29.6 / 36.4 / 37.0 / 38.1 / 42.9` at scales
+  `10⁶ … 10¹⁸` (60 samples each).  So a finite search sees `O(log x)` of it — the
+  reason no computation will ever exhibit the filter failing.
+
+## Failed attempts, with diagnosis
+
+* **A genuinely nonlinear global height `H` with `H(T^k x) < H(x)`.**  Dead before
+  writing: any such `H` restricted to the divergence half is, by `pin_ratio`, a
+  function of `(word, x)` up to `1 + 1/j`, hence asymptotically a word statistic —
+  Class 1/3.  Diagnostic 3 does not even need to be invoked.
+* **Northcott / counting on the distinct orbit values.**  The foundational fact gives
+  infinitely many distinct integers of bounded height *defect*, and the defect bound
+  (`pin_two`) is what makes them distinct-but-indistinguishable: the S-unit lattice
+  `3^a/2^k` is dense, so bounded defect bounds nothing.  Northcott needs finite fibres;
+  here the fibre is the whole tail.
+* **Baker / linear forms in logarithms.**  Applies to the *cycle* half, where the form
+  `k log2 − a log3` must be **near zero**.  The divergence half needs the form to stay
+  **large and positive** forever — an upper bound on a linear form's persistence, which
+  is not a Diophantine statement at all.  Recorded as a permanent classification:
+  *linear-forms methods are cycle-half tools by nature.*
+* **S-unit equations.**  A cycle closes and produces an equation; a divergent orbit
+  introduces one new free integer and one new relation at each step, so the system is
+  underdetermined by exactly one degree of freedom forever.  Every classical finiteness
+  theorem (Northcott, Siegel, Baker, S-unit) is a statement about *equations*.  This is
+  the `Π⁰₁`/`Π⁰₂` split of `collatz_iff_halves` in Diophantine clothing, and it explains
+  it: `Π⁰₁` = finitely refutable = equation-shaped.
+
+---
+
+# Round X — why the repository is lopsided
+
+The round's objective was a divergence-half filter.  The first substantive answer is
+not a filter but a diagnosis of why there isn't one, and it is sharp enough to reorient
+the programme.
+
+## The diagnosis
+
+> **The divergence half is a SAFETY property and wants an INVARIANT.  A ranking
+> certificate is sound *and complete* for the whole conjecture, so it can never isolate
+> a half.  Termination machinery is liveness machinery.**
+
+That is why a repository this good at *"no finite mechanism supports a cycle"* has
+nothing aimed at *"no orbit escapes"*: the tools are pointed at the wrong property
+class.  `barrier_complete` proves bounded inductive invariants are sound **and
+complete** for the divergence half using no well-foundedness at all; `rank_iff_halting`
+proves a ranking is equivalent to the whole conjecture.
+
+## Section VII is unreachable as posed
+
+`rank_target_collapses`: for a **deterministic unary** system on `ℕ`, a ranking valued
+in *any* relation with no infinite descending chain exists **iff** one valued in
+`(ℕ, <)` exists, iff every orbit halts.  Lexicographic products, ordinal notations,
+multiset orders, tree embeddings, matrix orders — the entire hierarchy the brief lists
+buys exactly nothing.  A transfinite rank pays off only when the transition relation
+*branches*; here the descending chain a rank produces **is** the orbit, whose length is
+already a natural number.
+
+So "seek `R : State → W` with `W ≠ ℕ`" is a search for the whole conjecture, and **a
+ranking is never a half-filter.**
+
+## The WQO/WSTS family is refuted in one line
+
+It was the right thing to try — the divergence half is literally "every orbit contains
+a repetition", a Ramsey-flavoured finiteness statement.  But the WSTS principle *a
+monotone map on a well-quasi-ordered space has bounded orbits* is **false**: successor
+on `(ℕ, ≤)` is a WQO, strictly monotone, injective, unbounded.
+
+**The gap, named:** Dickson, Higman and Kruskal deliver a *good pair* `xᵢ ⊑ xⱼ`.  The
+divergence half needs an *equality* `xᵢ = xⱼ`.  The distance between `⊑` and `=` is the
+entire content, and no choice of WQO closes it.
+
+## Size-change termination dies to a new theorem
+
+`mixed_block_self_loop`: for every pair of moduli `2^k, 3^l` and **every** block length
+`L`, there is a genuine `n > 1` whose next `L` states are, at every intermediate time,
+congruent to `n` at both moduli **and** strictly larger than `n`.  Witness
+`n + 1 = 2^(k+2+L)·3^l·s`, whose first `L` steps form one odd run.
+
+Reproduced exactly: `k < 5`, `l < 4`, `1 ≤ L ≤ 8`, `s ∈ {1,5,7}`, zero failures.
+
+This strengthens `TransitionInvariant.exists_congruent_step` twice — one step becomes a
+block of arbitrary length, and congruence coordinates become congruence **plus**
+magnitude.  So the size-change graph over exactly the coordinates the brief lists
+(`log₂ x`, `v₂`, `v₃`, odd-step count, residue complexity, scale distance) has a
+multipath of arbitrary length whose entire arc matrix is non-decreasing: no strict arc
+in an idempotent loop, hence no SCT, lexicographic, multiphase or disjunctive
+certificate.
+
+It also converges with Round IX from a new direction: SCT's arcs must be
+*unconditional*, and Collatz's are conditional on the parity word, which Terras leaves
+free.  What SCT is missing is exactly the word↔magnitude coupling Round IX named, and
+`mixed_block_self_loop` is that gap made explicit as a self-loop.
+
+## What survives, positively
+
+`divergent_record_steps_odd`: along a divergent orbit, for every `N` there is `i ≥ N`
+at which the running maximum jumps, the orbit strictly grows, and **the orbit value is
+odd**.  The record ladder is carried by odd steps for ever.  Proved from unboundedness,
+positivity and "the even branch halves" alone.  Confirmed over all `n < 200000`: all
+**594234** record steps odd, mod-4 split 294421 / 299813 — so no finer congruence
+restriction holds, and none was formalised.
+
+`orbitMax` is the one genuinely asymptotic object available: non-decreasing, unbounded
+exactly when the orbit is, every rung an actual orbit value, and **finite on the cycle
+half** — so it is not a cycle detector in disguise.  Read against it, the three natural
+coordinate kinds are a complete kill: congruence-definable freezes along the block
+above; monotone-in-magnitude strictly increases along it; anti-monotone eventually
+freezes on the record ladder.  A certificate needs infinitely many strict arcs on every
+infinite run, and none of the three supplies them.
