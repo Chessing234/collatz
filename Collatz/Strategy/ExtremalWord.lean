@@ -22,9 +22,12 @@ is
 
 `heavy on [0, J]  ⟺  (∀ i < a, t i ≤ fexp i)  ∧  2^J ≤ 3^a`,
 
-the missing conjunct being the endpoint.  The box picture is therefore valid **on
-the ledge** `L = fexp a + 1`, where `2^(L−1) ≤ 3^a` holds automatically, and only
-there.  Measured: at ledge pairs the box count and the true proper-prefix-heavy
+the missing conjunct being the endpoint.  The box picture is therefore valid for every
+`L ≤ fexp a + 1` — on the ledge **and everywhere below it** — and fails only
+*above* the ledge, where the heavy set is empty while the box is not (`a = 10`:
+heavy 0 against box 476 at `L = 17, 18, 19`).  An earlier version of this header
+said "on the ledge and only there"; the failure is one-sided.  Verified for every
+`a ≤ 8` and every `L ≤ fexp a + 1`, zero mismatches.  Measured: at ledge pairs the box count and the true proper-prefix-heavy
 count agree exactly (`a = 1..12`: 1, 1, 2, 3, 7, 12, 30, 85, 173, 476, 961, 2652);
 at `L = fexp a + 3` the box counts the same numbers while the true count is **zero**
 in every case.

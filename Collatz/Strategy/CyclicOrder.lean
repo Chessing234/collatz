@@ -27,9 +27,10 @@ so `D = walk / L`.  Two facts fix its behaviour completely.
 * `walk_period`: `walk n L (m+L) = walk n L m` on a cycle.  Together with
   `walk n L 0 = walk n L L = 0` the walk is a **closed walk of period `L`**.
 
-Consequently (`walk_range`, `walk_range'`) the multiset of values of the rotated
-walk over one period is the multiset of values of the original walk, translated by
-the single constant `walk n L r`:
+Consequently (`walk_range`, and `walk_range'` for `r < L`) the multiset of values
+of the rotated walk over one period is the multiset of values of the original
+walk, translated by the single constant `walk n L r` — `walk_amplitude_invariant`
+states the consequence for a two-sided bound:
 
 > **Rotating shifts the discrepancy walk cyclically and slides it vertically.
 > `max_j D` and `min_j D` over a full period are rotation-invariant; only their
@@ -95,7 +96,8 @@ The rotation-invariant that the linear picture does not name is the **amplitude*
 values coincide then `L ∣ a·(j − i)`, so when `gcd(L, a) = 1` the `L` values are
 pairwise distinct, hence occupy `L` distinct residues mod `L`, hence spread over
 at least `L − 1`.  When `g = gcd(L,a) > 1`, `walk (L/g) ≡ 0 mod L` while
-`heavy_walk_pos` makes it positive, so it is at least `L`.  Either way
+`heavy_walk_pos` makes it positive, so `walk_ge_of_dvd` puts it at least `L`.
+Either way
 
 > **amplitude `≥ L − 1`, i.e. the discrepancy amplitude is `≥ 1 − 1/L`.**
 
@@ -407,5 +409,39 @@ theorem walk_injective {n L : Nat} (hcop : ∀ k : Nat, 0 < k → k < L →
       omega
     exact hcop (i - j) (by omega) (by omega) (by rw [hcast]; exact hd)
 
+/-- If `L` divides `a·k` then it divides the walk value at `k`. -/
+theorem walk_dvd_of_dvd {n L k : Nat}
+    (h : (L : Int) ∣ (oddCount n L : Int) * (k : Int)) : (L : Int) ∣ walk n L k := by
+  obtain ⟨c, hc⟩ := h
+  refine ⟨(oddCount n k : Int) - c, ?_⟩
+  unfold walk
+  rw [hc, Int.mul_sub]
+
+/-- **The non-coprime branch of the amplitude bound.**  At a time `k` where the
+walk is congruent to `0` modulo `L` — which happens at `k = L / gcd(L, a)`
+whenever `gcd(L, a) > 1` — heaviness makes the walk positive, hence at least `L`.
+So the discrepancy has already risen by a full unit, and the amplitude is `≥ L`. -/
+theorem walk_ge_of_dvd {n L k : Nat}
+    (h : (L : Int) ∣ (oddCount n L : Int) * (k : Int)) (hpos : 0 < walk n L k) :
+    (L : Int) ≤ walk n L k :=
+  Int.le_of_dvd hpos (walk_dvd_of_dvd h)
+
 end CyclicOrder
 end Collatz
+
+/-! ## Axiom footprint -/
+
+section AxiomCheck
+#print axioms Collatz.CyclicOrder.walk_shift
+#print axioms Collatz.CyclicOrder.walk_period
+#print axioms Collatz.CyclicOrder.walk_range
+#print axioms Collatz.CyclicOrder.walk_range'
+#print axioms Collatz.CyclicOrder.walk_amplitude_invariant
+#print axioms Collatz.CyclicOrder.heavy_walk_pos
+#print axioms Collatz.CyclicOrder.light_walk_lt
+#print axioms Collatz.CyclicOrder.neverDrops_walk_gt
+#print axioms Collatz.CyclicOrder.heavy_unique
+#print axioms Collatz.CyclicOrder.walk_eq_dvd
+#print axioms Collatz.CyclicOrder.walk_injective
+#print axioms Collatz.CyclicOrder.walk_ge_of_dvd
+end AxiomCheck

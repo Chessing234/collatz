@@ -48,12 +48,18 @@ That is the bridge; `bridge_two_sided` states it as one theorem.
 
 ## The consequence that is not a tautology
 
-`disc_forces_order`: if the scaled discrepancies satisfy `L · D j ≥ L · D k + 2 L`
-— that is, `D j ≥ D k + 2`, a gap of two in a quantity whose whole range is
-`[−0.64, Dwidth]` — then `x_k < x_j` outright.  So the discrepancy profile
-*totally orders* the orbit up to a slack of two units, with no reference to `n`,
-to the magnitude of anything, or to `d`.  The proof needs nothing but the ledge
-inequality `2 ^ L ≤ 2 · 3 ^ a` and `9 ^ L > 4 ^ L`.
+`disc_forces_order_any`: if the scaled discrepancies satisfy `L · D j ≥ L · D k +
+2 L` — that is, `D j ≥ D k + 2`, a gap of two in a quantity whose whole range is
+`[−0.64, Dwidth]` — then `x_k < x_j` outright, for *any* two times `j, k ≤ L`.  So
+the discrepancy profile **totally orders the orbit up to a slack of two units**,
+with no reference to `n`, to the magnitude of anything, or to `d`.  The proof
+needs nothing but the two halves of the ledge inequality `3 ^ a < 2 ^ L ≤ 2 · 3 ^ a`
+and `9 ^ L > 4 ^ L`; the two directions `k ≤ j` (`pow_gap`, raise to the `L`-th
+power) and `j ≤ k` (`pow_gap_rev`, raise to the `a`-th power) are separate
+arguments.
+
+`dwidth_lt_disc_argmax` closes the loop: at the time `J` where the orbit is
+maximal, `Dwidth < D J + 4`, so the width and the peak coincide up to a constant.
 
 ## Numerical confirmation (exact rational arithmetic, not proof)
 
@@ -121,6 +127,67 @@ theorem disc_le_iff (n L j k : Nat) :
           + 2 * (L : Int)
         ≤ (L : Int) * (oddCount n j : Int) + (oddCount n L : Int) * (k : Int) := by
   unfold disc
+  omega
+
+/-! ### The width of the discrepancy
+
+`Dwidth = max_j D j − min_j D j`, scaled by `L` like `disc` itself.  The maxima
+are plain folds — there is no `Finset` here — and the only facts needed are that
+they dominate/are dominated by every value in range. -/
+
+/-- `discMax n L J = L · max_{j ≤ J} D j`. -/
+def discMax (n L : Nat) : Nat → Int
+  | 0 => disc n L 0
+  | J + 1 => max (discMax n L J) (disc n L (J + 1))
+
+/-- `discMin n L J = L · min_{j ≤ J} D j`. -/
+def discMin (n L : Nat) : Nat → Int
+  | 0 => disc n L 0
+  | J + 1 => min (discMin n L J) (disc n L (J + 1))
+
+/-- `dwidth n L = L · Dwidth`, the scaled width of the discrepancy over the whole
+window `[0, L]`. -/
+def dwidth (n L : Nat) : Int := discMax n L L - discMin n L L
+
+theorem disc_le_discMax (n L : Nat) : ∀ J j : Nat, j ≤ J → disc n L j ≤ discMax n L J := by
+  intro J
+  induction J with
+  | zero => intro j hj; have : j = 0 := by omega
+            rw [this]; exact Int.le_refl _
+  | succ J ih =>
+    intro j hj
+    rcases Nat.lt_or_ge j (J + 1) with h | h
+    · exact Int.le_trans (ih j (by omega)) (Int.le_max_left _ _)
+    · have hj' : j = J + 1 := by omega
+      rw [hj']
+      exact Int.le_max_right _ _
+
+theorem discMin_le_disc (n L : Nat) : ∀ J j : Nat, j ≤ J → discMin n L J ≤ disc n L j := by
+  intro J
+  induction J with
+  | zero => intro j hj; have : j = 0 := by omega
+            rw [this]; exact Int.le_refl _
+  | succ J ih =>
+    intro j hj
+    rcases Nat.lt_or_ge j (J + 1) with h | h
+    · exact Int.le_trans (Int.min_le_left _ _) (ih j (by omega))
+    · have hj' : j = J + 1 := by omega
+      rw [hj']
+      exact Int.min_le_right _ _
+
+/-- The width is nonnegative, and at least as large as any single discrepancy
+value (since `D 0 = 0` is always in the range). -/
+theorem disc_le_dwidth {n L j : Nat} (hj : j ≤ L) : disc n L j ≤ dwidth n L := by
+  have h1 : disc n L j ≤ discMax n L L := disc_le_discMax n L L j hj
+  have h2 : discMin n L L ≤ disc n L 0 := discMin_le_disc n L L 0 (Nat.zero_le L)
+  have h3 : disc n L 0 = 0 := disc_zero n L
+  unfold dwidth
+  omega
+
+theorem dwidth_nonneg (n L : Nat) : 0 ≤ dwidth n L := by
+  have h1 : disc n L 0 ≤ discMax n L L := disc_le_discMax n L L 0 (Nat.zero_le L)
+  have h2 : discMin n L L ≤ disc n L 0 := discMin_le_disc n L L 0 (Nat.zero_le L)
+  unfold dwidth
   omega
 
 /-! ## The two-sided sandwich
@@ -539,5 +606,56 @@ theorem disc_max_near_top {n L J k : Nat} (hn : 0 < n) (hc : AccIsCycleOf n L)
   have := hmax k
   omega
 
+/-- **The width is the maximum, up to `4`.**  On a cycle whose minimum is `n` and
+whose maximum is at time `J`, `Dwidth < D J + 4`.  Together with
+`bridge_two_sided` this is the headline: `log₂(M/n)` and `log₂ 3 · Dwidth` differ
+by a bounded amount, with no dependence on `n`, `L` or `d`. -/
+theorem dwidth_lt_disc_argmax {n L J : Nat} (hn : 0 < n) (hc : AccIsCycleOf n L)
+    (hJL : J ≤ L) (hmin : ∀ i : Nat, n ≤ acceleratedOrbit i n)
+    (hmax : ∀ i : Nat, acceleratedOrbit i n ≤ acceleratedOrbit J n)
+    (hledge : 2 ^ L ≤ 2 * 3 ^ oddCount n L) :
+    dwidth n L < disc n L J + 4 * (L : Int) := by
+  have hpt : ∀ k : Nat, k ≤ L → disc n L k < disc n L J + 2 * (L : Int) := by
+    intro k hk
+    have := disc_max_near_top hn hc hJL hk hmax hledge
+    omega
+  have hptmin : ∀ k : Nat, k ≤ L → -(2 * (L : Int)) < disc n L k := by
+    intro k hk
+    have := disc_min_near_zero hn hc hk hmin hledge
+    have h0 : disc n L 0 = 0 := disc_zero n L
+    omega
+  have hup : ∀ J' : Nat, J' ≤ L → discMax n L J' < disc n L J + 2 * (L : Int) := by
+    intro J'
+    induction J' with
+    | zero => intro _; exact hpt 0 (Nat.zero_le L)
+    | succ J' ih =>
+      intro h
+      have h1 := ih (by omega)
+      have h2 := hpt (J' + 1) h
+      have h3 : discMax n L (J' + 1) = max (discMax n L J') (disc n L (J' + 1)) := rfl
+      omega
+  have hlow : ∀ J' : Nat, J' ≤ L → -(2 * (L : Int)) < discMin n L J' := by
+    intro J'
+    induction J' with
+    | zero => intro _; exact hptmin 0 (Nat.zero_le L)
+    | succ J' ih =>
+      intro h
+      have h1 := ih (by omega)
+      have h2 := hptmin (J' + 1) h
+      have h3 : discMin n L (J' + 1) = min (discMin n L J') (disc n L (J' + 1)) := rfl
+      omega
+  have hA := hup L (Nat.le_refl L)
+  have hB := hlow L (Nat.le_refl L)
+  unfold dwidth
+  omega
+
 end Discrepancy
 end Collatz
+
+/-! ## Kernel audit -/
+
+section Audit
+#print axioms Collatz.Discrepancy.bridge_two_sided
+#print axioms Collatz.Discrepancy.disc_forces_order_any
+#print axioms Collatz.Discrepancy.dwidth_lt_disc_argmax
+end Audit

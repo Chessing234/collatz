@@ -7,7 +7,24 @@ Round VII localised the cycle problem to the ordered odd-step times
 `0 ≤ t₀ < t₁ < ⋯ < t_(a−1) < L`, and `ExtremalWord` showed that on the ledge
 heaviness is exactly the box `t i ≤ fexp i`.  `Cw` is monotone in every coordinate
 (`Cw_le`, `Cw_strict`), so it is maximised at the box's top corner and minimised at
-its bottom corner.  `ExtremalWord` supplies the top; this file supplies the bottom,
+its bottom corner.
+
+*Two caveats, both found by adversarial audit.*  First, the feasible set is not the
+box but `box ∩ {t strictly increasing}`, and raising one `t i` alone can collide with
+`t (i+1)`, so coordinatewise monotonicity does not by itself put the extremes at the
+corners.  It is repairable and true — the feasible set is a **sublattice** (the
+coordinatewise meet and join of two strictly increasing sequences bounded by `fexp`
+are again strictly increasing and so bounded), with bottom `t i = i` and, on the
+ledge, top `t i = fexp i`, and a monotone function on a lattice with top and bottom
+attains its extremes there.  The theorems below are stated for the corners directly
+and do not depend on that step; it is recorded because the informal argument needs it.
+
+Second, `max C = Bcap a` is a **ledge** statement.  Below the ledge the Beatty corner
+does not fit in the word and the maximum is strictly smaller — measured: `a = 7`,
+`L = 9` gives `maxC = 3511` against `Bcap = 3767`; `a = 10`, `L = 13` gives `121165`
+against `148813`.  It is cycle-irrelevant only because
+`GapSandwich.cycle_length_determined` forces `L = fexp a + 1`, which is what the
+claim must cite.  The *minimum* half is unaffected and holds at every `L`.  `ExtremalWord` supplies the top; this file supplies the bottom,
 and reads both in ordering coordinates.
 
 ## The two corners
@@ -47,10 +64,13 @@ What survives is the honest statement: `C` is a monotone function on the box, th
 ordering-to-accumulator map is completely understood, and there is no hidden
 ordering structure inside `C` beyond the box coordinate itself.
 
-One caveat, inherited from `ExtremalWord` and load-bearing: `heavy ⟺ box` holds
-**on the ledge only** (`L = fexp a + 1`), where `2^(L−1) ≤ 3^a` is automatic.  Off
-the ledge only `heavy ⟹ box` is available, and the box then over-counts — at
-`L = fexp a + 3` it counts the same words while the true heavy count is zero.
+One caveat, inherited from `ExtremalWord`: for *proper-prefix* heaviness,
+`heavy ⟺ box` holds for every `L ≤ fexp a + 1` — on the ledge **and everywhere
+below it** — and fails only *above*, where the heavy set is empty while the box is
+not (`a = 10`: heavy 0, box 476, at `L = 17, 18, 19`).  Verified for every
+`a ≤ 8` and every `L ≤ fexp a + 1`, zero mismatches.  An earlier version of this
+note, and `ExtremalWord`'s own header, said "on the ledge and only there"; the
+failure is one-sided.
 -/
 
 namespace Collatz
