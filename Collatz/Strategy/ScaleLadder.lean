@@ -344,11 +344,11 @@ theorem block_lower {y k l m' : Nat} (hy : 2 ^ k ≤ y) (hw : 2 * y < 3 * 2 ^ k)
       have := Arith.two_pow_pos k
       exact Nat.mul_pos (by omega) (by omega)
     have e1 : (m' + 1) * (3 * 2 ^ k * (3 ^ oddCount y l * (2 * y)))
-        = (m' + 1) * (3 * 2 ^ k) * (3 ^ oddCount y l * (2 * y)) := by
-      rw [Nat.mul_assoc]
+        = (m' + 1) * (3 * 2 ^ k) * (3 ^ oddCount y l * (2 * y)) :=
+      (Nat.mul_assoc _ _ _).symm
     have e2 : (m' + 1) * (3 * 2 ^ k * (3 ^ oddCount y l * (3 * 2 ^ k)))
-        = (m' + 1) * (3 * 2 ^ k) * (3 ^ oddCount y l * (3 * 2 ^ k)) := by
-      rw [Nat.mul_assoc]
+        = (m' + 1) * (3 * 2 ^ k) * (3 ^ oddCount y l * (3 * 2 ^ k)) :=
+      (Nat.mul_assoc _ _ _).symm
     rw [e1, e2]
     exact Nat.mul_lt_mul_of_pos_left h10 hpos
   -- assemble and cancel 2^k twice
@@ -359,24 +359,147 @@ theorem block_lower {y k l m' : Nat} (hy : 2 ^ k ≤ y) (hw : 2 * y < 3 * 2 ^ k)
     have hk2 : 2 ^ (k + 2) = 2 ^ k * 2 ^ 2 := by rw [Nat.pow_add]
     have hl2 : 2 ^ (l + 2) = 2 ^ l * 2 ^ 2 := by rw [Nat.pow_add]
     rw [hk2, hl2]
-    rw [Nat.mul_left_comm (2 ^ l) (2 ^ k), ← Nat.mul_assoc (2 ^ k) (2 ^ k),
-      Nat.mul_comm (2 ^ k * 2 ^ k)]
-    rw [Nat.mul_assoc, Nat.mul_assoc, Nat.mul_left_comm (2 ^ k * 2 ^ k)]
-    rw [← Nat.mul_assoc (2 ^ k) (2 ^ k)]
+    simp [Nat.mul_comm, Nat.mul_left_comm, Nat.mul_assoc]
   have e4 : (m' + 1) * (3 * 2 ^ k * (3 ^ oddCount y l * (3 * 2 ^ k)))
       = 2 ^ k * (2 ^ k * (9 * (m' + 1) * 3 ^ oddCount y l)) := by
-    rw [Nat.mul_left_comm (3 ^ oddCount y l) 3, ← Nat.mul_assoc 3 3,
-      Nat.mul_assoc (3 * 3), Nat.mul_left_comm (3 * 3)]
-    rw [Nat.mul_left_comm (2 ^ k) (3 * 3), ← Nat.mul_assoc (m' + 1)]
-    rw [Nat.mul_assoc (m' + 1) (3 * 3)]
-    rw [Nat.mul_left_comm (m' + 1) (3 * 3)]
-    rw [Nat.mul_assoc, Nat.mul_assoc]
-    rw [Nat.mul_left_comm (2 ^ k) (2 ^ k)]
-    rw [Nat.mul_left_comm (3 ^ oddCount y l) (2 ^ k)]
-    rw [Nat.mul_left_comm (2 ^ k) (3 ^ oddCount y l)]
+    have hx : 3 * (3 * 3 ^ oddCount y l) = 3 ^ oddCount y l * 9 := by
+      rw [← Nat.mul_assoc]
+      exact Nat.mul_comm _ _
+    simp [Nat.mul_comm, Nat.mul_left_comm, Nat.mul_assoc, hx]
   rw [e3, e4] at h12
   have h13 := Nat.lt_of_mul_lt_mul_left h12
   exact Nat.lt_of_mul_lt_mul_left h13
+
+/-! ## The negative theorem: no finite alphabet -/
+
+/-- One accelerated step on the shape `2E - 1`. -/
+theorem climb_step {E : Nat} (hE : 0 < E) : acceleratedStep (2 * E - 1) = 3 * E - 1 := by
+  have hodd : (2 * E - 1) % 2 = 1 := by omega
+  rw [acceleratedStep, if_neg (by omega)]
+  omega
+
+/-- **The climbing family.**  `T^j (2^j·E - 1) = 3^j·E - 1`: the orbit of a
+number one below a large power of two rises by a factor `3/2` at every step,
+for as many steps as there are factors of two. -/
+theorem climb : ∀ j E : Nat, 0 < E → acceleratedOrbit j (2 ^ j * E - 1) = 3 ^ j * E - 1 := by
+  intro j
+  induction j with
+  | zero => intro E _; simp
+  | succ j ih =>
+    intro E hE
+    have hp : 2 ^ (j + 1) * E = 2 * (2 ^ j * E) := by
+      rw [Nat.pow_succ, Nat.mul_comm (2 ^ j) 2, Nat.mul_assoc]
+    have hpos : 0 < 2 ^ j * E := Nat.mul_pos (Arith.two_pow_pos j) hE
+    have hstep : acceleratedStep (2 ^ (j + 1) * E - 1) = 2 ^ j * (3 * E) - 1 := by
+      rw [hp, climb_step hpos]
+      have : 3 * (2 ^ j * E) = 2 ^ j * (3 * E) := by
+        rw [Nat.mul_left_comm]
+      rw [this]
+    rw [acceleratedOrbit_succ, hstep, ih (3 * E) (by omega)]
+    have hcomm : 3 ^ j * (3 * E) = 3 ^ (j + 1) * E := by
+      rw [Nat.pow_succ, Nat.mul_comm (3 ^ j) 3, Nat.mul_assoc]
+      exact Nat.mul_left_comm _ _ _
+    rw [hcomm]
+
+/-- The climbing family read off the single start `2 ^ M - 1`. -/
+theorem climb_val {M j : Nat} (hj : j ≤ M) :
+    acceleratedOrbit j (2 ^ M - 1) = 3 ^ j * 2 ^ (M - j) - 1 := by
+  have hsplit : 2 ^ j * 2 ^ (M - j) = 2 ^ M := by
+    rw [← Nat.pow_add]
+    have : j + (M - j) = M := by omega
+    rw [this]
+  have := climb j (2 ^ (M - j)) (Arith.two_pow_pos _)
+  rw [hsplit] at this
+  exact this
+
+/-- The climb is monotone: each step multiplies by `3/2`. -/
+theorem climb_mono {M : Nat} : ∀ j i : Nat, i ≤ j → j ≤ M →
+    3 ^ i * 2 ^ (M - i) ≤ 3 ^ j * 2 ^ (M - j) := by
+  intro j
+  induction j with
+  | zero =>
+    intro i hi _
+    have hz : i = 0 := by omega
+    rw [hz]
+    exact Nat.le_refl _
+  | succ j ih =>
+    intro i hi hj
+    rcases Nat.lt_or_ge i (j + 1) with hlt | hge
+    · have hstep : 3 ^ j * 2 ^ (M - j) ≤ 3 ^ (j + 1) * 2 ^ (M - (j + 1)) := by
+        have hd : M - j = (M - (j + 1)) + 1 := by omega
+        rw [hd, Nat.pow_succ 2, Nat.pow_succ 3]
+        have e1 : 3 ^ j * (2 ^ (M - (j + 1)) * 2)
+            = 2 * (3 ^ j * 2 ^ (M - (j + 1))) := by
+          simp [Nat.mul_comm, Nat.mul_left_comm, Nat.mul_assoc]
+        have e2 : 3 ^ j * 3 * 2 ^ (M - (j + 1))
+            = 3 * (3 ^ j * 2 ^ (M - (j + 1))) := by
+          simp [Nat.mul_comm, Nat.mul_left_comm, Nat.mul_assoc]
+        rw [e1, e2]
+        exact Nat.mul_le_mul_right _ (by omega)
+      exact Nat.le_trans (ih i (by omega) (by omega)) hstep
+    · have hij : i = j + 1 := by omega
+      rw [hij]
+      exact Nat.le_refl _
+
+/-- Two steps of the climb gain at least one scale: `9 ≥ 8`. -/
+theorem climb_scale {N s : Nat} (hs : 2 * s ≤ 2 * N) :
+    2 ^ (2 * N + s) ≤ 3 ^ (2 * s) * 2 ^ (2 * N - 2 * s) := by
+  have h9 : 3 ^ (2 * s) = 9 ^ s := by
+    have hb : (3 : Nat) ^ 2 = 9 := by decide
+    rw [Nat.pow_mul, hb]
+  have h8 : 2 ^ (3 * s) = 8 ^ s := by
+    have hb : (2 : Nat) ^ 3 = 8 := by decide
+    rw [Nat.pow_mul, hb]
+  have hle : (8 : Nat) ^ s ≤ 9 ^ s := Nat.pow_le_pow_left (by omega) s
+  have hsum : 3 * s + (2 * N - 2 * s) = 2 * N + s := by omega
+  have hexp : 2 ^ (2 * N + s) = 2 ^ (3 * s) * 2 ^ (2 * N - 2 * s) := by
+    rw [← Nat.pow_add, hsum]
+  rw [hexp, h9, h8]
+  exact Nat.mul_le_mul_right _ hle
+
+/-- **No finite alphabet suffices.**  Let `state k y` be *any* assignment of
+fewer than `N` symbols to a scale together with the orbit value sitting on it.
+Then there is a single orbit and two **different** scales `k₁ < k₂` on it,
+joined by a segment that never falls below `2 ^ k₁`, carrying the *same* symbol.
+
+So the scale-transition graph on a finite alphabet contains a repeated vertex,
+hence a cycle, hence an infinite admissible path — no matter how the alphabet is
+designed.  A scale-based divergence argument cannot be a finite-state argument;
+its well-foundedness, if any, has to come from an unbounded coordinate. -/
+theorem no_finite_scale_invariant (N : Nat) (hN : 0 < N) (state : Nat → Nat → Nat)
+    (hb : ∀ k y : Nat, state k y < N) :
+    ∃ k₁ k₂ j₁ j₂ : Nat,
+      k₁ < k₂ ∧ j₁ < j₂ ∧
+      2 ^ k₁ ≤ acceleratedOrbit j₁ (2 ^ (2 * N) - 1) ∧
+      2 ^ k₂ ≤ acceleratedOrbit j₂ (2 ^ (2 * N) - 1) ∧
+      (∀ j : Nat, j₁ ≤ j → j ≤ j₂ → 2 ^ k₁ ≤ acceleratedOrbit j (2 ^ (2 * N) - 1)) ∧
+      state k₁ (acceleratedOrbit j₁ (2 ^ (2 * N) - 1))
+        = state k₂ (acceleratedOrbit j₂ (2 ^ (2 * N) - 1)) := by
+  -- the scale reached at step `j` of the climb
+  have hfloor : ∀ s j : Nat, 2 * s ≤ j → j ≤ 2 * N →
+      2 ^ (2 * N - 1 + s) ≤ acceleratedOrbit j (2 ^ (2 * N) - 1) := by
+    intro s j hsj hjN
+    have hsN : 2 * s ≤ 2 * N := by omega
+    have hstep : 2 ^ (2 * N + s) ≤ 3 ^ (2 * s) * 2 ^ (2 * N - 2 * s) := climb_scale hsN
+    have hmono : 3 ^ (2 * s) * 2 ^ (2 * N - 2 * s)
+        ≤ 3 ^ j * 2 ^ (2 * N - j) := climb_mono (M := 2 * N) j (2 * s) hsj hjN
+    have hv : acceleratedOrbit j (2 ^ (2 * N) - 1) = 3 ^ j * 2 ^ (2 * N - j) - 1 :=
+      climb_val hjN
+    have hdbl : 2 ^ (2 * N + s) = 2 * 2 ^ (2 * N - 1 + s) := by
+      have he : 2 * N + s = (2 * N - 1 + s) + 1 := by omega
+      rw [he, Nat.pow_succ]
+      omega
+    have hpos : 0 < 2 ^ (2 * N - 1 + s) := Arith.two_pow_pos _
+    omega
+  obtain ⟨s₁, s₂, hlt, hle, heq⟩ :=
+    Pigeonhole.exists_repeat
+      (f := fun s => state (2 * N - 1 + s) (acceleratedOrbit (2 * s) (2 ^ (2 * N) - 1)))
+      (B := N) (N := N) (fun i _ => hb _ _) (Nat.le_refl N)
+  refine ⟨2 * N - 1 + s₁, 2 * N - 1 + s₂, 2 * s₁, 2 * s₂, by omega, by omega, ?_, ?_, ?_, heq⟩
+  · exact hfloor s₁ (2 * s₁) (Nat.le_refl _) (by omega)
+  · exact hfloor s₂ (2 * s₂) (Nat.le_refl _) (by omega)
+  · intro j hj1 hj2
+    exact hfloor s₁ j hj1 (by omega)
 
 end ScaleLadder
 end Collatz

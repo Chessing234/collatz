@@ -3155,3 +3155,82 @@ coordinate kinds are a complete kill: congruence-definable freezes along the blo
 above; monotone-in-magnitude strictly increases along it; anti-monotone eventually
 freezes on the record ladder.  A certificate needs infinitely many strict arcs on every
 infinite run, and none of the three supplies them.
+
+## Round X's objective is met: a divergence-half filter exists
+
+Round IX Part VI named the missing object as *a refuting witness family for the
+divergence half* — every filter the programme owned was a cycle witness, so a
+divergence mechanism faced no filter at all and there was no way to tell a good one
+from a vacuous one.  That object now exists.
+
+> **`expStep x = 3x/2` (even), `(3x+1)/2` (odd).**
+
+It **agrees with the Collatz map on every odd input**, satisfies the same affine law
+`2^j f^j x = 3^j x + b` with the odd count **saturated** at `a = j`, is heavy at every
+scale, and **every one of its orbits provably diverges** — trivially, since `3x/2 > x`
+for `x > 0` and `(3x+1)/2 > x` for `x ≥ 1`, so every orbit strictly increases.  All
+four properties verified: agreement on every odd input below `200001`, `b ≥ 0` at every
+step from `1, 3, 7, 27, 1000, 99999`.
+
+Hence the divergence-half analogue of `C(w,d) = d·C(w,1)`:
+
+> **Any divergence mechanism whose proof uses only the affine law, the parity word,
+> heaviness and positivity — without consuming `oddCount n j < j`, i.e. the even
+> branch's contraction — proves a false statement.**
+
+What separates the two maps is exactly that: over 30 steps the Collatz orbit of `27`
+has odd count `21 < 30`, and of `703` has `20 < 30`, against `expStep`'s saturated
+`30`.  **The even branch's contraction is the whole of the divergence half.**
+
+Stated weakness, from the agent that built it: `3x+d` differs from `3x+1` in one
+constant, whereas `expStep` differs on a whole branch, so this filter kills a coarser
+class than the cycle filter does.  Narrowing it is the natural Round XI task, and it is
+now sharply posed.
+
+`CLOSURE.md` also gains **diagnostic 4**: a divergence-half filter must be *refuted by
+a cycle*.  If a cycle satisfies it, it is capped by the cycle minimum exactly as by a
+divergent minimum, hence it is the whole conjecture.  The worked example is the agent's
+own first candidate, killed by itself: the never-drop certificate family is
+`minNonDrop`, already proved equivalent to the conjecture.  The repair — require
+*escaping a scale*, which a cycle cannot do — is what produced the filter.
+
+### The escape record, and why it is a new object
+
+`minEsc B` = least `m ≥ 1` whose orbit rises strictly above `B`.  Measured exhaustively
+to `3·10⁶`: `minEsc(2^k) = 2^(0.57 k)` with observed exponents `0.591, 0.603, 0.568,
+0.540, 0.577` at `k = 16, 20, 28, 32, 37` (witnesses `703, 4255, 60975, 159487,
+2684647`).  That constant is **neither** `0.05004 = 1 − H(log₃2)` (Class 2) nor `0.585`.
+
+Stronger evidence that it is not the frontier reindexed: **`1027431` — asset (a)'s
+`L = 182` witness — and `1126015` set no excursion record at all.**  The divergence-half
+record function is blind to the frontier witnesses, which is exactly what "the frontier
+is a cycle-half asset only" predicts.
+
+### Two more structural results
+
+**The coupling vanishes on the divergence half too.**  Measured relative to a window's
+own starting point, the coupling falls off like `1/x₀`: at window length 20 it is
+`6.9e−2` from `27`, `2.2e−3` from `10³`, `2.9e−5` from `10⁶`, `8.4e−9` from `10⁹`.
+Round IX found it collapses to a word invariant on the cycle half; on the divergence
+half it tends to `0`.  **Both halves are asymptotically word statements** — the
+structural reason every route in this programme lands in Classes 1–3.
+
+(This is compatible with `Linearizing.coupling_monotone`, and the distinction matters:
+that theorem concerns `r_j` from a *fixed* `n`, monotone up from `r_0 = 0`.  This is `r`
+over a window normalised by *that window's own start*.  Different objects.)
+
+**The product formula is empty, with a sharp reason.**  `p = 2` carries all the degree,
+and `v₂` of an orbit point is a parity-word statistic (Class 3); `p = 3` has multiplier
+`3/2` on the odd branch, so `T` is a 3-adic *contraction*; `p ≥ 5` has unit multipliers
+on both branches, so `T` is a `p`-adic *isometry*.  The multiplier's product formula
+holds step by step identically, because `1/2` and `3/2` are rational.
+
+> **The places that certify integrality are precisely the places where the dynamics is
+> trivial.**  That is why no product-formula argument reaches the divergence half.
+
+Two permanent classifications follow.  **Baker / linear forms in logarithms is a
+cycle-half tool by nature**: cycles need `k log 2 − a log 3` near zero, divergence needs
+it large and positive forever, which is not a Diophantine statement.  And **S-unit
+equations** are about *equations* — a cycle closes and yields one, a divergent orbit
+adds one free integer and one relation per step and stays underdetermined forever.
+That explains the `Π⁰₁`/`Π⁰₂` split rather than restating it.

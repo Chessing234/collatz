@@ -111,6 +111,35 @@ The **only** `d = 1`-specific assets:
    proposed quantity is **homogeneous of degree 0 under `C ↦ d·C`** (equivalently:
    scale-invariant in `d/x`), it is `d`-free and Class 4 refutes it.
 
+4. **Cycle-blindness** (Round X).  A *divergence-half* filter **must be refuted by a
+   cycle**.  If a cycle satisfies it, the filter is capped by the cycle minimum exactly
+   as it is by a divergent minimum, and it is therefore the whole conjecture rather
+   than half of it.  `FiniteInfinite.minNonDrop_unbounded_iff_reachesOne` is the worked
+   example: "stays above its start" is capped by both, so `minNonDrop` is the
+   conjecture.  The repair is to require *escaping a scale*, which a cycle cannot do.
+
+### The divergence-half soundness filter (Round X)
+
+Class 4 refutes `d`-free **cycle** mechanisms because genuine cycles exist for
+`3x−1, 3x+5, 3x+7, 3x+11, 3x+13`.  The divergence half had no such witness until now.
+It does now:
+
+> **`expStep x = 3x/2` (even), `(3x+1)/2` (odd).**  It agrees with the Collatz map on
+> **every odd input**, satisfies the same affine law `2^j f^j x = 3^j x + b` with the
+> odd count saturated at `a = j`, is heavy at every scale, and **every one of its
+> orbits provably diverges** — because `3x/2 > x` for `x > 0` and `(3x+1)/2 > x` for
+> `x ≥ 1`, so every orbit strictly increases.
+
+Hence the divergence-half analogue of `C(w,d) = d·C(w,1)`:
+
+> **Any divergence mechanism whose proof uses only the affine law, the parity word,
+> heaviness and positivity — without consuming `oddCount n j < j`, i.e. the *even
+> branch's contraction* — proves a false statement.**
+
+Stated weakness, from the agent that built it: `3x+d` differs from `3x+1` in one
+constant, whereas `expStep` differs on a whole branch, so this filter kills a coarser
+class of mechanisms than the cycle filter does.  Narrowing it is the natural next task.
+
 ### The error diagnostic 3 exists to prevent
 
 Three files in Round IX — two of them the orchestrator's — argued:
