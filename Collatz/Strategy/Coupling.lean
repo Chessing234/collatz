@@ -53,6 +53,27 @@ The reason is one line, and it is the point of the file:
 > `G · n = C L`, so `n = C L / G` is determined by the word.  There is nothing left
 > to couple.
 
+## Sharpening, from the statistical-mechanics branch — the coupling has exactly one
+## archimedean number in it
+
+An earlier draft of this header said `r j` "is a function of neither the word nor the
+magnitude alone".  True, but weak.  The exact structure is a **product**:
+
+> **`r j = (d / n) · W j (word)`**, where `W j = Σ_(i<j, w_i = 1) 2^i / 3^(A (i+1))`
+> depends on the parity word and nothing else.
+
+Verified in exact rationals at every `j ≤ 13` for `3x+1` at `n = 1, 7, 27, 703`,
+`3x+5` at `187`, `3x−1` at `17`, `3x+59` at `229`.
+
+So the coupling's **entire archimedean content is the single scalar `d / n`**; every
+other ingredient is a parity-word functional.  That is a much stronger statement than
+the one this file was written to make, and it re-proves the collapse in one line:
+
+> on a cycle `G·n = d·C L`, so `d / n = G / C L` is *word-determined* and `r` collapses;
+> off a cycle `d / n` is one free real parameter and the coupling survives.
+
+It also caps what any future coupling device can carry: one real number.
+
 ## What this costs Part VI
 
 The consequence is a dichotomy, and it is sharper than the Part VI statement it

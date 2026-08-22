@@ -137,6 +137,9 @@ import Collatz.Strategy.DigitAutomaton
 import Collatz.Strategy.PhantomMediant
 import Collatz.Strategy.Coupling
 import Collatz.Strategy.Linearizing
+import Collatz.Strategy.FloorSchedule
+import Collatz.Strategy.GroundState
+import Collatz.Strategy.CutGame
 import Collatz.Strategy.SieveGrowth
 import Collatz.Strategy.Profile
 import Collatz.Strategy.ExchangeRate
