@@ -3234,3 +3234,79 @@ it large and positive forever, which is not a Diophantine statement.  And **S-un
 equations** are about *equations* — a cycle closes and yields one, a divergent orbit
 adds one free integer and one relation per step and stays underdetermined forever.
 That explains the `Π⁰₁`/`Π⁰₂` split rather than restating it.
+
+## The scale ladder, and the death of the scale graph
+
+The last agent built the divergence-half object the brief's sections V–VI asked for,
+proved its first theorems, and then killed its own graph.
+
+### The object
+
+`Floor n i k := ∀ j ≥ i, 2^k ≤ T^j(n)`; the **rung** at scale `k` is the first index
+where the floor takes hold.  It consumes a per-scale 2-adic bit (`x mod 2`), the
+archimedean position `⌊log₂ x⌋`, and the **never-returns** condition — the last is what
+no existing device has, and exactly what a cycle cannot supply.
+
+`no_high_floor`: a bounded orbit has no floor above its bound, so a cycle has rungs at
+only finitely many scales and the condition is **vacuous on cycles**.  That is
+diagnostic 4 satisfied by construction.
+
+**It is also the first mechanism tested against the new divergence-half filter, and it
+passes.**  Checked branch by branch: `annulus_odd`, `entry_window` and the even case of
+`coupling_bound` each become *false* for `expStep`, whose even step multiplies by `3/2`.
+Every theorem in the file consumes `oddCount n j < j`.
+
+### Theorems
+
+* `annulus_odd` — every orbit value in `[2^k, 2^(k+1))` above a floor at `2^k` is
+  **odd**.  The mechanism is exact and verified: an even `y` in that octave has
+  `T(y) = y/2 < 2^k`, breaking the floor.
+* `entry_window` — `2^k ≤ y_k` and `2·y_k < 3·2^k`: the rung sits in the **lower three
+  quarters of its octave**, uniformly, at every scale.
+* **`coupling_bound`** — `3·2^k·C_j ≤ a_j·(2^j·T^j x)`.  This is `Coupling.lean`'s `r`
+  measured across one scale, and it **decays in the scale**.  The one theorem here with
+  content, and the first place the `(word, magnitude)` fibre is actually consumed.
+* `block_upper` / `block_lower` — a uniform two-sided window on the block multiplier at
+  every rung, **with no averaging, no counting, and no `0.05004`**.  `block_lower` is
+  the first theorem in this development whose proof genuinely needs `coupling_bound`.
+* `climb` — `T^j(2^j E − 1) = 3^j E − 1`, verified for `E ∈ {1,3,5,7,11}`, `j < 14`.
+
+*Measurement caveat, and it matters:* the hypothesis is a **permanent** floor, which
+only a divergent orbit has, and Collatz has none known.  So every number reported is
+measured on **ascent segments** as a proxy, not on the hypothesis.  The window
+reproduces exactly — `u_k ∈ [1.00146, 1.47266)`, all inside the proved `[1, 1.5)` — but
+the rung-odd count is convention-dependent: under my extraction it is `70/74`, not
+`194/194`, because a local floor is not a permanent one.  The Lean theorem is
+unaffected; the *statistics* are proxy statistics and should be labelled as such.
+
+### The negative theorem, and it kills the brief's section VI
+
+`no_finite_scale_invariant`: for **any** `state` function taking fewer than `N` values,
+there is a single Collatz orbit and two scales `k₁ < k₂` on it, joined by a segment that
+never falls below `2^(k₁)`, carrying the **same** symbol.  The witness is `climb`:
+`2^M − 1` ascends about `M/2` scales monotonically — verified, 23 scales climbed in 40
+steps from `2^40 − 1`, against `M/2 = 20`.
+
+> So the scale-transition graph on a finite alphabet has a repeated vertex, hence a
+> cycle, hence an infinite admissible path.  **Acyclicity is not merely insufficient —
+> it is unattainable.**  A scale-based divergence proof cannot be a finite-state
+> argument; its well-foundedness must come from an unbounded coordinate, and the only
+> unbounded coordinates the ladder offers (`k`, `ℓ_k`) both *increase*.
+
+### Renormalization closes negatively, by its own best result
+
+`coupling_bound` gives `q_k → 0` (measured down to `7·10⁻⁹⁶`).  An earlier hope was
+that this forces a `d`-uniform obstruction.  **It is backwards.**  `C` is where `d`
+lives, so `q_k → 0` means the renormalized limit is `u_{k+1} = u_k · 3^(a_k)/2^(ℓ_k+1)`
+on `[1, 3/2)` — a *pure multiplication with no additive part at all*.  The target window
+has log-width `0.585`, `{a·log₂3 − ℓ}` is dense, and 2-adic realizability of any finite
+block set is free by Terras.  So the renormalized system has **no fixed point, no
+forbidden region, no contraction, no invariant cone, no unstable direction**.
+
+It also explains Round IX's "no filter at all" dynamically: at the renormalized level
+the `d`-filter is asymptotically blind, because `d` decays out.
+
+The multiscale-drift hierarchy died the same way and was self-killed: `V_k := a_k log₂3
+− ℓ_k − 1` telescopes exactly to `log₂ u_K − log₂ u_0 + O(q)`, hence is bounded in
+`[−0.585, 0.585]` for free and carries nothing beyond `entry_window`.  **Any hierarchy
+whose members telescope dies identically.**

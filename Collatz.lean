@@ -146,6 +146,7 @@ import Collatz.Strategy.EscapeCertificate
 import Collatz.Strategy.DivergenceAudit
 import Collatz.Strategy.GlobalHeight
 import Collatz.Strategy.ScaleRecord
+import Collatz.Strategy.ScaleLadder
 import Collatz.Strategy.SieveGrowth
 import Collatz.Strategy.Profile
 import Collatz.Strategy.ExchangeRate

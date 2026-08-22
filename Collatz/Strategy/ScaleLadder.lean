@@ -273,7 +273,7 @@ the multiplier is bounded below: `(3m - 1) · 2 ^ (ℓ+2) < 9 · m · 3 ^ a`.
 At `m = 1` this reads `8 · 2 ^ ℓ < 9 · 3 ^ a`, and the bound tends to the sharp
 `4 · 2 ^ ℓ < 3 · 3 ^ a` as `m` grows.  Unlike the upper half this needs the
 coupling estimate: it is exactly where the archimedean datum is consumed. -/
-theorem block_lower {y k l m' : Nat} (hy : 2 ^ k ≤ y) (hw : 2 * y < 3 * 2 ^ k)
+theorem block_lower {y k l m' : Nat} (_hy : 2 ^ k ≤ y) (hw : 2 * y < 3 * 2 ^ k)
     (hw2 : 2 ^ (k + 1) ≤ acceleratedOrbit l y)
     (hfl : ∀ t : Nat, t ≤ l → 2 ^ k ≤ acceleratedOrbit t y)
     (hma : (m' + 1) * oddCount y l ≤ 2 ^ k) :
@@ -359,7 +359,7 @@ theorem block_lower {y k l m' : Nat} (hy : 2 ^ k ≤ y) (hw : 2 * y < 3 * 2 ^ k)
     have hk2 : 2 ^ (k + 2) = 2 ^ k * 2 ^ 2 := by rw [Nat.pow_add]
     have hl2 : 2 ^ (l + 2) = 2 ^ l * 2 ^ 2 := by rw [Nat.pow_add]
     rw [hk2, hl2]
-    simp [Nat.mul_comm, Nat.mul_left_comm, Nat.mul_assoc]
+    simp [Nat.mul_comm, Nat.mul_left_comm]
   have e4 : (m' + 1) * (3 * 2 ^ k * (3 ^ oddCount y l * (3 * 2 ^ k)))
       = 2 ^ k * (2 ^ k * (9 * (m' + 1) * 3 ^ oddCount y l)) := by
     have hx : 3 * (3 * 3 ^ oddCount y l) = 3 ^ oddCount y l * 9 := by
@@ -430,10 +430,10 @@ theorem climb_mono {M : Nat} : ∀ j i : Nat, i ≤ j → j ≤ M →
         rw [hd, Nat.pow_succ 2, Nat.pow_succ 3]
         have e1 : 3 ^ j * (2 ^ (M - (j + 1)) * 2)
             = 2 * (3 ^ j * 2 ^ (M - (j + 1))) := by
-          simp [Nat.mul_comm, Nat.mul_left_comm, Nat.mul_assoc]
+          simp [Nat.mul_comm, Nat.mul_assoc]
         have e2 : 3 ^ j * 3 * 2 ^ (M - (j + 1))
             = 3 * (3 ^ j * 2 ^ (M - (j + 1))) := by
-          simp [Nat.mul_comm, Nat.mul_left_comm, Nat.mul_assoc]
+          simp [Nat.mul_comm, Nat.mul_left_comm]
         rw [e1, e2]
         exact Nat.mul_le_mul_right _ (by omega)
       exact Nat.le_trans (ih i (by omega) (by omega)) hstep
@@ -500,6 +500,37 @@ theorem no_finite_scale_invariant (N : Nat) (hN : 0 < N) (state : Nat → Nat �
   · exact hfloor s₂ (2 * s₂) (Nat.le_refl _) (by omega)
   · intro j hj1 hj2
     exact hfloor s₁ j hj1 (by omega)
+
+/-! ## The ladder itself, and why a cycle has none -/
+
+/-- **A bounded orbit has no floor above its bound.**  This is the
+cycle-blindness check (`CLOSURE.md`, diagnostic 4): a cycle is bounded, so it
+has rungs at only finitely many scales and satisfies the ladder condition at
+none of the scales above its maximum.  The ladder is therefore not a cycle
+detector in disguise — a cycle cannot even be asked the question. -/
+theorem no_high_floor {n B k i : Nat} (hb : ∀ j : Nat, acceleratedOrbit j n ≤ B)
+    (hk : B < 2 ^ k) : ¬ Floor n i k := by
+  intro hf
+  have h1 := hf i (Nat.le_refl i)
+  have h2 := hb i
+  omega
+
+/-- **The rung of a divergent orbit at scale `k`, with its full profile.**
+Given that the orbit is below `2 ^ k` somewhere and above it from somewhere on
+— both supplied by unboundedness — there is a genuine entry index `e`, and the
+value there lies in the lower three quarters of the octave and is odd. -/
+theorem divergent_rung {n k : Nat} (hlow : ∃ i : Nat, acceleratedOrbit i n < 2 ^ k)
+    (hhigh : ∃ i : Nat, Floor n i k) :
+    ∃ e : Nat, 0 < e ∧ Floor n e k ∧ 2 ^ k ≤ acceleratedOrbit e n
+      ∧ 2 * acceleratedOrbit e n < 3 * 2 ^ k ∧ acceleratedOrbit e n % 2 = 1 := by
+  obtain ⟨i, hi⟩ := hlow
+  obtain ⟨i₀, hf⟩ := hhigh
+  obtain ⟨e, hie, hprev, hfe⟩ :=
+    exists_entry (n := n) (k := k) i₀ i hi (Floor.mono hf (by omega))
+  have hge : 2 ^ k ≤ acceleratedOrbit e n := hfe e (Nat.le_refl e)
+  have hwin : 2 * acceleratedOrbit e n < 3 * 2 ^ k :=
+    entry_window hprev (by omega) hge
+  exact ⟨e, by omega, hfe, hge, hwin, entry_odd hfe hwin⟩
 
 end ScaleLadder
 end Collatz
