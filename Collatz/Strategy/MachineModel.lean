@@ -26,7 +26,11 @@ two 2×2 matrices above.  This is `acc`/`Cw` below.  Three facts pin the model:
   the escape from `disc_append`;
 * **the composition law is skew, not additive** (`C_append`):
   `C (u ++ v) = 3 ^ oc v * C u + 2 ^ zc u * C v`.  Taking logarithms does *not*
-  linearise it, so `C` is genuinely outside the additive/monoid class;
+  linearise it, so `C` is genuinely outside the additive/monoid class.
+  *Credit where due:* this cocycle law is **already** in the development as
+  `ImageDensity.wC_append`, in the Terras encoding.  Part A is therefore a
+  re-presentation (`Cw_even_letter`/`Cw_odd_letter` are the bridge), not new
+  mathematics; the new content of this file is Parts B and C;
 * **`C` is not a function of the Parikh image** (`C_not_parikh`): two words of
   the same length with the same number of odd steps have different `C`.
 
@@ -147,7 +151,7 @@ theorem run_linear : ∀ (w : List Bool) (c q : Nat),
             omega
           have hzc : zc (true :: w) = zc w := by simp [zc]
           rw [hzc]
-          exact Prod.ext (by simpa using e) rfl
+          exact Prod.ext (by simpa using e.symm) rfl
       | false =>
           have h1 : run (c, q) (false :: w) = run (c, 2 * q) w := rfl
           have h2 : Cw (false :: w) = 2 * Cw w := by
@@ -157,12 +161,10 @@ theorem run_linear : ∀ (w : List Bool) (c q : Nat),
           have hoc : oc (false :: w) = oc w := by simp [oc]
           have hzc : zc (false :: w) = zc w + 1 := by simp [zc]; omega
           rw [h1, ih c (2 * q), h2, hoc, hzc]
-          have e1 : 3 ^ oc w * c + 2 * q * Cw w = 3 ^ oc w * c + q * (2 * Cw w) := by
-            rw [Nat.mul_assoc]
-          have e2 : 2 * q * 2 ^ zc w = q * 2 ^ (zc w + 1) := by
-            rw [Nat.pow_succ]
-            omega
-          exact Prod.ext (by simpa using e1) (by simpa using e2)
+          simp only [Prod.mk.injEq]
+          refine ⟨?_, ?_⟩
+          · rw [Nat.mul_assoc, Nat.mul_left_comm]
+          · rw [Nat.pow_succ, Nat.mul_assoc, Nat.mul_left_comm, Nat.mul_comm (2 ^ zc w) 2]
 
 /-- The denominator coordinate of the accumulator is `2 ^ zc`. -/
 theorem acc_snd (w : List Bool) : (acc w).2 = 2 ^ zc w := by
@@ -183,6 +185,26 @@ theorem C_append (u v : List Bool) :
     have := acc_snd u
     exact Prod.ext rfl (by simpa using this)
   rw [Cw, h, hu, run_linear]
+
+/-! ### Bridge to the repo's accumulator
+
+`RepetitionDescent.wC` uses the Terras encoding, one letter per `T`-step:
+`wC (b :: t) = (if b = 1 then 3 ^ ones t else 0) + 2 * wC t`.  Translating an odd
+letter to `true :: false` and an even letter to `false` turns that recursion into
+the two corollaries below, so the weighted automaton computes *exactly* the
+accumulator the rest of the development uses — it is a new *presentation* of `C`,
+not a new quantity. -/
+
+/-- An even Terras letter doubles the accumulator. -/
+theorem Cw_even_letter (w : List Bool) : Cw (false :: w) = 2 * Cw w := by
+  have h := C_append [false] w
+  simpa [Cw, acc, run, step, oc, zc] using h
+
+/-- An odd Terras letter (`true :: false`) reproduces `wC_cons`. -/
+theorem Cw_odd_letter (w : List Bool) :
+    Cw (true :: false :: w) = 3 ^ oc w + 2 * Cw w := by
+  have h := C_append [true, false] w
+  simpa [Cw, acc, run, step, oc, zc] using h
 
 /-- `C` of the empty word is `0`, of `[true]` is `1`, of `[true, true]` is `4`.
 Hence `C` is not multiplicative, so the rational series has dimension `≥ 2`:
@@ -205,6 +227,15 @@ theorem C_not_parikh :
 
 /-! ## Part B.  Growth, and the irrationality the kernel can see -/
 
+/-- Every power of three is odd. -/
+theorem three_pow_odd : ∀ p : Nat, 3 ^ p % 2 = 1 := by
+  intro p
+  induction p with
+  | zero => decide
+  | succ n ih =>
+      have e : (3:Nat) ^ (n + 1) = 3 * 3 ^ n := Arith.three_pow_succ n
+      omega
+
 /-- Powers of two and powers of three never agree at a positive exponent. -/
 theorem two_pow_ne_three_pow (p q : Nat) (hp : 1 ≤ p) : 2 ^ q ≠ 3 ^ p := by
   intro h
@@ -215,17 +246,12 @@ theorem two_pow_ne_three_pow (p q : Nat) (hp : 1 ≤ p) : 2 ^ q ≠ 3 ^ p := by
       omega
   | succ q =>
       have he : (2:Nat) ^ (q + 1) = 2 * 2 ^ q := Arith.two_pow_succ q
-      have hodd : 3 ^ p % 2 = 1 := by
-        induction p with
-        | zero => decide
-        | succ n ih =>
-            have : (3:Nat) ^ (n + 1) = 3 * 3 ^ n := Arith.three_pow_succ n
-            omega
+      have hodd : 3 ^ p % 2 = 1 := three_pow_odd p
       omega
 
 /-- **Bernoulli in `Nat`.**  If `A ≥ B + 1 ≥ 2` then `A ^ k` beats `B ^ k` by a
 factor growing linearly in `k`.  This is the only growth input needed. -/
-theorem bern (A B : Nat) (hB : 1 ≤ B) (hA : B + 1 ≤ A) :
+theorem bern (A B : Nat) (_hB : 1 ≤ B) (hA : B + 1 ≤ A) :
     ∀ k, B ^ k * (B + k) ≤ B * A ^ k := by
   intro k
   induction k with
@@ -247,7 +273,7 @@ theorem bern (A B : Nat) (hB : 1 ≤ B) (hA : B + 1 ≤ A) :
         omega
       have hgoal : B ^ (k + 1) * (B + (k + 1)) ≤ B ^ k * (B + k) * (B + 1) := by
         have e : B ^ (k + 1) * (B + (k + 1)) = B ^ k * (B * (B + (k + 1))) := by
-          rw [Nat.pow_succ, Nat.mul_comm (B ^ k) B, Nat.mul_assoc]
+          rw [Nat.pow_succ, Nat.mul_assoc]
         rw [e, Nat.mul_assoc]
         exact Nat.mul_le_mul_left _ hinner
       have e : B * A ^ (k + 1) = B * A ^ k * A := by
@@ -272,10 +298,10 @@ theorem growth_absurd (A B u v : Nat) (hB : 1 ≤ B) (hA : B + 1 ≤ A) (hu : 1 
       have el : (u * (B + k)) * B ^ k = u * (B ^ k * (B + k)) := by
         rw [Nat.mul_assoc, Nat.mul_comm (B + k) (B ^ k)]
       have er : (v * B) * B ^ k = B * (v * B ^ k) := by
-        rw [Nat.mul_assoc, Nat.mul_comm v B, Nat.mul_assoc]
+        rw [Nat.mul_assoc, Nat.mul_left_comm]
       rw [el, er]
       exact Nat.le_trans h1 h2
-    have hpos : 0 < B ^ k := Nat.pos_pow_of_pos k (by omega)
+    have hpos : 0 < B ^ k := Nat.pow_pos (by omega)
     exact Nat.le_of_mul_le_mul_right h3 hpos
   have := key (v * B)
   have hge : B + v * B ≤ u * (B + v * B) := Nat.le_mul_of_pos_left _ hu
@@ -334,14 +360,16 @@ theorem ledge_iff_fexp {L a : Nat} (h : Ledge L a) : L = fexp a + 1 := by
   obtain ⟨h1, h2⟩ := h
   obtain ⟨g1, g2⟩ := fexp_spec a
   have hlow : fexp a < L := by
-    by_contra hc
-    have : (2:Nat) ^ L ≤ 2 ^ fexp a := Arith.two_pow_le_two_pow (by omega)
-    omega
+    rcases Nat.lt_or_ge (fexp a) L with hc | hc
+    · exact hc
+    · have : (2:Nat) ^ L ≤ 2 ^ fexp a := Arith.two_pow_le_two_pow hc
+      omega
   have hhigh : L < fexp a + 2 := by
-    by_contra hc
-    have hle : (2:Nat) ^ (fexp a + 2) ≤ 2 ^ L := Arith.two_pow_le_two_pow (by omega)
-    have e : (2:Nat) ^ (fexp a + 2) = 2 * 2 ^ (fexp a + 1) := Arith.two_pow_succ _
-    omega
+    rcases Nat.lt_or_ge L (fexp a + 2) with hc | hc
+    · exact hc
+    · have hle : (2:Nat) ^ (fexp a + 2) ≤ 2 ^ L := Arith.two_pow_le_two_pow hc
+      have e : (2:Nat) ^ (fexp a + 2) = 2 * 2 ^ (fexp a + 1) := Arith.two_pow_succ _
+      omega
   omega
 
 /-- A point of `Nat × Nat`. -/
@@ -425,12 +453,10 @@ theorem ledge_not_semilinear : ¬ Semilinear (fun x : Pt => Ledge x.1 x.2) := by
   -- every period of every component must be zero
   have hzero : ∀ c ∈ cs, ∀ p ∈ c.2, p = ((0:Nat), (0:Nat)) := by
     intro c hc p hp
-    by_contra hne
-    refine ledge_no_progression c.1 p hne ?_
-    intro k
-    have hmem : InLin c.1 c.2 (c.1.1 + k * p.1, c.1.2 + k * p.2) :=
-      inLin_iterate hp k
-    exact (hcs _).mpr ⟨c, hc, hmem⟩
+    rcases Classical.em (p = ((0:Nat), (0:Nat))) with hq | hq
+    · exact hq
+    · exact (ledge_no_progression c.1 p hq
+        (fun k => (hcs _).mpr ⟨c, hc, inLin_iterate hp k⟩)).elim
   -- so the ledge is contained in the finite set of bases
   have hbnd : ∀ a : Nat, a ≤ sumSnd cs := by
     intro a

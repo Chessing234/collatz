@@ -19,7 +19,12 @@ ledge, top `t i = fexp i`, and a monotone function on a lattice with top and bot
 attains its extremes there.  The theorems below are stated for the corners directly
 and do not depend on that step; it is recorded because the informal argument needs it.
 
-Second, `max C = Bcap a` is a **ledge** statement.  Below the ledge the Beatty corner
+Second, `max C = Bcap a` is a **ledge** statement — though "ledge" is stronger
+than needed, and the exact condition is weaker: the top corner is feasible iff
+`fexp (a−1) < L`.  At `a = 7` that is `L ≥ 10`, not the ledge value `L = 12`.
+(And the citation of `GapSandwich.cycle_length_determined` below carries three
+hypotheses that should be read with it: `¬ReachesOne n`, `n` the orbit minimum,
+and `a < 1152000`.)  Below the ledge the Beatty corner
 does not fit in the word and the maximum is strictly smaller — measured: `a = 7`,
 `L = 9` gives `maxC = 3511` against `Bcap = 3767`; `a = 10`, `L = 13` gives `121165`
 against `148813`.  It is cycle-irrelevant only because
@@ -133,6 +138,15 @@ theorem Cw_eq_bottom_iff {t : Nat → Nat} (h : StrictInc t) {a : Nat} :
     have h1 : ∀ i : Nat, i < a → t i ≤ i := fun i hi => Nat.le_of_eq (hall i hi)
     have h2 : ∀ i : Nat, i < a → i ≤ t i := fun i hi => Nat.le_of_eq (hall i hi).symm
     exact Nat.le_antisymm (Cw_le t (fun i => i) a h1) (Cw_le (fun i => i) t a h2)
+
+/-! ## Axiom audit
+
+This file was the only one of the four Round VIII arrivals without one. -/
+
+#print axioms Cw_id
+#print axioms Cw_id_le
+#print axioms Cw_sandwich
+#print axioms Cw_eq_bottom_iff
 
 end OrderBox
 end Collatz

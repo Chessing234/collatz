@@ -45,11 +45,23 @@ while the irrationality measure of `log₂ 3` (`μ < 5.2`) gives `ε ≫ a^(−4
 This is the same counting deficit `CycleLanguage` records as the 243-bit surplus at
 the frontier pair — arrived at from the substitution side.
 
+## A units warning, for this file above all
+
+`spread` is used in this development in **two incompatible units**, and both appear
+below.  In `Discrepancy`, `CyclicOrder` and the first half of this section it means
+`log₂ (M / n)`, in **bits**; at the end of this section it means the **ratio**
+`M / n` itself.  `log₂ 2.99930 = 1.58463`, so `1.5837` and `2.99930` are *the same
+kind of number in different units*, and an earlier draft of this file printed them
+fourteen lines apart under one word, inviting the reader to conclude that the
+Sturmian word has nearly twice the minimum spread.  It does the opposite: at
+`1.58463` bits against the floor `1.58368`, it **attains** the minimum to four
+decimals.  Every figure below is now marked `bits` or `ratio`.
+
 ## What the spread computation actually proves
 
 An exact DP over words heavy at every proper prefix, minimising
 `max_i (a_i·log₂3 − i)`, gives 1.5098 at `L = 27`, 1.5489 at 53, 1.5714 at 199,
-1.5835 at 801, **1.5837** at 4701 — converging to `log₂ 3`.  The minimiser is the
+1.5835 at 801, **1.5837 bits** at 4701 — converging to `log₂ 3 = 1.58496`.  The minimiser is the
 greedy Sturmian word `a_i = ⌈i·log₃2⌉`, so this is a closed form, not a table:
 `minspread(L) = max_(i<L) (⌈i·log₃2⌉·log₂3 − i) < log₂ 3`, uniformly in `L`.
 
@@ -64,7 +76,9 @@ What the computation *does* prove, combined with `NewModels.word_is_cycle_word`:
 > **No `d`-free mechanism can lower-bound a cycle's spread.**  The Sturmian word at
 > the frontier ledge pair `(4701, 2966)` is a genuine cycle of `3x + δ(w)`, with
 > `δ(w)` a 1413-digit integer, minimum a 1418-digit integer, and spread **exactly
-> 2.99930** — verified by closing the orbit.
+> 2.99930 as a ratio**, i.e. `1.58463 bits` — verified by closing the orbit.  Set
+> against the floor `1.5837 bits` computed above, in the same units, this word
+> **attains** the minimum; it does not sit at twice it.
 
 So a spread bound must consume asset (a), (b), (c) or (d); heaviness will not
 deliver one.  That is the honest barrier statement.

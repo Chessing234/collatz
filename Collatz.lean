@@ -128,6 +128,11 @@ import Collatz.Strategy.Discrepancy
 import Collatz.Strategy.Height
 import Collatz.Strategy.TransferOperator
 import Collatz.Strategy.Rewriting
+import Collatz.Strategy.Complexity
+import Collatz.Strategy.CycleCode
+import Collatz.Strategy.LatticeGeometry
+import Collatz.Strategy.ExtensionClass
+import Collatz.Strategy.MachineModel
 import Collatz.Strategy.SieveGrowth
 import Collatz.Strategy.Profile
 import Collatz.Strategy.ExchangeRate

@@ -29,10 +29,26 @@ criterion, so
 
 > **`|log₂ (x_j / n) − log₂ 3 · D j| ≤ E < 1`** on the ledge `2 ^ L < 2 · 3 ^ a`.
 
-Taking the maximum over `j`, and noting `D 0 = D L = 0` so that `min_j D j ≥ −E /
-log₂ 3 > −0.64`, one gets the headline:
+Taking the maximum over `j` gives the headline:
 
 > **`|log₂ (M / n) − log₂ 3 · Dwidth| ≤ 2 E < 2`**, `Dwidth = max_j D j − min_j D j`.
+
+Two labels, both corrections to earlier drafts of this header.
+
+*The `2 E` form is `PROVED-on-paper`, not what Lean proves.*  What is kernel-checked
+is `dwidth_lt_disc_argmax`, whose slack is `4` in `D`-units, i.e. `4·log₂ 3 = 6.34`
+bits rather than `2 E < 2` bits.  The `2 E` form is exact numerically (over every
+cycle of `3x+d`, `d` odd, `1 ≤ d < 200`, minima `≤ 600`, on the ledge, the excess
+over `2 E` is exactly `0`), and it is what the two-sided bound gives on paper, but
+the Lean statement is the weaker one.  Do not cite `2 E` as `LEAN_PROVED`.
+
+*An earlier draft justified `min_j D j ≥ −E / log₂ 3 > −0.64` by "`D 0 = D L = 0`".
+That is a non-sequitur* and the bound is false without more.  Vanishing at both
+endpoints says nothing about the interior: the word `0^(L−a) 1^a` has `D 0 = D L =
+0` and `min D = −a(L−a)/L`, linear in `L`.  Even on a genuine cycle the claim fails
+when `n` is not the minimum — the trivial `d = 1` cycle read from `n = 2` has
+`D 1 = −0.5 < −0.2618 = −E / log₂ 3`.  The bound needs `n` to be the *orbit
+minimum*, which is exactly the `hmin` hypothesis of `disc_min_near_zero` below.
 
 ## Why the file is stated without logarithms
 
@@ -438,8 +454,27 @@ theorem order_of_pow_gap {n L j k : Nat} (hn : 0 < n) (hc : AccIsCycleOf n L)
 /-- **The discrepancy totally orders the orbit, up to a slack of two.**
 
 If `k ≤ j ≤ L` and the scaled discrepancy at `j` exceeds that at `k` by `2 L`
-(that is, `D j ≥ D k + 2`), then `x_k < x_j` — no magnitude hypothesis anywhere,
-and nothing that distinguishes `d = 1`.
+(that is, `D j ≥ D k + 2`), then `x_k < x_j` — no magnitude hypothesis anywhere.
+
+It does, however, use soundness asset (c), `sign d = +1`, and an earlier draft of
+this docstring wrongly said it used nothing.  The route is `orbit_lower`, which is
+the affine law with the accumulator dropped, and that step is false when `affineC`
+is negative.  Witness, on the ledge, with every other hypothesis met: `d = −45`,
+cycle of minimum `−37458`, `L = 27`, `a = 17` (so `3^17 < 2^27 ≤ 2·3^17`), and
+`j = 13`, `k = 0` give a discrepancy gap of `2.81` with `x_j = −37458 < −1683 =
+x_k` — the conclusion inverted.  It does not typecheck here only because `Nat`
+enforces (c) silently.  So: nothing distinguishes `d = 1` *among positive `d`*.
+
+The ledge hypothesis is also genuinely load-bearing, and the sharp witness is
+stronger than the one first reported.  Sweeping `1 ≤ d < 200`, minima `≤ 600`, all
+rotations: on the ledge the worst inversion gap is `0.1186`; off it, `6.0`, attained
+at `d = 107`, the cycle through `1`, `L = 106`, `a = 53`, `j = 99`, `k = 43` —
+`A_j = 53`, `A_k = 19`, so `hgap` reads `7473 ≤ 7897` and holds, `2^106 > 2·3^53`
+so `hledge` fails, and `x_j = 128 > 133 = x_k` inverts the conclusion.
+
+Non-vacuity, in the theorem's favour: `hledge` is *automatic* for the cycles that
+matter, since `GapSandwich.cycle_length_determined` forces `L = fexp a + 1`, hence
+`2^(L−1) ≤ 3^a`, hence `2^L ≤ 2·3^a`.  The hypothesis class is not empty.
 
 The hypothesis is stated in `Nat` to keep `omega` in range; `disc_forces_order'`
 restates it with `disc`. -/

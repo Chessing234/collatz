@@ -91,8 +91,17 @@ precisely when `3^a ∈ [2^(L−1), 2^L)`, which is `Rotation.gap_lt_of_heavy_en
 
 ## The one quantity the cyclic picture does supply, and why it is dead
 
-The rotation-invariant that the linear picture does not name is the **amplitude**
-`max_j walk − min_j walk`.  `walk_eq_dvd` is its arithmetic core: if two walk
+**First, an attribution correction.**  `walk n L j` is character-for-character
+`Discrepancy.disc n L j`, and this file's **amplitude** is character-for-character
+`Discrepancy.dwidth`.  Both landed in Round VIII, in files that do not import each
+other, and `OrderAutomaton.disc` is the same object again in list coordinates —
+three definitions of one function in one round.  So the amplitude is *not* a
+quantity "the linear picture does not name"; it is the sibling file's `dwidth`
+under a second name, and the claim of novelty made in an earlier draft of this
+header was wrong.  What is genuinely this file's own is the *cyclic* argument for
+the lower bound, which the sibling file does not state.
+
+The invariant, then, is the amplitude `max_j walk − min_j walk = dwidth`.  `walk_eq_dvd` is its arithmetic core: if two walk
 values coincide then `L ∣ a·(j − i)`, so when `gcd(L, a) = 1` the `L` values are
 pairwise distinct, hence occupy `L` distinct residues mod `L`, hence spread over
 at least `L − 1`.  When `g = gcd(L,a) > 1`, `walk (L/g) ≡ 0 mod L` while
@@ -101,16 +110,30 @@ Either way
 
 > **amplitude `≥ L − 1`, i.e. the discrepancy amplitude is `≥ 1 − 1/L`.**
 
+Status: **PROVED-on-paper**, not `LEAN_PROVED`.  The ingredients are kernel-checked
+(`walk_eq_dvd`, `walk_injective`, `walk_ge_of_dvd`), but no Lean theorem states the
+bound itself, and an earlier draft of this header displayed it among proved results.
+Stated for `dwidth`, it is a result the sibling file does not have.
+
 Exhaustively confirmed for every word heavy at every proper prefix with `L ≤ 18`;
 attained exactly at `(L,a) = (2,1), (5,3), (8,5)` and, at the frontier, by the
 Sturmian word at `(4701, 2966)`, whose amplitude is `4700 = L − 1` on the nose.
 
 Through `2^r·n_r = 3^A(r)·n₀ + C_r ≥ 3^A(r)·n₀` this amplitude lower-bounds the
-cycle's spread: numerically `log₂(max/min) = (amplitude/L)·log₂3` to four decimal
-places on every genuine cycle checked — `1.0000` vs `0.7925` for the trivial
-`d = 1` cycle (`L = 2`), `4.4762` vs `4.4614` for the `d = 5` cycle of minimum
-`187`, `3.0000` vs `3.0258` for the `d = −1` cycle of minimum `17`, and `1.5846`
-for the Sturmian frontier word, reproducing `SpreadFloor`'s computed `2.99930`.
+cycle's spread.  An earlier draft of this header claimed the two agree "to four
+decimal places on every genuine cycle checked" and then offered three examples that
+differ in the *first* decimal — `1.0000` vs `0.7925`, `4.4762` vs `4.4614`,
+`3.0000` vs `3.0258`.  The sentence refuted itself.
+
+The true statement is `Discrepancy.bridge_two_sided`: the two agree **to within
+`E = L − a·log₂3 ∈ (0,1)`**.  That is `0.2075` at `(L,a) = (2,1)`, `0.0556` at
+`(27,17)`, `0.0012` at `(4701,2966)` — so four decimals is what one gets only at
+frontier-scale `L`, and the three examples above are exactly the small-`L` end.
+
+The last example also needs a unit stated.  The Sturmian frontier word has
+amplitude-derived value `1.5846` **bits**, and `SpreadFloor`'s `2.99930` is the
+**ratio** `max/min`; `log₂ 2.99930 = 1.58463`.  They are one number in two units,
+not two numbers to be compared.
 
 **And that is exactly why it cannot help.**  The amplitude is a function of the
 word alone and is invariant under `C ↦ d·C`, so by `DenominatorScalar` and

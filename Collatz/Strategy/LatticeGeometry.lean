@@ -23,22 +23,28 @@ the body is the simplex of total slack `Σ (d i − 1) = t_{a−1} − (a−1)`,
 `five_fexp_lt`  : `5 · fexp i < 8 · i`   (`i ≥ 1`)
 `slack_lt`      : `5 · (fexp i − i) < 3 · i`
 
-so the total slack is **less than `0.6 · a`, spread over `a` coordinates**: on
-average each direction has `0.6` of one lattice spacing of room.  A convex body
-of dimension `a` whose ℓ¹-radius from a vertex is `0.6 a` has volume at most
-`(0.6 a) ^ a / a ! ≤ (0.6 e) ^ a = 1.632 ^ a < 2 ^ a`, so **Minkowski's convex
-body theorem does not apply to it in any dimension** — the hypothesis
-`vol ≥ 2 ^ a · det` fails by an exponential factor, and no amount of sharpening
-recovers it, since the deficit is `(2 / 1.632) ^ a`.  Measured, in the reduced
-coordinates where the body is full dimensional (`t₀` and `t₁` are pinned by the
-box, so the a-dimensional volume is *exactly zero*): the lattice-point count and
-the volume are
-`a = 24`: `2.6 · 10 ^ 8` against `251.2`; `a = 48`: `6.7 · 10 ^ 18` against
-`5.5 · 10 ^ 6`.  The ratio grows like `1.76 ^ a`.  So the count is **not** the
-volume to leading order, in either direction, and the excess is exactly the
-`(1 + 1/0.585) ^ a` that an `O(1)`-thick body always shows.  Geometry of numbers
-adds nothing because its entire regime — lattice points equidistribute in a body
-large compared with the covering radius — is never entered.
+so after the unimodular shear `u i = t i − i` — which turns the strict cone
+`t₀ < t₁ < …` into the weak cone `u₀ ≤ u₁ ≤ …` and costs nothing, being an
+integer shear — the box becomes `u i ≤ fexp i − i < 0.6 · i`.  The admissible
+body is therefore the set of weakly increasing points of a cube of side
+`M < 0.6 a`, whose volume is `M ^ a / a !` at most, hence
+
+`vol ≤ (0.6 a) ^ a / a ! ≤ (0.6 e) ^ a = 1.632 ^ a < 2 ^ a`.
+
+**Minkowski's convex body theorem therefore does not apply in any dimension**:
+its hypothesis `vol ≥ 2 ^ a · det` fails by the exponential factor
+`(2 / 1.632) ^ a`, and no sharpening recovers it.  The body is thinner than one
+lattice spacing per direction — `0.6` of one, on average.  Worse, the first two
+caps are `fexp 0 − 0 = 0` and `fexp 1 − 1 = 0`, so the `a`-dimensional volume is
+*exactly zero*: the body is not even full dimensional.  Comparing in the
+remaining `a − 2` coordinates, where it is, the lattice-point count against the
+volume: `a = 24`: `2.6 · 10 ^ 8` against `251.2`; `a = 48`: `6.7 · 10 ^ 18`
+against `5.5 · 10 ^ 6`, the ratio growing like `1.78 ^ a`.  So the count is
+**not** the volume to leading order, in either direction, and the excess is
+exactly the `(1 + 1/0.585) ^ a` that an `O(1)`-thick body always shows.
+Geometry of numbers adds nothing because its entire regime — lattice points
+equidistributing in a body large compared with the covering radius — is never
+entered.
 
 ## Coordinate change 2: linearisation at the Beatty corner
 
@@ -80,10 +86,16 @@ that are worth recording because they are structural, not technical.
 
 **(i) The certificate does not exist.**  Exhaustively over *every* `k < G` at the
 ledge pairs `L = fexp a + 1`, the minimum of `msum / G` is
-`a = 3..13`: `1.20, 0.851, 1.85, 1.08, 0.664, 1.40, 1.05, 1.83, 1.33, 0.781, 1.49`.
-The threshold is `0.5` and it is never met — but the misses are by a factor of
-only `1.3`–`3.7`, which is the same "as near as arithmetic allows" that every
-other route reports.
+`a = 3..20`: `1.200, 0.851, 1.846, 1.085, 0.664, 1.399, 1.047, 1.826, 1.330,
+0.782, 1.493, 1.205, 1.820, 1.470, 2.039, 1.557, 1.054, 1.745`.
+The threshold is `0.5` and it is never met — but the smallest miss is by a factor
+of only `1.33` (at `a = 7`), which is the same "as near as arithmetic allows"
+that every other route reports.  The minimising `k` grows like `G ^ (1 − 1/a)`,
+so the search is exponential and no `k` of controllable size ever works: the
+Minkowski bound for the dual lattice puts its shortest ℓ¹ vector at
+`≈ (a! / G) ^ (1/a) ≈ a / (e · 3) > 1` as soon as `a ≥ 9`, so for `a ≥ 9`
+a certificate provably cannot exist in a generic lattice of this determinant —
+`log₂ 3 = 1.585` is simply too small to leave room for one.
 
 **(ii) The certificate is the S-unit obstruction in disguise.**  The weights
 satisfy `3 · wgt t a i = 2 ^ (t i − t (i−1)) · wgt t a (i−1)` (`wgt_step`), so the
@@ -116,23 +128,24 @@ theorem le_fexp_self (i : Nat) : i ≤ fexp i :=
 /-- **The lid is at most `1.6 i`.**  `243 = 3 ^ 5 < 2 ^ 8 = 256`, raised to the
 `i`-th power, is the whole proof. -/
 theorem five_fexp_lt {i : Nat} (hi : 0 < i) : 5 * fexp i < 8 * i := by
+  have e3 : (3:Nat) ^ 5 = 243 := by decide
+  have e2 : (2:Nat) ^ 8 = 256 := by decide
   have h1 : (2:Nat) ^ fexp i ≤ 3 ^ i := fexp_le i
   have h2 : ((2:Nat) ^ fexp i) ^ 5 ≤ (3 ^ i) ^ 5 := Nat.pow_le_pow_left h1 5
   have h3 : ((3:Nat) ^ i) ^ 5 = 243 ^ i := by
-    rw [← Nat.pow_mul, Nat.mul_comm, Nat.pow_mul]
-    norm_num
+    rw [← Nat.pow_mul, Nat.mul_comm, Nat.pow_mul, e3]
   have h4 : (243:Nat) ^ i < 256 ^ i := Nat.pow_lt_pow_left (by decide) (by omega)
-  have h5 : (256:Nat) ^ i = 2 ^ (8 * i) := by
-    rw [Nat.mul_comm, Nat.pow_mul]
-    norm_num
+  have h5 : (256:Nat) ^ i = 2 ^ (8 * i) := by rw [Nat.pow_mul, e2]
   have h6 : ((2:Nat) ^ fexp i) ^ 5 = 2 ^ (5 * fexp i) := by
-    rw [Nat.mul_comm, Nat.pow_mul]
+    rw [← Nat.pow_mul, Nat.mul_comm]
   have h7 : (2:Nat) ^ (5 * fexp i) < 2 ^ (8 * i) := by
     rw [← h6, ← h5]; omega
-  by_contra hcon
-  have : (2:Nat) ^ (8 * i) ≤ 2 ^ (5 * fexp i) :=
-    Arith.two_pow_le_two_pow (by omega)
-  omega
+  rcases Nat.lt_or_ge (5 * fexp i) (8 * i) with hok | hcon
+  · exact hok
+  · exfalso
+    have : (2:Nat) ^ (8 * i) ≤ 2 ^ (5 * fexp i) :=
+      Arith.two_pow_le_two_pow hcon
+    omega
 
 /-- **The slack at coordinate `i` is under `0.6 i`.**  The box lid `fexp i` sits
 above the cone floor `i` by less than `3 i / 5`; summed over the word this is the
@@ -267,7 +280,7 @@ theorem ssum_scale (v e : Nat → Nat) (c : Nat) :
   intro a
   induction a with
   | zero => rfl
-  | succ a ih => rw [ssum_succ, ssum_succ, ih]; ring
+  | succ a ih => rw [ssum_succ, ssum_succ, ih, Nat.mul_add, Nat.mul_left_comm]
 
 /-- `msum` is the selected sum with all selectors on. -/
 theorem msum_eq_ssum (w : Nat → Nat) (k G : Nat) :
@@ -293,6 +306,12 @@ theorem ssum_le_msum (w e : Nat → Nat) (k G : Nat) :
     rw [ssum_succ, msum_succ]
     omega
 
+theorem add_mod_left' (x y G : Nat) : (x % G + y) % G = (x + y) % G := by
+  rw [Nat.add_mod x y G, Nat.add_mod (x % G) y G, Nat.mod_mod_of_dvd x (Nat.dvd_refl G)]
+
+theorem add_mod_right' (x y G : Nat) : (x + y % G) % G = (x + y) % G := by
+  rw [Nat.add_mod x y G, Nat.add_mod x (y % G) G, Nat.mod_mod_of_dvd y (Nat.dvd_refl G)]
+
 /-- **The dual reduction.**  Multiplying a subset sum by `k` and reducing mod `G`
 is the same as reducing each weight first — the statement that `k · w / G` is a
 vector of the dual lattice. -/
@@ -306,15 +325,14 @@ theorem ssum_mul_mod (w e : Nat → Nat) (k G : Nat) :
     intro he
     have ih' := ih (fun i hi => he i (Nat.lt_succ_of_lt hi))
     have hexp : k * ssum w e (a + 1) = k * ssum w e a + e a * (k * w a) := by
-      rw [ssum_succ]; ring
+      rw [ssum_succ, Nat.mul_add, Nat.mul_left_comm]
     rw [hexp, ssum_succ, Nat.add_mod (k * ssum w e a), ih']
     rcases Nat.lt_or_ge (e a) 1 with h | h
     · have h0 : e a = 0 := by omega
       rw [h0]
       simp
     · have h1 : e a = 1 := by have := he a (Nat.lt_succ_self a); omega
-      rw [h1, Nat.one_mul, Nat.one_mul, Nat.mod_mod_of_dvd _ (Nat.dvd_refl G),
-        ← Nat.add_mod]
+      rw [h1, Nat.one_mul, Nat.one_mul, add_mod_left']
 
 /-! ## Part 4.  The flatness certificate, and what it costs -/
 
@@ -332,10 +350,86 @@ theorem not_dvd_of_certificate {w e : Nat → Nat} {k G C0 a : Nat}
     ¬ (G ∣ (C0 + ssum w e a)) := by
   intro hdvd
   have hT : ssum (fun i => (k * w i) % G) e a ≤ msum w k G a := ssum_le_msum w e k G a he
+  obtain ⟨c, hc⟩ := hdvd
   have hzero : (k * (C0 + ssum w e a)) % G = 0 := by
-    have : G ∣ k * (C0 + ssum w e a) := Dvd.dvd.mul_left hdvd k
-    exact Nat.eq_zero_of_dvd_of_lt this |>.elim (fun _ => rfl) |>.elim
-  sorry
+    rw [hc, ← Nat.mul_assoc, Nat.mul_comm k G, Nat.mul_assoc]
+    exact Nat.mul_mod_right G (k * c)
+  have hmm : ∀ x : Nat, x % G % G = x % G := fun x => Nat.mod_mod_of_dvd x (Nat.dvd_refl G)
+  have h1 : (k * (C0 + ssum w e a)) % G
+      = ((k * C0) % G + ssum (fun i => (k * w i) % G) e a) % G := by
+    rw [Nat.mul_add, Nat.add_mod (k * C0), ssum_mul_mod w e k G a he, add_mod_right']
+  have hlt : (k * C0) % G + ssum (fun i => (k * w i) % G) e a < G := by omega
+  rw [Nat.mod_eq_of_lt hlt] at h1
+  omega
+
+/-! ## Part 5.  The certificate, instantiated on the accumulator -/
+
+/-- The weight vector of the linearised accumulator at reference word `t`:
+`wgt t a i = 3 ^ (a−1−i) · 2 ^ t i`. -/
+def wgt (t : Nat → Nat) (a i : Nat) : Nat := 3 ^ (a - 1 - i) * 2 ^ t i
+
+theorem wgt_shift {t : Nat → Nat} {a i : Nat} (h : i < a) :
+    wgt t (a + 1) i = 3 * wgt t a i := by
+  have hexp : a + 1 - 1 - i = (a - 1 - i) + 1 := by omega
+  rw [wgt, wgt, hexp, Nat.pow_succ, Nat.mul_comm (3 ^ (a - 1 - i)) 3, Nat.mul_assoc]
+
+theorem wgt_top (t : Nat → Nat) (a : Nat) : wgt t (a + 1) a = 2 ^ t a := by
+  have h : a + 1 - 1 - a = 0 := by omega
+  rw [wgt, h, Nat.pow_zero, Nat.one_mul]
+
+/-- **The weights are an `S`-unit orbit.**  Consecutive weights differ by
+`3 / 2 ^ gap`, so the dual vector `k · wgt / G` is the orbit of the single number
+`k / G` under multiplication by units generated by `2` and `3`.  This is why the
+certificate below is the S-unit obstruction in different clothing. -/
+theorem wgt_step {t : Nat → Nat} {a i : Nat} (hi : i + 1 < a) (hle : t i ≤ t (i + 1)) :
+    3 * wgt t a (i + 1) = 2 ^ (t (i + 1) - t i) * wgt t a i := by
+  have hexp : a - 1 - i = (a - 1 - (i + 1)) + 1 := by omega
+  have hsplit : t (i + 1) = (t (i + 1) - t i) + t i := by omega
+  rw [wgt, wgt, hexp, Nat.pow_succ, hsplit, Nat.pow_add]
+  simp [Nat.mul_comm, Nat.mul_left_comm, Nat.mul_assoc]
+
+theorem Csel_eq_ssum (t e : Nat → Nat) :
+    ∀ a : Nat, Csel t e a = ssum (wgt t a) e a := by
+  intro a
+  induction a with
+  | zero => rfl
+  | succ a ih =>
+    have hcongr : ssum (wgt t (a + 1)) e a = ssum (fun i => 3 * wgt t a i) e a :=
+      ssum_congr a (fun i hi => wgt_shift hi)
+    rw [Csel_succ, ssum_succ, wgt_top, hcongr, ssum_scale, ih]
+
+theorem Cw_eq_ssum (t : Nat → Nat) (a : Nat) :
+    Cw t a = ssum (wgt t a) (fun _ => 1) a := by
+  rw [Cw_eq_Csel_one t a, Csel_eq_ssum]
+
+/-- **The certificate, on the accumulator.**  A single `k` whose dual vector is
+short forbids every `{0,1}` perturbation of the reference word from producing a
+multiple of `G`. -/
+theorem not_dvd_Cw_shift {t e : Nat → Nat} {k G a : Nat}
+    (he : ∀ i : Nat, i < a → e i ≤ 1)
+    (hq : 0 < (k * Cw t a) % G)
+    (hsmall : (k * Cw t a) % G + msum (wgt t a) k G a < G) :
+    ¬ (G ∣ Cw (fun i => t i + e i) a) := by
+  rw [Cw_shift t e a he, Csel_eq_ssum]
+  exact not_dvd_of_certificate he hq hsmall
+
+/-- **The certificate in its final, purely one-sided form.**  Because the
+perturbations are `0` or `1`, the offset residue equals the dual ℓ¹-norm itself,
+and the whole hypothesis collapses to `0 < msum` and `2 · msum < G`: the cube is
+flat with respect to the lattice as soon as the dual vector is shorter than half
+a period.  Exhaustive search over every `k < G` at the ledge pairs `a ≤ 20`
+shows `msum / G ≥ 0.66` always, so the hypothesis is never satisfiable there. -/
+theorem not_dvd_of_small {t e : Nat → Nat} {k G a : Nat}
+    (he : ∀ i : Nat, i < a → e i ≤ 1)
+    (hpos : 0 < msum (wgt t a) k G a)
+    (hhalf : 2 * msum (wgt t a) k G a < G) :
+    ¬ (G ∣ Cw (fun i => t i + e i) a) := by
+  have hq : (k * Cw t a) % G = msum (wgt t a) k G a := by
+    rw [Cw_eq_ssum, ssum_mul_mod _ _ _ _ a (fun i _ => Nat.le_refl 1), ← msum_eq_ssum]
+    exact Nat.mod_eq_of_lt (by omega)
+  have h2 : 0 < (k * Cw t a) % G := by rw [hq]; exact hpos
+  have h3 : (k * Cw t a) % G + msum (wgt t a) k G a < G := by rw [hq]; omega
+  exact not_dvd_Cw_shift he h2 h3
 
 end LatticeGeometry
 end Collatz

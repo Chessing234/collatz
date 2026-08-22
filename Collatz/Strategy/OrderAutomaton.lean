@@ -28,11 +28,40 @@ is one-dimensional and `ρ` ranges over *one* parameter, which one may as well f
 *Reading (ii) — `ρ` fixed in advance.*  Then the state is computable, but the
 discrepancy becomes **additive** (`disc_append`), and the admissible language is
 closed under concatenation of balanced blocks (`Adm_append`).  That is exactly the
-property Round III showed to be fatal, and `blocks_adm` / `blocks_inj` re-derive
-the fatality directly: from any two distinct balanced admissible blocks of equal
-length `ℓ` one manufactures an injection from `{0,1}^m` into the admissible words
-of length `m·ℓ`.  The admissible language has positive entropy; no finite
-truncation of it is empty.
+property Round III showed to be fatal.
+
+**The conclusion is right; the `blocks_*` route to it is not, and is withdrawn.**
+An earlier draft justified it by "from any two distinct balanced admissible blocks
+of equal length `ℓ` one manufactures an injection from `{0,1}^m` into the
+admissible words of length `m·ℓ`".  That construction never speaks inside the
+window a cycle has.  `Adm L a M u` demands `disc L a u = 0`, i.e. `L·ones u =
+a·|u|`; at every ledge pair of interest `gcd(L,a) = 1` — checked at `(27,17)`,
+`(4701,2966)` and the frontier `(6809,4296)` — so `L ∣ |u|` and a nonempty
+balanced block has length `≥ L`.  Hence for `m ≥ 2` every word it builds has length
+`≥ 2L`, strictly longer than the only window a cycle has; and at a tight bucket,
+the only interesting case, the hypothesis class is *empty*.  Exact DP over balanced
+words of length `L` with every prefix discrepancy in `[0,M]`:
+
+| pair | `M = L` | `M = 2L` |
+|---|---|---|
+| `(27,17)` | **1 word** | 35531 |
+| `(6809,4296)` | **1 word** (never more than 2 live states in 6809 steps) | — |
+
+One word, so `hne : u ≠ v` is unsatisfiable at `M ≤ L`.  `adm_never_terminates` is
+therefore vacuous below `D`-width 2 and out-of-window above it — never both
+non-vacuous and relevant.
+
+The real justification is the transfer matrix, which this header previously quoted
+only as numerics.  On the strip `0 ≤ L·A(j) − a·j ≤ M` at `(6809,4296)`, growth per
+letter is `0.0000` bits at `D`-width 1, then `0.6478`, `0.8906`, `0.9416` at widths
+`2, 5, 30`, against `0.95008` free.  So admissible *prefixes* at length `j` number
+`2^(0.65 j)` for any bucket of `D`-width `≥ 2`, and the count collapses to a single
+word only at `D`-width `≤ 1`, which is Sturmian rigidity and already closed.
+
+One unit warning, since this file mixes conventions: `M` is **one-sided** in the
+Lean (`0 ≤ disc ≤ M`) and **two-sided** in the prose (`|D| ≤ M`).  The earlier
+claim that entropy is "still positive at every `M ≥ 1`" is true only in the
+two-sided reading; under the file's own `Adm`, `M = L` gives entropy exactly `0`.
 
 ## Why no `D`-bound is available anyway
 
