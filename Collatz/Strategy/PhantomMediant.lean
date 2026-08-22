@@ -33,18 +33,33 @@ is the **composition law**, which is new:
 
 ## The refutation recorded here
 
-The order structure suggests a descent: split a minimal cycle word `w = uv`,
-and if both halves are heavy the mediant law puts one phantom strictly below the
-cycle minimum.  **The descent is empty.**  `heavy_split_forces_band` shows that
-`u` and `v` are both heavy exactly when the split point stays inside the band
-`3 ^ a(u) · 2 ^ |w| > 3 ^ a(w) · 2 ^ |u|`, i.e. exactly when the discrepancy
-path stays below the chord — the closed class.  For a real cycle word the band
-has width `−log₂(1 − G/2^L) ≈ G / (2^L ln 2)` bits, which is under one bit, and
-measurement confirms it is empty: over the parity words of the `3x+5` cycles at
-`5, 19, 23, 187, 347`, the `3x+7` cycle at `5`, the `3x+13` cycle at `131` and
-the `3x+1` cycle at `1`, **not one** of the `1 + 4 + 4 + 26 + 26 + 3 + 23 + 1`
-splits has both halves heavy.  So the mediant order on phantoms never applies to
-a cycle word at all.
+The order structure suggests a descent: split a cycle word `w = uv`, and if both
+halves are heavy the mediant law puts one phantom strictly *below* the cycle
+minimum, giving a shorter cycle.  **The descent is empty, for an exact reason.**
+
+`split_band` shows that both halves are heavy exactly when the split point
+`(s, p)` lies in the band `3 ^ a / 2 ^ L < 3 ^ p / 2 ^ s < 1`.  In bits: writing
+`γ = log₂ 3`, a split point exists iff
+
+    min_{0 < s < L} (s − ⌊s/γ⌋ · γ)  <  L − a · γ,
+
+i.e. iff some *proper* prefix approximates `γ` better than the whole word does.
+For a cycle shape `(L, a)` the right-hand side is the gap in bits, and `(L, a)`
+is a continued-fraction convergent of `γ` — which is precisely the statement
+that **no** shorter `s` beats it.  So the band is empty at exactly the shapes a
+cycle can have.  Decided in the kernel for the ledges `(27,17)`, `(46,29)`,
+`(65,41)`; computed (floating point, not a proof) for the repo's whole frontier
+ladder `(485,306)`, `(1539,971)`, `(2593,1636)`, `(4701,2966)`, `(6809,4296)` —
+band empty at every one, and open at the non-convergent shapes `(19,11)`,
+`(53,33)`, `(84,52)`, `(190,119)`, `(306,193)` where `≥ 88 %` of heavy words do
+admit a heavy split.  Direct confirmation: over the parity words of the `3x+5`
+cycles at `5, 19, 23, 187, 347`, the `3x+7` cycle at `5`, the `3x+13` cycle at
+`131` and the `3x+1` cycle at `1`, **not one** of the `1+4+4+26+26+3+23+1`
+splits has both halves heavy.
+
+So the phantom order is a real structure that is simply *absent* on cycle words,
+and its absence is the continued-fraction ledge phenomenon already isolated by
+the substitution descent.  This is a translation, not a new obstruction.
 
 ## Measurements (never a proof)
 
@@ -300,7 +315,16 @@ theorem heavy_split_iff_band {Lu au Lv av : Nat} :
   ⟨heavy_split_forces_band, band_forces_heavy_split⟩
 
 
-/-- Both halves of a split are heavy exactly when the split point sits in the
+/-- **Naming warning, and it is opposite to the rest of the repository.**  "Heavy"
+in this file means `3 ^ p < 2 ^ s` — the prefix sits *below* the diagonal.  The
+repository's heaviness (`ExtremalWord.heavy_le_fexp`, `CycleLanguage`) is
+`2 ^ i ≤ 3 ^ oddCount`, i.e. *above* it.  The two conventions are inverses, and the
+counts they produce are different questions: under the repository's convention the
+88 splits of the eight known genuine cycle words contain 15 with both halves heavy,
+not 0.  The mathematics below is self-consistent under its own convention and its
+table is exact; only the word is inverted.  Read `HH` as "both halves light".
+
+Both halves of a split are `HH` exactly when the split point sits in the
 **band** `G(w)/2^L < 3^p/2^s < 1`: the prefix ratio must be below `1` and above
 the whole word's ratio.  Written with `L = s + t`, `a = p + q`. -/
 theorem split_band (s t p q : Nat) :

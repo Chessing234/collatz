@@ -2764,3 +2764,50 @@ The development already knows the two sides agree to **within one bit** —
 `bridge_two_sided`, `|log₂(x_j/n) − log₂3·D(j)| ≤ E < 1`.  That one bit is the entire
 remaining content of the problem, and nothing in this program yet computes it.  The
 object to invent is whatever *does*.
+
+## Round IX postscript — Part VI, corrected by its own candidate
+
+Part VI named the missing object as *a quantity coupling the 2-adic datum to the
+archimedean one*.  Pursuing it immediately produced the canonical candidate, and the
+candidate closes half of the question.
+
+Expanding `bridge_two_sided` against the affine law leaves no freedom:
+`θ_j = −j·E/L + log₂(1 + r_j)` **exactly**, where
+
+> **`r_j = C_j / (3 ^ (A_j) · n)`** — the accumulator measured against the orbit.
+
+That is the coupling: 2-adic numerator, archimedean denominator, a function of
+neither alone.  Its dynamics are clean — unchanged on an even step, `r ↦ r +
+d·2^j/(3^(A_j+1)·n)` on an odd one, so `n` enters only through the odd branch's
+additive constant, and `r` runs from `0` to `G/3^a`.
+
+**And on a cycle it collapses to a word invariant.**  Verified on genuine cycles of
+`3x+1` at `1`, `3x+5` at `187`, `3x−1` at `17` and `5`, `3x+59` at `229`: at every
+`j`, `r_j = G·C_j / (3^(A_j)·C_L)`, with both `d` and `n` cancelling.
+`Coupling.coupling_collapses` proves it and `collapse_iff_cycle` shows the collapse
+is *equivalent* to the cycle criterion, not merely implied by it.  The reason is one
+line: `cycle_gap_mul` gives `G·n = C_L`, so **on a cycle the archimedean datum is not
+free** — `n` is determined by the word, and there is nothing left to couple.
+
+So Part VI splits, and the split is sharper than the statement it replaces:
+
+* **Cycle half — closed to coupling, permanently.**  Any `Q(x, window)` evaluated on
+  a cycle is a function of `(word, d)` because `n` is; `C(w,d) = d·C(w,1)` then scales
+  `d` out; so `Q` is a word invariant and the soundness filter refutes it.  *This is
+  why every route in this programme dies on the cycle half specifically.*  It names
+  the reason rather than a mechanism.
+* **Divergence half — open, and this is where the coupling lives.**  A divergent orbit
+  never closes, so no relation `G·n = C_L` exists to eliminate `n`.
+
+That matches `collatz_iff_halves` exactly: the `Π⁰₁` half is finitely refutable and
+carries no archimedean information, and the `Π⁰₂` half is where it all is.  Read
+together with the ω-rule result, the programme's own frontier work has been aimed
+squarely at the half where the missing object provably cannot exist.
+
+The independent phantom-mediant branch reached the same conclusion from the other
+side and should be recorded with it: its descent fails not from weakness but from
+**domain emptiness** — the split band is empty at every convergent shape, including
+the entire frontier ladder `(2,1), (8,5), (27,17), (46,29), (65,41), (485,306),
+(1539,971), (2593,1636), (4701,2966), (6809,4296)`, each reproduced exactly.  Its
+own summary is the same rule in different words: *the only escapes from the complete
+invariant are objects on the fibre `(word, magnitude)`, or objects sensitive to `d`*.

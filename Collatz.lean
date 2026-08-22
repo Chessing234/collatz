@@ -134,6 +134,8 @@ import Collatz.Strategy.LatticeGeometry
 import Collatz.Strategy.ExtensionClass
 import Collatz.Strategy.MachineModel
 import Collatz.Strategy.DigitAutomaton
+import Collatz.Strategy.PhantomMediant
+import Collatz.Strategy.Coupling
 import Collatz.Strategy.SieveGrowth
 import Collatz.Strategy.Profile
 import Collatz.Strategy.ExchangeRate
