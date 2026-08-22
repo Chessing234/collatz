@@ -2500,3 +2500,137 @@ The two most isolated clusters in the corrected index — Beatty/Sturmian and
 finite-state — are exactly the two that speak about *orderings*.  That is the next
 round's target, and it is the first time the map and the mathematics have pointed at
 the same place.
+
+
+---
+
+# Round VIII — the ordering, and the barrier that follows it there
+
+Four specialists and a dedicated adversary against the ordered odd-step times
+`0 ≤ t₁ < ⋯ < t_a < L`.  All four proposed chains died; one real bridge was built;
+and the barrier that has blocked every previous round transported into the new
+language intact.
+
+## The combinatorial layer, stated cleanly
+
+Heaviness `2^j ≤ 3^(A(j))` is exactly `A(j) ≥ j·log₃2` — **the discrepancy path at
+the critical density stays non-negative**.  That is the whole of heaviness, and it is
+one-sided.  Cleared of logarithms, on the ledge:
+
+> **`CyclicOrder.heavy_walk_pos` / the one-sided bound.**  If `2^j ≤ 3^(A(j))` and
+> `3^a < 2^L`, then `a·j < L·A(j)` at every interior `j`.
+
+Four lines: raise heaviness to the `L`, raise the ledge inequality to the `j`, chain,
+strip the base.  Verified: 1751 heavy words at ledge pairs, **zero** violations —
+and off the ledge **2702 of 4402 violate**, so the hypothesis is load-bearing.
+
+It is sharp, and the upper side is free: `max_j D(j) = a(1 − a/L)` is **attained**,
+by `1^a 0^(L−a)`, which is heavy at every proper prefix for every `L ≤ fexp a + 1`.
+At the frontier that is `D* = 1585.5` at `(6809, 4296)` against `≈ 1` for the Beatty
+word.  **The heavy language spans the entire discrepancy range.**
+
+## The bridge: discrepancy *is* spread
+
+`Discrepancy.bridge_two_sided`.  From the cocycle and the cycle criterion, the
+correction term is bounded by the ledge slack itself:
+
+`|log₂(x_j/n) − log₂3 · D(j)| ≤ E = L − a·log₂3 < 1`.
+
+Logarithm-free, that is the pair `3^(A(j))·n ≤ 2^j·x_j` and
+`3^a·(2^j·x_j) ≤ 2^L·(3^(A(j))·n)` — a multiplicative window of width `2^L/3^a`,
+strictly under one bit.  So **Round V's spread question and Round VII's ordering
+question are the same question**, with a translation error bounded by an absolute
+constant independent of `n, L, a, d`.
+
+The two Round V endpoints match exactly: min spread `→ log₂3` **is** `Dwidth → 1`
+(the Sturmian discrepancy bound); max spread `0.585a` **is** `Dwidth = 0.369a`, since
+`log₂3 × 0.369 = 0.5849`.
+
+Because the window is under one bit, the discrepancy **orders the orbit**:
+
+> **`disc_forces_order_any`.**  For a cycle on the ledge, if `D(j) ≥ D(k) + 2` then
+> `x_k < x_j`.
+
+Verified over 180 genuine cycles of `3x+d` with `d < 200`: the largest `D`-gap in an
+inversion is **0.1034**, so the constant 2 is conservative about twentyfold, and on
+the tabulated cycles there are zero inversions — discrepancy order *is* orbit order.
+Dropping the ledge hypothesis and sweeping `−99 ≤ d ≤ 99` produces inversions with
+gaps to 2.92, which would falsify the theorem; the ledge is genuinely consumed.
+
+**And the barrier transports.**  By the bridge, a `Dwidth` bound is *equivalent* to a
+spread bound, and `SpreadFloor` already proves no `d`-free mechanism can supply one —
+the Sturmian word at `(4701, 2966)` is a genuine cycle of `3x + δ` with spread
+2.99930.  So **no `d`-free mechanism can bound a cycle's discrepancy either.**  The
+honest payoff of this round is a barrier transported into a new language, not a route
+opened.
+
+## The four chains, all dead
+
+* **Chain A (bounded discrepancy ⇒ balanced ⇒ Sturmian).**  No first step: the
+  discrepancy is `Θ(L)` on the heavy language, attained by a heavy word.
+* **Chain B (cycle ⇒ balanced).**  Refuted by three explicit words.  Genuine cycles
+  are *not* balanced — the `3x−1` cycle through 17 has balance **3**, the `3x+5`
+  27-cycles balance **5** and **4** — and `11010`, a genuine `3x+5` cycle, *is*
+  balanced.  Balance is neither necessary nor a discriminator.
+* **Chain D (accumulator-minimal ⇒ balanced).**  Provably **reversed**.  Within a
+  rotation class `C = |G|·n/d`, so accumulator-minimal ⟺ `n`-minimal ⟺ the rotation
+  starting at the orbit minimum ⟺ **the heavy rotation** — and heaviness is maximal
+  prefix bias.  Confirmed on the only two nonempty test sets: in `S(11,7,139)` the
+  minimum is the least balanced of the eleven; in `S(27,17)` it has both the maximum
+  balance and the maximum discrepancy of all 54.
+* **Chain E (`L` rotations ⇒ `L` constraints).**  `CyclicOrder.walk_shift`: the walk
+  is closed, and every rotation gives the same constraint up to an additive constant
+  read off the same walk.  Max and min over a period are rotation-**invariant**.
+
+Also closed: the ordering automaton.  `OrderAutomaton.disc_append` — the discrepancy
+is **additive** along the word.  So if `ρ` is unknown at read time `D(j)` is not
+prefix-computable (not an automaton); if `ρ` is fixed it is additive and the
+admissible language is a monoid language with an injection of `{0,1}^m` into it —
+verbatim `sieve_never_terminates`.  Diagnostic worth keeping: **test any proposed
+finite-state statistic against `disc_append` first; if it is additive along the word,
+it is dead on arrival.**
+
+## What the ordering is worth, exactly
+
+The `(j, A(j))` lattice region actually visited by heavy words is **exactly** the
+heavy-feasible region at every pair tested — the only region-level constraint is
+heaviness restated.  The product automaton `(j, A(j), C mod G)` has reachable set of
+maximum conceivable size, deficiency under 0.5 %.  Entropy stays at `2^(0.94996 L)`.
+Even a *granted* bound `|D| ≤ M` leaves positive entropy at every `M ≥ 1`.
+
+## Corrections, five of them mine
+
+* **I duplicated an existing theorem.**  I wrote the one-sided bound as a new file
+  before consulting the index; it is exactly `CyclicOrder.heavy_walk_pos`, derived
+  independently by an agent in the same round.  Deleted.  The index caught it, which
+  is what it is for — this time on me.
+* **My Chain D refutation attacked the wrong object.**  I refuted "unconstrained
+  accumulator-minimal ⇒ balanced"; Chain D's sink is the minimum *subject to*
+  `G ∣ C`.  The conclusion survived — the adversary killed the right object, in the
+  same direction, with a proof rather than a measurement — but my framing was wrong.
+* **`max C = Bcap a` is a ledge statement.**  Below the ledge the Beatty corner does
+  not fit and the maximum is strictly smaller: `a = 7, L = 9` gives 3511 against
+  3767; `a = 10, L = 13` gives 121165 against 148813.  The minimum half is unaffected.
+* **Coordinatewise monotonicity does not by itself put the extremes at the corners**,
+  since the feasible set is `box ∩ {strictly increasing}` and raising one `t_i` can
+  collide.  The repair: the feasible set is a **sublattice** with top and bottom.
+* **`heavy ⟺ box` holds for every `L ≤ fexp a + 1`**, not "on the ledge and only
+  there" as `ExtremalWord`'s header and my own note said.  The failure is one-sided —
+  above the ledge only, where the heavy set is empty and the box is not.  Verified,
+  zero mismatches.
+
+## Where Round VIII leaves it
+
+The ordering is now fully mapped, and it is not where the obstruction lives:
+
+> Heaviness is one-sided non-negativity of the critical-density discrepancy path.
+> `C` is monotone on the resulting box, with both corners explicit.  Discrepancy and
+> spread are the same quantity to within one bit, and the discrepancy orders the
+> orbit.  Every ordering statistic examined — balance, discrepancy width, majorization
+> position, rotation profile, lattice region — is a function of the word, invariant
+> under `C ↦ d·C`, and therefore dead by the soundness filter.
+
+The barrier is unchanged and now has three equivalent statements: no `d`-free
+mechanism can bound a cycle's spread, its discrepancy width, or its accumulator
+position in the box.  What would break it must consume asset (a), (b), (c) or (d) —
+and asset (a) is worth exactly 183 of 6809 steps.

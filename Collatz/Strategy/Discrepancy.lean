@@ -83,6 +83,17 @@ and on heavy words at ledge pairs, where `ε_j = 0` and the relation is exact:
 | `(4701, 2966)` | Beatty | 0.99977 | 1.58460 | 1.58489 |
 | `(4701, 2966)` | `1^a 0^*` | 1094.6628 | 1734.9995 | 1735.0000 |
 
+**How sharp is the slack `2`?**  Over 180 genuine cycles of `3x + d`, `d` odd and
+`1 ≤ d < 200`, minima below 600, that satisfy the ledge hypothesis
+`3 ^ a < 2 ^ L ≤ 2 · 3 ^ a`, the largest discrepancy gap occurring in an
+*inversion* (a pair with `D j > D k` but `x_j ≤ x_k`) is **0.1034** — so `2` is
+conservative by a factor of about twenty, and on the five cycles tabulated above
+there are no inversions at all: the discrepancy order *is* the orbit order.  The
+ledge hypothesis is load-bearing, not decorative: dropping it and sweeping
+`−99 ≤ d ≤ 99` over 283 cycles (most of them off the ledge, including every `d < 0`
+one, where `3 ^ a > 2 ^ L`) produces inversions with discrepancy gaps up to
+**2.92**, which would falsify the theorem were the hypothesis not there.
+
 Both of Round V's endpoints are recovered: the minimum spread `≈ log₂ 3` is
 `Dwidth ≈ 1` (the Sturmian bound on Beatty discrepancy), and the maximum spread
 `0.585 · a` is `Dwidth = a(1 − a/L) = 0.369 a`, since `log₂ 3 · 0.369 = 0.585`.
