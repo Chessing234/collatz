@@ -1,5 +1,6 @@
 import Collatz.Structure.Divergence
 import Collatz.Search.Sieved
+import Collatz.Strategy.Escape
 
 /-!
 # Audit of the "divergence = distinctness = escape" chain
@@ -50,6 +51,7 @@ theorem iter_add (f : Nat → Nat) (j k x : Nat) :
   | zero =>
     have h0 : 0 + k = k := by omega
     rw [h0]
+    rfl
   | succ j ih =>
     have hidx : j + 1 + k = (j + k) + 1 := by omega
     rw [hidx]
@@ -278,6 +280,53 @@ theorem divergent_visits_le {n B : Nat} (hn : 0 < n) (h : Divergent n)
     refine ⟨?_, ?_⟩
     · rw [iter_step]; exact divergent_avoids_verified hn h (idx t)
     · rw [iter_step]; exact hwin t ht
+
+/-! ## The two "quantitative consequences" are the hypothesis again
+
+`Escape.lean` says of `divergent_window` and `divergent_escapes` that they are "not
+merely a repackaging of unbounded".  They are.  Each is *logically equivalent* to
+`Divergent n`, so neither is a proposition strictly between divergence and anything
+else, and neither can appear as the `F` of a divergence filter: step (1)
+"divergence ⇒ F" and step (2) "F ⇒ divergence" are both trivial, and no independent
+principle is invoked in either. -/
+
+/-- The window statement **is** divergence. -/
+theorem window_iff_divergent (n : Nat) :
+    Divergent n ↔ ∀ N B : Nat, ∃ k : Nat, k ≤ B + 1 ∧ B < orbit (N + k) n := by
+  constructor
+  · intro h N B; exact Escape.divergent_window h N B
+  · intro h B
+    obtain ⟨k, _, hk⟩ := h 0 B
+    exact ⟨0 + k, hk⟩
+
+/-- The escape statement **is** divergence. -/
+theorem escapes_iff_divergent (n : Nat) :
+    Divergent n ↔ ∀ B : Nat, ∃ N : Nat, ∀ i : Nat, N ≤ i → B < orbit i n := by
+  constructor
+  · intro h; exact Escape.divergent_escapes h
+  · intro h B
+    obtain ⟨N, hN⟩ := h B
+    exact ⟨N, hN N (Nat.le_refl _)⟩
+
+/-- Injectivity **is** divergence too. -/
+theorem inj_iff_divergent (n : Nat) :
+    Divergent n ↔ ∀ i j : Nat, orbit i n = orbit j n → i = j := by
+  constructor
+  · intro h i j heq; exact Escape.orbit_inj_of_divergent h heq
+  · intro h
+    refine Classical.byContradiction ?_
+    intro hnd
+    obtain ⟨i, L, hL, hrep⟩ := eventuallyPeriodic_of_bounded (bounded_of_not_divergent hnd)
+    have := h (i + L) i hrep
+    omega
+
+/-- **The window constant is not sharp, and the repair is one line.**  A divergent
+orbit exceeds `B` at *every* index for every `B < 102400`, so the window length
+`B + 2` should be `1`.  At `B = 102399` the file's bound asks for a window of
+`102401` indices; the truth needs one. -/
+theorem window_one_below_verified {n : Nat} (hn : 0 < n) (h : Divergent n)
+    {B : Nat} (hB : B < 102400) (N : Nat) : B < orbit N n :=
+  Nat.lt_of_lt_of_le hB (divergent_avoids_verified hn h N)
 
 end DivergenceAudit
 end Collatz

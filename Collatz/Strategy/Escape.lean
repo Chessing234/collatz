@@ -1,4 +1,5 @@
 import Collatz.Structure.Divergence
+import Collatz.Search.VerifiedExtended
 
 /-!
 # Round X, Section III — what divergence actually means
@@ -21,32 +22,71 @@ Hence, for orbits of any `f : ℕ → ℕ`:
 and "persistent non-descent", "scale divergence" and "logarithmic divergence" are the
 same statement in other coordinates.  **There is only one divergence notion here.**
 
-## Why this is not merely a repackaging of "unbounded"
+## These are equivalent restatements, and that is the point
 
-The equivalence is elementary, but two of its consequences are quantitative and are
-what Round X actually needs:
+An earlier draft of this header was titled *"why this is not merely a repackaging of
+unbounded"*.  **It is exactly a repackaging, and the claim was wrong.**  All three of
+the statements below are *logically equivalent* to `Divergent n`, so "divergence ⇒ F"
+and "F ⇒ divergence" are both trivial and no independent principle is named:
 
-* `divergent_window` — **in every window of `B + 2` consecutive indices, some orbit
-  value exceeds `B`.**  This is a return-time statement with a uniform constant: the
-  occupation of `[0, B]` in any window of length `B + 2` is at most `B + 1`.
-* `divergent_escapes` — the last visit to `[0, B]` happens at a finite index, for
-  every `B`.
+* `divergent_window` — in every window of `B + 2` consecutive indices some value
+  exceeds `B`.  The converse is immediate, so this **iff**s with `Divergent`.
+* `divergent_escapes` — the last visit to `[0, B]` is at a finite index.  Also an iff.
+* `orbit_inj_of_divergent` — injectivity.  Also an iff.
 
-Neither mentions cycles, and neither is available to the cycle-half machinery: they
-say something about an orbit *that never comes back*, which is exactly the object the
-existing development cannot see.  They are also **independent of Collatz** — nothing
-below uses any property of the Collatz map beyond determinism on `ℕ`, which is why the
-statements are proved for a general `orbit`-style iteration.
+Worse, the constant is the *cardinality of the target set*, so the bound holds for
+`x ↦ x + 1`, for `x ↦ 2x`, and for every self-map of `ℕ`.  It cannot distinguish
+`3x+1` from `x+1`, so it cannot be a filter component.  (The sharp constant on `[1,B]`
+is `B`, not `B+1`, attained by `x ↦ x+1` from `1`; `B+1` is sharp only on `[0,B]`.)
+
+So Section III is a **definitions-hygiene result**: there is one divergence notion, and
+it is injectivity.  It is non-circular precisely because it has no content — nothing
+here uses any property of the Collatz map beyond determinism on `ℕ`.
+
+**Prior art, which this file did not find before writing.**
+`InfiniteWord.accBounded_of_eventuallyCyclic` and `eventuallyCyclic_of_accBounded`
+already prove this equivalence for the accelerated map, with the same proof, and
+`InfiniteWord.periodicity_equiv_no_divergence` is `divergent_iff_not_eventuallyPeriodic`.
+That file's own docstring already recorded this round's verdict: *"A divergent orbit
+has an aperiodic parity word — and that is all it has.  No contradiction follows."*
+What is genuinely new here is only the plain-`orbit` phrasing and the next section.
+
+## The one statement here with actual content
+
+Combining the dichotomy with the verified range gives something no self-map argument
+can give, because it is `3x+1`-specific:
+
+> **`divergent_avoids_verified` — a divergent Collatz orbit never takes a value in
+> `[1, 1086463]`.  Not "finitely often": never.**
+
+A tail of a divergent orbit is divergent (`divergent_tail`), so if any orbit value were
+positive and below `1086464` it would reach `1` by `reachesOne_of_lt_1086464`, and a
+value reaching `1` is not divergent.  This consumes soundness asset (a), it fails for
+`x ↦ x + 1`, and it collapses `divergent_window`'s constant completely: for every
+`B < 1086464` the true window length is `1`, against the `B + 2` the general theorem
+demands.
+
+That is the honest shape of the gap.  A useful filter needs band occupancy — *a
+divergent orbit visits `[2^k, 2^(k+1))` at most `c` times* for `c` of size `O(1)` or
+`O(k)`.  The general bound gives `2^k`.  Nothing here closes that, and the verified
+range moves the floor rather than the exponent.
 
 ## How strong is it, honestly
 
-Tested where escape actually happens — Collatz has no known divergent orbit, but the
-theorems here are about *any* deterministic map on `ℕ`, so the `5x+1` map serves.  On
-its orbit of `7` (400 steps, reaching 54 bits) all values are distinct, and every
-window of `B + 2` consecutive indices contains a value `> B` for `B = 10, 100, 1000,
-10^5`.  On the `3x+1` orbit of `27` the same window statement is **false** from index
-65 on, because that orbit is eventually periodic in `{1,2}`.  So the statements do
-discriminate escape from recurrence, which is the property Round X is asking for.
+An earlier draft said these were *"tested where escape actually happens"*, using the
+`5x+1` orbit of `7`.  **That phrase was wrong: `5x+1` from `7` is not known to
+diverge** — it is an open question, and `5x+1` has cycles at `1`, `13` and `17`.  Four
+hundred finite steps are not divergence.  The validation set for this round contains
+**zero proven-divergent orbits**, which is exactly the missing-witness problem Round IX
+Part VI named.  The only provably divergent orbits available are monotone maps like
+`x ↦ x+1`, where growth never competes with descent, and those cannot test a filter.
+
+What the computation does show, stated at its true strength: on the `5x+1` orbit of `7`
+(400 steps, 54 bits) all 401 values are distinct and the window property holds for
+`B = 10, 100, 1000, 10^5`; on the `3x+1` orbit of `27` under the **plain** map the
+window statement first fails at index **108** for `B = 10` (an earlier draft said 65,
+which is the *accelerated* map, and omitted `B`).  Consistent with the theorems, but
+evidence of nothing, since the first orbit is not known to escape.
 
 **But the constant is very loose, and that must be said plainly.**  The bound "at most
 `B + 1` visits" is attained only by an orbit that enumerates `0 … B` before leaving.
@@ -202,10 +242,53 @@ theorem divergent_escapes {n : Nat} (h : Divergent n) :
       have h2 : orbit i n ≠ B + 1 := fun hc => hhit ⟨i, hi, hc⟩
       omega
 
+/-! ## The one Collatz-specific statement: a divergent orbit avoids the verified range
+
+Everything above holds for an arbitrary self-map of `ℕ` and therefore constrains
+nothing.  This section does not: it consumes the verified range (soundness asset (a))
+and is false for `x ↦ x + 1`. -/
+
+/-- **A tail of a divergent orbit is divergent.**  Immediate from `divergent_escapes`:
+past the escape threshold for `B`, every index — in particular every index of the form
+`k + i` — carries a value above `B`. -/
+theorem divergent_tail {n : Nat} (h : Divergent n) (i : Nat) : Divergent (orbit i n) := by
+  intro B
+  obtain ⟨N, hN⟩ := divergent_escapes h B
+  refine ⟨N, ?_⟩
+  rw [← orbit_add N i n]
+  exact hN (N + i) (by omega)
+
+/-- **A divergent Collatz orbit never enters the verified range.**  Not "finitely
+often" — *never*.  If some value were positive and below `1086464` it would reach `1`,
+and a value reaching `1` is not divergent, contradicting `divergent_tail`.
+
+This is the first statement in this file with content: it is `3x+1`-specific, it
+consumes asset (a), and it is false for `x ↦ x + 1`. -/
+theorem divergent_avoids_verified {n : Nat} (h : Divergent n) (i : Nat)
+    (hpos : 0 < orbit i n) : 1086464 ≤ orbit i n := by
+  by_cases hlt : orbit i n < 1086464
+  · exfalso
+    exact not_divergent_of_reachesOne
+      (Search.reachesOne_of_lt_1086464 hpos hlt) (divergent_tail h i)
+  · omega
+
+/-- The window constant collapses inside the verified range: for `B < 1086464` a
+divergent orbit exceeds `B` at *every* index, so the true window length is `1` against
+the `B + 2` that `divergent_window` demands in general. -/
+theorem divergent_window_one {n : Nat} (h : Divergent n) (i : Nat)
+    (hpos : 0 < orbit i n) {B : Nat} (hB : B < 1086464) : B < orbit i n :=
+  Nat.lt_of_lt_of_le hB (divergent_avoids_verified h i hpos)
+
 /-! ## The dichotomy -/
 
-/-- **Escape or recurrence, and nothing else.**  Either the orbit lands on a genuine
-cycle, or it leaves every bounded region permanently. -/
+/-- **Escape or recurrence.**  Either the orbit lands on a cycle, or it leaves every
+bounded region permanently.
+
+Two caveats an earlier draft omitted.  What is proved is an *inclusive* disjunction;
+the exclusivity is true but not proved here.  And there is no positivity hypothesis, so
+`n = 0` and `n = 1` both land in the left branch with `Periodic` witnessed by the fixed
+point `0` and by the trivial cycle respectively — "genuine cycle" in this repository's
+sense is a stronger notion.  Case A is where every number ever tested lives. -/
 theorem escape_or_cycle (n : Nat) :
     (∃ i : Nat, Periodic (orbit i n)) ∨
       (∀ B : Nat, ∃ N : Nat, ∀ i : Nat, N ≤ i → B < orbit i n) := by
@@ -230,6 +313,8 @@ theorem divergent_iff_not_eventuallyPeriodic (n : Nat) :
 #print axioms divergent_window
 #print axioms divergent_escapes
 #print axioms escape_or_cycle
+#print axioms divergent_tail
+#print axioms divergent_avoids_verified
 
 end Escape
 end Collatz
