@@ -1,14 +1,14 @@
 # Concept index
 
-3055 theorems/lemmas across 204 files.
+3061 theorems/lemmas across 204 files.
 
 ## Cluster sizes
 
 - orbit windows: 654
 - affine accumulator: 317
 - cycle equations: 275
-- parity word: 228
-- descent: 203
+- parity word: 230
+- descent: 206
 - divisibility: 189
 - gap G=2^L-3^a: 168
 - 3-adic valuation: 153

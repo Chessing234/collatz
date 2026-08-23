@@ -5237,3 +5237,71 @@ a half-remembered logarithm and designed a theorem around a `4/3` margin.  Exact
 arithmetic gives **`1.0010227`** — I re-verified — and the claim was false.  It caught
 this before the constant entered a proof, which is the discipline four previous rounds
 were written about.
+
+## Round XV — the valuation transition system is the full shift
+
+The 2-adic desk built the object the brief called its priority, and the result is a
+decisive negative with a positive attached.
+
+### The system, exactly
+
+A Syracuse step is `SyrStep n r m := n odd ∧ m odd ∧ 3n+1 = 2^r·m` — this *is*
+`r = v₂(3n+1)`, with no valuation function needed.  `val_iff_mod` (LEAN_PROVED): for odd
+`n`, a step with valuation `r` exists **iff** `(3n+1) mod 2^(r+1) = 2^r`.  So the
+valuation is literally one congruence, and `val_class_unique` says at most one odd class
+mod `2^(r+1)` has it.  Recomputed exactly: the classes are
+`3 mod 4, 1 mod 8, 13 mod 16, 5 mod 32, 53 mod 64, 21 mod 128, 213 mod 256`.
+
+`path_congr` is the heart — Terras determinacy in the valuation alphabet: `n' ≡ n
+(mod 2^(S+k+1))` realizes the *same whole word*.  So word-realizability is exactly a
+congruence mod `2^(S+1)`.
+
+### The main negative: every valuation word is realized by an integer
+
+> **`word_realizable` (LEAN_PROVED): every finite word of valuations `≥ 1` is the
+> valuation word of an actual odd integer.**
+
+Confirmed independently: all `16`, `64`, `256` words in `[1,4]^L` for `L = 2, 3, 4` are
+realized by odd `n < 2·10^6`.  So the valuation transition system is the **full shift on
+`{1,2,3,…}`** — no forbidden transitions at any order, and **no finite automaton on
+valuations can obstruct anything.**  Brief §§8 and 10 are closed.
+
+Note this is the *opposite* of the usual trap.  The standing warning is "do not confuse
+symbolic paths with integer trajectories" because symbolic paths usually fail to lift.
+Here they **all** lift, which is worse: the symbolic layer carries no information at all.
+The remaining obstruction is archimedean — the `2^S` versus `3^L` comparison — not
+automaton-theoretic.
+
+The construction also explains the asymmetry: the *backward* map is genuinely
+constrained mod 3 (needing `2^r·m ≡ 1 mod 3`), while the *forward* one is free, because
+`t ↦ m₀ + 6t` covers every odd class since `gcd(6, 2^(T+1)) = 2`.
+
+### And it sees the even branch — a third independent route to the same place
+
+`expStep`'s halving exponent is **1 at every step regardless of residue**, so its
+alphabet is the single letter `{1}`, giving `S = L`.  The drop criterion `3^L < 2^S`
+becomes `3^j < 2^j` — false for every `j ≥ 1`.  `expStep_fails_certificate`
+(LEAN_PROVED): `expStep` never drops, at any length, from any positive start.
+
+By contrast `letter_realizable`: the genuine Syracuse valuation takes **every** value
+`r ≥ 1`, so `S` is not pinned to `L`.  **The drop certificate is exactly the
+`oddCount n j < j` datum, in the form `L < S`.**
+
+That is the third desk this round to land on the same datum by an independent route —
+descent certificates, the Beatty ceiling, and now the valuation alphabet.
+
+### Section 9, deterministically, replacing the heuristic
+
+`no_drop_bounds` (LEAN_PROVED): if a run does **not** drop then
+`(2^S − 3^L)·n ≤ 2^(S−L)(3^L − 2^L)`.
+
+> **A non-dropping start is *bounded* the moment the halving sum has any surplus over
+> `L·log₂3`.**  No logarithms, no floats, no independence assumption.
+
+And the answer to "does the exact arithmetic force large valuations" is **no** —
+`word_realizable` shows every deficient valuation pattern is realized by integers at
+every finite length.
+
+A non-circular restricted-class theorem, kernel-checked and independently verified for
+`n < 2·10^5`: **`drop_of_seventeen_mod_64` — every `n ≡ 17 (mod 64)` with `n ≥ 2` drops
+within two Syracuse steps.**  Its word is `[2,3]`, so `S = 5` and `2^(S+1) = 64`.

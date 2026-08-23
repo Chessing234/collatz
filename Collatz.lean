@@ -170,6 +170,7 @@ import Collatz.Strategy.DeltaAdversaryXIV
 import Collatz.Strategy.UniformCovering
 import Collatz.Strategy.ValuationBeatty
 import Collatz.Strategy.ReversePinch
+import Collatz.Strategy.ValuationTransition
 import Collatz.Strategy.SieveGrowth
 import Collatz.Strategy.Profile
 import Collatz.Strategy.ExchangeRate
