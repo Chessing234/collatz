@@ -4586,3 +4586,134 @@ What it *does* say, stated as narrowly as it deserves:
   evidence of an *extremal integer*, not of an extremal *constant*.
 * **Reproduce Round XI's `1 + r = 1.258543`.**  It does not reproduce; it is `exp(S)`.
   Diagnosis: `Σ log(1+t_i)` and `Σ t_i` were interchanged.  Recorded, not glossed.
+
+---
+
+# Round XII — the ledger.  Both branches empty; the bottom is a leaf structure
+
+## 1.  Octave theorem
+
+`octave_sojourn` (`CouplingDecay.lean:373`) was **already a universal Lean proof** — not
+a computation, as Round XI's summary and my own Round XII briefing both said.  Pure
+arithmetic: both points must be odd, then `4·x_(j+2) = 9·x_j + 5 > 8·2^k`.  Map: the
+accelerated `T`.  Sharp, witness `17 → 26` (my earlier "`7 → 26`" read a `(start,
+value)` pair as a step pair).
+
+Structure on top of it, all new: the alphabet is exactly **three letters** —
+`E = (Δk=−1, even)`, `O0 = (Δk=0, odd)`, `O1 = (Δk=+1, odd)`, exhaustively confirmed
+with no fourth.  Entry to a two-step sojourn lies in `r < 4/3`, exit in `r ≥ 3/2`; the
+windows are disjoint, and that is the mechanism.
+
+## 2.  Bottom localization
+
+**No counterexample ever takes a value below `1086464`** — cycles and divergent orbits,
+forward orbit and reverse tree, accelerated map and plain.  So the round's Branch A is
+empty as posed.  `BottomUnreachable.lean` records this and declares itself a
+redirection note with no new mathematics (`reaches_of_bottom_visit` duplicates
+`BackwardRange.subtree_reaches_one`).
+
+The bottom that is *not* empty: `cycle_frontier` bounds the cycle minimum **above**, so
+it lies in a per-ledge band — `[1086464, 1166893]` at `(4701,2966)`, `[1086464,
+1884147]` at `(6809,4296)`.  Finite, but unbounded over ledges, and clearing it is
+definitionally extending the verified range.
+
+## 3.  Coupling budget
+
+`F(B) = max_n Σ_(odd x ≥ B) 1/(3x) = c(B)·ln B / B` with `c ∈ [0.64, 1.07]`, mean
+`0.83`, over `32 ≤ B ≤ 2^20`.  **`F(B) → 0` is not proved and not provable here**: the
+proved bound is `a_B/(3B)`, and bounding `a_B` is bounding a segment's spread — which
+Round XI's identity says *is* the archimedean tracking problem.  Class 1 by identity.
+
+## 4.  Coupling demand — and the repair is empty as calibrated
+
+A counterexample's coupling is at most `a/(3·1086464)`.  That is `floor_coupling` at a
+constant floor, implied by `cycle_frontier` and never conversely.  Its admissible ledge
+pairs are the frontier family **cut two risers lower** — it admits `4701` and `5755`,
+which `length_ge_6809` excludes — so **the budget cannot even recover the frontier**.
+Reason, exact: the budget reads `(L,a)`, word *content*; `Bcap` reads word *ordering*.
+
+And Round XI's "a coupling mechanism must be a bottom-scale mechanism" is quantitatively
+empty: anchored at `1086464` the budget is `F(1086464) ≈ 1.06·10^(−5)`, five orders below
+the `0.2299545` the constant advertises.
+
+## 5.  The `0.2299545` constant — an extremal *integer*, not an extremal constant
+
+`S(n) = Σ 1/(3x_i)` is **exactly a rational**: at `993` a 60-digit numerator over a
+61-digit denominator.  No logarithm, no limit, no closed form.  Seven reproduced digits
+were evidence of an extremal integer.  What *is* closed form is its dominator:
+`∏(1 + 1/(3x_i)) = 2^L/(3^a n) = ρ(n)`, hence **`log ρ(n) ≤ S(n) ≤ ρ(n) − 1`** —
+verified at `993` as `0.225654 ≤ 0.229954 ≤ 0.253142`.
+
+**Why 993.**  `S(Tn) = S(n) − 1/(3n)`, so `S` increases along backward orbits and a
+maximiser has no odd predecessor.  An odd `m` has one iff `2m ≡ 1 (mod 3)`, so **every
+odd multiple of 3 is a leaf** — and `993 = 3·331` is one.  The record chain is
+`3, 7, 9, 559, 745, 993`, the last three a single backward chain with
+`993 = (4·745−1)/3` and `745 = (4·559−1)/3`, terminating because `3 ∣ 993`.  The gap to
+the next best is exactly one term, `1/2979`.
+
+Isolated, not a family: maximal over all `n ≤ 10^9` by three implementations, runner-up
+`3531` at `9.4·10^(−5)`.  But **maximality is a CONJECTURE and no exhaustive range can
+close it**, since `S(n) = H(n,B) + S(m)` with `max_(m<B) S(m) = S(993)` for every
+`B > 993`.
+
+## 6.  High-scale case — Branch B is empty too
+
+`octave_word_free` (witness `2^k + (r mod 2^j)`): every length-`j` parity word occurs in
+every octave `k ≥ j`.  High scale makes transitions **maximally nondeterministic**, the
+opposite of section XX's hope.  Pincer: the alphabet *with* forbidden words is the
+finite three-letter octave alphabet, where `no_finite_scale_invariant` applies verbatim;
+the alphabet that could carry unbounded information has *no* forbidden words.  The
+question "which unbounded coordinate is well-founded?" has no answer because the
+obstruction is one level earlier, in the alphabet.
+
+## 7.  Local potential / cost
+
+None exists on the branch that matters, because the branch is empty (§2).  `r` is
+exactly conserved around any cycle, so it cannot be a potential by construction; `k`'s
+balance is exactly `Σ Δk = 0`.
+
+## 8.  Block composition
+
+`block_lower` cannot be accumulated around a cycle: empty index set, the segment rank
+telescopes so no strictly submultiplicative rank exists, and the surviving product
+argument reproduces the frontier ladder.  Settled in Round XI, unchanged.
+
+## 9.  Ordering connection — inexpressible, not merely absent
+
+`octave_word_time_invariant`: prefixing `r` even steps shifts every odd time by `r` and
+leaves the octave decoration **pointwise unchanged**.  The decoration is a function of
+the odd-step *index*, never of the *time*, so "the octave path demands an odd step near
+time `t`" cannot be stated.  Sealed by `ballot_iff_no_drop`, an *iff* with a pure
+magnitude statement — Round VIII heaviness in new coordinates.
+
+The two desks compose to `1.5a ≤ L ≤ 2a`, bracketing the criterion's `1.585a` from both
+sides and excluding nothing.
+
+## 10.  What survives
+
+* **The `O0 E^m O0` ban** — no two `O0` adjacent in the odd subword.  Genuinely
+  non-local (the even run is transparent), so it *evades* `no_finite_scale_invariant`
+  rather than restating it.  Closed by margin: it needs `a/L ≤ 2/3 = 0.66667`, the
+  criterion gives `0.63093`, gap `0.0357`.  The escalation `O0 O1 O0` would close it and
+  is **false** — 412136 occurrences below `n = 60000`, first at `n = 27`.
+* **The repunit asset** — the `+1` changes an octave decision *exactly* at the base-4
+  repunits `(4^m−1)/3`, all of which reach 1.  So a counterexample's octave word is
+  exactly that of `x ↦ 3x/2`.  Verified for all odd `z < 4·10^6`.
+* **Every odd multiple of 3 is a leaf** of the odd backward tree.
+
+## 11.  The single remaining lemma
+
+Every route this round reduced to the frontier ladder, and the ladder's price
+compounds: record gaps in `1/E` are `36, 40, 44, 50, 56`, ratios `≈1.11`, so each riser
+costs about `11%` more while still buying a fixed `1054`.
+
+Round XI showed the budget-type lemma is *false as stated* (`E < 1` while `a/(3V)`
+grows).  This round shows why no budget can substitute: **the budget reads `(L,a)`,
+word content; the certificate reads word ordering, and content is strictly less
+information.**  So:
+
+> **The single remaining lemma is a bound on the cycle minimum that reads the *ordering*
+> of the parity word and beats `Bcap` — uniformly in `a`, not one ledge at a time.**
+
+Nothing in Rounds IX–XII produces one, and three independent routes (coupling, budget,
+octave) have now each reduced to the same ladder.
