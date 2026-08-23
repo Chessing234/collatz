@@ -54,7 +54,7 @@ a window of length `k` is `x₀ / 2^k`, and the uniform bound degrades to `a·2^
 That loss is **attained**, and here is the exact witness:
 
 > **`x₀ = 1365`, `k = 20`: `κ = 716881/331695 = 2.1613`** — the window minimum is `1`,
-> and `a/(3x₀) = 0.0012`.  The claimed rate is off by a factor of `1800`, and `κ` is
+> and `a/(3x₀) = 0.0012`.  The claimed rate is off by a factor of `1770`, and `κ` is
 > not small; it is larger than `2`.
 
 Round X's four measured numbers (`6.9e−2` at `27`, `2.2e−3` at `10³`, `2.9e−5` at `10⁶`,
@@ -80,6 +80,37 @@ summable.  **Summability is a growth hypothesis on the orbit, not a decay fact a
 `κ`.**  Since `Σ κ = Σ 1/(3 x_i)` over odd steps, it converges iff the orbit grows
 faster than linearly in its odd-step index — which is strictly stronger than
 divergence and is not known for any orbit.
+
+## 4.  The quantifier order, and why `κ(w,n) → κ_∞(w)` is Terras, not decay
+
+`ScaleFibre.lean` states the decoupling theorem as an identity: on the fibre over a
+fixed word of length `j`,
+
+> `r_j(n) = E(w)/n`  with  `E(w) = C_j / 3^(A_j)`,  exactly, no remainder.
+
+That is **true and it is `Terras`**: `C_j` and `A_j` are functions of `n mod 2^j`, so
+of course the coupling is a word constant over `n`.  What it is not, is a decay
+theorem — because `j` is held fixed while `n → ∞`, and `E` is unbounded in `j`.
+`Linearizing.coupling_monotone` says `r_j` increases in `j`, so `E(w_j) = n·r_j`
+increases in `j` too, and along an actual orbit `j` must grow with `n`.  Measured, at
+`j` = the full orbit length:
+
+| `n` | `L` | `a` | `E(w)` | `E(w)/n` |
+|---|---|---|---|---|
+| `27` | 70 | 41 | `5.3689` | `0.19885` |
+| `993` | 61 | 32 | `2.5137e2` | `0.25314` |
+| `10⁹+7` | 111 | 51 | `2.0544e8` | `0.20544` |
+| `10¹²+39` | 140 | 63 | `2.1776e11` | `0.21776` |
+
+`E(w)` scales **linearly in `n`**, so the `1/n` is cancelled exactly and `κ` over the
+full window does not tend to `0` — it sits at `0.2` at every scale.  The two limits do
+not commute, and the coupling programme only ever lived in the joint one.
+
+**Verdict on the round's central question.**  The decoupling theorem is *true at fixed
+window length* (where it is Terras) and *false in the joint limit* (where it is the
+whole problem).  It therefore cannot close the coupling route.  Nor can it open it:
+by identity 1 above, any estimate of the joint-limit coupling is an estimate of the
+spread.
 
 ## What is unconditionally true, and it is the repair
 

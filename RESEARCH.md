@@ -3930,3 +3930,150 @@ Outcome B of section XXXVI, established rather than suspected.  The coupling rou
 The programme returns to the cycle-side ordering problem — and now knows, with a
 theorem rather than a hunch, that no coupling-based device can supply the missing
 contradiction.
+
+---
+
+# Round XI, adversary — the decoupling theorem: true at fixed window, false in the joint limit
+
+*New file: `Collatz/Strategy/CouplingDecay.lean` (compiles clean under
+`lake env lean`, zero errors, zero warnings, no `sorry`/`axiom`; not yet imported into
+`Collatz.lean`, which this desk does not edit).*
+
+The brief asked me to **prove the coupling programme doomed**: to establish
+`lim_{n→∞} κ(w,n) = κ_∞(w)` with a rate strong enough that no finite-scale accumulation
+can matter.  The attempt fails, and the failure is sharp enough to be the round's
+answer.
+
+## The master identity — the coupling is the spread, exactly
+
+Read the affine law multiplicatively.  On an even step `2^(j+1) x_(j+1) = 2^j x_j`;
+on an odd step `2^(j+1) x_(j+1) = 2^j (3 x_j + 1)` (`step_even`, `step_odd`,
+LEAN_PROVED).  Dividing by `3^(A j) n`:
+
+> **`1 + r_j  =  2^j x_j / (3^(A j) n)  =  ∏ over odd steps i<j of (1 + d/(3 x_i))`.**
+
+COMPUTATIONAL, exact rationals, zero mismatches at every step of
+`(n,d) = (27,1), (703,1), (9663,1), (187,5), (17,−1), (229,59), (5,7), (131,13)`.
+(The same product identity was reached independently this round by the segment-monoid
+desk as `2^L/3^a = ∏(1 + 1/(3x_t))`; the two derivations agree.)
+
+Taking logarithms:
+
+> **`log₂(1 + r_j) = log₂(x_j/n) − (A_j·log₂3 − j)`.**
+
+The accumulated coupling **is** the spread, minus a pure word quantity.  So "bound the
+accumulation" and "solve the archimedean tracking problem" are the same sentence, and
+the whole coupling family is **Class 1 by an exact identity, not by an asymptotic
+argument**.  A decay estimate can neither kill the route nor advance it.
+
+## Why the decoupling theorem cannot be proved: the quantifier order
+
+`ScaleFibre.lean` proves the theorem in the form `r_j(n) = E(w)/n` with
+`E(w) = C_j/3^(A_j)`, exactly, on the fibre over a fixed word.  **That statement is
+Terras**, not decay: `C_j` and `A_j` are functions of `n mod 2^j`, so the coupling is
+trivially a word constant over the fibre.  The window length `j` is held fixed while
+`n → ∞`, and `E` is unbounded in `j` — `Linearizing.coupling_monotone` makes `r_j`
+increase in `j`, hence `E(w_j) = n·r_j` increase too.  Along an actual orbit `j` grows
+with `n`, and then (COMPUTATIONAL, exact integers, `j` = full orbit length):
+
+| `n` | `L` | `a` | `E(w)` | `E(w)/n` |
+|---|---|---|---|---|
+| `27` | 70 | 41 | `5.3689` | `0.19885` |
+| `993` | 61 | 32 | `251.37` | `0.25314` |
+| `10⁶+1` | 77 | 36 | `6.802e3` | `0.00680` |
+| `10⁹+7` | 111 | 51 | `2.0544e8` | `0.20544` |
+| `10¹²+39` | 140 | 63 | `2.1776e11` | `0.21776` |
+
+`E(w)` scales **linearly in `n`**: the `1/n` is cancelled exactly, and the full-window
+coupling sits at `≈ 0.2` at every scale instead of tending to `0`.  **The two limits do
+not commute, and the coupling programme only ever lived in the joint one.**
+
+> **Verdict.  The decoupling theorem is true at fixed window length, where it is
+> Terras, and false in the joint limit, where it is the whole problem.  The negative
+> result the brief asked for does not exist.**
+
+## The `1/x₀` rate is conditional, and Round X's own four numbers do not show it
+
+The honest rate is governed by the window **minimum**, not its start.  `window_bound`
+(LEAN_PROVED): if every point strictly inside the window is `≥ c`, then
+`(2^k x_k)·(3c)^a ≤ (3^a x)·(3c+1)^a`, i.e. `κ ≤ (1+1/(3c))^a − 1`.  Unconditionally
+`orbit_floor` (LEAN_PROVED) gives only `x ≤ 2^k·T^k x`, so the available floor is
+`x₀/2^k` and the uniform bound degrades to `a·2^k/(3x₀)`.  **The loss is attained:**
+
+> **`x₀ = 1365`, `k = 20`: `κ = 716881/331695 = 2.16127` exactly.**  The window minimum
+> is `1`; `a/(3x₀) = 0.00122`.  The claimed rate is wrong by a factor of `1770`, and
+> `κ` is not small — it exceeds `2`.
+
+Round X's four numbers (`6.9e−2` at `27`, `2.2e−3` at `10³`, `2.9e−5` at `10⁶`,
+`8.4e−9` at `10⁹`) do not exhibit a `1/x₀` law on their own terms: the ratios are
+`31, 76, 3452` against magnitude ratios `37, 1000, 1000`.  Re-measured (window length
+20 Terras steps, 400 random starts per scale): the `27` value reproduces exactly, the
+*medians* are `1.06e−2 / 9.71e−6 / 1.07e−8` and the *maxima* are `2.16 / 1.37e−3 /
+1.42e−5`.  The mean behaves like `1/x₀`; the supremum does not, and a decoupling
+theorem needs the supremum.  `ScaleLadder.coupling_bound` is unaffected — it carries
+the floor as a hypothesis and is correct.
+
+## Per-window decay does not imply summable accumulation — a cycle refutes the inference
+
+`cycle_coupling_period` (LEAN_PROVED): around `q` periods of a cycle,
+`3^(A_(Lq))·n + C_(Lq) = 2^(Lq)·n`, so `1 + r_(Lq) = (2^L/3^a)^q → ∞`, while every
+period's own `κ` is bounded by `a/(3·min)` with `min` the cycle minimum, a fixed
+number.  `trivial_cycle_coupling` (LEAN_PROVED) is the concrete case:
+`affineC (2q) 1 + 3^q = 4^q`, verified for `q < 40`.  The aggregation law is a
+**product**, so summability of `Σκ = Σ 1/(3x_i)` is a *growth hypothesis on the orbit*
+— it holds iff the orbit grows faster than linearly in its odd-step index — and is
+strictly stronger than divergence.  It is not available for any orbit.
+
+## What survives, and it is the repair: the coupling lives at the bottom
+
+* **The total accumulation is bounded by a universal constant.**  Exhaustively for all
+  odd `n < 10⁶`, and for 300 random `n` in each of `10⁶ … 10¹²¹`, the total
+  `log(1+r) ≤ 0.2299545`, attained at `n = 993` (`1 + r = 1.258543`).  It does **not**
+  grow with `n`.
+* **It is concentrated at the bottom.**  Over `99.2 %` comes from odd orbit values
+  below `1000`; the part contributed by values *above the start* is `≤ 7.4/n`
+  (measured maxima `4.16e−4` at `10⁴`, `4.59e−6` at `10⁶`, `5.17e−10` at `10¹⁰`,
+  `5.76e−20` at `10²⁰`).
+
+So Round X's "the coupling vanishes on the divergence half" is correct and **harmless**:
+it says the coupling vanishes where the orbit is large, which is exactly where it never
+carried anything.  *A coupling mechanism must be a bottom-scale mechanism or it is
+measuring `O(1/n)`* — the same place `minEsc` lives.
+
+`octave_sojourn` (LEAN_PROVED) is the first structural theorem in that direction:
+**an orbit occupies a dyadic octave for at most two consecutive steps** — an even value
+in `[2^k,2^(k+1))` halves out downward, two consecutive odd values multiply by `9/4 > 2`
+and leave upward.  Verified over all orbits from `n < 200 000`: maximum run `2`, zero
+exceptions.  So the accumulated coupling inside octave `k` is at most
+`2·(entries)/(3·2^k)`, and bounding the entries is the remaining content.
+
+## Verdict table for Round XI files
+
+| file | verdict | reason |
+|---|---|---|
+| `CouplingNormal` | **YELLOW** | `coupling_multiplicative`, presented as "the composition law", is a commutativity rearrangement: it compiles verbatim with `acceleratedOrbit` and `oddCount` replaced by **arbitrary** functions `f, g` satisfying only `g n (i+k) = g n i + g (f i n) k` (probe compiled, `depends on axioms: [propext]`).  It consumes no dynamics; the conversion's content is `one_add_coupling`, which is not composed with it in Lean.  Every number in the docstring recomputes exactly (`2^L/3^a` and `E` at `(2,1), (27,17), (10,6), (24,15), (11,7)`), and the exact conversion reproduces with zero mismatches over 8250 instances at `d = 1, 5, −1, 59, 13, 7`. |
+| `SegmentMonoid` | **CLEAN** | `3·187·5077565 = 2848513965 > 2281701376 = 17·2^27` recomputes.  `cycle_frontier` plus asset (a) admits exactly `L = 4701, 5755, 6809, 7863, 8917, 9402, 9971, 10456, …` — reproduced exactly, 10 pairs below `L = 12000`.  Self-flagged as `RealizableFrontier6809` in new coordinates, correctly. |
+| `CoupledCycle` | **YELLOW** | The reach table's middle row does not reproduce.  With the stated constant `3·2^k·g ≤ a·2^L` and the best admissible `k = 20` (`2^20 = 1048576 ≤ 1086464`), the first surviving pair is `(4701, 2966)`, **not** `(2593, 1636)`; `(2593,1636)` is the first survivor of `2^k·g ≤ a·2^L`, i.e. the same bound *with the factor 3 dropped*.  So the free floor `c = n` buys `n/2^k = 1.036`, a `3.6 %` improvement, **not** the claimed "threefold improvement in reach" — the two rows give the identical frontier list.  The paper's conclusion ("the bridge adds no frontier") survives and is in fact strengthened. |
+| `ScaleFibre` | **YELLOW** | The Lean is correct and the numbers are right, but the headline — "the `(word,magnitude)` fibre carries no two-variable information at all" — is a quantifier-order fallacy: rank one holds at each fixed `j`, with a coefficient `E(w_j)` that is unbounded in `j` and in fact `≈ 0.2·n` at the end of a real orbit (table above).  Secondary: "`N(w)` is large exactly when `G` is small — at the ledges, and nowhere else" is backwards in relative terms — `N/2^L = 1.5^a/G` is `1.94e−4` at `(27,17)` and below `1e−300` at `(1539,971)`, `(2593,1636)`, `(4701,2966)`, `(6809,4296)`.  `drop_of_scale` is **not** vacuous at the ledge pairs (thresholds `26 044`; 526, 760, 174, 292 digits respectively), and is compatible with asset (a) at all of them except `(27,17)`, where the threshold `26 044` is below `1 086 464` anyway. |
+| `CouplingDecay` (this desk) | — | 15 theorems, all `[propext, Quot.sound]`.  `window_bound` non-vacuous: hypothesis satisfied by 55 460 of 60 000 random instances, zero violations; `orbit_floor`, `trivial_cycle_coupling` (`q < 40`) and `octave_sojourn` (`n < 100 000`) all verified with zero exceptions. |
+
+## Failed attempts, with diagnosis
+
+* **Prove `Σ 1/x_i < ∞` along a divergent orbit from injectivity.**  Distinctness of the
+  odd orbit values gives only `Σ_{m≤M} 1/(3y_m) ≤ (1/3)Σ_{m≤M} 1/(2m−1) < (1/6)ln M +
+  0.4`, i.e. `1 + r_M = O(M^(1/6))`.  Unbounded, so no kill.  *This bound is refuted by
+  every cycle* — where `1 + r` grows exponentially in `M` while the values repeat — so
+  it does satisfy diagnostic 4; it is simply too weak.  Diagnosis: distinctness bounds
+  the *count* per octave by `2^(k−1)`, and `2^(k−1)·2^(−k) = 1/2` per octave, so
+  counting alone can never beat a divergent harmonic sum.
+* **Refute it with a `3x+d` cycle of large minimum.**  Scaling `(C,x,d) ↦ (λC,λx,λd)`
+  maps cycles to cycles and leaves `d/(3x)` **invariant**, so the minimum cannot be
+  pushed up while holding the rate down.  Diagnosis: the dimensionless rate is `d/(3x)`,
+  not `1/x` — which is also why diagnostic 3 does *not* refute `κ`: it is degree **one**,
+  not degree zero, under `C ↦ d·C` at fixed `x`.
+* **Close the gap with the octave walk.**  `octave_sojourn` gives sojourn `≤ 2`, so
+  `Σκ = ∞` would force the orbit to *enter* octave `k` about `2^k/k` times, hence to
+  grow only linearly in time, hence to hold its odd density at exactly `log₃2` forever.
+  That is a knife-edge and almost certainly impossible — but "almost certainly" is a
+  density statement about the parity word, and Terras leaves every finite parity word
+  free.  Recorded as the exact remaining gap, not as a proof.
