@@ -163,6 +163,7 @@ import Collatz.Strategy.MinimumInterval
 import Collatz.Strategy.BcapSharp
 import Collatz.Strategy.BeattyStability
 import Collatz.Strategy.GapVector
+import Collatz.Strategy.RotationSystem
 import Collatz.Strategy.SieveGrowth
 import Collatz.Strategy.Profile
 import Collatz.Strategy.ExchangeRate
