@@ -149,6 +149,9 @@ import Collatz.Strategy.ScaleRecord
 import Collatz.Strategy.ScaleLadder
 import Collatz.Strategy.CouplingNormal
 import Collatz.Strategy.SegmentMonoid
+import Collatz.Strategy.ScaleFibre
+import Collatz.Strategy.FilterDecomposition
+import Collatz.Strategy.CoupledCycle
 import Collatz.Strategy.SieveGrowth
 import Collatz.Strategy.Profile
 import Collatz.Strategy.ExchangeRate

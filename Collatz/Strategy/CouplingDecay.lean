@@ -186,10 +186,7 @@ theorem orbit_floor (x : Nat) : ∀ k : Nat, x ≤ 2 ^ k * acceleratedOrbit k x 
     have := Nat.mul_le_mul_left (2 ^ k) hh
     have hpow : 2 ^ (k + 1) * acceleratedOrbit (k + 1) x
         = 2 ^ k * (2 * acceleratedOrbit (k + 1) x) := by
-      rw [Nat.pow_succ, Nat.mul_assoc, Nat.mul_comm 2 (acceleratedOrbit (k+1) x)]
-      rw [← Nat.mul_assoc, Nat.mul_comm (2^k) (acceleratedOrbit (k+1) x)]
-      rw [Nat.mul_assoc, Nat.mul_comm (acceleratedOrbit (k+1) x) 2]
-      rw [← Nat.mul_assoc, Nat.mul_comm (2^k) 2, Nat.mul_assoc]
+      rw [Nat.pow_succ, Nat.mul_assoc]
     omega
 
 /-- The floor at any interior time of the window, in the form the coupling bound
@@ -205,6 +202,27 @@ theorem orbit_floor_le {x k t : Nat} (ht : t ≤ k) : x ≤ 2 ^ k * acceleratedO
 
 Under a floor `c` on the window, each odd factor is at most `(3c+1)/(3c)`, so the whole
 window's factor is at most `((3c+1)/(3c))^a`.  Cleared of division: -/
+
+/-- The arithmetic chaining step of `window_bound`, isolated: one new factor bounded
+by `(3c+1)/(3c)`, composed with the bound already available for the shorter window. -/
+theorem chain_step {A B Q c a : Nat}
+    (h1 : A * (3 * c) ≤ 3 * (B * (3 * c + 1)))
+    (h2 : B * (3 * c) ^ a ≤ Q * (3 * c + 1) ^ a) :
+    A * (3 * c) ^ (a + 1) ≤ (3 * Q) * (3 * c + 1) ^ (a + 1) := by
+  have e1 : A * (3 * c) ^ (a + 1) = (A * (3 * c)) * (3 * c) ^ a := by
+    rw [Nat.pow_succ]; simp [Nat.mul_comm, Nat.mul_assoc]
+  have e2 : (3 * (B * (3 * c + 1))) * (3 * c) ^ a
+      = (3 * (3 * c + 1)) * (B * (3 * c) ^ a) := by
+    simp [Nat.mul_comm, Nat.mul_left_comm, Nat.mul_assoc]
+  have e3 : (3 * (3 * c + 1)) * (Q * (3 * c + 1) ^ a)
+      = (3 * Q) * (3 * c + 1) ^ (a + 1) := by
+    rw [Nat.pow_succ]; simp [Nat.mul_comm, Nat.mul_left_comm, Nat.mul_assoc]
+  calc A * (3 * c) ^ (a + 1)
+      = (A * (3 * c)) * (3 * c) ^ a := e1
+    _ ≤ (3 * (B * (3 * c + 1))) * (3 * c) ^ a := Nat.mul_le_mul_right _ h1
+    _ = (3 * (3 * c + 1)) * (B * (3 * c) ^ a) := e2
+    _ ≤ (3 * (3 * c + 1)) * (Q * (3 * c + 1) ^ a) := Nat.mul_le_mul_left _ h2
+    _ = (3 * Q) * (3 * c + 1) ^ (a + 1) := e3
 
 /-- **The window coupling bound.**  If every orbit point strictly inside the window is
 at least `c`, then `(2^k x_k)·(3c)^a ≤ (3^a x)·(3c+1)^a`, i.e. `1 + κ ≤ (1 + 1/(3c))^a`.
@@ -228,51 +246,33 @@ theorem window_bound (x c : Nat) : ∀ k : Nat,
       exact ihx
     · -- odd step: one new factor, bounded by `(3c+1)/(3c)`
       have ha : oddCount x (k + 1) = oddCount x k + 1 := by rw [hlast, ho]
-      set a := oddCount x k with hadef
-      -- the one-step inequality, cleared of division
       have hone : (2 ^ (k + 1) * acceleratedOrbit (k + 1) x) * (3 * c)
           ≤ 3 * ((2 ^ k * acceleratedOrbit k x) * (3 * c + 1)) := by
         rw [step_odd ho]
         have hkey : (3 * acceleratedOrbit k x + 1) * (3 * c)
             ≤ 3 * (acceleratedOrbit k x * (3 * c + 1)) := by
-          have : 3 * c ≤ 3 * acceleratedOrbit k x := Nat.mul_le_mul_left 3 hck
-          calc (3 * acceleratedOrbit k x + 1) * (3 * c)
+          have hc3 : 3 * c ≤ 3 * acceleratedOrbit k x := Nat.mul_le_mul_left 3 hck
+          have el : (3 * acceleratedOrbit k x + 1) * (3 * c)
               = 3 * acceleratedOrbit k x * (3 * c) + 3 * c := by
-                rw [Nat.add_mul, Nat.one_mul]
-            _ ≤ 3 * acceleratedOrbit k x * (3 * c) + 3 * acceleratedOrbit k x := by omega
-            _ = 3 * (acceleratedOrbit k x * (3 * c + 1)) := by
-                rw [Nat.mul_add, Nat.mul_one, Nat.mul_assoc]
-        calc 2 ^ k * (3 * acceleratedOrbit k x + 1) * (3 * c)
+            rw [Nat.add_mul, Nat.one_mul]
+          have er : 3 * (acceleratedOrbit k x * (3 * c + 1))
+              = 3 * acceleratedOrbit k x * (3 * c) + 3 * acceleratedOrbit k x := by
+            simp [Nat.mul_add, Nat.mul_comm, Nat.mul_left_comm]
+          omega
+        have ee : 2 ^ k * (3 * acceleratedOrbit k x + 1) * (3 * c)
             = 2 ^ k * ((3 * acceleratedOrbit k x + 1) * (3 * c)) := by rw [Nat.mul_assoc]
+        have ff : 2 ^ k * (3 * (acceleratedOrbit k x * (3 * c + 1)))
+            = 3 * (2 ^ k * acceleratedOrbit k x * (3 * c + 1)) := by
+          simp [Nat.mul_comm, Nat.mul_left_comm, Nat.mul_assoc]
+        calc 2 ^ k * (3 * acceleratedOrbit k x + 1) * (3 * c)
+            = 2 ^ k * ((3 * acceleratedOrbit k x + 1) * (3 * c)) := ee
           _ ≤ 2 ^ k * (3 * (acceleratedOrbit k x * (3 * c + 1))) :=
               Nat.mul_le_mul_left _ hkey
-          _ = 3 * (2 ^ k * acceleratedOrbit k x * (3 * c + 1)) := by
-              rw [← Nat.mul_assoc, Nat.mul_comm (2^k) 3, Nat.mul_assoc, Nat.mul_assoc]
-      -- multiply the one-step inequality by `(3c)^a` and chain with the hypothesis
-      rw [ha]
-      calc (2 ^ (k + 1) * acceleratedOrbit (k + 1) x) * (3 * c) ^ (a + 1)
-          = ((2 ^ (k + 1) * acceleratedOrbit (k + 1) x) * (3 * c)) * (3 * c) ^ a := by
-            rw [Nat.pow_succ, ← Nat.mul_assoc]
-        _ ≤ (3 * ((2 ^ k * acceleratedOrbit k x) * (3 * c + 1))) * (3 * c) ^ a :=
-            Nat.mul_le_mul_right _ hone
-        _ = (3 * (3 * c + 1)) * ((2 ^ k * acceleratedOrbit k x) * (3 * c) ^ a) := by
-            rw [Nat.mul_assoc, Nat.mul_assoc]
-            rw [Nat.mul_comm (2 ^ k * acceleratedOrbit k x) (3 * c + 1)]
-            rw [Nat.mul_assoc]
-        _ ≤ (3 * (3 * c + 1)) * ((3 ^ a * x) * (3 * c + 1) ^ a) :=
-            Nat.mul_le_mul_left _ ihx
-        _ = 3 ^ (a + 1) * x * (3 * c + 1) ^ (a + 1) := by
-            rw [Nat.pow_succ, Nat.pow_succ]
-            rw [Nat.mul_assoc, Nat.mul_assoc]
-            rw [Nat.mul_comm (3 ^ a * x) ((3 * c + 1) ^ a * (3 * c + 1))]
-            rw [Nat.mul_assoc, Nat.mul_comm (3 ^ a) 3, Nat.mul_assoc]
-            rw [Nat.mul_comm ((3 * c + 1) ^ a) (3 * c + 1), Nat.mul_assoc]
-            rw [Nat.mul_comm (3 ^ a * (x * ((3 * c + 1) ^ a * (3 * c + 1))))]
-            rw [Nat.mul_comm (3 ^ a) (x * ((3 * c + 1) ^ a * (3 * c + 1)))]
-            rw [Nat.mul_assoc, Nat.mul_comm x, Nat.mul_assoc]
-            rw [Nat.mul_comm ((3 * c + 1) ^ a) (3 * c + 1)]
-            rw [Nat.mul_comm (3 * c + 1) ((3 * c + 1) ^ a * x)]
-            rw [Nat.mul_assoc]
+          _ = 3 * (2 ^ k * acceleratedOrbit k x * (3 * c + 1)) := ff
+      have hQ : 3 ^ (oddCount x k + 1) * x = 3 * (3 ^ oddCount x k * x) := by
+        rw [Nat.pow_succ]; simp [Nat.mul_comm, Nat.mul_left_comm]
+      rw [ha, hQ]
+      exact chain_step hone ihx
 
 /-- The never-dropping specialisation: if the window never falls below its own start,
 the coupling obeys `1 + κ ≤ (1 + 1/(3x))^a`.  This is the hypothesis under which
@@ -301,30 +301,33 @@ theorem cycle_coupling_period {n L : Nat} (h : AccIsCycleOf n L) {q : Nat} (hq :
     3 ^ oddCount n (L * q) * n + affineC (L * q) n = 2 ^ (L * q) * n :=
   (CycleAccumulator.cycle_affine (cycle_period_multiple h hq)).symm
 
+/-- `oddCount 1 (2q) = q`: the trivial cycle has one odd step per period. -/
+theorem oddCount_one_period (q : Nat) : oddCount 1 (2 * q) = q := by
+  induction q with
+  | zero => simp
+  | succ p ih =>
+    have h1 : acceleratedOrbit (2 * p) 1 = 1 := accOrbit_mul_period (by decide) p
+    have h2 : acceleratedOrbit (2 * p + 1) 1 = 2 := by
+      rw [acceleratedOrbit_succ_step, h1]; decide
+    have hstep : 2 * (p + 1) = 2 * p + 1 + 1 := by omega
+    rw [hstep, Density.oddCount_succ_last, h2, Density.oddCount_succ_last, h1, ih]
+
+/-- `4^q = 2^(2q)`. -/
+theorem four_pow_eq (q : Nat) : (4:Nat) ^ q = 2 ^ (2 * q) := by
+  induction q with
+  | zero => rfl
+  | succ p ih =>
+    have hs : 2 * (p + 1) = 2 * p + 2 := by omega
+    rw [hs, Nat.pow_succ, ih, Nat.pow_add]
+
 /-- The same statement on the one cycle of `3x+1` that is known: `C_(2q)(1) + 3^q = 4^q`.
-So `r_(2q) = (4/3)^q − 1 → ∞`, from a cycle whose every window has `κ ≤ a/3`. -/
+So `r_(2q) = (4/3)^q - 1 -> infinity`, from a cycle whose every window has
+`kappa <= a/3`. -/
 theorem trivial_cycle_coupling {q : Nat} (hq : 0 < q) :
     affineC (2 * q) 1 + 3 ^ q = 4 ^ q := by
   have h := cycle_coupling_period accIsCycleOf_one hq
-  have hodd : oddCount 1 (2 * q) = q := by
-    induction q with
-    | zero => simp
-    | succ p ih =>
-      rcases Nat.eq_zero_or_pos p with hp | hp
-      · subst hp; decide
-      · have hstep : 2 * (p + 1) = 2 * p + 1 + 1 := by omega
-        have h1 : acceleratedOrbit (2 * p) 1 = 1 := accOrbit_mul_period (by decide) p
-        have h2 : acceleratedOrbit (2 * p + 1) 1 = 2 := by
-          rw [acceleratedOrbit_succ_step, h1]; decide
-        rw [hstep, Density.oddCount_succ_last, h2, Density.oddCount_succ_last, h1]
-        rw [ih hp]
-  rw [hodd, Nat.mul_one] at h
-  have h4 : (4:Nat) ^ q = 2 ^ (2 * q) := by
-    induction q with
-    | zero => rfl
-    | succ p ih =>
-      have : 2 * (p + 1) = 2 * p + 2 := by omega
-      rw [this, Nat.pow_succ, ih, Nat.pow_add]
+  rw [oddCount_one_period, Nat.mul_one, Nat.mul_one] at h
+  rw [four_pow_eq]
   omega
 
 /-! ## The octave sojourn bound

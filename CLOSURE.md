@@ -75,6 +75,7 @@ The **only** `d = 1`-specific assets:
 | (b) | `accOrbit_small`, orbit of 1 stays `≤ 2` | false for `d = 7, 11` |
 | (c) | `sign(d) = +1` | `Nat` statements do not typecheck for `d < 0` |
 | (d) | `|d| < 2` | exclusions `2^m + |d|·6^a ≤ 2^(m+a)` need `|d| ≤ 2` |
+| (e) | `d = 1` **minimises the coupling** | `N(w;i,j;d) = |d|·N(w;i,j;1)`: the finite-scale correction is `d`-homogeneous of degree 1 while the word term `D` is `d`-free, so `3x+1` is the least-coupled member of the family.  Corollary, exact: on **any** cycle of `3x+d`, `sign(2^L − 3^a) = sign(d)` — every `d > 0` cycle is light, every `d < 0` cycle is heavy. |
 
 ---
 
@@ -112,6 +113,21 @@ The **only** `d = 1`-specific assets:
   list.  **Membership test for a proposed multiplicative cycle argument**: does it
   reduce to a bound on the factors of `∏(1 + 1/(3x_t))`?  If yes it is at most
   `RealizableFrontier6809` in new coordinates.
+* **the `(word, magnitude)` fibre (Round XI)** — over a fixed parity word the map
+  `n ↦ 2^j·x_j` is **exactly affine** with word-determined coefficients
+  (`ScaleFibre.fibre_affine`), so the coupling is `kappa(w,n) = E(w)/n` **identically**,
+  with `E(w) = C/3^a`, no `kappa_inf`, and no `n^{-2}` term
+  (`ScaleFibre.fibre_second_difference`).  `n·kappa` is the only rescaling and it is
+  attained at every `n`.  `ScaleFibre.residual_injective`: at fixed `(L,a)` the residual
+  `E` **determines the word**, so it is a bijective relabelling of `C` — Class 3.
+  **Membership test for a proposed two-variable quantity**: is it built from the affine
+  law?  If yes, it is a function of `(word-datum, n)` of the rank-one form `E(w)/n`, and
+  it is dead.  The only magnitude-dependent discrete datum is the profile order type,
+  whose flip thresholds are the sub-window phantoms `C_sub/G_sub` — `PhantomMediant`'s
+  object, and by `localisation` they restate the comparison rather than predict it.
+  The explicit scale above which the word decides is `N(w) = 2^(L−a)·3^a/G ≥ 2^L/G`
+  (`ScaleFibre.drop_of_scale`, `two_pow_le_shape`): **all residual fibre freedom sits at
+  small `G`, i.e. on the frontier.**
 * `ScaleLadder.block_lower` / `block_upper` **cannot be applied to a cycle at all** —
   their hypothesis is a `Floor` with two consecutive rungs, and `no_high_floor` says a
   bounded orbit has none.  Empirically zero rung-to-rung blocks over 68 orbits.
@@ -188,3 +204,35 @@ The residual after all of the above is:
 * the **ordering** `t₁ < ⋯ < t_a < L` — but Round VIII mapped it, and every
   statistic of it examined lands in Class 1 or Class 3;
 * the four assets, of which (a) is quantified above and the rest are structural.
+
+---
+
+### Diagnostic 4, dual form (Round XI, sections XXI–XXIV)
+
+The Round X divergence-half filter is **one-directional** and must not be cited as
+evidence for cycle-half work.  A cycle-half mechanism passes it automatically:
+`CoupledCycle.expStep_no_ledge` / `oddCount_lt_of_ledge` prove that a saturated window
+(`oddCount x j = j`, which is `expStep`) has `2^j < 3^j`, so the ledge hypothesis
+`3^a < 2^L` of `CycleCriterion` is *unsatisfiable*.  `G > 0` **is** the negation of
+saturation, so every cycle-half statement consumes `oddCount < j` in its hypothesis and
+the filter certifies nothing about it.
+
+### The identity barrier — why the coupling cannot be sharpened on a cycle
+
+`2^t · x_t = 3^(A t) · n + C_t` is an identity, so every orbit value of a cycle is an
+exact function of `(word, minimum)`.  Consequently every lower bound on `x_t` is either
+that identity — which returns the cycle equation and nothing else — or the external
+input `x_t ≥ n`.  Substituting the identity's own bound `x_t ≥ n·3^(A t)/2^t` into the
+closure product `∏(1 + 1/(3x_t)) = 2^L/3^a` yields `log(1+u) ≤ u` exactly (verified in
+exact rationals on eleven genuine cycles, `d = 1, 5, 7, 13, 59, −1`).
+
+**Membership test for a proposed sharpening of the coupling on the cycle half**: does it
+rest on a lower bound for orbit values that is *not* a consequence of `affine_exact`?
+If not, it is the cycle equation in new coordinates.  The only qualifying input known is
+asset (a), now spent three ways — `CycleProduct` (`L ≥ 1539`), a power-of-two floor
+(`2593`), a free floor (`4701`) — all short of `RealizableFrontier6809`.
+
+The same test kills the ordering route: `CoupledCycle.prefix_gap` is the exact ordering
+restriction `G ∣ C` imposes, and `prefix_gap_of_heavy` derives its conclusion from
+heaviness alone with no cycle hypothesis.  **`G ∣ C` restricts the ordered odd-step
+times strictly less than ordinary heaviness does.**

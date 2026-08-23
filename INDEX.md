@@ -1,6 +1,6 @@
 # Concept index
 
-2682 theorems/lemmas across 185 files.
+2685 theorems/lemmas across 185 files.
 
 ## Cluster sizes
 

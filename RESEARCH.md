@@ -3649,3 +3649,284 @@ the same asset better.
 
 The honest one-line summary: **the fibre interaction the programme has been missing is
 missing because it is empty.**
+
+---
+
+# Round XI, Sections III / IV / V / XIV / XVII / XXXVII — the fibre is rank one, and the residual is the accumulator
+
+*Scale desk.  New file: `Collatz/Strategy/ScaleFibre.lean` (compiles clean, zero errors,
+zero warnings, no `sorry`/`axiom`; axiom audit shows `propext, Quot.sound` only).*
+
+**Verdict on the round's central question: the decoupling is real, and it is an
+identity rather than a limit.**  I set out to break it and could not, for a reason that
+is one line long once seen.
+
+## 1.  The exact expansion — there is no expansion (LEAN_PROVED)
+
+Fix a word `w` of length `j`.  `C_j` and `A_j` are functions of `n mod 2^j` alone
+(`NewModels.class_iff_count_accum`, already in the repository).  Hence on the fibre over
+`w`, the affine law `2^j·x_j = 3^(A_j)·n + C_j` gives
+
+> **`kappa(w, n) = r_j(n) = E(w) / n`  exactly, with `E(w) = C_j(w,d) / 3^(A_j)`.**
+
+Not `kappa_inf(w) + E(w)/n + O(n^{-2})`.  There is **no** `kappa_inf` (the limit is `0`)
+and **no** `n^{-2}` term (the remainder is identically zero).  As a function of `n` on
+the fibre, `kappa` is: strictly decreasing, strictly convex, positive for `d > 0`,
+homogeneous of degree `−1`, and never eventually constant.  Cleared of division this is
+`ScaleFibre.fibre_affine`:
+
+    y·(2^j·x_j(x)) = x·(2^j·x_j(y)) + (y − x)·C_j        (x ≤ y, same word)
+
+— the deviation between two magnitudes carrying the same word is a **pure word factor
+times a pure magnitude factor**.  The `(word, magnitude)` fibre is **exactly rank one**.
+`fibre_second_difference` records the corollary that makes the point unarguable: an
+affine function has no second difference, so no rescaling by any power of `n`, any
+`log n`, or any discrete difference can produce a *new* limit.  Section V's search for a
+nontrivial rescaling is therefore answered negatively **by derivation, not by trial** —
+which is what the brief asked for.
+
+## 2.  The correction term and its sign (LEAN_PROVED for `d = 1`; MATHEMATICALLY_PROVED in `d`)
+
+Since `kappa` itself is the correction, the interesting object is the *first place the
+correction changes a discrete fact*.  For `i < j`,
+
+    2^(i+j)·(x_i − x_j) = n·D + (2^j·C_i − 2^i·C_j),    D := 2^j·3^(A_i) − 2^i·3^(A_j).
+
+`D` is the pure word term; the bracket is the **explicit finite-scale correction**.  Its
+sign is `sign(d)` and **nothing else about the word enters it** — because `C` is
+monotone along the window (`Linearizing.coupling_monotone`) and `C(w,d) = d·C(w,1)`.
+So the answer to section III's sign question is a clean negative: the sign of
+`Delta(w,n)` is *not* determined by the first odd step, the last odd step, run parity,
+odd-step ordering, the minimum point, the maximum point, or the scale.  It is `sign(d)`,
+full stop, and it is `0` exactly when `a = 0`.
+
+**`ScaleFibre.order_word_determined`** turns the correction into an explicit threshold:
+if `2^i·C_j ≤ n·D` then the word decides the comparison.  Replacing `C_j` by the
+positional bound `affineC_le` gives the **word-only** threshold
+`N(w; i, j) = 2^(i+j−A_j)·3^(A_j) / D` (`order_word_determined_shape`), and at `i = 0`:
+
+> **`ScaleFibre.drop_of_scale`** — if `3^a ≤ 2^L` and `2^(L−a)·3^a ≤ n·(2^L − 3^a)`
+> then `x_L ≤ n`.
+
+`two_pow_le_shape` shows `N(w) ≥ 2^L/G` always.  So **the threshold is large exactly when
+`G` is small — at the ledges, and nowhere else.**  All residual two-variable content is
+concentrated on the frontier, which is a mapped Class 1/Class 3 asset.
+
+COMPUTATIONAL: `drop_of_scale`'s hypothesis was met 119 274 times over `L ≤ 44`,
+`n < 4000`, with zero violations.  Over all residues mod `2^L`, the word already decides
+the whole-window comparison at the *minimal* admissible magnitude for **80.4 % / 89.3 %
+/ 86.8 %** of residues at `L = 12 / 16 / 20`.
+
+## 3.  Ordering-sensitivity: YES, and worthless (LEAN_PROVED)
+
+`E(w) = C/3^a = Σ_{i=1..a} 2^(t_i)/3^i` over Round VIII's ordered odd times
+`t_1 < ⋯ < t_a`, so it is manifestly ordering-sensitive.  **`residual_injective`** makes
+that sharp: at fixed `(L, a)`, `E` **determines the word**.  This is the strongest
+possible ordering-sensitivity — and it is exactly why it is worth nothing.  `E` is a
+bijective relabelling of `affineC`, hence determined by `(L, a, C, G)`, hence Class 3 by
+`CLOSURE.md` diagnostic 2.  *The hoped-for reconnection of the ordered-times programme
+to the coupling machinery exists and is an isomorphism, not a bridge.*  I record this as
+the death of my own preferred architecture for the round.
+
+## 4.  The residual, named
+
+> **The first nonzero piece of information that survives after the coupling disappears
+> is `E(w) = C(w,d)/3^(a)` — the accumulator itself, in `3`-adic normalisation.**
+
+It is attained at *every* `n`, not in a limit; the correct rescaling is `n·kappa` and no
+other; and it is Class 3.  The round's question "what survives the coupling" therefore
+has the answer *nothing new*: the residual is the object the development started with.
+
+## 5.  `d = 1`'s extremal behaviour, with its algebraic source
+
+The threshold at which the word takes over scales **exactly linearly in `|d|`**:
+`N(w; i, j; d) = |d|·N(w; i, j; 1)`, because the numerator is `d`-homogeneous of degree
+`1` and the denominator `D` is `d`-free.  Hence
+
+> **`d = ±1` minimise the set of magnitudes at which the word fails to decide, and among
+> `d > 0` the minimiser is unique at `d = 1`.**  MATHEMATICALLY_PROVED.
+
+COMPUTATIONAL confirmation (`L = 40`, all `n < 2·10^5`, all pairs `i < j`): violations of
+the word-predicted order number **35 512 (`d = 1`) < 37 450 (`d = −1`) < 65 973
+(`d = 5`) < 79 061 (`d = 7`)** — monotone in `|d|` on the positive side, exactly as the
+`|d|`-linear threshold predicts.  So `3x + 1` is the **least-coupled** member of the
+family: the case in which the parity word dominates the magnitude most completely.  That
+is a positive, exact statement of why `d = 1` is hardest here, and it requires no
+uniformity in `d`.
+
+A second, sharper `d`-discriminator fell out and is worth recording separately, because
+it is a two-variable fact that reduces to a one-variable one:
+
+> **On any cycle of `3x+d`, `sign(2^L − 3^a) = sign(d)`.**  Immediate from
+> `G·n = C_L = d·C_L(w,1)` with `C_L(w,1) > 0` and `n > 0`.  So *every* cycle of `3x+d`
+> is **light** for `d > 0` and **heavy** for `d < 0`.  Checked: `d = 1` at `n = 1`
+> (`(L,a) = (2,1)`, `G = 1`); `d = −1` at `n = 1` (`(1,1)`, `3 > 2`), `n = 5`
+> (`(3,2)`, `9 > 8`), `n = 17` (`(11,7)`, `2187 > 2048`).
+
+This is the exact source of a measurement that first looked like a `d = 1` miracle and
+is not one.  A window drawn from inside a *heavy* cycle violates the word-predicted
+order at every length, and the violation count grows linearly in `L`; a window drawn
+from inside a *light* cycle produces a **tie** (`x_L = n`), which is not a violation.
+`d = 1`'s only cycle is light, so it contributes ties; `d = −1`'s cycles are all heavy,
+so they contribute violations without bound.  Reported because I initially recorded
+"`d = 1` has zero order violations at `L = 10, 20, 30`" and it was an artefact of the
+`L` window — corrected here by the same computation run at `L = 40`.
+
+## Failed attempts, with diagnosis
+
+* **Break the decoupling by finding an `n^{-2}` term.**  Dead by `fibre_affine`: the
+  fibre map is affine, so the second difference vanishes identically.  There is no
+  higher-order term to find, at any rescaling.  This kills sections V and XXXVII as
+  posed, by derivation.
+* **The profile order type as a genuinely two-variable invariant.**  This was my best
+  candidate and it is the one worth reporting.  The order type of `x_0, …, x_L` *is*
+  magnitude-dependent, and the flip thresholds are explicit rationals.  But every
+  threshold is a **phantom**: the threshold for the pair `(i, j)` is exactly the phantom
+  `rho(w_{i..j}) = C_sub/G_sub` of the sub-window, evaluated against `x_i` — verified in
+  exact rationals over 200 random `(n, L ≤ 18)` and all `L(L+1)/2` pairs, zero
+  mismatches.  So the family of thresholds is `PhantomMediant.lean`'s object applied to
+  every sub-window, and `PhantomMediant.localisation` makes the comparison a tautology:
+  `rho − x_i = 2^(L_sub)·(x_j − x_i)/G_sub`, so `sign(x_i − rho)` *is* `sign(x_i − x_j)`
+  times `sign(G_sub)`.  **The threshold does not predict the order; it restates it.**
+  Duplication caught before it was written into Lean.
+* **Hoping the order type stabilises at every admissible magnitude.**  Refuted by the
+  tail: once an orbit reaches the trivial cycle, `x_i ∈ {1,2}` while the word factor
+  `3^(A_i)/2^i` keeps moving, so all late pairs violate.  Correct diagnosis: the
+  threshold in `order_word_determined` is a bound on the **local** magnitude `x_i`, not
+  on `n`, and "the orbit's local magnitude stays above `N(w)`" is the never-drop
+  condition — i.e. the conjecture.  Recorded as an instance of `CLOSURE.md` diagnostic 4
+  reached from the cycle side.
+* **`E(w)` as a bridge from Round VIII's ordered times to the coupling.**  It is an
+  isomorphism onto `C`, not a bridge (`residual_injective`).  Killed by diagnostic 2.
+
+## What Round XI's fibre section leaves
+
+One sentence, and it is a closure statement rather than a lead:
+
+> **There is no two-variable information in the `(word, magnitude)` fibre.  The fibre is
+> exactly affine over the word, the coupling is exactly `E(w)/n`, the residual is `C/3^a`,
+> and the only magnitude-dependent discrete datum — the profile order type — has flip
+> thresholds that are the sub-window phantoms, hence restate the comparison they were
+> meant to predict.**
+
+The one thing that is *not* closed by this: the threshold `N(w) ≥ 2^L/G` says the residual
+freedom is bounded below by the reciprocal gap.  A mechanism that could exploit the fibre
+would have to live entirely at `G` small — i.e. it would be a frontier mechanism, and the
+frontier is a `d`-free Class 1/3 asset already mapped by Round VIII.  That is the exact
+price of the decoupling, stated as an inequality rather than as a hope.
+
+---
+
+# Round XI — the deliverable.  Outcome B: the decoupling is real
+
+The round asked: is there genuinely two-variable information left in the `(word,
+magnitude)` fibre?  **No — and not merely in a limit.  It is an identity.**
+
+## A.  The coupling theorem
+
+`C_j` and `A_j` depend only on `n mod 2^j` (Terras, both directions already proved).
+So on the fibre over a fixed word they are *constants*, and
+
+> **`κ(w,n) = E(w) / n`  exactly**,  with  `E(w) = C(w,d) / 3^(A_j)`.
+
+Verified: `E(w)` is constant on every residue class mod `2^10` tested.  There is no
+`κ_∞` (the limit is `0`), no `n^(−2)` term, and the remainder is **identically zero**.
+`ScaleFibre.fibre_affine` is this cleared of division.  **The fibre is exactly rank
+one.**
+
+## B.  The asymptotic decomposition
+
+`κ(w,n) = 0 + E(w)/n`, exact at every `n`, monotone decreasing, strictly convex,
+degree `−1` homogeneous.  An affine map has no second difference, so **no rescaling by
+`n^k`, `log n`, or any discrete difference produces a new limit** — section XVII is
+closed by derivation rather than by search.
+
+## C.  The residual
+
+`E(w) = C(w,d)/3^a` — the accumulator in 3-adic normalisation.  Attained at every `n`,
+not in a limit.  **Nothing new survives the coupling.**  This sharpens Round IX's
+`r_j = (d/n)·W_j(word)` to the statement that the *whole* fibre is that product.
+
+## D.  expStep, classified — and it cannot be narrowed
+
+The minimal separating fact is one affine inequality with no word structure:
+`3^a ≤ C + 2^L` (i.e. `C ≥ −G`) is Collatz-true and expStep-false, and its survivor
+class is **one word**.  It comes from two exact telescopes, `C + 2^L = D + 3^a` against
+`B + E + 2^L = 3^L`, whose sign asymmetry is the whole content of the filter.
+
+Survivor class: **`B(w) = C(w) ⟺ w avoids the factor `10`**, i.e. `E_L = 0*1*` —
+cardinality `L+1`, entropy `0`, a 2-state DFA, and **rank one** (`C = 2^m(3^p − 2^p)`),
+so the coupling on survivors is not two-variable either.  Verified for all words
+`L ≤ 12`.
+
+**Concatenation closure: DISPROVED.**  `uv ∈ E ⟺ u has no odd letter or v has no even
+letter`; only `L+K+1` of `(L+1)(K+1)` pairs compose.  The obstruction is the factor
+`10` — an even step following an odd one.  Witness: `[1]` and `[0]` both survive,
+`10` has `C = 1` but `B = 3`.  So this is **not** the earlier sieve failure repeating:
+the safe class does not concatenate.
+
+**And the filter cannot be narrowed by changing the witness.**  Writing a step as
+`2f(x) = m(x)·x + c(x)`, there are exactly two deformation coordinates — deform `c` on
+odd inputs (`3x+d`, the cycle filter) or deform `m` on even inputs (`1 ↦ 3`, expStep).
+Of the four `(m_even, m_odd)` corners only `(3,3)` grows.  **expStep is the unique
+divergent corner, so its blind spot is intrinsic.**
+
+## E.  block_lower around a cycle: no
+
+Empty index set (a cycle has no rung above its maximum; genuine extraction over 68
+orbits gives zero rung-to-rung blocks), the segment rank telescopes so no strictly
+submultiplicative rank exists, and the surviving product argument **is
+`RealizableFrontier6809` in multiplicative coordinates** — its filter reproduces the
+repo's own ledge ladder character for character.
+
+## F.  The cycle/divergence bridge: no, and worse than no
+
+`G | C` restricts the ordered times **strictly less** than ordinary heaviness does:
+`prefix_gap_of_heavy` derives the same conclusion from `2^j ≤ 3^(A j)` alone, with no
+cycle hypothesis.  The self-strengthening loop of section XXIV fails at arrow 2 and
+fails *identically* — the sharpened inequality collapses to `log(1+u) ≤ u`, verified as
+an equality on eleven genuine cycles, because `Σ_t 3^(a−1−A_t) 2^t` **is** `C`.
+
+`G|C ⇒ expStep contradiction` is **true and vacuous**: saturation gives `2^j < 3^j`, so
+the cycle criterion's hypothesis `3^a < 2^L` is unsatisfiable.  `G > 0` *is* the
+negation of saturation, so **the two soundness filters are orthogonal** — their refuted
+classes do not intersect, and neither may be cited as evidence for the other's half.
+
+## G.  Ordering: sensitive, and worthless
+
+`E(w) = Σ_i 2^(t_i)/3^i` over Round VIII's ordered times — and at fixed `(L,a)` it
+**determines the word**.  Maximal ordering-sensitivity is bijective relabelling, hence
+Class 3 by diagnostic 2.  **The hoped-for bridge to the ordered-times programme is an
+isomorphism, not a bridge.**  That kills the round's preferred architecture.
+
+## H.  Product route: stays closed.
+
+## I.  The single remaining lemma, and why it cannot be a verified-range extension
+
+What survives is one inequality: `3nG ≤ a·2^L`, so a ledge pair dies iff
+`G/2^L > a/(3V)` with `V` the verified range.  But `G/2^L ≈ E·ln 2` with
+`E = ⌈a log₂3⌉ − a log₂3 ∈ (0,1)`, so the **left side is bounded by `ln 2`** while the
+**right side grows linearly in `a`**.  Hence the filter is vacuous for
+
+> `a > 3V·ln 2 = 2 259 238` at the current `V`,
+
+and **no fixed verified range can close the ledge** — it can only advance the frontier
+one pair at a time, at `Θ(L)` cost each.  That is Round IX's ω-rule finding arriving
+from the coupling side.
+
+At the current pairs the margins are `G/2^L = 8.47·10^(−4)` against `a/(3V) =
+9.10·10^(−4)` at `(4701,2966)`, and `7.60·10^(−4)` against `1.32·10^(−3)` at
+`(6809,4296)` — the survivors are exactly the pairs with anomalously small `E`, i.e.
+the record ladder, which is why the filter reproduces it.
+
+> **The single remaining lemma is a lower bound on `L log 2 − a log 3` of size `≳ a/V`
+> uniform in `a`.  It is false as stated (the left side is `< 1`, the right grows), so
+> the coupling route cannot close the cycle half at all.**
+
+## Verdict
+
+Outcome B of section XXXVI, established rather than suspected.  The coupling route is
+**closed**, with a proved reason: the fibre is rank one and the residual is word-only.
+The programme returns to the cycle-side ordering problem — and now knows, with a
+theorem rather than a hunch, that no coupling-based device can supply the missing
+contradiction.
