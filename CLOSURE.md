@@ -100,6 +100,21 @@ The **only** `d = 1`-specific assets:
   (`gap_coprime_snoc`), so CRT carries exactly zero bits;
 * multi-window composition — every finite window sequence is realised, so it is the
   single-word attack at larger `L`.
+* **the segment monoid and the product argument (Round XI)** — the closure identity
+  `1 + κ(S₁S₂) = (1+κ₁)(1+κ₂)` is an algebraic tautology given `affine_exact`, and the
+  natural rank `R(S) = start/end` telescopes, so the composition law is an *equality*:
+  **no rank respecting composition can be strictly submultiplicative**
+  (`SegmentMonoid.rank_compose`).  Multiplying local block bounds around a cycle
+  reassembles the single global identity `2^L/3^a = ∏(1 + 1/(3x_t))`, so it is at best
+  information-preserving.  At full strength (`SegmentMonoid.cycle_frontier`,
+  `3n(2^L − 3^a) ≤ a·2^L`, plus asset (a)) it admits exactly the pairs
+  `(2966,4701), (3631,5755), (4296,6809), …` — the repository's own frontier ledge
+  list.  **Membership test for a proposed multiplicative cycle argument**: does it
+  reduce to a bound on the factors of `∏(1 + 1/(3x_t))`?  If yes it is at most
+  `RealizableFrontier6809` in new coordinates.
+* `ScaleLadder.block_lower` / `block_upper` **cannot be applied to a cycle at all** —
+  their hypothesis is a `Floor` with two consecutive rungs, and `no_high_floor` says a
+  bounded orbit has none.  Empirically zero rung-to-rung blocks over 68 orbits.
 
 ## Three diagnostics worth reusing
 

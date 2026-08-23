@@ -148,6 +148,7 @@ import Collatz.Strategy.GlobalHeight
 import Collatz.Strategy.ScaleRecord
 import Collatz.Strategy.ScaleLadder
 import Collatz.Strategy.CouplingNormal
+import Collatz.Strategy.SegmentMonoid
 import Collatz.Strategy.SieveGrowth
 import Collatz.Strategy.Profile
 import Collatz.Strategy.ExchangeRate

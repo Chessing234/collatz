@@ -3310,3 +3310,342 @@ The multiscale-drift hierarchy died the same way and was self-killed: `V_k := a_
 − ℓ_k − 1` telescopes exactly to `log₂ u_K − log₂ u_0 + O(q)`, hence is bounded in
 `[−0.585, 0.585]` for free and carries nothing beyond `entry_window`.  **Any hierarchy
 whose members telescope dies identically.**
+
+---
+
+# Round XI, Sections X / XI / XXX–XXXII — the product argument is the frontier, in other coordinates
+
+*Algebra desk.  New file: `Collatz/Strategy/SegmentMonoid.lean` (compiles clean under
+`lake env lean`, zero errors, zero warnings, no `sorry`, no `axiom`; `#print axioms`
+reports `[propext, Quot.sound]` on all five headline theorems).*
+
+The brief: multiply the local two-sided window `block_lower` / `block_upper` around a
+hypothetical cycle into a global contradiction, using the exact closure identity
+`1 + r_(i+k) = (1 + r_i)(1 + κ_(i,k))`.  **Answer: no, and the reason is exact, not a
+gap in effort.**  What the product argument yields, at full strength, is the
+repository's own frontier ledge list.
+
+## 0.  The identity, and the form that matters
+
+Re-verified in exact rationals (1708 `(i,k)` pairs, 12 genuine cycles of
+`d = 1, 5, −1, 7, 13, 59`): zero violations of `1 + r_(i+k) = (1 + r_i)(1 + κ_(i,k))`.
+`segment_compose` is that identity cleared of division, LEAN_PROVED.
+
+The form that carries the content is not this one.  It is (COMPUTATIONAL, exact
+rationals, 2568 windows, zero violations; and `MATHEMATICALLY_PROVED` by induction on
+the affine law):
+
+> **`1 + κ(x, k) = ∏_(t < k, x_t odd) (1 + d / (3·x_t))`**
+
+so the cycle closure identity is
+
+> **`2^L / 3^a = ∏_(x odd in the cycle) (1 + d / (3·x))`**   — exactly.
+
+That is the whole of section XXXI.  Everything below is a bound on that product.
+
+## 1.  Equality classification (task 1)
+
+| bound | equality iff | near-equality shape |
+|---|---|---|
+| `coupling_bound` `3·2^k·C_j ≤ a_j·(2^j·x_j)` | `a_j = 0` (all-even window) only | never approached: it is the **first-order truncation** of `C_j/(2^j x_j) = 1 − 1/(1+κ)`, and `1 − ∏(1+u_t)^(−1) < Σ u_t ≤ a/(3·2^k)` is strict twice over for `a ≥ 1` |
+| `floor_coupling` (new, floor `c` general) | same | same; strictly sharper than `coupling_bound` by the factor `c/2^k ∈ [1,2)` |
+| `block_upper` `3^a < 3·2^l` | `a = 1, l = 0` — degenerate, no block | requires `y → 2^k` (but the rung is **odd**, `entry_odd`), `x_l → 3·2^k`, **and** `κ → 0` i.e. `a → 0`, which contradicts `3^a → 3·2^l`.  Self-defeating: **`block_upper` is never near-tight** |
+| `block_lower` `(3m+2)·2^(l+2) < 9(m+1)·3^a` | never (`m → ∞` limit `4·2^l < 3·3^a`) | rung at `k` at the **top** of its window, `y = (3·2^k − 1)/2`; rung at `k+1` at the **bottom**, `x_l = 2^(k+1) + 1`; and `κ → 0`.  A rigid endpoint pair — the only equality case in the file with content |
+| `cycle_frontier` (new) `3n(2^L − 3^a) ≤ a·2^L` | `a = 0` | measured tightness ratio on genuine cycles: `0.25 (d=5,n=187)`, `0.29 (d=13)`, `0.32 (d=59)`, `0.47 (d=7)`.  **Loose by a factor 2–4** |
+| distinctness bound (below) | the `a` odd cycle points are **exactly** `n, n+2, …, n+2(a−1)` | attained, with equality, at `d=1 n=1`, `d=5 n=5`, `d=−1 n=5` |
+
+The brief's hoped-for route *cycle ⇒ equality ⇒ rigid word ⇒ contradiction* fails at
+the first arrow for every bound in `ScaleLadder`: **a cycle does not come near any of
+them.**  The only bound a cycle drives to equality is the distinctness bound, and its
+equality case (`n, n+2, …, n+2(a−1)` consecutive) is a genuine rigid-word condition —
+but it is attained by three real cycles, so it is not contradictory.
+
+## 2.  The segment monoid, and the death of the rank (task 2)
+
+A **segment** is `(x, l)`, carrying `(word, l, a, start, multiplier 3^a/2^l, coupling κ,
+endpoint T^l x)`.  Composition `(x,i)·(T^i x,k) = (x,i+k)` obeys three laws, of which
+**two were already in the repository**:
+
+* `AccumulatorArith.oddCount_add` — `a` additive;
+* `AccumulatorArith.affineC_add` — `C(S₁S₂) = 3^(a₂)·C₁ + 2^(l₁)·C₂`;
+* `SegmentMonoid.segment_compose` (new, LEAN_PROVED) — `1 + κ(S₁S₂) = (1+κ₁)(1+κ₂)`.
+
+*The third is an algebraic tautology given `affine_exact`* — its Lean proof is three
+rewrites and an AC-normalisation, with no dynamics.  This caps what it can deliver.
+
+**There is no rank with a strict inequality.**  `rank_compose` (LEAN_PROVED): the
+natural rank `R(S) = start/end` telescopes, so `R(S₁S₂) = R(S₁)·R(S₂)` **identically**.
+Any rank respecting composition is a homomorphism out of the image of the segment
+monoid in `(ℤ,+) × (ℤ,+) × (ℚ_(>0),×)`, and a homomorphism is never strictly
+sub-multiplicative.  Task 2's target is unsatisfiable *inside the monoid*.  Strictness
+can only live in a **bound** on `κ` that is itself not multiplicative — which is
+exactly the distinctness bound of §3, and its measured value is zero (§4).
+
+## 3.  The product argument (task 3): NO, with the exact reason
+
+**Reason 1 — the hypothesis is empty.**  `block_lower`/`block_upper` need a `Floor` and
+two consecutive rungs.  `ScaleLadder.no_high_floor`: a bounded orbit has no floor above
+its bound.  A cycle therefore has **no rung above its own maximum**, and
+`∏ L_i ≤ 1 ≤ ∏ U_i` is a product over an empty index set.  Confirmed empirically:
+genuine rung extraction (floor holding for the *whole remaining orbit*) over 68 orbits
+including `27, 703, 9663, 77671, 113383, 159487, 1027431, 670617279` and 60 random
+starts in `[10⁶,10⁷]` produced **zero** rung-to-rung blocks.  This is the Round X
+warning made concrete: `ScaleLadder`'s block statistics can only ever be ascent-segment
+proxies.
+
+**Reason 2 — even with the right window, the product is information-preserving.**
+A cycle *does* have a permanent floor: its own minimum.  Two new theorems:
+
+* `floor_coupling` (LEAN_PROVED) — `coupling_bound` with an arbitrary floor `c`, not a
+  power of two.  Strictly sharper, and the only shape a cycle can feed.
+* `cycle_frontier` (LEAN_PROVED) — instantiated at a cycle with minimum `n`:
+
+> **`3 · n · (2^L − 3^a) ≤ a · 2^L`**
+
+and `cycle_frontier_add` for the subtraction-free form.  This is the *complete* yield.
+The reason it cannot be improved by multiplying more local bounds: **every local bound
+here is a factor of one global product**, `2^L/3^a = ∏(1 + 1/(3x_t))`.  Multiplying the
+local bounds reassembles that product with the local slack accumulated.  A product of
+bounds on the factors of an identity can be *at best* as strong as the identity, never
+stronger.  `prod L_i > 1` would need `3^a > 2^L`, which is anti-heaviness; `prod U_i < 1`
+would need `2^L/3^a > ∏(upper bounds)`, i.e. a **lower** bound on the linear form
+`L log2 − a log3` exceeding `a·log(1+1/(3n))` — a linear-forms-in-logarithms statement
+(Baker), classified in Round X as a cycle-half transcendence tool, not local dynamics.
+
+**Reason 3 — and it is decisive: the answer is already in the repository.**
+Running the deterministic finite filter
+
+> `0 < L·log2 − a·log3 ≤ −log(1 − a/(3n))`,  `n ≥ 1086465` (asset (a)),
+
+over all `a ≤ 3·10⁶` leaves `2 091 774` pairs, whose first members are
+
+> **`(2966, 4701), (3631, 5755), (4296, 6809), (4961, 7863), (5626, 8917), (5932, 9402),
+> (6291, 9971), (6597, 10456), …`**
+
+— **character-for-character the repository's own frontier ledge list**
+(`RealizableFrontier6809.length_ge_6809`, the `4701 → 6809` staircase, and the ledge
+multiples `(9402,5932) = 2·(4701,2966)` already recorded in Round III).  The product
+argument is `RealizableFrontier6809` in multiplicative coordinates.  **Closed as a
+duplicate.**
+
+**Not a duplicate of the product formula.**  Per the hard constraint: `cycle_frontier`
+uses the cycle **minimum** (endpoint/magnitude data), the **coupling**, and a floor —
+none of it available to a word invariant.  Diagnostic 3 is passed decisively: the
+`3x+d` version is `3nG ≤ d·a·2^L`, homogeneous of degree **one** in `d`, and the `d = 1`
+statement is **false** on every genuine cycle checked
+(`d=5 n=187`: `2 848 513 965 > 2 281 701 376`; also `d=5` at `5,19,23,347`, `d=7 n=5`,
+`d=13 n=131`, `d=59 n=133,229`) while each satisfies its own `d`-form.  It is a real
+`d = 1` asset — it is simply an asset the repository already owned.
+
+## 4.  Distinctness: the one strict submultiplicativity, worth exactly zero
+
+The `a` odd points of a cycle are **distinct** odd integers `≥ n`, so
+
+> `2^L/3^a ≤ ∏_(j<a) (1 + 1/(3(n+2j)))`  — strictly better than `(1+1/(3n))^a`,
+
+and this bound **is** strictly submultiplicative under segment composition (the second
+segment must use larger denominators), supplying the strictness §2 showed the rank
+cannot have.  Verified on all 12 genuine cycles; equality at `d=1 n=1`, `d=5 n=5`,
+`d=−1 n=5`.
+
+**Measured value at the frontier: zero.**  Over `a ≤ 3·10⁶`, distinctness cuts the
+survivor count from `1 870 385` to `876 318` — a factor 2.13 in density — and moves the
+**first survivor not at all**: still `(2966, 4701)`.  The reason is quantitative and
+final: distinctness only bites when `a ≳ n`, and asset (a) forces `n ≥ 1086464` while
+the frontier sits at `a ≈ 4296`, so `2a/n ≈ 0.008` and the bound agrees with the naive
+one to first order.  *The one place strictness was available, it is worth a factor of
+two in density and nothing at all in the frontier.*
+
+## 5.  Ascent/descent balance (task 4) — closed in one line
+
+Decompose the cycle into maximal ascent runs (odd steps) and descent runs (even steps).
+Descent runs have `κ = 0` **exactly** (`affineC_even`), so the coupling is supported
+entirely on ascent runs, and the closure identity reads
+`3^a/2^L · ∏_i (1 + κ_i) = 1` with `κ_i` the ascent couplings.  This is the same
+equation with the terms grouped: `Σ a_i = a`, `Σ(a_i + e_i) = L`, and the product over
+ascents is the product over all odd points.  The decomposition adds a partition of the
+index set and **no new inequality**, because `disc_append`/`affineC_add` make the data
+additive along the word — CLOSURE.md diagnostic 1, applied to the ascent/descent
+grouping.  Nothing survives.
+
+## 6.  One positive by-product
+
+`block_ratio_window` (LEAN_PROVED): from the two rung windows **alone** — no
+accumulator, no coupling, no interior floor —
+
+> `4·y < 3·T^l y`  and  `T^l y < 3·y`,  i.e. `4/3 < T^l y / y < 3`.
+
+So the *ratio* half of the two-sided block window is unconditional geometry;
+`coupling_bound` is spent only on transporting that ratio onto the word datum `3^a/2^l`.
+This isolates precisely what the coupling machinery buys in `block_lower`, and it is
+less than the file's header suggests.
+
+## Failed attempts, with diagnosis
+
+* **A strictly submultiplicative rank on the segment monoid.**  Dead by
+  `rank_compose`: the composition law is an *identity*, and `R(S) = start/end`
+  telescopes.  Diagnosis: the brief asked for a strict inequality where the structure
+  supplies an equality; strictness cannot live in a homomorphism.
+* **Multiplying `block_lower`/`block_upper` around a cycle.**  Dead by
+  `no_high_floor` — the index set is empty.  Confirmed by an extraction over 68 orbits
+  returning zero blocks.  Diagnosis: `ScaleLadder` is divergence-half by construction,
+  exactly as its own header says; the Round X warning about proxy statistics is the
+  same fact seen from the measurement side.
+* **A second, non-telescoping multiplicative invariant of a segment.**  Every candidate
+  built from `(l, a, C, start, end)` is a power product of `2^l`, `3^a`, `start`, `end`
+  by `wC_inj` (diagnostic 2) plus the composition laws, hence telescopes.  Dead before
+  writing.
+* **Forcing `∏ U_i < 1` by a sharper per-block upper bound.**  Reduces to a lower bound
+  on `L log2 − a log3`, i.e. Baker.  Round X already classified linear-forms methods as
+  cycle-half tools; this is the same wall, reached from the multiplicative side.
+* **Using the cycle *maximum* `M` as well as the minimum** (a second endpoint).  Gives
+  `2^L/3^a ≥ ∏(1+1/(3M))^a`, a *lower* bound on the linear form of size `a/(3M)`.  With
+  the spread bound `M/n > 2^474` at `(4701,2966)` this is smaller than the upper bound
+  by a factor `2^474`, so the window `[a/(3M), a/(3n)]` is never empty.  Diagnosis: the
+  spread is Class 1 and no `d`-free mechanism bounds it — the same barrier, reached
+  from the two-endpoint side.
+
+---
+
+# Round XI, Sections XXI–XXIV — the fibre interaction, measured, and it is empty
+
+*New file: `Collatz/Strategy/CoupledCycle.lean` (compiles clean, no `sorry`/`axiom`,
+axiom footprint `[propext, Quot.sound]`).  The file is deliberately short: the
+positive half of what I derived was already proved, in this same round, by
+`SegmentMonoid`, and I deleted my duplicate rather than leave a second entry point.*
+
+## The verdict on the central conditional
+
+> **`G ∣ C` does not strengthen the coupling bound, and the reason is degeneracy, not
+> difficulty: the coupling contains exactly the information `G ∣ C` contains.**
+
+The bridge does exist and is a single inequality.  Generalise
+`ScaleLadder.coupling_bound` from the floor `2 ^ k` to a free floor `c` — the
+induction never uses that the floor is a power of two — apply it at the cycle
+minimum, and substitute the cycle criterion:
+
+> `3 · n · (2 ^ L − 3 ^ a) ≤ a · 2 ^ L`.
+
+I derived this independently, then found it as `SegmentMonoid.cycle_frontier`
+(with `SegmentMonoid.floor_coupling` the free-floor generalisation).  **Two
+routes — the segment monoid and the scale-ladder coupling — converge on the same
+inequality in the same round**, which is itself evidence that it is the unique
+content available here.
+
+COMPUTATIONAL, exact integers, `a = ⌊L·log₃2⌋` (the only `a` that can pass: a smaller
+`a` enlarges the gap and shrinks the count), asset (a) `n ≥ 1 086 464`:
+
+| bound | constant | first surviving `(L, a)` |
+|---|---|---|
+| `CycleProduct.cycle_min_bound` | `n·g ≤ 2a·3^a` | `(1539, 971)` |
+| `coupling_bound` at a power-of-two floor `2^k ≤ n` | `3·2^k·g ≤ a·2^L` | `(2593, 1636)` |
+| free floor `c = n` | `3·n·g ≤ a·2^L` | `(4701, 2966)` |
+
+A threefold gain in reach over the product method, from nothing but dropping the
+rounding of `n` down to `2 ^ k` and improving `CycleProduct`'s linearisation constant.
+It reproduces `RealizableBound.length_ge_4701` and stops strictly below
+`RealizableFrontier6809`.  **The bridge adds no frontier.**
+
+## The arrow that fails, named exactly
+
+The proposed loop was `G ∣ C ⇒ restricted ordering ⇒ stronger coupling ⇒ …`.  **It
+fails at arrow 2, and it fails identically rather than marginally.**
+
+Every bound in the table uses exactly one inequality about orbit values, `n ≤ x_t`.
+The obvious sharpening is `FloorSchedule.pin_lower`, `3^(A t)·n ≤ 2^t·x_t`, which is
+strictly better at every heavy prefix.  Substitute it into the exact closure identity
+`∏_t (1 + 1/(3x_t)) = 2^L/3^a`:
+
+`Σ_t 2^t / (3·3^(A t)·n) = C/(3^a·n) = g/3^a`,
+
+because `Σ_t 3^(a−1−A t)·2^t` **is** `C`, the closed form of `affineC`.  The sharpened
+inequality is therefore `log(1 + g/3^a) ≤ g/3^a` — a tautology.
+MATHEMATICALLY_PROVED; verified in exact rationals on eleven genuine cycles of `3x+d`
+for `d = 1, 5, 7, 13, 59, −1`, equality in every case with no rounding.
+
+The structural reason, which is the round's main negative result:
+
+> `2^t·x_t = 3^(A t)·n + C_t` is an **identity**.  Every orbit value of a cycle is an
+> exact function of `(word, n)`.  So every lower bound on `x_t` is either the identity
+> itself — which returns the cycle equation and nothing else — or the external input
+> `x_t ≥ n`.  **There is no third source.**
+
+It is already visible in Lean, in this round's own work: `CouplingNormal.cycle_total_coupling`
+("the total coupling around a cycle is `2^L/3^a`") is discharged by
+`exact (cycle_affine h).symm`.  The exact closure product, which the brief nominated as
+the best lever, **is** the cycle equation — deterministic, finite, and carrying zero
+information beyond `G ∣ C`.
+
+## The ordering restriction `G ∣ C` imposes — weaker than heaviness
+
+`CoupledCycle.prefix_gap` (LEAN_PROVED) is the exact ordering consequence, read at the
+cycle minimum: for every prefix `j`,
+
+`2^j·C ≤ 3^(A j)·C + g·C_j`,  equivalently  `C_j/C ≥ (2^j − 3^(A j))/g`.
+
+`prefix_gap_of_heavy` (LEAN_PROVED) derives the *same conclusion* from heaviness
+`2^j ≤ 3^(A j)` alone, with **no cycle hypothesis, no `g`, no `n`** — the right-hand
+side already dominates.  `prefix_gap_at_L` shows the one prefix where heaviness is
+unavailable (`j = L`, where `3^a < 2^L` is the ledge) is an *equality*: the cycle
+equation restated.  Measured: the minimum's word is heavy at every proper prefix on all
+eleven genuine cycles.  Hence
+
+> **`G ∣ C` restricts the ordered odd-step times `t₁ < ⋯ < t_a` strictly *less* than
+> ordinary heaviness does.**
+
+That closes Round VIII's localisation from the other side.  Round VIII asked whether the
+coupling machinery could finally consume the ordering; the answer is that there is
+nothing left to consume, because the divisibility condition does not touch it.
+
+## `G ∣ C ⇒ expStep contradiction`: true, and vacuous
+
+`expStep_no_ledge` / `oddCount_lt_of_ledge` (LEAN_PROVED, two lines each).  A saturated
+window (`oddCount x j = j`, the defining property of `expStep`) has `2^j < 3^j` for
+`j ≥ 1`, so the cycle criterion's hypothesis `3^a < 2^L` is **unsatisfiable**.  The
+requested statement holds and certifies nothing: the ledge condition consumes
+`oddCount < j` — the even branch's contraction — in its very statement.
+
+> **Dual to `CLOSURE.md` diagnostic 4:** a *cycle*-half mechanism passes the Round X
+> divergence filter automatically, because `G > 0` is already the negation of
+> saturation.  The filter is one-directional and must not be cited as evidence for
+> cycle-half work.
+
+## Failed attempts, with diagnosis
+
+* **Sharpening the coupling with the ordering bound `x_t ≥ n·3^(A t)/2^t`.**  Returns
+  `log(1+u) ≤ u`.  Diagnosis above: the bound is the identity, and feeding an identity
+  into itself is a fixed point.  This is the round's cleanest kill and generalises —
+  *any* proposed improvement must supply a lower bound on `x_t` that is not a
+  consequence of `affine_exact`, and on a cycle only `x_t ≥ n` qualifies.
+* **The prefix chain `G·C_j ≥ (2^j − 3^(A j))·C` as `L` new constraints.**  All but one
+  are implied by heaviness (`prefix_gap_of_heavy`), and the exception is the cycle
+  equation.  Diagnosis: the chain is degree-0 homogeneous under `C ↦ d·C` — both sides
+  scale by `d` — so `CLOSURE.md` diagnostic 3 predicted it before it was measured, and
+  the genuine `3x+5` and `3x+13` cycles satisfy every member.
+* **Reading `G ∣ C` as a restriction on the word set, then measuring the coupling on
+  the survivors.**  Not measurable: at every ledge pair inside computation range the
+  solution set of `G ∣ C` is *empty* (a solution is a genuine cycle by
+  `CycleCriterion`, and `C/g ≤ 2^L/g` puts it inside the verified range).  Diagnosis:
+  the fibre the brief asked me to interact with has no computable sample points, which
+  is why no measurement in this programme has ever seen it.
+* **Hoping the free-floor gain compounds.**  It does not: `c = n` is the largest legal
+  floor, so the factor of two recovered from `2^k` is the whole of the gain, once.
+* **Applying `GlobalHeight.pin_explicit` at a cycle minimum.**  It *does* apply — the
+  hypothesis `∀ i, c ≤ T^i(x)` is satisfied at `c = x = n`, and only the strengthened
+  form `2k ≤ c` used by `cycle_hypothesis_fails` is unsatisfiable.  So Round X's
+  "the device says nothing whatever about cycles" is an over-claim; but what it then
+  says is `n·2^L ≤ (n+2a)·3^a`, which is `CycleProduct.cycle_min_bound` with the same
+  constant.  Correction recorded; no new content.
+
+## Where Round XI, XXI–XXIV, leaves it
+
+The bridge between the halves was built, and it is one inequality wide.  Its width is
+fixed by a fact that no amount of machinery moves: **on a cycle the orbit is an exact
+function of `(word, minimum)`, so the coupling and `G ∣ C` are the same statement in
+two coordinate systems.**  The only external input is `x_t ≥ n`, i.e. asset (a), and it
+has now been spent three ways — `CycleProduct` (1539), the power-of-two floor (2593),
+the free floor (4701) — all short of the realizability frontier at 6809, which spends
+the same asset better.
+
+The honest one-line summary: **the fibre interaction the programme has been missing is
+missing because it is empty.**
