@@ -4035,7 +4035,7 @@ strictly stronger than divergence.  It is not available for any orbit.
 
 * **The total accumulation is bounded by a universal constant.**  Exhaustively for all
   odd `n < 10⁶`, and for 300 random `n` in each of `10⁶ … 10¹²¹`, the total
-  `log(1+r) ≤ 0.2299545`, attained at `n = 993` (`1 + r = 1.258543`).  It does **not**
+  `log(1+r) ≤ 0.2299545`, attained at `n = 993` (**correction:** `1 + r = 1.2531421` exactly, whose log is `0.2256541`; `0.2299545` is the *linear* sum `Σ 1/(3x)`, and the two were conflated).  It does **not**
   grow with `n`.
 * **It is concentrated at the bottom.**  Over `99.2 %` comes from odd orbit values
   below `1000`; the part contributed by values *above the start* is `≤ 7.4/n`
@@ -4377,7 +4377,7 @@ statements about a filter's weakness, and a filter that admits genuine cycles is
 
 Round XI's postscript says
 
-> `log(1+r) ≤ 0.2299545`, attained at `n = 993` (`1 + r = 1.258543`)
+> `log(1+r) ≤ 0.2299545`, attained at `n = 993` (**correction:** `1 + r = 1.2531421` exactly, whose log is `0.2256541`; `0.2299545` is the *linear* sum `Σ 1/(3x)`, and the two were conflated)
 
 and, two paragraphs later, `Σ 1/(3x_i) = 0.2299545`.  **Those are two different
 numbers and only the second one is `0.2299545`.**  Recomputed in exact rationals, two
@@ -4389,7 +4389,7 @@ the *same* odd values in the *same* order — verified elementwise):
 | `S(993) = Σ_{odd x_i} 1/(3 x_i)` | 60-digit / 61-digit rational | `0.229954486122031` |
 | `ρ(993) = 1 + r = 2^61/(3^32·993)` | `2305843009213693952/1840049047529878113` | `1.253142144395068` |
 | `log ρ(993)` | — | `0.225654112731978` |
-| `exp(S(993))` | — | `1.258542727465798` |
+| `exp(S(993))` | — | `1.258542727465798` — **this is `exp` of the linear sum, not `1 + r`; `1 + r = 1.2531421`** |
 
 `1.258543` is `exp(S)`, not `1 + r`.  `S` and `log ρ` differ in the **third** digit.
 The constant that was measured is `Σ 1/(3x_i)`; every statement below is about that
@@ -4481,8 +4481,10 @@ reproduces); `95.0 %` from the 9 values below `100`.
 ### 3. Isolated maximiser, not a family  (section XLI)
 
 **COMPUTATIONAL, exhaustive:** `993` maximises `S` and `log ρ` over **all `n ≤ 10^9`**
-(C and Python agreeing; `S(2n) = S(n)` restricts the search to odd `n`), extended to
-`2·10^10` with no new record.
+(three independent implementations agreeing — C with a float memo, Python with a float
+memo, and Python in exact rationals to `2·10^5`; `S(2n) = S(n)` restricts the search to
+odd `n`).  A deeper run to `2·10^10` was started and **aborted before completion**, so
+`10^9` is the range actually certified; the aborted run had produced no new record.
 
 The top of the spectrum is *isolated*:
 
@@ -4535,7 +4537,7 @@ archimedean tracking problem.  So `F(B) → 0` is Class 1, by identity.
 Correspondingly, exhaustive search can never *prove* the maximality of `993`:
 `S(n) = H(n,B) + S(m)` with `m < B` the first orbit value below `B`, and
 `max_{m<B} S(m) = S(993)` for every `B > 993`, so the decomposition is vacuous above the
-maximiser.  **Maximality of `993` is CONJECTURE, verified to `2·10^10`.**
+maximiser.  **Maximality of `993` is CONJECTURE, verified exhaustively to `10^9`.**
 
 ### 5. What the constant constrains — honestly, nothing about a counterexample
 
