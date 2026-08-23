@@ -158,6 +158,8 @@ import Collatz.Strategy.OctaveWord
 import Collatz.Strategy.HighScaleWord
 import Collatz.Strategy.OctaveOrder
 import Collatz.Strategy.HarmonicCoupling
+import Collatz.Strategy.PrefixLP
+import Collatz.Strategy.MinimumInterval
 import Collatz.Strategy.SieveGrowth
 import Collatz.Strategy.Profile
 import Collatz.Strategy.ExchangeRate

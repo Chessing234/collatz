@@ -4749,10 +4749,17 @@ that prose did not carry.
 * **Runner-up law.**  `1 − second/Bcap = 0.4623/a`, stable to four digits across
   `a = 20, 40, 80, 160, 320, 640, 1280, 2966, 4296`.  So removing the single extremizer
   buys an `O(1/a)` *relative* improvement, which vanishes.
-* **Minimum-phase does not remove it.**  For a cycle word the start is forced,
-  `x_0 = C/G`, so minimum-phase is the pure word condition
-  `G·C_j ≥ (2^j − 3^(a_j))·C` at every prefix — no magnitude in it.  The extremizer
-  satisfies it at every `a` from 2 to 25.
+* **Minimum-phase does not remove it — and now we know why.**  For a cycle word the
+  start is forced, `x_0 = C/G`, so minimum-phase is the pure word condition
+  `G·C^(i) ≥ (2^(t_i) − 3^i)·C` — no magnitude in it.  **Heaviness *implies* minimum
+  phase** (`MinimumInterval.minPhase_of_heavy`, LEAN_PROVED, depending on *no axioms at
+  all*): heaviness is `2^(t_i) ≤ 3^i`, so the right-hand side is non-positive while
+  `G·C^(i) ≥ 0`, and the inequality holds *before the accumulator term is spent*.
+  Verified over every heavy word at `a = 2…9`.  The extremizer satisfies minimum phase
+  not by luck but because every heavy word does.  The converse fails —
+  `t = (0,1,3,5,6,8)` at `a = 6` is minimum-phase, not heavy, with `C = 1357 > 1085 =
+  Bcap 6` — so minimum phase is strictly *weaker* than heaviness and adjoining it gains
+  exactly zero, not a small amount.
 * **`G | C` does remove it** — the extremizer fails divisibility at every `a` from 2 to
   25 — **but divisibility buys nothing.**  The certificate gives `n ≤ Bcap/G`; imposing
   `G | C` makes `n = C/G` an integer, hence `n ≤ ⌊Bcap/G⌋`, which is the same bound.
@@ -4766,12 +4773,20 @@ The certificate excludes a ledge pair when `Bcap/G < c`, `c = 1086464`.  Recompu
 |---|---|---|
 | `(4701, 2966)` | `0.802·10^6` | **excluded** |
 | `(5755, 3631)` | `1.036·10^6` | **excluded** |
-| `(6809, 4296)` | `1.296·10^6` | **survives** |
+| `(6809, 4296)` | `1358717.7526` | **survives** |
 
 — exactly the observed frontier, which confirms the mechanism.  So:
 
-> **To exclude the frontier pair, `Bcap` must shrink by `16.17%`.  Removing the
-> extremizer gives `0.011%`.  Short by a factor of `1503`.**
+> **To exclude the frontier pair, `Bcap` must shrink by `20.038%`.  Removing the
+> extremizer gives `0.01076%`.  Short by a factor of `1862`.**
+
+*(Corrected.  An earlier draft of this section said `1.296·10^6`, `16.17%` and `1503`.
+Those came from a float log-approximation applied to a huge-integer ratio, after an
+`OverflowError` that I worked around instead of isolating.  The exact value
+`1358717.753` had already appeared **in my own verification earlier the same session**,
+in the `RealizableFrontier6809` record table.  Third instance this session of the same
+failure mode — seeing a mismatch and moving on — and the one the brief's section LIII
+was written about.  The conclusion is unchanged and slightly worse.)*
 
 **An epsilon improvement is therefore worthless.**  The round needs a *constant-factor*
 reduction in `Bcap` under the cycle constraints, or a proof that none exists.  Brief
