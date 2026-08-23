@@ -5159,3 +5159,81 @@ many of them.  So the next question is sharper than the round's:
 
 > **not "what sees the contraction" — that is answered — but "what supplies a descent
 > certificate whose block length is allowed to grow with `n`".**
+
+## Round XV — the valuation/Beatty bridge, and the reverse tree gets a number
+
+### §14 — an empty concept pair, filled
+
+The index reported `2-adic valuation ↔ Beatty/Sturmian` as an **empty pair**, because
+`GapVector` builds the whole run-length calculus over a *free* `g : ℕ → ℕ` and never
+instantiates it at a real orbit.  Now instantiated.
+
+The convergents of `log₂3` become shift laws for the Beatty ceiling, generic in the
+convergent and then instantiated from `PrimeLedge`'s kernel-checked `3^306 ≤ 2^485` and
+`2^1054 ≤ 3^665` — both re-verified, and both shift laws checked for all `i < 6000`:
+
+> `fexp (i + 306) ≤ fexp i + 485`  and  `fexp i + 1054 ≤ fexp (i + 665)`.
+
+These bracket the permitted **even-step density** between `389/665 = 0.5849624060` and
+`179/306 = 0.5849673203` — width `4.914·10^(−6)`, containing `log₂3 − 1 = 0.5849625007`.
+
+And the block law lands at a real orbit: `orbit_time_le_fexp` extracts `j ≤ fexp (oddCount
+m j)` (proved but never named, inside `no_light_window`), giving `even_steps_per_306` — a
+never-dropping `m ≥ 1086464` whose first `j` steps contain exactly `306q` odd steps has
+`j ≤ 485q`, hence at most `179q` even steps.  `gapT_gapC_of_orbit` finally instantiates
+`GapVector` at an orbit, so the box `gapT g i ≤ fexp i` is **derived rather than assumed**.
+
+**Honest verdict:** the convergents constrain valuations to *precisely the number* they
+constrain `(L,a)` to.  `BeattyStability.corner_is_a_real_cycle` says why nothing more is
+available — the extremal valuation profile is a genuine cycle of `x ↦ (3x+47)/2^v`, so no
+consequence of the valuation profile alone can see `d = 1`.  Class 1 by identity, now
+proved on the valuation side rather than assumed there.
+
+### §15 — the reverse tree, with a number attached
+
+Two exact inequalities bracket a reverse path `T^k(x) = y` above a floor `B`, and
+linearise (`reverse_pinch_one_bit`) whenever `2a ≤ 3B` to
+
+> `3^a · x ≤ 2^k · y ≤ 2 · 3^a · x`.
+
+Verified on 1500 never-dropping prefixes above the verified range.  Round XIV put the
+whole reverse tree of a counterexample above `1086464`, so this holds for every reverse
+path with `a ≤ 1 629 696` odd branches; the true window is `a/2 259 238` bits, so shape
+freedom does not reach **one bit** until `a ≈ 2.26·10^6`.
+
+> **The reverse tree above a counterexample has essentially one shape `(k,a)` per
+> endpoint pair.  All of its `(4/3)^k` branching is in the choice of divisibility class,
+> none of it in the shape.**
+
+That converts "the reverse tree is a relabelling" — the conclusion the brief forbade
+repeating — into a *ceiling* rather than a contradiction.  Branch stays dead, now
+quantified.
+
+### §13 and §18 — duplicates, and the desk deleted its own file
+
+The cocycle-plus-integrality bound was proved and then found to be **verbatim
+`CycleProduct.product_invariant`**; the desk deleted `CocycleIntegrality.lean` rather
+than add a duplicate.  Generating functions collapse to the accumulator identity exactly
+as anticipated, and the desk wrote no new Lean, citing `ForwardReverse` (whose `gf` at
+`(1,1)` and `(1,3)` makes forward heaviness and reverse density the *same* function) and
+`ExpSum`'s three recorded kills.
+
+### The `expStep` test — and the pattern is the round's real finding
+
+| result | `expStep` |
+|---|---|
+| `fexp_shift_*`, density bracket | satisfied — pure arithmetic on `log₂3` |
+| `orbit_time_le_fexp`, `even_steps_per_306`, `orbit_run_box` | **fails** (`n = 2^k`: `oddCount = 0`, claim `j ≤ 0`) |
+| `reverse_shape_pinned` lower half | satisfied — only needs `C ≥ 0` |
+| `reverse_pinch_one_bit`, `product_invariant` | **fails** |
+
+**Every discriminating item discriminates for the same reason: it consumes `2·T(x) ≤ x`,
+i.e. `oddCount n j < j`.**  Two desks reached that independently this round — the
+covering desk through descent certificates, this one through the Beatty ceiling.  It is
+the sharpest confirmation yet of Round X's diagnosis.
+
+*Self-caught error worth recording:* the desk first estimated `2^485/3^306 ≈ 1.3667` from
+a half-remembered logarithm and designed a theorem around a `4/3` margin.  Exact
+arithmetic gives **`1.0010227`** — I re-verified — and the claim was false.  It caught
+this before the constant entered a proof, which is the discipline four previous rounds
+were written about.
