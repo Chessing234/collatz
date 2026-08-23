@@ -39,9 +39,21 @@ kernel-checked inequality already in `PrimeLedge`:
 
 These are **valuation-block statements**, not `(L,a)` statements: `fexp a − a` is
 exactly the number of *even* steps the Beatty box permits alongside `a` odd steps,
-so the two laws bracket the permitted even-step count per odd step between
+so the two laws constrain the permitted even-step count per odd step by
 
-`389/665 = 0.5849624…`  and  `179/306 = 0.5849673…`.
+`389/665 = 0.5849624…`  (from below, at `a = 665q`)  and  `179/306 = 0.5849673…`
+(from above, at `a = 306q`).
+
+**Correction (Round XV adversary).  These are *not* a bracket, and an earlier draft
+called them one.**  The two bounds hold at *different index progressions*, so no single
+`a` is caught between them except where the progressions meet: over `a = 1 … 3000` the
+ratio `(fexp a − a)/a` lies in `[0.5849624, 0.5849673]` for exactly **four** values —
+`665, 1330, 1995, 2660`, the multiples of `665`.  What is proved is two one-sided
+statements on two arithmetic progressions, which is weaker and must be cited that way.
+
+The interval is also **not centred on `log₂3 − 1`**: its centre is `0.5849648631`
+against `log₂3 − 1 = 0.5849625007`, which sits at `1.9%` across it, near the low end.
+`0.5849625007` is *contained*, not central.
 
 ## 2. The block law for a real orbit
 

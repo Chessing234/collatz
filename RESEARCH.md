@@ -3189,7 +3189,28 @@ Hence the divergence-half analogue of `C(w,d) = d·C(w,1)`:
 
 What separates the two maps is exactly that: over 30 steps the Collatz orbit of `27`
 has odd count `21 < 30`, and of `703` has `20 < 30`, against `expStep`'s saturated
-`30`.  **The even branch's contraction is the whole of the divergence half.**
+`30`.  ~~**The even branch's contraction is the whole of the divergence half.**~~
+
+> **RETRACTED (Round XV).  That sentence is false, and I wrote it.**  Consuming
+> `oddCount n j < j` is **necessary but nowhere near sufficient**.  Witness
+> (`MixWitnessXV.lean`): `mixStep x = (3x+1)/2` for odd `x`, `x/2` for `x ≡ 6 (mod 8)`,
+> `3x/2` otherwise.  It agrees with the accelerated Collatz map on **every odd input**
+> (checked for every odd `x < 200001`), is positive, obeys the affine law, **contracts on
+> the even branch** — the orbit of `6` is `6, 3, 5, 8` with `a = 2 < 3 = j` — and **every
+> orbit still diverges**, `f³(x) > x` verified for all `x < 300000`.
+>
+> Worse for the framing: `expStep` is not the unique deformation but the **degenerate
+> member of a continuum**.  Every subset `H ⊆ {x ≡ 6 (mod 8)}` gives a witness — the
+> divergence proof needs only `H ⊆ {6 mod 8}`, since a halving forces `x/2 ≡ 3 (mod 4)`,
+> which forces the next two steps odd, and `(1/2)(3/2)(3/2) = 9/8`.  `H = ∅` is exactly
+> `expStep`.  Round XI's deformation theorem was about the `2×2` affine grid only and does
+> not reach this class.
+>
+> The family's own limit, stated against itself: the `9/8`-per-three-steps device caps
+> halving density at `1/3`, so no witness of this type has `a_j/j < 2/3 = 0.6667`, while
+> `log₃2 = 0.63093` and Collatz sits near `0.5`.  So the family closes
+> `a_j/j ∈ [0.89, 1]` (measured) and **cannot** close `(0.63093, 0.89)`.  That gap of
+> `0.0357` is exactly the room the real theorem has to exploit.
 
 Stated weakness, from the agent that built it: `3x+d` differs from `3x+1` in one
 constant, whereas `expStep` differs on a whole branch, so this filter kills a coarser
