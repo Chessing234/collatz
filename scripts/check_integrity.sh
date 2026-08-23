@@ -38,7 +38,7 @@ STRIP
 # Every way a Lean proof can leave the kernel, not just the three obvious ones.
 # `sorryAx` does not match \bsorry\b, and `native_decide` compiles to a trusted
 # axiom -- both were live in this repo and passed the old grep.
-if grep -RInE '\b(sorry|sorryAx|axiom|native_decide|ofReduceBool|skipKernelTC|byAsSorry)\b|^[^:]*:[0-9]+:[[:space:]]*((private|protected|noncomputable|scoped)[[:space:]]+)*(admit|unsafe|partial|opaque)([[:space:]]|$)|@\[(implemented_by|extern)' /tmp/collatz_stripped.txt; then
+if grep -RInE '\b(sorry|sorryAx|axiom|native_decide|ofReduceBool|skipKernelTC|byAsSorry|addDecl|addAndCompile|mkProj|ofReduceNat|evalConst|Lean\.Elab\.Command\.liftCoreM)\b|^[^:]*:[0-9]+:[[:space:]]*((private|protected|noncomputable|scoped)[[:space:]]+)*(admit|unsafe|partial|opaque)([[:space:]]|$)|@\[(implemented_by|extern)' /tmp/collatz_stripped.txt; then
   printf 'integrity failed: proof escape found\n' >&2
   exit 1
 fi

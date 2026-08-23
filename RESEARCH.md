@@ -5326,3 +5326,64 @@ every finite length.
 A non-circular restricted-class theorem, kernel-checked and independently verified for
 `n < 2·10^5`: **`drop_of_seventeen_mod_64` — every `n ≡ 17 (mod 64)` with `n ≥ 2` drops
 within two Syracuse steps.**  Its word is `[2,3]`, so `S = 5` and `2^(S+1) = 64`.
+
+## Round XV — the Mathlib branch, the survey, and one fact about this repository
+
+### Mathlib has nothing, verified
+
+GitHub code search across `mathlib4` and `mathlib3` for `collatz`/`syracuse`/`hailstone`
+returns **zero hits** (control queries return hits, so the search works).  Not in
+`docs/100.yaml`, `1000.yaml`, or `undergrad.yaml`.  The only "official" Lean statement is
+a `sorry` stub in `google-deepmind/formal-conjectures`.  **The AFP has no Collatz entry
+either.**
+
+The one piece of genuine leverage the Mathlib branch found is
+`le_padicValNat_iff_residue` — `v₂(3n+1) ≥ k ↔ (n : ZMod (2^k)) = −(3 : ZMod (2^k))⁻¹` —
+and its verdict is honest: **narrow.**  `padicValNat` is not kernel-reducible, so the
+hand-rolled valuation stays better for anything `decide`-driven.  Two reproofs did come
+out shorter: the ℤ-valued `cycle_iff` drops all three hypotheses the no-Mathlib version
+needs, and Terras surjectivity falls out of counting in ~5 lines against 82.
+
+### The soundness incident, and why the audit was hardened this round
+
+`xrchz/CollatzLean` (July 2026) claims `¬ Conjecture` with **no `sorry`, no `axiom`**, and
+its CI passed `leanchecker`, a `--fresh` replay, **and** nanoda with
+`permitted_axioms: []`.  It is a deliberate exploit: proof terms built by hand with
+`mkProj`, `letE` and raw `addDecl` past the elaborator, exploiting `leanprover/lean4#14576`
+plus a second bug in nanoda.  **Two independent kernels accepted a proof of `False` for
+about 2.5 days.**
+
+`scripts/check_integrity.sh` now also greps for `addDecl`, `addAndCompile`, `mkProj`,
+`ofReduceNat`, `evalConst` and `liftCoreM` — **negative-tested**: it fires on a planted
+`addDecl` and passes on the clean tree.  None of these appear anywhere in `Collatz/`.
+
+> **"Zero `sorry`, zero axioms, two independent kernels" is necessary and not
+> sufficient.**  That belongs in this project's standing discipline.
+
+### One fact about this repository, stated carefully
+
+The survey's finding: *no* Lean, Coq, Isabelle or ACL2 artifact certifies "every
+`n < N` reaches 1" for any interesting `N`; Barina's `2^71` and Oliveira e Silva's tables
+are plain C/GPU, argued correct on paper only.  Its measured kernel-honest ceiling for a
+naive encoding was `N ≈ 10^4` — `decide +kernel` took 103 s at `N = 5000` and failed to
+finish `N = 20000` in eight minutes.
+
+This repository proves `Search.reachesOne_of_lt_1086464` with **zero `native_decide`
+anywhere in the library** (re-verified), discharged through `reachesOne_of_blocks` over
+`1061` residue blocks — and that module kernel-checks in **1.3 seconds**.
+
+The difference is not compute; it is the same idea the covering desk used this round: a
+*certificate per residue class* rather than per integer.  If the survey is right about the
+rest of the ecosystem — I have not independently re-checked its whole inventory — then
+`1 086 464`, kernel-honest, is the largest verified Collatz range in any proof assistant,
+by about two orders of magnitude.
+
+That is worth stating precisely because it is *not* progress on the conjecture.  It is a
+finite result, and this repository's own gap statement says so.
+
+### Carried forward
+
+`Papers/Terras1976.terrasDensityOne` is still an unproved `Prop` referenced nowhere, and
+`lechmazur/terras_density_one` formalizes exactly it (`HasNatDensity {n | ∃ k,
+accelerated^[k] n < n} 1`, sorry-free).  Mathlib has **no natural-density definition for
+sets of naturals**, which is why that statement sits unproved here.
