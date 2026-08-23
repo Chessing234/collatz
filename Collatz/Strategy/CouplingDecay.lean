@@ -369,7 +369,18 @@ halves out of it downward; two consecutive odd values multiply by more than `2` 
 leave upward.  Verified exhaustively over all orbits from `n < 200 000`: the maximum
 run inside one octave is `2`. -/
 
-/-- **An orbit occupies a dyadic octave for at most two consecutive steps.** -/
+/-- **An orbit occupies a dyadic octave for at most two consecutive steps.**
+
+*Scope note, added after Round XII under-reported this.*  The proof below is pure
+arithmetic — both points must be odd, and then `4·x_(j+2) = 9·x_j + 5 ≥ 9·2^k + 5 >
+8·2^k` — so the bound holds for **every positive integer with no range restriction**.
+Round XI's summary described it as "verified, worst case exactly 2 over all `n <
+200000`", which understates it: the computation was a check, never a dependency.
+
+The witness was also mis-transcribed there as "`7 → 26`".  The orbit of `7` is
+`7, 11, 17, 26, 13, …`, and the two-step sojourn is **`17 → 26`**, both in `[16, 32)`;
+`(7, 26)` was a `(start, value)` pair read as a step pair.  Map: the accelerated
+`T`. -/
 theorem octave_sojourn {x j k : Nat}
     (h0 : 2 ^ k ≤ acceleratedOrbit j x) (h0' : acceleratedOrbit j x < 2 ^ (k + 1))
     (h1 : 2 ^ k ≤ acceleratedOrbit (j + 1) x) (h1' : acceleratedOrbit (j + 1) x < 2 ^ (k + 1))

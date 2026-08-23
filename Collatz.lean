@@ -154,6 +154,7 @@ import Collatz.Strategy.FilterDecomposition
 import Collatz.Strategy.CoupledCycle
 import Collatz.Strategy.CouplingDecay
 import Collatz.Strategy.BottomUnreachable
+import Collatz.Strategy.OctaveWord
 import Collatz.Strategy.SieveGrowth
 import Collatz.Strategy.Profile
 import Collatz.Strategy.ExchangeRate
