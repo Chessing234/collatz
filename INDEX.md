@@ -1,10 +1,10 @@
 # Concept index
 
-2685 theorems/lemmas across 185 files.
+2688 theorems/lemmas across 186 files.
 
 ## Cluster sizes
 
-- orbit windows: 605
+- orbit windows: 608
 - cycle equations: 264
 - affine accumulator: 261
 - descent: 183
@@ -67,7 +67,7 @@ Heuristic: a regex over statement text, so treat these as *candidates* for a mis
 | C (accumulator) | 121 | 27 | 6 | 2 | 191 | 30 | 86 | 44 |
 | G (the gap) | 115 | 8 | 5 | . | 72 | 9 | 30 | 43 |
 | parity word | 31 | 7 | 2 | . | 82 | 23 | 11 | 7 |
-| orbit state x | 446 | 45 | 29 | 4 | 275 | 25 | 551 | 46 |
+| orbit state x | 449 | 45 | 29 | 4 | 275 | 25 | 554 | 46 |
 | cycle min n | 169 | 3 | 4 | 1 | 94 | 8 | 93 | 29 |
 | delta = G/gcd | 8 | . | . | . | 1 | 1 | . | 4 |
 | heavy language | 113 | 7 | 1 | . | 40 | 3 | 26 | 1 |
