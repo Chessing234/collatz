@@ -4795,3 +4795,103 @@ sufficient — `0.4623/a` is perfectly uniform and three orders too small.
 
 That is the target handed to the five desks, and it is also the reason to expect
 section LIII's outcome (sharpness) rather than section LIV's.
+
+---
+
+# Round XIII — the ledger.  `Bcap` is sharp, and the target was never reachable
+
+## 1.  Exact `Bcap` derivation, and what it discards
+
+`Bcap a = Σ_(i<a) 3^(a−1−i)·2^(fexp i)` against `C(w) = Σ_i 3^(a−1−i)·2^(t_i)`: it bounds
+each `t_i` by `fexp i` **independently**.  The clean way to see it is the **slack**
+`s_i = i·log₂3 − t_i`, in which
+
+> `C = 3^(a−1) · Σ_(i<a) 2^(−s_i)`,  and `max C` is *pointwise* minimisation of each
+> `s_i` separately.
+
+Since gaps are integers, `s_i ≡ {i·log₂3} (mod 1)`, and heaviness is `s_i ≥ 0`; so the
+minimum is `{i log₂3}` and `t_i = fexp i`.  Two lines, uniform in `a`, no induction over
+words.  Byproduct: `Bcap a = 3^(a−1)·Σ 2^(−{i log₂3})`, hence
+**`Bcap/(a·3^(a−1)) → 1/(2 ln 2) = 0.7213475`** (measured `0.7216799` at `a = 4296`), with
+`a·3^a ≤ 6·Bcap a ≤ 2·a·3^a` proved.
+
+## 2–4.  Minimum phase, the minimum interval, ordered times
+
+**Heaviness implies minimum phase** (`MinimumInterval.minPhase_of_heavy`, zero axioms):
+minimum phase is `G·C^(i) ≥ (2^(t_i) − 3^i)·C`, heaviness is `2^(t_i) ≤ 3^i`, so the
+right side is non-positive while the left is non-negative — it holds before the
+accumulator term is spent.  `M(w) = C/G` exactly, so `C/G` is always the *right endpoint*
+of its own minimum interval and **every heavy word survives `C/G ∈ I(w)`**.  Minimum
+phase is strictly *weaker* than heaviness (`t = (0,1,3,5,6,8)` at `a = 6` is min-phase,
+not heavy, `C = 1357 > 1085 = Bcap 6`), and `max{C : min-phase} = 1.52·Bcap` at `a = 12`.
+Strictness buys nothing.  **Sections XLIV–XLVIII closed, reduction identically 0.**
+
+## 5–6.  The extremal ordering, and what removes it
+
+The extremizer is the Sturmian word of slope `a/L`, built only from blocks `10` and
+`110` — no `111`, no `00` — with discrepancy width `0.9999`.  Its idealised orbit is
+`x_i/n = 2^(i log₂3)` exactly, so **every odd element lies in `[n, 2n)`**.
+
+**It is a genuine cycle.**  With `g = gcd(G, Bcap a)`, `d = G/g`, `n = Bcap a/g`, the
+Beatty word closes exactly under `x ↦ (3x+d)/2^v` with minimum `n`.  Smallest case,
+kernel-checked: `d = 47`, `n = 85`, `85 → 151 → 125 → 211 → 85`, and indeed
+`Bcap 4 = 85`, `2^7 − 3^4 = 47`.  Verified closing at `a = 5, 6, 7, 10, 17, 25, 100`.
+
+Consequently **no `d`-independent constraint can remove it**:
+
+| constraint | verdict | reduction |
+|---|---|---|
+| minimum phase | implied by heaviness | **0** |
+| leaf (no element `≡ 0 mod 3`) | vacuous for *every* word: `C ≡ 2^(t_(a−1)) (mod 3)`, so `3 ∤ C` always | **0** |
+| `O0 E^m O0` ban | vacuous: a theorem about *every orbit*, hence forbidding no word.  It is `log₂3 − 1 > 1/2` restated, and its counting content `a/L ≤ 2/3` is weaker than heaviness' `0.63093` | **0** |
+| heavy-window | *is* the box | **0** |
+| `G ∣ C` | the only one — and using it is circular, since heavy + `G∣C` **is** "this is a cycle word" | 0.05% of the distance |
+
+**This corrects Round XII**, which reported the `O0 E^m O0` ban as a "genuinely new
+non-local constraint".  It is non-local in *time* precisely because it is local in the
+*odd index*, and locality in the odd index is exactly blindness to the gaps.
+
+## 7.  Uniform improvement: it does not exist, twice over
+
+**(a) The plateau.** `BcapSharp.sharp`: for every selector `S` firing only at two-jump
+indices, the lowered word is strictly increasing, heavy, and has `C ≥ (1 − s/a)·Bcap`.
+All `2^(0.585a)` subsets are admissible, so a `β`-improvement must exclude
+`C(0.585a, βa)` heavy words — `> 10^700` at `β = 0.2, a = 4296`.
+
+**(b) And a constant factor was never enough.**  Exactly
+`Bcap/G = (1/(6 ln 2))·a·(1−ε)/ε` with `ε = 1 − 3^a/2^L`, and `ε` returns toward `0`
+along the convergents of `log₂3`.  The *surviving fraction* a bound must achieve tends
+to zero:
+
+| `a` | `Bcap/G` | required fraction |
+|---|---|---|
+| 4296 | 1358717.75 | 0.79962 |
+| 10281 | 6728242.48 | 0.16148 |
+| 14936 | 58068030.82 | 0.01871 |
+
+> **Since `Bcap` is attained, any bound `C ≤ K·a·3^(a−1)` clears only finitely many
+> ledges, for every constant `K`.**  A constant-factor improvement was never sufficient
+> — and neither is surrendering the whole factor of `a`.
+
+## 8.  Frontier impact
+
+None, and none was available.  Excluding `(6809, 4296)` needs `20.038%` off `Bcap`;
+removing the extremizer gives `0.01076%`.  Note the near-miss on record: `(5755, 3631)`
+clears by **409** integers of verified range out of `1086464` — `0.038%`.
+
+## 9.  The remaining lemma, restated
+
+The standing formulation — *a bound on the cycle minimum that reads the ordering and
+beats `Bcap` uniformly in `a`* — is now **provably unsatisfiable as a bound on `C` over
+heavy words**, from both sides of §7.
+
+> **The remaining lemma must read something the parity word does not determine — the
+> criterion `G ∣ C` itself, or `Bcap a mod G` — and not the word's ordering, its
+> octave decoration, or its gaps.**
+
+Section LIII's outcome, anticipated in the brief, is the actual outcome.  The extremal
+family is named: the Beatty corner with any subset of its two-jump coordinates lowered
+by one — `2^(0.585a)` words, all heavy, all min-phase, all octave-legal, all leaf-legal,
+each a genuine cycle of some `3x+d`.  **The single property separating them from genuine
+`3x+1` cycles is `d = 1`.**  There is no dynamical, combinatorial, or octave-level
+property that does it.
