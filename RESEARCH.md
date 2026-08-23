@@ -5094,3 +5094,68 @@ Build artifacts are gitignored.
 The specific reason to want it: `padicValNat` is the one piece of machinery the
 hand-rolled branch cannot easily build, and this round's central question is precisely
 *what object sees the exact contraction `n ↦ n/2`*.
+
+## Round XV — the first mechanism that sees the even branch, and why it still cannot finish
+
+The covering desk produced the round's real result, and it has two halves that must be
+stated together.
+
+### It sees the contraction.  Provably.
+
+Round X's `expStep` showed that affine law + parity word + heaviness + positivity cannot
+prove termination, and named the missing datum as `oddCount n j < j`.  **A residue-class
+descent certificate consumes exactly that**, and it is the first mechanism in fifteen
+rounds that does:
+
+* `oddCount_lt_of_descendsLarge : DescendsLarge k r → oddCount r k < k` — a certificate
+  cannot exist without at least one even step;
+* `expStep_never_descends (k) : ¬ (3^k < 2^k)` — `expStep`'s `k`-step multiplier is `3^k`
+  on **every** class, because its even branch multiplies by `3` too.  **No residue class
+  admits a descent certificate for `expStep`, at any modulus and any block length.**
+
+Concretely, on one class, verified exactly: `T^8(256m + 7) = 243m + 8` against
+`E^8(256m + 7) = 6561m + 201`.  Same class, same `k`, same affine shape — `243 < 256` for
+Collatz, `6561 > 256` for `expStep`.  The certificate is not the wrong object; it is a
+consumption of the right one.
+
+A concrete new theorem with a sharp threshold, LEAN_PROVED:
+
+> **`drop_seven_mod_256 : n % 256 = 7 → 263 ≤ n → acceleratedOrbit 8 n < n`.**
+
+(The crude generic threshold would give `n ≥ 2304`; the gap-aware form gives `263`, and
+`n = 7` itself is correctly excluded since `T^8(7) = 8 > 7`.)
+
+### And it provably cannot be completed by a finite modulus
+
+`covering_needs_unbounded_blocks : ¬ ∃ K, ∀ n > 1, ∃ i ≤ K, T^i(n) < n`, from
+`no_bounded_descent_time (K) : ∃ n > 1, ∀ i ≤ K, ¬ T^i(n) < n` with witness
+`2^(K+2) − 1` — verified for `K = 1 … 15`.  A level-`K` certificate uses at most `K`
+steps, so **no finite `M` completes the covering, unconditionally and independently of
+Collatz.**  Section 16 is closed as posed.
+
+The failure is **uniformity, not density**.  The failing set is exactly the **ballot
+set** — parity words whose partial-sum path stays weakly above the line of slope
+`θ = log 2 / log 3 = 0.63093` — an exact lattice-path cone, not a statistical statement.
+Its classes reproduce the repository's own pillar lists: `{7,11,15}` at `K = 4`,
+`{7,15,27,31}` at `K = 5`, 8 classes at `K = 6`, 19 at `K = 8`, **64 at `K = 10`**
+(= `survivorsMod1024`), 2114 at `K = 16` — all recomputed exactly.
+
+Density does shrink, at rate `2^(−(1−H(θ))K)` with `1 − H(log₃2) = 0.0500445` — **the
+same constant, from a fifth direction**.  But the residual at level `K` is exactly
+`{n : σ(n) > K}`, and stopping times are unbounded, so the covering cannot terminate.
+The failing residues form a Cantor set of box dimension `0.94996`: uncountable, not
+thinning to a point.
+
+*Measurement caveat:* at `K = 16` I measure `log₂(fraction)/K = −0.3096`, far from the
+asymptotic `−0.05004`; that is consistent with the desk's own `K^(−3/2)` correction and
+its `K = 64, 1000, 4000` values (`−0.1467, −0.0616, −0.0537`), which I did not
+independently rerun.  Do not read the small-`K` slope as the exponent.
+
+### What this leaves
+
+The object that sees the even branch is now identified and is not exotic: it is a
+residue-class descent certificate.  What is proved impossible is finishing with finitely
+many of them.  So the next question is sharper than the round's:
+
+> **not "what sees the contraction" — that is answered — but "what supplies a descent
+> certificate whose block length is allowed to grow with `n`".**
