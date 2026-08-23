@@ -4366,3 +4366,221 @@ statements about a filter's weakness, and a filter that admits genuine cycles is
 > had two branches, and both are now empty.  What remains in the repository is what
 > remained before it: extend the verified range, or read the *ordering* of the parity
 > word better than `Bcap` does.
+
+---
+
+# Round XII — what the constant `0.2299545` actually is
+
+## Sections XXXIX–XLI, and one correction to Round XI that changes the object
+
+### 0. The correction, first
+
+Round XI's postscript says
+
+> `log(1+r) ≤ 0.2299545`, attained at `n = 993` (`1 + r = 1.258543`)
+
+and, two paragraphs later, `Σ 1/(3x_i) = 0.2299545`.  **Those are two different
+numbers and only the second one is `0.2299545`.**  Recomputed in exact rationals, two
+independent implementations (accelerated map `T`, and the plain map `3x+1`, which visit
+the *same* odd values in the *same* order — verified elementwise):
+
+| object at `n = 993` | exact | float |
+|---|---|---|
+| `S(993) = Σ_{odd x_i} 1/(3 x_i)` | 60-digit / 61-digit rational | `0.229954486122031` |
+| `ρ(993) = 1 + r = 2^61/(3^32·993)` | `2305843009213693952/1840049047529878113` | `1.253142144395068` |
+| `log ρ(993)` | — | `0.225654112731978` |
+| `exp(S(993))` | — | `1.258542727465798` |
+
+`1.258543` is `exp(S)`, not `1 + r`.  `S` and `log ρ` differ in the **third** digit.
+The constant that was measured is `Σ 1/(3x_i)`; every statement below is about that
+object, and `ρ` is named separately wherever it appears.
+
+**Map discipline.**  `a` (odd-step count) and the odd-value list are identical for the
+accelerated and the plain map, so `S(n)` is map-independent.  `L = 61` is the
+*accelerated* orbit length, equal to the number of halvings of the plain orbit; the
+plain orbit of `993` has `61 + 32 = 93` steps.  All `L`, `a` below are accelerated.
+
+### 1. The exact value  (section XXXIX)
+
+`S(n)` is **exactly a rational**: a finite sum of `1/(3x)` over the 32 odd values of one
+explicit orbit.  It is *not* a logarithm, not a limit, not an extremum of a smooth
+family.  The reduced fraction at `993` has a 60-digit numerator over a 61-digit
+denominator; the maximum is the value of an explicit finite sum at one explicit integer
+and that is all it is.
+
+What *is* closed-form is its companion and dominator.  From
+`one_add_coupling` (LEAN_PROVED) with `x_L = 1`:
+
+> **`∏_{odd x_i} (1 + 1/(3 x_i)) = 2^L/(3^a n) = ρ(n)`**,  hence
+> **`log ρ(n) ≤ S(n) ≤ ρ(n) − 1`.**
+
+At `n = 993`: `ρ = 2^61/(3^32·993)`, `ρ − 1 = 465793961683815839/1840049047529878113
+= 0.2531421…`, and `0.2256541 ≤ 0.2299545 ≤ 0.2531421`.  (Product identity: 0 mismatches
+in 2000 random `(n,j)`, exact rationals.  Sandwich: 0 violations in 4000.)
+
+**`ρ` is also maximised at `993`** — checked separately, because the two orderings are
+*not* the same: `505` is a `ρ`-record and not an `S`-record.  Max `log ρ` over all
+`n ≤ 10^9` is `0.225654112731976` at `993`.
+
+The upper half of the sandwich is now Lean, in `Nat`, in
+`Collatz/Strategy/HarmonicCoupling.lean`:
+
+* `couplingTerms_eq_affineC` — **`affineC j n` *is* the sum
+  `Σ_{i<j, x_i odd} 2^i·3^(#odd steps in (i,j))`**, as a summation and not a recursion.
+* `harmonic_term_le` — termwise, `3^(A_j)·n ≤ 3·x_i·(2^i·3^(A'))`, i.e. the `i`-th
+  harmonic term is below the `i`-th coupling term over the common denominator
+  `3^(A_j)·n`.
+
+Together: `S_j(n) ≤ affineC j n / (3^(A_j)·n) = ρ_j(n) − 1`, with no rationals in the
+Lean and no inequality between infinite objects.  Both `[propext, Quot.sound]`.
+`rho_993` and `affineC_993 : affineC 61 993 = 465793961683815839` are kernel-checked
+(`decide`, no `native_decide`).
+
+### 2. Why `993`  (section XL)
+
+`S(T n) = S(n) − 1/(3n)` for odd `n`, and `S(2n) = S(n)`.  So **`S` strictly increases
+along backward orbits**, and a maximiser must have no odd predecessor.  An odd `m` has
+an odd `T`-predecessor iff `2m ≡ 1 (mod 3)`; therefore
+
+> **every odd multiple of `3` is a leaf of the backward tree**
+> (`no_odd_preimage_of_three_dvd`, LEAN_PROVED: `3 ∣ m ∧ x` odd `⇒ T x ≠ m`).
+
+`993 = 3·331` is such a leaf (`leaf_993`).  The `S`-record chain over `n ≤ 10^9` is
+
+    1, 3, 7, 9, 559, 745, 993
+
+and its last three entries are one backward chain, each the **smallest** odd predecessor
+of the next: `993 = (4·745−1)/3`, `745 = (4·559−1)/3` (`step_993_745`, `step_745_559`,
+`smallest_pred_993`, `smallest_pred_745`).  The chain stops because `3 ∣ 993`.
+
+The finite combinatorial pattern is a two-move rule on the backward tree.  For odd `m`,
+the odd predecessors are `p_k = (2^k m − 1)/3` for `k` in one residue class mod 2, and
+`S(p_k) = S(m) + 1/(3 p_k)`, so the **smallest** child is always the locally best one.
+Greedy from `559`: `k = 2` twice, then a leaf.  Every competing branch pays for a larger
+`k` and cannot recover it downstream — the branch-and-bound is finite and explicit:
+
+| branch off | `k` | child | `S(child)` | best in that subtree |
+|---|---|---|---|---|
+| `745` | 2 | **`993`** | **0.229954486** | **leaf — 0.229954486** |
+| `745` | 4 | `3973` | 0.229702703 | `3973 → 5297 → 3531` (leaf), 0.229860033 |
+| `745` | 6 | `15893` | 0.229639777 | below |
+| `559` | 4 | `2981` | 0.229283195 | below |
+
+So `993` wins by `9.4·10^(−5)` over the runner-up `3531`, and the gap between `993` and
+the best start *below* it is exactly one term: `S(993) − S(745) = 1/(3·993) = 1/2979`
+(exact).
+
+`993`'s own orbit, for the record — 32 odd values, max `2693`, min `5`:
+
+    993 745 559 839 1259 1889 1417 1063 1595 2393 1795 2693 505 379 569 427
+    641 481 361 271 407 611 917 43 65 49 37 7 11 17 13 5
+
+`99.283 %` of `S(993)` comes from the 24 odd values below `1000` (Round XI's "99.2 %"
+reproduces); `95.0 %` from the 9 values below `100`.
+
+### 3. Isolated maximiser, not a family  (section XLI)
+
+**COMPUTATIONAL, exhaustive:** `993` maximises `S` and `log ρ` over **all `n ≤ 10^9`**
+(C and Python agreeing; `S(2n) = S(n)` restricts the search to odd `n`), extended to
+`2·10^10` with no new record.
+
+The top of the spectrum is *isolated*:
+
+| rank | `n` | `S(n)` | `n mod 3` |
+|---|---|---|---|
+| 1 | **993** | 0.229954486122 | 0 |
+| 2 | 3531 | 0.229860033328 | 0 |
+| 3 | 35271 | 0.229836629191 | 0 |
+| 4 | 167211 | 0.229834635662 | 0 |
+| 5– | 4393983, 10415367, … | 0.2298345… | mixed |
+
+Ranks 5 onward pile up at `λ ≈ 0.22983431`, which is `S` of their common orbit value
+`190034444` — an accumulation point of the spectrum `1.2·10^(−4)` **below** the maximum.
+So there is no family `n_k` with `S(n_k) → S(993)`: the maximiser is a strict, isolated
+finite maximum, and the only other `n` attaining it are `993·2^k`.  (`993` has no odd
+predecessor, so no other start has `993` in its orbit at all.)
+
+### 4. The threshold law  (sections XXXIII–XXXIV)
+
+`1000` is not sacred and the cutoff is not a cliff.  Define
+`H(n,B) = Σ over odd orbit values x ≥ B of 1/(3x)` and `F(B) = max_n H(n,B)`.
+Measured exhaustively over `n ≤ 3·10^7` (C; five entries re-verified in exact rationals
+in Python, all matching to every printed digit):
+
+| `B` | 32 | 64 | 128 | 256 | 512 | 1024 | 2048 | 4096 | 8192 | 16384 | 32768 | 65536 | 2^18 | 2^20 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| `F(B)` | 9.65e−2 | 6.21e−2 | 4.06e−2 | 2.11e−2 | 8.85e−3 | 4.32e−3 | 2.81e−3 | 1.86e−3 | 8.99e−4 | 4.70e−4 | 2.33e−4 | 1.20e−4 | 3.89e−5 | 1.15e−5 |
+| `B·F(B)` | 3.09 | 3.97 | 5.20 | 5.39 | 4.53 | 4.42 | 5.76 | 7.61 | 7.37 | 7.70 | 7.65 | 7.84 | 10.19 | 12.04 |
+| `B·F(B)/ln B` | 0.89 | 0.95 | 1.07 | 0.97 | 0.73 | 0.64 | 0.76 | 0.92 | 0.82 | 0.79 | 0.74 | 0.71 | 0.82 | 0.87 |
+
+> **`F(B) = c(B)·ln B / B` with `c(B) ∈ [0.64, 1.07]`, mean `0.83`, over
+> `32 ≤ B ≤ 2^20`.**  (COMPUTATIONAL; `F(1) = F(2) = F(4) = S(993)`; the first drop is
+> at `B = 8`, `F(8) = 0.1329` at `n = 123`.)
+
+`F(B) → 0` — but **it is not proved and cannot be proved by the means available here**,
+and this is the same wall Round XI hit.  What *is* proved:
+
+* exact, `Nat`: for the segment before the first descent below `B`,
+  `H ≤ affineC(segment)/(3^(a)·x_0)` — the segment's own `ρ − 1`
+  (`harmonic_term_le` + `couplingTerms_eq_affineC`);
+* conditional: `ScaleLadder.coupling_bound` / `window_bound` (LEAN_PROVED) give
+  `H ≤ a_B/(3B)` where `a_B` is the number of odd steps taken above `B`.
+
+The gap is exactly `a_B`.  Reading the table backwards, `3·B·F(B) = a_eff ≈ 2.4 ln B` —
+the effective number of odd steps that an orbit can spend *just above* `B` grows like
+`ln B`, and no theorem in the repository bounds it.  Bounding `a_B` is bounding the
+spread of a segment, which Round XI's master identity already showed **is** the
+archimedean tracking problem.  So `F(B) → 0` is Class 1, by identity.
+
+Correspondingly, exhaustive search can never *prove* the maximality of `993`:
+`S(n) = H(n,B) + S(m)` with `m < B` the first orbit value below `B`, and
+`max_{m<B} S(m) = S(993)` for every `B > 993`, so the decomposition is vacuous above the
+maximiser.  **Maximality of `993` is CONJECTURE, verified to `2·10^10`.**
+
+### 5. What the constant constrains — honestly, nothing about a counterexample
+
+Every orbit point of a counterexample is `≥ 1086464`
+(`RealizableFrontier6809.ge_verified_1086464`, `Search.reachesOne_of_lt_1086464`, under
+`¬ReachesOne` — cycles and divergent orbits alike; `Strategy/BottomUnreachable.lean`).
+`99.283 %` of `S(993)` comes from odd values below `1000`, and `100 %` from values below
+`3000`.  Therefore:
+
+> **`S` is a statistic of trajectories that reach `1`.**  A counterexample never enters
+> the region that supplies the constant, so `S(993) = 0.2299545` bounds nothing a
+> counterexample must pay.  It is a fact about the trivial behaviour.
+
+What it *does* say, stated as narrowly as it deserves:
+
+1. `S(n) ≤ ρ(n) − 1 = 2^L/(3^a n) − 1` is an **exact** inequality valid for every `n`
+   and every window, counterexamples included — but with `ρ` unbounded there, it is
+   empty for them.
+2. On the reaching-`1` side, `S` is bounded and the bound is attained, so the *sum*
+   normalisation of the coupling is finite where the *product* normalisation is `2^L/3^a`.
+   The two agree only to two digits, and Round XI's headline conflated them.
+3. Any future "bottom-scale coupling mechanism" (Round XI's repair) that is calibrated
+   against `0.2299545` is calibrated against a number living entirely below `3000`, i.e.
+   entirely inside the region asset (a) has already emptied.  **The repair, as
+   calibrated, is also empty.**  A bottom-scale mechanism must be re-anchored at
+   `1086464`, and `F(1086464) ≈ 0.83·ln(1086464)/1086464 ≈ 1.06·10^(−5)`: the entire
+   coupling budget available to a counterexample, on the measured law, is about `10^(−5)`
+   — five orders below the constant that has been quoted as the universal bound.
+
+### Failed attempts, with diagnosis
+
+* **Prove `F(B) → 0` from octave structure.**  `octave_sojourn` (LEAN_PROVED) bounds
+  *consecutive* steps in an octave by 2, not the number of *returns*.  Distinctness
+  bounds the count in octave `k` by `2^(k−1)`, and `2^(k−1)/(3·2^k) = 1/6` per octave —
+  a divergent sum.  Diagnosis: counting arguments are scale-free and the object is not.
+* **Prove global maximality of `993` by branch-and-bound on the backward tree.**  Needs
+  an upper bound `U(m)` on the sum obtainable below a node.  Children satisfy
+  `p ≥ (2m−1)/3`, so a backward chain may *descend* by a factor `2/3` per step; the best
+  bound available is `U(m) ≤ (1/3)Σ_d 1/((2/3)^d(m+1)−1) ≈ 1`, versus the `0.23` needed.
+  Diagnosis: the bound is off by a factor `4`, and closing it means bounding how deep a
+  backward chain can descend — which is the forward ascent problem.
+* **Find a closed form for `S(993)`.**  There is none to find: `S` is a finite sum of
+  unit fractions over an orbit, the reduced denominator is 61 digits, and it factors
+  into the 32 orbit values.  The only structure is the *dominator* `ρ = 2^61/(3^32·993)`,
+  which is closed-form and 10 % too large.  Diagnosis: seven reproduced digits were
+  evidence of an *extremal integer*, not of an extremal *constant*.
+* **Reproduce Round XI's `1 + r = 1.258543`.**  It does not reproduce; it is `exp(S)`.
+  Diagnosis: `Σ log(1+t_i)` and `Σ t_i` were interchanged.  Recorded, not glossed.
