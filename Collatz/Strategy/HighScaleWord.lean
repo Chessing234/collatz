@@ -114,7 +114,13 @@ Beatty ceiling `Bcap` reads the *ordering* of the parity word, while `(L,a)` is 
 *content*.  A word-only model is therefore strictly below the tool already in the
 repository, and cannot improve it.
 
-## 5.  High-scale exactness: the octave alphabet is the full shift
+## 5.  High-scale exactness: the *parity* alphabet is the full shift
+
+*(Header corrected.  An earlier draft said "the octave alphabet is the full shift",
+which the body already contradicts and which `OctaveWord.no_O0_after_O0` refutes
+outright: `octave_word_free` proves freedom of the **parity** word by Terras, while the
+octave letters `E/O0/O1` depend on the mantissa and do have a forbidden block.  Both
+theorems are true; the gloss was not.)*
 
 Section XX asks whether large `x` makes local transitions deterministic at the octave
 level.  It does the opposite, and exactly so.  `octave_word_free` below: for every

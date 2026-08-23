@@ -119,10 +119,23 @@ Two facts, both verified, that reorient the object rather than killing it:
 * **The accumulation is bounded by a universal constant on every orbit tested.**
   Exhaustively for all odd `n < 10⁶` and for 300 random `n` in each of
   `10⁶ … 10¹²¹`, the total `log R` over the whole orbit is `< 0.229955`, attained at
-  `n = 993` (`R = 1.2585`).  It does **not** grow with `n`.
+  `n = 993`.  It does **not** grow with `n`.
+
+  *Two quantities were conflated here and the parenthetical value was wrong.*  At
+  `n = 993` (`L = 61`, `a = 32`) the exact ratio is `2^61/(3^32·993) = 1.2531421`, not
+  `1.2585`, and its logarithm is `0.2256541`.  The number `0.2299545` is the **linear**
+  sum `Σ 1/(3x)` over odd orbit values, not `log(1 + r)`.  The inequality
+  `log(1+r) ≤ Σ 1/(3x)` is what holds (`0.225654 ≤ 0.229954`), so the stated bound
+  survives; the identification of the two did not.
 * **It is concentrated at the bottom.**  Over `99.2 %` of it comes from odd orbit
   values below `1000`, and the part contributed by the values *above the start* is
-  `≤ 7.4/n` (measured maxima `4.16e−4` at `10⁴`, `4.59e−6` at `10⁶`, `5.17e−10` at
+  **`≤ 7.4/n` is FALSE and is withdrawn.**  Exact counterexample: at `n = 1039879`
+  the above-start sum is `9.9730·10^(−6)`, so `n·Σ = 10.3707 > 7.4`; at
+  `n = 1165227` it is `10.3810`, and a scan of `[10^6, 1.04·10^6]` reaches `8.5664`
+  at `n = 1000542`.  The quoted maxima were likewise exceeded on a direct scan.  The
+  constant was fitted from a small sample and presented as a law.  *The conclusion
+  survives*: the quantity is still `O(1/n)` and still invisible to a counterexample —
+  only the constant was bogus
   `10¹⁰`, `5.76e−20` at `10²⁰`).
 
 So Round X's "the coupling vanishes on the divergence half" is correct and harmless:

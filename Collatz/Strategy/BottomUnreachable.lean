@@ -36,6 +36,35 @@ counterexample never touches.  They can be built, and they will be vacuous.
   constant is a fact about the trivial behaviour, provably invisible to any
   counterexample.
 
+## Status of this file, and the one bottom that is *not* empty
+
+**This file contains no new mathematics, and says so.**  `bottom_unreachable` is
+`ge_verified_1086464` composed with `Nat.le_trans`; `no_visit_below_1000` is that at
+`B = 1000`; and `reaches_of_bottom_visit` **duplicates
+`BackwardRange.subtree_reaches_one`** modulo argument order.  It is a redirection note,
+not a result.
+
+Two strengthenings the audit supplied, both compiled elsewhere and recorded here:
+the **plain-map** form holds too (the only orbit values the accelerated map skips are
+the intermediates `3x+1 > x`, so nothing can hide below), and every **ancestor** of a
+counterexample is itself a counterexample, so the reverse tree is `≥ 1086464` as well.
+
+**But there is a bottom that is not empty, and reading this file as "the bottom is
+unreachable" would wrongly discard it.**  `SegmentMonoid.cycle_frontier` rearranges to
+an *upper* bound on the cycle minimum, `n ≤ a·2^L / (3(2^L − 3^a))`, so the minimum is
+confined to a **finite band**:
+
+| ledge `(L,a)` | band for the minimum | integers | odd candidates |
+|---|---|---|---|
+| `(4701, 2966)` | `[1086464, 1166893]` | 80430 | 40215 |
+| `(6809, 4296)` | `[1086464, 1884147]` | 797684 | 398842 |
+
+So "a hypothetical cycle is forced into a finite region where a finite mechanism could
+extract a cost" is **true** — the region is at `10^6`, not `10^3`.  What keeps the
+redirection intact is that the band is *per ledge*, its union over surviving ledges is
+unbounded, and a ledge survives the budget exactly when the verified range fails to
+clear its band.  So "clear the band" is definitionally "extend the verified range".
+
 ## And a prediction the round should test
 
 For a counterexample every orbit value is `≥ 1086464`, so every local coupling term
@@ -45,8 +74,20 @@ most `a/(3·1086464)`.  That is exactly the inequality `3nG ≤ a·2^L` —
 `RealizableFrontier6809` in multiplicative coordinates.
 
 > So the budget architecture of sections XII, XIII, XXXV, XLV and XLVII is predicted to
-> reduce, once again, to the frontier filter.  That prediction should be checked rather
-> than assumed — but it is where the bottom-scale route is expected to land.
+> reduce, once again, to the frontier filter.
+
+**Checked, and the last link was wrong.**  The first three links hold: each term is
+`≤ 1/(3·1086464) = 3.068·10^(−7)`, the total is `≤ a/(3·1086464)`, and that is
+`floor_coupling` at a constant floor — *implied by* `cycle_frontier`, never conversely,
+since `cycle_frontier` uses the cycle's own minimum.
+
+But it is **not** `RealizableFrontier6809`.  The budget's admissible ledge pairs are
+`(4701,2966), (5755,3631), (6809,4296), (7863,4961), …` — the same family, but the
+certificate **excludes `4701` and `5755`**.  The budget is the frontier ledge family
+**cut two risers lower**, so it cannot even recover `L ≥ 6809`.  The reason is exact:
+the budget reads only `(L,a)`, i.e. word *content*, while the certificate's `Bcap` reads
+word *ordering*.  Content is strictly less information, so no arrangement of the budget
+reaches the certificate.
 -/
 
 namespace Collatz

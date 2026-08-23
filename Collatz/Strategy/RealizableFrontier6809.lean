@@ -44,10 +44,15 @@ Note the arithmetic of the trade.  The risers are spaced by a factor tending to
 `3/2 · ...` — empirically `G`'s records grow by roughly `272 664` each, and the
 record *indices* are spaced by exactly `665` — while the
 kernel cost is linear in `c`.  So each additional riser costs a *fixed* number of
-blocks (about `267`), and each buys a *fixed* `1054` on the frontier.  In this
-regime the ladder is, unusually, not getting steeper; what makes it a poor
-long-term strategy is that `1054` per four minutes of kernel time never becomes
-`∞`.
+blocks (about `267`), and each buys a *fixed* `1054` on the frontier.
+
+**Correction: the ladder *is* getting steeper.**  An earlier draft said it was
+"unusually, not getting steeper".  The record gaps in `1/E` are `36, 40, 44, 50, 56`
+across the risers at `a = 1636, 2301, 2966, 3631, 4296, 4961`, with successive ratios
+`1.103, 1.109, 1.115, 1.122` — each riser costs about `11%` more than the last while
+still buying only `1054`.  That strengthens this section's own conclusion rather than
+weakening it: the trade is worse than advertised, and `1054` per riser never becomes
+`∞` while the price per riser compounds.
 
 ## Where `d = 1` is used
 
