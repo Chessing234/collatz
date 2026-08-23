@@ -4154,3 +4154,55 @@ the free floor buys **3.6%**, not "threefold".  **My own verification printed th
 mismatch and I did not flag it** — the line read `power-of-two floor : (4701, 2966)
 (agent: (2593, 1636))` and I moved on.  The conclusion survives and is strengthened
 (the bridge adds even less than claimed), but the miss was mine.
+
+---
+
+## Round XII, section XXIV — the octave word against the ordered odd times
+
+**Verdict: the two coordinates are compatible, and here is the theorem saying so.**
+File `Collatz/Strategy/OctaveOrder.lean` (all LEAN_PROVED, axioms
+`propext, Quot.sound` ± `Classical.choice`).
+
+**The forward map** (octave word → ordering).  Every step obeys
+`oct (T x) + evenIdx x = oct x + raiseIdx x` (`oct_step_balance`), which telescopes to
+`oct (T^j n) + #even(j) = oct n + #raise(j)` (`oct_orbit_balance`) — an identity, no
+hypotheses.  Consequences: **the cyclic balance** `#raise = #even` around a cycle
+(`cycle_octave_balance`), hence **`L ≤ 2a`** with no archimedean input
+(`cycle_length_le_two_mul_oddCnt`), and the **ballot inequality**
+`t_i ≤ (i−1) + D(i−1)` (`time_bound_of_no_drop`), which is the complete content of
+the map.
+
+**The reverse map**: `oct (T^j n) + (j − a_j) = oct n + #raise(j)`
+(`oct_orbit_from_times`); and a step drops the octave *iff* it is even
+(`oct_drop_iff_even`), so the octave path determines the parity word outright.
+
+**No incompatibility can exist.**  `octave_word_time_invariant`: prefixing `r` even
+steps shifts every odd time by `r` and leaves the octave decoration word *pointwise
+unchanged*.  The decoration is a function of the odd-step **index**, never of the
+**time**, so no constraint of the form "the octave path wants an odd step near `t`"
+is expressible.  Sealed by `ballot_iff_no_drop`: `#even(j) ≤ #raise(j)` **iff**
+`oct n ≤ oct (T^j n)` — the ballot inequality is an `iff` with a pure magnitude
+statement, i.e. Round VIII heaviness in new coordinates.  **Class 3.**
+
+*Not the Round XI isomorphism.*  `E(w) = Σ 2^(t_i)/3^i` is a bijection onto its image;
+this map is a coarsening with a nontrivial invariance group (`n ↦ 2^r n`) acting on
+the times.  A coarsening with a transitive invariance group on the conflicting
+coordinate cannot be an isomorphism in disguise — and that is exactly why it cannot
+obstruct.
+
+**The one new asset.**  For odd `z` the true octave-rise criterion
+`2^(oct z + 2) ≤ 3z + 1` differs from the multiplicative one `2^(oct z + 2) < 3z`
+**exactly** at the base-4 repunits `z = (4^m − 1)/3`, every one of which reaches `1`.
+Hence on a counterexample orbit **the `+1` never changes an octave decision**: the
+octave word of a counterexample is exactly that of `x ↦ 3x/2`
+(`raise_iff_mult`, `octave_word_multiplicative`).  Consumes d-asset (d) plus
+reach-one; correctly refuted at `z = 5` on the `3x+5` and `3x+7` cycles.
+
+**Failed attempts (diagnosis in the file docstring).**  (i) "the decoration is a pure
+Sturmian word of slope `log₂3`" — false; departs at odd-step index 13 for `n = 27`,
+59 for `n = 10^12+39`, because per-step exactness does not integrate (the accumulated
+`+1`s move the phase, and that drift *is* Round XI's coupling).  (ii) "contradict
+`2^L > 3^a` with the balance" — `1.5a ≤ L ≤ 2a` (the lower bound composing with
+`Octave.O0_forces_O1` from the sibling file) brackets `1.585a` from both sides and
+never excludes it.  (iii) "find a cyclic word admissible for the octave path and
+forbidden by the ordering" — impossible, by the invariance above.
