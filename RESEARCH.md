@@ -5042,3 +5042,55 @@ load-bearing; all are annotated at the source.
 > an unbounded cycle-length exclusion, and a divergence argument that consumes the even
 > branch's contraction `oddCount n j < j` — the one datum every mechanism here so far
 > avoids.**
+
+---
+
+# Round XV — the toolkit break, and one thing checked before it started
+
+## The brief's main target is the conjecture verbatim
+
+Part X names `∀ n > 1, ∃ k, T^k(n) < n` as the round's main target.  The repository
+already proves
+
+> `NeverDrops.collatz_iff_neverDrops : CollatzConjecture ↔ ∀ x, NeverDrops x → x ≤ 1`
+
+and `NeverDrops x` is exactly "no `k` has `T^k(x) < x`".  So the target *is* the
+conjecture, not a route to it — the third round running where the headline goal restates
+what is to be proved.
+
+**But — and this is the correction Round XIV forced on me — that does not close the
+branch.**  The same statement on an explicitly characterized class is a real theorem, and
+the live, non-circular form is the brief's own §16:
+
+> find a modulus `M` and finitely many certified descent blocks such that *every*
+> sufficiently large `n` in *every* residue class mod `M` has some `k` with `T^k(n) < n`.
+
+That is a genuine theorem for each `M` certified, it is the classical Terras/Everett
+route, and it is what the descent desk was actually pointed at.
+
+## The premise the round is built on, restated exactly
+
+`ScaleRecord.divergence_filter` (LEAN_PROVED): `expStep x = 3x/2` (even), `(3x+1)/2`
+(odd) agrees with the accelerated map on **every odd input**, satisfies the identical
+affine law, is heavy at every scale, is positive — and **every one of its orbits
+diverges**.  So
+
+> affine law + parity word + heaviness + positivity ⊬ termination,
+
+and the missing datum is the even branch's exact contraction, `oddCount n j < j`.  Every
+desk this round is required to test its results against `expStep` and report the outcome
+explicitly; a theorem `expStep` satisfies cannot be the missing mechanism.
+
+## The Mathlib branch
+
+`MathlibAttack/` is a **separate Lake project** with its own `lakefile.toml` and its own
+toolchain (`lake update` resolved it to `v4.34.0-rc2` from Mathlib's manifest).  It
+defines `T` and the Syracuse map `S n = (3n+1)/2^(padicValNat 2 (3n+1))`.
+
+**Isolation is a hard requirement and is verified**: the root `Collatz` library remains
+Mathlib-free, still builds (202 jobs), and contains zero references to `MathlibAttack`.
+Build artifacts are gitignored.
+
+The specific reason to want it: `padicValNat` is the one piece of machinery the
+hand-rolled branch cannot easily build, and this round's central question is precisely
+*what object sees the exact contraction `n ↦ n/2`*.

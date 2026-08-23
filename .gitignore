@@ -10,3 +10,6 @@ ptmp.lean
 vtmp.lean
 v*_tmp.lean
 *_tmp.lean
+
+# Mathlib attack branch: build artifacts and the vendored Mathlib checkout
+MathlibAttack/.lake/
