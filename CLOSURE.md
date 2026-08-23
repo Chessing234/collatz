@@ -149,14 +149,31 @@ The **only** `d = 1`-specific assets:
    example: "stays above its start" is capped by both, so `minNonDrop` is the
    conjecture.  The repair is to require *escaping a scale*, which a cycle cannot do.
 
-5. **Circularity via `δ`** (Round XIV).  A proposed theorem whose conclusion is
-   `δ(w) > 1`, or `G ∤ C`, or `gcd(C,G) < G`, or "`d = 1` is not realizable by `w`", **is
-   the cycle half of Collatz restated** — `δ(w) = 1 ⟺ G | C ⟺ w is a 3x+1 cycle word`.
-   Equally, "why is `d = 1` special?" has the trivial answer that `d = δ(w)` realizes
-   *any* word, so `d = 1` is distinguished only by being the smallest positive integer.
-   Measured on the Beatty corner, `gcd(G,C)` is 1–4 bits against `G` at 6–475 bits, so
-   `δ ≈ G`: `d = 1` is not near-realizable, it is astronomically far.  Any argument
-   reaching `δ > 1` universally has assumed something equivalent; check which.
+5. **Circularity via `δ`, and its exact scope** (Round XIV, *corrected the same round*).
+   A theorem asserting `δ(w) > 1` — or `G ∤ C`, or `gcd(C,G) < G` — **for every
+   nontrivial word** is the cycle half of Collatz restated: `δ(w) = 1 ⟺ G | C ⟺ w is a
+   3x+1 cycle word` (`DeltaSpectrum.delta_eq_one_iff` + `NewModels.denominator_one`).
+
+   **But the same statement on an explicitly characterized subclass is a real theorem,
+   and that is where every genuine result in this area lives.**  An earlier draft of this
+   diagnostic said the target was "a tautology" without that qualification, and steered
+   three desks away from the repository's own strongest cycle-half assets.  The subclass
+   forms include `OneRunCycle` (unconditional for single-odd-run words), the classical
+   ladder — Steiner `k=1`, Simons `k=2`, Simons–de Weger `k ≤ 68` — the frontier
+   certificate, and bounded-`a` exhaustion.  **Use the diagnostic to reject unrestricted
+   claims, never to close the subclass programme.**
+
+   Two further cautions, both errors in that earlier draft:
+   * *State the exclusion.*  "Nontrivial" must be defined, not gestured at:
+     `w = [true, false]` is heavy with `gap = 1 > 0` and `δ = 1`, so
+     `∀ w, heavy w → 0 < gap w → 2 ≤ δ w` is refutable by `decide`.
+   * *`d = 1` is not distinguished merely by being small.*  The `d` realizing a word are
+     exactly the multiples of `δ(w)`, of density `1/δ(w)` — `2^(−472)` on the Beatty
+     corner at `a = 300` — so essentially **no** `d` realizes it, and "every other `3x+d`
+     can" is false.  What actually singles out `d = 1` is **the verified range**, an
+     input no other `d` has: `x = C/G ≤ Bcap a / G`, and for `d = 1` alone we know
+     `x ≥ 1086464`.  That is the content of `RealizableFrontier6809`, it is
+     non-circular, and it is the correct answer to "why `d = 1`?".
 
 ### The divergence-half soundness filter (Round X)
 
