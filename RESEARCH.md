@@ -4717,3 +4717,66 @@ information.**  So:
 
 Nothing in Rounds IX–XII produces one, and three independent routes (coupling, budget,
 octave) have now each reduced to the same ladder.
+
+---
+
+# Round XIII — Bcap archaeology, and the number the round has to beat
+
+Section II asks what `Bcap` throws away, before anything else is attempted.  Answer,
+found by reading the definition rather than the proof:
+
+`Bcap a = Σ_(i<a) 3^(a−1−i) · 2^(fexp i)` with `fexp i = ⌊i·log₂3⌋`
+(`RealizableBound.lean:218`), while the true accumulator over the ordered odd times is
+`C(w) = Σ_(i<a) 3^(a−1−i) · 2^(t_i)`.
+
+> **`Bcap` bounds each `t_i` by `fexp i` independently and sums the maxima.**  It is the
+> top corner of the heaviness box `t_i ≤ fexp i`, and it discards the ordering by
+> assuming every odd step can sit at its individual maximum simultaneously.
+
+## The corner is feasible — so nothing ordering-only can improve it
+
+The top corner `t_i = fexp i` is strictly increasing (`ExtremalWord.fexp_strictInc`),
+hence a legal word, and it attains `Bcap` by construction.  **This was already known to
+the repository in prose** — `RealizableBound`'s header says the exact feasibility DP
+"returns `Bcap a` on the nose at every `a ≤ 758` checked" and that "nothing sharper can
+be extracted".  No new Lean was written here; what follows is the quantitative picture
+that prose did not carry.
+
+## The quantitative picture (COMPUTATIONAL, exact integer arithmetic)
+
+* **The extremizer is isolated.**  Full enumeration of the heaviness box gives exactly
+  **one** word within `1%` of `Bcap`, at every `a` from 3 to 14.
+* **Runner-up law.**  `1 − second/Bcap = 0.4623/a`, stable to four digits across
+  `a = 20, 40, 80, 160, 320, 640, 1280, 2966, 4296`.  So removing the single extremizer
+  buys an `O(1/a)` *relative* improvement, which vanishes.
+* **Minimum-phase does not remove it.**  For a cycle word the start is forced,
+  `x_0 = C/G`, so minimum-phase is the pure word condition
+  `G·C_j ≥ (2^j − 3^(a_j))·C` at every prefix — no magnitude in it.  The extremizer
+  satisfies it at every `a` from 2 to 25.
+* **`G | C` does remove it** — the extremizer fails divisibility at every `a` from 2 to
+  25 — **but divisibility buys nothing.**  The certificate gives `n ≤ Bcap/G`; imposing
+  `G | C` makes `n = C/G` an integer, hence `n ≤ ⌊Bcap/G⌋`, which is the same bound.
+  At `a = 10, 17, 29` the floor changes the bound by exactly `0`.
+
+## The number the round has to beat
+
+The certificate excludes a ledge pair when `Bcap/G < c`, `c = 1086464`.  Recomputed:
+
+| `(L, a)` | `Bcap/G` | verdict |
+|---|---|---|
+| `(4701, 2966)` | `0.802·10^6` | **excluded** |
+| `(5755, 3631)` | `1.036·10^6` | **excluded** |
+| `(6809, 4296)` | `1.296·10^6` | **survives** |
+
+— exactly the observed frontier, which confirms the mechanism.  So:
+
+> **To exclude the frontier pair, `Bcap` must shrink by `16.17%`.  Removing the
+> extremizer gives `0.011%`.  Short by a factor of `1503`.**
+
+**An epsilon improvement is therefore worthless.**  The round needs a *constant-factor*
+reduction in `Bcap` under the cycle constraints, or a proof that none exists.  Brief
+section XXII asks for uniformity in `a`; uniformity is necessary but nowhere near
+sufficient — `0.4623/a` is perfectly uniform and three orders too small.
+
+That is the target handed to the five desks, and it is also the reason to expect
+section LIII's outcome (sharpness) rather than section LIV's.
