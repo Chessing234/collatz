@@ -4895,3 +4895,65 @@ by one — `2^(0.585a)` words, all heavy, all min-phase, all octave-legal, all l
 each a genuine cycle of some `3x+d`.  **The single property separating them from genuine
 `3x+1` cycles is `d = 1`.**  There is no dynamical, combinatorial, or octave-level
 property that does it.
+
+---
+
+# Round XIV — the target is the conjecture, and the repository has said so since Round IV
+
+Round XIV asks for a concentrated attempt to close the cycle half, with the boxed dream
+theorem
+
+> `∀ w nontrivial cyclic, δ(w) > 1`,  equivalently  `G(w) ∤ C₁(w)`.
+
+**That is the cycle half of Collatz restated, not a route to it**, and this is not a new
+observation — `CLOSURE.md:203` has said so since Round IV:
+
+> *"`gcd(C, G)`, equivalently `δ(w) = G/gcd(C,G)` — 13 theorems, the least connected
+> cluster in the index, and **`δ ≥ 2` is the conjecture restated**"*
+
+with `RESEARCH.md:2333` repeating it.  The chain is one line:
+`δ(w) = 1 ⟺ gcd(G,C) = G ⟺ G | C ⟺ w is a 3x+1 cycle word`.
+
+## And the round's framing question has a trivial answer
+
+> *"Why can every other `3x+d` realize the extremal word, but `d = 1` cannot?"*
+
+Because for **any** word, `d = δ(w)` realizes it.  There is nothing special about `d = 1`
+except that `1` is the smallest positive integer, and `δ(w) = 1` is the exact coincidence
+`G | C`.  Measured on the Beatty-corner extremal family (exact integers):
+
+| `a` | 4 | 7 | 10 | 17 | 25 | 50 | 100 | 300 |
+|---|---|---|---|---|---|---|---|---|
+| bits of `G` | 6 | 11 | 13 | 23 | 38 | 79 | 158 | 475 |
+| bits of `gcd(G,C)` | 1 | 1 | 1 | 1 | 1 | 4 | 1 | 3 |
+| bits of `δ` | 6 | 11 | 13 | 23 | 38 | 75 | 158 | 472 |
+
+`δ ≈ G` throughout — the gcd is essentially trivial, and `d = 1` is astronomically far
+from the realizable value.  So "the extremal words are cycles for other `d`" is not a
+clue about `d = 1`; it is the generic situation, and `d = 1` is the exceptional one *by
+being small*, which is exactly the content of the conjecture.
+
+## What this does and does not close
+
+It does **not** mean the round is empty.  It means the deliverable cannot be the boxed
+theorem, and any agent that "proves" it has assumed something equivalent.  What remains
+genuinely open and non-circular:
+
+* the **rotation identities** — `C(uv)` against `C(vu)`, and whether imposing all `L`
+  rotation conditions simultaneously is stronger than imposing one.  Cyclicity has never
+  been used globally in this programme;
+* the **two-jump family mod `p`** — `C(ε) = Bcap a − Σ ε_i λ_i` is *affine* in `ε`, so
+  "does some `p | G` avoid all `2^m` values of `C(ε)`" is a **subset-sum question mod
+  `p`**, finite per `(L,a)`, and not the conjecture;
+* **exact gcd identities** constraining `gcd(C,G)`, and the valuation picture;
+* and the honest audit the brief's sections 57/58/72 demand — *which half is actually
+  proved*.
+
+Those are the five desks this round, and the fifth is an integrity auditor whose only
+job is to establish what the repository has and has not proved, because the brief
+contemplates a completeness claim and the divergence half is — on the evidence of Round
+X — wide open.
+
+**Standing instruction for the rest of this programme:** a proposed theorem whose
+hypotheses or conclusion are equivalent to `G ∤ C` is the conjecture wearing a
+different notation.  `CLOSURE.md` diagnostic 5.

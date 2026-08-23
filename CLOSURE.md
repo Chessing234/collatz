@@ -149,6 +149,15 @@ The **only** `d = 1`-specific assets:
    example: "stays above its start" is capped by both, so `minNonDrop` is the
    conjecture.  The repair is to require *escaping a scale*, which a cycle cannot do.
 
+5. **Circularity via `δ`** (Round XIV).  A proposed theorem whose conclusion is
+   `δ(w) > 1`, or `G ∤ C`, or `gcd(C,G) < G`, or "`d = 1` is not realizable by `w`", **is
+   the cycle half of Collatz restated** — `δ(w) = 1 ⟺ G | C ⟺ w is a 3x+1 cycle word`.
+   Equally, "why is `d = 1` special?" has the trivial answer that `d = δ(w)` realizes
+   *any* word, so `d = 1` is distinguished only by being the smallest positive integer.
+   Measured on the Beatty corner, `gcd(G,C)` is 1–4 bits against `G` at 6–475 bits, so
+   `δ ≈ G`: `d = 1` is not near-realizable, it is astronomically far.  Any argument
+   reaching `δ > 1` universally has assumed something equivalent; check which.
+
 ### The divergence-half soundness filter (Round X)
 
 Class 4 refutes `d`-free **cycle** mechanisms because genuine cycles exist for
