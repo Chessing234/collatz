@@ -38,7 +38,12 @@ Every proof must pass CI.
 
 ## Status
 
-1158 theorems.
+2 893 theorem and lemma declarations (2 871 public) across 195 modules, 51 865 lines.
+
+Verified range: every positive `n < 1 086 464` reaches 1.  Cycle bound: no accelerated
+cycle through a non-reaching point has length below 6809.  **Both are finite results.**
+Neither half of the conjecture is proved — see the gap statement at the end of
+`RESEARCH.md`.
 
 No `sorry`. No added axioms. No Mathlib.
 

@@ -254,7 +254,12 @@ theorem divergent_tendsto {n : Nat} (h : Divergent n) :
 /-- **The bound that actually matters, and it was already in the development.**
 A divergent orbit visits `[1, 102399]` exactly `0` times, because every positive
 integer below `102400` reaches `1`.  Compare the proposed bound `B + 1`, which
-at `B = 102399` reads `102400`. -/
+at `B = 102399` reads `102400`.
+
+*Staleness note (Round XIV audit).*  This file uses the `102400` range throughout, while
+the repository has since proved `1 086 464` (`Search.reachesOne_of_lt_1086464`) and
+`Escape.divergent_avoids_verified` states the same result at that constant.  The version
+here is therefore **weaker but sound**; cite `Escape`'s. -/
 theorem divergent_avoids_verified {n : Nat} (hn : 0 < n) (h : Divergent n) (k : Nat) :
     102400 ≤ orbit k n := by
   refine Classical.byContradiction ?_

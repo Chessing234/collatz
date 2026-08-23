@@ -1566,8 +1566,17 @@ a convergent denominator of `log₂ 3`, unlike the survivor gaps above:
 | 3631 | 1 086 055 | 5754 | 5755 |
 | **4296** | **1 358 718** | **6808** | **6809** |
 
-Verified independently: `max_{i<4296} G(i) = 1 086 055 < 1 086 464 = c`, and
-`G(4296) = 1 358 718 > c`, so the certificate genuinely stops at 4296 and
+Verified independently: `max_{i<4296} G(i) = 1 086 054 < 1 086 464 = c` (margin
+exactly **410**), and `G(4296) = 1 358 717 > c`, so the certificate genuinely stops at
+4296 and
+
+*Convention note, added after an audit.*  This column mixes floor and ceiling: rows
+`971, 2301, 2966` print `⌊G⌋` while rows `1636, 3631, 4296` print `⌊G⌋ + 1`.  Under the
+floor convention used at `RESEARCH.md:1354` the maximum is `1 086 054`, and `1 086 055`
+is the least admissible `c`, not the maximum; likewise `VerifiedExtended.lean:24` has
+`G(4296) = 1 358 717` correctly.  No theorem statement is affected — the numerals in
+`cert_4296` and `cert_1086464` are unaffected — but the table should be read as
+floors.
 `fexp(4296) = 6808`.  Axiom footprint `[propext, Classical.choice, Quot.sound]`.
 
 The machinery is reused verbatim — sieve modulus `2^10`, 64 survivor residues,
@@ -4957,3 +4966,79 @@ X — wide open.
 **Standing instruction for the rest of this programme:** a proposed theorem whose
 hypotheses or conclusion are equivalent to `G ∤ C` is the conjecture wearing a
 different notation.  `CLOSURE.md` diagnostic 5.
+
+---
+
+# Round XIV — the integrity audit, and the gap stated without softening
+
+The brief's sections 57, 58 and 72 demand that both halves be audited before any
+completeness claim.  A dedicated desk did that and did not attack the conjecture.
+
+## The divergence half is OPEN — and provably out of reach of the current toolkit
+
+`Complexity.collatz_iff_halves` is **bookkeeping, not progress**: `DivergenceHalf` and
+`CycleHalf` are `def … : Prop`, both directions of the iff are proved, and **neither
+conjunct is proved, assumed, or discharged anywhere.**  `Escape.divergent_avoids_verified`
+excludes divergence only for starts below `1 086 464`; above that it says only that a
+divergent orbit never dips into the verified range.  Every theorem in the library
+concluding `¬ Divergent n` carries a hypothesis at least as strong as the divergence
+half itself — several are outright *iff*s.
+
+And `ScaleRecord.divergence_filter` proves the toolkit *cannot* close it: `expStep`
+agrees with the accelerated map on every odd input, satisfies the identical affine law,
+is heavy at every scale, and **every one of its orbits provably diverges**.
+
+## The cycle half is a length *bound*, not an exclusion
+
+`length_ge_6809` asserts nothing about `L ≥ 6809`.  Combining it with
+`cycle_length_determined` (`L = ⌊a log₂3⌋ + 1`) and `cycle_min_window` leaves — recomputed
+exactly — **169 admissible `a` in `[4296, 20000]`**, beginning `4296, 4602, 4908, 4961,
+5267, 5573, 5626, 5932`, and the window is **vacuous for `a ≥ 1.5c ≈ 1 629 696`**
+(confirmed: admissible at `a = 1 700 000`, not at `1 600 000`).  The admissible set is
+**infinite**.
+
+One scoping gap named: `length_ge_6809` is about `AccIsCycleOf`, while
+`Complexity.CycleHalf` is stated for the standard map, and **there is no proved bridge
+`Periodic m → AccPeriodic m`** in the repository.  Not a defect — the accelerated
+decomposition is sound and complete and the two conjectures are proved equivalent — but
+currently an implicit step.
+
+## No circularity, and `δ` is a refutation file
+
+`DeltaSpectrum` does not assume `δ ≥ 2`; `delta_no_growing_bound` **kills** the route,
+proving any valid lower bound `f` satisfies `f 27 ≤ 5`, `f 24 ≤ 13`, `f 23 ≤ 79`,
+`f 26 ≤ 233`, `f 32 ≤ 499`.  A machine scan of all 2 871 public statements found exactly
+one whose unconditional conclusion mentions the conjecture — a `rfl` definitional
+identity.  All 233 `chain*` theorems carry named, undischarged hypotheses, and
+`Chains/Index.lean` explicitly labels the group *"Equivalent to Collatz … so not
+progress"*.
+
+## Integrity
+
+196 files, 51 865 lines, **2 893 declarations**, `0` each of `sorry`, `axiom`,
+`native_decide`, `skipKernelTC`, `implemented_by`, `partial`, `unsafe`, `opaque`.  Clean
+rebuild from an empty `.lake`: **198/198 jobs, 10 m 07 s**.  Full axiom footprint across
+every resolvable declaration is exactly `{propext, Classical.choice, Quot.sound}` — 534
+depend on none at all.  No finite bound is presented anywhere as a universal one.
+
+*Prose defects found and now fixed:* `README` claimed 1158 theorems and a `307 200`
+verified range (both stale, in the understating direction); the `G(i)` table mixed floor
+and ceiling, so `max_{i<4296} G(i)` is `1 086 054`, not `1 086 055`, with margin exactly
+`410`; and `Complexity.lean` / `GapSandwich.lean` printed a staircase mixing the `Bcap`
+and `Bstar` criteria, whose next rung is `1 358 718` and not `1 359 157`.  None is
+load-bearing; all are annotated at the source.
+
+## The gap, stated as the auditor stated it
+
+> This repository proves that Collatz is equivalent to a `Π₂` divergence half and a `Π₁`
+> cycle half; that every positive integer below `1 086 464` reaches 1; and that no
+> accelerated cycle through a non-reaching point has length below `6809` — leaving
+> `L = ⌊a·log₂3⌋+1` with `a ≥ 4296` and an **infinite** admissible set.  It further
+> proves the divergence half admits no argument built from the affine law, the parity
+> word, heaviness and positivity, and no ranking, WQO or size-change certificate.
+>
+> **It does not prove either half.  Not one cycle above `L = 6809` is excluded, and not
+> one divergent orbit above `1 086 464` is excluded.  The gap is the whole conjecture:
+> an unbounded cycle-length exclusion, and a divergence argument that consumes the even
+> branch's contraction `oddCount n j < j` — the one datum every mechanism here so far
+> avoids.**

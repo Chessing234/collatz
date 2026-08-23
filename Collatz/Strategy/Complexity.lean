@@ -64,6 +64,14 @@ numeral, so they are not uniform, and the ceiling is a matter of logic, not of
 compute.  Worse, the instances are not cheap: `RealizableFrontier6809` derives
 `L ≥ 6809` from the verified range `1 086 055`, and the table in `GapSandwich`
 (`768 000 → 4701`, `1 086 055 → 6809`, `1 359 157 → 7863`) shows the frontier
+
+*Audit note (Round XIV).*  This staircase **mixes two criteria** and should not be read
+as one ladder.  Under the `Bcap`/`cert` criterion that actually proves the frontier the
+thresholds are `620 859, 841 478, 1 086 055, 1 358 718`; under `GapSandwich`'s own
+`Bstar` criterion they are `768 000, 841 478, 1 086 263, 1 359 157`.  The `1 086 055`
+entry is a `Bcap` number sitting between two `Bstar` numbers, and the next rung under
+the machinery `RealizableFrontier6809` actually uses is **1 358 718**, not `1 359 157`
+— as `RealizableFrontier6809.lean:35` states.  No theorem statement is affected.
 growing linearly in the verified range, at roughly `L ≈ V / 160`.  So the `L`-th
 instance of the ω-rule costs `Θ(L)` computation, and the programme is an
 infinitary rule whose instances have unbounded cost — two independent reasons it

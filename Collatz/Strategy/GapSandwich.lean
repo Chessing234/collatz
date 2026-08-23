@@ -78,6 +78,14 @@ a range of `73 478` integers.  The next surviving pairs and their windows:
 
 so the frontier as a function of the verified range `c` continues
 `768 000 → 4701`, `841 478 → 5755`, `1 086 055 → 6809`, `1 359 157 → 7863`,
+
+*Audit note (Round XIV).*  This staircase **mixes two criteria** and should not be read
+as one ladder.  Under the `Bcap`/`cert` criterion that actually proves the frontier the
+thresholds are `620 859, 841 478, 1 086 055, 1 358 718`; under `GapSandwich`'s own
+`Bstar` criterion they are `768 000, 841 478, 1 086 263, 1 359 157`.  The `1 086 055`
+entry is a `Bcap` number sitting between two `Bstar` numbers, and the next rung under
+the machinery `RealizableFrontier6809` actually uses is **1 358 718**, not `1 359 157`
+— as `RealizableFrontier6809.lean:35` states.  No theorem statement is affected.
 `2 011 151 → 9971`, `2 405 251 → 11 025`.  Every step of that staircase costs a
 genuine extension of the verified range; the ratio `m_max / c` is only about
 `1.1`, so the bootstrap does not run by itself.
