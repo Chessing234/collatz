@@ -3817,6 +3817,13 @@ price of the decoupling, stated as an inequality rather than as a hope.
 
 ---
 
+# Round XI — the deliverable.  **CORRECTED**: see the postscript
+
+*The section below was written before the adversary reported.  Its verdict survives but
+**its central reason does not** — `A`, `B` and `C` rest on a quantifier-order fallacy.
+Read the postscript "The decoupling claim was wrong; the closure is not" before citing
+anything here.*
+
 # Round XI — the deliverable.  Outcome B: the decoupling is real
 
 The round asked: is there genuinely two-variable information left in the `(word,
@@ -4078,3 +4085,72 @@ exceptions.  So the accumulated coupling inside octave `k` is at most
   That is a knife-edge and almost certainly impossible — but "almost certainly" is a
   density statement about the parity word, and Terras leaves every finite parity word
   free.  Recorded as the exact remaining gap, not as a proof.
+
+
+---
+
+## Round XI postscript — the decoupling claim was wrong; the closure is not
+
+The adversary was asked to *prove* the decoupling theorem.  It refuted it instead, and
+the refutation lands on my own deliverable.
+
+### The quantifier-order fallacy
+
+`κ(w,n) = E(w)/n` with `E(w) = C_j/3^(A_j)` is an identity **at fixed window `j`**,
+with `n` ranging over a residue class mod `2^j`.  That is Terras, and it is true.  But
+`E` is **unbounded in `j`**, and along a real orbit `j` grows with `n`:
+
+| `n` | 27 | 993 | `10^9+7` | `10^12+39` |
+|---|---|---|---|---|
+| `E(w)` | 5.369 | 251.4 | `2.054·10^8` | `2.178·10^11` |
+| `E/n` | **0.199** | **0.253** | **0.205** | **0.218** |
+
+`E` grows **proportionally to `n`**, so the `1/n` cancels exactly.  **`κ → 0` holds at
+a fixed window and fails in the joint limit — which is the only regime this programme
+has ever lived in.**  Sections A, B and C above are therefore correct as stated and
+irrelevant as argued.  (Consistent with Round IX's measurement that `r_L` clusters in
+`[0.157, 0.210]` on real orbits — that was the joint limit all along, and it never went
+to zero.)
+
+There is also **no unconditional `1/x₀` law**: at `x₀ = 1365`, `k = 20`,
+`κ = 716881/331695 = 2.16127`, against a claimed `a/(3x₀) = 0.00122` — off by `1770×`,
+and `κ` exceeds `2`.  `ScaleLadder.coupling_bound` carries a *floor hypothesis* and is
+correct; the bare rate quoted in Round X is not.  And decay would not give summability
+anyway: on a cycle `1 + r → ∞` while every period's `κ` is fixed.
+
+### The route is closed, for a better reason
+
+Taking logarithms of the master identity `1 + r_j = ∏_(odd i<j) (1 + d/(3x_i))`:
+
+> **`log₂(1 + r_j) = log₂(x_j/n) − (A_j·log₂3 − j)`** — verified exact.
+
+**The accumulated coupling *is* the spread.**  Bounding it and solving the archimedean
+tracking problem are the same sentence, so the coupling family is **Class 1 by
+identity, not by asymptotics**.  A decay estimate can neither kill nor advance the
+route, which is why the decay argument was the wrong instrument for a correct verdict.
+
+### The repair, and where a coupling mechanism could still live
+
+Total accumulation is universally bounded — `Σ 1/(3x_i) = 0.2299545` at `n = 993`,
+reproduced to seven digits, and **not growing with `n`** across sampled starts to
+`10^13`.  Over `99.2%` of it comes from odd values below `1000`.  So "the coupling
+vanishes on the divergence half" is true and *harmless*: it vanishes where the orbit is
+large, which is where it never carried anything.
+
+> **A coupling mechanism must therefore be a bottom-scale mechanism.**
+
+`octave_sojourn` starts that programme: an orbit occupies a dyadic octave for at most
+**two** consecutive steps — verified, worst case exactly `2` over all `n < 200000`,
+witness `7 → 26`.  The exact remaining gap: forcing `Σκ = ∞` would need `≈ 2^k/k`
+entries per octave, hence linear-in-time growth, hence odd density pinned at exactly
+`log₃2` forever.  A knife-edge — but "almost certainly impossible" is a density claim,
+and Terras leaves every finite word free.
+
+### One miss of my own
+
+The adversary found the `CoupledCycle` reach table off by a factor 3 in its middle row:
+with a power-of-two floor the first survivor is `(4701, 2966)`, not `(2593, 1636)`, so
+the free floor buys **3.6%**, not "threefold".  **My own verification printed that
+mismatch and I did not flag it** — the line read `power-of-two floor : (4701, 2966)
+(agent: (2593, 1636))` and I moved on.  The conclusion survives and is strengthened
+(the bridge adds even less than claimed), but the miss was mine.
