@@ -142,5 +142,13 @@ theorem Val2.of_two_mul {n r : Nat} (h : Val2 (2 * n) (r + 1)) : Val2 n r := by
   rw [two_pow_succ r, Nat.mul_assoc] at he
   exact Nat.eq_of_mul_eq_mul_left (by omega) he
 
+
+/-- A positive valuation means the number is even. -/
+theorem Val2.even_of_pos {n r : Nat} (h : Val2 n r) (hr : 0 < r) : n % 2 = 0 := by
+  obtain ⟨m, hm, he⟩ := h
+  obtain ⟨k, rfl⟩ : ∃ k, r = k + 1 := ⟨r - 1, by omega⟩
+  rw [two_pow_succ k, Nat.mul_assoc] at he
+  omega
+
 end LiftExponent
 end Collatz
