@@ -191,6 +191,7 @@ import Collatz.Strategy.CycleLength520
 import Collatz.Strategy.CycleLength1539
 import Collatz.Strategy.CycleLength2593
 import Collatz.Strategy.LiftExponent
+import Collatz.Strategy.ValuationBridge
 import Collatz.Strategy.Frontier
 import Collatz.Strategy.Master
 import Collatz.Chains.SumChains
