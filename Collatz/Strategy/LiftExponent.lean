@@ -196,5 +196,14 @@ theorem Val2.not_dvd_succ {n r : Nat} (h : Val2 n r) : ¬ (2 ^ (r + 1) ∣ n) :=
   have := Val2.unique h hmul
   omega
 
+
+/-- The two halves packaged: a valuation is a *sandwich* of divisibilities.
+
+Note `Val2` unfolds to an `Exists`, so dot notation on a hypothesis would
+project from `Exists`; the lemmas are applied by name throughout. -/
+theorem Val2.dvd_and_not_dvd {n r : Nat} (h : Val2 n r) :
+    2 ^ r ∣ n ∧ ¬ (2 ^ (r + 1) ∣ n) :=
+  ⟨Val2.dvd h, Val2.not_dvd_succ h⟩
+
 end LiftExponent
 end Collatz
