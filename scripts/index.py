@@ -71,7 +71,7 @@ CONCEPT = {
                         r'2 \^ \w+ - 3 \^ \w+\s*\)?\s*[∣*]', r'gap \w+ [∣*]',
                         r'dvd_affineC', r'gap_dvd', r'denominator'],
  'C mod 2^j':          [r'% 2 \^', r'mod_four', r'two_adic'],
- '2-adic valuation':   [r'\bv2\b', r'two_pow_dvd', r'valuation'],
+ '2-adic valuation':   [r'\bv2\b', r'\bVal2\b', r'two_pow_dvd', r'valuation'],
  '3-adic valuation':   [r'% 3', r'three_pow', r'three_adic', r'three_dvd'],
  'reverse paths':      [r'pred', r'backward', r'reverse', r'oddPred'],
  'cycle equations':    [r'IsCycleOf', r'cycle'],
