@@ -24,5 +24,13 @@ theorem val2_of_syrStep {n r m : Nat} (h : SyrStep n r m) : Val2 (3 * n + 1) r :
   obtain ⟨_, hm, he⟩ := h
   exact ⟨m, hm, he⟩
 
+
+/-- Conversely, an odd `n` whose `3n+1` has a valuation admits a recorded step
+with that valuation.  The two notions carry exactly the same information. -/
+theorem syrStep_of_val2 {n r : Nat} (hn : n % 2 = 1) (h : Val2 (3 * n + 1) r) :
+    ∃ m, SyrStep n r m := by
+  obtain ⟨m, hm, he⟩ := h
+  exact ⟨m, hn, hm, he⟩
+
 end ValuationBridge
 end Collatz
