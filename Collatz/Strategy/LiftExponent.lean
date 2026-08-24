@@ -568,5 +568,19 @@ theorem val2_gap {L a : Nat} (hL : 1 ≤ L) (hlt : 3 ^ a < 2 ^ L) :
   have h3 : 3 ^ a % 2 = 1 := three_pow_odd a
   exact Val2.of_odd (by omega)
 
+
+/-- **The gap is 2-adically invisible.**  Multiplying by `2 ^ L - 3 ^ a` leaves
+the valuation unchanged.
+
+In the affine law `(2 ^ L - 3 ^ a) · n = C` this says `v₂(C) = v₂(n)`: the
+accumulator of a cycle carries exactly the 2-adic content of the cycle
+minimum, no more and no less.  That is the concrete bridge between the
+valuation cluster and the accumulator cluster. -/
+theorem val2_gap_mul {L a x r : Nat} (hL : 1 ≤ L) (hlt : 3 ^ a < 2 ^ L)
+    (hx : Val2 x r) : Val2 ((2 ^ L - 3 ^ a) * x) r := by
+  have h := Val2.mul (val2_gap hL hlt) hx
+  have hz : 0 + r = r := by omega
+  exact hz ▸ h
+
 end LiftExponent
 end Collatz
