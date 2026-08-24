@@ -335,5 +335,13 @@ theorem val2_three_pow_add_one_odd {a : Nat} (h : a % 2 = 1) : Val2 (3 ^ a + 1) 
   have h8 := three_pow_mod_eight_odd h
   exact Val2.two_iff.mpr (by omega)
 
+
+/-- For even `a`, `3 ^ a + 1 ≡ 2 (mod 4)`, so its valuation is exactly `1`.
+This is why doubling the exponent past the first time adds only one to the
+valuation. -/
+theorem val2_three_pow_add_one_even {a : Nat} (h : a % 2 = 0) : Val2 (3 ^ a + 1) 1 := by
+  have h8 := three_pow_mod_eight_even h
+  exact Val2.one_iff.mpr (by omega)
+
 end LiftExponent
 end Collatz
