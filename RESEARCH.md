@@ -5387,3 +5387,72 @@ finite result, and this repository's own gap statement says so.
 `lechmazur/terras_density_one` formalizes exactly it (`HasNatDensity {n | ∃ k,
 accelerated^[k] n < n} 1`, sorry-free).  Mathlib has **no natural-density definition for
 sets of naturals**, which is why that statement sits unproved here.
+
+## Round XVI — lifting the exponent, built from scratch, and what it does not buy
+
+### The gap `INDEX.md` was pointing at
+
+The concept index reported the 2-adic valuation as the thinnest cluster in the
+development — 17 theorems — and listed it as having **no theorem in common** with the
+gap `G = 2^L - 3^a`, with `C mod 2^j`, with the parity word, or with residue classes.
+Four missing bridges out of one cluster is not a coincidence; it means the branch had no
+usable valuation object at all, only valuations spelled out inline as `3n+1 = 2^r * m`.
+
+`Collatz/Strategy/LiftExponent.lean` builds one.  `Val2 n r` is `∃ m, m % 2 = 1 ∧
+n = 2 ^ r * m` — an explicit witness rather than a function, matching the convention
+already used in `ValuationTransition`.  It is shown unique, total on the positives,
+multiplicative, ultrametric on sums with unequal valuations, monotone along divisibility,
+and equivalent to both the textbook sandwich `2^r ∣ n ∧ ¬ 2^(r+1) ∣ n` and to the single
+congruence `n ≡ 2^r (mod 2^(r+1))`.  That last equivalence is the residue-class bridge:
+it makes every 2-adic statement in the file re-readable as a congruence and back.
+
+### The formula
+
+  **`v₂(3 ^ a - 1) = v₂ a + 2` for even `a`, and `1` for odd `a`.**
+
+Mathlib proves this as `padicValNat.pow_two_sub_one`; this branch may not use Mathlib, so
+it is proved here from the definition of `Val2` up.  The whole thing turns on `3` having
+order `2` modulo `8`: `3^k ≡ 1` or `3` mod `8` by parity of `k`, which fixes the three
+base valuations `v₂(3^odd - 1) = 1`, `v₂(3^odd + 1) = 2`, `v₂(3^even + 1) = 1`.  The
+ladder is then `3^(2b) - 1 = (3^b - 1)(3^b + 1)`, climbed by induction on `v₂ a`, with
+`Val2.mul` doing the adding.  Six numerical checks are in the file, including `a = 6`,
+where the valuation *drops* relative to `a = 4` — it tracks `v₂ a`, not `a`.
+
+### The payoff, and the honest limit on it
+
+The formula gives the exact order of `3` modulo `2^L`:
+
+  **`2^L ∣ 3^a - 1 ↔ 2^(L-2) ∣ a`, for `L ≥ 3`** — so `3^a mod 2^L` is periodic in `a`
+  with period exactly `2^(L-2)`, minimality included.
+
+That is the first exact `L`-versus-`a` constraint in the development, and it is a genuine
+finite-state fact about the tripling side.  Read contrapositively it says a short tripling
+count is never trivial mod `2^L`, which bounds how far any `2^L` congruence argument can
+reach.
+
+**It is not a cycle obstruction, and the file says so in a theorem.**  A cycle has `a ≤ L`.
+From `L = 5` on, `L < 2^(L-2)`, so `a < 2^(L-2)`, so `2^L ∤ 3^a - 1`:
+`vacuous_for_cycle_shapes` proves the hypothesis of the bound is **false for every shape a
+cycle can have**.  The round supplies an exact formula and zero exclusions, and that is
+recorded so a later round does not mistake the one for the other.
+
+### The bridges that did land
+
+- **valuation ↔ residue classes**: `Val2.iff_mod`, plus its numeral faces at `r = 1, 2`.
+- **valuation ↔ gap**: `val2_gap` puts `2^L - 3^a` at valuation zero, and `val2_gap_mul`
+  draws the consequence — the gap is *2-adically invisible*.  In the affine law
+  `(2^L - 3^a)·n = C` that reads `v₂(C) = v₂(n)`: the accumulator of a cycle carries
+  exactly the 2-adic content of the cycle minimum, no more and no less.
+- **valuation ↔ parity word / transition system**: `Collatz/Strategy/ValuationBridge.lean`
+  identifies `SyrStep n r m` with `Val2 (3n+1) r` in both directions, which hands the
+  transition system a bound it did not have — `2^r ≤ 3n+1`, one step halves at most
+  `log₂(3n+1)` times — and reproves the exact-contraction criterion `r = 1 ↔ n ≡ 3 (mod 4)`
+  on the no-Mathlib side, matching what the Mathlib branch found through `padicValNat`.
+
+### Carried forward
+
+The two branches now prove the same lifting-the-exponent statement by different routes:
+`MathlibAttack.padicValNat_three_pow_sub_one` through `padicValNat.pow_two_sub_one`, and
+`LiftExponent.val2_three_pow_sub_one` from the definition.  The no-Mathlib version is the
+one that composes with the rest of this library, and unlike `padicValNat` it reduces in
+the kernel.
