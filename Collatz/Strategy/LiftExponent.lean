@@ -362,5 +362,34 @@ theorem three_pow_double_sub_one (b : Nat) :
   simp only [Nat.add_sub_cancel]
   omega
 
+
+/-- **The ladder, in the form the induction wants.**  Each rung doubles the
+exponent: `3 ^ (2b) - 1 = (3^b - 1)(3^b + 1)`, the first factor is handled by
+the inductive hypothesis, and the second contributes exactly one because `b` is
+already even. -/
+theorem val2_three_pow_sub_one_aux :
+    ∀ t a : Nat, Val2 a (t + 1) → Val2 (3 ^ a - 1) (t + 3) := by
+  intro t
+  induction t with
+  | zero =>
+    intro a ha
+    obtain ⟨m, hm, he⟩ := ha
+    rw [Nat.pow_one] at he
+    subst he
+    rw [three_pow_double_sub_one]
+    have hx : (1 : Nat) + 2 = 0 + 3 := by omega
+    exact hx ▸ Val2.mul (val2_three_pow_sub_one_odd hm) (val2_three_pow_add_one_odd hm)
+  | succ t ih =>
+    intro a ha
+    obtain ⟨m, hm, he⟩ := ha
+    have hb : Val2 (2 ^ (t + 1) * m) (t + 1) := ⟨m, hm, rfl⟩
+    have hab : a = 2 * (2 ^ (t + 1) * m) := by
+      rw [he, two_pow_succ (t + 1), Nat.mul_assoc]
+    subst hab
+    rw [three_pow_double_sub_one]
+    have heven := Val2.even_of_pos hb (by omega)
+    have hx : t + 3 + 1 = t + 1 + 3 := by omega
+    exact hx ▸ Val2.mul (ih _ hb) (val2_three_pow_add_one_even heven)
+
 end LiftExponent
 end Collatz
