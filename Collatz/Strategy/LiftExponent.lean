@@ -686,5 +686,26 @@ theorem Val2.le {n r : Nat} (h : Val2 n r) : 2 ^ r ≤ n :=
 theorem Val2.mono {m n r s : Nat} (hm : Val2 m r) (hn : Val2 n s) (hd : m ∣ n) : r ≤ s :=
   (Val2.dvd_iff_le hn).mp (Nat.dvd_trans (Val2.dvd hm) hd)
 
+
+/-- **The ultrametric law.**  When the two valuations differ, the sum takes the
+smaller one — exactly, not just as a bound.  (When they agree the valuation of
+the sum is strictly larger and this fails, which is why the hypothesis `r < s`
+cannot be weakened to `r ≤ s`.) -/
+theorem Val2.add_of_lt {x y r s : Nat} (hx : Val2 x r) (hy : Val2 y s) (hrs : r < s) :
+    Val2 (x + y) r := by
+  obtain ⟨m, hm, hex⟩ := hx
+  obtain ⟨m', hm', hey⟩ := hy
+  refine ⟨m + 2 ^ (s - r) * m', ?_, ?_⟩
+  · have h2 : 2 ^ (s - r) % 2 = 0 := two_pow_even (by omega)
+    have heven : (2 ^ (s - r) * m') % 2 = 0 := by
+      rw [Nat.mul_mod, h2]
+      simp
+    omega
+  · have hsplit : (2 : Nat) ^ s = 2 ^ r * 2 ^ (s - r) := by
+      rw [← Nat.pow_add]
+      congr 1
+      omega
+    rw [hex, hey, hsplit, Nat.mul_add, Nat.mul_assoc]
+
 end LiftExponent
 end Collatz
