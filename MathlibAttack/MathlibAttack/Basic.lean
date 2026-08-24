@@ -128,6 +128,20 @@ example : S 7 = 11 := (valuation_of_witness (k := 1) (m := 11) (by norm_num) (by
 example : padicValNat 2 (3 * 5 + 1) = 4 :=
   (valuation_of_witness (n := 5) (k := 4) (m := 1) (by norm_num) (by norm_num)).2
 
+
+/-- Concrete form of the criterion at `k = 1`: the **exact contraction**
+`S n = (3n+1)/2` — one halving and no more — happens precisely on `n ≡ 3 (mod 4)`.
+
+This is the `omega`-friendly face of `le_padicValNat_iff_residue`: because
+`two_pow_dvd_iff` is a divisibility, `omega` can finish from it directly, with no
+`ZMod` reasoning at all. -/
+theorem padicValNat_eq_one_iff (n : ℕ) :
+    padicValNat 2 (3 * n + 1) = 1 ↔ n % 4 = 3 := by
+  have h1 := two_pow_dvd_iff 1 n
+  have h2 := two_pow_dvd_iff 2 n
+  norm_num at h1 h2
+  omega
+
 /-! ## The affine law
 
 `2 ^ j · Tacc^[j] x = 3 ^ a · x + C`, with `a` the number of odd steps and `C` an
