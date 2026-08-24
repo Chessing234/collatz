@@ -582,5 +582,13 @@ theorem val2_gap_mul {L a x r : Nat} (hL : 1 ≤ L) (hlt : 3 ^ a < 2 ^ L)
   have hz : 0 + r = r := by omega
   exact hz ▸ h
 
+
+/-- **In cycle terms.**  If `(2 ^ L - 3 ^ a) · n = C` — the affine law of a
+cycle with `L` halvings, `a` triplings, minimum `n` and accumulator `C` — then
+`C` and `n` have the same 2-adic valuation. -/
+theorem val2_accumulator {L a n C r : Nat} (hL : 1 ≤ L) (hlt : 3 ^ a < 2 ^ L)
+    (heq : (2 ^ L - 3 ^ a) * n = C) (hn : Val2 n r) : Val2 C r :=
+  heq ▸ val2_gap_mul hL hlt hn
+
 end LiftExponent
 end Collatz
