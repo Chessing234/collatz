@@ -391,5 +391,25 @@ theorem val2_three_pow_sub_one_aux :
     have hx : t + 3 + 1 = t + 1 + 3 := by omega
     exact hx ▸ Val2.mul (ih _ hb) (val2_three_pow_add_one_even heven)
 
+
+/-! ## 7.  Lifting the exponent
+
+The headline of the round.  Mathlib proves this as `padicValNat.pow_two_sub_one`;
+this branch may not use Mathlib, so the statement below is the end of a chain
+that starts at the definition of `Val2`. -/
+
+/-- **Lifting the exponent for `p = 2` and base `3`.**  If `a` has 2-adic
+valuation `t ≥ 1` — that is, `a` is even — then
+
+  `v₂(3 ^ a - 1) = v₂ a + 2`.
+
+The hypothesis `1 ≤ t` is exactly evenness of `a`, and it cannot be dropped:
+`val2_three_pow_sub_one_odd` shows the odd case gives `1`, not `2`. -/
+theorem val2_three_pow_sub_one {a t : Nat} (ht : 1 ≤ t) (h : Val2 a t) :
+    Val2 (3 ^ a - 1) (t + 2) := by
+  obtain ⟨s, rfl⟩ : ∃ s, t = s + 1 := ⟨t - 1, by omega⟩
+  have hx : s + 3 = s + 1 + 2 := by omega
+  exact hx ▸ val2_three_pow_sub_one_aux s a h
+
 end LiftExponent
 end Collatz
