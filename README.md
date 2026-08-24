@@ -75,6 +75,17 @@ Hence the orbit minimum of a counterexample is never `3` modulo `16`.
 
 That is exactly what the residue sieve computes at level four, here derived algebraically.
 
+The 2-adic valuation of a number is `v` exactly when it is `2^v` modulo `2^(v+1)`.
+
+Three has order two modulo eight, so `v(3^a - 1)` is `v(a) + 2` for even `a`, and `1` for odd.
+
+Hence three has order `2^(L-2)` modulo `2^L`, and `3^a mod 2^L` repeats with that period.
+
+A cycle has `a <= L`, and `L < 2^(L-2)`, so that constraint is empty on every cycle shape.
+
+The gap `2^L - 3^a` is odd, so `v(C) = v(n)` in the affine law of a cycle.
+
+
 Say a number never drops when its own orbit never goes below it.
 
 Collatz is exactly the statement that `1` is the only number that never drops.
