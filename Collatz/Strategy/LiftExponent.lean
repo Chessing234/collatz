@@ -656,5 +656,21 @@ theorem lt_two_pow_sub_two {L : Nat} (hL : 5 ≤ L) : L < 2 ^ (L - 2) := by
   rw [hx]
   exact key k
 
+
+/-- **The limitation, sharply.**  A cycle has at most as many triplings as
+halvings, `a ≤ L`.  From `L = 5` on that forces `a < 2 ^ (L-2)`, and so
+`2 ^ L ∤ 3 ^ a - 1`: the hypothesis of `exponent_lower_bound` is false for
+*every* shape a cycle can have.
+
+So this round supplies an exact order formula and no cycle exclusion.  The
+formula's use is as a bound on how far a `2 ^ L` congruence argument can reach,
+not as an obstruction in its own right. -/
+theorem vacuous_for_cycle_shapes {L a : Nat} (hL : 5 ≤ L) (ha : 0 < a) (hle : a ≤ L) :
+    ¬ (2 ^ L ∣ 3 ^ a - 1) := by
+  intro hd
+  have hbig := exponent_lower_bound ha (by omega) hd
+  have := lt_two_pow_sub_two hL
+  omega
+
 end LiftExponent
 end Collatz
