@@ -327,5 +327,13 @@ theorem val2_three_pow_sub_one_odd {a : Nat} (h : a % 2 = 1) : Val2 (3 ^ a - 1) 
   have hp := one_le_three_pow a
   exact Val2.one_iff.mpr (by omega)
 
+
+/-- For odd `a`, `3 ^ a + 1 ≡ 4 (mod 8)`, so its valuation is exactly `2`.
+Together with the previous lemma this is the `1 + 2 = 3` that seeds the whole
+computation. -/
+theorem val2_three_pow_add_one_odd {a : Nat} (h : a % 2 = 1) : Val2 (3 ^ a + 1) 2 := by
+  have h8 := three_pow_mod_eight_odd h
+  exact Val2.two_iff.mpr (by omega)
+
 end LiftExponent
 end Collatz
