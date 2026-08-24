@@ -85,5 +85,16 @@ theorem step_target {n r m : Nat} (h : SyrStep n r m) : m = (3 * n + 1) / 2 ^ r 
   obtain ⟨_, _, he⟩ := h
   rw [he, Nat.mul_div_cancel_left _ (two_pow_pos r)]
 
+
+/-! ## 3.  Two worked steps -/
+
+/-- `n = 7`: `3·7+1 = 22 = 2 · 11`, one halving, and indeed `7 ≡ 3 (mod 4)`. -/
+example : Val2 (3 * 7 + 1) 1 := ⟨11, rfl, rfl⟩
+
+/-- `n = 5`: `3·5+1 = 16 = 2 ^ 4 · 1`, four halvings, and `5 ≡ 1 (mod 4)`.
+The residue mod `4` predicts *at least* two, and no more than that — the
+valuation beyond the second halving is not a function of `n mod 4`. -/
+example : Val2 (3 * 5 + 1) 4 := ⟨1, rfl, rfl⟩
+
 end ValuationBridge
 end Collatz
