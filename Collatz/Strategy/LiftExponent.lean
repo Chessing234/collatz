@@ -535,5 +535,23 @@ theorem two_dvd_three_pow_sub_one (a : Nat) : 2 ∣ 3 ^ a - 1 := by
   have hp := one_le_three_pow a
   exact ⟨(3 ^ a - 1) / 2, by omega⟩
 
+
+/-- At `L = 2` the condition is exactly evenness of `a`.  So the order of `3`
+is `1` mod `2`, `2` mod `4`, and `2 ^ (L-2)` from `L = 3` on — and at `L = 2`
+the two formulas happen to agree. -/
+theorem four_dvd_three_pow_sub_one_iff {a : Nat} : 4 ∣ 3 ^ a - 1 ↔ a % 2 = 0 := by
+  have hp := one_le_three_pow a
+  constructor
+  · intro hd
+    rcases Nat.eq_zero_or_pos (a % 2) with h | h
+    · exact h
+    · have hodd : a % 2 = 1 := by omega
+      have h8 := three_pow_mod_eight_odd hodd
+      obtain ⟨k, hk⟩ := hd
+      omega
+  · intro heven
+    have h8 := three_pow_mod_eight_even heven
+    exact ⟨(3 ^ a - 1) / 4, by omega⟩
+
 end LiftExponent
 end Collatz
