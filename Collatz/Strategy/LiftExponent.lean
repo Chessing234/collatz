@@ -74,5 +74,14 @@ theorem Val2.unique {n r s : Nat} (h : Val2 n r) (h' : Val2 n s) : r = s := by
   obtain ⟨m', hm', he'⟩ := h'
   exact pow_two_odd_eq hm hm' (he ▸ he')
 
+
+/-- The odd cofactor is unique as well, so `Val2` pins down the whole
+factorisation `n = 2 ^ r * m`. -/
+theorem Val2.cofactor_unique {n r m m' : Nat}
+    (hm : m % 2 = 1) (hm' : m' % 2 = 1)
+    (he : n = 2 ^ r * m) (he' : n = 2 ^ r * m') : m = m' := by
+  have : 2 ^ r * m = 2 ^ r * m' := he ▸ he'
+  exact Nat.eq_of_mul_eq_mul_left (two_pow_pos r) this
+
 end LiftExponent
 end Collatz
