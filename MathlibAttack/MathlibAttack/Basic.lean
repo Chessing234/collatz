@@ -150,6 +150,26 @@ theorem two_le_padicValNat_iff (n : ℕ) :
   norm_num at h2
   omega
 
+
+/-! ### Lifting the exponent: the one thing the no-Mathlib branch cannot build
+
+`Mathlib/NumberTheory/Multiplicity.lean` carries the full `p = 2` lifting-the-exponent
+package.  It gives an *exact formula* for `v₂(3 ^ a − 1)` — a quantity the
+hand-rolled development can only bound.  This is the sharpest concrete leverage
+found in this round. -/
+
+theorem padicValNat_three_pow_sub_one {a : ℕ} (ha : a ≠ 0) (heven : Even a) :
+    padicValNat 2 (3 ^ a - 1) = padicValNat 2 a + 2 := by
+  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have h := padicValNat.pow_two_sub_one (x := 3) (n := a) (by norm_num) (by decide) ha heven
+  have h4 : padicValNat 2 (3 + 1) = 2 := by
+    have e : (3 + 1 : ℕ) = 2 ^ 2 := by norm_num
+    rw [e, padicValNat.prime_pow]
+  have h2 : padicValNat 2 (3 - 1) = 1 := by
+    have e : (3 - 1 : ℕ) = 2 ^ 1 := by norm_num
+    rw [e, padicValNat.prime_pow]
+  omega
+
 /-! ## The affine law
 
 `2 ^ j · Tacc^[j] x = 3 ^ a · x + C`, with `a` the number of odd steps and `C` an
