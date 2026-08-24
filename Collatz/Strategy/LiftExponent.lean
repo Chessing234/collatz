@@ -1,4 +1,5 @@
 import Collatz.Basic
+import Collatz.Core.Arith
 
 /-!
 # Round XVI — lifting the exponent, from scratch
@@ -20,6 +21,8 @@ halving count `L` to the tripling count `a`.
 
 namespace Collatz
 namespace LiftExponent
+
+open Collatz.Arith
 
 /-- `Val2 n r` says the 2-adic valuation of `n` is exactly `r`: `n = 2 ^ r * m`
 with `m` odd.  Stated with an explicit witness rather than a valuation
