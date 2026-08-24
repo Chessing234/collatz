@@ -553,5 +553,20 @@ theorem four_dvd_three_pow_sub_one_iff {a : Nat} : 4 ∣ 3 ^ a - 1 ↔ a % 2 = 0
     have h8 := three_pow_mod_eight_even heven
     exact ⟨(3 ^ a - 1) / 4, by omega⟩
 
+
+/-! ## 11.  The gap, 2-adically
+
+`GapPrimes.gap_odd` already records that `2 ^ L - 3 ^ a` is odd.  Restating it
+as a `Val2` fact is what actually joins the two clusters: it lets the gap be
+carried through `Val2.mul`, which is the next lemma.  The oddness is reproved
+in two lines here rather than imported, to keep this file a leaf. -/
+
+/-- The gap has 2-adic valuation zero: even minus odd. -/
+theorem val2_gap {L a : Nat} (hL : 1 ≤ L) (hlt : 3 ^ a < 2 ^ L) :
+    Val2 (2 ^ L - 3 ^ a) 0 := by
+  have h2 : 2 ^ L % 2 = 0 := two_pow_even (by omega)
+  have h3 : 3 ^ a % 2 = 1 := three_pow_odd a
+  exact Val2.of_odd (by omega)
+
 end LiftExponent
 end Collatz
