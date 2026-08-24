@@ -738,5 +738,22 @@ theorem Val2.pow {n r : Nat} (h : Val2 n r) (k : Nat) : Val2 (n ^ k) (r * k) := 
 theorem Val2.two_pow_mul {n r : Nat} (h : Val2 n r) (k : Nat) : Val2 (2 ^ k * n) (k + r) :=
   Val2.mul (Val2.two_pow k) h
 
+
+/-! ## 15.  The formula packaged for use
+
+`val2_three_pow_sub_one` asks the caller to supply `Val2 a t`.  Callers rarely
+have it; they have the parity of `a`.  These three restatements take parity as
+the hypothesis and produce the valuation. -/
+
+/-- The even case, with the valuation of `a` produced rather than assumed. -/
+theorem val2_three_pow_sub_one_even {a : Nat} (ha : 0 < a) (heven : a % 2 = 0) :
+    ∃ t, 1 ≤ t ∧ Val2 a t ∧ Val2 (3 ^ a - 1) (t + 2) := by
+  obtain ⟨t, hat⟩ := Val2.exists_of_pos ha
+  have ht : 1 ≤ t := by
+    rcases Nat.eq_zero_or_pos t with rfl | hp
+    · exact absurd (Val2.odd_of_zero hat) (by omega)
+    · exact hp
+  exact ⟨t, ht, hat, val2_three_pow_sub_one ht hat⟩
+
 end LiftExponent
 end Collatz
