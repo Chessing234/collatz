@@ -441,5 +441,19 @@ theorem two_pow_dvd_three_pow_sub_one_iff {a L : Nat} (ha : 0 < a) (hL : 3 ≤ L
     rw [Val2.dvd_iff_le hv, Val2.dvd_iff_le hat]
     omega
 
+
+/-! ## 9.  Restated as a congruence, and the order of three
+
+The divisibility `2 ^ L ∣ 3 ^ q - 1` and the congruence `3 ^ q ≡ 1 (mod 2 ^ L)`
+are the same fact; `Nat` subtraction makes the translation worth isolating. -/
+
+/-- Congruence to one gives the divisibility. -/
+theorem two_pow_dvd_of_three_pow_mod {q L : Nat} (h : 3 ^ q % 2 ^ L = 1) :
+    2 ^ L ∣ 3 ^ q - 1 := by
+  refine ⟨3 ^ q / 2 ^ L, ?_⟩
+  have hd := Nat.div_add_mod (3 ^ q) (2 ^ L)
+  rw [h] at hd
+  omega
+
 end LiftExponent
 end Collatz
