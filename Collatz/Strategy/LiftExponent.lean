@@ -466,5 +466,13 @@ theorem three_pow_mod_of_two_pow_dvd {q L : Nat} (hL : 1 ≤ L) (h : 2 ^ L ∣ 3
   rw [he, Nat.mul_add_mod]
   exact Nat.mod_eq_of_lt (by omega)
 
+
+/-- `3 ^ (2 ^ (L-2)) ≡ 1 (mod 2 ^ L)`: the candidate period really is one. -/
+theorem three_pow_one_mod {L : Nat} (hL : 3 ≤ L) : 3 ^ (2 ^ (L - 2)) % 2 ^ L = 1 := by
+  have hpos : 0 < 2 ^ (L - 2) := two_pow_pos _
+  have hd : 2 ^ L ∣ 3 ^ (2 ^ (L - 2)) - 1 :=
+    (two_pow_dvd_three_pow_sub_one_iff hpos hL).mpr (Nat.dvd_refl _)
+  exact three_pow_mod_of_two_pow_dvd (by omega) hd
+
 end LiftExponent
 end Collatz
