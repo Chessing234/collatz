@@ -492,5 +492,14 @@ theorem three_pow_period {L a : Nat} (hL : 3 ≤ L) :
     simp [Nat.mul_assoc, Nat.mul_comm, Nat.mul_left_comm]
   rw [hcomm, Nat.mul_add_mod]
 
+
+/-- **Minimality.**  No smaller positive exponent works, so `2 ^ (L-2)` is the
+*order* of `3` modulo `2 ^ L` and not merely some period. -/
+theorem three_pow_period_minimal {L q : Nat} (hL : 3 ≤ L) (hq : 0 < q)
+    (h : 3 ^ q % 2 ^ L = 1) : 2 ^ (L - 2) ≤ q := by
+  have hd : 2 ^ L ∣ 3 ^ q - 1 := two_pow_dvd_of_three_pow_mod h
+  have := (two_pow_dvd_three_pow_sub_one_iff hq hL).mp hd
+  exact Nat.le_of_dvd hq this
+
 end LiftExponent
 end Collatz
