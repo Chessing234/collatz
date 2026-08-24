@@ -142,6 +142,14 @@ theorem padicValNat_eq_one_iff (n : ℕ) :
   norm_num at h1 h2
   omega
 
+
+/-- And `v₂(3n+1) ≥ 2` — at least two halvings — is `n ≡ 1 (mod 4)`. -/
+theorem two_le_padicValNat_iff (n : ℕ) :
+    2 ≤ padicValNat 2 (3 * n + 1) ↔ n % 4 = 1 := by
+  have h2 := two_pow_dvd_iff 2 n
+  norm_num at h2
+  omega
+
 /-! ## The affine law
 
 `2 ^ j · Tacc^[j] x = 3 ^ a · x + C`, with `a` the number of odd steps and `C` an
