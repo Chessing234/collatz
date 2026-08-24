@@ -474,5 +474,23 @@ theorem three_pow_one_mod {L : Nat} (hL : 3 ≤ L) : 3 ^ (2 ^ (L - 2)) % 2 ^ L =
     (two_pow_dvd_three_pow_sub_one_iff hpos hL).mpr (Nat.dvd_refl _)
   exact three_pow_mod_of_two_pow_dvd (by omega) hd
 
+
+/-- **Periodicity.**  `3 ^ a` modulo `2 ^ L` repeats with period `2 ^ (L-2)`.
+
+This is the finite-state content of the round: the sequence `a ↦ 3 ^ a mod 2 ^ L`
+is eventually — in fact immediately — periodic, and the period is named
+exactly. -/
+theorem three_pow_period {L a : Nat} (hL : 3 ≤ L) :
+    3 ^ (a + 2 ^ (L - 2)) % 2 ^ L = 3 ^ a % 2 ^ L := by
+  have h1 := three_pow_one_mod hL
+  obtain ⟨k, hk⟩ : ∃ k, 3 ^ (2 ^ (L - 2)) = 2 ^ L * k + 1 := by
+    refine ⟨3 ^ (2 ^ (L - 2)) / 2 ^ L, ?_⟩
+    have hd := Nat.div_add_mod (3 ^ (2 ^ (L - 2))) (2 ^ L)
+    omega
+  rw [Nat.pow_add, hk, Nat.mul_add, Nat.mul_one]
+  have hcomm : 3 ^ a * (2 ^ L * k) = 2 ^ L * (3 ^ a * k) := by
+    simp [Nat.mul_assoc, Nat.mul_comm, Nat.mul_left_comm]
+  rw [hcomm, Nat.mul_add_mod]
+
 end LiftExponent
 end Collatz
