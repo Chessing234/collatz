@@ -5456,3 +5456,24 @@ The two branches now prove the same lifting-the-exponent statement by different 
 `LiftExponent.val2_three_pow_sub_one` from the definition.  The no-Mathlib version is the
 one that composes with the rest of this library, and unlike `padicValNat` it reduces in
 the kernel.
+
+### What the index says afterwards, precisely
+
+Regenerating `INDEX.md` moves the 2-adic cluster from **17 to 65** theorems and drops
+`2-adic valuation <-> gap G=2^L-3^a` and `2-adic valuation <-> finite-state` off the
+unbridged list.
+
+Two caveats, because the index is a regex over statement text and not a semantic check.
+
+First, the heuristic had to be *taught the name*: its 2-adic tag matched `v2`,
+`two_pow_dvd` and `valuation`, none of which occur in `Val2`.  Adding `\bVal2\b` to that
+tag is a fix to the tool — the concept acquired a canonical name in the library this
+round — but it is worth flagging that the 17 → 65 jump is partly the tool catching up and
+not only new theorems.
+
+Second, `2-adic valuation <-> residue classes` is **still listed as unbridged, and that
+listing is wrong**.  `Val2.iff_mod` is exactly that bridge.  It goes unnoticed because the
+residue-class tag looks for the strings `Congruence`, `residue` or `_class`, and the
+theorem says `n % 2 ^ (r+1) = 2 ^ r` without using any of those words.  The renaming that
+would satisfy the regex has not been done: the index is a search aid, and editing names to
+please it would cost more than the false entry does.
