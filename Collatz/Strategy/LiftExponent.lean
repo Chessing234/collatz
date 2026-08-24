@@ -150,5 +150,23 @@ theorem Val2.even_of_pos {n r : Nat} (h : Val2 n r) (hr : 0 < r) : n % 2 = 0 := 
   rw [two_pow_succ k, Nat.mul_assoc] at he
   omega
 
+
+/-- **Existence.**  Every positive number has a 2-adic valuation.  With
+`Val2.unique` this makes `Val2` the graph of a total function on the positives,
+which is the sense in which this file may speak of *the* valuation. -/
+theorem Val2.exists_of_pos {n : Nat} (hn : 0 < n) : ∃ r, Val2 n r := by
+  induction n using Nat.strongRecOn with
+  | _ n ih =>
+    by_cases hodd : n % 2 = 1
+    · exact ⟨0, Val2.of_odd hodd⟩
+    · have heven : n % 2 = 0 := by omega
+      have hhalf : 0 < n / 2 := by omega
+      have hlt : n / 2 < n := by omega
+      obtain ⟨r, hr⟩ := ih (n / 2) hlt hhalf
+      refine ⟨r + 1, ?_⟩
+      have : 2 * (n / 2) = n := by omega
+      rw [← this]
+      exact Val2.two_mul hr
+
 end LiftExponent
 end Collatz
