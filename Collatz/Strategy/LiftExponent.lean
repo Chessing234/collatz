@@ -501,5 +501,17 @@ theorem three_pow_period_minimal {L q : Nat} (hL : 3 ≤ L) (hq : 0 < q)
   have := (two_pow_dvd_three_pow_sub_one_iff hq hL).mp hd
   exact Nat.le_of_dvd hq this
 
+
+/-- **The size constraint, in the form the gap cluster can use.**  A tripling
+count `a` that is congruent to the trivial one modulo `2 ^ L` is at least
+`2 ^ (L-2)`: an exponential lower bound on `a` in terms of `L`.
+
+Contrapositively, for every `a < 2 ^ (L-2)` the residue `3 ^ a mod 2 ^ L` is
+*not* `1`, which is what rules out short words in a `2 ^ L` congruence
+argument. -/
+theorem exponent_lower_bound {a L : Nat} (ha : 0 < a) (hL : 3 ≤ L)
+    (h : 2 ^ L ∣ 3 ^ a - 1) : 2 ^ (L - 2) ≤ a :=
+  Nat.le_of_dvd ha ((two_pow_dvd_three_pow_sub_one_iff ha hL).mp h)
+
 end LiftExponent
 end Collatz
