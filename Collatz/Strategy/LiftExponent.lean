@@ -633,5 +633,28 @@ example : Val2 (3 ^ 8 - 1) 5 := ⟨205, rfl, rfl⟩
 /-- `v₂ 12 = 2`, prediction `4`, and `3 ^ 12 - 1 = 531440 = 2 ^ 4 · 33215`. -/
 example : Val2 (3 ^ 12 - 1) 4 := ⟨33215, rfl, rfl⟩
 
+
+/-! ## 13.  What this round does *not* give
+
+The order formula constrains `a` only under the hypothesis `2 ^ L ∣ 3 ^ a - 1`.
+That hypothesis is not supplied by the cycle equation, and the last theorem of
+this section shows it is worse than that: for every shape a cycle can have, the
+hypothesis is outright *false*, so the constraint is vacuous there.  This is
+recorded so no later round mistakes the bound for a cycle exclusion. -/
+
+/-- `L < 2 ^ (L-2)` from `L = 5` on. -/
+theorem lt_two_pow_sub_two {L : Nat} (hL : 5 ≤ L) : L < 2 ^ (L - 2) := by
+  obtain ⟨k, rfl⟩ : ∃ k, L = k + 5 := ⟨L - 5, by omega⟩
+  have key : ∀ k : Nat, k + 5 < 2 ^ (k + 3) := by
+    intro k
+    induction k with
+    | zero => decide
+    | succ j ih =>
+      have hs : (2 : Nat) ^ (j + 1 + 3) = 2 * 2 ^ (j + 3) := two_pow_succ (j + 3)
+      omega
+  have hx : k + 5 - 2 = k + 3 := by omega
+  rw [hx]
+  exact key k
+
 end LiftExponent
 end Collatz
