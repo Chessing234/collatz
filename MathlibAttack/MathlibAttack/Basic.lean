@@ -170,6 +170,12 @@ theorem padicValNat_three_pow_sub_one {a : ℕ} (ha : a ≠ 0) (heven : Even a) 
     rw [e, padicValNat.prime_pow]
   omega
 
+
+private theorem nine_pow_mod_four (m : ℕ) : 9 ^ m % 4 = 1 := by
+  induction m with
+  | zero => rfl
+  | succ m ih => rw [pow_succ]; omega
+
 /-! ## The affine law
 
 `2 ^ j · Tacc^[j] x = 3 ^ a · x + C`, with `a` the number of odd steps and `C` an
