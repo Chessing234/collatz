@@ -78,5 +78,12 @@ theorem step_valuation_pos {n r : Nat} (hn : n % 2 = 1) (h : Val2 (3 * n + 1) r)
   · exact absurd (Val2.odd_of_zero h) (by omega)
   · exact hp
 
+
+/-- The target of a step is `(3n+1) / 2 ^ r`, the usual Syracuse formula.  The
+transition system carries `m` as a witness; this recovers it as a quotient. -/
+theorem step_target {n r m : Nat} (h : SyrStep n r m) : m = (3 * n + 1) / 2 ^ r := by
+  obtain ⟨_, _, he⟩ := h
+  rw [he, Nat.mul_div_cancel_left _ (two_pow_pos r)]
+
 end ValuationBridge
 end Collatz
