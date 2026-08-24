@@ -755,5 +755,16 @@ theorem val2_three_pow_sub_one_even {a : Nat} (ha : 0 < a) (heven : a % 2 = 0) :
     · exact hp
   exact ⟨t, ht, hat, val2_three_pow_sub_one ht hat⟩
 
+
+/-- **The formula, whole.**  Every positive `a` falls in exactly one of the two
+cases, and the valuation of `3 ^ a - 1` is determined either way. -/
+theorem val2_three_pow_sub_one_dichotomy {a : Nat} (ha : 0 < a) :
+    (a % 2 = 1 ∧ Val2 (3 ^ a - 1) 1) ∨
+      (∃ t, 1 ≤ t ∧ Val2 a t ∧ Val2 (3 ^ a - 1) (t + 2)) := by
+  rcases Nat.eq_zero_or_pos (a % 2) with h | h
+  · exact Or.inr (val2_three_pow_sub_one_even ha h)
+  · have hodd : a % 2 = 1 := by omega
+    exact Or.inl ⟨hodd, val2_three_pow_sub_one_odd hodd⟩
+
 end LiftExponent
 end Collatz
