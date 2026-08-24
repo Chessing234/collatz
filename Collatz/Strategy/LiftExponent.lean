@@ -590,5 +590,15 @@ theorem val2_accumulator {L a n C r : Nat} (hL : 1 ≤ L) (hlt : 3 ^ a < 2 ^ L)
     (heq : (2 ^ L - 3 ^ a) * n = C) (hn : Val2 n r) : Val2 C r :=
   heq ▸ val2_gap_mul hL hlt hn
 
+
+/-- The converse, by uniqueness of the valuation: the accumulator's valuation
+determines the minimum's. -/
+theorem val2_min_of_accumulator {L a n C r : Nat} (hL : 1 ≤ L) (hlt : 3 ^ a < 2 ^ L)
+    (hn : 0 < n) (heq : (2 ^ L - 3 ^ a) * n = C) (hC : Val2 C r) : Val2 n r := by
+  obtain ⟨s, hs⟩ := Val2.exists_of_pos hn
+  have hCs : Val2 C s := val2_accumulator hL hlt heq hs
+  have : s = r := Val2.unique hCs hC
+  exact this ▸ hs
+
 end LiftExponent
 end Collatz
