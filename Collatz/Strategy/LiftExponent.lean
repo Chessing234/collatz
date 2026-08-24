@@ -100,5 +100,12 @@ theorem Val2.odd_of_zero {n : Nat} (h : Val2 n 0) : n % 2 = 1 := by
 theorem Val2.zero_iff {n : Nat} : Val2 n 0 ↔ n % 2 = 1 :=
   ⟨Val2.odd_of_zero, Val2.of_odd⟩
 
+
+/-- Odd times odd is odd.  `omega` cannot see this (the product of two unknowns
+is nonlinear), so parity is pushed through `Nat.mul_mod` instead. -/
+theorem odd_mul_odd {m m' : Nat} (hm : m % 2 = 1) (hm' : m' % 2 = 1) :
+    (m * m') % 2 = 1 := by
+  rw [Nat.mul_mod, hm, hm']
+
 end LiftExponent
 end Collatz
