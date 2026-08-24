@@ -513,5 +513,14 @@ theorem exponent_lower_bound {a L : Nat} (ha : 0 < a) (hL : 3 ≤ L)
     (h : 2 ^ L ∣ 3 ^ a - 1) : 2 ^ (L - 2) ≤ a :=
   Nat.le_of_dvd ha ((two_pow_dvd_three_pow_sub_one_iff ha hL).mp h)
 
+
+/-- The contrapositive of `exponent_lower_bound`, spelled out because it is the
+direction that does work: a short tripling count is never trivial mod `2 ^ L`. -/
+theorem three_pow_ne_one_of_lt {a L : Nat} (ha : 0 < a) (hL : 3 ≤ L)
+    (hlt : a < 2 ^ (L - 2)) : 3 ^ a % 2 ^ L ≠ 1 := by
+  intro h
+  have := three_pow_period_minimal hL ha h
+  omega
+
 end LiftExponent
 end Collatz
