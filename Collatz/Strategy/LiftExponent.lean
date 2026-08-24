@@ -411,5 +411,35 @@ theorem val2_three_pow_sub_one {a t : Nat} (ht : 1 ≤ t) (h : Val2 a t) :
   have hx : s + 3 = s + 1 + 2 := by omega
   exact hx ▸ val2_three_pow_sub_one_aux s a h
 
+
+/-! ## 8.  The payoff: how large a power of two can divide `3 ^ a - 1`
+
+`INDEX.md` lists `2-adic valuation <-> gap G = 2^L - 3^a` as a pair with no
+theorem mentioning both.  The gap vanishes modulo `2 ^ L` exactly when
+`2 ^ L ∣ 3 ^ a - 1` after scaling, so the next theorem is the missing bridge:
+it converts a statement about `L` halvings into a statement about `a`. -/
+
+/-- **The order of `3` modulo `2 ^ L` is `2 ^ (L-2)`, for `L ≥ 3`.**
+
+Stated as the divisibility it is used through: `2 ^ L` divides `3 ^ a - 1`
+exactly when `2 ^ (L-2)` divides `a`.  Both directions are read off the
+valuation formula through `Val2.dvd_iff_le`. -/
+theorem two_pow_dvd_three_pow_sub_one_iff {a L : Nat} (ha : 0 < a) (hL : 3 ≤ L) :
+    2 ^ L ∣ 3 ^ a - 1 ↔ 2 ^ (L - 2) ∣ a := by
+  obtain ⟨t, hat⟩ := Val2.exists_of_pos ha
+  rcases Nat.eq_zero_or_pos t with rfl | ht
+  · have hodd : a % 2 = 1 := Val2.odd_of_zero hat
+    have hv : Val2 (3 ^ a - 1) 1 := val2_three_pow_sub_one_odd hodd
+    constructor
+    · intro hd
+      have := (Val2.dvd_iff_le hv).mp hd
+      omega
+    · intro hd
+      have := (Val2.dvd_iff_le hat).mp hd
+      omega
+  · have hv : Val2 (3 ^ a - 1) (t + 2) := val2_three_pow_sub_one ht hat
+    rw [Val2.dvd_iff_le hv, Val2.dvd_iff_le hat]
+    omega
+
 end LiftExponent
 end Collatz
