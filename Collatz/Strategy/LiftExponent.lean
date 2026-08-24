@@ -253,5 +253,18 @@ theorem Val2.mod {n r : Nat} (h : Val2 n r) : n % 2 ^ (r + 1) = 2 ^ r := by
   subst he
   rw [Nat.pow_succ, Nat.mul_mod_mul_left, hm, Nat.mul_one]
 
+
+/-- Conversely, sitting in the residue `2 ^ r` mod `2 ^ (r+1)` forces the
+valuation to be exactly `r`. -/
+theorem Val2.of_mod {n r : Nat} (h : n % 2 ^ (r + 1) = 2 ^ r) : Val2 n r := by
+  refine ⟨2 * (n / 2 ^ (r + 1)) + 1, by omega, ?_⟩
+  have hd := Nat.div_add_mod n (2 ^ (r + 1))
+  rw [h] at hd
+  have key : 2 ^ r * (2 * (n / 2 ^ (r + 1)) + 1)
+      = 2 ^ (r + 1) * (n / 2 ^ (r + 1)) + 2 ^ r := by
+    rw [Nat.mul_add, Nat.mul_one, two_pow_succ r]
+    simp [Nat.mul_assoc, Nat.mul_comm, Nat.mul_left_comm]
+  omega
+
 end LiftExponent
 end Collatz
