@@ -600,5 +600,12 @@ theorem val2_min_of_accumulator {L a n C r : Nat} (hL : 1 ≤ L) (hlt : 3 ^ a < 
   have : s = r := Val2.unique hCs hC
   exact this ▸ hs
 
+
+/-- The case the cycle arguments actually meet: a cycle minimum is odd, so its
+accumulator is odd too. -/
+theorem accumulator_odd {L a n C : Nat} (hL : 1 ≤ L) (hlt : 3 ^ a < 2 ^ L)
+    (heq : (2 ^ L - 3 ^ a) * n = C) (hn : n % 2 = 1) : C % 2 = 1 :=
+  Val2.odd_of_zero (val2_accumulator hL hlt heq (Val2.of_odd hn))
+
 end LiftExponent
 end Collatz
