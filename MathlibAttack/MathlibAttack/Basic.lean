@@ -30,9 +30,9 @@ def Tacc (n : ℕ) : ℕ := if n % 2 = 0 then n / 2 else (3 * n + 1) / 2
 
 /-- The Syracuse (odd-to-odd) map: strip every factor of two from `3n+1`.
 
-Note this is *computable*: `Nat.divMaxPow` is defined by structural recursion in
-`Mathlib/Data/Nat/MaxPowDiv.lean`, and `padicValNat` is literally
-`(Nat.maxPowDvdDiv p n).fst`.  So `S` reduces by `decide`/`native`-free evaluation. -/
+`Nat.divMaxPow` lives in `Mathlib/Data/Nat/MaxPowDiv.lean`, where `padicValNat` is
+literally `(Nat.maxPowDvdDiv p n).fst`.  **It does not reduce in the kernel** —
+see the note below `two_pow_dvd_iff`. -/
 def S (n : ℕ) : ℕ := Nat.divMaxPow (3 * n + 1) 2
 
 /-- The valuation-flavoured description of `S`, matching the usual definition
