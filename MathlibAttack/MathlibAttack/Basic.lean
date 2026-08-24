@@ -1,6 +1,7 @@
 import Mathlib.Data.Nat.Log
 import Mathlib.Data.Nat.MaxPowDiv
 import Mathlib.NumberTheory.Padics.PadicVal.Basic
+import Mathlib.NumberTheory.Multiplicity
 import Mathlib.Data.ZMod.Basic
 import Mathlib.Data.Fintype.Pi
 import Mathlib.Tactic
