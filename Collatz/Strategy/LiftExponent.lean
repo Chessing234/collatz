@@ -721,5 +721,17 @@ the sum jumps.  `2` and `2` both have valuation `1`, but `2 + 2 = 4` has
 valuation `2`. -/
 example : Val2 2 1 ∧ Val2 (2 + 2) 2 := ⟨⟨1, rfl, rfl⟩, ⟨1, rfl, rfl⟩⟩
 
+
+/-- Valuations multiply under powers. -/
+theorem Val2.pow {n r : Nat} (h : Val2 n r) (k : Nat) : Val2 (n ^ k) (r * k) := by
+  induction k with
+  | zero => exact Val2.one
+  | succ j ih =>
+    have hm := Val2.mul ih h
+    have hx : r * j + r = r * (j + 1) := by
+      rw [Nat.mul_add, Nat.mul_one]
+    rw [Nat.pow_succ]
+    exact hx ▸ hm
+
 end LiftExponent
 end Collatz
