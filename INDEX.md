@@ -17,9 +17,9 @@
 - C mod 2^j: 137
 - Beatty/Sturmian: 96
 - C mod G: 82
+- 2-adic valuation: 65
 - reverse paths: 54
 - residue classes: 35
-- 2-adic valuation: 24
 - finite-state: 21
 
 ## Concept pairs with no theorem mentioning both
@@ -28,7 +28,6 @@ Heuristic: a regex over statement text, so treat these as *candidates* for a mis
 
 - 2-adic valuation <-> Beatty/Sturmian
 - 2-adic valuation <-> counting/entropy
-- 2-adic valuation <-> gap G=2^L-3^a
 - 2-adic valuation <-> heavy words
 - 2-adic valuation <-> parity word
 - 2-adic valuation <-> residue classes
