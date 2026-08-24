@@ -176,5 +176,25 @@ theorem Val2.dvd {n r : Nat} (h : Val2 n r) : 2 ^ r ∣ n := by
   obtain ⟨m, _, he⟩ := h
   exact ⟨m, he⟩
 
+
+/-- **Exactness.**  The next power of two does *not* divide.  This is what makes
+`Val2` an equality rather than the bound `2 ^ r ∣ n`.
+
+The proof routes through `Val2.unique` rather than cancelling powers of two by
+hand: a divisor `2 ^ (r+1)` splits off a positive cofactor, which carries a
+valuation of its own, and multiplicativity then contradicts uniqueness. -/
+theorem Val2.not_dvd_succ {n r : Nat} (h : Val2 n r) : ¬ (2 ^ (r + 1) ∣ n) := by
+  rintro ⟨q, hq⟩
+  have hn : 0 < n := Val2.pos h
+  have hq0 : 0 < q := by
+    rcases Nat.eq_zero_or_pos q with rfl | hp
+    · rw [Nat.mul_zero] at hq; omega
+    · exact hp
+  obtain ⟨t, ht⟩ := Val2.exists_of_pos hq0
+  have hmul : Val2 (2 ^ (r + 1) * q) (r + 1 + t) := Val2.mul (Val2.two_pow (r + 1)) ht
+  rw [← hq] at hmul
+  have := Val2.unique h hmul
+  omega
+
 end LiftExponent
 end Collatz
