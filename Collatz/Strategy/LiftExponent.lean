@@ -205,5 +205,18 @@ theorem Val2.dvd_and_not_dvd {n r : Nat} (h : Val2 n r) :
     2 ^ r ∣ n ∧ ¬ (2 ^ (r + 1) ∣ n) :=
   ⟨Val2.dvd h, Val2.not_dvd_succ h⟩
 
+
+/-- **The full divisibility profile.**  Once the valuation is known, *every*
+question `2 ^ k ∣ n` is answered by a comparison of exponents. -/
+theorem Val2.dvd_iff_le {n r k : Nat} (h : Val2 n r) : 2 ^ k ∣ n ↔ k ≤ r := by
+  constructor
+  · intro hk
+    rcases Nat.lt_or_ge r k with hlt | hge
+    · exact absurd (Nat.dvd_trans (two_pow_dvd_two_pow (show r + 1 ≤ k by omega)) hk)
+        (Val2.not_dvd_succ h)
+    · exact hge
+  · intro hk
+    exact Nat.dvd_trans (two_pow_dvd_two_pow hk) (Val2.dvd h)
+
 end LiftExponent
 end Collatz
