@@ -32,5 +32,14 @@ theorem syrStep_of_val2 {n r : Nat} (hn : n % 2 = 1) (h : Val2 (3 * n + 1) r) :
   obtain ⟨m, hm, he⟩ := h
   exact ⟨m, hn, hm, he⟩
 
+
+/-! ## 2.  What the valuation API buys the transition system -/
+
+/-- **A single step's halving count is bounded by the state.**  `2 ^ r ≤ 3n+1`,
+so one Syracuse step halves at most `log₂(3n+1)` times.  This follows from
+`Val2.le` and had no counterpart in the transition system before. -/
+theorem step_valuation_le {n r m : Nat} (h : SyrStep n r m) : 2 ^ r ≤ 3 * n + 1 :=
+  Val2.le (val2_of_syrStep h)
+
 end ValuationBridge
 end Collatz
