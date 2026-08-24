@@ -343,5 +343,24 @@ theorem val2_three_pow_add_one_even {a : Nat} (h : a % 2 = 0) : Val2 (3 ^ a + 1)
   have h8 := three_pow_mod_eight_even h
   exact Val2.one_iff.mpr (by omega)
 
+
+/-! ## 6.  The ladder -/
+
+/-- The difference of squares, in `Nat`, with the truncated subtraction handled
+explicitly.  Doubling the exponent factors `3 ^ a - 1`, and each factor's
+valuation is already known, so `Val2.mul` climbs one rung. -/
+theorem three_pow_double_sub_one (b : Nat) :
+    3 ^ (2 * b) - 1 = (3 ^ b - 1) * (3 ^ b + 1) := by
+  have hb := one_le_three_pow b
+  obtain ⟨y, hy⟩ : ∃ y, 3 ^ b = y + 1 := ⟨3 ^ b - 1, by omega⟩
+  have hsq : 3 ^ (2 * b) = 3 ^ b * 3 ^ b := by
+    rw [Nat.two_mul, Nat.pow_add]
+  rw [hsq, hy]
+  have expand : (y + 1) * (y + 1) = y * (y + 1 + 1) + 1 := by
+    simp [Nat.mul_add, Nat.add_mul]
+    omega
+  simp only [Nat.add_sub_cancel]
+  omega
+
 end LiftExponent
 end Collatz
