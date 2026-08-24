@@ -274,5 +274,15 @@ lifting-the-exponent computation below gets started. -/
 theorem Val2.iff_mod {n r : Nat} : Val2 n r ↔ n % 2 ^ (r + 1) = 2 ^ r :=
   ⟨Val2.mod, Val2.of_mod⟩
 
+
+/-- The bridge at `r = 1`, in plain numerals: valuation one is the class `2`
+mod `4`. -/
+theorem Val2.one_iff {n : Nat} : Val2 n 1 ↔ n % 4 = 2 := by
+  simpa using (@Val2.iff_mod n 1)
+
+/-- The bridge at `r = 2`: valuation two is the class `4` mod `8`. -/
+theorem Val2.two_iff {n : Nat} : Val2 n 2 ↔ n % 8 = 4 := by
+  simpa using (@Val2.iff_mod n 2)
+
 end LiftExponent
 end Collatz
