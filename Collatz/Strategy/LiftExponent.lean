@@ -83,5 +83,10 @@ theorem Val2.cofactor_unique {n r m m' : Nat}
   have : 2 ^ r * m = 2 ^ r * m' := he ▸ he'
   exact Nat.eq_of_mul_eq_mul_left (two_pow_pos r) this
 
+
+/-- Odd numbers are exactly the numbers of valuation zero (one direction). -/
+theorem Val2.of_odd {n : Nat} (h : n % 2 = 1) : Val2 n 0 :=
+  ⟨n, h, by rw [Nat.pow_zero, Nat.one_mul]⟩
+
 end LiftExponent
 end Collatz
