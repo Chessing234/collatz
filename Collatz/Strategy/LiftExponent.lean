@@ -41,5 +41,30 @@ theorem Val2.pos {n r : Nat} (h : Val2 n r) : 0 < n := by
   subst he
   exact Nat.mul_pos h2 hm0
 
+
+/-- Arithmetic core of uniqueness: an odd number times a power of two determines
+that power.  Induction strips one factor of two from each side at a time. -/
+private theorem pow_two_odd_eq {r s m m' : Nat} (hm : m % 2 = 1) (hm' : m' % 2 = 1)
+    (he : 2 ^ r * m = 2 ^ s * m') : r = s := by
+  induction r generalizing s m m' with
+  | zero =>
+    cases s with
+    | zero => rfl
+    | succ t =>
+      exfalso
+      rw [Nat.pow_zero, Nat.one_mul, two_pow_succ t, Nat.mul_assoc] at he
+      omega
+  | succ k ih =>
+    cases s with
+    | zero =>
+      exfalso
+      rw [Nat.pow_zero, Nat.one_mul, two_pow_succ k, Nat.mul_assoc] at he
+      omega
+    | succ t =>
+      rw [two_pow_succ k, two_pow_succ t, Nat.mul_assoc, Nat.mul_assoc] at he
+      have hcancel : 2 ^ k * m = 2 ^ t * m' := Nat.eq_of_mul_eq_mul_left (by omega) he
+      have := ih hm hm' hcancel
+      omega
+
 end LiftExponent
 end Collatz
