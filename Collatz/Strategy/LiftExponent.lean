@@ -715,5 +715,11 @@ theorem Val2.add_of_lt' {x y r s : Nat} (hx : Val2 x r) (hy : Val2 y s) (hrs : r
   rw [Nat.add_comm] at h
   exact h
 
+
+/-- Sharpness of the hypothesis in `Val2.add_of_lt`: at `r = s` the valuation of
+the sum jumps.  `2` and `2` both have valuation `1`, but `2 + 2 = 4` has
+valuation `2`. -/
+example : Val2 2 1 ∧ Val2 (2 + 2) 2 := ⟨⟨1, rfl, rfl⟩, ⟨1, rfl, rfl⟩⟩
+
 end LiftExponent
 end Collatz
