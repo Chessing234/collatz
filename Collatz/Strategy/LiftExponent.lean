@@ -233,5 +233,11 @@ theorem Val2.of_dvd_not_dvd {n r : Nat} (hd : 2 ^ r ∣ n) (hnd : ¬ (2 ^ (r + 1
   have hsr : s = r := by omega
   exact hsr ▸ hs
 
+
+/-- The textbook definition and `Val2` are interchangeable. -/
+theorem Val2.iff_dvd_not_dvd {n r : Nat} :
+    Val2 n r ↔ (2 ^ r ∣ n ∧ ¬ (2 ^ (r + 1) ∣ n)) :=
+  ⟨Val2.dvd_and_not_dvd, fun h => Val2.of_dvd_not_dvd h.1 h.2⟩
+
 end LiftExponent
 end Collatz
