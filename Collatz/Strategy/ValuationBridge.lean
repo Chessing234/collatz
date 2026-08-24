@@ -70,5 +70,13 @@ theorem step_valuation_ge_two_iff {n r : Nat} (hn : n % 2 = 1) (h : Val2 (3 * n 
       exact hnd ⟨(3 * n + 1) / 4, by omega⟩
     · exact hge
 
+
+/-- Every step halves at least once — `SyrStep.one_le`, recovered from the
+valuation side, where it is the statement that `3n+1` is even for odd `n`. -/
+theorem step_valuation_pos {n r : Nat} (hn : n % 2 = 1) (h : Val2 (3 * n + 1) r) : 1 ≤ r := by
+  rcases Nat.eq_zero_or_pos r with rfl | hp
+  · exact absurd (Val2.odd_of_zero h) (by omega)
+  · exact hp
+
 end ValuationBridge
 end Collatz
