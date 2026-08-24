@@ -607,5 +607,31 @@ theorem accumulator_odd {L a n C : Nat} (hL : 1 ≤ L) (hlt : 3 ^ a < 2 ^ L)
     (heq : (2 ^ L - 3 ^ a) * n = C) (hn : n % 2 = 1) : C % 2 = 1 :=
   Val2.odd_of_zero (val2_accumulator hL hlt heq (Val2.of_odd hn))
 
+
+/-! ## 12.  Numerical checks
+
+The formula predicts `v₂(3 ^ a - 1) = v₂ a + 2` for even `a` and `1` for odd
+`a`.  Each line below is the prediction, verified against the actual
+factorisation by `rfl`. -/
+
+/-- `v₂ 2 = 1`, so the prediction is `3`, and `3 ^ 2 - 1 = 8 = 2 ^ 3 · 1`. -/
+example : Val2 (3 ^ 2 - 1) 3 := ⟨1, rfl, rfl⟩
+
+/-- `3` is odd, so the prediction is `1`, and `3 ^ 3 - 1 = 26 = 2 · 13`. -/
+example : Val2 (3 ^ 3 - 1) 1 := ⟨13, rfl, rfl⟩
+
+/-- `v₂ 4 = 2`, prediction `4`, and `3 ^ 4 - 1 = 80 = 2 ^ 4 · 5`. -/
+example : Val2 (3 ^ 4 - 1) 4 := ⟨5, rfl, rfl⟩
+
+/-- `v₂ 6 = 1`, prediction `3`, and `3 ^ 6 - 1 = 728 = 2 ^ 3 · 91`.  Note the
+valuation *drops* from `a = 4` to `a = 6`: it tracks `v₂ a`, not `a`. -/
+example : Val2 (3 ^ 6 - 1) 3 := ⟨91, rfl, rfl⟩
+
+/-- `v₂ 8 = 3`, prediction `5`, and `3 ^ 8 - 1 = 6560 = 2 ^ 5 · 205`. -/
+example : Val2 (3 ^ 8 - 1) 5 := ⟨205, rfl, rfl⟩
+
+/-- `v₂ 12 = 2`, prediction `4`, and `3 ^ 12 - 1 = 531440 = 2 ^ 4 · 33215`. -/
+example : Val2 (3 ^ 12 - 1) 4 := ⟨33215, rfl, rfl⟩
+
 end LiftExponent
 end Collatz
