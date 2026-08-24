@@ -168,5 +168,13 @@ theorem Val2.exists_of_pos {n : Nat} (hn : 0 < n) : ∃ r, Val2 n r := by
       rw [← this]
       exact Val2.two_mul hr
 
+
+/-! ## 2.  Valuation as a divisibility -/
+
+/-- `2 ^ r` divides a number of valuation `r`. -/
+theorem Val2.dvd {n r : Nat} (h : Val2 n r) : 2 ^ r ∣ n := by
+  obtain ⟨m, _, he⟩ := h
+  exact ⟨m, he⟩
+
 end LiftExponent
 end Collatz
