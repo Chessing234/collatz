@@ -522,5 +522,18 @@ theorem three_pow_ne_one_of_lt {a L : Nat} (ha : 0 < a) (hL : 3 ≤ L)
   have := three_pow_period_minimal hL ha h
   omega
 
+
+/-! ## 10.  The two low levels, where the order formula does not apply
+
+`two_pow_dvd_three_pow_sub_one_iff` needs `L ≥ 3`, because the order of `3` is
+`1` mod `2` and mod `4` and only becomes `2 ^ (L-2)` afterwards.  The two
+missing levels are recorded here so the case analysis is complete. -/
+
+/-- At `L = 1` the condition is vacuous: `3 ^ a` is always odd. -/
+theorem two_dvd_three_pow_sub_one (a : Nat) : 2 ∣ 3 ^ a - 1 := by
+  have h := three_pow_odd a
+  have hp := one_le_three_pow a
+  exact ⟨(3 ^ a - 1) / 2, by omega⟩
+
 end LiftExponent
 end Collatz
