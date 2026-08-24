@@ -455,5 +455,16 @@ theorem two_pow_dvd_of_three_pow_mod {q L : Nat} (h : 3 ^ q % 2 ^ L = 1) :
   rw [h] at hd
   omega
 
+
+/-- The divisibility gives the congruence, for `L ≥ 1`. -/
+theorem three_pow_mod_of_two_pow_dvd {q L : Nat} (hL : 1 ≤ L) (h : 2 ^ L ∣ 3 ^ q - 1) :
+    3 ^ q % 2 ^ L = 1 := by
+  obtain ⟨k, hk⟩ := h
+  have hp := one_le_three_pow q
+  have h2 : 2 ≤ 2 ^ L := two_le_two_pow hL
+  have he : 3 ^ q = 2 ^ L * k + 1 := by omega
+  rw [he, Nat.mul_add_mod]
+  exact Nat.mod_eq_of_lt (by omega)
+
 end LiftExponent
 end Collatz
