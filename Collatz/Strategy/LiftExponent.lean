@@ -239,5 +239,19 @@ theorem Val2.iff_dvd_not_dvd {n r : Nat} :
     Val2 n r ↔ (2 ^ r ∣ n ∧ ¬ (2 ^ (r + 1) ∣ n)) :=
   ⟨Val2.dvd_and_not_dvd, fun h => Val2.of_dvd_not_dvd h.1 h.2⟩
 
+
+/-! ## 3.  The bridge to residue classes
+
+`INDEX.md` lists `2-adic valuation <-> residue classes` as a pair with no
+theorem mentioning both.  This is that theorem: the valuation is *exactly* a
+single residue mod `2 ^ (r+1)`, so every 2-adic statement in this file can be
+re-read as a congruence, and vice versa. -/
+
+/-- A number of valuation `r` sits in the residue `2 ^ r` mod `2 ^ (r+1)`. -/
+theorem Val2.mod {n r : Nat} (h : Val2 n r) : n % 2 ^ (r + 1) = 2 ^ r := by
+  obtain ⟨m, hm, he⟩ := h
+  subst he
+  rw [Nat.pow_succ, Nat.mul_mod_mul_left, hm, Nat.mul_one]
+
 end LiftExponent
 end Collatz
