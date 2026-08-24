@@ -218,5 +218,20 @@ theorem Val2.dvd_iff_le {n r k : Nat} (h : Val2 n r) : 2 ^ k ∣ n ↔ k ≤ r :
   · intro hk
     exact Nat.dvd_trans (two_pow_dvd_two_pow hk) (Val2.dvd h)
 
+
+/-- **Converse of the sandwich.**  The two divisibility facts characterise the
+valuation, so `Val2` agrees with the usual textbook definition. -/
+theorem Val2.of_dvd_not_dvd {n r : Nat} (hd : 2 ^ r ∣ n) (hnd : ¬ (2 ^ (r + 1) ∣ n)) :
+    Val2 n r := by
+  have hn : 0 < n := by
+    rcases Nat.eq_zero_or_pos n with rfl | hp
+    · exact absurd (Nat.dvd_zero _) hnd
+    · exact hp
+  obtain ⟨s, hs⟩ := Val2.exists_of_pos hn
+  have h1 : r ≤ s := (Val2.dvd_iff_le hs).mp hd
+  have h2 : ¬ (r + 1 ≤ s) := fun hle => hnd ((Val2.dvd_iff_le hs).mpr hle)
+  have hsr : s = r := by omega
+  exact hsr ▸ hs
+
 end LiftExponent
 end Collatz
