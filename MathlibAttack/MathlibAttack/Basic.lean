@@ -176,6 +176,25 @@ private theorem nine_pow_mod_four (m : ℕ) : 9 ^ m % 4 = 1 := by
   | zero => rfl
   | succ m ih => rw [pow_succ]; omega
 
+
+/-- Odd exponents give nothing: `3 ^ a − 1 ≡ 2 (mod 4)`, so `v₂ = 1`. -/
+theorem padicValNat_three_pow_sub_one_odd {a : ℕ} (ha : Odd a) :
+    padicValNat 2 (3 ^ a - 1) = 1 := by
+  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hpos : 0 < 3 ^ a := by positivity
+  have hmod : 3 ^ a % 4 = 3 := by
+    obtain ⟨m, rfl⟩ := ha
+    have : (3:ℕ) ^ (2 * m + 1) = 9 ^ m * 3 := by
+      rw [pow_add, pow_mul]; norm_num
+    rw [this]
+    have h9 : (9:ℕ) ^ m % 4 = 1 := nine_pow_mod_four m
+    omega
+  have hw : 2 ^ 1 * ((3 ^ a - 1) / 2) = 3 ^ a - 1 := by omega
+  have hodd : ((3 ^ a - 1) / 2) % 2 = 1 := by omega
+  have hne : (3 ^ a - 1) ≠ 0 := by omega
+  have := Nat.maxPowDvdDiv_of_pow_mul_eq (p := 2) hne hw (by omega)
+  simp [padicValNat, this]
+
 /-! ## The affine law
 
 `2 ^ j · Tacc^[j] x = 3 ^ a · x + C`, with `a` the number of odd steps and `C` an
