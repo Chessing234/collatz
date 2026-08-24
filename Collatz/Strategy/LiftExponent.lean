@@ -88,5 +88,17 @@ theorem Val2.cofactor_unique {n r m m' : Nat}
 theorem Val2.of_odd {n : Nat} (h : n % 2 = 1) : Val2 n 0 :=
   ⟨n, h, by rw [Nat.pow_zero, Nat.one_mul]⟩
 
+
+/-- The converse: valuation zero forces oddness.  Together with `Val2.of_odd`
+this is `Val2 n 0 ↔ n % 2 = 1`. -/
+theorem Val2.odd_of_zero {n : Nat} (h : Val2 n 0) : n % 2 = 1 := by
+  obtain ⟨m, hm, he⟩ := h
+  rw [Nat.pow_zero, Nat.one_mul] at he
+  omega
+
+/-- Valuation zero is oddness. -/
+theorem Val2.zero_iff {n : Nat} : Val2 n 0 ↔ n % 2 = 1 :=
+  ⟨Val2.odd_of_zero, Val2.of_odd⟩
+
 end LiftExponent
 end Collatz
