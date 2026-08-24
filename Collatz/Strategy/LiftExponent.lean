@@ -29,5 +29,17 @@ with `m` odd.  Stated with an explicit witness rather than a valuation
 function, matching the convention of `Collatz.ValuationTransition`. -/
 def Val2 (n r : Nat) : Prop := ∃ m : Nat, m % 2 = 1 ∧ n = 2 ^ r * m
 
+
+/-! ## 1.  The valuation is well defined -/
+
+/-- A number carrying a 2-adic valuation is positive: the odd cofactor is
+nonzero and powers of two are. -/
+theorem Val2.pos {n r : Nat} (h : Val2 n r) : 0 < n := by
+  obtain ⟨m, hm, he⟩ := h
+  have h2 : 0 < 2 ^ r := two_pow_pos r
+  have hm0 : 0 < m := by omega
+  subst he
+  exact Nat.mul_pos h2 hm0
+
 end LiftExponent
 end Collatz
