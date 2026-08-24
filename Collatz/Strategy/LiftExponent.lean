@@ -766,5 +766,16 @@ theorem val2_three_pow_sub_one_dichotomy {a : Nat} (ha : 0 < a) :
   · have hodd : a % 2 = 1 := by omega
     exact Or.inl ⟨hodd, val2_three_pow_sub_one_odd hodd⟩
 
+
+/-- The companion for `3 ^ a + 1`.  Unlike `3 ^ a - 1` its valuation is bounded:
+it is `2` on odd `a` and `1` on even `a`, and never more.  That ceiling is the
+reason the ladder gains only one per rung after the first. -/
+theorem val2_three_pow_add_one_dichotomy (a : Nat) :
+    (a % 2 = 1 ∧ Val2 (3 ^ a + 1) 2) ∨ (a % 2 = 0 ∧ Val2 (3 ^ a + 1) 1) := by
+  rcases Nat.eq_zero_or_pos (a % 2) with h | h
+  · exact Or.inr ⟨h, val2_three_pow_add_one_even h⟩
+  · have hodd : a % 2 = 1 := by omega
+    exact Or.inl ⟨hodd, val2_three_pow_add_one_odd hodd⟩
+
 end LiftExponent
 end Collatz
