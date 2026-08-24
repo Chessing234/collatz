@@ -16,5 +16,13 @@ namespace ValuationBridge
 
 open Collatz.Arith Collatz.LiftExponent Collatz.ValuationTransition
 
+
+/-! ## 1.  The identification -/
+
+/-- A recorded step gives the valuation of `3n+1` outright. -/
+theorem val2_of_syrStep {n r m : Nat} (h : SyrStep n r m) : Val2 (3 * n + 1) r := by
+  obtain ⟨_, hm, he⟩ := h
+  exact ⟨m, hm, he⟩
+
 end ValuationBridge
 end Collatz
