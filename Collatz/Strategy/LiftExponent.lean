@@ -303,5 +303,12 @@ theorem nine_pow_mod_eight (j : Nat) : 9 ^ j % 8 = 1 := by
 theorem three_pow_two_mul (j : Nat) : 3 ^ (2 * j) = 9 ^ j := by
   rw [Nat.pow_mul]
 
+
+/-- **Even exponents.**  `3 ^ k ≡ 1 (mod 8)` when `k` is even. -/
+theorem three_pow_mod_eight_even {k : Nat} (h : k % 2 = 0) : 3 ^ k % 8 = 1 := by
+  obtain ⟨j, rfl⟩ : ∃ j, k = 2 * j := ⟨k / 2, by omega⟩
+  rw [three_pow_two_mul]
+  exact nine_pow_mod_eight j
+
 end LiftExponent
 end Collatz
