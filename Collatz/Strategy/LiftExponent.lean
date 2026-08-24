@@ -266,5 +266,13 @@ theorem Val2.of_mod {n r : Nat} (h : n % 2 ^ (r + 1) = 2 ^ r) : Val2 n r := by
     simp [Nat.mul_assoc, Nat.mul_comm, Nat.mul_left_comm]
   omega
 
+
+/-- **The bridge.**  `v₂(n) = r` and `n ≡ 2 ^ r (mod 2 ^ (r+1))` are the same
+statement.  Read left to right it turns valuations into congruences; read right
+to left it lets a congruence certify a valuation, which is how the
+lifting-the-exponent computation below gets started. -/
+theorem Val2.iff_mod {n r : Nat} : Val2 n r ↔ n % 2 ^ (r + 1) = 2 ^ r :=
+  ⟨Val2.mod, Val2.of_mod⟩
+
 end LiftExponent
 end Collatz
