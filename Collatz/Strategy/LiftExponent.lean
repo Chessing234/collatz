@@ -284,5 +284,19 @@ theorem Val2.one_iff {n : Nat} : Val2 n 1 ↔ n % 4 = 2 := by
 theorem Val2.two_iff {n : Nat} : Val2 n 2 ↔ n % 8 = 4 := by
   simpa using (@Val2.iff_mod n 2)
 
+
+/-! ## 4.  Powers of three modulo eight
+
+Everything in the lifting-the-exponent computation reduces to one fact: `3`
+has order `2` modulo `8`, so `3 ^ k` is `1` or `3` mod `8` according to the
+parity of `k`.  Both `3 ^ k - 1` and `3 ^ k + 1` then have their valuations
+read straight off `Val2.iff_mod`. -/
+
+/-- Powers of nine are `1` mod `8`. -/
+theorem nine_pow_mod_eight (j : Nat) : 9 ^ j % 8 = 1 := by
+  induction j with
+  | zero => rfl
+  | succ i ih => rw [Nat.pow_succ, Nat.mul_mod, ih]
+
 end LiftExponent
 end Collatz
