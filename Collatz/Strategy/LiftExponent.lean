@@ -707,5 +707,13 @@ theorem Val2.add_of_lt {x y r s : Nat} (hx : Val2 x r) (hy : Val2 y s) (hrs : r 
       omega
     rw [hex, hey, hsplit, Nat.mul_add, Nat.mul_assoc]
 
+
+/-- `Val2.add_of_lt` with the summands the other way round. -/
+theorem Val2.add_of_lt' {x y r s : Nat} (hx : Val2 x r) (hy : Val2 y s) (hrs : r < s) :
+    Val2 (y + x) r := by
+  have h := Val2.add_of_lt hx hy hrs
+  rw [Nat.add_comm] at h
+  exact h
+
 end LiftExponent
 end Collatz
