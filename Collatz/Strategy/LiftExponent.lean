@@ -66,5 +66,13 @@ private theorem pow_two_odd_eq {r s m m' : Nat} (hm : m % 2 = 1) (hm' : m' % 2 =
       have := ih hm hm' hcancel
       omega
 
+
+/-- **The valuation is unique.**  `Val2` is a graph of a partial function: a
+positive `n` has at most one exponent. -/
+theorem Val2.unique {n r s : Nat} (h : Val2 n r) (h' : Val2 n s) : r = s := by
+  obtain ⟨m, hm, he⟩ := h
+  obtain ⟨m', hm', he'⟩ := h'
+  exact pow_two_odd_eq hm hm' (he ▸ he')
+
 end LiftExponent
 end Collatz
