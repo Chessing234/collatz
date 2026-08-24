@@ -733,5 +733,10 @@ theorem Val2.pow {n r : Nat} (h : Val2 n r) (k : Nat) : Val2 (n ^ k) (r * k) := 
     rw [Nat.pow_succ]
     exact hx ▸ hm
 
+
+/-- Scaling by a power of two shifts the valuation by that exponent. -/
+theorem Val2.two_pow_mul {n r : Nat} (h : Val2 n r) (k : Nat) : Val2 (2 ^ k * n) (k + r) :=
+  Val2.mul (Val2.two_pow k) h
+
 end LiftExponent
 end Collatz
