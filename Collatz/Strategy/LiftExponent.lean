@@ -672,5 +672,14 @@ theorem vacuous_for_cycle_shapes {L a : Nat} (hL : 5 ≤ L) (ha : 0 < a) (hle : 
   have := lt_two_pow_sub_two hL
   omega
 
+
+/-! ## 14.  The rest of the `Val2` API
+
+Facts later rounds will want, now that the valuation is available at all. -/
+
+/-- A number of valuation `r` is at least `2 ^ r`. -/
+theorem Val2.le {n r : Nat} (h : Val2 n r) : 2 ^ r ≤ n :=
+  Nat.le_of_dvd (Val2.pos h) (Val2.dvd h)
+
 end LiftExponent
 end Collatz
