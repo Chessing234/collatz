@@ -298,5 +298,10 @@ theorem nine_pow_mod_eight (j : Nat) : 9 ^ j % 8 = 1 := by
   | zero => rfl
   | succ i ih => rw [Nat.pow_succ, Nat.mul_mod, ih]
 
+
+/-- An even power of three is a power of nine. -/
+theorem three_pow_two_mul (j : Nat) : 3 ^ (2 * j) = 9 ^ j := by
+  rw [Nat.pow_mul]
+
 end LiftExponent
 end Collatz
