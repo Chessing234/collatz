@@ -41,5 +41,16 @@ so one Syracuse step halves at most `log₂(3n+1)` times.  This follows from
 theorem step_valuation_le {n r m : Nat} (h : SyrStep n r m) : 2 ^ r ≤ 3 * n + 1 :=
   Val2.le (val2_of_syrStep h)
 
+
+/-- **Exact contraction.**  A step halves exactly once precisely on `n ≡ 3
+(mod 4)`.
+
+This is the no-Mathlib twin of `MathlibAttack.padicValNat_eq_one_iff`: the same
+statement, reached through `Val2.one_iff` instead of through `padicValNat`. -/
+theorem step_valuation_one_iff {n : Nat} (hn : n % 2 = 1) :
+    Val2 (3 * n + 1) 1 ↔ n % 4 = 3 := by
+  rw [Val2.one_iff]
+  omega
+
 end ValuationBridge
 end Collatz
