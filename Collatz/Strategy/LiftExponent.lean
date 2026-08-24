@@ -107,5 +107,17 @@ theorem odd_mul_odd {m m' : Nat} (hm : m % 2 = 1) (hm' : m' % 2 = 1) :
     (m * m') % 2 = 1 := by
   rw [Nat.mul_mod, hm, hm']
 
+
+/-- **Valuations add.**  This is the multiplicativity that every step of the
+lifting-the-exponent computation below leans on. -/
+theorem Val2.mul {a b r s : Nat} (ha : Val2 a r) (hb : Val2 b s) :
+    Val2 (a * b) (r + s) := by
+  obtain ⟨m, hm, he⟩ := ha
+  obtain ⟨m', hm', he'⟩ := hb
+  refine ⟨m * m', odd_mul_odd hm hm', ?_⟩
+  subst he; subst he'
+  rw [Nat.pow_add]
+  simp [Nat.mul_assoc, Nat.mul_comm, Nat.mul_left_comm]
+
 end LiftExponent
 end Collatz
