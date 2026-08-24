@@ -316,5 +316,16 @@ theorem three_pow_mod_eight_odd {k : Nat} (h : k % 2 = 1) : 3 ^ k % 8 = 3 := by
   obtain ⟨j, rfl⟩ : ∃ j, k = 2 * j + 1 := ⟨k / 2, by omega⟩
   rw [Nat.pow_succ, Nat.mul_mod, three_pow_two_mul, nine_pow_mod_eight]
 
+
+/-! ## 5.  The three base valuations -/
+
+/-- For odd `a`, `3 ^ a - 1 ≡ 2 (mod 4)`, so its valuation is exactly `1`.
+This is the base case of the lifting ladder, and on its own it already says the
+odd exponents carry no 2-adic leverage at all. -/
+theorem val2_three_pow_sub_one_odd {a : Nat} (h : a % 2 = 1) : Val2 (3 ^ a - 1) 1 := by
+  have h8 := three_pow_mod_eight_odd h
+  have hp := one_le_three_pow a
+  exact Val2.one_iff.mpr (by omega)
+
 end LiftExponent
 end Collatz
