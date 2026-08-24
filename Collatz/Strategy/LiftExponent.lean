@@ -681,5 +681,10 @@ Facts later rounds will want, now that the valuation is available at all. -/
 theorem Val2.le {n r : Nat} (h : Val2 n r) : 2 ^ r ≤ n :=
   Nat.le_of_dvd (Val2.pos h) (Val2.dvd h)
 
+
+/-- The valuation is monotone along divisibility. -/
+theorem Val2.mono {m n r s : Nat} (hm : Val2 m r) (hn : Val2 n s) (hd : m ∣ n) : r ≤ s :=
+  (Val2.dvd_iff_le hn).mp (Nat.dvd_trans (Val2.dvd hm) hd)
+
 end LiftExponent
 end Collatz
