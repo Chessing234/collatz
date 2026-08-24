@@ -52,5 +52,23 @@ theorem step_valuation_one_iff {n : Nat} (hn : n % 2 = 1) :
   rw [Val2.one_iff]
   omega
 
+
+/-- **The complement.**  Two or more halvings is precisely `n ≡ 1 (mod 4)`. -/
+theorem step_valuation_ge_two_iff {n r : Nat} (hn : n % 2 = 1) (h : Val2 (3 * n + 1) r) :
+    2 ≤ r ↔ n % 4 = 1 := by
+  constructor
+  · intro hr
+    have hd : 2 ^ 2 ∣ 3 * n + 1 := (Val2.dvd_iff_le h).mpr hr
+    obtain ⟨k, hk⟩ := hd
+    omega
+  · intro h4
+    rcases Nat.lt_or_ge r 2 with hlt | hge
+    · exfalso
+      have hnd : ¬ (2 ^ 2 ∣ 3 * n + 1) := fun hd => by
+        have := (Val2.dvd_iff_le h).mp hd
+        omega
+      exact hnd ⟨(3 * n + 1) / 4, by omega⟩
+    · exact hge
+
 end ValuationBridge
 end Collatz
