@@ -119,5 +119,13 @@ theorem Val2.mul {a b r s : Nat} (ha : Val2 a r) (hb : Val2 b s) :
   rw [Nat.pow_add]
   simp [Nat.mul_assoc, Nat.mul_comm, Nat.mul_left_comm]
 
+
+/-- `1` has valuation zero. -/
+theorem Val2.one : Val2 1 0 := Val2.of_odd rfl
+
+/-- A power of two has exactly its own exponent as valuation. -/
+theorem Val2.two_pow (k : Nat) : Val2 (2 ^ k) k :=
+  ⟨1, rfl, by rw [Nat.mul_one]⟩
+
 end LiftExponent
 end Collatz
