@@ -5477,3 +5477,192 @@ residue-class tag looks for the strings `Congruence`, `residue` or `_class`, and
 theorem says `n % 2 ^ (r+1) = 2 ^ r` without using any of those words.  The renaming that
 would satisfy the regex has not been done: the index is a search aid, and editing names to
 please it would cost more than the false entry does.
+
+# Round XVII — the affine accumulator campaign, re-run against a brief that predates it
+
+The brief for this round proposed making `affineC` the central research object and
+listed twenty-eight lines of attack.  **Most of them were already executed** —
+rounds XI–XIII are that campaign.  What follows separates, item by item, what the
+repository already holds from what this round actually added, and then reports the
+new results with their reach measured rather than asserted.
+
+## 1.  The brief against the repository
+
+| Brief item | Status before this round | Where |
+|---|---|---|
+| exact closed form for `affineC` | DONE | `AffineExact.affine_exact` |
+| positional formula `Σ 3^(a−i) 2^(p_i)` | DONE | `AccumulatorAutomaton.C_eq_Crel` |
+| recursive form, cocycle law | DONE | `AccumulatorArith.affineC_add` |
+| divisibility: `v₃(C) = 0` | DONE | `AccumulatorArith.affineC_not_three_dvd` |
+| divisibility: `v₂(C)` exactly | DONE | `AccumulatorValuation.affineC_valuation` |
+| `C` depends only on `x mod 2^j` | DONE | `AccumulatorClass.affineC_congr_of_mod` |
+| minimum affine cost `F(a,j)` | DONE | `three_pow_le_affineC`, `affineC_le` |
+| Problem A vs Problem B (realizability) | DONE, **and negative** | every word is realized by exactly one residue mod `2^j`; `maxC(compatible) = maxC(all)`, ratio 1.0000 |
+| the `C`-sandwich | DONE, **and negative** | compatibility condition *is* the product bound |
+| semigroup / matrix formulation | DONE | `DeviceSemigroup`, `AccumulatorAutomaton` |
+| noncommutativity of the affine word | DONE qualitatively | `affineC_add` |
+| **exchange law with an exact constant** | **MISSING** | added below |
+| **the deficit as a named object** | **MISSING** | added below |
+| **first positive-deficit crossing** | **MISSING** | added below |
+| **`C` versus `R` as growth rates** | **MISSING, and now closed** | added below |
+
+Two items on the brief's "do not do" list were respected: no new floor comparison,
+no new constant chasing `log 2 / log 3`.
+
+## 2.  The deficit — `AffineDeficit` (LEAN_PROVED)
+
+`deficit m j = 2^j·m − 3^a·m`, as an integer.  It is the exact compensation the
+window demands of the accumulator, and it obeys the mirror image of the
+accumulator's own recurrence:
+
+| step | `affineC` | `deficit` |
+|---|---|---|
+| odd  | `C ↦ 3C + 2^j` | `R ↦ 2R − 3^a·m` |
+| even | `C ↦ C`        | `R ↦ 2R + 3^a·m` |
+
+**The accumulator is fed only by odd steps and the demand only by even steps.**
+That is the tension of the problem in two lines (`deficit_succ_odd`,
+`deficit_succ_even`).
+
+### The decisive identity, and what it closes
+
+`displacement_identity`:  **`affineC j m − deficit m j = 2^j · (T^j(m) − m)`.**
+
+So the accumulator's surplus over the demand is *precisely* `2^j` times how far
+above its start the orbit sits.  Immediate consequences:
+
+* `C ≥ R` at `j` ⟺ the orbit is at or above `m` at time `j` (`deficit_le_iff_no_drop`);
+* `C = R` at `j` ⟺ the orbit has returned to `m` — a cycle of length `j`
+  (`cycle_iff_deficit_eq_affineC`).
+
+**This closes brief item 14.**  "Determine the exact extremal ratio `C_j / R_j`
+over admissible patterns" is not an auxiliary measurement to be estimated: the
+ratio *is* the orbit's position, re-encoded.  Any bound on the comparison that is
+not already a bound on the orbit is impossible.  Comparing `C` against `R` is a
+change of variables on the problem, not a route into it.  Recorded so it is not
+re-attempted.
+
+### The forced drop, cycle-free and one window at a time
+
+`drop_of_insufficient`: if `3^a·m + 2^(j−a)·3^a < 2^j·m` then `T^j(m) < m`.
+
+No never-drop hypothesis, no cycle hypothesis, a single window — the brief's item
+25 in its cleanest available form.  It is the contrapositive of `affine_slack_bound`
+with the quantifier removed, and it is the shape any future contradiction has to
+take: exhibit one window whose demand exceeds the positional cap.
+
+### The first crossing (brief item 13)
+
+`crossing_step_even`: the demand starts at zero and **can only become positive on an
+even step**.  An odd step multiplies `2^j` by two and `3^a` by three, so it cannot
+turn a non-positive demand positive.  `crossing_demand_small`: at the crossing the
+demand is still at most `3^a·m`, because the window was heavy one step earlier.
+
+### The even-run freeze
+
+Across an even run the accumulator is frozen (`affineC_even_run`) while the demand
+doubles each step.  `neverDrops_even_run`: a never-dropper taking `r` even steps
+from `j` must satisfy the window condition at `j + r` **with the cap of time `j`** —
+smaller by the whole factor `2^r` than what `neverDrops_window_condition` supplies
+at the same endpoint.  Two corollaries:
+
+* `heavy_after_even_run` — `2^(j+r) ≤ 2·3^a` from `2^(j−a) ≤ m`, i.e. the
+  conclusion of `heavy_while_few_even` at the endpoint from its hypothesis at the
+  start of the run.
+* `even_run_le_one_of_balanced` — no two consecutive even steps at a window that is
+  balanced-or-light with even count at most `log₂ m`.
+
+## 3.  Reach, measured — the honest half
+
+`even_run_le_one_of_balanced` is **sharp as an inequality and empty as a tool.**
+Its balance hypothesis `3^a ≤ 2^j` was tested on every no-drop prefix of every odd
+start below `200 000`: it holds at `j = 0` and at no later window, for all 99 999
+starts.  A never-dropper is *strictly* heavy at every few-even window past the
+origin — 143 876 strictly heavy against 29 999 balanced, and the 29 999 are exactly
+one per start, namely `j = 0`.  So the corollary reproduces
+`oddCount_pos_of_neverDrops` and nothing beyond it.
+
+`heavy_after_even_run` is non-vacuous but narrow: 1 387 windows below `120 000`
+where its hypothesis holds and `heavy_while_few_even`'s does not, zero failures.
+
+## 4.  Mirror audit (brief item 21) — the derivation, not the formula
+
+The mirror is `n ↦ (3n−1)/2`, whose accumulator is the *same* `C` with the opposite
+sign: `2^j·T^j(x) = 3^a·x − C` (92 969 checks, zero failures).  So
+mirror-never-dropping is `C ≤ −deficit` — an **upper** bound on `C` where the
+`3n+1` world has a lower one (92 969 checks, zero failures).
+
+**The asymmetric line is the direction of the cap.**  Every `3n+1` derivation in
+`AffineDeficit` consumes `affineC_le` (odd steps last, the maximum); its mirror
+consumes `three_pow_le_affineC` (odd steps first, the minimum).  The two extremal
+arrangements swap roles.
+
+But the even-run statement itself **survives the mirror, and survives it stronger**:
+a mirror even run forces heaviness at its end outright, with no cap needed (57 455
+checks, zero failures), and the mirror satisfies the balanced corollary too (50 000
+checks, zero failures).  Verdict: **the freeze is not a sign-sensitive mechanism.**
+The `+1` does not supply it; the `+1` only degrades it, by the slack `2^(j−a)/m`.
+It cannot separate `3n+1` from `3n−1`, whose cycle `5 → 7 → 5` it leaves untouched.
+
+## 5.  The exchange law — `AffineExchange` (LEAN_PROVED)
+
+`AccumulatorAutomaton` proved that every time-blind invariant is vacuous but never
+quantified the time-dependence.  This does.
+
+`Crel_bump`:  **`Crel (u ++ (t+1) :: v) = Crel (u ++ t :: v) + 3^|v| · 2^t`.**
+
+At the level of words (`C_exchange`) this is the adjacent transposition `OE ↦ EO`:
+the two words have the same length, the same odd count and the same valuation
+total, and their accumulators differ by exactly `3^(oddCount v) · 2^(|u|)`.  That
+is the exact form of the noncommutativity the multiplicative invariant discards,
+since `(2^j, 3^a)` is unchanged by the swap.  `C_exchange_lt`: the swap is a
+**strict** increase — an odd step taken later always costs more.
+
+From the one law, both extremes and the exact gap between them:
+
+* `Crel_range`: earliest odd steps, `Crel + 2^a = 3^a`;
+* `Crel_range_shift`: latest, `Crel + 2^s·2^a = 2^s·3^a`;
+* `Crel_extremal_gap`: the spread at fixed `(j,a)` is `(2^s − 1)(3^a − 2^a)`.
+
+These are `three_pow_le_affineC` and `affineC_le` re-derived from a single exchange
+identity instead of two separate inductions.  `Crel_mono` gives the majorization
+principle: pointwise-later odd times give a larger accumulator, so among windows of
+a fixed shape the never-drop inequality is **hardest at the earliest arrangement
+and easiest at the latest** (`window_mono`, `window_of_earliest`).
+
+**What it is worth.**  The order-sensitivity is real and now quantified.  It
+excludes nothing, and the reason is already in the repository rather than
+rediscovered here: every parity word of length `j` is realized by exactly one
+residue mod `2^j`, so the extremal arrangement is always realizable, and
+`maxC(never-drop compatible) = maxC(all words)` at every level measured.
+
+## 6.  Verdict on the brief's decisive question
+
+> Can the forced affine contribution be reconciled indefinitely with
+> `2^j m ≤ 3^a m + C_j` along a never-dropping orbit?
+
+**Yes, and the identity says why.**  `C_j − R_j = 2^j(T^j(m) − m)` makes the
+reconciliation an identity, not a coincidence: a never-dropping orbit reconciles
+them at every `j` by definition of never-dropping.  The affine accumulator is not
+an independent quantity that a divergent orbit must struggle to keep large; it is
+the orbit's own position in different coordinates.  That is the precise sense in
+which the `+1` was not, after all, information the product invariant discarded —
+it is the same information, losslessly re-encoded, which is exactly why
+`(oddCount, affineC)` is a function of `x mod 2^j` and the compatible words are
+exactly the mod-`2^k` sieve survivors.
+
+The one place the two objects genuinely decouple is the even run, where `C` is
+frozen and `R` doubles.  This round extracted that, and the mirror audit shows the
+extraction is sign-symmetric.  The `+1` branch of the research tree is therefore
+complete in the same sense the floor-comparison family is: understood exactly,
+useful as a supporting lemma, and not the source of the missing divergence
+information.
+
+## Axiom footprint
+
+`displacement_identity`, `neverDrops_iff_deficit`, `neverDrops_even_run`,
+`even_run_le_one_of_balanced`, `heavy_after_even_run`,
+`cycle_iff_deficit_eq_affineC`, `C_exchange`, `Crel_mono`, `Crel_extremal_gap`:
+`propext`, `Quot.sound`.  `drop_of_insufficient`, `crossing_step_even`: those plus
+`Classical.choice`.  Zero `sorry`.  Zero added axioms.  `lake build Collatz`
+succeeds, 251 jobs.
