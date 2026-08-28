@@ -5666,3 +5666,123 @@ information.
 `propext`, `Quot.sound`.  `drop_of_insufficient`, `crossing_step_even`: those plus
 `Classical.choice`.  Zero `sorry`.  Zero added axioms.  `lake build Collatz`
 succeeds, 251 jobs.
+
+# Round XVIII — two new devices, built against the filters rather than around them
+
+This round did not prove Collatz and does not claim to.  It took the Round XIV
+audit at its word — *"a divergence argument that consumes the even branch's
+contraction `oddCount n j < j`, the one datum every mechanism here so far
+avoids"* — and built two devices designed to make that datum unavoidable.
+
+## 1.  The filters, made quantitative — `DeviceCeiling` (LEAN_PROVED)
+
+`RunAlgebra` puts Collatz in the coordinate `u = x + 1`.  This round asks what the
+repository's two *soundness witnesses* look like in that same coordinate.  All
+three maps turn out to share one branch exactly:
+
+| map | even `u` | odd `u` |
+|---|---|---|
+| Collatz `3n+1` | `3u/2` | `(u+1)/2` = `⌈u/2⌉` |
+| mirror `3n−1` | `3u/2` | `(u−1)/2` = `⌊u/2⌋` |
+| witness `expStep` | `3u/2` | `(3u−1)/2` |
+
+(`ceilStep_shift`, `floorStep_shift`, `expUStep_shift`, `branches_agree`.)  So the
+whole difference between `3n+1` and `3n−1` is **ceiling versus floor on the
+halving branch**, and the whole difference between Collatz and a map all of whose
+orbits diverge is the same branch again.  With sizes:
+
+* `mirror_gap`:     `ceilStep u = floorStep u + 1` — a **constant** perturbation;
+* `divergence_gap`: `expUStep u = ceilStep u + (u − 1)` — an **unbounded** one.
+
+`filter_separation` packages both.  This turns the repository's per-device mirror
+audit into a single computation: locate a device's dependence on the halving
+branch and compare it against `1` and against `u`.  Any inequality stable under a
+`±1` change of that branch is satisfied by the mirror, hence cannot exclude the
+cycle `5 → 7 → 10 → 5`; `ceil_breaks_mirror_cycle` shows that cycle sits at
+`u = 4, 6, 9` and turns on the single odd point `9`, where `⌈9/2⌉ = 5` and
+`⌊9/2⌋ = 4`.
+
+`ceilOrbit_shift` proves the conjugation exact at every time, so nothing is lost
+or gained in either direction — this is a diagnostic, not an inequality.
+
+## 2.  The swap normal form — `DeviceSwap` (LEAN_PROVED)
+
+In the `u` coordinate the growth branch is a pure `3/2`, so a *maximal* run of it
+is a pure exponential.  Compressing that run gives a map with no branching:
+
+`swap23 (2 ^ s · w) = 3 ^ s · w`  (`w` odd),   `nu y = swap23 ((y + 1) / 2)`.
+
+Add one, halve, then trade every remaining factor of two for a three.  `nu` sends
+odds to odds and fixes `3`.
+
+**`reaches_one_iff_nu` (the normal form of the conjecture).**  For even `x > 0`,
+
+`(∃ j, T^j(x) = 1)  ↔  (∃ k, nu^k(x+1) = 3)`.
+
+Both directions are proved.  The forward one needs `nu_covers`: the `nu` orbit
+visits **exactly** the even points of the accelerated orbit, in order — proved
+through `nu_run_invariant`, an induction carrying the current block's start.
+Checked first on 9 999 starts by exact list comparison, zero mismatches, and the
+block bridge on 599 970 instances, zero failures.
+
+### Why this shape was built
+
+`ScaleRecord.divergence_filter`'s witness has no even branch to speak of.  In the
+`nu` picture the even branch is not an event that may or may not happen — it is
+the clock.  Each `nu` step is exactly `s + 1` accelerated steps: **one halving,
+then `s` triplings** (`nu_block`, `nu_block_oddCount`, `nu_block_evenCount`).  So
+after `B` steps
+
+`evenCount = B`,  `oddCount = s₁ + ⋯ + s_B`.
+
+A statement about `B` *is* a statement about `j − a`.  **Every device written
+against `nu` passes the divergence filter by construction.**  That is the one
+structural gain of the round.
+
+### The one-step dichotomy (exact)
+
+`nu_dichotomy`: with `(y+1)/2 = 2 ^ s · w`,
+
+`s ≤ 1 → nu y < y`   and   `2 ≤ s → y < nu y`,
+
+for `y > 3`.  Growth is decided by a single integer, and the conjecture becomes:
+the statistic `s = v₂((y+1)/2)` is `0` or `1` often enough.
+
+### The run-length ledger, and the number
+
+`run_length_ledger`: for a never-dropper, a window of `B` blocks with total run
+length `S` satisfies `2 ^ B · 2 ^ S ≤ 2 · 3 ^ S` (inside `2 ^ B ≤ m`), so
+
+`S ≥ (B − 1) · log 2 / log(3/2) = 1.7095 · (B − 1)`.
+
+**A never-dropper's odd runs must average at least `1.7095`.**  The mean of `v₂`
+over the integers is `1`; measured over 200 000 starts × 12 blocks the actual mean
+is `0.9974`.  So a counterexample needs a **71 % bias** in one natural, bounded
+statistic.  `run_length_ledger_forces_long_runs`: with every run of length one the
+ledger reads `4 ^ B ≤ 2 · 3 ^ B` and fails from `B = 3` — the threshold is `B ≤ 2`,
+not `B ≤ 1`, since `16 ≤ 18` still holds.
+
+## 3.  Honest verdict
+
+**Neither half is closed, and neither device closes one.**
+
+* Both are *normal forms*.  `ceilOrbit_shift` and `reaches_one_iff_nu` are exact
+  conjugations, so by construction they cannot prove anything the accelerated
+  coordinate cannot express.  `run_length_ledger` is `CycleProduct` heaviness in
+  new letters; the `1.7095` is `log 2 / log 3` rewritten, not a new bound.
+* The gain is structural, not quantitative: the even branch has moved from a
+  hypothesis into the time variable.  That defeats
+  `ScaleRecord.divergence_filter` — which is necessary, not sufficient.
+* **The mirror is untouched.**  `3n − 1` has the same `nu` up to the `±1` of
+  `mirror_gap`, so the cycle half is exactly where Round XIV left it.
+* What is still missing is unchanged and is not a matter of coordinates: an
+  inequality that is *false* for `⌊u/2⌋` and *true* for `⌈u/2⌉`.  Everything in
+  this round is stable under that swap except the two `gap` theorems themselves,
+  which are statements *about* the swap rather than consequences of it.
+
+## Axiom footprint
+
+`ceilOrbit_shift`, `filter_separation`, `run_length_ledger`: `propext`,
+`Quot.sound`.  `reaches_one_iff_nu`, `nu_covers`, `nu_dichotomy`: those plus
+`Classical.choice`.  Zero `sorry`.  Zero added axioms.  `lake build Collatz`
+succeeds, 253 jobs.
