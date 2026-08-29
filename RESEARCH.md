@@ -6536,3 +6536,59 @@ halves' bookkeeping.
 `orbit_product`, `neverDrops_prod_le`, `cycle_prod_eq`, `oddElems_length`,
 `oddElems_odd`, `oddElems_ge`: `propext`, `Quot.sound`.  Zero `sorry`.  Zero added
 axioms.  `lake build Collatz` succeeds, 263 jobs.
+
+# Round XXIX — the sorted staircase and distinctness; one mechanical step left
+
+Round XXVIII named one item blocking both halves' bookkeeping: the elements of
+`oddElems` must be known **distinct**, and the staircase comparison needs them
+**ordered**.  Both are done here, and the ordered comparison turned out to be a
+three-line induction once the staircase is peeled from the right end.
+
+## Peel the staircase from the small end
+
+`StairBound.stair` peels the *largest* step.  The induction needs the *smallest*:
+
+`stair m (a+1) = m · stair (m+2) a`,
+`stairPlus m (a+1) = (3m+1) · stairPlus (m+2) a`
+
+(`stair_peel`, `stairPlus_peel`).  In that form the comparison is immediate.  For a
+strictly increasing list `y :: t` of odd numbers all at least an odd `m`: the head
+satisfies `m ≤ y`; every later element is `> y` and odd, hence `≥ y + 2 ≥ m + 2`, so
+the induction hypothesis applies at base `m + 2`; and the two heads are compared by
+`StairBound.cross_step`, the statement that `3 + 1/n` decreases.
+
+**`sorted_stair_bound`:**
+
+`∏ (3yᵢ + 1) · ∏_{j<a} (m + 2j) ≤ ∏ yᵢ · ∏_{j<a} (3(m+2j) + 1)`
+
+for any strictly increasing list of odd `yᵢ ≥ m`, `m` odd.  Composed with
+`OrbitProduct.neverDrops_prod_le` or `cycle_prod_eq`, this is the staircase bound
+against the orbit's **actual** elements — for cycles *and* never-droppers.
+
+## Distinctness
+
+`oddElems_mem`: every listed value is `T^i(x)` for some `i < k`.
+`oddElems_nodup`: injectivity of the orbit on `[0, k)` gives a duplicate-free list.
+Injectivity holds outright for a divergent orbit, and for a cycle of minimal
+period on one period.
+
+## The single remaining step, and it is mechanical
+
+Turning `oddElems x k` — now known duplicate-free — into a **strictly increasing**
+list with the same `prod` and `shiftProd`.  Insertion sort suffices; the product
+invariance is one induction each (`prod (insert y l) = y · prod l`, likewise for
+`shiftProd`), and strict sortedness of the output follows from duplicate-freeness
+of the input.  No `List.Perm` machinery is needed, because only the two products
+have to be preserved, not the list up to permutation.
+
+With it: `HHExtremal` is dischargeable, the whole Halbeisen–Hungerbühler criterion
+plumbs into `AccIsCycleOf`, and the never-dropper density deficit drops from a
+constant `O(1/m)` to a vanishing `O(log k / k)`.
+
+**Both halves of the conjecture remain open.**
+
+## Axiom footprint
+
+`sorted_stair_bound`, `oddElems_nodup`, `oddElems_mem`, `stair_peel`,
+`stairPlus_peel`: `propext`, `Quot.sound`.  Zero `sorry`.  Zero added axioms.
+`lake build Collatz` succeeds, 264 jobs.
