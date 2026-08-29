@@ -35,6 +35,49 @@ With the polynomial `f a = a ^ C` this is `3m ≤ 2 · a ^ (C+1)`
 what this route yields, and it is the shape of the Steiner / Simons–de Weger
 results the repository already carries at `length_ge_6809`.
 
+## Which `f` is usable — a correction
+
+**Generic Baker / Laurent–Mignotte–Nesterenko is numerically vacuous here.**  The
+standard explicit two-logarithm bound has the shape
+
+`log|Λ| > −30.9 · D⁴ · (max{log b′ + 0.38, 21/D, 1/2})² · log A₁ · log A₂`,
+
+and specialising to `(γ₁, γ₂) = (2, 3)`, `D = 1`, `b′ ≈ 1.541 L`, the `log b′` term
+does not overtake the floor `21/D` until `L ≈ 5.85 · 10^8`.  Below that the bound is
+pinned at
+
+`log|Λ| > −30.9 · 21² · log 3 = −14970.7`,  i.e. `|Λ| > 2.1 · 10^(−6502)`.
+
+The cycle relation needs `Λ < a/(3m)`, which at `m > 2^68` and `a ≈ 3.7 · 10^8` is
+about `4.2 · 10^(−13)`.  **The generic bound is roughly 6 489 orders of magnitude
+too weak to constrain anything**, and the `(log b′)²` growth never closes that gap at
+any humanly relevant `L`.
+
+So `EffectiveGap (fun a => a ^ C)` with `C` from generic Baker is a true but empty
+hypothesis.  This explains a fact that looked odd: Halbeisen–Hungerbühler's `10^8`
+comes from continued-fraction analysis of `log₂ 3` plus brute-force verification,
+with **no Baker-type bound anywhere in the proof**.  That was not a missed
+opportunity; it was the only viable route.
+
+**The lever that is not vacuous** is an *irrationality measure*: a power law
+`|Λ| > C · L^(−μ)` for `μ` in the Rhin (1987) / Wu (2003) / Salikhov (2007) range,
+`μ ≈ 5`–`8.6` for `ℚ·log 2 + ℚ·log 3`.  A power law beats the `10^(−6502)` floor at
+every practical `L`, and `baker_polynomial` consumes exactly that shape.  What is
+missing is the **explicit constant `C`**, which the published statements do not make
+easily extractable — that is the concrete, well-posed computation this route needs,
+and it is not the same object as generic Baker.
+
+## And where the dangerous shapes live
+
+The `(L, a)` pairs with `Λ` anomalously small are exactly the convergents of
+`log₂ 3`, whose continued fraction is `[1; 1,1,2,2,3,1,5,2,23,2,2,1,1,55,1,4,3,…]`.
+Verified against the literature: `p₁₃ = 301 994` is Lagarias's bound and
+`p₁₅ = 17 087 915` is Eliahou's `k(2^40)`, with the large partial quotient
+`a₁₄ = 55` between them producing the jump to Halbeisen–Hungerbühler's `102 225 496`.
+The known cycle-length bounds **are** convergent numerators.  Large partial
+quotients occur at `k = 9, 14, 20, 22, 29, 31, 33, 36, 44` (values `23, 55, 15, 9,
+8, 11, 20, 10, 37`), and each opens the next dangerous tier.
+
 ## What it does not buy, and this is the point
 
 The hypothesis `2a ≤ 3m` is not a convenience.  Round XXI proved the product bound

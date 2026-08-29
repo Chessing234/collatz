@@ -7329,3 +7329,76 @@ strengthening (reducibility is forced for all affine embeddings) is a genuine ga
 from the attack.  Recording this because the alternative — leaving an overstated
 claim in place because it compiles — is exactly the failure mode this development
 is supposed to avoid.
+
+# Round XXXVIII — generic Baker is vacuous here, and the known bounds are convergents
+
+The Diophantine pass returned the session's most substantive finding, and it
+corrects the framing this development has carried since Round XXII.
+
+## Generic Baker / LMN gives nothing — quantified
+
+The explicit two-logarithm bound has the shape
+
+`log|Λ| > −30.9 · D⁴ · (max{log b′ + 0.38, 21/D, 1/2})² · log A₁ · log A₂`
+
+(Laurent–Mignotte–Nesterenko 1995).  Specialising to `(γ₁,γ₂) = (2,3)`, `D = 1`,
+`b′ ≈ 1.541 L`: the `log b′` term does not overtake the floor `21/D` until
+`L ≈ 5.85 · 10^8`, so below that the bound is pinned at
+
+`log|Λ| > −30.9 · 21² · log 3 = −14 970.7`,  i.e. `|Λ| > 2.1 · 10^(−6502)`.
+
+The cycle relation needs `Λ < a/(3m)`, about `4.2 · 10^(−13)` at `m > 2^68`,
+`a ≈ 3.7 · 10^8`.  **The generic bound is ~6 489 orders of magnitude too weak**, and
+its `(log b′)²` growth never closes that at any humanly relevant `L`.
+
+**Consequence for this repository.**  Round XXII framed the remaining content as
+"a lower bound on `|L log 2 − a log 3|`, i.e. Baker theory", and `BakerConditional`
+names `EffectiveGap f` as the hypothesis.  That is right in form but wrong in
+substance for the *generic* instantiation: `EffectiveGap (fun a => a ^ C)` with `C`
+from LMN is a true but **empty** hypothesis.  The module docstring is corrected.
+
+This also explains something that had looked like an oversight: Halbeisen–Hungerbühler
+reach `10^8` by continued-fraction analysis plus brute-force verification, with **no
+Baker-type bound anywhere in their proof**.  That was not a missed opportunity — it
+was the only viable route with 1997-era constants, which are still current.
+
+## The lever that is not vacuous
+
+An **irrationality measure**: `|Λ| > C · L^(−μ)` with `μ ≈ 5`–`8.6` for
+`ℚ·log 2 + ℚ·log 3` (Rhin 1987; Wu 2003; Salikhov 2007).  A power law beats the
+`10^(−6502)` floor at every practical `L`, and `BakerConditional.baker_polynomial`
+consumes exactly that shape.  What is missing is the **explicit constant `C`**,
+which the published statements do not make easily extractable.
+
+**That is the concrete open computation this route needs** — and it is a different
+object from generic Baker, which is the correction.
+
+## The known bounds are convergent numerators — verified here
+
+The continued fraction of `log₂ 3` is `[1; 1,1,2,2,3,1,5,2,23,2,2,1,1,55,1,4,3,1,1,15,…]`.
+Recomputed at 200-digit precision:
+
+| `k` | `a_k` | `p_k` | `q_k` | `|q_k x − p_k|` | identification |
+|---|---|---|---|---|---|
+| 9 | 23 | 24 727 | 15 601 | `2.6·10^(−5)` | Crandall-era dangerous region |
+| 13 | 1 | **301 994** | 190 537 | `9.3·10^(−8)` | **Lagarias's bound** |
+| 15 | 1 | **17 087 915** | 10 781 274 | `1.8·10^(−8)` | **Eliahou's `k(2^40)`** |
+
+with the large partial quotient `a₁₄ = 55` sitting between them and driving the jump
+to Halbeisen–Hungerbühler's `102 225 496`.  **The known Collatz cycle-length bounds
+are literally numerators of convergents of `log₂ 3`.**
+
+Large partial quotients occur at `k = 9, 14, 20, 22, 29, 31, 33, 36, 44` with values
+`23, 55, 15, 9, 8, 11, 20, 10, 37`; each opens the next dangerous tier.  The
+dangerous pairs below any bound are a finite, explicitly enumerable list — which is
+exactly the mechanism Halbeisen–Hungerbühler exploit, and it can be pushed further
+at the cost of computation plus deeper verification.
+
+## Axiom footprint
+
+No new Lean this round; the findings are numerical and bibliographic, and per the
+standing instruction weak material is not formalised merely because it would
+compile.  `BakerConditional`'s docstring is corrected.  `lake build Collatz`
+succeeds, 272 jobs.
+
+**Both halves of the conjecture remain open.**
