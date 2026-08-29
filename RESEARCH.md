@@ -6889,3 +6889,121 @@ payoff `√c` — or keep Barina as the named hypothesis.
 `ge_verified_of`, `excludedLength_of_lt_40001`,
 `cycle_length_ge_40001_of_barina`: `propext`, `Quot.sound`.  Zero `sorry`.  Zero
 added axioms.  `lake build Collatz` succeeds, 268 jobs.
+
+# Round XXXIV — eight parallel investigations; two survivors, both negative, both verified
+
+Eight independent tracks were dispatched in parallel.  Five died on an external
+rate limit and one on a disk-full condition; four returned.  **Every claim below
+was re-verified by independently written code before being recorded** — the
+subagent that produced a result is never the one that confirmed it.
+
+## What the wave returned
+
+**Track 2 (2-adic / parity runs) — sharp negative, verified.**
+The full-shift claim is *stronger* than this repository states: every run-word is
+realised by **exactly one** residue class mod `2 ^ (S+B+1)` — existence *and*
+uniqueness.  That matters, because `ValuationTransition` infers "no finite
+automaton can obstruct" from `word_realizable`, which gives **existence only**;
+existence alone permits wildly unequal class densities, which is exactly where a
+sieve could still bite.  The licensing fact is uniqueness, and it is not proved
+here.
+
+Two consequences, both reproduced independently:
+* **Bit-counting is dead by a factor of ten.**  `y = 55` — six bits — sustains a
+  21-step non-dropping run whose word occupies **59 bits** of 2-adic depth.
+* **No congruence obstruction mod `2 ^ k` can exist**, witnessed by the 2-adic
+  integer `−9`: `−9 + 1 = −8 = 2 ³ · (−1)`, so its letter is `2` forever and it is
+  a fixed point.  `2 ^ k − 9` never drops, with the run growing in `k` (40 steps at
+  `k = 128`).
+
+Sharpest sentence of the round: every periodic never-dropping word has a
+**negative rational** realiser, so the missing obstruction must separate positive
+integers from negative rationals *inside one residue class mod `2 ^ k`*.  No
+congruence can do that.
+
+**Track 6 (parity-word combinatorics) — negative, with a methodological
+correction that matters.**  The naive heuristic `Σ C(l,n)/D` predicts ~47 cycles
+below `l = 42`, making the observed zero look like a `10 ^ −19` miracle.  But a
+cycle is *one* word — the rotation at the minimum — not `l` of them.  Correctly
+normalised by dominating words: expected **3.46**, `P(0) = 0.031`.  **The absence
+of cycles below `l = 42` is not evidence of hidden structure.**  Any future
+counting argument on this track must use that null model.
+
+`gcd(φ(w), D)` behaves exactly like a random integer's; the Sturmian heavy-prefix
+condition is a `1/l` thinning excluding **zero** shapes; several striking apparent
+congruence obstructions (e.g. `(14,6)`, `p = 101`, *no* word with `101 | φ`) are
+mirages once rescored against necklaces.
+
+One positive artifact, **re-verified here** (98 304 splittings, 0 failures; and
+18 400 checks of the corollary, 0 failures): the exact rotation identity
+
+`2 ^ |u| · φ(vu) = 3 ^ (ones u) · φ(uv) + (2 ^ l − 3 ^ n) · φ(u)`,
+
+whence `e | φ` is a rotation-class invariant for every `e | 2 ^ l − 3 ^ n`.  A
+clean exact form of Halbeisen–Hungerbühler Lemma 9 that this repository lacked.
+
+**Track 7 (merging / splicing) — the round's theorem, now formalised.**  See below.
+
+**Track 8 (novel) — a new obstruction, verified.**  See below.
+
+## `HercherChain` (LEAN_PROVED) — the merge fires exactly once
+
+`HercherMerge.merge` needs `(3 ^ (j+1) · u) % 4 = 1`.  The partner `(n−1)/2` has
+`(n−1)/2 + 1 = 2 ^ j · u` — same odd cofactor, one fewer power of two
+(`partner_shift`) — so *its* merge hypothesis is `(3 ^ j · u) % 4 = 1`.  Since
+`3 ≡ −1 (mod 4)`, the two residues are opposite:
+
+**`no_chain`: `(3 ^ (j+1) · u) % 4 = 1 → (3 ^ j · u) % 4 = 3`.**
+
+The hypothesis at `n` is exactly the negation of the hypothesis at the partner.
+In Hercher's `ℓ`-language: `ℓ(n) ≥ 2 ⟹ ℓ((n−1)/2) = 1`.  **`ℓ = 1` is not a
+shrinking exceptional set — it is half of every level, and it is precisely where
+the merge is unavailable.**
+
+Verified independently before formalising: over every odd `n < 400 001`, `100 002`
+have `ℓ ≥ 2`, `50 002` of those have an odd partner, and **zero** of those
+partners again have `ℓ ≥ 2`.  Density of `ℓ ≥ 2` is `0.49998`.
+
+And the harder negative, also reproduced independently.  Call `m < n` an *early
+merge* of `n` if its orbit meets `n`'s orbit **before** `n`'s orbit drops below `n`
+— the only kind a minimal-counterexample argument may use.  Then
+
+`n = 27, 703, 871, 1695, 2215, 35655`
+
+have **no early merge at all**, checked against every smaller `m`.  About 44.6 % of
+odd `n` have none, and conditioning on longer excursions plateaus at 0.84–0.85
+rather than approaching 1.  **No merge-based descent, at any depth, can be made
+into a covering argument.**
+
+## The `Z[√−2]` obstruction (verified, not yet formalised here)
+
+Track 8's survivor, independently re-verified in full:
+
+Take `π = √−2` (norm 2), `μ = 1 + √−2` (norm 3), and `T x = x/π` if `π ∣ x`, else
+`(μx + 1)/π`.  Then `N(μ)/N(π) = 3/2`, so the critical ratio is `log 3 / log 2`
+exactly, and — crucially — **`μ − π = 1`, so the shifted coordinate `u = x + 1` and
+the sign of the `+1` are preserved**, unlike the `3n − 1` mirror.
+
+Verified here from scratch: the shift identity `π(Tx + 1) = μ(x + 1)` holds on the
+odd branch (29 646 points, 0 failures) exactly as `2(Tx+1) = 3(x+1)` does; and a
+census of 111 074 starts of norm `≤ 50 000` finds **exactly three cycles** — the
+fixed point `−1`, a 5-cycle through `1`, and a **13-cycle** with minimum
+`7 − 4√−2` (norm 81), max norm 776, `a = 8` odd steps, `2 ^ 13 / 3 ^ 8 = 1.2486`.
+
+The one ingredient that fails is the master bound, and its failure localises: at
+`w = −5 − 6√−2`, on the cycle, `N(w) = 97 ≥ 81 = N(m)` but `N(w+1) = 88 < 96 =
+N(m+1)`.  `Z[√−2]` is not formally real, so it admits no ring order and the step
+`m ≤ w ⟹ m+1 ≤ w+1` has no substitute.
+
+**The two filters are orthogonal.**  The `3n−1` mirror preserves order and breaks
+the sign; `Z[√−2]` preserves the sign and breaks the order.  Together they say a
+proof must use **both**, and the master bound is the only place in this development
+where order enters.
+
+## Axiom footprint
+
+`no_chain`, `not_both`, `partner_shift`, `chain_length_one`: `propext`,
+`Quot.sound`.  Zero `sorry`.  Zero added axioms.  `lake build Collatz` succeeds,
+269 jobs.
+
+**Both halves of the conjecture remain open.**

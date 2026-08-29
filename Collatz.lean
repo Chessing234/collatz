@@ -208,6 +208,7 @@ import Collatz.Strategy.OrbitProduct
 import Collatz.Strategy.SortedStair
 import Collatz.Strategy.SortStair
 import Collatz.Strategy.HercherMerge
+import Collatz.Strategy.HercherChain
 import Collatz.Search.BarinaRange
 import Collatz.Search.VerifiedRange
 import Collatz.Strategy.AffineExchange
