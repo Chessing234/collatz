@@ -6273,16 +6273,56 @@ The Beatty word without division, as a running remainder (`beattyRem`,
 hypothesis — **not proved here** — and `hh_min_bound`, `hh_min_large` draw the
 consequences that are certainly correct.
 
-## Two gaps, stated plainly
+## Gap 2 closed: criterion (5) recovered, and the previous reading was inverted
 
-1. **Lemma 5 is not proved.**  Its proof needs a rotation argument together with
-   their Lemma 4, and Lemma 4 *is* available here as `AffineExchange.Crel_mono`.
-   The remaining work is the rotation step, and it is ordinary.
-2. **Criterion (5) was not reconstructed.**  The inequality that, quantified over
-   `l < L`, yields their `10^8` bound could not be reliably read off the extracted
-   PDF text, and its direction is not forced by the lower bound above.  Rather than
-   formalise a possibly inverted statement, only the certain consequences are
-   recorded.  Recovering it is a *reading* task for the next round.
+Section 4.4 of the paper, read this round.  Their inequality (11) is
+
+`min C ≤ M_{l,n} / (2^l − 3^n)`,
+
+an **upper** bound on the cycle minimum.  The earlier reading in this file had it
+as a lower bound and was wrong.  The reason for the true direction: `M_{l,n} = φ(s̃)`
+is the *largest* value the rotation-minimum of `φ` attains over `S_{l,n}` — Lemma 5
+proves `φ(s̃) ≥ min_{t' ∈ σ(t)} φ(t')` for **every** `t` — and a cycle's minimum
+element is `min_σ φ(σ)` over the gap.
+
+**Theorem 4 (their optimal criterion), now formalised as `hh_criterion`:** if
+`M_{L,n}` over the gap falls below the verified bound `m`, every cycle of length `L`
+has minimum strictly below `m`, hence reaches `1` (`hh_no_cycle_below`).  Run over
+all `L < 102 225 496` with `m = 2.12 × 10^14`, that is their result.
+
+Their route also fixes what to compute: Crandall's criterion (Lemma 8), Eliahou's
+(Theorem 2, giving `k(2^40) = 17 087 915`), their improvement (Theorem 3, the same
+bound with `m` reduced by 10%), and then Theorem 4 for the final `10^8`.
+
+## The wall, published in 1997
+
+Their final remarks, in substance:
+
+> All estimates on the length of Collatz cycles given so far are valid for
+> **rational** Collatz cycles… but since the minimum of rational cycles grows at
+> least linearly in terms of their length, **such an approach cannot be successful
+> to prove (A)**.  The only chance to achieve further progress would hence involve
+> number theoretical arguments.
+
+That is `ProductCeiling.product_bound_vacuous` and `HorizonSharp`, stated by the
+authors thirty years ago; the linear growth is their Remark 1,
+`1/20 ≤ M_{l,n(l)}/(n·3^n) ≤ 7/10`.  The escape they name — "number theoretical
+arguments" — is the Baker route of Round XXII.  Their Lemma 9,
+`gcd(φ(t) : t ∈ σ(s)) = gcd(φ(s), 2^l − 3^n)`, is exactly the `δ` of
+`DeltaSpectrum` and `RepetitionDescent`.
+
+**Every wall this repository mapped in Rounds XVII–XXII appears in this one 1997
+paper.**  That is worth knowing and is now recorded.
+
+## The one gap that remains
+
+### Remaining: Lemma 5 only
+
+**Lemma 5 is the only thing still unproved** (`HHExtremal`).  Its proof needs the
+rotation argument `σ_{k₀}` together with their Lemma 4, and Lemma 4 *is* available
+here as `AffineExchange.Crel_mono`.  Everything else in their chain — the Beatty
+word, its weight, `M_{l,n}`, Theorem 4, and the exclusion — is now formalised and
+axiom-clean.
 
 ## The honest reframing
 

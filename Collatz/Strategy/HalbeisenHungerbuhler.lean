@@ -1,4 +1,5 @@
 import Collatz.Strategy.StairThree
+import Collatz.Structure.AccCycle
 
 /-!
 # Halbeisen–Hungerbühler 1997, and what it means for Rounds XI–XXIV
@@ -78,6 +79,8 @@ whose answer is already known to be reachable.
 namespace Collatz
 namespace HalbeisenHungerbuhler
 
+open Reach AccCycle
+
 /-! ## The Beatty word, division-free -/
 
 /-- The running remainder: add `n`, subtract `l` on overflow. -/
@@ -154,42 +157,72 @@ def hhMin (l n : Nat) : Nat → Nat
   | 0 => 0
   | j + 1 => beattyBit l n j * 2 ^ j * 3 ^ (n - beattyCount l n (j + 1)) + hhMin l n j
 
-/-! ## Their criterion, with Lemma 5 named -/
+/-! ## Their criterion, with Lemma 5 named
 
-/-- **Halbeisen–Hungerbühler Lemma 5**, as an explicit hypothesis: `hhMin l n` is
-the minimum of `φ` over all `0-1` words of length `l` and weight `n`.  Stated in
-the form the criterion consumes — every cycle of shape `(l, n)` has accumulator at
-least `hhMin l n`.  **Not proved here.** -/
+**Correction to the previous reading of this file.**  Their inequality (11) is
+
+`min C ≤ M_{l,n} / (2^l − 3^n)`,
+
+an **upper** bound on the cycle minimum, not a lower one.  The reason is that
+`M_{l,n} = φ(s̃)` is the *largest* value the rotation-minimum of `φ` can take over
+`S_{l,n}`: Lemma 5 proves `φ(s̃) ≥ min_{t' ∈ σ(t)} φ(t')` for **every** `t`.  Since a
+cycle's minimum element is `min_σ φ(σ)/(2^l − 3^n)`, it is at most `M_{l,n}` over the
+gap.
+
+That direction is what makes the criterion an exclusion: if `M_{l,n}` over the gap
+is **below** the verified bound `m`, then any cycle of that shape has an element
+below `m`, hence reaches `1`. -/
+
+/-- **Halbeisen–Hungerbühler Lemma 5**, in the direction their Theorem 4 uses:
+for a cycle whose minimum is `x`, the gap times `x` is at most `M_{l,n}`.
+**Not proved here** — its proof needs the rotation argument together with their
+Lemma 4, which *is* available as `AffineExchange.Crel_mono`. -/
 def HHExtremal : Prop :=
-  ∀ l n C : Nat, 0 < l → n ≤ l →
-    (∃ x : Nat, 0 < x ∧ (2 ^ l - 3 ^ n) * x = C) → hhMin l n l ≤ C
+  ∀ x L : Nat, 0 < x → AccIsCycleOf x L → (∀ k : Nat, x ≤ acceleratedOrbit k x) →
+    (2 ^ L - 3 ^ oddCount x L) * x ≤ hhMin L (oddCount x L) L
 
-/-- **The consequence that is certainly correct.**  The extremal property bounds a
-cycle's minimum from *below*: `(2^l − 3^n) · x ≥ M_{l,n}`. -/
-theorem hh_min_bound (hext : HHExtremal) {l n x : Nat}
-    (hl : 0 < l) (hnl : n ≤ l) (hx : 0 < x)
-    (hcyc : (2 ^ l - 3 ^ n) * x = (2 ^ l - 3 ^ n) * x) :
-    hhMin l n l ≤ (2 ^ l - 3 ^ n) * x :=
-  hext l n ((2 ^ l - 3 ^ n) * x) hl hnl ⟨x, hx, rfl⟩
+/-- **Theorem 4, the optimal criterion.**  If `M_{L,n}` over the gap falls below `m`,
+then every cycle of length `L` has minimum strictly below `m`.  Quantified over all
+`L < 102 225 496` with `m = 2.12 × 10^14`, this is their cycle-length bound. -/
+theorem hh_criterion (hext : HHExtremal) {x L m : Nat} (hx : 0 < x)
+    (hcyc : AccIsCycleOf x L) (hmin : ∀ k : Nat, x ≤ acceleratedOrbit k x)
+    (hgap : 0 < 2 ^ L - 3 ^ oddCount x L)
+    (hsmall : hhMin L (oddCount x L) L < (2 ^ L - 3 ^ oddCount x L) * m) :
+    x < m := by
+  have h := hext x L hx hcyc hmin
+  have hlt : (2 ^ L - 3 ^ oddCount x L) * x < (2 ^ L - 3 ^ oddCount x L) * m := by omega
+  exact Nat.lt_of_mul_lt_mul_left hlt
 
-/-- And hence: a shape whose `M_{l,n}` exceeds `m · (2^l − 3^n)` admits no cycle of
-minimum at most `m`. -/
-theorem hh_min_large (hext : HHExtremal) {l n m x : Nat}
-    (hl : 0 < l) (hnl : n ≤ l) (hx : 0 < x)
-    (hsmall : (2 ^ l - 3 ^ n) * m < hhMin l n l) :
-    (2 ^ l - 3 ^ n) * m < (2 ^ l - 3 ^ n) * x := by
-  have h := hext l n ((2 ^ l - 3 ^ n) * x) hl hnl ⟨x, hx, rfl⟩
-  omega
+/-- **The exclusion.**  A cycle whose minimum would have to lie below the verified
+bound cannot avoid `1`: it contains a point already known to reach `1`. -/
+theorem hh_no_cycle_below (hext : HHExtremal) {x L m : Nat} (hx : 0 < x)
+    (hcyc : AccIsCycleOf x L) (hmin : ∀ k : Nat, x ≤ acceleratedOrbit k x)
+    (hgap : 0 < 2 ^ L - 3 ^ oddCount x L)
+    (hsmall : hhMin L (oddCount x L) L < (2 ^ L - 3 ^ oddCount x L) * m)
+    (hverified : ∀ y : Nat, 0 < y → y < m → ∃ k : Nat, acceleratedOrbit k y = 1) :
+    ∃ k : Nat, acceleratedOrbit k x = 1 :=
+  hverified x hx (hh_criterion hext hx hcyc hmin hgap hsmall)
 
-/-! ## A gap in this file, stated plainly
+/-! ## What the authors themselves say about the wall
 
-The paper's criterion (5) — the inequality that, quantified over all shapes with
-`l < L`, yields `length ≥ 102 225 496` — could **not be reliably reconstructed**
-from the extracted text of the PDF, and its direction is not obvious from the
-lower bound above.  Rather than formalise a statement I might have inverted, only
-the consequences that are certainly correct are recorded here.  Recovering (5)
-from the published paper is the first task for the next round, and it is a reading
-task, not a mathematical one. -/
+Their final remarks, verbatim in substance:
+
+> All estimates on the length of Collatz cycles given so far are valid for
+> **rational** Collatz cycles although they have been stated originally for integer
+> Collatz cycles.  But since we have seen that the minimum of rational cycles grows
+> at least linearly in terms of their length, **such an approach cannot be
+> successful to prove (A)**.  The only chance to achieve further progress would
+> hence involve number theoretical arguments.
+
+That is `ProductCeiling.product_bound_vacuous` and `HorizonSharp`, stated by the
+authors in 1997.  The linear growth they cite is their Remark 1,
+`1/20 ≤ M_{l,n(l)} / (n · 3^n) ≤ 7/10`.  **The wall this repository mapped over
+Rounds XX–XXII was published thirty years ago**, and the escape they name —
+"number theoretical arguments" — is the Baker route of Round XXII.
+
+Their Lemma 9 is the number-theoretic step they suggest:
+`gcd(φ(t) : t ∈ σ(s)) = gcd(φ(s), 2^{l} − 3^{n})`, which is exactly the object
+`RepetitionDescent` and `DeltaSpectrum` study here as `δ`. -/
 
 end HalbeisenHungerbuhler
 end Collatz
