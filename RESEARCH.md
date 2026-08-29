@@ -6003,3 +6003,69 @@ extending verification does not converge — is now a theorem.
 `two_mul_pow_le_gen`, `two_mul_pow_upward`, `product_bound_vacuous_sharp`,
 `two_pow_ne_three_pow`: `propext`, `Quot.sound`.  Zero `sorry`.  Zero added
 axioms.  `lake build Collatz` succeeds, 256 jobs.
+
+# Round XXII — the external input, named; and the proof that naming it is not enough
+
+Five rounds concluded that what remains is an effective lower bound on
+`|L log 2 − a log 3|`.  This round names that input, proves what it yields, and
+proves where it stops.
+
+## The input
+
+Writing a cycle's gap as `2 ^ L = 3 ^ a + G`, an effective linear-forms bound is a
+function `f` with
+
+`EffectiveGap f  :=  ∀ L a G, 1 ≤ a → 0 < G → 2 ^ L = 3 ^ a + G → 3 ^ a ≤ f a · G`.
+
+Baker–Wüstholz / Matveev supply such an `f`, polynomial in `a`.  Nothing here
+assumes which one.
+
+## What it buys — `conditional_cycle_bound` (LEAN_PROVED)
+
+For a cycle of minimum `m` and odd-count `a = A + 1` obeying the product bound,
+in the range `2a ≤ 3m`:
+
+**`EffectiveGap f → 3m ≤ 2 · a · f a`.**
+
+With `f a = a ^ C` (`baker_polynomial`): `3m ≤ 2 a ^ (C+1)`, i.e.
+`a ≥ (3m/2) ^ (1/(C+1))`.  **A lower bound on the odd-count, not an exclusion** —
+the shape of the Steiner / Simons–de Weger results already at `length_ge_6809`.
+
+Two new elementary estimates carry the proof:
+
+* `pow_succ_diff` — `(x+1) ^ (a+1) ≤ x ^ (a+1) + (a+1)(x+1) ^ a`, binomial
+  telescoping;
+* `pow_ratio_le` — `(x+1) ^ A · (x − A) ≤ x ^ (A+1)`, written subtraction-free as
+  `(A+y+1) ^ A · y ≤ (A+y) ^ (A+1)`.  This is the **reciprocal Bernoulli**, the
+  upper bound on `(1 + 1/x) ^ A` that Bernoulli itself does not give, and the
+  exact converse of the `HorizonSharp` family.  Its corollary `pow_le_two_mul`
+  (`2A ≤ x → (x+1) ^ A ≤ 2 x ^ A`) is what removes the `+1`.
+
+## What it does not buy — and this is the result
+
+The side condition `2a ≤ 3m` is not a convenience.  Round XXI proved the product
+bound **vacuous** for `a ≥ 0.76·(3m) = 2.28 m`, so beyond the horizon it is not a
+constraint and `conditional_cycle_bound` has nothing to consume — **for any `f`
+whatsoever**.  `regions_disjoint` proves the two side conditions are outright
+incompatible: no `a` satisfies both `k·4 ≤ a` (past the horizon) and `2a ≤ 3m`.
+
+| region | status |
+|---|---|
+| `a ≤ 1.5 m` | `EffectiveGap f` gives `3m ≤ 2 a f a` |
+| `1.5 m < a < 2.28 m` | covered by neither |
+| `a ≥ 2.28 m` | product bound provably vacuous; **no `f` helps** |
+
+**An effective linear-forms bound, fed into the product family, provably cannot
+reach cycles of large odd-count.**  That is not a limitation of Baker's theorem;
+it is a limitation of the family it would be fed into.  Closing the cycle half
+requires a second constraint surviving past `a ≈ 2.28 m`, and no such constraint
+exists anywhere in this repository.
+
+This is the specification a solution must meet, and it is now a theorem rather
+than a summary.  **Status of the two halves: unchanged.  Both open.**
+
+## Axiom footprint
+
+`conditional_cycle_bound`, `baker_polynomial`, `regions_disjoint`,
+`pow_ratio_le`, `pow_succ_diff`: `propext`, `Quot.sound`.  Zero `sorry`.  Zero
+added axioms.  `lake build Collatz` succeeds, 257 jobs.
