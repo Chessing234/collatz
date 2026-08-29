@@ -7447,3 +7447,102 @@ evaluated at the dangerous convergents, using machinery already present here mod
 
 Two self-corrections in consecutive rounds (Barabanov, then this) — both caught by
 computing the consequence before committing to the direction.
+
+# Round XXXIX — a definitional bug in my own work, found and fixed; and a real range bound
+
+The wave aimed at discharging `HHExtremal` did not discharge it.  It did something
+more useful: it exposed that the chain this log claimed was complete had **four**
+gaps, one of them a definitional inconsistency between two modules written here.
+
+## The bug, and the correction to Round XXVII
+
+Round XXVII recorded: *"Every mathematical link of the Halbeisen–Hungerbühler chain
+is now proved in this repository."*  **That was wrong.**  The two ends of the chain
+used different and unequal definitions of `M_{l,n}`:
+
+* `HalbeisenHungerbuhler.hhMin` — built from `beattyRem` started at `0`, which
+  generates the **floor** word (ones as late as possible);
+* `ExtremalTime.hhMinTime` — `Crel` of the list `tildeTime l n j = ⌊jl/n⌋`, the
+  **ceiling** word (ones as early as possible).
+
+These are different — indeed reversed — extremal words.  Measured: **136 mismatches**
+over `2 ≤ l ≤ 17`, e.g. `l = 3, n = 2` gives floor-word `[0,1,1]` with `hhMin = 10`
+against ceiling-word `[1,1,0]` with `hhMinTime = 5`.
+
+Halbeisen–Hungerbühler's `s̃ᵢ = ⌈in/l⌉ − ⌈(i−1)n/l⌉` is the **ceiling** word, so
+`hhMin` as defined here was the wrong object.  I had noticed the floor/ceiling issue
+while writing `ExtremalTime` and did not carry the fix through.
+
+**Fixed:** `beattyRem l n 0 = l - 1` instead of `0`.  With that one change the two
+agree exactly — **0 mismatches** over the same 136 shapes.  `beattyRem_lt`,
+`beatty_invariant` (now `remainder + l·weight = (l−1) + i·n`) and `beatty_count_eq`
+all still hold and still compile.
+
+No *proved* theorem was false: `hh_criterion` is conditional on `HHExtremal`, which
+is an assumed `Prop`, and nothing claimed the two `M` definitions agreed.  But the
+**narrative** was wrong, and a plan built on it would have failed at exactly this
+join.
+
+## The four real gaps to `HHExtremal`
+
+Now stated properly, since "only the rotation argument remains" was optimistic:
+
+1. the `w`/`word_x` bridge with `partialSum (w x) L = oddCount x L` — mechanical;
+2. an `affineC`-to-`Crel` correspondence connecting the `List Bool` apparatus
+   (`AccumulatorAutomaton`) to the `Nat → Nat` apparatus (`CycleLemma`,
+   `ExtremalTime`) — **absent from the repository**;
+3. a rotation law transporting the *minimality of `x`* across rotations — the real
+   mathematical gap, since `cycle_lemma` selects its own rotation, not the one where
+   `x` sits;
+4. `hhMinTime = hhMin` — now true after the fix above, but still unproved in Lean.
+
+## The range-valid bound on `Λ` (verified, not yet formalised)
+
+The sparsity track produced a genuine reduction.  With `Λ(a) = L·log 2 − a·log 3`
+and `L = ⌊a·log₂3⌋ + 1`, so `Λ(a) = log 2 · (1 − {a·log₂3})`:
+
+* **Parity split.**  Only convergents with `p_k/q_k > log₂3` are dangerous — the
+  other parity gives `Λ ≈ log 2`, never small.  Dangerous `k` are the odd indices
+  `1, 3, 5, 7, 9, …`.
+* **Range bound.**  For a dangerous `k` and *every* integer `a` with
+  `q_k ≤ a < q_{k+1}` (next dangerous denominator), `Λ(a) ≥ Λ(q_k)`, and
+  `Λ(q_k) > log 2 / (q_{k+1} + q_k)`.
+
+Verified independently here: **72 520 points, 0 violations** on the dangerous
+parity, and the second inequality holds at all 27 convergents tested.  (A first
+test of mine appeared to refute it with 353 554 violations — that run wrongly
+included the safe parity.  Recorded because the failure mode is instructive.)
+
+**What it buys:** checking `Λ(a)` for every `a ≤ N` — `O(N)` work — becomes
+enumerating the `O(log N)` convergent denominators and applying one lemma per
+interval.  A single application covers the whole `a₁₄ = 55` gap, about `10.6`
+million values of `a`.
+
+**What it does not buy:** the partial quotients of `log₂3` have no known closed
+form, so the continued-fraction data remains empirical input to the theorem rather
+than derivable.  The three-distance theorem does not rescue this — it bounds the
+*number* of gap lengths (`≤ 3`), not their values, and the values are exactly the
+CF data.
+
+## Two other tracks, both shallow, one useful diagnosis
+
+**Divergence half:** four necessary conditions on a minimal divergent start
+(odd; exactly one even step after the opening odd run; sustained super-critical odd
+density; merge-avoidance) — all real, all *restricting to the same*
+dimension-`0.94996` set.  They are re-derivations of one membership condition from
+different angles, not independent constraints, so they do not multiply.
+
+**Fresh hunt:** the adelic idea is dead for a clean reason — `3n+1 ≡ 1 (mod 3)`
+always, so `v₃(3n+1) = 0` unconditionally, while the branch decision is `n mod 2`.
+**The 2-adic and 3-adic pictures never interact.**  That narrows the standing
+diagnosis: the missing constraint cannot be `2`-adic × `3`-adic; it must be
+`2`-adic × **archimedean** — parity against size — which is exactly what the
+`Z[√−2]` filter demands when it says a proof must use the order of `ℤ`.
+
+## Axiom footprint
+
+`beatty_invariant`, `beatty_count_eq`, `beattyRem_lt` unchanged in status after the
+correction: `propext`, `Quot.sound`.  Zero `sorry`.  Zero added axioms.
+`lake build Collatz` succeeds, 272 jobs.
+
+**Both halves of the conjecture remain open.**

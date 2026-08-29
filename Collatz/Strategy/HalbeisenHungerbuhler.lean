@@ -83,9 +83,13 @@ open Reach AccCycle
 
 /-! ## The Beatty word, division-free -/
 
-/-- The running remainder: add `n`, subtract `l` on overflow. -/
+/-- The running remainder: add `n`, subtract `l` on overflow.  **Starts at `l − 1`,
+not `0`** — that is what produces the *ceiling* word `⌈in/l⌉ − ⌈(i−1)n/l⌉` that
+Halbeisen–Hungerbühler's `s̃` actually is.  Starting at `0` gives the floor word,
+which is a different (indeed reversed) extremal word; see the correction note in
+`RESEARCH.md`. -/
 def beattyRem (l n : Nat) : Nat → Nat
-  | 0 => 0
+  | 0 => l - 1
   | i + 1 => if l ≤ beattyRem l n i + n then beattyRem l n i + n - l else beattyRem l n i + n
 
 /-- The `i`-th letter of the Beatty word `s̃ᵢ = ⌈in/l⌉ − ⌈(i−1)n/l⌉`. -/
@@ -105,7 +109,7 @@ def beattyCount (l n : Nat) : Nat → Nat
 theorem beattyRem_lt {l n : Nat} (hl : 0 < l) (hnl : n ≤ l) : ∀ i, beattyRem l n i < l := by
   intro i
   induction i with
-  | zero => simpa [beattyRem] using hl
+  | zero => show l - 1 < l; omega
   | succ i ih =>
     show (if l ≤ beattyRem l n i + n then beattyRem l n i + n - l else beattyRem l n i + n) < l
     split <;> omega
@@ -113,13 +117,14 @@ theorem beattyRem_lt {l n : Nat} (hl : 0 < l) (hnl : n ≤ l) : ∀ i, beattyRem
 /-- **The invariant.**  `remainder + l · weight = i · n`, so the word is exactly the
 Beatty word of slope `n / l`. -/
 theorem beatty_invariant {l n : Nat} (hl : 0 < l) (hnl : n ≤ l) : ∀ i : Nat,
-    beattyRem l n i + l * beattyCount l n i = i * n := by
+    beattyRem l n i + l * beattyCount l n i = (l - 1) + i * n := by
   intro i
   induction i with
-  | zero => simp [beattyRem, beattyCount]
+  | zero => show l - 1 + l * 0 = l - 1 + 0 * n; omega
   | succ i ih =>
     have hlt := beattyRem_lt hl hnl i
-    show beattyRem l n (i + 1) + l * (beattyBit l n i + beattyCount l n i) = (i + 1) * n
+    show beattyRem l n (i + 1) + l * (beattyBit l n i + beattyCount l n i)
+        = (l - 1) + (i + 1) * n
     have e2 : (i + 1) * n = i * n + n := by rw [Nat.add_mul, Nat.one_mul]
     unfold beattyRem beattyBit
     split
