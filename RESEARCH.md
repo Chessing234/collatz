@@ -6142,3 +6142,69 @@ which is **logarithmic**.  It passes `log 2` only at `1 + 2a/m = 2 ^ 6 = 64`, i.
 `stair_product_bound`, `cross_prod`, `cross_step`, `stair_le_seq`: `propext`,
 `Quot.sound`.  `sharpening_is_strict`, `witness_values`, `exponent_nine`: none.
 Zero `sorry`.  Zero added axioms.  `lake build Collatz` succeeds, 258 jobs.
+
+# Round XXIV — the spacing principle, and the second unused fact
+
+Round XXIII replaced the constant `m` by the staircase `m + 2j` because cycle
+elements are distinct.  This round isolates the mechanism and feeds it a second
+fact the repository already proves but has never used.
+
+## The principle
+
+`seq_product_bound`: for **any** lower staircase `s` with `n_j ≥ s_j`,
+
+`2 ^ L · ∏_{j<a} s_j ≤ ∏_{j<a} (3 s_j + 1)`.
+
+Taking logarithms caps `Λ = L log 2 − a log 3` by `Σ log(1 + 1/(3 s_j))`.  If the
+elements are forced a distance `s` apart, that cap is `≈ (1/(3s))·log(1 + sa/m)`,
+which reaches the ceiling `log 2` only at
+
+`a ≈ m · (2 ^ (3s) − 1) / s`.
+
+**The horizon is exponential in the spacing.**
+
+| spacing | source | horizon |
+|---|---|---|
+| `s = 0` | constant `m` | `2.079 m` (Rounds XX–XXI) |
+| `s = 2` | distinct and odd | `31.5 m` (Round XXIII) |
+| `s = 3` | **and coprime to 3** | `170 m` (this round) |
+
+## The second unused fact
+
+`CycleModThree.mod_three_ne_zero_of_accCycle` proves every element of an
+accelerated cycle is coprime to `3`.  The product bound has never consumed it.
+
+`gap_six`: three increasing odd numbers with both gaps `2` are `n, n+2, n+4`,
+whose residues mod `3` are `n, n+2, n+1` — all three residues, so one is divisible
+by `3`.  **Two consecutive gaps of two are impossible**, so every two steps advance
+by at least `6`, and `stair3_le_seq` gives `n_j ≥ (m−1) + 3j`.
+`stair3_product_bound` is the resulting bound.  Against the `2j` staircase it is
+termwise larger from `j = 1` on (`three_beats_two`).
+
+There is no arithmetic in `gap_six` beyond the observation that three consecutive
+odd numbers cover every residue class mod `3`.
+
+## Where the room runs out
+
+`s = 3` is the **last** spacing available from local congruences: odd and coprime
+to `3` is `2` residues in `6`, and finer moduli add nothing — mod `9` still leaves
+`6` of `9`, and the elements are unrestricted mod any prime `> 3`.  Beating `s = 3`
+requires a **non-local** sparsity statement: that a cycle's elements cannot cluster
+just above the minimum.  Structurally that is plausible — from an element near `m`
+an odd step multiplies by about `3/2` and cannot return below `m` — but no such
+statement exists in this repository, and it is the natural next target.
+
+## Honest scope
+
+* Still a horizon, at `170 m` instead of `31.5 m`.  **Collatz is not proved, and
+  neither half is closed.**
+* As in Round XXIII, the bridge from the repository's cycle representation to a
+  sorted enumeration of its odd elements is **not built**, so neither staircase is
+  plugged into `MinimalCycle` and the admissible-`a` count of Round XX is unchanged
+  in the repository's own terms.
+
+## Axiom footprint
+
+`seq_product_bound`, `cross_prod_gen`, `gap_six`, `stair3_le_seq`,
+`stair3_product_bound`: `propext`, `Quot.sound`.  Zero `sorry`.  Zero added
+axioms.  `lake build Collatz` succeeds, 259 jobs.
