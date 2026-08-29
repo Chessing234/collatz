@@ -7402,3 +7402,48 @@ compile.  `BakerConditional`'s docstring is corrected.  `lake build Collatz`
 succeeds, 272 jobs.
 
 **Both halves of the conjecture remain open.**
+
+## Round XXXVIII, correction — the irrationality measure is not the lever either
+
+Computed before chasing the constant, and the result kills the direction proposed
+one round earlier.
+
+Halbeisen–Hungerbühler's criterion excludes a length when
+`M_{L,n}/(2^L − 3^n) < m`.  With their Remark 1 bound `M_{l,n} ≤ 0.7·n·3^n` and
+`2^L − 3^n = 3^n(e^Λ − 1) ≥ 3^n·Λ`, that is `Λ > 0.7n/m`.  A power law
+`|Λ| > C·L^(−μ)` therefore excludes exactly
+
+`L < (2.265 · C · m)^(1/(μ+1))`,  using `n ≈ 0.6309 L`.
+
+At Barina's `m = 704·2^60 ≈ 8.12·10^20` with a **perfect** constant `C = 1`:
+
+| `μ` | source | excludes `L <` |
+|---|---|---|
+| `8.616` | Rhin 1987 | **163** |
+| `5.1163` | Salikhov 2007 | **2 997** |
+| `2` | conjectural, unproven for `log₂ 3` | `1.2 · 10^7` |
+
+Against this repository's **unconditional `6 809`** and Halbeisen–Hungerbühler's
+**conditional `102 225 496`**.
+
+**So the known irrationality measures deliver less than is already proved here**,
+and even the conjectural `μ = 2 + ε` remains an order of magnitude short of `10^8`.
+Extracting the explicit constant `C` — named last round as "the concrete open
+computation" — would have been wasted effort.  That framing is withdrawn.
+
+**The structural reason, which is the real content.**  A uniform bound
+`Λ > C·L^(−μ)` treats *every* `L` as though it were as bad as the worst convergent.
+The dangerous `L` are **sparse**: they cluster at convergents of `log₂ 3`, at the
+large partial quotients `a_k` for `k = 9, 14, 20, 22, 29, 31, 33, 36, 44`.
+Halbeisen–Hungerbühler check those individually and let every other `L` through
+cheaply, and that sparsity is worth many orders of magnitude.  No uniform
+Diophantine bound can express it.
+
+**Conclusion: the continued-fraction method is not a weaker substitute for
+approximation theory — for this problem it is strictly stronger, because the
+obstruction is sparse rather than uniform.**  The route forward is `hh_criterion`
+evaluated at the dangerous convergents, using machinery already present here modulo
+`HHExtremal`; it is not the extraction of any Diophantine constant.
+
+Two self-corrections in consecutive rounds (Barabanov, then this) — both caught by
+computing the consequence before committing to the direction.

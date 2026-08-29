@@ -59,13 +59,38 @@ comes from continued-fraction analysis of `log₂ 3` plus brute-force verificati
 with **no Baker-type bound anywhere in the proof**.  That was not a missed
 opportunity; it was the only viable route.
 
-**The lever that is not vacuous** is an *irrationality measure*: a power law
-`|Λ| > C · L^(−μ)` for `μ` in the Rhin (1987) / Wu (2003) / Salikhov (2007) range,
-`μ ≈ 5`–`8.6` for `ℚ·log 2 + ℚ·log 3`.  A power law beats the `10^(−6502)` floor at
-every practical `L`, and `baker_polynomial` consumes exactly that shape.  What is
-missing is the **explicit constant `C`**, which the published statements do not make
-easily extractable — that is the concrete, well-posed computation this route needs,
-and it is not the same object as generic Baker.
+**An irrationality measure is also not the lever** — computed, not assumed.  A power
+law `|Λ| > C·L^(−μ)` does beat the `10^(−6502)` floor, but feeding it through
+Halbeisen–Hungerbühler's own criterion gives nothing competitive.  Their exclusion
+needs `M_{L,n}/(2^L − 3^n) < m`; with `M_{l,n} ≤ 0.7·n·3^n` (their Remark 1) and
+`2^L − 3^n ≥ 3^n·Λ`, that is `Λ > 0.7n/m`, so a power law excludes exactly
+
+`L < (2.265 · C · m)^(1/(μ+1))`.
+
+At Barina's `m = 704·2^60` and a *perfect* constant `C = 1`:
+
+| `μ` | source | excludes `L <` |
+|---|---|---|
+| `8.616` | Rhin 1987 | **163** |
+| `5.1163` | Salikhov 2007 | **2 997** |
+| `2` | conjectural, unproven | `1.2 · 10^7` |
+
+against this repository's **unconditional `6 809`** and Halbeisen–Hungerbühler's
+**conditional `10^8`**.  So the known measures give *less than is already proved
+here*, and even the conjectural `μ = 2 + ε` stays an order of magnitude below `10^8`.
+
+**Why, and it is structural.**  A uniform bound `Λ > C·L^(−μ)` treats every `L` as
+though it were as bad as the worst convergent.  But the dangerous `L` are **sparse** —
+they cluster at convergents of `log₂ 3`, at the large partial quotients listed below.
+Halbeisen–Hungerbühler check those individually and let every other `L` through
+cheaply, and that sparsity is worth many orders of magnitude.  **No uniform
+Diophantine bound can capture it.**
+
+So the continued-fraction method is not a poor substitute for approximation theory:
+for this problem it is **strictly stronger**, because the obstruction is sparse
+rather than uniform.  The route forward is `hh_criterion` evaluated at the dangerous
+convergents — machinery this development already has, modulo `HHExtremal` — not the
+extraction of any Diophantine constant.
 
 ## And where the dangerous shapes live
 
