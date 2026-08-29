@@ -7546,3 +7546,115 @@ correction: `propext`, `Quot.sound`.  Zero `sorry`.  Zero added axioms.
 `lake build Collatz` succeeds, 272 jobs.
 
 **Both halves of the conjecture remain open.**
+
+## Round XL — the bridge, and three interface tracks that died
+
+The corrected diagnosis from Round XXXIX said the missing constraint must be
+`2`-adic × **archimedean**.  Four tracks were run against that specification.
+One produced a theorem.  Three produced precise dead ends, recorded here so the
+elimination is not repeated.
+
+### What was built: `Strategy/HHBridge`
+
+The repository had grown two descriptions of the affine accumulator and never
+joined them: the **word** side (`DeltaSpectrum.accC`, `C`, `gap`) folding
+`c ↦ 3c + 2^j` along a `List Bool`, and the **orbit** side
+(`AffineExact.affineC`, `oddCount`, `CycleLemma`) reading the same recursion off
+`acceleratedOrbit`.  The missing sentence is that they are the same recursion
+driven by two sources of parity bits.  `HHBridge` supplies it:
+
+* `w x i = acceleratedOrbit i x % 2` — the orbit's word as a `Nat → Nat`.
+* `w_periodic` — on a cycle it is periodic, which is exactly `CycleLemma`'s hypothesis.
+* `partialSum_eq_oddCount` — `CycleLemma.partialSum (w x) L = oddCount x L`.
+* **`affineC_eq_C : affineC L x = C (word x L)`** — the two accumulators are the
+  same number.
+* `oddCount_word`, `gap_word` — and the two odd-counts agree, so
+  `gap (word x L) = 2 ^ L − 3 ^ oddCount x L`.
+
+Axioms: `propext`, `Quot.sound`, `Classical.choice`.  Zero `sorry`.
+
+This closes gaps (1) and (2) of the four separating `CycleLemma` from
+`HHExtremal`.  **It does not close (3) or (4), and `HHExtremal` remains an
+assumed `Prop`.**  Still open: `hhMinTime l n n = hhMin l n l` — numerically
+true for `2 ≤ l ≤ 17` after the Round XXXIX ceiling fix, but a genuine
+sum-reindexing induction (sparse fold over one-positions against a full fold with
+zero-weighted gaps); and the rotation law transporting minimality of `x` across
+the rotation `cycle_lemma` selects for itself.  Nothing downstream of
+`HHExtremal` has become unconditional.
+
+### Dead end 1: heights and the product formula
+
+The canonical object coupling the `2`-adic and archimedean places, and the
+obvious candidate.  A periodic word's realizer is `x*(w) = C(w)/(2^L − 3^a)`.
+The hoped separation was a height inequality dividing "positive integer" from
+"negative rational with denominator `|2^L − 3^a|`" inside one `2`-adic cylinder.
+
+**It fails, and cleanly.**  The height of the realizer is governed by
+`gcd(C(w), 2^L − 3^a)`, which is uncontrolled.  Verified exhaustively at
+`L = 16`: of `6848` primitive words with negative realizer, `652` have reduced
+height strictly below `log|2^L − 3^a|` — e.g. the word `0010111111111101`
+(`a = 12`, denominator `465905`) reduces to `−320596/42355`, a collapse of
+`0.37` nats.  The extreme case is the all-ones word, which gives `x* = −1` for
+**every** `L` while `|2^L − 3^L| → ∞`.  Since these are all degree-1 points,
+Lehmer/Dobrowolski bounds say nothing, and the only available lower bound is
+saturated by a genuine admissible point.  **No height obstruction of the form
+"large denominator ⇒ large height" exists here.**
+
+The `{2,3,∞}`-restricted adelic norm was also computed along orbits: it equals
+the part of `n` coprime to `6`, is neither conserved nor monotone, and is
+elementary.  The full product formula is identically `1` and says nothing.
+
+### Dead end 2: bit-length against `2`-adic depth
+
+The measured phenomenon — a `6`-bit integer sustaining a run needing `59` bits of
+depth — invited the law `B ≤ c · b` (non-dropping run length against bit-length).
+Measured for **every odd `y < 2^27`**, taking the record-holder at each bit-length:
+
+| `b` | 5 | 8 | 10 | 14 | 18 | 21 | 24 | 27 |
+|---|---|---|---|---|---|---|---|---|
+| max `B` | 36 | 24 | 50 | 65 | 77 | 140 | 180 | 231 |
+| `B/b` | 7.2 | 3.0 | 5.0 | 4.6 | 4.3 | 6.7 | 7.5 | 8.6 |
+
+**`B/b` climbs across the whole measured range** — roughly `3` at `b ≈ 8` to `8.6`
+at `b = 27` — with no sign of levelling.  A linear bound would force the ratio to
+plateau or fall; it does the opposite.  The data therefore *refutes* the hoped
+inequality rather than failing to confirm it.  (Evidence only, `b ≤ 27`; the true
+growth rate of `maxB(b)` is not pinned down, with everything from a steeper line
+to `b^1.77` consistent.)
+
+The mechanism is worth keeping.  For every record-holder from `b = 10` up, the
+odd density `S/B` converges tightly to `log₂3 ≈ 1.585` — the records sit almost
+exactly on the critical threshold where a non-dropping run can exist at all.  What
+defeats the bound is that *bits of `y` consumed per run-step keeps shrinking*
+(`≈ 0.2` at `b = 10`, `≈ 0.12` at `b = 27`): larger integers find more room per
+step to stay near critical density.  The record-holders share a signature — a long
+run of trailing `1`s, i.e. `y ≡ −1 mod 2^k` for growing `k`, behind a sparser
+prefix — which is the `n ≡ −1 (mod 2^k)` class yet again, but they fit no closed
+form and look like lattice local optima rather than a family.
+
+### Dead end 3: the size/valuation coupling is Terras
+
+The most promising-looking lead was that an odd run multiplies `u = n+1` by `3/2`
+while consuming exactly one factor of `2` from `v₂(u)` per step — an apparent
+lockstep of magnitude and valuation.  Checked for all odd `n < 200000` with zero
+mismatches: the maximal odd run starting at `n` has length exactly `v₂(n+1)`.
+
+**This is the classical Terras run-length theorem**, restated.  Any quantity built
+linearly on it — `Φ(n) = log n − c·v₂(n+1)` and relatives — reduces to the standard
+drift heuristic `E[Δ log n] = log₂3 − 2 < 0`, which is a *statistical* statement
+about the run-length distribution, not a pointwise invariant, and is precisely
+what the block-Lyapunov exclusion already kills.  Marked as rediscovery.
+
+### The standing diagnosis, unchanged
+
+Three independent attempts to instantiate "`2`-adic × archimedean" produced two
+rediscoveries and one clean impossibility.  The specification is still the right
+one, and still unmet.  Nothing here narrows it further; what it does establish is
+that the two most natural formalisms for coupling the places — heights over the
+adeles, and valuation-weighted Lyapunov functions — are both spent.
+
+### Axiom footprint
+
+`lake build Collatz` succeeds, **273 jobs**.  Zero `sorry`.  Zero added axioms.
+
+**Both halves of the conjecture remain open.**
