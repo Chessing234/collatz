@@ -6069,3 +6069,76 @@ than a summary.  **Status of the two halves: unchanged.  Both open.**
 `conditional_cycle_bound`, `baker_polynomial`, `regions_disjoint`,
 `pow_ratio_le`, `pow_succ_diff`: `propext`, `Quot.sound`.  Zero `sorry`.  Zero
 added axioms.  `lake build Collatz` succeeds, 257 jobs.
+
+# Round XXIII — the product bound forgets that cycle elements are distinct
+
+The first strictly *stronger* result in seven rounds, rather than another map of a
+wall.  It comes from an input the repository has never used.
+
+## The gap
+
+`CycleProduct.neverDrops_product_bound` is `2 ^ L · m ^ a ≤ (3m+1) ^ a`.  The
+`m ^ a` treats all `a` odd elements of a cycle as if each equalled the minimum.
+They do not.  A cycle's elements are **distinct**, and they are **odd**, so sorted
+increasingly the `j`-th satisfies `n_j ≥ m + 2j`.  A grep confirms the words
+`distinct`, `Pairwise`, `Nodup` appear nowhere in the cycle-bound files.
+
+## The staircase bound (LEAN_PROVED)
+
+From the classical cycle identity `2 ^ L · ∏ nᵢ = ∏ (3nᵢ + 1)` together with
+`n_j ≥ m + 2j`:
+
+**`stair_product_bound`: `2 ^ L · ∏_{j<a}(m + 2j) ≤ ∏_{j<a}(3(m+2j) + 1)`.**
+
+The engine is one termwise inequality, `cross_step`: `y ≤ x → (3x+1)y ≤ x(3y+1)`,
+which is the monotonicity of `3 + 1/n`, multiplied along the staircase
+(`cross_prod`).  `stair_le_seq` supplies the domination: strictly increasing odd
+numbers from an odd `m` satisfy `n j ≥ m + 2j`, because consecutive odds differ by
+at least two.  The old bound is the degenerate case where every step is taken at
+`m`.
+
+## How much it buys — the horizon moves by a factor of 15
+
+The old bound caps `Λ = L log 2 − a log 3` by `a·log(1 + 1/3m) ≈ a/(3m)`, which is
+**linear** in `a` and passes the ceiling `log 2` at `a ≈ 2.079 m`.  That is the
+Round XXI horizon.
+
+The staircase caps `Λ` by `Σ_{j<a} log(1 + 1/(3(m+2j))) ≈ (1/6)·log(1 + 2a/m)`,
+which is **logarithmic**.  It passes `log 2` only at `1 + 2a/m = 2 ^ 6 = 64`, i.e.
+
+`a ≈ 31.5 m`.
+
+**Horizon `2.079 m → 31.5 m`, a factor of `15.2`.**  Distinctness turns a sum of
+`a` equal terms into a harmonic sum, and a linear cap into a logarithmic one.
+
+## The gain is a theorem, not an estimate
+
+`sharpening_is_strict`, by `decide`, at `m = 3`, `a = 9`, `L = 15` (legitimate:
+`2 ^ 14 ≤ 3 ^ 9 < 2 ^ 15`, `exponent_nine`):
+
+* old bound **holds**: `2 ^ 15 · 3 ^ 9 = 644 972 544 ≤ 10 ^ 9` — it excludes
+  nothing, and `ProductCeiling.product_bound_vacuous` proves it cannot, since
+  `a = 9 = 3m` is exactly at the old horizon;
+* staircase bound **fails**: `stairPlus 3 9 = 18 596 395 417 600 <
+  21 454 162 329 600 = 2 ^ 15 · stair 3 9` — so it excludes.
+
+`sharpening_is_strict` and `witness_values` depend on **no axioms at all**.
+
+## Honest scope
+
+* This is a strictly stronger cycle bound.  It is **not** a proof of anything
+  about Collatz, and both halves remain open.  It moves a horizon; it does not
+  remove one.  Past `a ≈ 31.5 m` the staircase is vacuous exactly as the old bound
+  was past `2.079 m`, and `ProductCeiling`'s argument applies verbatim there.
+* `stair_product_bound` is stated about any sequence satisfying the cycle identity
+  and the staircase domination.  **The bridge from the repository's own cycle
+  representation to a sorted enumeration of its odd elements is not built.**
+  Until it is, this bound is not plugged into `MinimalCycle` and the admissible-`a`
+  count of Round XX is unchanged in the repository's own terms.  That bridge is the
+  next piece of work and it is ordinary, not deep.
+
+## Axiom footprint
+
+`stair_product_bound`, `cross_prod`, `cross_step`, `stair_le_seq`: `propext`,
+`Quot.sound`.  `sharpening_is_strict`, `witness_values`, `exponent_nine`: none.
+Zero `sorry`.  Zero added axioms.  `lake build Collatz` succeeds, 258 jobs.

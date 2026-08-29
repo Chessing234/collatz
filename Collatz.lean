@@ -199,6 +199,7 @@ import Collatz.Strategy.DeviceProduct
 import Collatz.Strategy.ProductCeiling
 import Collatz.Strategy.HorizonSharp
 import Collatz.Strategy.BakerConditional
+import Collatz.Strategy.StairBound
 import Collatz.Strategy.AffineExchange
 import Collatz.Strategy.Frontier
 import Collatz.Strategy.Master
