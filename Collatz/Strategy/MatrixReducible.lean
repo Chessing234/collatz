@@ -27,27 +27,52 @@ letters and length `n` gives diagonal `(3^a, 2^n)` exactly.  All the ordering
 information — everything that distinguishes one trajectory from another — sits in
 the single off-diagonal entry, which is the accumulator `affineC`.
 
-## Why this closes the approach
+## What this does and does not close — corrected
 
-Barabanov's theorem, which supplies an extremal norm realising the joint spectral
-radius, is stated for **irreducible** families.  Here the family is reducible, so
-there is no genuinely two-dimensional extremal norm to find: the joint spectral
-radius is `max(3, 2) = 3`, attained by the single-letter cycle `O`, and the
-finiteness property holds trivially.  A Barabanov norm was the one shape of
-Lyapunov function that the pointwise impossibility results of
-`SurvivorWitness` did not already exclude — "a certificate that exists for the
-semigroup while being invisible pointwise".  Reducibility removes it.
+**Correction, after adversarial review.**  An earlier version of this file claimed
+that reducibility *removes* the Barabanov route.  That inference was **invalid** and
+is withdrawn.  Barabanov's theorem supplies an extremal norm for *irreducible*
+families; irreducibility is what buys **uniqueness**, and it is not known to be
+necessary for **existence**.  The standard mechanism by which a reducible family
+fails to have an extremal norm is that its invariant subspace grows *strictly
+slower* than the ambient joint spectral radius — and that is **not** the situation
+here, since the invariant line is the dominant block, realising `ρ = 3` exactly.
+So "no extremal norm exists" would need a separate proof that this file does not
+supply.
 
-The separation one would have hoped for — that Collatz-*admissible* words avoid
-the extremal word `O^k`, giving restricted radius `< 1 <` unrestricted — is also
-false, and by an witness already in this development: `SurvivorWitness` shows
-`n ≡ −1 (mod 2^(k+1))` takes `k` consecutive odd steps, so `O^k` is admissible for
-every `k`.  Restricted and unrestricted radii coincide.
+What is established, and stands:
 
-**That same residue class has now closed four separate programmes** — covering
-systems, block Lyapunov functions, the JSR separation, and (as the all-odd word)
-the extremal-word question.  It is the sharpest single obstruction this
-development has found.
+* `diag_eq` and `common_eigenvector` are theorems.
+* Reducibility is **forced**, not incidental: representing an affine map
+  `n ↦ αn + β` on `(n, 1)` always leaves the constant line invariant, and every
+  polynomial functor of such a pair — `Symᵏ`, `⊗ᵏ`, `∧ᵏ`, duals — inherits an
+  induced invariant flag.  `Sym²E` and `Sym²O` were checked explicitly and are
+  again simultaneously triangular.  So no finite-dimensional affine-embedding
+  representation escapes.
+* The joint spectral radius is `max(3, 2) = 3`, attained on the invariant subspace
+  by the single letter `O`, with finiteness holding trivially.
+
+**But the joint spectral radius was never the right quantity.**  It is a supremum,
+realised only by the all-odd word, and although `SurvivorWitness` shows `O ^ k` is
+admissible for every finite `k` (via `n ≡ −1 mod 2 ^ (k+1)`), the infinite all-odd
+word is realised only in the `2`-adic limit `n → −1`, never by a positive integer.
+So `ρ = 3` bounds worst-case *transient* growth and says nothing about eventual
+descent.
+
+The quantity that would matter is the typical exponent — the joint spectral
+subradius, or the Lyapunov exponent under the natural measure, where the
+per-step geometric mean is `√(3/2 · 1/2) = √3/2 ≈ 0.866 < 1`.  Reducibility makes
+that computation *elementary*, since the dominant block is a scalar product of
+multipliers in `{1, 3}`.  **That is not a new route.**  It is exactly the classical
+Lagarias–Terras negative-drift heuristic, and Round XXXV established that it admits
+no deterministic bridge: the drift statement lives on `ℤ₂` with the never-dropping
+set of Hausdorff dimension `0.94996`, while descent is a statement about a specific
+integer.
+
+So the honest verdict is narrower than first recorded: **the supremum-based JSR
+route gives nothing, for a reason now precisely identified; the typical-exponent
+route is the old heuristic in new coordinates; and whether an extremal norm exists
+here is left open rather than settled.**
 
 ## What survives
 

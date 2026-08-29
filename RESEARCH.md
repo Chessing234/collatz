@@ -7284,3 +7284,48 @@ never-dropping words the denominator in lowest terms is exactly `|2^L − 3^a|`.
 axioms.  `lake build Collatz` succeeds, 272 jobs.
 
 **Both halves of the conjecture remain open.**
+
+## Round XXXVII, correction after adversarial review
+
+The referee pass on `MatrixReducible` returned **OVERSTATED**, and it is right.
+The correction is recorded here and in the module.
+
+**Withdrawn:** "reducible ⟹ no Barabanov norm ⟹ the JSR route is closed."  That
+inference is invalid.  Barabanov's theorem supplies an extremal norm for
+*irreducible* families; irreducibility buys **uniqueness** and is not known to be
+necessary for **existence**.  The usual mechanism by which a reducible family has
+no extremal norm is that its invariant subspace grows *strictly slower* than the
+ambient joint spectral radius — and here the invariant line is the **dominant**
+block, realising `ρ = 3` exactly.  So the non-existence claim needed a separate
+proof and did not have one.
+
+**Strengthened, by the same review:** reducibility is *forced*, not incidental.
+Representing an affine map `n ↦ αn + β` on `(n,1)` always leaves the constant line
+invariant, and every polynomial functor — `Symᵏ`, `⊗ᵏ`, `∧ᵏ`, duals — inherits an
+induced invariant flag.  `Sym²E` and `Sym²O` were computed and are again
+simultaneously triangular.  **No finite-dimensional affine-embedding representation
+escapes**, so the obvious repair is unavailable.
+
+**What stands:** `common_eigenvector` (axiom-free) and `diag_eq` are theorems.  The
+joint spectral radius is `3`, attained on the invariant subspace by `O`.  And
+`SurvivorWitness` makes `O ^ k` admissible for every finite `k`.
+
+**What the review adds, correctly:** the joint spectral radius was never the right
+quantity.  It is a supremum realised only by the infinite all-odd word, which is
+reached only in the `2`-adic limit `n → −1` and by no positive integer.  So `ρ = 3`
+bounds worst-case *transient* growth and is silent about descent.
+
+**And what the review's proposed escape actually is.**  The referee offers the
+typical exponent — subradius, or Lyapunov exponent under the natural measure, with
+geometric mean `√3/2 ≈ 0.866 < 1` — as a surviving route, noting reducibility makes
+it an elementary scalar computation.  That is correct as computation but is **not a
+new route**: it is precisely the Lagarias–Terras negative-drift heuristic, and
+Round XXXV already established it admits no deterministic bridge, the drift living
+on `ℤ₂` where the never-dropping set has dimension `0.94996` while descent is a
+statement about one integer.
+
+**Net:** the theorem survives, one inference drawn from it does not, and the
+strengthening (reducibility is forced for all affine embeddings) is a genuine gain
+from the attack.  Recording this because the alternative — leaving an overstated
+claim in place because it compiles — is exactly the failure mode this development
+is supposed to avoid.
