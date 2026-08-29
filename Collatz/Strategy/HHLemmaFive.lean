@@ -51,9 +51,29 @@ sharp Halbeisen–Hungerbühler criterion, in place of this repository's own wea
 product bound.
 
 It is a statement about **cycles only**.  It says nothing about divergent orbits,
-and it is not a proof of the Collatz conjecture.  Converting it into a numerical
-cycle-length bound still requires evaluating `hhMin L a L` against the verified
-range over a range of `L`, which is a separate computation this file does not do.
+and it is not a proof of the Collatz conjecture.
+
+**And at this repository's verified range it buys no new number.**  Evaluating the
+criterion at `c = 1 086 464` — `hhMin L n L < (2 ^ L − 3 ^ n) · c` at the largest
+admissible `n` — it holds for every `L ≤ 6808` and fails first at exactly
+`(L, n) = (6809, 4296)`.  That is precisely the wall of
+`RealizableFrontier6809.length_ge_6809`, which the repository already proves
+unconditionally by a completely different route.  The sharp criterion reproduces
+the existing bound and does not exceed it.
+
+The reason is that both methods are stopped by the same Diophantine obstruction:
+`6809/4296` is a semiconvergent of `log₂ 3` (`6809 = 485 + 6·1054`, the ladder of
+`ExclusionRatio`), where `3 ^ n` sits so close to `2 ^ L` from below that the gap
+`2 ^ L − 3 ^ n` collapses relative to `hhMin`.  Sharpening the *criterion* does not
+move a wall whose position is set by how well `n/L` approximates `log₃ 2`.
+
+What the proof does buy is exchange rate: the criterion is sharp, so any future
+increase in the verified range converts into length more efficiently than the
+product bound does.  Conditionally on Barina's `704 · 2 ^ 60` the criterion is
+known to survive past `L = 125 743`, well beyond the `40 001` the repository's
+conditional sweep records — but that is a measurement, not a kernel-checked
+theorem, and certifying it would need an `O(log L)` evaluation of `hhMin` that
+does not exist here.
 -/
 
 namespace Collatz

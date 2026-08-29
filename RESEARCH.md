@@ -7787,3 +7787,85 @@ first — an obstacle beyond the raw `10¹¹` checking cost, and one I had not s
 Every theorem named above: `propext`, `Quot.sound`, some also `Classical.choice`.
 
 **Both halves of the conjecture remain open.**
+
+## Round XLII — Lemma 5 is proved, and it changes no number
+
+### `HHExtremal` is no longer a hypothesis
+
+`Strategy/HHLemmaFive` proves `hhExtremal_holds : HalbeisenHungerbuhler.HHExtremal`.
+Axioms: `propext`, `Quot.sound`.  No `sorry`, nothing added.  The `Prop` the
+repository carried as an assumption from Round XXV onward is discharged, and
+`hh_criterion` / `hh_no_cycle_below` are unconditional.
+
+The four gaps, closed in order:
+
+1. **`HHBridge.affineC_eq_C`** — the word side and the orbit side of the
+   accumulator are one recursion.
+2. **`HHBridge.oddCount_word`, `gap_word`** — and the two odd-counts agree.
+3. **`HHMinTime.hhMinTime_eq_hhMin`** — the two constructions of `M_{l,n}` are one
+   sum reindexed along the support of the ceiling Beatty word.  *True only because
+   of the Round XXXIX floor/ceiling correction*; before it the two sides disagreed
+   at 136 points and this step was false.
+4. **`RotationLaw.oddCount_rotation_invariant`** — `oddCount` over a full period is
+   rotation-invariant, so the gap `2 ^ L − 3 ^ a` belongs to the *cycle*, not to
+   the point, and `gap_mul_le_affineC_rotation` transports a bound at any rotation
+   back to the orbit minimum.  Then `HHBridge.T` (the `j`-th one-position, a
+   fuelled scan — there is no `Nat.find` here), `rotation_position_bound`, and
+   finally `HHLemmaFive.times_word_eq`: the positions `times` reads off the word
+   are exactly the one-positions `T`.
+
+### It was checked, not assumed
+
+* Over **4072 words** with `2 ≤ l ≤ 12`: every word has a rotation whose `j`-th
+  one-position is `≤ tildeTime l n j`, and `min` over rotations of `C` is at most
+  `hhMin`.  Zero violations of either.
+* `hhMin l n l` is **exactly** `max_w min_r C(rot_r w)` over all `l ≤ 11` — zero
+  slack.  So it is genuinely `M_{l,n}` and the bound is sharp, not a surrogate.
+* Tight on the trivial cycle: `gap · x = 1 = hhMin 2 1 2`.
+* An adversarial referee attacked vacuity, the identification of `hhMin` with
+  `M_{l,n}`, circularity, the correctness of `affineC`, and all five new lemmas
+  against real orbits (`x ∈ {1,3,5,7,9,11,27,703,12345}`, `L ≤ 30`).  No
+  counterexample, no gap.  It did find four docstrings still narrating the gaps as
+  open — false statements by then, since corrected.
+
+### And it buys no new number
+
+This is the part worth stating plainly.  Evaluating the now-unconditional
+criterion at the repository's verified range `c = 1 086 464`, at the largest
+admissible `n` for each `L`:
+
+`hhMin L n L < (2 ^ L − 3 ^ n) · c` holds for every `L ≤ 6808` and fails first at
+exactly `(L, n) = (6809, 4296)`.
+
+That is **precisely** the wall of `RealizableFrontier6809.length_ge_6809`, which
+the repository already proves unconditionally by an entirely different route.
+The sharp criterion reproduces the existing bound and does not exceed it.  (An
+agent reported this as a `2.63×` improvement by comparing against
+`CycleLength2593`; that is not the repository's best bound, and the comparison was
+wrong.  Verified independently: the criterion holds at `L = 2593, 4701, 6808` and
+fails at `6809`.)
+
+**Why**: both methods are stopped by the same Diophantine obstruction.
+`6809 = 485 + 6·1054` is a semiconvergent of `log₂ 3` — the same ladder
+`ExclusionRatio` found the product-bound frontier on — and there `3 ^ n` sits so
+close to `2 ^ L` from below that the gap collapses relative to `hhMin`.
+Sharpening the *criterion* cannot move a wall whose position is set by how well
+`n/L` approximates `log₃ 2`.  Three independent methods — the product bound, the
+realizable-frontier certificate, and now the sharp H–H criterion — all stop at
+`(6809, 4296)`.
+
+What the proof does buy is **exchange rate**: the criterion is sharp, so future
+increases in the verified range convert into length more efficiently.
+Conditionally on Barina's `704 · 2 ^ 60` the criterion survives past
+`L = 125 743`, against the `40 001` the repository's conditional sweep records —
+but that is a measurement, not a theorem, and certifying it needs an `O(log L)`
+evaluation of `hhMin`, which does not exist here.  Reaching the paper's
+`102 225 496` needs that same fast evaluation and is out of reach of both `decide`
+and direct computation.
+
+### Axiom footprint
+
+`lake build Collatz` succeeds, **277 jobs**.  Zero `sorry`.  Zero added axioms.
+
+**Both halves of the conjecture remain open.**  What closed is a lemma, inside the
+cycles half, that the repository had been assuming.
