@@ -210,6 +210,7 @@ import Collatz.Strategy.SortStair
 import Collatz.Strategy.HercherMerge
 import Collatz.Strategy.HercherChain
 import Collatz.Strategy.NoWindowObstruction
+import Collatz.Strategy.SurvivorWitness
 import Collatz.Search.BarinaRange
 import Collatz.Search.VerifiedRange
 import Collatz.Strategy.AffineExchange

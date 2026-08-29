@@ -7097,3 +7097,84 @@ independently, a third confirmation.
 Zero added axioms.  `lake build Collatz` succeeds, 270 jobs.
 
 **Both halves of the conjecture remain open.**
+
+# Round XXXVI — wave three: two programmes closed by one witness
+
+Four more tracks.  Two produced the numeric deliverables asked for, and those two
+turn out to fail for **the same reason**, which is now formalised.
+
+## The shared witness — `SurvivorWitness` (LEAN_PROVED)
+
+Both negatives reduce to `n ≡ −1 (mod 2 ^ k)`, i.e. `n + 1 = 2 ^ k · u`.  By
+`DeviceSwap.run_climb` such an `n` takes `k` consecutive odd steps, each
+multiplying the shifted coordinate by exactly `3/2`.
+
+* **`no_drop_within`** — for every `i ≤ k`, `n ≤ T^i(n)`.  The proof is one line
+  after `run_climb`: the shifted value is `3 ^ i · w` against `2 ^ i · w`, and
+  `3 ^ i ≥ 2 ^ i`.
+* **`survivor_exists`** — `2 ^ k − 1` is such an `n`, at every level `k ≥ 1`.
+* **`no_covering_by_powers_of_two`** — hence there is no `k` for which every
+  residue class mod `2 ^ k` drops within `k` steps.
+* **`block_ratio_witness`** — on the same family `T^k(n) + 1 = 3 ^ k`, so the block
+  growth ratio is exactly `(3/2) ^ k`.
+
+## What the two tracks measured, and why the witness explains both
+
+**Covering / density.**  With `S_j = #{r < 2 ^ j : r does not drop within j steps}`,
+the parity-vector bijection gives exactly
+
+`S_j = Σ_{a : 3 ^ a ≥ 2 ^ j} C(j, a)`
+
+(binomial law `#{r < 2^j : a odd steps} = C(j,a)` verified by brute force for
+`j ≤ 13`, zero exceptions).  Measured: `S_10 = 176`, `S_20 = 137 980`,
+`S_30 = 107 636 402`, `S_60 ≈ 2.99 · 10 ^ 16`, and `log₂(S_j)/j = 0.9122` at
+`j = 60`, climbing to the binary entropy `H₂(log 2/log 3) = 0.94996`.
+
+**The density goes to one and the survivor count goes to infinity.**  `d_j → 1` but
+`S_j ~ 1.9318 ^ j`.  So no covering system can finish; the residual is of vanishing
+density and unbounded size.  The survivor tree has no dead ends — every survivor has
+a surviving child.
+
+**Cross-check that matters:** `H₂(log 2/log 3) = 0.94996` is *exactly* the Hausdorff
+dimension `≈ 0.95` of the never-dropping set in `ℤ₂` computed independently in wave
+one, by a completely different method.  Two unrelated computations agreeing to three
+decimals is the strongest internal validation this project has produced.
+
+**Block Lyapunov.**  For each `k ≤ 20` the optimal achievable sup-ratio of
+`V(T^k n)/V(n)` over bounded residue-class weightings `g` is exactly `3 ^ k / 2 ^ k`,
+attained at `2 ^ k − 1`: `1.5, 2.25, 3.375, 5.063, …, 3325.257`.  **It does not
+approach `1` from above — it diverges geometrically.**  No `V(n) = n · g(n mod 2 ^ k)`,
+`n ^ α · g`, or `log n + h` can work, for any `k ≤ 20`, and the reason generalises:
+the all-odd class is present at every level and on it the map does the worst thing
+available.
+
+## The two weaker tracks
+
+**Graph-theoretic** — correct but near-trivial: the forward Collatz graph is
+*functional* (out-degree exactly `1`), so the separator framing is vacuous — there
+is only ever one forward path from `n`.  Pushed to the inverse tree it dies for the
+same equidistribution reason already proved dead for parity windows.  One useful
+measurement: bit-length level revisits grow **linearly** in orbit length
+(≈ 0.58 per step), so unboundedly many crossings of every level is generic for
+*convergent* orbits — killing "bounded level crossings" as a divergence signature.
+The agent honestly flagged that it did not complete the `x ^ 0.84` work.
+
+**Fresh invention** — three ideas, all dead.  The `u = n+1` ceiling/floor
+reformulation is a true but empty conjugacy.  The "ceiling defect" co-state
+`D_k = u_k − u_0·(3/2)^a/2^{k−a}` is **unbounded** (≈ 1369 after 40 steps), because
+each ceiling correction is multiplied by `3/2` at every later odd step.
+
+That last one has a closed answer the agent did not have: **`D_k · 2 ^ k` is exactly
+`RunAlgebra.runA`**, the repository's shifted accumulator — verified here, 59 970
+checks, zero failures.  So its proposed follow-up (is the *normalised* defect
+`D_k/L_k` bounded?) is already settled by `AffineExact.affineC_le`, which gives
+`runA ≤ 3 ^ a (2 ^ t − 1)` and hence `D_k/L_k ≤ (2 ^ t − 1)/(n+1)` — **not** bounded,
+since `2 ^ t` grows.  Verified, zero failures.  The direction is closed.
+
+## Axiom footprint
+
+`no_drop_within`, `survivor_exists`, `block_ratio`, `block_ratio_witness`,
+`no_covering_by_powers_of_two`: `propext`, `Quot.sound`.  Zero `sorry`.  Zero added
+axioms.  `lake build Collatz` succeeds, 271 jobs.
+
+**Both halves of the conjecture remain open.**
