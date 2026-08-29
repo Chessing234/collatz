@@ -217,6 +217,7 @@ import Collatz.Strategy.HHMinTime
 import Collatz.Strategy.ExclusionRatio
 import Collatz.Strategy.RotationLaw
 import Collatz.Strategy.HHLemmaFive
+import Collatz.Strategy.HHThreshold
 import Collatz.Search.BarinaRange
 import Collatz.Search.VerifiedRange
 import Collatz.Strategy.AffineExchange

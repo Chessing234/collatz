@@ -7869,3 +7869,110 @@ and direct computation.
 
 **Both halves of the conjecture remain open.**  What closed is a lemma, inside the
 cycles half, that the repository had been assuming.
+
+## Round XLIII — seven sparks, six deaths, and the price list
+
+A deliberately creative wave: seven independent agents, each given a short spark
+rather than a prescribed method, each told to falsify its own idea and to say
+whether it touches the `(6809, 4296)` wall.  Six died.  The round's real result
+came from a computation none of them was running.
+
+### The price list
+
+`HHLemmaFive` made the Halbeisen–Hungerbühler criterion unconditional and then
+showed it merely reproduces the existing `6809`.  The operational question is
+what each further length would *cost*.  The criterion kills `L` when
+`hhMin L n L < (2^L − 3^n)·c`, so `L` is killed exactly when
+
+`c > hhMin L n L / (2^L − 3^n)`,
+
+a rational in `L` and `n` alone.  Exact rational evaluation at `n = nmax L` (which
+maximises the threshold — checked against *all* admissible `n` for every `L < 60`
+and at `L = 485, 1539, 2593`, no exception):
+
+| `L` | verified range needed |
+|---|---|
+| `485` | `72 059` |
+| `1539` | `238 671` |
+| `2593` | `420 842` |
+| `4701` | `841 478` |
+| `5755` | **`1 086 055`** |
+| `6809` | **`1 358 718`** |
+| `7863` | `1 664 599` |
+| `9971` | `2 403 661` |
+| `14187` | `4 733 176` |
+| `24727` | `206 178 000` |
+
+**The repository's verified range is tuned to the wall.**  `1 086 464` clears the
+price of `5755` — `1 086 055` — by `409`, and falls short of `6809`'s price by
+exactly `1.2506×`.  The constant was chosen to sit just past a ladder step.
+
+**Proving Lemma 5 did buy something, and this is what.**  The product bound needs
+`c = 3 072 000` for `6809` and `12 288 000` for `14187`; the sharp criterion needs
+`1 358 718` and `4 733 176` — `2.26×` and `2.60×` cheaper.  The gain is in the
+exchange rate, which is invisible at today's `c` and real at any larger one.
+
+**The next step is now priced**: verifying to `1 358 718`, a `1.2506×` extension
+of a range this repository has already widened twice, moves the unconditional
+cycle-length bound from `6809` to `7863`.  Arithmetic, not insight — but written
+down so the cost is known before it is paid.  `Strategy/HHThreshold` holds
+`hhKills`, its monotonicity in `c`, the criterion in threshold form, and the first
+rung kernel-checked both ways (`485` killed at `72 059`, not at `72 058`).
+
+### A claim checked and withdrawn
+
+One agent proposed that the wall sits where the entropy of the extremal gap
+sequences, `log₂ C(a, L−a)`, crosses `log₂ G`.  **There is no crossing.**  Along
+the ladder: `295.2` vs `476`, `945.4` vs `1530`, `4199.7` vs `6799` at the wall,
+`6152.7` vs `9961` past it — entropy stays below bit length by a near-constant
+ratio `≈ 0.62` throughout, with nothing distinguishing `6809`.  The comparison
+describes every rung equally and therefore explains no wall.
+
+### The six deaths, each with its cause
+
+* **Orbit geometry** (shoelace area of the lattice staircase `(a_k, b_k)`).  Dies
+  on **F1**: the area depends only on the parity word, so every integer realising
+  that word gives the same value — an instance of the repository's own
+  `NoWindowObstruction`.  Restoring integer-sensitivity collapses it back to the
+  log-linear bound and its wall.
+* **Nonlocal potential** (excursion peak ratio `M(n)/n` to first return below `n`).
+  Unbounded already below `2×10^5` (`Φ(159487) ≈ 53930`), and non-monotone along
+  excursion chains in 17–42% of steps with no signed drift.  Inherits the
+  unbounded run-length statistic rather than escaping it.
+* **Inverse-tree topology.**  Dies at the König trap, correctly identified: the
+  finitely-branching tree is the one rooted at `1`, where König gives the vacuous
+  branch `1→2→4→…`; a divergent orbit is a single *path*, with no branching for
+  König, Nash–Williams or a wqo to bite on.  The right tool there is the
+  well-ordering of a minimal counterexample, which the repository already uses.
+* **Parity as a code.**  The word-to-minimal-realizer map is a bijection onto
+  `[0, 2^k)` that is *not* an isometry — single-bit flips move the realizer by
+  `896, 2935, 8192, 4135, 111, …` with no dependence on Hamming distance.  A
+  full-rate code with no distance is degenerate; this is the finite-window
+  bijection wearing coding-theoretic clothes.
+* **Defect cancellation** in `u = n+1`.  The identity is exact and confirmed
+  (10 000 starts × 300 steps, zero failures), but `u_j = n_j + 1` is a constant
+  shift, so it is an isomorphism, not a reduction: any potential built from `u` is
+  `affineC`/`deficit` re-encoded, and inherits the same wall.
+* **Integrality via norm forms.**  `G = 2^L − 3^a ≡ 5 (mod 8)` for odd `a` and
+  `≡ 7` for even `a`, always, while `u² + 2v² mod 8 ∈ {0,1,2,3,4,6}` — so `G` is
+  never a norm from `Z[√−2]`.  True, and **information-free**: it holds identically
+  whether or not a cycle exists.  A textbook **F3** death — an order-blind fact
+  about `G` alone cannot separate `ℤ` from the ring that has a 13-cycle.
+
+The seventh, a Skolem–Mahler–Lech reduction, is not a known restatement and
+clears F1 and F2, but needs the order of `ℤ` smuggled back in separately (F3) and
+degrades at exactly the convergent where `2^L/3^a → 1`.  Blocked at the same wall.
+
+### What the wave establishes
+
+Every one of the seven, when pushed, either ignored the integers (F1), ignored the
+order (F3), or reduced to the `2^L` versus `3^a` comparison and stopped at
+`(6809, 4296)`.  That is now five independent methods stopping at the same pair.
+The wall is not an artefact of any technique; it is where the ladder of
+semiconvergents of `log₂ 3` puts it.
+
+### Axiom footprint
+
+`lake build Collatz` succeeds, **278 jobs**.  Zero `sorry`.  Zero added axioms.
+
+**Both halves of the conjecture remain open.**
