@@ -202,6 +202,7 @@ import Collatz.Strategy.BakerConditional
 import Collatz.Strategy.StairBound
 import Collatz.Strategy.StairThree
 import Collatz.Strategy.HalbeisenHungerbuhler
+import Collatz.Strategy.ExtremalTime
 import Collatz.Strategy.AffineExchange
 import Collatz.Strategy.Frontier
 import Collatz.Strategy.Master

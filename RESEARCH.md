@@ -6337,3 +6337,68 @@ this round changes that.**
 `beattyRem_lt`, `beatty_invariant`, `beatty_count_eq`, `hh_min_bound`,
 `hh_min_large`: `propext`, `Quot.sound`.  Zero `sorry`.  Zero added axioms.
 `lake build Collatz` succeeds, 260 jobs.
+
+# Round XXVI — Lemma 5 reduced to the cycle lemma, and part 2 turns out to be free
+
+Halbeisen–Hungerbühler's Lemma 5 has three parts:
+
+1. every word of shape `(l, n)` has a **rotation whose partial sums dominate the
+   line `kn/l`** — the Dvoretzky–Motzkin cycle lemma;
+2. **`s̃` is minimal among dominating words**;
+3. **Lemma 4**: larger partial sums ⟹ smaller `φ`.
+
+Part 3 has been in this repository since Round XVIII as
+`AffineExchange.Crel_mono`.  This round supplies part 2 — and part 2 turns out to
+be free.
+
+## The observation
+
+In *time* coordinates the domination condition has no ceilings in it.  For odd-step
+times `t₀ < ⋯ < t_{a−1}`, the partial-sum condition `Σ_{i≤k} wᵢ ≥ ⌈kn/l⌉` for all `k`
+is equivalent to
+
+`t_j ≤ ⌊j·l/n⌋`   for all `j`,
+
+because `Σ_{i≤k} wᵢ ≥ ⌈kn/l⌉ ⟺ ∀ j, t_j < min{k : kn > jl} ⟺ ∀ j, t_j ≤ ⌊jl/n⌋`.
+`dom_iff_mul_le` records the division-free form, `t_j · n ≤ j · l`.
+
+So part 2 is **pointwise domination of time lists** — precisely the hypothesis
+`AffineExchange.Dom` that `Crel_mono` already consumes.  `dominating_Crel_le` is
+therefore a one-line consequence:
+
+**`(∀ j < a, t j ≤ ⌊jl/n⌋) → Crel (times t) ≤ Crel (tildeList l n a)`.**
+
+`tildeTime l n j = j * l / n` is the extremal time list; `hhMinTime` is `M_{l,n}`
+in these coordinates.  Supporting lemmas `Dom_append_singleton` and
+`Dom_of_pointwise` transfer domination through `List.range` maps.
+
+## The state of the chain
+
+| link | status |
+|---|---|
+| Beatty word, division-free (`beattyRem`, `beattyBit`) | proved |
+| its weight is exactly `n` (`beatty_count_eq`) | proved |
+| `M_{l,n}` (Corollary 1) | defined |
+| Lemma 4 (`Crel_mono`) | proved (Round XVIII) |
+| **Lemma 5 part 2** (`dominating_Crel_le`) | **proved this round** |
+| Theorem 4 criterion (`hh_criterion`) | proved from `HHExtremal` |
+| exclusion below verified bound (`hh_no_cycle_below`) | proved |
+| **Lemma 5 part 1** — the cycle lemma | **the only gap** |
+
+## The one gap
+
+> Every word of shape `(l, n)` has a rotation whose times satisfy `t_j ≤ ⌊jl/n⌋`.
+
+Its standard proof rotates at the index maximising `kn/l − Σ_{i≤k} wᵢ`, which is a
+fold-maximum of exactly the kind `Discrepancy.discMax` already performs here.
+Discharging it discharges `HHExtremal`, and with it the whole criterion chain.
+
+**Both halves of the conjecture remain open.**  What this round changes is that the
+distance to a published `10^8` cycle bound is now one named combinatorial lemma
+with a known proof, rather than an open problem.
+
+## Axiom footprint
+
+`dominating_Crel_le`, `Dom_of_pointwise`, `Dom_append_singleton`: `propext`,
+`Quot.sound`.  `dom_iff_mul_le`: `propext`.  Zero `sorry`.  Zero added axioms.
+`lake build Collatz` succeeds, 261 jobs.
