@@ -7007,3 +7007,93 @@ where order enters.
 269 jobs.
 
 **Both halves of the conjecture remain open.**
+
+# Round XXXV — wave two: four fresh directions, one theorem, one circularity found
+
+Four independent tracks on radically different mathematics.  All four returned.
+As before, nothing is recorded that was not checked independently of the agent
+that produced it.
+
+## The theorem — `NoWindowObstruction` (LEAN_PROVED)
+
+`Accelerated.parityVector_surjective_mod_pow_two` is already proved here: every
+`0-1` word of length `k` occurs as a parity vector.  Made positive
+(`parity_prefix_surjective`, via `parityVector_mod_pow_two` on `a + 2 ^ k`), it
+yields
+
+**`no_finite_window_obstruction`: if a property of `0-1` words holds on the
+length-`k` parity word of every positive integer, it holds on *every* `0-1` word of
+length `k`.**
+
+So a test inspecting a bounded prefix of the parity word and satisfied by all
+positive integers separates nothing at all.
+
+**Corollary — no subshift of finite type.**  An SFT is a finite set `F` of
+forbidden words; let `L` be the longest.  Any `f ∈ F` is, by
+`no_forbidden_prefix`, the parity prefix of a genuine positive integer, so
+forbidding it excludes that integer.  Hence `F = ∅`, the subshift is the full
+shift, and it contains the never-dropping words too.  **No subshift of finite type
+contains every positive integer's parity word and excludes the never-dropping
+ones.**
+
+This closes the *combinatorial* branch of symbolic dynamics outright, from a
+theorem rather than from measurement.  It leaves weighted automata untouched — and
+there the obstruction is different and was identified this round: `affineC` depends
+on the positions of *all* earlier odd steps, so no finite-state device computes it,
+and a bounded-window surrogate has error that is bounded but does **not** vanish.
+
+## The circularity — my own proposed pigeonhole was wrong
+
+I had suggested: a non-dropping orbit of length `j` visits `j` distinct integers
+`≥ n`, so if it stays below `M` then `j ≤ M − n`, which should contradict the affine
+law.  **This is circular twice over**, and the ergodic track found both holes:
+
+1. "visits `j` **distinct** values" needs the orbit not to cycle above `n` —
+   ruling out a cycle at height `≥ n` is a restricted case of the conjecture;
+2. the bound needs an a priori ceiling `M`, and producing `M` for all `n` is the
+   hard half of the conjecture, not an input to it.
+
+The pigeonhole converts one open problem into an equally open one.  Recorded so it
+is not proposed again — including by me.
+
+## Ordered rings: the `Z[√−2]` question answered, and it does not help
+
+Wave one found that `Z[√−2]` carries every structural theorem of this development
+**and** a nontrivial 13-cycle, its only failing ingredient being the order.  The
+obvious follow-up: do **ordered** (real quadratic) analogues have cycles?
+
+Searched all class-number-one imaginary quadratic orders and `Z[√d]`,
+`Z[(1+√d)/2]` for `d ≤ 21`, for pairs `π` (norm `±2`), `μ` (norm `±3`) with `μ − π`
+a unit.  Two findings:
+
+* **The structure is rare, not generic.**  Almost no ring admits such a triple;
+  `Z[√−2]` is essentially the unique imaginary one.  Real cases exist only at
+  `d = 3, 6, 7`.
+* **In all three ordered cases: zero nontrivial cycles.**  But the mechanism is
+  not "order forbids growth".  Tracing orbits shows the integer norm `|N(x)|`
+  grows exponentially while the **real embedding stays bounded and oscillates** — a
+  Pell-like compensation by the conjugate embedding.  The orbits are
+  bounded-but-not-visibly-periodic: **exactly the open shape of the original
+  conjecture.**
+
+So order does suppress cycles in the tested range, but the ordered analogue is a
+problem of the same difficulty, not an easier one.  CONJECTURE, not theorem, and no
+proof mechanism was extracted.
+
+## Lyapunov: nothing survived, and the failures were shallow
+
+Every candidate family (odd part of `n+1`, `v₂(n+1)`, `v₂(3n+1)`, odd part of
+`3n+1`, odd-run length, and residue-class-fitted product potentials) failed against
+the *plain map* before any soundness filter was needed — 25–75 % of random `n`
+increase.  The fitted potential dies at `n = 4 477 015` for every `(j, k)` tried.
+Useful byproduct: the `Z[√−2]` 13-cycle norm sequence
+`81,137,225,353,531,776,388,194,97,153,227,324,162,81` was reproduced
+independently, a third confirmation.
+
+## Axiom footprint
+
+`parity_prefix_surjective`, `no_finite_window_obstruction`, `no_forbidden_prefix`,
+`no_separating_window`: `propext`, `Classical.choice`, `Quot.sound`.  Zero `sorry`.
+Zero added axioms.  `lake build Collatz` succeeds, 270 jobs.
+
+**Both halves of the conjecture remain open.**
