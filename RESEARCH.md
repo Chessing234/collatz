@@ -5786,3 +5786,85 @@ not `B ≤ 1`, since `16 ≤ 18` still holds.
 `Quot.sound`.  `reaches_one_iff_nu`, `nu_covers`, `nu_dichotomy`: those plus
 `Classical.choice`.  Zero `sorry`.  Zero added axioms.  `lake build Collatz`
 succeeds, 253 jobs.
+
+# Round XIX — the target inequality, produced and then measured
+
+Round XVIII closed by naming what was missing: *an inequality false for `⌊u/2⌋`
+and true for `⌈u/2⌉`*.  This round produces one, from a single telescoping
+identity, and then reports what it is worth.  **It is worth the classical
+dichotomy and nothing more.**
+
+## The two laws differ in one character
+
+In the swap coordinate, for odd `y` with `s = v₂((y±1)/2)`:
+
+`2 ^ (s+1) · nu y  = 3 ^ s · (y + 1)`   (`nu_identity`)
+`2 ^ (s+1) · mnu y = 3 ^ s · (y − 1)`   (`mnu_identity`)
+
+Both come from one lemma, `swap_law`, applied to `(y+1)/2` or `(y−1)/2`.  That
+single character is the whole of `DeviceCeiling.mirror_gap`.
+
+## Telescoping, and the separation
+
+Multiplying along a cycle and cancelling the shared product (`orbProd_rotate`,
+`morbProd_rotate`) gives
+
+`2 ^ (S+B) · ∏ yᵢ = 3 ^ S · ∏ (yᵢ + 1)`   (`nu_telescope`)
+`2 ^ (S+B) · ∏ yᵢ = 3 ^ S · ∏ (yᵢ − 1)`   (`mnu_telescope`)
+
+with `S` the accelerated odd-step count and `S + B` the accelerated length.  Since
+`∏(yᵢ+1) > ∏ yᵢ > ∏(yᵢ−1)`, the same three lines give opposite conclusions:
+
+* **`cycle_light`** — a Collatz cycle has `3 ^ S < 2 ^ (S+B)`;
+* **`mirror_cycle_heavy`** — a mirror cycle has `2 ^ (S+B) < 3 ^ S`.
+
+`separation` states them together.  Witnesses, all by `decide`:
+`three_cycle_light` (`3 < 4`, the image of `1 → 2 → 1`), `nine_cycle_heavy`
+(`8 < 9`, the image of `5 → 7 → 10 → 5`), and `long_mirror_cycle_heavy`
+(`2 ^ 11 = 2048 < 2187 = 3 ^ 7`, the four-step mirror cycle `135 → 67 → 33 → 81`,
+which is the `3n−1` cycle through `17`).  The last depends on **no axioms at all**.
+
+## What it is worth — the honest measurement
+
+**This is the classical dichotomy, not new mathematics.**  "A `3n+1` cycle is
+light, a `3n−1` cycle is heavy" is `a/L < log 2 / log 3` versus `>`, and
+`CycleProduct` has carried it since Round IV in the dual form `∏(3 + 1/nᵢ) = 2 ^ L`
+over the *odd* elements.  The identity here is the same relation taken over the
+*even* elements.  What the round adds is provenance: the dichotomy is now visibly
+one character in one law, so it cannot be confused with anything else.
+
+**And the bound it gives is the weaker of the two.**  Comparing:
+
+| product over | bound on `2 ^ j / 3 ^ a` | exponent at `a ≈ 0.63 j` |
+|---|---|---|
+| even elements (this round) | `(1 + 1/m) ^ (j−a)` | `0.37 j / m` |
+| odd elements (`CycleProduct`) | `(1 + 1/(3m)) ^ a` | `0.21 j / m` |
+
+So the new identity is a **better explanation and a worse bound**, by a factor of
+about `1.75`.  It excludes nothing `CycleProduct` did not already exclude.
+
+## Why the swap device stops here
+
+`DeviceSwap.run_length_ledger` cannot be sharpened by asking which run-length
+sequences are arithmetically realizable, because **all of them are**: every
+sequence `(s₁, …, s_B)` over `{0,1,2}` is realized by some residue class, checked
+exhaustively for `B ≤ 4`.  That is the swap-coordinate form of the parity-word
+bijection already recorded in the compression result, and it means the ledger is
+extremal as it stands.
+
+## The wall, restated with the round's own numbers
+
+A light cycle needs `2 ^ j / 3 ^ a` within `O(1/m)` of `1` from above.  Separating
+`2 ^ j / 3 ^ a` from `1` quantitatively is a linear-forms-in-logarithms problem;
+that is exactly the route `CycleLength2593` and `length_ge_6809` already take, and
+it leaves an infinite admissible set of `a`.  Nothing in Rounds XVII–XIX touches
+that, and no elementary identity in the swap coordinate can, because every such
+identity is a conjugation of one already present.
+
+**Status of the two halves after this round: unchanged.  Both open.**
+
+## Axiom footprint
+
+`mirror_cycle_heavy`: `propext`, `Quot.sound`.  `cycle_light`, `nu_telescope`,
+`separation`: those plus `Classical.choice`.  `long_mirror_cycle_heavy`: none.
+Zero `sorry`.  Zero added axioms.  `lake build Collatz` succeeds, 254 jobs.

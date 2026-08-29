@@ -195,6 +195,7 @@ import Collatz.Strategy.ValuationBridge
 import Collatz.Strategy.AffineDeficit
 import Collatz.Strategy.DeviceCeiling
 import Collatz.Strategy.DeviceSwap
+import Collatz.Strategy.DeviceProduct
 import Collatz.Strategy.AffineExchange
 import Collatz.Strategy.Frontier
 import Collatz.Strategy.Master
