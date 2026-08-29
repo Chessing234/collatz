@@ -6732,3 +6732,74 @@ cases, zero failures — before formalising.
 `merge`, `merge_transfer`, `unbounded_descends`, `le_orbitMax`: `propext`,
 `Quot.sound`.  Zero `sorry`.  Zero added axioms.  `lake build Collatz` succeeds,
 266 jobs.
+
+# Round XXXII — Barina's range, named rather than assumed
+
+A request to replace the verified-range constant `1 086 464` by Barina's
+`704 · 2 ^ 60`.  Investigated first, because the answer determines whether the
+change is legitimate.
+
+## The finding that shaped the work
+
+`Search.reachesOne_of_lt_1086464` is a **theorem** here, not a constant.  It is
+established by kernel `decide` over `1061` sieve blocks — about `1.09` million
+values, minutes of build time — with axiom footprint `propext, Quot.sound`; no
+`sorry`, no `native_decide`.
+
+Barina's `704 · 2 ^ 60 ≈ 8.12 · 10 ^ 20` is an external C/GPU computation.
+Reproducing it by this development's method needs about `7.9 · 10 ^ 17` blocks
+against `1061` — a factor of `7 · 10 ^ 14`, on the order of `10 ^ 10` years of
+kernel time.  **A literal substitution would replace a proved theorem by an
+unproved claim** and turn every downstream unconditional result conditional.
+
+So the constant was **not** replaced.  Barina's range is named as an explicit
+hypothesis, in the style already used for `BakerConditional.EffectiveGap`, and
+everything derived from it carries that hypothesis in its statement.  The proved
+`1 086 464` results are untouched and remain unconditional.
+
+## `Search/BarinaRange` (LEAN_PROVED, plus one named hypothesis)
+
+* `barinaBound = 704 * 2 ^ 60` — the single canonical definition; the numeral
+  appears nowhere else.  `barina_value` pins it to `811 656 739 243 220 271 104`
+  (no axioms), `barina_gt_verified` records the widening is strict.
+* `BarinaVerified` — the external result as a hypothesis, **not proved**.
+* `barina_subsumes`, `proved_range_is_weaker` — the hypothesis is a strict
+  strengthening of the proved theorem, not a different claim.
+* `counterexample_ge_barina`, `ge_verified_barina` — the payoff, each carrying the
+  hypothesis.  The second copies the shape of `CycleLength2593.ge_verified_768000`,
+  whose own comment notes the proof is insensitive to the constant.
+
+## What a wider range would actually buy
+
+`excludedLength_mono` (unconditional): the exclusion test is **monotone in the
+verified range** — a length excluded at `c` is excluded at every `c' ≥ c`.  That is
+the mechanism that moved this repository's cycle bound `520 → 1539 → 2593` as the
+range grew, and `excludedLength_at_barina` transfers every existing exclusion to
+Barina's range for free.
+
+Measured outside Lean with exact integer arithmetic: the raw product bound first
+fails at `L = 2593` at the proved range, and fails **nowhere below `L = 40 000`** at
+Barina's.  So `BarinaVerified` would move the cycle-length bound by more than an
+order of magnitude.  That is a measurement, not a theorem, and is labelled as such
+in the file.
+
+`excludedLength_mono_witness` (`L = 2`, `c = 1` versus `c = 1 086 464`) shows the
+monotonicity is not vacuous at kernel-checkable size; the same phenomenon at
+`L = 2593` is what the hypothesis would buy.
+
+## Engineering checks
+
+`Nat` is arbitrary-precision, so there is no overflow.  Kernel arithmetic at
+Barina scale is cheap — `barina_value` and `barina_gt_verified` decide in under a
+second.  The `O(L²)` scan of `excludedLength` does **not** survive at these lengths
+(`decide` on `excludedLength 1086464 2593` exhausts recursion depth); the
+repository's own `CycleLength2593.excludedFast` is the route for any future sweep,
+as its header already says.
+
+**Both halves of the conjecture remain open.**
+
+## Axiom footprint
+
+`barina_value`, `counterexample_ge_barina`: none.  `excludedLength_mono`,
+`excludedLength_at_barina`, `ge_verified_barina`: `propext`, `Quot.sound`.
+Zero `sorry`.  Zero added axioms.  `lake build Collatz` succeeds, 267 jobs.
