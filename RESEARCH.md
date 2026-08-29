@@ -6402,3 +6402,75 @@ with a known proof, rather than an open problem.
 `dominating_Crel_le`, `Dom_of_pointwise`, `Dom_append_singleton`: `propext`,
 `Quot.sound`.  `dom_iff_mul_le`: `propext`.  Zero `sorry`.  Zero added axioms.
 `lake build Collatz` succeeds, 261 jobs.
+
+# Round XXVII — the cycle lemma, proved from first principles; the last link closes
+
+Round XXVI reduced Halbeisen–Hungerbühler Lemma 5 to its part 1, the
+Dvoretzky–Motzkin cycle lemma.  This round proves it, from scratch, and the proof
+needs no list surgery at all.
+
+## The derivation
+
+For a `0-1` word `w` of length `l` with `n` ones set `S(k) = Σ_{i<k} w(i)` and
+
+`d(k) = l·S(k) − k·n`.
+
+Then `d(0) = d(l) = 0`, and with `w` extended periodically **`d` is periodic with
+period `l`** (`disc_period`): the `l·n` gained over a full period is exactly the
+`l·n` subtracted.  Rotating by `r` replaces `S(k)` by `S(r+k) − S(r)`, hence `d(k)`
+by `d(r+k) − d(r)`.  So **the rotation at the minimiser of `d` has every rotated
+discrepancy non-negative**, and by periodicity a minimum over `[0, l)` is already
+global (`disc_min_global`).
+
+No rotation of lists, no permutation reasoning: index shifting on a periodic
+function and a fold (`argMin`) that finds the minimiser.
+
+**`cycle_lemma`**: `∃ r < l, ∀ k, k·n + l·S(r) ≤ l·S(r+k)` — stated without
+subtraction.
+
+## And in time coordinates it is immediate
+
+Round XXVI showed domination is `t_j·n ≤ j·l` in time coordinates.  If `t` is a
+position of the rotated word with exactly `j` ones before it, `cycle_lemma` at
+`k = t` gives `t·n + l·S(r) ≤ l·S(r+t) = l·S(r) + l·j`, hence `t·n ≤ j·l`
+(`rotation_time_dominates`).  `cycle_lemma_time` packages this against
+`ExtremalTime.dom_iff_mul_le`, producing exactly the hypothesis
+`ExtremalTime.dominating_Crel_le` consumes.
+
+## Tested before formalising
+
+Exhaustively, over **every** `0-1` word of length `l ≤ 14` with any number of ones
+— 32 752 words — in both the partial-sum form and the time form: **zero failures**.
+Periodicity of `d` verified over four periods for `l ≤ 11`: zero failures.
+
+## The chain, complete except for plumbing
+
+| link | status |
+|---|---|
+| Beatty word, division-free | proved (XXV) |
+| its weight is exactly `n` | proved (XXV) |
+| `M_{l,n}` | defined (XXV) |
+| Lemma 4 (`Crel_mono`) | proved (XVIII) |
+| Lemma 5 part 2 (`dominating_Crel_le`) | proved (XXVI) |
+| **Lemma 5 part 1 (`cycle_lemma`)** | **proved (XXVII)** |
+| Theorem 4 (`hh_criterion`) | proved from `HHExtremal` |
+| exclusion (`hh_no_cycle_below`) | proved |
+
+**Every mathematical link of the Halbeisen–Hungerbühler chain is now proved in
+this repository.**  What is left is plumbing, not mathematics: `HHExtremal` is
+stated about the repository's `AccIsCycleOf` representation, while `cycle_lemma`
+and `dominating_Crel_le` are stated about words and time lists.  Connecting them
+needs the parity word of a cycle extracted as a periodic `w : Nat → Nat` with
+`partialSum w L = oddCount x L`, and `Crel` of its times identified with
+`affineC`.  Both halves of that bridge use machinery already present
+(`Accelerated.parityVector`, `AccumulatorAutomaton.C_eq_Crel`).
+
+**Both halves of the conjecture remain open.**  What is now in reach, and was not
+before this round, is the published `10^8` cycle-length bound in place of
+`length_ge_6809`.
+
+## Axiom footprint
+
+`cycle_lemma`, `cycle_lemma_time`, `disc_period`, `disc_min_global`, `argMin_min`,
+`rotation_time_dominates`: `propext`, `Quot.sound`.  Zero `sorry`.  Zero added
+axioms.  `lake build Collatz` succeeds, 262 jobs.
