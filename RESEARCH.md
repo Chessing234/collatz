@@ -6803,3 +6803,89 @@ as its header already says.
 `barina_value`, `counterexample_ge_barina`: none.  `excludedLength_mono`,
 `excludedLength_at_barina`, `ge_verified_barina`: `propext`, `Quot.sound`.
 Zero `sorry`.  Zero added axioms.  `lake build Collatz` succeeds, 267 jobs.
+
+# Round XXXIII — the verified range as a parameter, and the Barina sweep certified
+
+Following the audit brief.  Three categories kept strictly apart throughout.
+
+## 1. The audit
+
+Every consumer of the verified range falls into one of three shapes.
+
+**(a) Genuinely tied to the proved constant** — only
+`Search.reachesOne_of_lt_1086464` and `counterexample_ge_1086464` themselves.
+Both are theorems about a finished computation.
+
+**(b) Generic in the bound — the large majority.**  Every theorem of shape
+`hc : 1086464 ≤ m → P m` uses the constant only as a lower bound and never
+inspects the numeral: `ValuationBeatty.orbit_time_le_fexp`, `even_steps_per_306`,
+`orbit_run_box`, `orbit_gapC_le_Bcap`, `RealizableFrontier6809.no_light_window`,
+`TropicalDefect`'s light-window bound, and the `BackwardRange` family.
+`BottomUnreachable.bottom_unreachable` is already explicitly parametric.
+*Caveat*: several consume a numeric certificate keyed to the constant
+(`cert_1086464`), a finite table checked by `decide`; those are generic in
+statement but their certificates would need recomputing at another bound.
+
+**(c) Free transfer** — since `1086464 ≤ barinaBound`, every shape-(b) theorem
+applies verbatim to a `BarinaVerified` counterexample.  `ge_barina_ge_proved` is
+the one-line bridge; **no theorem needed restating, and none was
+conditionalised.**
+
+## 2. The parameter
+
+`VerifiedBelow c` — every positive `n < c` reaches `1`.  `verified_1086464` is the
+proved instance; `BarinaVerified` is the hypothetical one.  The orbit lemma that
+had been written out once per constant — `ge_verified_768000`,
+`ge_verified_1086464`, `ge_verified_barina` — is now the single `ge_verified_of`,
+plus `counterexample_ge_of` and `verifiedBelow_mono`.  No abstraction beyond that;
+the existing files were left alone.
+
+## 3. The cycle machinery, certified
+
+`excludedFast` (two bignum comparisons) is used throughout — `decide` on
+`excludedLength 1086464 2593` exhausts recursion depth, `excludedFast` does not.
+
+**`barina_sweep` is unconditional and depends on NO AXIOMS**: every length from
+`1` to `40 000` passes the exclusion test at `barinaBound`.  It mentions no orbit;
+it is a fact about `2`, `3` and `704 · 2 ^ 60`.  `BarinaVerified` enters only in
+`cycle_length_ge_40001_of_barina`, through the cycle minimum.
+
+**Conditional cycle bound: `L ≥ 40 001`**, against the unconditional `2593` of
+`CycleLength2593` — a factor of **15.4**.
+
+Kernel cost, measured: `5 000` in `7 s`, `20 000` in `15 s`, `40 000` in `36 s`,
+`100 000` in `4 m 15 s`.  The committed sweep is `40 000`; `100 000` is reachable
+but would double the whole build.  Exact integer arithmetic outside Lean confirms
+`excludedFast barinaBound L` holds for every `L ≤ 60 000`, and the true crossover
+is near `√c ≈ 7 · 10 ^ 10` — so the limit is compute, not mathematics.
+
+## 4. Can Barina's result be certified compactly?  No, and here is why
+
+A certificate must be checkable far below the cost of the computation it replaces.
+Barina's range is a universally quantified statement over an **unstructured**
+predicate — `n` reaches `1` — and the only known reason each residue descends is
+that it was run.  Sieving cuts the constant (this development's level-`10` sieve
+keeps `64/1024`, leaving `≈ 5 · 10 ^ 19` survivors) but not the asymptotics.  A
+short certificate would amount to a proof of the range, and the range is a finite
+fragment of the conjecture itself.
+
+**The smallest missing object is therefore not a certificate but the computation.**
+Two honest options: extend the kernel-checked sieve — cost `4×` per doubling,
+payoff `√c` — or keep Barina as the named hypothesis.
+
+## The strongest theorem in each category
+
+| category | statement |
+|---|---|
+| **kernel-proved, unconditional** | `barina_sweep` — every `L ≤ 40 000` excluded at `704 · 2 ^ 60`; **no axioms**.  And `CycleLength2593.length_ge_2593` / `RealizableFrontier6809.length_ge_6809` for cycles. |
+| **conditional on `BarinaVerified`** | `cycle_length_ge_40001_of_barina` — a nontrivial accelerated cycle has length `≥ 40 001`. |
+| **externally measured** | `excludedFast barinaBound L` for all `L ≤ 60 000`; a `100 000` sweep passes the kernel in `4 m 15 s`; the true crossover is near `7 · 10 ^ 10`. |
+
+**Both halves of the conjecture remain open.**
+
+## Axiom footprint
+
+`barina_sweep`, `sweep_is_strictly_stronger`: **none**.  `verified_1086464`,
+`ge_verified_of`, `excludedLength_of_lt_40001`,
+`cycle_length_ge_40001_of_barina`: `propext`, `Quot.sound`.  Zero `sorry`.  Zero
+added axioms.  `lake build Collatz` succeeds, 268 jobs.
