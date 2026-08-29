@@ -215,6 +215,7 @@ import Collatz.Strategy.MatrixReducible
 import Collatz.Strategy.HHBridge
 import Collatz.Strategy.HHMinTime
 import Collatz.Strategy.ExclusionRatio
+import Collatz.Strategy.RotationLaw
 import Collatz.Search.BarinaRange
 import Collatz.Search.VerifiedRange
 import Collatz.Strategy.AffineExchange
