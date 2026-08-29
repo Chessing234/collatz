@@ -5941,3 +5941,65 @@ cannot come from more computation.  It needs a lower bound on
 `product_bound_vacuous`, `pow_add_one_ge`, `two_mul_pow_le`: `propext`,
 `Quot.sound`.  `product_bound_bites`: none.  Zero `sorry`.  Zero added axioms.
 `lake build Collatz` succeeds, 255 jobs.
+
+# Round XXI — the horizon constant, proved instead of measured
+
+Round XX proved vacuity at `a ≥ 3m` and *measured* the true horizon at
+`3m·log 2 ≈ 2.079 m`.  A constant read off a computation is not a theorem.  This
+round removes the computation.
+
+## The idea
+
+Vacuity needs `(1 + 1/N)^a ≥ 2` with `N = 3m`.  Bernoulli
+(`ProductCeiling.pow_add_one_ge`) gives `(1 + 1/N)^k ≥ 1 + k/N`, reaching `2` at
+`k = N` — the constant `1` of Round XX.  But Bernoulli can be applied at exponent
+`k` and the result **compounded** `p` times:
+
+`(1 + 1/N)^(k·p) ≥ (1 + k/N)^p`,
+
+so any `k` with `(1 + k/N)^p ≥ 2` suffices, at cost `a = k·p`.  Optimising `k` at
+fixed `p` gives the constant `c_p = p·(2^(1/p) − 1)`:
+
+`c_1 = 1`, `c_2 = 0.8284`, `c_3 = 0.7798`, `c_4 = 0.7568`, … , `c_p → log 2`.
+
+**The measured constant is the infimum of a family every member of which is a
+theorem.**  `two_mul_pow_le_gen` is the family; `two_pow_two`, `two_pow_three`,
+`two_pow_four` instantiate it, each needing one integer power comparison —
+`289 ≥ 288`, `250047 ≥ 250000`, `200533921 ≥ 200000000` — and nothing else.
+
+## The proved horizons
+
+| `p` | condition on `k` | horizon `a ≥` | as a multiple of `m` |
+|---|---|---|---|
+| 1 | — | `N` | `3 m`  (Round XX) |
+| 2 | `12k ≥ 5N` | `5N/6` | `2.5 m` |
+| 3 | `50k ≥ 13N` | `39N/50` | `2.34 m` |
+| 4 | `100k ≥ 19N` | `19N/25` | **`2.28 m`** |
+| ↓ | | `N log 2` | `2.079 m` (the measurement) |
+
+`product_bound_vacuous_sharp` is the `p = 4` form: the product family excludes
+nothing at or above `a = 2.28 m`, proved.
+
+Two structural facts make "horizon" mean something:
+
+* `two_mul_pow_upward` — the vacuity condition is **upward closed in `a`**, so
+  there is a genuine threshold and the `k·p` lattice of the family covers all `a`.
+* `two_pow_ne_three_pow` — `2 ^ L ≠ 3 ^ a` for `L ≥ 1`, by parity.  This is the
+  irrationality of `log₂ 3` in the only form the argument uses, with no analysis
+  anywhere, and it is what makes Round XX's `δ(a)` never vanish (`delta_pos`).
+
+## What is still measured, stated plainly
+
+The **density `1/2`** below the horizon is not proved.  It follows from Weyl
+equidistribution of `{a log₂ 3}`, which needs the irrationality proved here plus
+an analytic ingredient this development does not carry.  Everything else from
+Round XX — the horizon, its linear scaling in `m`, and the conclusion that
+extending verification does not converge — is now a theorem.
+
+**Status of the two halves: unchanged.  Both open.**
+
+## Axiom footprint
+
+`two_mul_pow_le_gen`, `two_mul_pow_upward`, `product_bound_vacuous_sharp`,
+`two_pow_ne_three_pow`: `propext`, `Quot.sound`.  Zero `sorry`.  Zero added
+axioms.  `lake build Collatz` succeeds, 256 jobs.
