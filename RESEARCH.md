@@ -6654,3 +6654,81 @@ explicitly rather than assumed.
 `insertSorted_sorted`, `insertSorted_shiftProd`, `prod_pos`: `propext`,
 `Quot.sound`.  `sortList_prod`: `propext`.  Zero `sorry`.  Zero added axioms.
 `lake build Collatz` succeeds, 265 jobs.
+
+# Round XXXI — Hercher's merging lemma, and Device 17 was right all along
+
+Searched the literature for the strongest cycle result and found Hercher, *There
+are no Collatz m-cycles with `m ≤ 91`*, J. Integer Seq. 26 (2023), Art. 23.3.5
+(arXiv:2201.00406).  Extracted and read.  One of its lemmas repairs a device this
+repository discarded.
+
+## The repository's own failed device
+
+`CounterexampleDescent.Psi n = (n − 1)/2` is Device 17.  It is recorded there as
+failing — `not_psi_preserves_firstGrows`, and the file's own summary,
+*"neither intertwines `T`"*.
+
+**Hercher's Lemma 9 says intertwining is the wrong thing to ask for.**  Under one
+hypothesis the two orbits **merge**, and merging is all a descent argument needs.
+
+## The statement (`merge`)
+
+For odd `n` with `n + 1 = 2^(j+1)·u`, `u` odd — so exactly `j+1` odd steps follow
+`n` — and at least two even steps after them:
+
+`T^(j+3)(n) = T^(j+2)((n − 1)/2)`.
+
+`merge_transfer`: from the meeting point the two orbits agree forever, so every
+tail-property transfers to the strictly smaller `(n−1)/2`.
+
+## The derivation, in one line
+
+Put `A = 3^j·u`, odd.  `DeviceSwap.run_climb` gives `T^(j+1)(n) = 3A − 1` and,
+since `(n−1)/2 + 1 = 2^j·u`, also `T^j((n−1)/2) = A − 1`.
+
+The hypothesis `4 ∣ 3A − 1` forces `A ≡ 3 (mod 4)` — `A` is odd and `3·3 ≡ 1
+(mod 4)` — hence `A − 1 ≡ 2 (mod 4)` and `(A−1)/2` is **odd**.  That is the whole
+content:
+
+* larger: `3A − 1 → (3A−1)/2 → (3A−1)/4`, two even steps;
+* smaller: `A − 1 → (A−1)/2` even, then an **odd** step to `(3(A−1)/2 + 1)/2 =
+  (3A−1)/4`.
+
+The smaller trajectory arrives at an odd number exactly when the larger one has a
+second halving to spend, and they land together.
+
+## The divergence-half consequence (Hercher, Remark 10)
+
+`unbounded_descends`: if `n`'s orbit is unbounded, so is `(n−1)/2`'s.  Hence **a
+smallest divergent start has `ℓ = 1`** — exactly one even step after its opening
+odd run.  Supporting `orbitMax`/`le_orbitMax` supply the only bookkeeping needed,
+that an unbounded orbit has witnesses arbitrarily late.
+
+This is a structural constraint on a minimal counterexample obtained from the
+literature rather than invented here, and it is a **divergence-half** result — the
+half the Round XXV survey found least covered.
+
+## Also learned this round
+
+* **`ccchallenge.org`** is an organised effort formalising the Collatz literature,
+  currently **1 of 367 papers** complete (Böhm–Sontacchi 1978), with Tao 2022,
+  Eliahou 1993, Bernstein–Lagarias 1996, Hercher 2023 and two 2025 papers awaiting
+  audit.  Worth tracking; the present development overlaps its Eliahou and Hercher
+  entries.
+* Hercher's Lemma 8 — a run of `k` odd steps forces `n ≡ −1 (mod 2^k)` — is
+  `DeviceSwap.run_climb`, already here since Round XVIII.
+* Barina's verified range is `704 · 2^60`, against the `1 086 464` this repository
+  uses.
+
+## Testing
+
+`merge` was checked on every odd `n < 400 000` meeting its hypothesis — 100 002
+cases, zero failures — before formalising.
+
+**Both halves of the conjecture remain open.**
+
+## Axiom footprint
+
+`merge`, `merge_transfer`, `unbounded_descends`, `le_orbitMax`: `propext`,
+`Quot.sound`.  Zero `sorry`.  Zero added axioms.  `lake build Collatz` succeeds,
+266 jobs.
