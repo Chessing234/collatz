@@ -70,6 +70,27 @@ fitted exponent over fifteen ranges spanning a factor of `240` is `L ~ c^0.64`,
 not `c^0.5`; and it is not really a power law at all, but a staircase whose
 steps are the semiconvergents.
 
+## The reach of `topIndex`, and where it stops
+
+`topIndex L = L * 397573379 / 630138897` is a *fixed* rational approximation to
+`log₃ 2`, in error by `1.53 × 10⁻¹⁹` per unit `L`.  Since the surviving lengths
+are exactly the places where `{L log₃ 2}` is anomalously small, `topIndex` is at
+its least reliable precisely at the lengths that matter, and it does eventually
+break: **the first `L` at which `topIndex L ≠ ⌊L log₃ 2⌋` is
+`L = 10 439 860 591`**, where it undercounts by one.  (Brute-forced to `3 × 10⁶`
+with no disagreement; beyond that only one-sided best approximations of
+`log₃ 2` can trigger one, and the first such is that `L`.)
+
+This costs no soundness.  `excludedFast`'s first conjunct
+`2 ^ L ≤ 3 ^ (topIndex L + 1)` is a self-check: if `topIndex` is wrong the
+conjunct simply fails and the length is *not* excluded.  A wrong `topIndex` can
+never produce a false exclusion, and `excludedLength_of_excludedFast` is
+unaffected.  What it costs is reach — past `10 439 860 591` the test starts
+refusing lengths for arithmetic reasons rather than mathematical ones, so any
+argument aiming beyond that scale needs an exact `topIndex` rather than this one.
+Every bound the repository currently proves, and the conditional sweep at
+`L ≤ 40 000`, sits far inside the safe range.
+
 ## What this does not do
 
 It does not raise the unconditional bound.  `2593` stands.  The ratio law says

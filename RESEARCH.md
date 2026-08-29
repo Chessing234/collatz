@@ -7658,3 +7658,132 @@ adeles, and valuation-weighted Lyapunov functions — are both spent.
 `lake build Collatz` succeeds, **273 jobs**.  Zero `sorry`.  Zero added axioms.
 
 **Both halves of the conjecture remain open.**
+
+## Round XLI — three of the four gaps close, and a claim of mine is refereed down
+
+### `HHExtremal`: gaps (1), (2), (3) closed, (4) reduced
+
+`HHExtremal` is still an assumed `Prop`.  Everything downstream of it is still
+conditional.  What changed is the size and shape of what is missing.
+
+**`Strategy/HHBridge` — gaps (1) and (2).**  The repository had two descriptions
+of the affine accumulator and never joined them: the word side
+(`DeltaSpectrum.accC`, `C`, `gap`) folding `c ↦ 3c + 2^j` along a `List Bool`,
+and the orbit side (`AffineExact.affineC`, `oddCount`, `CycleLemma`) reading the
+same recursion off `acceleratedOrbit`.  The missing sentence is that they are one
+recursion with two sources of parity bits:
+
+* `w x i = acceleratedOrbit i x % 2`, `w_periodic`, `partialSum_eq_oddCount`;
+* **`affineC_eq_C : affineC L x = C (word x L)`**;
+* `oddCount_word`, `gap_word` — so `gap (word x L) = 2^L − 3^(oddCount x L)`.
+
+**`Strategy/HHMinTime` — gap (3).**  `hhMinTime l n n = hhMin l n l`: the two
+constructions of `M_{l,n}` are one sum reindexed along the support of the ceiling
+Beatty word.  The endpoint does not induct; the prefix invariant
+
+`hhMin l n j = 3 ^ (n − beattyCount l n j) · hhMinTime l n (beattyCount l n j)`
+
+does, and collapses at `j = l` where the count is `n`.  Note this is only *true*
+because of the Round XXXIX ceiling fix — before it the two sides disagreed at 136
+of the tested points, and this file could not have existed.
+
+**`Strategy/RotationLaw` + `HHBridge` — gap (4), reduced not closed.**
+`HHExtremal` assumes `x` is the orbit *minimum*; `cycle_lemma` picks its own
+rotation `r` and concludes about `acceleratedOrbit r x`.  The two never met.
+
+* **`oddCount_rotation_invariant`** — on a cycle, `oddCount` over a full period is
+  the same at every rotation.  So the exponent `a`, and the gap `2^L − 3^a`, are
+  properties of the *cycle*, not of the point chosen to name it.
+* `affine_cycle_eq_rotation`, `gap_mul_le_affineC_rotation` — the affine cycle
+  equation holds at every rotation with the same `a`, and if `x` is the minimum
+  then `gap · x ≤ affineC L (orbit i x)` for every `i`.  A bound proved at *any*
+  rotation bounds the minimum.
+* `w_rotate` (no hypotheses), `w_period_mul`, `w_mod`, `w_rotate_mod` — on a cycle
+  the word depends only on the index mod `L`.
+* `partialSum_rotate`, `oddCount_rotate_eq` — the odd-step count splits at a
+  rotation, in the shape `cycle_lemma_time` consumes.
+* **`rotation_time_bound`** — hence: on a cycle there is a rotation whose
+  odd-step times are dominated by the extremal Beatty times, with all of
+  `cycle_lemma_time`'s abstract hypotheses discharged.
+
+What remains is an *indexing* mismatch, and it is now the whole of gap (4):
+`rotation_time_bound` bounds a time `t` by the extremal time of the count reached
+at `t`, while `dominating_le_hhMinTime` wants the `j`-th one-position bounded by
+the `j`-th extremal time.  Producing that function — the `j`-th one-position of
+the rotated word, and `times (word y L) 0` as its list — is one lemma, not a
+chaining step, and it is not in the repository.
+
+### `Strategy/ExclusionRatio`: the range separates from the length
+
+The product test `3^a·(3c + 2a) < 3c·2^L` is *equivalent*, given `3^a ≤ 2^L`, to
+`2a·3^a < 3c·(2^L − 3^a)`.  So `L` is excluded exactly when `c` exceeds
+
+`r(L) = 2a·3^a / (3(2^L − 3^a))`,
+
+**a quantity depending on `L` alone**.  Two consequences, both proved:
+`excluded_of_le` (a wider range never loses a length) and, the load-bearing one,
+**`excluded_transfer`** — if `r(L) ≤ r(L')`, stated cross-multiplied so no
+division is needed, then any range excluding `L'` excludes `L`.  A length can be
+killed by a witness at a *different* length.  That is the shape an interval
+certificate needs, and it makes interval exclusion a mechanism rather than the
+compute optimisation it was dismissed as.
+
+**The frontier is a staircase on the semiconvergents.**  Writing
+`2^L/3^a = 1 + d(L)`, we get `r(L) = 2a/(3d(L)) ≈ 0.42 L/d(L)`, so `L` survives
+when `a/L` approximates `log₃ 2` unusually well *from the correct side*.
+Measured frontiers, exact integer arithmetic:
+
+`485, 1539, 2593, 3647, 4701, 5755, 6809, 7863, 8917, 9971, 11025, 12079, 13133,
+14187, 15241, 16295, …, 24727`
+
+— constant step `1054` throughout.  `485/306` and `1054/665` are consecutive
+convergents of `log₂ 3`, and `485 + 23·1054 = 24727` is the next convergent, so
+these are exactly that block's semiconvergents.  The frontier never lands
+anywhere else.
+
+### Two corrections to the repository's own record
+
+`CycleLength2593`'s docstring table gives `102400 → 520` and reads a square-root
+law off it.  Both are wrong.  `520` was never a frontier: it is where
+`CycleProduct.excludedLength_of_lt` stopped for compute reasons, and that theorem
+uses `c = 307200`, not `102400`.  The true frontier at `102400` is **485**,
+confirmed by `excludedFast` and by the full `O(L)` scan independently.  With the
+row corrected the fitted exponent over fifteen ranges spanning a factor of `240`
+is `L ~ c^0.64`, not `c^0.5` — and it is not a power law at all, but the
+staircase above.
+
+### A claim of mine, refereed and refuted
+
+I computed that at Barina's verified range `c = 704·2^60` the product bound's
+frontier is `L = 114 208 327 604 ≈ 1.14 × 10¹¹`, six orders of magnitude past the
+repository's recorded conditional `40 001` and past Eliahou's `17 087 915`.  I
+sent it to an adversarial referee before recording it.  **It came back refuted as
+a statement about this repository, and I confirmed the refutation myself.**
+
+The idealised arithmetic is right: at `L = 10 439 860 591`, `d = 1.012×10⁻¹¹` and
+`r = 4.338×10²⁰ < c`; at `L = 114 208 327 604`, `d = 5.511×10⁻¹²` and
+`r = 8.717×10²¹ > c`.  Both check to full precision, and the second `L` is
+`q₂₃ + q₂₂` for consecutive convergent denominators of `log₃ 2`.
+
+But those numbers use `⌊L log₃ 2⌋`, and the repository uses `topIndex`, a fixed
+rational in error by `1.53×10⁻¹⁹` per unit `L`.  At exactly these two lengths
+**`topIndex` undercounts the true floor by one**, `excludedFast`'s first conjunct
+`2^L ≤ 3^(topIndex L + 1)` fails, and the repository's actual test excludes
+*neither* length — including the one my narrative called excluded.  The claim as
+I stated it was about a function the repository does not compute.
+
+This costs no soundness: that conjunct is a self-check, a wrong `topIndex` can
+only refuse a length, never falsely exclude one, and no proved theorem moves.  It
+costs reach, and the reach is now pinned: **`topIndex` is exact for every
+`L < 10 439 860 591`** (brute-forced below `3×10⁶`; past that only one-sided best
+approximations can trigger a disagreement, and that `L` is the first).  Every
+bound the repository proves, and the conditional sweep at `L ≤ 40 000`, sits far
+inside the safe range.  Anything aiming near `10¹⁰` needs an exact `topIndex`
+first — an obstacle beyond the raw `10¹¹` checking cost, and one I had not seen.
+
+### Axiom footprint
+
+`lake build Collatz` succeeds, **276 jobs**.  Zero `sorry`.  Zero added axioms.
+Every theorem named above: `propext`, `Quot.sound`, some also `Classical.choice`.
+
+**Both halves of the conjecture remain open.**
