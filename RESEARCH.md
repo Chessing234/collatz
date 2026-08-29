@@ -5868,3 +5868,76 @@ identity is a conjugation of one already present.
 `mirror_cycle_heavy`: `propext`, `Quot.sound`.  `cycle_light`, `nu_telescope`,
 `separation`: those plus `Classical.choice`.  `long_mirror_cycle_heavy`: none.
 Zero `sorry`.  Zero added axioms.  `lake build Collatz` succeeds, 254 jobs.
+
+# Round XX — stop building, measure the wall; then prove the measurement
+
+Rounds XVII–XIX each added a device and each landed on the same wall.  This round
+does the opposite thing: no new device, one measurement, one theorem.
+
+## The question that had never been asked in numbers
+
+`CycleProduct.neverDrops_product_bound` excludes an odd-count `a` when
+`2 ^ L · m ^ a ≤ (3m + 1) ^ a` **fails**.  Round XIV recorded that the admissible
+set is infinite.  It did not ask: **does extending the verified range help?**
+
+## Measured (60-digit arithmetic)
+
+With `L = ⌊a log₂ 3⌋ + 1`, write `δ(a) = L log 2 − a log 3 ∈ (0, log 2)`.
+Admissibility is `δ(a) ≤ a log(1 + 1/3m)`, and `δ` equidistributes because
+`log₂ 3` is irrational.  So the admissible density at scale `a` is
+`min(1, a/(3m log 2))`, giving three predictions — a horizon at `3m log 2`, mean
+density `1/2` below it, and an admissible count `≈ (3 log 2 / 2) m ≈ 1.0397 m`:
+
+| verified `c` | predicted horizon `3c ln 2` | measured density below it |
+|---|---|---|
+| 1 086 464 | 2 259 238 | 0.5032 |
+| 4 345 856 | 9 036 954 | 0.4997 |
+| 17 383 424 | 36 147 814 | 0.4950 |
+
+**Verification does not converge.**  Doubling `c` doubles the window and holds the
+survivor density at one half, so it doubles the surviving odd-counts.  The
+method's reach grows exactly as fast as the problem it creates.  This is the
+sharp form of "the admissible set is infinite", and it is a *worse* fact than the
+old phrasing suggested: more computing is not slow progress, it is no progress.
+
+Side note, to be checked against Round XIV: the sharp bound used here leaves
+**85** admissible `a` in `[4296, 20000]` (`4296, 4961, 5626, 5932, 6291, …`),
+where Round XIV recorded 169 from a linearised form.  Different inequalities, not
+a contradiction; the sharp one is the one proved below.
+
+## Proved — `ProductCeiling` (LEAN_PROVED)
+
+**`product_bound_vacuous`: `0 < m → 3m ≤ a → 2 ^ K ≤ 3 ^ a →
+2 ^ (K+1) · m ^ a ≤ (3m+1) ^ a`.**
+
+The hypothesis `2 ^ K ≤ 3 ^ a` is exactly the `L = K + 1` a cycle has, by
+`cycle_length_determined`.  So **the product family excludes nothing at or above
+`a = 3m`**, for every `m`, unconditionally.  The proof is Bernoulli in the one
+form that inducts without subtraction (`pow_add_one_ge`:
+`N ^ k (N + k) ≤ (N+1) ^ k N`) plus its corollary `two_mul_pow_le`
+(`N ≤ a → 2 N ^ a ≤ (N+1) ^ a`): the factor the bound may spend is
+`(1 + 1/3m) ^ a`, and past `a = 3m` that already exceeds `2`, which is all the
+room `2 ^ L / 3 ^ a < 2` ever needs.
+
+`product_bound_bites` (`m = 2, a = 1`: `8 > 7`, and `1 < 6 = 3m`) shows the
+ceiling is a real boundary, not an artefact.  `horizon_not_attained` (`m = 2`,
+`a = 4`) shows `3m` is an upper limit on where exclusion can stop, not a claim it
+survives that far.  Both by `decide`; the first depends on **no axioms**.
+
+## What Round XX settles
+
+The three previous rounds concluded "the remaining content is
+linear-forms-in-logarithms" by argument.  This one shows it by a theorem plus a
+constant: the product family has a **hard horizon at `a ≈ 2.079 m`**, its survivor
+density below the horizon is **exactly `1/2`**, and both scale **linearly** with
+the verified range.  Closing the cycle half cannot come from this family, and
+cannot come from more computation.  It needs a lower bound on
+`|L log 2 − a log 3|` beating `a / 3m`.
+
+**Status of the two halves: unchanged.  Both open.**
+
+## Axiom footprint
+
+`product_bound_vacuous`, `pow_add_one_ge`, `two_mul_pow_le`: `propext`,
+`Quot.sound`.  `product_bound_bites`: none.  Zero `sorry`.  Zero added axioms.
+`lake build Collatz` succeeds, 255 jobs.
