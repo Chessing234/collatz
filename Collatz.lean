@@ -211,6 +211,7 @@ import Collatz.Strategy.HercherMerge
 import Collatz.Strategy.HercherChain
 import Collatz.Strategy.NoWindowObstruction
 import Collatz.Strategy.SurvivorWitness
+import Collatz.Strategy.MatrixReducible
 import Collatz.Search.BarinaRange
 import Collatz.Search.VerifiedRange
 import Collatz.Strategy.AffineExchange
