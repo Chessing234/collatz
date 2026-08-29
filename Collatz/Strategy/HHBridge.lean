@@ -3,6 +3,8 @@ import Collatz.Strategy.CycleLemma
 import Collatz.Strategy.AccumulatorAutomaton
 import Collatz.Structure.AccCycle
 import Collatz.Structure.Density
+import Collatz.Strategy.RotationLaw
+import Collatz.Strategy.HHMinTime
 
 /-!
 # The bridge between the two halves of the development
@@ -215,6 +217,146 @@ theorem rotation_time_bound {x L : Nat} (h : AccIsCycleOf x L) (ha : 0 < oddCoun
   obtain ⟨r, hrlt, hbound⟩ :=
     CycleLemma.cycle_lemma_time h.1 ha (w_periodic h) (partialSum_eq_oddCount x L)
   exact ⟨r, hrlt, fun t => hbound t _ (oddCount_rotate_eq x r t)⟩
+
+/-! ## The one-position function
+
+`rotation_time_bound` bounds a *time* by the extremal time of the count reached
+there.  `ExtremalTime.dominating_le_hhMinTime` wants the `j`-th one-position
+bounded by the `j`-th extremal time.  `T y L j` is that position, found by a
+fuelled forward scan — there is no `Nat.find` here — and `T_oddCount` is what
+converts one statement into the other.  None of this needs a cycle: it is a fact
+about `oddCount` and `w` at any `y`. -/
+
+/-- Scan forward from `start` for `fuel` more steps, returning the first
+position with an odd bit (falling back to `start` if none is found within the
+fuel — that case never arises when `nextOne_spec`'s hypothesis holds). -/
+def nextOne (y : Nat) : Nat → Nat → Nat
+  | start, 0 => start
+  | start, fuel + 1 => if w y start = 1 then start else nextOne y (start + 1) fuel
+
+/-- **Specification of `nextOne`.**  If there is an odd bit somewhere in the
+window `[start, start + fuel)`, `nextOne` lands on the *first* one: it stays in
+the window, its bit is `1`, and the odd-count up to it matches the odd-count at
+`start` (no odd bits were skipped). -/
+theorem nextOne_spec (y : Nat) : ∀ start fuel : Nat,
+    oddCount y (start + fuel) > oddCount y start →
+    start ≤ nextOne y start fuel ∧ nextOne y start fuel < start + fuel ∧
+      w y (nextOne y start fuel) = 1 ∧
+      oddCount y (nextOne y start fuel) = oddCount y start := by
+  intro start fuel
+  induction fuel generalizing start with
+  | zero =>
+    intro h
+    simp only [Nat.add_zero] at h
+    omega
+  | succ fuel ih =>
+    intro h
+    show (start ≤ (if w y start = 1 then start else nextOne y (start + 1) fuel) ∧
+          (if w y start = 1 then start else nextOne y (start + 1) fuel) < start + (fuel + 1) ∧
+          w y (if w y start = 1 then start else nextOne y (start + 1) fuel) = 1 ∧
+          oddCount y (if w y start = 1 then start else nextOne y (start + 1) fuel)
+            = oddCount y start)
+    by_cases hb : w y start = 1
+    · rw [if_pos hb]
+      exact ⟨Nat.le_refl start, by omega, hb, rfl⟩
+    · rw [if_neg hb]
+      have hstep : oddCount y (start + 1) = oddCount y start := by
+        have := Density.oddCount_succ_last y start
+        have hw : w y start = acceleratedOrbit start y % 2 := rfl
+        rw [hw] at hb
+        omega
+      have hidx : start + 1 + fuel = start + (fuel + 1) := by omega
+      have h' : oddCount y (start + 1 + fuel) > oddCount y (start + 1) := by
+        rw [hidx, hstep]; exact h
+      obtain ⟨h1, h2, h3, h4⟩ := ih (start + 1) h'
+      refine ⟨by omega, by omega, h3, ?_⟩
+      rw [h4, hstep]
+
+/-- **`T y j`, the position of the `j`-th one-bit of `y`'s word (0-indexed).**
+Each stage restarts the scan just past the previous one-bit, with fuel trimmed
+down to the fixed horizon `L`. -/
+def T (y L : Nat) : Nat → Nat
+  | 0 => nextOne y 0 L
+  | j + 1 => nextOne y (T y L j + 1) (L - (T y L j + 1))
+
+/-- **STEP 1, full form.**  For `j < oddCount y L`, `T y L j` lies inside the
+window `[0, L)`, its bit is odd, and the odd-count up to it is exactly `j`. -/
+theorem T_spec (y L : Nat) : ∀ j, j < oddCount y L →
+    T y L j < L ∧ w y (T y L j) = 1 ∧ oddCount y (T y L j) = j := by
+  intro j
+  induction j with
+  | zero =>
+    intro h
+    have h0 : oddCount y 0 = 0 := rfl
+    have hwin : oddCount y (0 + L) > oddCount y 0 := by
+      rw [h0]; simpa using h
+    have hunfold : T y L 0 = nextOne y 0 L := rfl
+    rw [hunfold]
+    obtain ⟨_, h2, h3, h4⟩ := nextOne_spec y 0 L hwin
+    refine ⟨by simpa using h2, h3, ?_⟩
+    rw [h4, h0]
+  | succ j ih =>
+    intro h
+    have hjlt : j < oddCount y L := by omega
+    obtain ⟨hlt, hone, hcnt⟩ := ih hjlt
+    have hsle : T y L j + 1 ≤ L := by omega
+    have hstep : oddCount y (T y L j + 1) = oddCount y (T y L j) + w y (T y L j) :=
+      Density.oddCount_succ_last y (T y L j)
+    have hw : w y (T y L j) = acceleratedOrbit (T y L j) y % 2 := rfl
+    have hwin : oddCount y (T y L j + 1 + (L - (T y L j + 1))) > oddCount y (T y L j + 1) := by
+      have hLs : T y L j + 1 + (L - (T y L j + 1)) = L := by omega
+      rw [hLs]
+      rw [hw] at hone
+      omega
+    show T y L (j + 1) < L ∧ w y (T y L (j + 1)) = 1 ∧ oddCount y (T y L (j + 1)) = j + 1
+    have hunfold : T y L (j + 1) = nextOne y (T y L j + 1) (L - (T y L j + 1)) := rfl
+    rw [hunfold]
+    obtain ⟨h1, h2, h3, h4⟩ := nextOne_spec y (T y L j + 1) (L - (T y L j + 1)) hwin
+    refine ⟨by omega, h3, ?_⟩
+    rw [h4, hstep, hcnt, hone]
+
+/-- **STEP 1.**  The bridge identity itself: the `j`-th one-position of `y`'s
+word carries exactly `j` odd steps, for `j < oddCount y L`. -/
+theorem T_oddCount (y L j : Nat) (h : j < oddCount y L) :
+    oddCount y (T y L j) = j :=
+  (T_spec y L j h).2.2
+
+/-- **The domination hypothesis, discharged.**  On a cycle there is a rotation
+whose `j`-th odd-step position is bounded by the `j`-th extremal Beatty time —
+exactly the hypothesis of `ExtremalTime.dominating_le_hhMinTime`.
+
+`rotation_time_bound` supplies the bound at every time `t`; `T_oddCount` supplies
+the time at which the count is `j`; substituting one into the other gives the
+`j`-indexed form. -/
+theorem rotation_position_bound {x L : Nat} (h : AccIsCycleOf x L)
+    (ha : 0 < oddCount x L) :
+    ∃ r : Nat, r < L ∧ ∀ j : Nat, j < oddCount x L →
+      T (acceleratedOrbit r x) L j ≤ ExtremalTime.tildeTime L (oddCount x L) j := by
+  obtain ⟨r, hrlt, hbound⟩ := rotation_time_bound h ha
+  refine ⟨r, hrlt, ?_⟩
+  intro j hj
+  have hcount : oddCount (acceleratedOrbit r x) L = oddCount x L :=
+    RotationLaw.oddCount_rotation_invariant h r
+  have hj' : j < oddCount (acceleratedOrbit r x) L := by rw [hcount]; exact hj
+  have hT := T_oddCount (acceleratedOrbit r x) L j hj'
+  have := hbound (T (acceleratedOrbit r x) L j)
+  rw [hT] at this
+  exact this
+
+/-- And therefore the accumulator of that rotation's one-positions is at most
+`M_{L,a}`, in the `hhMinTime` form.  `HHMinTime.hhMinTime_eq_hhMin` turns the
+right-hand side into `hhMin L a L`.
+
+This is `HHExtremal`'s conclusion for the *time list* of the chosen rotation.
+What is still missing to reach `HHExtremal` itself is `times (word y L) 0 =
+(List.range a).map (T y L)`, which would identify this `Crel` with
+`affineC L y` through `affineC_eq_C` and `C_eq_Crel`. -/
+theorem rotation_Crel_le {x L : Nat} (h : AccIsCycleOf x L) (ha : 0 < oddCount x L) :
+    ∃ r : Nat, r < L ∧
+      AccumulatorAutomaton.Crel ((List.range (oddCount x L)).map (T (acceleratedOrbit r x) L))
+        ≤ ExtremalTime.hhMinTime L (oddCount x L) (oddCount x L) := by
+  obtain ⟨r, hrlt, hpos⟩ := rotation_position_bound h ha
+  exact ⟨r, hrlt, ExtremalTime.dominating_le_hhMinTime hpos⟩
 
 end HHBridge
 end Collatz
