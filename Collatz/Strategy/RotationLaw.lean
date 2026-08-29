@@ -30,7 +30,7 @@ the part of it that is genuine mathematics.
   the transport the criterion needs: a bound proved at *any* rotation bounds the
   minimum.
 
-## What is still missing
+## What was still missing when this file was written
 
 `cycle_lemma_time` bounds the abstract times of the word `w x`.  `HHExtremal`'s
 conclusion is about `affineC L (acceleratedOrbit r x)`, which `HHBridge.affineC_eq_C`
@@ -40,9 +40,9 @@ of `w x` on `[r, r + L)` read cyclically — index surgery on `times` under a sh
 by `r` mod `L`.  That is a lemma, not a chaining step, and it is not in the
 repository.
 
-So `HHExtremal` remains an assumed `Prop`.  Gaps (1), (2), (3) are closed
-(`HHBridge`, `HHMinTime`); gap (4) is reduced from "the rotation law is missing"
-to "one cyclic-reindexing identity for `word` is missing".
+That identity is now `HHLemmaFive.times_word_eq`, and **`HHExtremal` is proved**
+in `HHLemmaFive` (`hhExtremal_holds`).  All four gaps are closed; the paragraph
+above records what remained at the time this file landed.
 -/
 
 namespace Collatz

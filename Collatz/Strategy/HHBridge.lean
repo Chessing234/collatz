@@ -37,15 +37,12 @@ This file supplies the sentence.
 * `oddCount_word` — and the two odd-counts agree, so `gap (word x L)` is the
   familiar `2 ^ L − 3 ^ oddCount x L`.
 
-## What is *not* proved
+## Where this sits
 
-This is one of the four gaps between `CycleLemma` and `HHExtremal`, and closing
-it does not close the others.  Still missing, and stated here so the boundary is
-not mistaken: `ExtremalTime.hhMinTime l n n = hhMin l n l` (numerically true for
-`2 ≤ l ≤ 17` after the ceiling-word fix, but a genuine sum-reindexing induction
-in Lean), and the rotation law that transports minimality of `x` across the
-rotation `cycle_lemma` chooses for itself.  `HHExtremal` remains an assumed
-`Prop`; nothing downstream of it has become unconditional.
+This is gaps (1) and (2) of the four between `CycleLemma` and `HHExtremal`.  The
+other two are `HHMinTime` (`hhMinTime l n n = hhMin l n l`) and the rotation law
+(`RotationLaw`, together with the rotation lemmas at the foot of this file).  All
+four are now closed and **`HHExtremal` is proved** in `HHLemmaFive`.
 -/
 
 namespace Collatz
@@ -210,7 +207,7 @@ separates it from `HHExtremal` is the indexing: this bounds a *time* by the
 extremal time of the count reached at that time, and the domination lemma wants
 the `j`-th one-position bounded by the `j`-th extremal time.  Producing that
 function — the `j`-th one-position of the rotated point's word, together with
-`times (word y L) 0` being its list — is the one identity still missing. -/
+`times (word y L) 0` being its list — is `HHLemmaFive.times_word_eq`. -/
 theorem rotation_time_bound {x L : Nat} (h : AccIsCycleOf x L) (ha : 0 < oddCount x L) :
     ∃ r : Nat, r < L ∧ ∀ t : Nat,
       t ≤ ExtremalTime.tildeTime L (oddCount x L) (oddCount (acceleratedOrbit r x) t) := by
@@ -348,9 +345,10 @@ theorem rotation_position_bound {x L : Nat} (h : AccIsCycleOf x L)
 right-hand side into `hhMin L a L`.
 
 This is `HHExtremal`'s conclusion for the *time list* of the chosen rotation.
-What is still missing to reach `HHExtremal` itself is `times (word y L) 0 =
-(List.range a).map (T y L)`, which would identify this `Crel` with
-`affineC L y` through `affineC_eq_C` and `C_eq_Crel`. -/
+What carries this the rest of the way to `HHExtremal` is
+`times (word y L) 0 = (List.range a).map (T y L)`, proved as
+`HHLemmaFive.times_word_eq`, which identifies this `Crel` with `affineC L y`
+through `affineC_eq_C` and `C_eq_Crel`. -/
 theorem rotation_Crel_le {x L : Nat} (h : AccIsCycleOf x L) (ha : 0 < oddCount x L) :
     ∃ r : Nat, r < L ∧
       AccumulatorAutomaton.Crel ((List.range (oddCount x L)).map (T (acceleratedOrbit r x) L))

@@ -66,7 +66,11 @@ here**, and `hh_criterion` derives their cycle-length criterion from it.
 
 ## The gap, stated plainly
 
-Lemma 5 is the one piece not formalised.  Its proof needs the rotation argument
+Lemma 5 was the one piece not formalised, and is now proved in `HHLemmaFive`
+(`hhExtremal_holds`), so `hh_criterion` and `hh_no_cycle_below` are unconditional
+once that theorem discharges their hypothesis (`HHBridge.hh_criterion'` is the
+discharged form).  The account that follows is how the gap stood before it
+closed.  Its proof needs the rotation argument
 `σ_{k₀}` on words together with Lemma 4, and Lemma 4 *is* available here as
 `AffineExchange.Crel_mono`.  So the remaining work is the rotation step, and it is
 ordinary.  Closing it would give this repository the sharp criterion in place of
@@ -180,8 +184,11 @@ below `m`, hence reaches `1`. -/
 
 /-- **Halbeisen–Hungerbühler Lemma 5**, in the direction their Theorem 4 uses:
 for a cycle whose minimum is `x`, the gap times `x` is at most `M_{l,n}`.
-**Not proved here** — its proof needs the rotation argument together with their
-Lemma 4, which *is* available as `AffineExchange.Crel_mono`. -/
+Not proved *here* — it is proved in `HHLemmaFive` as `hhExtremal_holds`, by the
+rotation argument together with their Lemma 4, which is available as
+`AffineExchange.Crel_mono`.  It is kept as an explicit hypothesis below so the
+criterion's dependence stays visible; `HHBridge.hh_criterion'` is the discharged
+form. -/
 def HHExtremal : Prop :=
   ∀ x L : Nat, 0 < x → AccIsCycleOf x L → (∀ k : Nat, x ≤ acceleratedOrbit k x) →
     (2 ^ L - 3 ^ oddCount x L) * x ≤ hhMin L (oddCount x L) L

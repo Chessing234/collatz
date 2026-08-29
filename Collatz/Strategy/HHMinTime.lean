@@ -40,9 +40,10 @@ bit-`1` condition `l ≤ beattyRem l n j + n`, which pin
 
 This is gap (3) of the four between `CycleLemma` and
 `HalbeisenHungerbuhler.HHExtremal`.  With `HHBridge` closing (1) and (2), the
-remaining gap is (4): the **rotation law**, transporting minimality of `x` across
-the rotation that `cycle_lemma` selects for itself.  `HHExtremal` is still an
-assumed `Prop`, and every theorem depending on it is still conditional.
+gap that remained when this file landed was (4): the **rotation law**,
+transporting minimality of `x` across the rotation that `cycle_lemma` selects for
+itself.  That is now `RotationLaw`, and **`HHExtremal` is proved** in
+`HHLemmaFive`; the theorems depending on it are unconditional.
 -/
 
 namespace Collatz
