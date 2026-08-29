@@ -6592,3 +6592,65 @@ constant `O(1/m)` to a vanishing `O(log k / k)`.
 `sorted_stair_bound`, `oddElems_nodup`, `oddElems_mem`, `stair_peel`,
 `stairPlus_peel`: `propext`, `Quot.sound`.  Zero `sorry`.  Zero added axioms.
 `lake build Collatz` succeeds, 264 jobs.
+
+# Round XXX — the mechanical step taken; the staircase now runs on real orbits
+
+The insertion sort is in, and with it the chain from Round XXVIII closes.
+
+## The sort
+
+Only the two products must survive sorting — `prod` and `shiftProd` — not the list
+up to permutation, so **no `List.Perm` machinery appears**.  Each invariance is one
+induction (`insertSorted_prod`, `insertSorted_shiftProd`), and strict sortedness of
+the output follows from duplicate-freeness of the input (`insertSorted_sorted`,
+`sortList_sorted`).  Length and membership transfer likewise.
+
+## The payoff
+
+**`neverDrops_staircase`**: for an odd never-dropper `x` whose orbit is injective on
+`[0, k)`, with `a = oddCount x k`,
+
+`2 ^ k · ∏_{j<a} (x + 2j)  ≤  ∏_{j<a} (3(x + 2j) + 1)`.
+
+**`cycle_staircase`**: the same on one period of a minimal cycle.
+
+These replace `CycleProduct.neverDrops_product_bound`'s `2^k · x^a ≤ (3x+1)^a`,
+which bounds every element below by the minimum.  The staircase uses the fact that
+the elements are **distinct** — the input the constant bound throws away.
+
+The assembly: `OrbitProduct.neverDrops_prod_le` gives `2^k · ∏ nᵢ ≤ ∏(3nᵢ+1)` with
+the orbit's actual elements; `SortedStair.oddElems_nodup` gives distinctness from
+injectivity; `sortList` orders them preserving both products;
+`SortedStair.sorted_stair_bound` compares them against the staircase; the common
+factor `∏ nᵢ` cancels because it is positive.
+
+## What it changes
+
+The old bound caps `Λ = k log 2 − a log 3` by `a·log(1 + 1/3x) ≈ a/(3x)`, **linear**
+in `a`.  That constant deficit of order `1/x` is exactly what produces the
+`ProductCeiling` horizon at `2.079 x`.  The staircase caps it by
+`Σ_{j<a} log(1 + 1/(3(x+2j))) ≈ (1/6)·log(1 + 2a/x)`, **logarithmic**, so the density
+deficit has order `log k / k` and **tends to zero**.
+
+For the cycle half this is subsumed by Halbeisen–Hungerbühler (Round XXV).  For the
+**divergence** half it is not: those results are about cycles, and none of them
+applies distinctness of a *never-dropping* orbit's elements.  This is the first
+statement in this development that improves the divergence-half toolkit by an input
+the literature surveyed in Round XXV does not use.
+
+## Honest scope
+
+It does not close either half.  Every bound here is an **upper** bound on `Λ`, and a
+divergent orbit is free to send `Λ → −∞`; what improves is how tightly the density
+is pinned from below, not the exclusion of divergence.  The injectivity hypothesis
+is discharged for free by divergence and by minimal periodicity, but is carried
+explicitly rather than assumed.
+
+**Both halves of the conjecture remain open.**
+
+## Axiom footprint
+
+`neverDrops_staircase`, `cycle_staircase`, `sortList_sorted`,
+`insertSorted_sorted`, `insertSorted_shiftProd`, `prod_pos`: `propext`,
+`Quot.sound`.  `sortList_prod`: `propext`.  Zero `sorry`.  Zero added axioms.
+`lake build Collatz` succeeds, 265 jobs.

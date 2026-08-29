@@ -206,6 +206,7 @@ import Collatz.Strategy.ExtremalTime
 import Collatz.Strategy.CycleLemma
 import Collatz.Strategy.OrbitProduct
 import Collatz.Strategy.SortedStair
+import Collatz.Strategy.SortStair
 import Collatz.Strategy.AffineExchange
 import Collatz.Strategy.Frontier
 import Collatz.Strategy.Master
