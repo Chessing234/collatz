@@ -6474,3 +6474,65 @@ before this round, is the published `10^8` cycle-length bound in place of
 `cycle_lemma`, `cycle_lemma_time`, `disc_period`, `disc_min_global`, `argMin_min`,
 `rotation_time_dominates`: `propext`, `Quot.sound`.  Zero `sorry`.  Zero added
 axioms.  `lake build Collatz` succeeds, 262 jobs.
+
+# Round XXVIII — the orbit's odd elements as a list, and the identity both halves needed
+
+Two things were blocked on the same missing object: plumbing the
+Halbeisen–Hungerbühler chain into `AccIsCycleOf`, and extending the staircase of
+Rounds XXIII–XXIV from cycles to never-droppers.  Both need the odd elements of an
+orbit prefix as an actual list with the telescoping identity.  Built.
+
+## The identity
+
+`oddElems x k` collects the odd values among `x, T(x), …, T^{k−1}(x)`.  Telescoping
+`n ↦ (3n+1)/2` and `n ↦ n/2` along the prefix gives
+
+**`orbit_product`: `2^k · T^k(x) · ∏ nᵢ = x · ∏ (3nᵢ + 1)`.**
+
+Two specialisations:
+
+* **`cycle_prod_eq`** (`T^L(x) = x`): `2^L · ∏ nᵢ = ∏ (3nᵢ + 1)` — the classical
+  `2^L = ∏(3 + 1/nᵢ)`, now available in this repository with the elements present
+  rather than bounded away.
+* **`neverDrops_prod_le`** (`T^k(x) ≥ x`): `2^k · ∏ nᵢ ≤ ∏ (3nᵢ + 1)`.
+
+Plus `oddElems_length` (`= oddCount`), `oddElems_odd`, and `oddElems_ge` (every
+element at least the start, under never-dropping).
+
+## Why the never-dropper form matters
+
+`CycleProduct.neverDrops_product_bound` bounds every element below by the minimum,
+giving `2^k · m^a ≤ (3m+1)^a` and a density deficit of order `1/m` — a **constant**,
+which is exactly why `ProductCeiling` finds a horizon at `2.079 m`.
+
+With the elements themselves in hand, and their **distinctness** (a non-periodic
+orbit repeats no value), the staircase of Round XXIII applies here too, and the cap
+on `Λ = k log 2 − a log 3` becomes `Σ_{j<a} log(1 + 1/(3(m+2j))) ≈ (1/6)·log(1+2a/m)`.
+The deficit then has order `log k / k` and **tends to zero** instead of sitting at
+a constant.
+
+That is a strengthening of the **divergence-half** toolkit, which the staircase
+rounds did not touch.  It does not close the divergence half: every bound here is
+an *upper* bound on `Λ`, and a divergent orbit is free to send `Λ → −∞`.
+
+## What is still missing, precisely
+
+`neverDrops_prod_le` and `cycle_prod_eq` are the hypotheses
+`StairThree.seq_product_bound` consumes.  Two facts remain:
+
+1. **distinctness** — a non-periodic orbit's values are pairwise distinct, so
+   `oddElems` is duplicate-free;
+2. **ordering** — the staircase compares against *sorted* elements, so the list
+   must be sorted or the comparison recast as counting.
+
+Neither is deep.  Both are the same obstruction that has blocked the cycle-half
+plumbing since Round XXIII, and they are now the single remaining item for both
+halves' bookkeeping.
+
+**Both halves of the conjecture remain open.**
+
+## Axiom footprint
+
+`orbit_product`, `neverDrops_prod_le`, `cycle_prod_eq`, `oddElems_length`,
+`oddElems_odd`, `oddElems_ge`: `propext`, `Quot.sound`.  Zero `sorry`.  Zero added
+axioms.  `lake build Collatz` succeeds, 263 jobs.
