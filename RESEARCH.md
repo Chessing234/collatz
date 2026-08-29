@@ -6208,3 +6208,92 @@ statement exists in this repository, and it is the natural next target.
 `seq_product_bound`, `cross_prod_gen`, `gap_six`, `stair3_le_seq`,
 `stair3_product_bound`: `propext`, `Quot.sound`.  Zero `sorry`.  Zero added
 axioms.  `lake build Collatz` succeeds, 259 jobs.
+
+# Round XXV — the literature, read at last; and most of Rounds XI–XXIV is 1997
+
+The instruction was to read the research.  Doing so settles several open questions
+in this file, and settles them against us.
+
+## Halbeisen–Hungerbühler 1997
+
+*Optimal bounds for the length of rational Collatz cycles*, Elem. Math. 52.
+Their `φ : S → ℕ` is
+
+`φ(⟨⟩) = 0`, `φ(s0) = φ(s)`, `φ(s1) = 3φ(s) + 2^{l(s)}`.
+
+**That is `AffineExact.affineC`, character for character.**  Also present in that
+paper, or in Lagarias 1985 which it cites:
+
+| their result | this repository |
+|---|---|
+| (3) `φ(s) = Σ_j s_j 3^{s_{j+1}+⋯+s_l} 2^{j−1}` | positional formula, `AccumulatorAutomaton.C_eq_Crel` |
+| (4) `φ(s s̄) = 3^{n(s̄)}φ(s) + 2^{l(s)}φ(s̄)` | cocycle law, `AccumulatorArith.affineC_add` |
+| Lemma 2 (Lagarias) `x₀ = φ(s)/(2^l − 3^n)` | `CycleAccumulator.cycle_eq_div` |
+| **Lemma 4** (dominating partial sums ⟹ larger `φ`) | **`AffineExchange.Crel_mono`** — and their proof is the same adjacent transposition as `C_exchange` |
+| **Lemma 5 + Cor. 1**: minimiser is the Beatty word `s̃ᵢ = ⌈in/l⌉ − ⌈(i−1)n/l⌉`, `M_{l,n}` explicit | Round XIII's extremal work, **not** in this optimal form |
+
+**So the affine-accumulator programme of Rounds XVII–XIX, and much of XI–XIII, is
+Lagarias 1985 and Halbeisen–Hungerbühler 1997.**  Recorded so it is not
+rediscovered a third time.
+
+Their cycle-length result: **≥ 102 225 496**, conditional on verification to
+`2.12 × 10^14`.  Against `length_ge_6809` here — four orders of magnitude ahead.
+
+## Verdict on Rounds XXIII–XXIV: the staircase is subsumed
+
+`M_{l,n}` is the **exact** minimum of `φ` over shape `(l, n)`, so every valid
+constraint linking a cycle's minimum to `(l, n)` is implied by it.  The staircase
+bounds are such constraints, derived from distinctness and coprimality — both true
+of the rational cycles their theorem covers.  **They are implied by, and no
+stronger than, Halbeisen–Hungerbühler.**  The horizons `31.5 m` and `170 m` are
+improvements only over this repository's own weaker starting point, not over the
+literature.  That is the answer to "is the staircase refinement known": yes, in a
+stronger form, since 1997.
+
+## collatz-lab.org — the same wall, found independently
+
+A Lean 4 (Mathlib) development proving `no_nontrivial_cycle_phase59` **conditionally**
+on three unproved inputs: `BakerSeparation` (a strengthened working conjecture, not
+a published theorem), `BarinaVerification` (`n < 2^71`), and a project-derived
+`DerivedLargeKBound`.  Its **δ8 lemma** states that *no uniform algebraic bound
+`F(k) < 2^71` follows unconditionally from product-bound methods alone*.
+
+**That is `ProductCeiling.product_bound_vacuous` / `HorizonSharp`, found
+independently.**  Their central obstruction is `Λ = S log 2 − k log 3`, the same
+one Rounds XVII–XXII converged on.  Two independent developments reaching the same
+wall by different routes is the strongest evidence yet that the wall is real.
+
+## What is formalised this round — `HalbeisenHungerbuhler`
+
+The Beatty word without division, as a running remainder (`beattyRem`,
+`beattyBit`): add `n`, subtract `l` and emit `1` on overflow.  `beattyRem_lt`,
+`beatty_invariant` (`remainder + l·weight = i·n`) and `beatty_count_eq`
+(weight is exactly `n`) establish it is an element of `S_{l,n}`.  `hhMin` is
+`M_{l,n}` by their Corollary 1.  `HHExtremal` names Lemma 5 as an explicit
+hypothesis — **not proved here** — and `hh_min_bound`, `hh_min_large` draw the
+consequences that are certainly correct.
+
+## Two gaps, stated plainly
+
+1. **Lemma 5 is not proved.**  Its proof needs a rotation argument together with
+   their Lemma 4, and Lemma 4 *is* available here as `AffineExchange.Crel_mono`.
+   The remaining work is the rotation step, and it is ordinary.
+2. **Criterion (5) was not reconstructed.**  The inequality that, quantified over
+   `l < L`, yields their `10^8` bound could not be reliably read off the extracted
+   PDF text, and its direction is not forced by the lower bound above.  Rather than
+   formalise a possibly inverted statement, only the certain consequences are
+   recorded.  Recovering it is a *reading* task for the next round.
+
+## The honest reframing
+
+Closing (1) and (2) would replace `length_ge_6809` with something near `10^8` —
+a four-order-of-magnitude gain, achievable, and known to be reachable because
+someone has already done it on paper.  That is worth more than any device invented
+in Rounds XVII–XXIV.  **Both halves of the conjecture remain open, and nothing in
+this round changes that.**
+
+## Axiom footprint
+
+`beattyRem_lt`, `beatty_invariant`, `beatty_count_eq`, `hh_min_bound`,
+`hh_min_large`: `propext`, `Quot.sound`.  Zero `sorry`.  Zero added axioms.
+`lake build Collatz` succeeds, 260 jobs.
