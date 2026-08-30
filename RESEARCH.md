@@ -8115,3 +8115,96 @@ the continued fraction, and every richer formalism either recodes it or adds a
 condition that holds regardless of whether a cycle exists.  A device that beats the
 wall cannot be a better way of comparing `2^L` with `3^a`; it has to be something
 that does not reduce to that comparison at all.
+
+## Round XLV — the divergence half, and why one coordinate is never enough
+
+Three heavily constrained tracks against divergence.  All three died, each with an
+exact reason, and the reasons agree.  The round's result is the agreement.
+
+### The foundational lemma, formalised
+
+`Strategy/DensitySaturation`, proved, axioms `propext`/`Quot.sound`:
+
+**`orbit_pow_pred : T^i(3^k · 2^m − 1) = 3^(k+i) · 2^(m−i) − 1` for `i ≤ m`.**
+
+One factor of `2` traded for one factor of `3` per step, for as long as the twos
+last.  At `k = 0` this is the orbit of `2^j − 1`, whose first `j` iterates are all
+odd — `oddCount_allOnes : oddCount (2^j − 1) j = j` — and which then lands on
+`3^j − 1`, even (`allOnes_exhausts`).
+
+So a positive integer imitates the `2`-adic integer `−1` for exactly `v₂(n+1)`
+steps and no more.  Hence `no_finite_density_obstruction`: for every window length
+`j` there is an explicit positive integer whose first `j` steps have odd-step
+density **1**, above any threshold, in particular above the critical `log₃ 2` a
+divergent orbit must sustain.  **No density test read off a prefix, or a prefix
+average, separates anything.**  The density analogue of
+`no_finite_window_obstruction`, and sharper: the extreme case is written down.
+
+### Track 1 — carry-bit exhaustion.  Dead, by control.
+
+Capacity `c(n) = v₂(n+1)`; consumption of a run of length `r` is exactly `r`.
+Measured creation `r' = v₂(next + 1)` over `10^7` odd `n ≤ 2×10^7`, bucketed by
+`r`: mean `r'` is `2.0000` in **every** bucket, `r = 1 … 20`.  Aggregate
+consumption `1.9999992` against creation `1.9999965` — indistinguishable.  So the
+inequality does not go the required way, and per-bucket its sign depends on `r`.
+
+The decisive part is the control.  Run identically on `expStep n = 3n/2` (even),
+`(3n+1)/2` (odd) — which agrees with `T` on odd inputs and **diverges from every
+start** — the same statistic gives `1.9999926`, matching bucket by bucket.  A
+capacity argument built on `v₂(n+1)` cannot separate `T` from a map that always
+diverges, so it can prove nothing about divergence.
+
+### Track 2 — 2-adic repulsion from `−1`.  Refuted numerically.
+
+Claim: growth is always repaid with interest.  **False.**  Over all `99 999`
+excursions from odd `n < 200 000` (one full odd run plus the forced even run,
+exact rationals): `28.6 %` have net factor `> 1`, none exactly `1`, `71.4 %`
+below.  The largest is `492.6`, at `n = 131 071` with `r = 17`, `s = 1`; factors
+grow like `(3/2)^r/2` in the common `s = 1` case and `r` is unbounded, so
+per-excursion factors are **unbounded above**.  No global per-excursion repulsion
+theorem of that shape exists.  Independently reproduced here.
+
+### Track 3 — which infinite words are positive integers.  Falsified, correctly.
+
+The characterisation is exact: a word is a positive integer iff its nested
+realisers `x_k ∈ [0, 2^k)` are eventually constant.  Periodic high-density words
+all give `B/(2^L − 3^a)`, negative when density exceeds `log₃ 2` — including the
+genuine shadow integers `−1` and `−4`.  That is the cycle equation restated.
+
+For **aperiodic** high-density words — the case that matters, measured nested as
+it must be, one fixed stream extended to `k = 3200` at densities `0.6309, 0.65,
+0.7, 0.8, 0.9` — `x_k/2^k` wanders over the whole of `(0,1)` with no drift toward
+either end, and the leading-bit agreement never exceeds about `4` digits.  Nothing
+locks in.  **Asymptotic odd density is not by itself an obstruction to landing in
+`ℕ`.**  This falsifies the hypothesis using the correct nested measurement, not
+the flawed non-nested one flagged earlier.
+
+### What the three deaths agree on: `Strategy/CoordinateMismatch`
+
+* **`odd_clean`** — the odd step is exact in `u = n + 1`: `u ↦ 3u/2`.
+* **`even_clean`** — the even step is exact in `n`: `n ↦ n/2`.
+* **`even_ceil`** — and in `u` the even step is a *ceiling*, `u ↦ ⌈u/2⌉`.
+
+The growth is clean in one coordinate, the contraction in the other.  Asking for a
+single affine shift `v = n + c` that cleans both gives `1 + 2c = 3c` from the odd
+branch and `2c = c` from the even one: `c = 1` against `c = 0`.  **`no_common_shift`
+is that contradiction.**
+
+So the `+1` is not a nuisance term awaiting a better change of variable — among
+affine shifts there provably is none.  And that is exactly why this wave died:
+`expStep` shares `T`'s odd-run law in `u` *exactly* (`expStep_eq_on_odd`), and
+grows at every step (`expStep_grows`), so every device reading only the
+`u`-coordinate odd-run structure — the `u ↦ 3u/2` lockstep, the `v₂(u)` ledger,
+carry-capacity accounting — is satisfied by a map that diverges everywhere.
+
+The discriminating fact is the one thing the two maps do not share: **`T`'s even
+branch divides `n`, the coordinate in which the growth law is not clean.**  This
+sharpens the old requirement "a proof must use that even steps divide" into
+something usable: it must use that they divide *the other coordinate*, and pay the
+ceiling in between.
+
+### Axiom footprint
+
+`lake build Collatz` succeeds, **280 jobs**.  Zero `sorry`.  Zero added axioms.
+
+**Both halves of the conjecture remain open.**
