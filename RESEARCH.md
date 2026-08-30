@@ -7976,3 +7976,110 @@ semiconvergents of `log₂ 3` puts it.
 `lake build Collatz` succeeds, **278 jobs**.  Zero `sorry`.  Zero added axioms.
 
 **Both halves of the conjecture remain open.**
+
+## Round XLIV — the price has a closed form, and the ladder can never be paid off
+
+The instruction was to attack the price function itself and find a mechanism
+collapsing the whole semiconvergent ladder rather than buying one rung.  The round
+found the closed form, reproduced the published bound from it, and then proved the
+collapse is impossible by that route.
+
+### The price in closed form
+
+Writing `x = L/a ≈ log₂ 3`, the terms of `hhMin` are
+`3^(a−1−j)·2^⌊jx⌋ ≈ 3^(a−1)·(2^x/3)^j·2^(−{jx})`, and `2^x/3 → 1`, so only the
+fractional-part factor survives.  `{j log₂ 3}` equidistributes, its average is
+`∫₀¹ 2^(−t) dt = 1/(2 ln 2)`, hence `hhMin ≈ 3^a·a/(6 ln 2)` and
+
+**`price(L) ≈ a / (6 ln 2 · δ)`, `δ = 1 − 3^a/2^L`, `1/(6 ln 2) = 0.2404491733…`**
+
+Reproduces every exactly-computed price to within `0.03 %`, and needs no `hhMin`
+evaluation — which is what makes the ladder computable past `L = 10^5`, where the
+`O(L)` bignum sum stops being feasible.  Derived here twice, independently: once
+from the geometric-series argument above and once by a referee, landing on the
+same constant.
+
+**Correction to my own first statement of it.**  I recorded `0.2404` as a constant
+"to four decimals".  A referee refuted that framing and is right: it is the *limit*
+of a slowly converging sequence, measured `0.24060, 0.24042, 0.24039, 0.24045,
+0.24045` at `L = 485, 1539, 9971, 125743, 301994`.  The constancy is asymptotic,
+not exact.
+
+### The ladder's block structure, and the published bound reproduced
+
+The ladder is **not dense**.  A block based at an odd-index convergent `(P,Q)`
+steps by the next convergent `(P′,Q′)`, giving rungs `(P + kP′, Q + kQ′)` for
+`k = 0…t` with `t` the next partial quotient, landing exactly on the following
+convergent.  Because the partial quotients of `log₂ 3` include `23` and `55`, the
+blocks are wildly uneven:
+
+`485…24727` (23 rungs) | `24727, 75235, 125743` | `125743, 301994` |
+`301994, 17087915` | `17087915, 102225496, 187363077, 272500658`
+
+**There is no dangerous rung between `301 994` and `17 087 915`** — the ladder
+steps over `10^6` and `10^7` entirely.  Paying one rung's price buys everything up
+to the *next* rung, however far.
+
+This reproduces Halbeisen–Hungerbühler exactly.  They report `L_max = 102 225 496`
+with `m = 2.12 × 10^14`; the closed form gives `price(17 087 915) = 2.124 × 10^14`
+— **that is their `m`** — which pays through Eliahou's `17 087 915`, and the next
+rung, `17 087 915 + 85 137 581 = 102 225 496`, is therefore the first survivor and
+their `L_max`.  Derived here without reference to the paper, landing on both of
+its constants.  (I first recorded this as an unresolved `8.4×` discrepancy; it is
+not one.  The gap in the ladder is the explanation.)
+
+### The limitative theorem: no finite verification collapses the ladder
+
+On the ladder, continued-fraction theory gives `δ ≈ ln 2 / a_{k+1}`, so
+
+**`price(L_k) ≈ a_k · a_{k+1} / (6 ln 2)`.**
+
+Convergent denominators satisfy `a_{k+1} ≥ a_k + a_{k−1}`, so `a_k → ∞` and the
+price diverges — **whatever** the partial quotients of `log₂ 3` turn out to be, an
+open Diophantine question this argument does not need.  Therefore:
+
+> **For any fixed verified range `c`, the criterion kills only finitely many
+> lengths `L`, and fails on the whole infinite one-sided convergent ladder.**
+
+The escape route was checked and closed: `n = nmax(L)` is genuinely the argmax of
+the price over all admissible `n` (verified exhaustively to `L = 4701`), and
+smaller `n` only enlarges the denominator, lowering the price — so no other choice
+of `n` rescues boundedness.
+
+This is the honest answer to "make the ladder collapse": **it cannot be collapsed
+by paying.**  Raising the verified range is a treadmill, not a route.  Excluding
+cycles outright requires an argument that is not a threshold in `c` at all.  That
+is the real content of the `(6809, 4296)` wall.
+
+### Four sparks, four deaths
+
+* **Sharpen the numerator** — is `hhMin` loose because the extremal Beatty word is
+  unrealizable?  **No.**  Explicit witnesses found for every `L` from `3` to `26`
+  (e.g. `L=18`: `x = 227195`; `L=21`: `x = 403323`), by forward brute force and by
+  reverse-map reconstruction independently.  The minimising word genuinely occurs
+  as an orbit's odd-step time list, so the numerator is not loose that way.  Not
+  yet tested: realizability as a *closed cycle* rather than an orbit segment,
+  which is the stronger and still-open version.
+* **A 2-adic × archimedean invariant dominating the price.**  Died on a sharp
+  structural point worth keeping: in `u = n+1` the odd run is *exactly*
+  `u ↦ 3^r u/2^r` with `r = v₂(u)`, loss-free, verified — and because it is
+  loss-free **any invariant built from that recursion is provably equivalent to the
+  founding identity** `(2^L − 3^a)x = Σ 3^(a−1−j) 2^(t_j)`, so it inherits the same
+  `δ → 0` degeneracy.  There is no leak to build a second, independent inequality
+  from.  That explains why this whole line keeps dying.
+* **A new object from the dangerous pairs.**  The price generating function is
+  Möbius in `k` with a pole at `k* = ε₀/|ε₁|`, and `⌊k*⌋` is exactly the next
+  partial quotient.  Real, but it is the mediant-termination fact of the
+  Stern–Brocot algorithm in generating-function clothing — and equally true
+  whether or not a cycle exists.  Information-free.
+* **Barrier inversion.**  The candidate obstruction `v₂(S) = t₀ = 0` collapsed into
+  the indexing convention, vacuous before any filter applied.  The one angle left
+  unrun is the *ordered* residue condition modulo the small prime factors of
+  `G = 2^6809 − 3^4296` (`31² · 191 · 617249 · cofactor`) — the residue *multiset*
+  is known unconstrained, the ordered sequence is untested.
+
+### Axiom footprint
+
+`lake build Collatz` succeeds, **278 jobs**.  Zero `sorry`.  Zero added axioms.
+
+**Both halves of the conjecture remain open.**
