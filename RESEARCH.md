@@ -8083,3 +8083,35 @@ is the real content of the `(6809, 4296)` wall.
 `lake build Collatz` succeeds, **278 jobs**.  Zero `sorry`.  Zero added axioms.
 
 **Both halves of the conjecture remain open.**
+
+### Addendum: why "stronger than continued fractions" has nothing to grip
+
+The fifth spark asked for machinery beyond ordinary continued fractions to control
+`2^L − 3^a`.  All four candidates failed, and the reason for the last one is worth
+keeping because it is structural rather than circumstantial.
+
+* **`p`-adic divisibility is information-free.**  For `p ∤ 6`, `p | 2^L − 3^a` iff
+  `L·ind(2) ≡ a·ind(3) (mod ord_p)` — a linear congruence on `(L,a)`, satisfied by
+  a positive density of all pairs.  Verified directly at the wall:
+  `G = 2^6809 − 3^4296` has `31² · 191 · 617249` dividing it exactly (exponents
+  `2, 1, 1`), with a `6799`-bit total and `G ≡ 7 (mod 8)` as the parity of `a`
+  predicts.  But a genuine cycle's `G` would satisfy whichever congruences it
+  happens to satisfy, equally unremarkably.  Divisibility says nothing about the
+  *archimedean* size of `G`, which is the only thing the exclusion needs.  Same
+  vacuity as the `G ≡ 5, 7 (mod 8)` result of Round XLIII.
+* **Ostrowski numeration** in the CF basis of `log₂ 3` is a bijective recoding of
+  the continued fraction.  A "characteristic digit pattern" for dangerous `L` *is*
+  the one-sided-best-approximation statement, redisplayed.
+* **LLL and simultaneous approximation collapse to CF, and here is why.**  `(L,a)`
+  is not a free lattice point: it is pinned by the single relation
+  `a/L ≈ log₃ 2`.  The problem is **intrinsically one-dimensional** — one real
+  number, one linear form.  Lattice-reduction machinery earns its keep when there
+  are two or more *independent* forms to control jointly; with one, it reduces to
+  the continued fraction it was meant to beat.
+
+That is the general shape of this round's negative results.  The `2^L` versus `3^a`
+comparison is a one-dimensional Diophantine problem whose optimal tool is already
+the continued fraction, and every richer formalism either recodes it or adds a
+condition that holds regardless of whether a cycle exists.  A device that beats the
+wall cannot be a better way of comparing `2^L` with `3^a`; it has to be something
+that does not reduce to that comparison at all.
