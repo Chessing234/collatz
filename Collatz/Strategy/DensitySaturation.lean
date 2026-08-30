@@ -152,5 +152,40 @@ theorem allOnes_exhausts (j : Nat) :
   have h := orbit_allOnes (Nat.le_refl j)
   simpa using h
 
+/-! ## No uniformly bounded block descends
+
+A lexicographic height whose leading coordinate is the size of `n` — the shape
+`H(n) = (⌊log₂ n⌋, …)`, decreasing over a block of steps whose length is bounded
+uniformly in `n` — cannot exist.  The same family refutes it: `2^j − 1` trades a
+factor of `2` for a factor of `3` at every step, so over any fixed number of steps
+it *grows*, and `j` may be taken as large as one likes. -/
+
+/-- **For every block length `B` there is an integer the block does not decrease.**
+Taking `j > B`, the orbit of `2^j − 1` after `B` steps is `3^B · 2^(j−B) − 1`,
+which exceeds `2^j − 1` because `2^B < 3^B`.
+
+So no height with the magnitude of `n` as leading coordinate can decrease over a
+uniformly bounded block, and no `B` works for all `n`. -/
+theorem no_bounded_block_descent {B j : Nat} (hB : 0 < B) (hj : B < j) :
+    2 ^ j - 1 < acceleratedOrbit B (2 ^ j - 1) := by
+  rw [orbit_allOnes (Nat.le_of_lt hj)]
+  have hsplit : (2 : Nat) ^ j = 2 ^ B * 2 ^ (j - B) := by
+    rw [← Nat.pow_add]
+    congr 1
+    omega
+  have hlt : (2 : Nat) ^ B < 3 ^ B := Nat.pow_lt_pow_left (by omega) (by omega)
+  have hp : 0 < (2 : Nat) ^ (j - B) := Nat.pow_pos (by omega)
+  have hmul : 2 ^ B * 2 ^ (j - B) < 3 ^ B * 2 ^ (j - B) :=
+    Nat.mul_lt_mul_of_lt_of_le hlt (Nat.le_refl _) hp
+  have hX : 1 ≤ 2 ^ B * 2 ^ (j - B) :=
+    Nat.mul_pos (Nat.pow_pos (by omega)) (Nat.pow_pos (by omega))
+  rw [hsplit]
+  exact Nat.sub_lt_sub_right hX hmul
+
+/-- The same, phrased as the refutation: no block length serves every integer. -/
+theorem no_uniform_block (B : Nat) (hB : 0 < B) :
+    ∃ n : Nat, 0 < n ∧ n < acceleratedOrbit B n :=
+  ⟨2 ^ (B + 1) - 1, allOnes_pos (by omega), no_bounded_block_descent hB (by omega)⟩
+
 end DensitySaturation
 end Collatz
