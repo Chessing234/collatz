@@ -9726,3 +9726,57 @@ it adds is an explicit, checkable, log-free half.
 `lake build Collatz` succeeds, **301 jobs**.  Zero `sorry`.  Zero added axioms.
 
 **Both halves of the conjecture remain open.**
+
+## Round LXVII — the shallow chain: exact, geometric, unchainable
+
+### A correction to my own reading
+
+The target shape `T²(n) ≤ n − n/4` is not merely true — with `Nat` division it is an
+**equality**: for `n ≡ 1 (mod 4)`, **`T²(n) = n − ⌊n/4⌋`**, zero violations over every
+such `n < 300 000`.  I first judged the stated form false by reasoning with real
+division, where `(n−1)/4 < n/4`.  With `⌊·⌋` they agree exactly: `n = 4k+1` gives
+`⌊n/4⌋ = k` and `T²(n) = 3k+1 = n − k`.  The mission's shape was right and mine was
+wrong.
+
+The companion holds too: `4w′ ≤ 3n + 5`, i.e. `w′ < (3/4)n + 2`, no violations.
+
+### Both kill tests fire, as predicted
+
+* `n = 2^j − 1` evades the hypothesis for every `j ≥ 2`, since `v₂(n+1) = j ≠ 1` —
+  all 23 checked.
+* Chaining needs the hypothesis to persist, which no bounded block supplies.
+
+### The chain, exactly
+
+**`shallow_chain` — if `T^(2i)(n) ≡ 1 (mod 4)` for all `i < k`, then
+`4^k · (T^(2k)(n) − 1) = 3^k · (n − 1)`.**
+
+Zero violations over `66 686` tested stages, chains as long as `k = 25` occurring.
+So `T^(2k)(n) − 1 = (3/4)^k (n − 1)` exactly — pure geometric decay to the fixed
+point `1`.  Kernel-checked at `n = 5, 13, 17, 53, 213`, where `4(T²(n) − 1)` and
+`3(n−1)` agree at `12, 36, 48, 156, 636`.
+
+### The remainder: the fraction of shallow runs
+
+On never-dropping windows of length `≤ 40` below `2^20` — `106 496` windows:
+
+* overall fraction with `v₂(x+1) = 1`: **`0.38735`**, against `0.5` unrestricted;
+* **decreasing with window length**: `0.41146, 0.39245, 0.38354, 0.38050, 0.34274`
+  across lengths `8–15, 16–23, 24–31, 32–39, 40–47`.
+
+Never-droppers are systematically short of shallow runs, increasingly so.  **But no
+pointwise bound below `1/2` is available** — the per-window maximum is `0.625`.  So
+the honest provable statement is the extreme case only (`not_all_shallow`): a
+never-dropper **cannot be all-shallow**, since `k` shallow stages force decay by
+`(3/4)^k`.
+
+Why it stops there: consecutive shallow stages occur with probability
+`0.75, 0.1875, 0.0469, 0.0117, …`, i.e. `≈ (3/4)·4^(−(k−1))`.  The chain is exact but
+its **length is geometric**, and persisting requires `n ≡ 1 (mod 4)` afresh at every
+stage — exactly the uniform block `no_uniform_block` refutes.
+
+### Axiom footprint
+
+`lake build Collatz` succeeds, **302 jobs**.  Zero `sorry`.  Zero added axioms.
+
+**Both halves of the conjecture remain open.**
