@@ -9297,3 +9297,68 @@ maximal `ρ`.  Route closed.
 `lake build Collatz` succeeds, **297 jobs**.  Zero `sorry`.  Zero added axioms.
 
 **Both halves of the conjecture remain open.**
+
+## Round LXIII — one witness certifies a whole interval
+
+Approach 5 of three.  The two remaining agents died on a session rate limit, so
+this and Round LXII were done directly.
+
+### The interval form
+
+`ExclusionRatio.excluded_transfer` (Round XLIII) already proves a length can be
+excluded by a witness at a *different* length: `wt L · dev W ≤ wt W · dev L` —
+cross-multiplied `r(L) ≤ r(W)` — transfers exclusion.  `IntervalCertificate`
+packages it as a sweep needs it: fix one witness `W` excluded at `c`, and **every**
+`L` with `r(L) ≤ r(W)` follows with no further computation.  `witness_trans` makes
+it transitive.
+
+### What it buys, measured
+
+At the repository's kernel-proved `c = 1 086 464`:
+
+* product-bound frontier `L = 2593`;
+* argmax of `r` over `[1, 2592]` is `L = 1539`, `r = 661 176 < c`, so the witness is
+  itself excluded;
+* **all `2592` lengths satisfy `r(L) ≤ r(1539)`.**
+
+A `CycleLength2593`-style sweep — `2592` separate `excludedFast` evaluations —
+collapses to **one**.
+
+Conditionally on Barina's `c = 704·2^60 ≈ 8.12 × 10^20`:
+
+* argmax of `r` over `[1, 10^5]` is `L = 75 235` (`a = 47 468`), `r ≈ 2.90 × 10^9`,
+  far below `c`;
+* direct sweep: `~10^5` `decide` calls on numerals up to `~10^5` bits;
+* **via transfer: one `decide` at `L = 75 235`, `~75 235`-bit numerals** — and this
+  repository already discharges `decide` at `~40 000` bits (`barina_sweep`) and at
+  `6809` bits.
+
+So **transfer makes the Barina-conditional `L ≥ 10^5` kernel-checkable**, where a
+direct sweep is defeated by runtime rather than by mathematics.  `topIndex` is exact
+below `10 439 860 591`, so `75 235` is arithmetically sound.
+
+### A correction worth recording
+
+My first pass took the argmax of `r` over `[1, 6808]`, got `L = 5755` with
+`r = 3.01 × 10^6`, and nearly reported one witness covering the repo's whole
+unconditional range.  That is wrong: `3.01 × 10^6 > 1 086 464`, so `5755` is **not**
+excluded by the product bound at that range.  The repo's unconditional `6809` comes
+from `RealizableFrontier6809`, a different certificate — not from the product bound
+at `1 086 464`, whose frontier is `2593`.  The two prices had been conflated.
+
+### Kill test, answered honestly
+
+The witness is always the top rung of the semiconvergent staircase below the
+target, and the reachable range is still exactly the frontier priced by
+`a_k·a_{k+1}/(6 ln 2)`.  **This is an optimisation, not new mathematics** — it does
+not move the frontier by one length, and Round XLIV's proof that no finite range
+collapses the ladder stands untouched.
+
+It is formalised because the kill test's own second clause is met: it converts an
+infeasible sweep into a feasible one at Barina scale.
+
+### Axiom footprint
+
+`lake build Collatz` succeeds, **298 jobs**.  Zero `sorry`.  Zero added axioms.
+
+**Both halves of the conjecture remain open.**
