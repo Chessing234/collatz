@@ -9075,3 +9075,56 @@ form, ready for that input.
 `lake build Collatz` succeeds, **293 jobs**.  Zero `sorry`.  Zero added axioms.
 
 **Both halves of the conjecture remain open.**
+
+## Round LIX — the pair `(n, n+1)`, and why no potential can live on it
+
+### The step, corrected
+
+As proposed the two second components were exchanged.  Growth (`x` odd) is the
+clean one in `y = u`; contraction (`x` even) is the clean one in `x`.  So
+
+* `x` even:  `(x, y) ↦ (x/2, (y+1)/2)` — the ceiling, in `y`;
+* `x` odd:   `(x, y) ↦ ((3x+1)/2, 3y/2)` — the exact tripling, in `y`.
+
+The version with these swapped fails on **every** input: `n = 2` gives `(1,4)`
+against the wanted `(1,2)`; `n = 3` gives `(5,2)` against `(5,6)`.  `19 999`
+failures out of `19 999`.  With the components in the right slots, none.
+
+`PairStep.pairStep` is the corrected map, `pair_preserves_gap` the check
+(`pairStep (x, x+1) = (T x, T x + 1)`), and `pair_orbit` its iterate.
+Kernel-checked at `n = 2, 3, 7, 27`.
+
+### The kill test fires by construction
+
+The proposal's own criterion: *if `V(x, x+1)` is secretly `f(x)`, dead.*  It is —
+and unavoidably.
+
+The locus `{(x, x+1) : x ∈ ℕ}` is the **graph of a function**.  The second slot is
+determined by the first, so the pair carries exactly what `x` carries and not one
+bit more.  `pair_potential_is_unary`: for *any* `V : ℕ → ℕ → α` there is an `f` with
+`V x (x+1) = f x` — namely `f = fun x => V x (x+1)`.  It depends on **no axioms at
+all**.
+
+**So no potential on the pair locus can escape the test, however it is built.**  The
+construction cannot fail to be unary; the gap-`1` constraint is what makes it so.
+This is a stronger verdict than a failed candidate: it rules out the whole class in
+advance, and cheaply.
+
+### What the pair formalism *is* good for
+
+Not a potential — a typing discipline.  Its content is in the step rule, recording
+which coordinate is exact at each letter, and that content is already
+`CoordinateMismatch`: `odd_clean`, `even_clean`, and `no_common_shift` (no affine
+`v = n + c` makes both branches exact, the odd branch forcing `c = 1` and the even
+`c = 0`).
+
+The pair carries both coordinates so neither must be chosen; `no_common_shift` is
+the theorem that they cannot be merged.  The pair does not add information — it
+**displays** the obstruction.  Worth stating, and not a route to a Lyapunov
+function.
+
+### Axiom footprint
+
+`lake build Collatz` succeeds, **294 jobs**.  Zero `sorry`.  Zero added axioms.
+
+**Both halves of the conjecture remain open.**
