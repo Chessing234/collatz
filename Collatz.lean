@@ -229,6 +229,7 @@ import Collatz.Strategy.LogCoordinate
 import Collatz.Strategy.LiftingLaw
 import Collatz.Strategy.RenormTower
 import Collatz.Strategy.HarvestSplit
+import Collatz.Strategy.SizePerturbation
 import Collatz.Search.BarinaRange
 import Collatz.Search.VerifiedRange
 import Collatz.Strategy.AffineExchange

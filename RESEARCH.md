@@ -8826,3 +8826,71 @@ than the single failure, and it is a testable condition for the next candidate.
 `lake build Collatz` succeeds, **289 jobs**.  Zero `sorry`.  Zero added axioms.
 
 **Both halves of the conjecture remain open.**
+
+## Round LV — a relation that survives the `n ↦ n + 2^M` test
+
+Built to specification: mention both `v₂(n+1)` and the archimedean size of `n` in
+one relation, at a contraction, and pass the test that killed the previous devices.
+
+### The test
+
+`n` and `n + 2^M` share their first `M` parity bits
+(`parityVector_mod_pow_two`).  So every function of the parity word alone, and
+every function of `u = n+1` modulo a high power of two, is blind to the difference.
+That is what makes a device `2`-adic only, and dead.
+
+### The relation that passes
+
+**`perturb_orbit` — `T^j(n + 2^M) = T^j(n) + 3^(a_j)·2^(M−j)` for `j ≤ M`**, with
+`a_j = oddCount n j`.  Proved by induction, no appeal to `affineC`: for `j < M` the
+offset is even, so the two orbits keep the *same parity at every step* — which is
+why the words agree — and the offset is halved on an even step, tripled on an odd
+one (`step_shift_even`, `step_shift_odd`).
+
+Cleared of division, `perturb_scaled`:
+
+**`2^j · T^j(n + 2^M) = 2^j · T^j(n) + 2^M · 3^(a_j)`.**
+
+The `2`-adic datum `a_j` — identical for the two starting points — and the
+archimedean `2^M`, in one exact identity.  **It is not invariant under
+`n ↦ n + 2^M`**: the sides differ by exactly `2^M·3^(a_j)`, never zero.  The device
+sees precisely what the parity word cannot.
+
+Kernel-checked at `n = 27`, `M = 8`: the parity words of `27` and `283` agree at
+every `j ≤ 5`, while the orbit values differ by `256, 384, 576, 288, 432, 648` —
+exactly `3^(a_j)·2^(8−j)`.
+
+The consequence: the scaled deficit `D_j(n) = 2^j(n − T^j(n))` satisfies
+`D_j(n+2^M) − D_j(n) = 2^M(2^j − 3^(a_j))`, verified for `M ≤ 12`, `n < 400`,
+`j ≤ M`.  **The `2`-adic data fixes the sign of the shift — the heavy/light
+dichotomy `2^j` against `3^(a_j)` — and the size fixes its magnitude.**
+
+### The target shape
+
+`v₂(n+1) = 1` is exactly `n ≡ 1 (mod 4)`; by Terras the odd run has length one, so
+a growth step is followed immediately by a contraction, and the pair composes:
+
+**`drop_of_v2_one` — `n ≡ 1 (mod 4) → 4·T²(n) = 3n + 1`,**
+
+hence `T²(n) < n` for every `n > 1`, with `n − T²(n) = (n−1)/4`.  The drop is
+**proportional to `n`, not bounded** — that proportionality is the archimedean
+content.  A shallow run does not merely fail to grow; it loses a fixed *fraction*
+of the size.  Verified for every odd `n < 40 000` with `v₂(n+1) = 1`, no exceptions,
+and kernel-checked at `n = 5, 9, 13, 17, 21, 25`.
+
+### What it does not do
+
+It does not iterate.  `drop_of_v2_one` fires only on `n ≡ 1 (mod 4)` — half of odd
+`n`; the rest have longer runs and can grow, and `no_uniform_block` already proves
+no bounded block descends for every `n`.  And `perturb_orbit` relates two starts
+with the same word; it says nothing about a single orbit whose word is not given.
+
+What is new: the first relation in this development in which the `2`-adic and
+archimedean data appear together and neither can be eliminated — the sign from one,
+the magnitude from the other.
+
+### Axiom footprint
+
+`lake build Collatz` succeeds, **290 jobs**.  Zero `sorry`.  Zero added axioms.
+
+**Both halves of the conjecture remain open.**
