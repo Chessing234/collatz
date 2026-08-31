@@ -9128,3 +9128,65 @@ function.
 `lake build Collatz` succeeds, **294 jobs**.  Zero `sorry`.  Zero added axioms.
 
 **Both halves of the conjecture remain open.**
+
+## Round LX — banked threes against spent twos: the identity is exact and vacuous
+
+Proposal: after a maximal run of length `r = v₂(n+1)`, let
+`κ(n) = v₂(n′+1) − v₃(n′+1)` with `n′ = T^r(n)`, and hope for `κ ≤ −1`.
+
+**The dream lemma is true.  It is also vacuous, and both halves are now proved.**
+
+### The exact identity
+
+With `n + 1 = 2^r·w`, `w` odd, `exchange_orbit` gives `n′ + 1 = 3^r·w`
+(`run_end_value`).  Since `w` and `3^r` are both odd, that product is odd
+(`run_end_odd`), so
+
+**`v₂(n′+1) = 0` identically** — all `524 288` odd `n < 2^20`, no exception.
+
+The run spends *every* two; that is what ends it.  Hence
+
+**`κ(n) = 0 − (r + v₃(w)) = −Φ(n)` exactly,**
+
+with `Φ = v₂(n+1) + v₃(n+1)` the conserved budget of `ValuationExchange`.  So
+`κ ≤ −1` holds always — but only because it reads `−Φ ≤ −1`, i.e. `Φ ≥ 1`, which is
+Terras' statement that the run is nonempty.  **`κ` never sees the contraction.**  It
+is the budget with a minus sign, and `budget_constant` already says the budget does
+not move.  The measured histogram of `κ` is exactly the geometric profile of `Φ`,
+reflected — as the identity forces.
+
+### The corrected surplus, and the kill test
+
+The intended quantity is the *harvest* `v₂(n′+2) = v₂(3^r·w + 1)`, the `2`-content
+the contraction actually pulls in.  Put `κ* = v₂(n′+2) − v₃(n′+1)`.  Over all odd
+`n < 2^20`:
+
+* **mean `κ* = −0.49999`** — exactly `−1/2`, since `E[harvest] = 2` and
+  `E[Φ] = 2 + 1/2 = 5/2`;
+* **`P(κ* > 0) = 0.26667`**, about `4/15`;
+* **maximum `+19`**, with the harvest's geometric tail.
+
+The mean is genuinely favourable — negative, not zero.  But the **positive tail is
+unbounded**, inherited from the harvest, which Round LI showed equals `2 + v₂(t+r)`
+and is unbounded.
+
+So by the proposal's own kill test, precisely: `κ*` is a **drift, not a descent
+function**.  A negative mean with an unbounded positive tail is an average
+statement, and averages do not transfer here — `no_uniform_block` proves no bounded
+block descends for every `n`, and `2^j − 1` realises arbitrarily long growth.  `κ*`
+cannot be pointwise negative, because the harvest alone exceeds any bound.
+
+### Proved
+
+`run_end_value`, `run_end_odd`, `kappa_zero_two_part`: the `2`-part is empty at the
+end of a run, which forces `κ = −Φ`.  Kernel-checked at `(r,w) = (1,1), (2,3),
+(3,5), (4,7)`: the end-of-run `u` values `3, 27, 135, 567` are all odd.
+
+Nothing is claimed for `κ*`; its positive tail is unbounded and no pointwise
+statement is available.
+
+### Axiom footprint
+
+`lake build Collatz` succeeds, **295 jobs**.  Zero `sorry`.  Zero added axioms.
+
+**Both halves of the conjecture remain open.**

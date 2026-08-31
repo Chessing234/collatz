@@ -234,6 +234,7 @@ import Collatz.Strategy.CouplingDead
 import Collatz.Strategy.GhostHeight
 import Collatz.Strategy.ProductMax
 import Collatz.Strategy.PairStep
+import Collatz.Strategy.BankedSurplus
 import Collatz.Search.BarinaRange
 import Collatz.Search.VerifiedRange
 import Collatz.Strategy.AffineExchange
