@@ -10085,3 +10085,75 @@ they cost the same to move: there was only ever one certificate, wearing two not
 `lake build Collatz` succeeds, **305 jobs**.  Zero `sorry`.  Zero added axioms.
 
 **Both halves of the conjecture remain open.**
+
+## Round LXXII — the affine cocycle, and the block-depth threshold
+
+Two tracks, both landing.  One separates Collatz from its divergent twin
+structurally for the first time; the other corrects a direction I got wrong.
+
+### Collatz is affine; `expStep` is multiplicative
+
+Since `w = U/2^a`, the block map `U = 2^a·w ↦ 3^(a−1)·w + 1` is
+
+**`U′ = λ_a·U + 1`,  `λ_a = 3^(a−1)/2^a = (1/3)(3/2)^a`.**
+
+An **affine cocycle**: multiplier chosen by `v₂(U)`, plus a *constant* translation.
+The `+1` is not a rounding artefact — it is the translation part.
+
+And the divergent twin fails it not by a margin but by **degeneracy**:
+
+**`expStep_block` : `expStep^a (2^a·w) = 3^a·w`, exactly** — no violations over `5187`
+pairs, `a ≤ 13`, and now proved by induction in Lean.
+
+| | multiplier | translation |
+|---|---|---|
+| Collatz | `3^(a−1)/2^a` | **`+1`** |
+| `expStep` | `3^a/2^a` | `0` |
+
+Kernel-checked at `(a,w) = (1,3), (2,5), (3,7), (4,9)`: `expStep` gives
+`9, 45, 189, 729`, Collatz gives `4, 16, 64, 244`.  **The `+1` is exactly what the
+twin lacks.**  That is filter F1 — "a proof must use that even steps divide" — made
+exact at block level, and the first statement here separating the two maps
+*structurally* rather than numerically.
+
+Measured, on the additive part `A_N` (satisfying `A_{k+1} = λ_{a_k}A_k + 1`): it is
+**not** bounded absolutely — it reached `18 802`, and one block with `a = 25` lifts it
+from `1` to `8417`.  But `A_N < U_N` always, and the *ratio* is `10^(−7)`–`10^(−12)` on
+growth windows, order one only near the fixed points `U ∈ {2,4}`.  So the translation
+is a boundary effect during growth.  A measurement, not a theorem.
+
+### The block-depth threshold, and my error
+
+A window grows only if `3^(S−N) > 2^S` (`S = Σa_i`), i.e. **mean block depth above
+`log 3/log(3/2) = 2.709511…`**, against an unconstrained mean of `2`.
+
+Measured over every even `U₀ < 2^19`: **`65 537` never-dropping windows, exactly `2`
+violations** — and both are the fixed points `U₀ = 2` and `U₀ = 4`, where `w = 1` makes
+the `+1` cancel the swap forever.  The mean tightens onto the threshold **from above**:
+
+| min length | mean `S/N` | windows |
+|---|---|---|
+| `N ≥ 1` | `3.1112` | `65 537` |
+| `N ≥ 10` | `2.7653` | `3 442` |
+| `N ≥ 20` | `2.7412` | `620` |
+| `N ≥ 30` | `2.7308` | `130` |
+
+**My task specification had the implication backwards.**  I asked for *"if
+`3^(S−N) ≤ 2^S` then the window does not grow"*.  The chain inequality bounds `U_N`
+from **below**, so it can force growth and never forbid it — and `U₀ = 2, 4` are exactly
+the counterexamples to the literal converse.
+
+Proved (`Strategy/DepthThreshold`): `block_step_exact` (the `+2^a` is precisely the
+swap's shortfall), `block_step_ge`, `chain`
+(`(∏3^(a_i−1))·U₀ ≤ (∏2^(a_i))·U_N`, no division, no logs), **`forced_growth`** (above
+the threshold growth is forced), and **`depth_capped_of_no_growth`** (a non-growing
+window has `3^(S−N) ≤ 2^S`).
+
+This constrains the **depth multiset of a given window**.  It is not a descent theorem:
+`no_uniform_block` and the `2^j − 1` family stand untouched.
+
+### Axiom footprint
+
+`lake build Collatz` succeeds, **307 jobs**.  Zero `sorry`.  Zero added axioms.
+
+**Both halves of the conjecture remain open.**

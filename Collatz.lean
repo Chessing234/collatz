@@ -245,6 +245,8 @@ import Collatz.Strategy.ShallowChain
 import Collatz.Strategy.PeriodLadder
 import Collatz.Strategy.BlockContract
 import Collatz.Strategy.PriceIdentity
+import Collatz.Strategy.AffineCocycle
+import Collatz.Strategy.DepthThreshold
 import Collatz.Search.BarinaRange
 import Collatz.Search.VerifiedRange
 import Collatz.Strategy.AffineExchange
