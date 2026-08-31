@@ -9667,3 +9667,62 @@ descending for every `n`.
 `lake build Collatz` succeeds, **300 jobs**.  Zero `sorry`.  Zero added axioms.
 
 **Both halves of the conjecture remain open.**
+
+## Round LXVI — the `t′−t` route closes; a log-free contraction criterion survives
+
+### The kill test does not apply
+
+`n = 2^j − 1` has `w = oddpart(n+1) = 1`, hence `ε = +1` — checked at
+`j = 3, 5, 8, 12, 20`.  **It is not on the `ε = −1` branch at all.**  By
+`LogCoordinate.growth_blocked` the `ε = +1` branch regenerates at most `2`, so that
+family cannot sustain deep growth and cannot be the counterexample the kill test
+guarded against.  The guard was aimed at the wrong family.
+
+### The table factors, so the `t′−t` route closes
+
+Over all odd `s < 2^16` on the `ε = −1` branch, the table of
+`(v₂(s), sign(t′−t), a mod 4)` has marginals
+
+* `v₂(s)`: `0.5, 0.25, 0.125, 0.125`
+* `sign(t′−t)`: `−1 ↦ 0.4954`, `+1 ↦ 0.5046`
+* `a mod 4`: `0.0667, 0.5334, 0.2666, 0.1333`
+
+and the largest relative deviation from the product measure is `0.1089`, on a cell
+with `75` counts against `67.6` expected — inside Poisson noise (`√75 ≈ 8.7`).
+**There is no non-product cell to formalise**, and `sign(t′−t)` is a coin flip,
+confirming Round LXI independently.
+
+### What survived, and it is stronger than what was asked
+
+The pointwise statement exists, but it concerns the *harvest*, not `t′−t`, and it
+needs **no discrete logarithm**:
+
+**`harvest_one_iff` — regeneration is exactly `1` ⟺ `3^(a−1)·w ≡ 1 (mod 4)`.**
+Zero violations over `150 000` odd `n`.
+
+In the logarithm chart this is the union of the two shallow cases (`ε=+1, s` even
+and `ε=−1, s` odd); stated this way it is arithmetic mod `4`.  And harvest `1`
+forces contraction:
+
+**`shallow_then_contract` — if `3^(a−1)·w ≡ 1 (mod 4)` then the next block is `2v`
+with `v` odd, and the step after sends `2v ↦ v+1 < 2v`.**
+Zero violations over `50 002` samples.
+
+Since `3^(a−1)·w` is odd it is `1` or `3` mod `4` (`criterion_dichotomy`), so the
+criterion fires on **about half of all blocks** — pointwise, by a congruence, with
+no average, no drift, and no logarithm.  That is the shape the mission demanded,
+reached from the other side.
+
+### What it does not do
+
+Conditional, not global.  The complementary class `3^(a−1)·w ≡ 3 (mod 4)` is exactly
+where regeneration can be deep, and nothing here bounds it.
+`no_uniform_block` already proves no bounded block descends for every `n`, so a
+criterion firing on a fixed congruence class cannot close the argument alone.  What
+it adds is an explicit, checkable, log-free half.
+
+### Axiom footprint
+
+`lake build Collatz` succeeds, **301 jobs**.  Zero `sorry`.  Zero added axioms.
+
+**Both halves of the conjecture remain open.**

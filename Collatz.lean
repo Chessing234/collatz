@@ -240,6 +240,7 @@ import Collatz.Strategy.OrbitSemigroup
 import Collatz.Strategy.IntervalCertificate
 import Collatz.Strategy.OpeningTemplate
 import Collatz.Strategy.TwoStepSeparation
+import Collatz.Strategy.HarvestOne
 import Collatz.Search.BarinaRange
 import Collatz.Search.VerifiedRange
 import Collatz.Strategy.AffineExchange
