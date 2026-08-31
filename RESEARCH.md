@@ -9014,3 +9014,64 @@ becomes vacuous.*
 `lake build Collatz` succeeds, **292 jobs**.  Zero `sorry`.  Zero added axioms.
 
 **Both halves of the conjecture remain open.**
+
+## Round LVIII — the max-side product bound, the missing half of the sandwich
+
+### Selection, against the four sources
+
+* **Hercher 2023, Lemma 9** — already formalised (`HercherMerge.merge`), with
+  Remark 10 as `unbounded_descends`.  Not a gap.
+* **Halbeisen–Hungerbühler 1997** — Lemma 5 was the gap and is now proved
+  (`HHLemmaFive.hhExtremal_holds`).  Not a gap.
+* **collatz-lab.org** — `BakerSeparation` is stated there as a *conjecture de
+  travail*, an undemonstrated strengthening of Rhin/Wu/Salikhov carried as an
+  axiom: formalising it means **adding an axiom**, forbidden here.  Its `δ8` note is
+  an *obstruction* result — no Baker + CF + Khinchin derivation gives a uniform
+  `F(k) < 2^71` — so it closes a route rather than moving a bound.  Neither
+  qualifies.
+* **The cycle-ratio theorem** (T. I. Martiny, *New Lower Bound on Cycle Length for
+  the 3n+1 Problem*, Univ. of Pittsburgh, 9 Apr 2015, slide 9): for a cycle `Ω` with
+  odd part `Ω₁`,
+  `log₂(3 + M⁻¹) < |Ω|/|Ω₁| ≤ log₂(3 + m⁻¹)`, `M = max Ω`, `m = min Ω`.
+  **Its lower half is the gap.**
+
+Clearing denominators with `L = |Ω|`, `a = |Ω₁|`:
+
+`(3M+1)^a ≤ 2^L · M^a`  and  `2^L · m^a ≤ (3m+1)^a`.
+
+The right inequality *is* `CycleProduct.product_invariant` at a cycle — the source
+of every `CycleLength` result here.  The left one, governed by the cycle
+**maximum**, was absent.
+
+### `Strategy/ProductMax`
+
+**`product_invariant_max` — `(3M+1)^(a_k)·x ≤ 2^k·M^(a_k)·T^k(x)`** whenever
+`T^i(x) ≤ M` for all `i`.  Dual to `product_invariant`: that one bounds the orbit
+above from a *lower* bound on its values, this bounds it below from an *upper*
+bound.  The step is one line: at an odd `y ≤ M`, `(3M+1)·y ≤ M·(3y+1)`, since
+`3My + y ≤ 3My + M`.
+
+**`cycle_max_bound` — `(3M+1)^a ≤ 2^L · M^a`** on a cycle, after cancelling `x`.
+
+Verified: no violation over `155 961` pairs `(x,k)`, `x < 4000`, `k ≤ 39`, strict in
+`151 972`.  Kernel-checked on the trivial cycle `{1,2}`: the sandwich is `7 ≤ 8` and
+`4 ≤ 4`, the min side exactly tight.
+
+### Why it can move a bound
+
+Every existing exclusion uses only the cycle *minimum*, through the verified range.
+This supplies the complementary constraint from the *maximum*, so the admissible
+`(L,a)` region is cut from both sides: `log₂(3 + 1/M) < L/a ≤ log₂(3 + 1/m)`.  From
+below the development previously had only `L/a > log₂ 3`; since
+`log₂(3 + 1/M) > log₂ 3` strictly, this is a genuine strengthening, by an amount
+governed by the orbit maximum — which `HercherMerge.orbitMax` already supplies.
+
+It does not by itself raise `6809`: converting it to a number needs an upper bound
+on `M` for a hypothetical cycle, which the development lacks.  Recorded in sharp
+form, ready for that input.
+
+### Axiom footprint
+
+`lake build Collatz` succeeds, **293 jobs**.  Zero `sorry`.  Zero added axioms.
+
+**Both halves of the conjecture remain open.**

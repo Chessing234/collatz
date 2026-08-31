@@ -232,6 +232,7 @@ import Collatz.Strategy.HarvestSplit
 import Collatz.Strategy.SizePerturbation
 import Collatz.Strategy.CouplingDead
 import Collatz.Strategy.GhostHeight
+import Collatz.Strategy.ProductMax
 import Collatz.Search.BarinaRange
 import Collatz.Search.VerifiedRange
 import Collatz.Strategy.AffineExchange
