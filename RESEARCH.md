@@ -10016,3 +10016,72 @@ and the exact reason the count inequality cannot exist.
 `lake build Collatz` succeeds, **304 jobs**.  Zero `sorry`.  Zero added axioms.
 
 **Both halves of the conjecture remain open.**
+
+## Round LXXI — the two certificates are literally the same integer
+
+Round LXIX found the sharp Halbeisen–Hungerbühler criterion and the `Bcap`
+realizable-frontier certificate charging identical prices at every riser, and called
+it a coincidence.  **It is not a coincidence.  The numerators are the same integer.**
+
+### The identity, verified independently
+
+With `L = fexp a + 1`:
+
+**`hhMin L a L = Bcap a`**
+
+at every rung the two ladders use — `a = 306, 971, 1636, 2301, 2966, 3631, 4296` —
+digit for digit, up to a **`2053`-digit** number at `a = 4296`.  Not proportional, not
+rounding-close: **equal**.  At `a = 306` both are the same `148`-digit integer, and
+dividing by `2^485 − 3^306` returns the tables' `72 059`.
+
+Re-derived here from the repo's own definitions (`beattyRem/beattyBit/beattyCount/hhMin`
+in `HalbeisenHungerbuhler`, `fexp/Bcap` in `RealizableBound`), not taken on report.
+
+**It is not universal.**  It fails at `a = 2, 12, 53, 665` — the bare even-indexed
+convergents, which are not rungs.  (`665` is the ladder's *step*, never a rung.)
+
+### Why
+
+Both quantities have the same shape.  Writing `pos i` for the position of the
+`(i+1)`-th `1` in the ceiling-Beatty word of shape `(L,a)`: at a one-position
+`j = pos i` the count is `i+1`, so `hhMin`'s term is `2^(pos i)·3^(a−1−i)`; and
+`Bcap`'s recursion unfolds to `Σ_{i<a} 3^(a−1−i)·2^(fexp i)`.
+
+**Both are `Σ_{i<a} 3^(a−1−i)·2^(e i)`** — with `e = pos` for one, `e = fexp` for the
+other.  They coincide exactly when `pos i = fexp i` for `i < a`, which is verified true
+at the rungs and false at `53` and `665`.
+
+That is a continued-fraction fact about `log₂ 3`: the Beatty word's one-positions track
+`⌊i·log₂ 3⌋` along the one-sided semiconvergent chain the ladder walks, and not off it.
+So there is **no all-`a` theorem** — the statement is false for generic `a` — and no
+induction on `a` alone can prove it.
+
+### `Strategy/PriceIdentity`
+
+The part that is a theorem rather than a computation:
+
+* `Bsum` — the common shape as a cocycle recursion;
+* **`Bcap_eq_Bsum`** — `Bcap` *is* `Bsum fexp`; depends on **no axioms at all**;
+* **`Bsum_congr`** — exponent sequences agreeing below `a` give equal sums;
+* `numerators_agree` — hence, given `pos = fexp` below `a`, the numerators coincide.
+
+Kernel-checked: `Bcap` and `Bsum fexp` agree at `a = 0…7` (`0, 1, 5, 23, 85, 319, 1085,
+3767`).
+
+The remaining bridge `hhMin L a L = Bsum pos a` is the one-position reindexing of
+`HHLemmaFive.times_word_eq`; it is carried as a **hypothesis**, not an axiom, and each
+rung's `pos = fexp` check is a finite `decide` in the style of this repo's own `cert`
+certificates.
+
+### What it means
+
+Two constructions from different papers — H–H's minimum over admissible words, and the
+`Bcap` realizable-frontier bound — are computing **one object**.  That explains Round
+LXII's finding that independent methods stop at the same wall, and Round LXIX's that
+they cost the same to move: there was only ever one certificate, wearing two notations.
+
+### Axiom footprint
+
+`lake build Collatz` succeeds, **305 jobs**.  Zero `sorry`.  Zero added axioms.
+
+**Both halves of the conjecture remain open.**
