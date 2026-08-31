@@ -41,6 +41,13 @@ That is the answer to the question actually posed: **transfer makes the
 Barina-conditional `L ≥ 10^5` kernel-checkable**, where a direct sweep is defeated
 by runtime rather than by mathematics.
 
+The premise was afterwards confirmed by **exact** arithmetic rather than the
+asymptotic: a direct scan with real `2^L` and `3^a` bignums finds **no frontier
+below `200 000`** at `c = 704·2^60` — every length under `2 × 10^5` is genuinely
+excluded there, so the witness at `75 235` is inside the excluded region with room
+to spare.  The same scan reproduces the `c = 1 086 464` line exactly: frontier
+`2593`, argmax `1539`, `r = 661 176`, all `2592` covered.
+
 ## The kill test, answered honestly
 
 The witness is always the top rung of the semiconvergent staircase below the
