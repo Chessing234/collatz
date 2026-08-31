@@ -8952,3 +8952,65 @@ are `2`-adic and archimedean, not `2`-adic and `3`-adic.
 `lake build Collatz` succeeds, **291 jobs**.  Zero `sorry`.  Zero added axioms.
 
 **Both halves of the conjecture remain open.**
+
+## Round LVII — heights cannot see the ghosts, and why, exactly
+
+Asked: is there an archimedean height, house, or house-of-conjugates inequality
+that `n_σ = C(σ)/(2^E − 3^L) ∈ ℕ` would violate for expanding words?
+
+**No.  The mechanism is named below and the route is closed.**
+
+### The house branch closes in one line
+
+`n_σ` is a **rational** number — degree `1` over `ℚ`, with **no nontrivial Galois
+conjugates**.  So `house(n_σ) = |n_σ|`, and every conjugate inequality is an
+identity.  Lehmer, Dobrowolski, Schinzel–Zassenhaus, Bogomolov–Zhang all need
+degree `≥ 2`, or bound height away from zero for non-torsion points of bounded
+degree; at degree `1` each is vacuous or saturated.  There is nothing for conjugate
+geometry to act on.
+
+### The height branch, and the exact gcd mechanism
+
+With `G = |2^E − 3^L|`, the naive floor is `H(n_σ) ≥ G`.  After reduction,
+`H(n_σ) = max(|C|, G)/gcd(C, G)`, so the floor survives only while the gcd is
+small.  It is not:
+
+> **`n_σ ∈ ℤ  ⟺  gcd(C, G) = G`.**
+
+Verified exactly over all `131 070` words with `L ≤ 16`, no exceptions
+(`integrality_iff_max_gcd`).
+
+**This is fatal in the sharpest possible way.**  The hypothesis one wants to
+refute — that the ghost is an integer — *is precisely the case of maximal gcd
+collapse*, where the denominator cancels completely and the floor `G` vanishes.  A
+height inequality with a floor at `G` is vacuous exactly on the set it must
+exclude.  The bound is not weak; **integrality is the definition of its failure.**
+
+Measured, exhaustive by length: `9.5 %` of words at `L = 10` and `11.7 %` at
+`L = 16` already have `H < G`, and the largest cancellation at `L = 16` is
+`gcd = 42 981 185`, absorbing essentially all of `G`.
+
+The extremal ghost makes it concrete: the all-ones word has `C = −G` for **every**
+`L` — `(C, G) = (1,1), (5,5), (19,19), (65,65), (211,211), (665,665), (2059,2059),
+(6305,6305)` — so the gcd is maximal at every length and `n_σ = −1` exactly.  A
+genuine ghost, saturating the collapse at every scale, at height `0`.
+
+### What survives
+
+Nothing on this route.  The positive-integer ghosts at `L ≤ 16` are exactly
+`(L,a) = (2,1), (4,2), (6,3), (8,4)` with `n ∈ {1,2}` — the trivial cycle and its
+repetitions, as it must be.  No height statement separates them from the negative
+ghost `−1`: both are degree-`1` points whose denominators have cancelled.
+
+`reduced_denominator_one` records the endpoint: in the integral case the reduced
+denominator is `1`.
+
+**Naming the mechanism and stopping, as instructed:** *integrality is maximal gcd
+collapse, and maximal gcd collapse is exactly where every archimedean height floor
+becomes vacuous.*
+
+### Axiom footprint
+
+`lake build Collatz` succeeds, **292 jobs**.  Zero `sorry`.  Zero added axioms.
+
+**Both halves of the conjecture remain open.**
