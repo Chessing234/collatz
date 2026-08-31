@@ -8351,3 +8351,59 @@ indispensable now sits on a single visible factor.
 `lake build Collatz` succeeds, **282 jobs**.  Zero `sorry`.  Zero added axioms.
 
 **Both halves of the conjecture remain open.**
+
+## Round XLVIII — forward growth and backward branching are one phenomenon
+
+A device, invented from the one genuinely new structure the session produced, and
+then measured until it gave up its limits.
+
+### The identification
+
+Two things in this development were built independently and are the same object.
+
+**Forward** (`ValuationExchange`, Round XLVI): the growth branch is exactly
+`u ↦ 3u/2` in `u = n + 1`, so `v₃(u)` rises by exactly one per growth step.
+
+**Backward**: a point `m` has preimages `2m` always, and an odd one `(2m−1)/3`
+exactly when `3 ∣ 2m − 1`, i.e. `m ≡ 2 (mod 3)`, i.e. **`3 ∣ m + 1`**.
+
+Same condition.  `has_odd_preimage_iff`:
+
+**`(∃ x odd, T x = m) ⟺ (m + 1) % 3 = 0`** for `0 < m`.
+
+So the branching of the inverse tree is governed by precisely the quantity the
+forward growth dynamics increments.  With `exchange_orbit` this gives
+`growth_run_branches`: **after `k ≥ 1` steps of a growth run every point has an odd
+preimage**, since the value is `2^(i−k)·3^(j+k)·m − 1` with `j + k ≥ 1`.  A growth
+run of length `r` produces `r` consecutive branching nodes.
+
+The `+1` that makes `v₃(n)` useless is the same `+1` that makes the tree branch.
+Forward growth and backward branching are one phenomenon read in two directions.
+
+Verified in the kernel: for `m = 1 … 12`, "`3 ∣ m+1`" and "the odd preimage really
+steps to `m`" agree in every case, true exactly at `m = 2, 5, 8, 11`.
+Axioms `propext`, `Quot.sound`.
+
+### And then the measurement that bounds it
+
+The obvious hope: this correlation shifts the density of branching nodes away from
+the naive `1/3`, changing the tree's growth rate and reviving the inverse-tree
+counting route.
+
+**It does not.**  Breadth-first from `1` over `363 020` tree nodes: `121 006`
+branch — density `0.33333`, the naive value to five places.
+
+The correlation is real but **local**.  It holds along each growth run and is reset
+at every contraction, and the resets wash it out globally.  The counting route,
+already dead, stays dead; this does not revive it.
+
+That is the honest shape of the result: an exact structural identification, not a
+statistical one, which tells any future forward/backward argument where to look —
+the odd preimage exists precisely where the forward dynamics has banked a factor of
+three — while closing off the one quantitative use that suggested itself.
+
+### Axiom footprint
+
+`lake build Collatz` succeeds, **283 jobs**.  Zero `sorry`.  Zero added axioms.
+
+**Both halves of the conjecture remain open.**
