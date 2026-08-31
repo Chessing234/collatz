@@ -9533,3 +9533,63 @@ with exact `2^L` and `3^a` bignums has since confirmed the premise outright:
 So the interval-certificate claim no longer depends on an asymptotic estimate at
 any point.  The kill-test verdict is unchanged: still an optimisation, not new
 mathematics.
+
+## Round LXIV — approaches 6, 7, 8: three kill tests, three fires
+
+All three carried their own kill test.  All three fired.  One exact congruence
+survives and is proved; the rest is recorded so the elimination is not repeated.
+
+### 6 — the opening template.  Congruence exact, kill test fires.
+
+For odd `n` with `n + 1 = 2^r·w`, `w` odd, `exchange_orbit` gives
+`T^r(n) = 3^r·w − 1`, even because `3^r·w` is odd (`run_lands_even`).  The
+template's demand — *exactly one even step after the first run* — is then one
+congruence:
+
+**`one_even_step_iff` : the step after the run is odd `⟺ 3^r·w ≡ 3 (mod 4)`.**
+
+Verified for every odd `n < 200 000`, no exception, and kernel-checked at
+`r = 1…7`, where the `iff` alternates exactly with the parity of `r`.
+
+But the template never empties.  Measured survival over `B` blocks:
+`0.49999, 0.25001, 0.12496, 0.06249, 0.03122` — **exactly `2^(−B)`**.  Each block
+costs precisely one bit, so the template is satisfiable at positive density for
+every `B` and dies at no depth.
+
+And the kill test fires outright.  `killtest_family`: for `w = 1` the congruence is
+`3^r ≡ 3 (mod 4)`, which holds **exactly when `r` is odd** — so `n = 2^r − 1` fits
+the template for every odd `r`, while `T^r(n) = 3^r − 1 > n`.  The saturating family
+sits inside the template at every odd scale.  The template recovers Terras, no more.
+
+### 7 — a third modulus.  Dead, by its own kill test.
+
+Odd elements of never-dropping windows, `n < 10^6`, longest prefix `41`.  Residues
+mod `5` occur at `0.2004, 0.1996, 0.1998, 0.2005, 0.1997` — flat.  All fifteen
+residues mod `15` occur.  And **every pair of mod-`5` classes co-occurs inside a
+single window**, so there is no pair-exclusion, not merely no singleton.
+
+The contrast is the content: on the same data mod `3` *is* structured —
+`0.032, 0.262, 0.706` — while mod `5` is uniform.  **Local modular avoidance really
+does stop at `3`.**  Route closed.
+
+### 8 — the inverse chain.  Premise refuted.
+
+**All `30 468`** never-dropping windows contain two points on the same inverse
+chain — `100 %`.  Not a near miss: the chain `u, (2/3)u, (4/9)u, …` **is** the
+growth ladder of `ValuationExchange` read backwards (`ReturnMap`, Round XLIX), so a
+growth run rides one chain by construction.  Asking an orbit not to revisit a chain
+is asking it not to grow.
+
+The `3`-adic toll is real but already accounted: mean `v₃(u)` along never-dropping
+windows is `1.7675` against `0.5` for random integers — precisely because growth
+banks `+1` of `v₃` per step, which is the exchange law.
+
+Kill test: **zero** windows contain a repeated value, so "cannot visit a chain
+twice" reduces to injectivity on a never-dropper — that is, to distinctness, which
+the repository already has.
+
+### Axiom footprint
+
+`lake build Collatz` succeeds, **299 jobs**.  Zero `sorry`.  Zero added axioms.
+
+**Both halves of the conjecture remain open.**
