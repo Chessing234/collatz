@@ -9593,3 +9593,77 @@ the repository already has.
 `lake build Collatz` succeeds, **299 jobs**.  Zero `sorry`.  Zero added axioms.
 
 **Both halves of the conjecture remain open.**
+
+## Round LXV — the constraint set is over-determined; the two-step monomial is not
+
+### Part 1: the constraints force a candidate, and it dies twice
+
+Living at the contraction *and* having to differ on `T` versus `3n−1` forces the
+`u`-coordinate ceiling/floor — in `n` the two maps share the even branch `n ↦ n/2`
+**exactly**, so any statistic there is identical by construction.  At even `n = 2m`,
+`T` harvests `v₂(m+1)` and the mirror `v₂(m−1)`, so the unique antisymmetric harvest
+statistic is
+
+`χ(n) = v₂(m+1) − v₂(m−1)`  —  same prime on both sides, never `v₂` with `v₃`.
+
+Measured: antisymmetric in `m mod 4` exactly as required (`m ≡ 1` gives `χ < 0`,
+`m ≡ 3` gives `χ > 0`, `m` even gives `0`), and it separates `T` from the mirror on
+`50 %` of even `n`.  **But it fails two kill criteria at once:**
+
+* **invariant under `n ↦ n + 2^M`** — identical for `M = 16, 20, 24` on every sample
+  (`9998/9998`);
+* **mean-zero with symmetric tails** — mean `0.000025`, `P(χ>0) = 0.25`, range
+  `±16`.
+
+And the first failure is structural, not incidental: **any statistic built from
+valuations at the contraction is invariant under `n ↦ n + 2^M`**, because `v₂(m±1)`
+is determined by `m mod 2^k`.  The constraint set — *live at the contraction*, *be a
+valuation statistic at one prime*, *and see the archimedean size* — is
+over-determined.  That is the named obstruction.
+
+### Part 2: `Δ`, and what actually survives
+
+`Δ(n) = (n − T²(n))·σ(n)` restricted to `v₂(n+1) = 1`.  But `v₂(n+1) = 1` **is**
+`n ≡ 1 (mod 4)`, so `σ ≡ +1` on the evaluation set: the sign factor is inert, and
+`Δ` is neither odd nor even in `m mod 4` because only one class is ever visited.
+
+With `n = 4k+1`, over all such `n < 2^20`, `Δ` is exactly linear in `k`, no
+exceptions — and **the three histograms differ**:
+
+| map | `Δ` | slope |
+|---|---|---|
+| `T` | `k` | `+1` |
+| mirror `3n−1` | `−5k` | `−5` |
+| `expStep` | `−5k − 2` | `−5` |
+
+Equivalently, as exact two-step laws on `n ≡ 1 (mod 4)`, zero violations over all
+such `n < 300 000`:
+
+* `T`: **`4·T²(n) = 3n + 1`**  (Round LV)
+* mirror: **`4·M²(n) = 9n − 5`**  (`mirror_two_step`)
+* `expStep`: **`4·E²(n) = 9n + 3`**  (`exp_two_step`)
+
+**The exact differing monomial is the coefficient of `n`: `3` for `T`, `9` for both
+others.**  On this class Collatz contracts by `3/4` while both filter models expand
+by `9/4`.  `two_step_separates` proves `T²(n)` lies strictly below both for every
+`n > 1` in the class; kernel-checked at `n = 5, 9, 13, 17, 21`, where `T²` gives
+`4, 7, 10, 13, 16` against the mirror's `10, 19, 28, 37, 46`.
+
+This is F1/F2 made quantitative **at the contraction**: `v₂(n+1) = 1` is exactly
+where Collatz's two-step contracts and both models expand, by a factor of three in
+the leading coefficient.
+
+### The kill test, answered
+
+`Δ` on never-dropping prefixes is positive and unbounded — `120 486` samples,
+positive in all, maximum `1 433 531 479`.  But positive means *descent*, and the
+value is exactly `(n−1)/4`: Round LV's `drop_of_v2_one` restated.  So `Δ` itself is
+not formalised, as instructed — only the differing monomial is.  `Δ` also fires on
+only half of odd `n`, and `no_uniform_block` already rules out any bounded block
+descending for every `n`.
+
+### Axiom footprint
+
+`lake build Collatz` succeeds, **300 jobs**.  Zero `sorry`.  Zero added axioms.
+
+**Both halves of the conjecture remain open.**

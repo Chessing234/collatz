@@ -239,6 +239,7 @@ import Collatz.Strategy.SignFlip
 import Collatz.Strategy.OrbitSemigroup
 import Collatz.Strategy.IntervalCertificate
 import Collatz.Strategy.OpeningTemplate
+import Collatz.Strategy.TwoStepSeparation
 import Collatz.Search.BarinaRange
 import Collatz.Search.VerifiedRange
 import Collatz.Strategy.AffineExchange
