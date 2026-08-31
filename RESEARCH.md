@@ -9190,3 +9190,58 @@ statement is available.
 `lake build Collatz` succeeds, **295 jobs**.  Zero `sorry`.  Zero added axioms.
 
 **Both halves of the conjecture remain open.**
+
+## Round LXI — the sign flip is rigid; the logarithm jump is a coin flip
+
+Approach 4 of three.  One real theorem, and its Lyapunov hope refuted by its own
+kill test.
+
+### The rigid part, proved
+
+`w(s) = oddpart(3^s − 1)`; for odd `s`, LTE gives `v₂(3^s − 1) = 1`, so
+`w(s) = (3^s − 1)/2`.  Then, with no hypothesis at all,
+
+**`three_pow_add_two`: `3^(s+2) − 1 = 9(3^s − 1) + 8`,  hence `w(s+2) = 9·w(s) + 4`.**
+
+Modulo `8` that is an involution: `9w + 4 ≡ w + 4`, sending `1 ↦ 5`, `5 ↦ 1`,
+`3 ↦ 7`, `7 ↦ 3`.  Since `LogCoordinate` puts `ε = +1` exactly on `{1,3}`, the sign
+**flips at every two-step, always** (`w_sign_flips`).
+
+Re-verified independently here for all odd `s < 4000`: recurrence exact, sign flips
+in every case.  Kernel-checked: `w mod 8` runs `1, 5, 1, 5, 1, 5` on
+`s = 1,3,5,7,9,11`, with `w = 1, 13, 121, 1093, 9841, 88573` — a perfect two-cycle.
+
+(Those values are exactly the family named in approach 3's kill test, so the two
+approaches meet here.)
+
+### The part that would have to decrease, refuted
+
+The hope: the jump `t′ − t` in the discrete logarithm carries a **pointwise** sign,
+so the logarithm cannot run uphill forever.  Measured with a genuine `2`-adic
+discrete log (Pohlig–Hellman in `⟨3⟩ ⊂ (ℤ/2^N)^×`, order `2^(N−2)`, self-checked
+against direct exponentiation), `2000` consecutive odd `s` at `N = 24`:
+
+* sign flips in **all 2000** cases — the algebra confirmed numerically;
+* `t′ − t` **positive 1019, negative 981** — a coin flip;
+* ten windows of `200` each split near `50/50` (`104/96`, `99/101`, `108/92`,
+  `100/100`, …) — no drift, no run of one sign;
+* the cumulative sum wanders (`1.53M, 3.08M, 1.68M, 0.52M, 0.16M, 2.71M, 3.50M,
+  3.61M, 1.50M, 1.39M`) — a random walk, not a trend.
+
+**Verdict: `t′ − t` has no pointwise sign, so this is not a Lyapunov function.**  A
+mean-near-zero, sign-unpatterned quantity is a drift, and drifts do not transfer
+here — `no_uniform_block` proves no bounded block descends for every `n`, and
+`2^j − 1` realises arbitrarily long growth.
+
+### What the round actually establishes
+
+The rigid part of the structure is the **sign of `ε`**; the part that would have to
+decrease is the **logarithm `t`**, and that is exactly the part with no pattern.
+The involution is real and worth having formalised, but it constrains the coset,
+not the magnitude — and the magnitude is what a descent argument needs.
+
+### Axiom footprint
+
+`lake build Collatz` succeeds, **296 jobs**.  Zero `sorry`.  Zero added axioms.
+
+**Both halves of the conjecture remain open.**
