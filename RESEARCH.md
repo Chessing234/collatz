@@ -9834,3 +9834,69 @@ belongs to the semigroup", one rewrite from what was already proved.
 `lake build Collatz` succeeds, **303 jobs**.  Zero `sorry`.  Zero added axioms.
 
 **Both halves of the conjecture remain open.**
+
+## Round LXIX — the two certificates cost the same, and the 7863 recipe is exact
+
+### A correction to my own framing
+
+I said `HHThreshold`'s price `1 358 718` for `L = 6809` was "the cheapest route past
+6809".  Wrong on both halves.  **`6809` is already free**: the `Bcap`
+realizable-frontier certificate reaches it at `c ≥ 1 086 055`, and the repo's proved
+range is `1 086 464`.  And the number `1 358 718` buys **`7863`**, not "past 6809".
+
+### The two price tables are the same table
+
+Comparing `HHThreshold`'s price-to-kill against `RealizableFrontier6809`'s own
+staircase — these are *independent* constructions, the sharp Halbeisen–Hungerbühler
+criterion and the `Bcap` frontier certificate:
+
+| kill `L` costs (HH) | certificate: `c` at least → frontier |
+|---|---|
+| `2593` → `420 842` | `420 842` → `L ≥ 3647` |
+| `3647` → `620 859` | `620 859` → `L ≥ 4701` |
+| `4701` → `841 478` | `841 478` → `L ≥ 5755` |
+| `5755` → `1 086 055` | `1 086 055` → `L ≥ 6809` |
+| `6809` → `1 358 718` | `1 358 718` → `L ≥ 7863` |
+
+**Identical at every riser, offset by exactly one rung** — killing `L` costs precisely
+the range the certificate needs to push the frontier past `L`.  Five rows, no
+exceptions.
+
+That upgrades Round LXII.  There the finding was that independent methods *stop at the
+same place*; here they also **cost the same to move**.  Both are reading the same
+Diophantine object — the records of `G(i) = Bcap i /(2^(fexp i + 1) − 3^i)` and of
+`r(L) = hhMin/(2^L − 3^a)` are the same convergents of `log₂ 3`.
+
+### The `7863` recipe, and the blocker resolved
+
+`RealizableFrontier6809`'s table gives the requirement exactly: index `A = 4961`,
+range `c ≥ 1 358 718`, needing `cert 4961 … = true` and `pow_gap_4961 : 2^7862 < 3^4961`.
+
+The verified range must go from `1 086 464` (block `1061`) to `≥ 1 358 718`
+(block `1327`) — `266` more blocks, about six `checkRange` chunks, `~21`-bit numerals,
+a few minutes of kernel time.
+
+**The open question was the fuel, and it is now closed.**  The sieve runs
+`dropsWithin fuel (2^10·m + r)` at `fuel = 200`.  Scanning every `n` in
+`[1 086 464, 1 358 848)`:
+
+* **maximum steps-to-drop is `224`**, at `n = 1 126 015`, block `m = 1099`;
+* and that is the **only** residue in the whole range exceeding `200` — exactly one.
+
+So `fuel = 200` is **not** sufficient and the extension cannot be done at the current
+setting; raising it to `224` (or `256`) suffices, and only a single residue forces the
+raise.  The repo's own docstring had flagged `m = 1099` as "safely past the endpoint" —
+true for the `1 086 464` endpoint, false for the `1 358 848` one.
+
+### Status
+
+No unconditional improvement is claimed.  `length_ge_6809` stands as the strongest
+unconditional bound.  What this round produces is an exact, executable recipe for
+`7863` — raise the fuel past `224`, extend `266` blocks, then `cert 4961` — together
+with the finding that the two independent certificates are priced identically.
+
+### Axiom footprint
+
+`lake build Collatz` succeeds, **303 jobs**.  Zero `sorry`.  Zero added axioms.
+
+**Both halves of the conjecture remain open.**
