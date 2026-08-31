@@ -8701,3 +8701,65 @@ Kernel-checked sharp: `3^(2^j·q) − 1` is divisible by `2^(j+2)` and not by
 `lake build Collatz` succeeds, **287 jobs**.  Zero `sorry`.  Zero added axioms.
 
 **Both halves of the conjecture remain open.**
+
+## Round LIII — the tower converges, on the axis the dynamics does not use
+
+Targeting the recurrence Round LII named.
+
+### The recurrence, exactly
+
+* **Level 0** — branches `n` and `n + 1`; `no_common_shift` says no affine shift
+  serves both.
+* **Level 1** — in the logarithm the branches are `3^s − 1` and `3^s + 1`.
+  **The same `±1` defect, reproduced around a new object by the log transform.**
+
+The obstruction is self-similar.  But level 1 has what level 0 lacks: its branches
+satisfy an exact identity, since `3^(2s) − 1 = (3^s−1)(3^s+1)` and `dlog` is
+additive —
+
+**`Λ(2s) = Λ(s) + Ψ(s)`.**
+
+A renormalization equation.  Does it converge?
+
+### It does, at an exact rate
+
+`three_pow_succ_factor` — for odd `q`, `j ≥ 1`,
+**`3^(2^j·q) + 1 = 2·(2^(j+1)·A + 1)`** with the *same* odd `A` from
+`three_pow_sub_one_factor`.  A one-line corollary — add `2` to the lifting law —
+but it is the engine.  It gives `oddpart(3^(2^j q)+1) = 1 + 2^(j+1)A`, and since
+`3^t ≡ 1 + 2^(v₂(t)+2)` to the next power, that element's logarithm has `v₂`
+exactly `j − 1`.  Hence
+
+**`v₂(Ψ(2^k·s)) = k − 1` for every `k ≥ 1`, independently of `s`.**
+
+Measured for odd `s ≤ 25`, `k ≤ 7`: no exceptions.  So the increments tend to zero
+`2`-adically at an explicit rate, and
+
+**`Λ_∞(s) = lim_k Λ(2^k·s) = Λ(s) + Σ_{k≥0} Ψ(2^k·s)` exists.**
+
+Observed: at `s = 1` the values settle from below, agreeing to `17 (mod 64)` from
+`k = 7`.  `branches_share_factor` records that one factorisation supplies both
+branches — the relation level 0 does not have.
+
+### The assessment
+
+A genuine new object with an exact rate, and **it does not help**, for the reason
+Round LII identified: it lives on the transverse axis.
+
+The tower runs in the direction `s ↦ 2s`.  The Collatz recursion moves `s`
+*additively*, by `a − 1`.  A tower converging under doubling says nothing about a
+trajectory that translates — and the translation direction was measured
+structureless: `Λ(s+1) − Λ(s)` gives `24` distinct values in `24` samples.
+
+So the position is sharp rather than vague.  There are now **two exact structures**
+on `Λ` — multiplicative self-similarity with a convergent tower, and stratum-wise
+Lipschitz regularity — and the dynamics is transverse to **both**.  One statement,
+not two failures, and the same statement at level 0 and level 1.  Whatever settles
+Collatz must move along the additive direction, where every measurement so far
+shows nothing.
+
+### Axiom footprint
+
+`lake build Collatz` succeeds, **288 jobs**.  Zero `sorry`.  Zero added axioms.
+
+**Both halves of the conjecture remain open.**
