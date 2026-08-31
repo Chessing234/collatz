@@ -55,19 +55,35 @@ Verified: no violation of the invariant over `155 961` pairs `(x, k)` with
 `{1,2}` (`L = 2`, `a = 1`, `M = 2`, `m = 1`) the sandwich reads `7 ≤ 8` and
 `4 ≤ 4` — the min side exactly tight.
 
-## Why it can move a bound
+## What it buys — corrected
 
-The existing product bound uses only the cycle *minimum*, via the verified range.
-This gives the complementary constraint from the *maximum*, so a cycle must satisfy
-both, and the admissible `(L, a)` region is cut from two sides rather than one:
-`log₂(3 + 1/M) < L/a ≤ log₂(3 + 1/m)`.  Since `L/a > log₂ 3` was all the
-development previously had from below, and `log₂(3 + 1/M) > log₂ 3` strictly, this
-is a genuine strengthening of the lower constraint by an amount governed by the
-orbit maximum — which `HercherMerge.orbitMax` already provides.
+An earlier draft of this docstring claimed the max side "cuts the admissible `(L,a)`
+region from two sides rather than one".  **That inference was wrong**, and the
+correction matters more than the theorem.
 
-It does not by itself raise `6809`: turning it into a numeric bound needs an upper
-bound on `M` for a hypothetical cycle, which the development does not have.  It is
-recorded as the sharp form, ready for that input.
+Clear both inequalities.  With `θ = 1/(2^(L/a) − 3)`:
+
+* min side `2^L·m^a ≤ (3m+1)^a` ⟺ `m·(2^(L/a) − 3) ≤ 1` ⟺ **`m ≤ θ`**;
+* max side `(3M+1)^a ≤ 2^L·M^a` ⟺ `M·(2^(L/a) − 3) ≥ 1` ⟺ **`M ≥ θ`**.
+
+**The same `θ`.**  So the pair says exactly `m ≤ θ ≤ M`, and the max side is a
+*lower* bound on the maximum.  Exclusion needs an **upper** bound to contradict — a
+cycle whose maximum is large is not absurd — so the max side **cannot contribute to
+excluding a length at all**.  It is a true statement and structurally inert.
+Verified at `(L,a) = (2,1), (485,306), (1539,971), (2593,1636), (6809,4296)`, where
+`θ = 1, 99781, 330749, 583287, 1.883×10^6`.
+
+What makes the min side work is the *external* input `m ≥ c` from a verified range,
+which turns `m ≤ θ` into `c ≤ θ` and excludes the length.  There is no external
+*upper* bound on `M`, and the only provable one is the chain bound
+`2^(a−1)·(M+1) ≤ 3^a·(m+1)` — from `2(n_{i+1}+1) ≤ 3(n_i+1)` per step.  Measured, it
+misses the required threshold by `54`, `171`, `288` and over `750` orders of
+magnitude at those pairs, the gap growing with `a`.  It is consistent with the
+trivial cycle (`M ≤ 5` against the actual `M = 2`), so it is not wrong — only
+hopelessly weak.
+
+The theorem below stands.  Its role is to complete the sandwich as a statement, not
+to move a bound.
 -/
 
 namespace Collatz

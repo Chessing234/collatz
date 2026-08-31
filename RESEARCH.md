@@ -9925,3 +9925,35 @@ statement one level removed, and the `50/50` split must not be reported as progr
 
 Filter verdict: it dies to an exact counterexample rather than to F1/F2/F3 — the
 sharpest kind of death, since no repair is available.
+
+### Round LXIX, addendum 2 — the max side is inert, correcting Round LVIII
+
+Round LVIII proved `ProductMax.cycle_max_bound` and claimed it "cuts the admissible
+`(L,a)` region from two sides rather than one".  **The theorem is right; that
+inference was wrong.**
+
+Clear both inequalities with `θ = 1/(2^(L/a) − 3)`:
+
+* min side `2^L·m^a ≤ (3m+1)^a` ⟺ **`m ≤ θ`**;
+* max side `(3M+1)^a ≤ 2^L·M^a` ⟺ **`M ≥ θ`**.
+
+**The same `θ`.**  The pair therefore says only `m ≤ θ ≤ M` — and the max side is a
+*lower* bound on the maximum.  Exclusion needs an **upper** bound to contradict; a
+cycle with a large maximum is not absurd.  So the max side **cannot contribute to
+excluding any length**.  Checked at `(L,a) = (2,1), (485,306), (1539,971),
+(2593,1636), (6809,4296)`, where `θ = 1, 99 781, 330 749, 583 287, 1.883 × 10^6`.
+
+What makes the min side work is the *external* input `m ≥ c` from a verified range,
+converting `m ≤ θ` into `c ≤ θ`.  No external upper bound on `M` exists, and the only
+provable one is the chain bound `2^(a−1)(M+1) ≤ 3^a(m+1)`, from `2(n_{i+1}+1) ≤
+3(n_i+1)` per step.  It misses the required threshold by `54`, `171`, `288` and over
+`750` orders of magnitude at those pairs, the gap growing with `a`.  It is consistent
+with the trivial cycle (`M ≤ 5` against `M = 2`) — not wrong, just hopelessly weak.
+
+The second candidate, the exact identity `M+1 = 3^r·(w+1)/2^r` for the maximal run
+ending at `M`, is genuine but circular: `w` is an unconstrained cycle element with
+only `m ≤ w ≤ M` known, so `w ≤ M` reproduces the chain bound and `w ≥ m` gives
+another lower bound on `M`.
+
+**Verdict: the sandwich cannot close.**  `ProductMax`'s docstring has been corrected
+in place; the theorem stands as a completion of the statement, not as a lever.
