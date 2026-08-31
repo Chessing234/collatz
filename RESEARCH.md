@@ -8208,3 +8208,68 @@ ceiling in between.
 `lake build Collatz` succeeds, **280 jobs**.  Zero `sorry`.  Zero added axioms.
 
 **Both halves of the conjecture remain open.**
+
+## Round XLVI — the exchange law, and a correction to Round XXXVIII
+
+One approach this round, chosen for the one structural fact the session had
+actually proved: `CoordinateMismatch` showed the odd branch is exact in
+`u = n + 1` and that no affine shift makes both branches exact.  So: follow the
+odd branch in `u`, and ask not what decreases but what is **conserved**.
+
+### The correction
+
+Round XXXVIII recorded, and every round since has repeated, that *the `2`-adic
+and `3`-adic pictures never interact, because `3n+1 ≡ 1 (mod 3)` always, so
+`v₃(3n+1) = 0` unconditionally*.  That is true, and it is a fact about `n`.
+
+**It is false in the coordinate where the growth law is clean.**  The odd branch
+is `u ↦ 3u/2`.  It multiplies by `3` and divides by `2`, so along it
+
+* `v₂(u)` drops by **exactly one**,
+* `v₃(u)` rises by **exactly one**,
+* and therefore **`Φ = v₂(n+1) + v₃(n+1)` is invariant under every growth step.**
+
+The `+1` that destroys `3`-adic information in `n` is exactly what creates it in
+`n + 1`.  Measured: zero exceptions across every growth step of every odd
+`n < 300 000`; `Φ` changes at `115 000` of the `150 000` contraction steps in the
+same range; `v₃(n+1)` at a growth step is distributed `2/3, 2/9, 2/27, …`.
+
+### `Strategy/ValuationExchange`
+
+Formalised without defining any valuation, by carrying the decomposition instead.
+
+**`exchange_orbit : k ≤ i → T^k(2^i · 3^j · m − 1) = 2^(i−k) · 3^(j+k) · m − 1`**
+
+— the same `m` throughout, `k` factors of `2` traded for `k` factors of `3`, with
+the conserved budget visible in the exponents: `(i−k) + (j+k) = i + j`
+(`budget_constant`).  `exchange_step` is the single-step form,
+`DensitySaturation.orbit_pow_pred` the case `j = 0, m = 1`.
+
+Checked non-vacuous in the kernel: at `i = 4, j = 2, m = 5` the orbit of `719` is
+`719, 1079, 1619, 2429, 3644`, and both sides agree at every `k`.
+
+Dynamically: `i = v₂(u)` is Terras' run length, the growth steps *remaining*;
+`j = v₃(u)` is the number *banked*.  A growth run is a transfer of `i` units from
+the `2`-adic account to the `3`-adic one, halting exactly when the `2`-adic
+account empties.  The budget is fixed for the run and moves only at a contraction.
+
+### What it does not do
+
+`Φ` alone proves nothing, and it fails all three filters, for one reason:
+
+* **F1** — `expStep` has the *same* growth branch in `u`, so `Φ` is conserved for
+  it too, and `expStep` diverges from every start.
+* **F2** — the mirror `3n−1` has the same law in `u = n − 1`.
+* **F3** — the law is purely multiplicative; the order of `ℤ` never enters.
+
+That is the ordinary obstruction of this development, in its sharpest form: the
+conserved quantity belongs to the growth branch, and every filter model shares
+the growth branch.  A device that separates them has to live at the contraction,
+which is where `Φ` is unconstrained and where — by `CoordinateMismatch` — the
+clean coordinate is `n`, not `u`.
+
+### Axiom footprint
+
+`lake build Collatz` succeeds, **281 jobs**.  Zero `sorry`.  Zero added axioms.
+
+**Both halves of the conjecture remain open.**
