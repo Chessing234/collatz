@@ -9957,3 +9957,62 @@ another lower bound on `M`.
 
 **Verdict: the sandwich cannot close.**  `ProductMax`'s docstring has been corrected
 in place; the theorem stands as a completion of the statement, not as a lever.
+
+## Round LXX — the contraction boundary is `a ≤ 2`, sharpening Round LXVI
+
+The shallow-vs-deep track returned a decisive negative on its own target and, in
+passing, a correction to Round LXVI worth more than the target was.
+
+### The count inequality does not exist
+
+The sought envelope `#deep ≥ f(#shallow)` on never-dropping windows is not a
+function: windows with `s = 8` exist at `d = 2`, while `s = 20` forces `d ≥ 21`.
+The reason is exact — cancelling one deep block needs contracting blocks in number
+proportional to *that block's own depth `a`*, since each contributes only a fixed
+factor near `1/2` or `3/4`, and `a` is unbounded.  Both mandated kill tests fire:
+the compensation cannot be expressed by any uniform block
+(`DensitySaturation.no_uniform_block`), and the per-block log-factor has an
+unbounded tail, so no drift argument survives.
+
+### The correction: the boundary is `a ≤ 2`
+
+`HarvestOne.shallow_then_contract` (Round LXVI) proved contraction when the
+regeneration is exactly `1`.  **That is a strict special case.**  The exact factor is
+
+`U′/U = 3^(a−1)/2^a + 1/(2^a·w)`,
+
+governed by `a` alone up to the vanishing term:
+
+| `a` | ratio | |
+|---|---|---|
+| `1` | `1/2 + 1/(2w)` | contracts |
+| `2` | `3/4 + 1/(4w)` | **contracts** |
+| `≥ 3` | `> (3/2)^(a−1)/2` | grows, unboundedly in `a` |
+
+**Contraction holds exactly when `a ≤ 2`**, for `w > 1` — zero violations over
+`15 992` pairs.  So the mod-`4` shallow/deep split does **not** align with the
+growth/contraction split: inside the "deep" class, `a = 2` also contracts, and it is
+about `42 %` of that class.
+
+Coverage over odd `n < 300 000`: harvest `= 1` fires on `0.5000` of blocks; harvest
+`≤ 2` on **`0.7500`**.  Half the domain becomes three quarters.
+
+`Strategy/BlockContract` proves it: `block_contracts_of_le_two`
+(`3^(a−1)·w + 1 < 2^a·w` for `w > 1`, `1 ≤ a ≤ 2`), `block_grows_of_three_le`, and
+`residue_forces_contraction` tying it to `LogCoordinate.growth_blocked` — so whenever
+the odd part is `1` or `3` mod `8`, the following block is forced down, now by the
+sharp criterion rather than half of it.  Kernel-checked at `(a,w) = (1,3), (1,101),
+(2,3), (2,101), (3,3)`, the last growing as predicted.
+
+### Why it stops there
+
+`a ≥ 3` grows with **no bound on the factor**: on `U = 2^j` the first block's ratio is
+`2.56, 19.2, 146, 1108, 8417, 63917` at `j = 5, 10, 15, 20, 25, 30`.  One deep block
+needs compensation proportional to its own unbounded depth — `no_uniform_block` again,
+and the exact reason the count inequality cannot exist.
+
+### Axiom footprint
+
+`lake build Collatz` succeeds, **304 jobs**.  Zero `sorry`.  Zero added axioms.
+
+**Both halves of the conjecture remain open.**
