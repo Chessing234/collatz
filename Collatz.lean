@@ -223,6 +223,7 @@ import Collatz.Strategy.CoordinateMismatch
 import Collatz.Strategy.ValuationExchange
 import Collatz.Strategy.ContractionProduct
 import Collatz.Strategy.BranchingDuality
+import Collatz.Strategy.ReturnMap
 import Collatz.Search.BarinaRange
 import Collatz.Search.VerifiedRange
 import Collatz.Strategy.AffineExchange

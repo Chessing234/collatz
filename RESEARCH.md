@@ -8407,3 +8407,68 @@ three — while closing off the one quantitative use that suggested itself.
 `lake build Collatz` succeeds, **283 jobs**.  Zero `sorry`.  Zero added axioms.
 
 **Both halves of the conjecture remain open.**
+
+## Round XLIX — the return map, derived from first principles
+
+Not assembled from earlier machinery.  Reduce the map to its irreducible form,
+then invert it, and the two halves of the development turn out to be one ladder.
+
+### The reduction
+
+Write `u = n + 1 = 2^a · w`, `w` odd.  The two branches are exactly `u ↦ 3u/2`
+(even) and `u ↦ ⌈u/2⌉` (odd), so in the coordinates `(a, w)`:
+
+* growth (`a ≥ 1`): `(a, w) ↦ (a − 1, 3w)` — count `a` down, triple the odd part;
+* contraction (`a = 0`): refactor `w + 1`.
+
+Nothing is discarded — that is the whole map.  Collapsing a maximal growth run
+gives a **return map on odd values alone**, in closed form:
+
+**`R(u) = 3^(a−1) · w`,  `u + 1 = 2^a · w`, `w` odd.**
+
+`return_map` states it valuation-free: for odd `w`,
+**`T^(k+1)(2^(k+1)·w − 2) = 3^k·w − 1`** — one contraction, then the `k` growth
+steps it releases, which is `exchange_orbit` at `i = k`, `j = 0`, `m = w`.
+
+### Inverting it
+
+The `R`-preimages of odd `v` are the `u = 2^a·w − 1` with `3^(a−1)·w = v`.  Since
+`v` is odd, `w = v/3^(a−1)` is odd whenever integral, so preimages are indexed by
+exactly the `a ≥ 1` with `3^(a−1) ∣ v`:
+
+**the number of `R`-preimages of `v` is exactly `v₃(v) + 1`,**
+
+and `preimage_chain` gives their shape: consecutive preimages satisfy
+`3·(u′ + 1) = 2·(u + 1)` — a geometric chain of ratio `2/3` in `u`.
+
+Verified exhaustively: the count for every odd `v < 4000`, and both identities for
+`a ≤ 13`, odd `w < 400`, with no exceptions.  For `v = 3^k` the chain in `u` is
+`[2·3^k, 4·3^(k−1), …, 2^(k+1)]`; at `v = 81` that is `162, 108, 72, 48, 32`.
+Kernel-checked: `30, 46, 70, 106, 160` all reach `80`.
+
+### The unification
+
+**That chain is `ValuationExchange`'s ladder run backwards.**  Forward growth
+trades one `2` for one `3` and conserves `v₂(u) + v₃(u)`.  The inverse tree's
+preimage chain trades a `3` back for a `2`, along the same conserved level.  The
+branching multiplicity at `v` is `v₃(v) + 1` because that is how many threes are
+available to trade back: **the tree is wide exactly where the forward dynamics has
+banked.**
+
+Round XLVIII saw the two-fold case of this for `T` (an odd preimage exists iff
+`3 ∣ m+1`).  The return map sees the entire chain at once, with multiplicity, and
+explains why the multiplicity is a *valuation* rather than a coin flip.
+
+### What it does not do
+
+It does not bound anything.  Mean branching is `E[v₃ + 1] = 3/2`; the return map
+contracts by `3^(a−1)/2^a` with `E[a] = 2`, mean factor `3/4` — the classical
+heuristic recovered, not improved.  Round XLVIII already measured that the
+branching correlation is local, reset at every contraction, and washes out
+globally at density `0.33333`.  Nothing here changes that.
+
+### Axiom footprint
+
+`lake build Collatz` succeeds, **284 jobs**.  Zero `sorry`.  Zero added axioms.
+
+**Both halves of the conjecture remain open.**
