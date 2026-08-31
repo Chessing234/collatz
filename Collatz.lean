@@ -236,6 +236,7 @@ import Collatz.Strategy.ProductMax
 import Collatz.Strategy.PairStep
 import Collatz.Strategy.BankedSurplus
 import Collatz.Strategy.SignFlip
+import Collatz.Strategy.OrbitSemigroup
 import Collatz.Search.BarinaRange
 import Collatz.Search.VerifiedRange
 import Collatz.Strategy.AffineExchange

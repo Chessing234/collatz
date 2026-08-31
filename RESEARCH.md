@@ -9245,3 +9245,55 @@ not the magnitude — and the magnitude is what a descent argument needs.
 `lake build Collatz` succeeds, **296 jobs**.  Zero `sorry`.  Zero added axioms.
 
 **Both halves of the conjecture remain open.**
+
+## Round LXII — the orbit semigroup buys nothing
+
+Approach 3 of three.  The kill test fires, and the decisive half is formalised.
+
+### A measurement error worth recording
+
+A capped breadth-first search over the semigroup generated from `1` by `w ↦ 3w`
+and `w ↦ oddpart(w+1)` reported that `oddpart(3^s − 1)` was **absent** for `s ≥ 9`,
+which would have been a genuine constraint.  That was an artefact.  The search
+truncates exactly the paths that rise via `w ↦ 3w` and return via
+`w ↦ oddpart(w+1)`, and `9841` is only `14` bits — far too small to be genuinely
+unreachable.
+
+Computing the **true closure** below a bound instead reverses the reading
+completely.
+
+### The measurement
+
+* **Density `0.5091` among odd numbers below `2^22`** — about half of them, not a
+  thin set.
+* **All sixteen odd residues mod `32`** occur: no congruence obstruction at any
+  level tested.
+* `max ρ` on the closure against all odd `w` of matched bit length: `13/13`,
+  `18/18`, `16/15`, `17/17` — **no gap**.  The closure attains the same deep
+  valuations as the unrestricted set.
+* The `oddpart(3^s − 1)` family is present throughout the range where the closure
+  is complete; the few apparent absences move as the bound moves, which is the
+  signature of a truncated path rather than a real one.
+
+### The kill test, formalised
+
+`LogCoordinate.growth_blocked` permits deep `2`-valuation only for
+`w ≡ 5, 7 (mod 8)`.  Both classes are reached, in three and four steps:
+
+`1 → 3 → 9 → 5` (as `9 + 1 = 2·5`) and `1 → 3 → 9 → 27 → 7` (as `27 + 1 = 4·7`).
+
+`Strategy/OrbitSemigroup` gives `Semi` as an inductive predicate — the second
+generator in decomposition form (`w + 1 = 2^k·v`, `v` odd), so no `oddpart`
+function is needed — together with `semi_five`, `semi_seven`,
+`semi_meets_both_deep_classes`, and `semi_three_pow`.  **All four depend on no
+axioms whatever.**
+
+**Verdict: the restriction buys nothing.**  The semigroup meets every class in
+which deep valuation can occur, by short explicit derivations, and attains the same
+maximal `ρ`.  Route closed.
+
+### Axiom footprint
+
+`lake build Collatz` succeeds, **297 jobs**.  Zero `sorry`.  Zero added axioms.
+
+**Both halves of the conjecture remain open.**
