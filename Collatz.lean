@@ -221,6 +221,7 @@ import Collatz.Strategy.HHThreshold
 import Collatz.Strategy.DensitySaturation
 import Collatz.Strategy.CoordinateMismatch
 import Collatz.Strategy.ValuationExchange
+import Collatz.Strategy.ContractionProduct
 import Collatz.Search.BarinaRange
 import Collatz.Search.VerifiedRange
 import Collatz.Strategy.AffineExchange

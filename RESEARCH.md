@@ -8273,3 +8273,81 @@ clean coordinate is `n`, not `u`.
 `lake build Collatz` succeeds, **281 jobs**.  Zero `sorry`.  Zero added axioms.
 
 **Both halves of the conjecture remain open.**
+
+## Round XLVII — the contraction product, and positivity in one line
+
+Round XLVI ended by locating the target: the growth branch is shared by `T`, by
+the mirror `3n−1`, and by `expStep`, so nothing built on it can separate them, and
+whatever does must live at the **contraction**.  This round went there.
+
+### The three maps differ only at the contraction
+
+In `u = n + 1`:
+
+| map | growth (`u` even) | contraction (`u` odd) |
+|---|---|---|
+| `T` | `u ↦ 3u/2` | `u ↦ (u+1)/2` — **ceiling** |
+| mirror `3n−1` | `u ↦ 3u/2` | `u ↦ (u−1)/2` — **floor** |
+| `expStep` | `u ↦ 3u/2` | `u ↦ (3u−1)/2` |
+
+Identical growth, three different contractions.  That is the whole content, and it
+explains every failure of the last several rounds in one table.
+
+### `Strategy/ContractionProduct`
+
+Growth multiplies `u` by `3/2`; contraction multiplies it by `(u+1)/(2u)`.
+Telescoping a segment of length `L` with `a` growth steps gives, with both products
+over **contraction** steps only:
+
+**`contraction_product : (T^L(n) + 1) · 2^L · Π uᵢ = (n + 1) · 3^a · Π (uᵢ + 1)`**
+
+and on a cycle the outer factors cancel (`cycle_product`):
+
+**`2^L · Π uᵢ = 3^a · Π (uᵢ + 1)`, i.e. `Π (1 + 1/uᵢ) = 2^L / 3^a`.**
+
+Kernel-checked non-vacuous: both sides agree at every segment length `0…5` from
+`n = 7, 27, 703`, and the trivial cycle gives `12 = 12`.
+
+### Positivity, exactly located
+
+Every factor of the product is `1 + 1/uᵢ`.  Hence
+
+* all `uᵢ > 0` — a **positive** cycle — every factor `> 1`, so **`2^L > 3^a`**;
+* all `uᵢ < 0` — a **negative** cycle — every factor `< 1`, so **`2^L < 3^a`**.
+
+Filter F2/F3 — "a proof must use the order of `ℤ`" — is that one line.  The sign of
+`n` *is* the direction of the inequality between `2^L` and `3^a`; nothing else in
+the identity knows about order.  Checked against every cycle `T` actually has on
+`ℤ`, with the identity holding on all of them and the inequality flipping exactly
+with the sign:
+
+| cycle | `L` | `a` | ratio | `2^L > 3^a` |
+|---|---|---|---|---|
+| `1 → 2 → 1` | `2` | `1` | `1` | `4 > 3` ✓ |
+| `−5 → −7 → −10 → −5` | `3` | `2` | `1` | `8 < 9` ✗ |
+| `−17` cycle | `11` | `7` | `1` | `2048 < 2187` ✗ |
+
+The cycle `n = −1` is the single exception to the cancelled form, for an honest
+reason: there `u = 0`, the fixed point of `u ↦ 3u/2`, so the outer factors cannot
+be divided out.
+
+### It does not prove the conjecture, and cannot
+
+Bounding the positive case:
+`0 < L log 2 − a log 3 ≤ e · log(1 + 1/(M+1)) < e/(M+1)`, so
+`M + 1 < e / (L log 2 − a log 3)` — an upper bound on the cycle minimum.  Excluding
+cycles needs that below the verified range for *every* admissible `(L, a)`, and at
+the semiconvergents of `log₂ 3` the denominator is arbitrarily small while `e`
+grows.  Round XLIV computed the rate: the required range is
+`≈ a_k · a_{k+1} / (6 ln 2)`, which diverges.  So this identity — the sharp form of
+the product bound, not a weakening — inherits the same ceiling, and **no finite
+verified range closes it**.
+
+What the round adds is placement, not power: the one hypothesis every filter calls
+indispensable now sits on a single visible factor.
+
+### Axiom footprint
+
+`lake build Collatz` succeeds, **282 jobs**.  Zero `sorry`.  Zero added axioms.
+
+**Both halves of the conjecture remain open.**
