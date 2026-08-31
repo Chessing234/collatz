@@ -9780,3 +9780,57 @@ stage — exactly the uniform block `no_uniform_block` refutes.
 `lake build Collatz` succeeds, **302 jobs**.  Zero `sorry`.  Zero added axioms.
 
 **Both halves of the conjecture remain open.**
+
+## Round LXVIII — the Eliahou form at Barina scale, and the kill test that fires
+
+### The form, with current continued-fraction data
+
+Eliahou's constants `301 994`, `17 087 915`, `85 137 581` are convergent numerators
+of `log₂ 3`, at indices `13, 15, 16` — confirmed by recomputing the expansion:
+
+`… 485, 1054, 24727, 50508, 125743, 176251, 301994, 16785921, 17087915, 85137581,
+272500658, 357638239, 630138897, 9809721694, 10439860591 …`
+
+At the Barina floor `c = 704·2^60 ≈ 8.117 × 10^20`, the product bound leaves exactly
+the one-sided best approximations above its frontier.  The surviving lengths begin
+
+`114 208 327 604`,  `217 976 794 617`,
+
+and the first is `103 768 467 013 + 10 439 860 591` — the **sum of two consecutive
+convergent numerators**, a semiconvergent.  So the Eliahou-type form at this scale is
+`p = αa + βb + γc` with `α, β, γ` the convergents near indices `21–23`, `b ≥ 1`,
+`ac = 0`, rather than the `13, 15, 16` of 1993.
+
+### The kill test fires
+
+**The form is implied by what the repository already has** — precisely the stated
+kill condition.
+
+`ExclusionRatio.excluded_iff_gap` (Round XLIII) proved `L` is excluded exactly when
+`c` exceeds `r(L) = wt L / (3·dev L)`, a function of `L` alone, and Rounds XLIII–XLIV
+established that the records of `r` — hence the survivors — are exactly the one-sided
+best approximations of `log₃ 2`, the semiconvergent ladder `P + kP′`.  **That ladder
+is the Eliahou-shape set.**
+
+So semigroup membership restates `product_invariant`'s ratio form.  **No new theorem
+is claimed; the kernel closes no length beyond `RealizableFrontier6809`.**
+
+### What was formalised, and only that
+
+`Strategy/PeriodLadder`, the packaged arithmetic implication and nothing more:
+
+* `period_not_excluded` — a cycle whose every element is `≥ c` cannot have an
+  excluded period (contrapositive of `no_cycle_of_excludedLength`);
+* `period_not_excludedFast` — the same through the fast test;
+* `period_ratio_ge` — in `wt`/`dev` coordinates, an admissible period satisfies
+  `3·c·dev L ≤ wt L`, i.e. `r(L) ≥ c`.
+
+Since the `r`-records are the one-sided best approximations, that last is exactly
+"the period lies on the ladder" — the content of "min-cycle-element `≥ 2^K` ⇒ `p`
+belongs to the semigroup", one rewrite from what was already proved.
+
+### Axiom footprint
+
+`lake build Collatz` succeeds, **303 jobs**.  Zero `sorry`.  Zero added axioms.
+
+**Both halves of the conjecture remain open.**
