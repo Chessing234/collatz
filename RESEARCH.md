@@ -8894,3 +8894,61 @@ the magnitude from the other.
 `lake build Collatz` succeeds, **290 jobs**.  Zero `sorry`.  Zero added axioms.
 
 **Both halves of the conjecture remain open.**
+
+## Round LVI — the banked three and the next harvest are independent, provably
+
+A local, non-density coupling was sought: along one forward orbit, does the next
+contraction's harvest correlate with the `v₃` the last growth run banked?
+
+### A correction to the question
+
+At the end of a growth run of length `r = v₂(n+1)` every factor of two is spent, so
+`T^r(n) + 1 = 3^r·w` is **odd** and `v₂(T^r(n)+1) = 0` identically — checked for
+every odd `n < 200 000`.  The live quantity, the one that sets the next run length,
+is the harvest `v₂(T^r(n) + 2) = v₂(3^r·w + 1)`.  That is what was tabulated.
+
+### The exact contingency table
+
+`A = v₃(n+1)` against `B = v₂(3^r·w + 1)`, all odd `n < 2^20`, `524 288` samples:
+
+| `A \ B` | `1` | `2` | `3` | `4` | `P(A)` |
+|---|---|---|---|---|---|
+| `0` | `0.33333` | `0.16667` | `0.08333` | `0.04167` | `0.66667` |
+| `1` | `0.11111` | `0.05555` | `0.02778` | `0.01389` | `0.22222` |
+| `2` | `0.03704` | `0.01852` | `0.00926` | `0.00463` | `0.07407` |
+| `3` | `0.01235` | `0.00617` | `0.00309` | `0.00154` | `0.02469` |
+| `P(B)` | `0.50000` | `0.25000` | `0.12500` | `0.06250` | |
+
+Marginals exactly geometric, `P(A=a) = (2/3)·3^(−a)` and `P(B=b) = 2^(−b)`, and
+every cell is their product: maximum relative deviation `0.00266`, `χ² = 0.01` on
+`16` cells.
+
+**The table factors.  The coupling is local and dead.**
+
+### Why it must factor — and this is the part worth keeping
+
+Not an accident of sampling.  With `n + 1 = 2^r·w`, `w` odd:
+
+* `A = v₃(w)` is a function of `w` modulo a power of **three**;
+* `B` is, by `LogCoordinate`, a function of `r` and `w` modulo a power of **two** —
+  the discrete logarithm and the sign `ε(w)`, which is `w mod 8`.
+
+Powers of two and three are coprime, so by CRT every combination of `w mod 2^j` and
+`w mod 3^k` occurs equally often.  **No orbit structure can correlate them, because
+there is no arithmetic through which one could constrain the other.**
+`CouplingDead.two_pow_dvd_three_pow_iff` is that coprimality in usable form: a power
+of two divides a power of three only when it is `1`.
+
+### Consequence
+
+The banked `v₃` cannot force a drop, and no refinement of this pairing will — the
+obstruction is not a weak correlation but an *arithmetically absent* one.  A local
+coupling must pair quantities living at the **same prime**.  That is exactly why
+`SizePerturbation` (Round LV) survives where this dies: there the two coordinates
+are `2`-adic and archimedean, not `2`-adic and `3`-adic.
+
+### Axiom footprint
+
+`lake build Collatz` succeeds, **291 jobs**.  Zero `sorry`.  Zero added axioms.
+
+**Both halves of the conjecture remain open.**
