@@ -8763,3 +8763,66 @@ shows nothing.
 `lake build Collatz` succeeds, **288 jobs**.  Zero `sorry`.  Zero added axioms.
 
 **Both halves of the conjecture remain open.**
+
+## Round LIV — the contraction harvest: device dead, differing term extracted
+
+Built to specification: a `V` changing only on contraction steps, not a rewrite of
+`affineC`, tested against all three filter maps before being believed.  The test
+killed it.  The term at which the maps differ survives, and is proved.
+
+### The device
+
+All three maps share growth `u ↦ 3u/2` and differ only at the contraction —
+`⌈u/2⌉` for `T`, `⌊u/2⌋` for the mirror `3n−1`, `(3u−1)/2` for `expStep`.  So
+
+`V_C(n) = Σ` over the first `C` contractions of the `2`-adic content that map's
+contraction harvests: `v₂(n+2)`, `v₂(n−2)`, `v₂(3n+2)` respectively.
+
+Constant on growth by construction; a sum of *valuations*, not a weighted sum of
+powers of two, so not `affineC` in disguise.
+
+### Dead, by its own test
+
+Every odd `n < 50 000`, first `10` contractions:
+
+* **Marginals identical** — all three give `0.500, 0.250, 0.125, 0.0625, 0.031,
+  0.015`, geometric `(1/2)` to four decimals.
+* **Joint law identical** — consecutive pairs agree to three decimals and match the
+  independent product: `P(1,1) = 0.24975, 0.25098, 0.24973` against `0.25`.
+
+`V` has the same law under a map with the wrong sign and under a map that diverges
+from every start.  Summing over an orbit averages the difference away.
+
+### The exact differing term
+
+The maps do differ pointwise, exactly.  For even `n = 2m`:
+
+**`T` harvests `1 + v₂(m+1)`; the mirror harvests `1 + v₂(m−1)`.**
+
+Verified for all even `n < 20 000`.  So the difference between Collatz and its
+mirror, at the one place they differ at all, is `v₂(m+1)` against `v₂(m−1)` — **the
+same `±1` defect, one level further down.**  The recurrence, a third time.
+
+Which branch is shallow is decided by `m` mod `4`, exactly (`harvest_split`,
+`harvest_exclusive`):
+
+* `m` even — both `m ± 1` odd, both harvests `1`: **the maps agree**;
+* `m ≡ 1 (mod 4)` — `m+1 ≡ 2 (mod 4)`, `4 ∣ m−1`: `T` shallow, mirror deep;
+* `m ≡ 3 (mod 4)` — `4 ∣ m+1`, `m−1 ≡ 2 (mod 4)`: `T` deep, mirror shallow.
+
+### Why this is worth more than the device
+
+The trichotomy *explains* the statistical agreement.  The cases `m ≡ 1` and
+`m ≡ 3` occur equally often and **exchange the roles of the two maps**, so every
+symmetric functional of the harvest — marginal, joint law, sum — is blind to the
+sign of the defect.
+
+**A separator must be antisymmetric in `m mod 4`.**  That rules out `V` and every
+symmetric statistic built from the harvest at once, which is a stronger conclusion
+than the single failure, and it is a testable condition for the next candidate.
+
+### Axiom footprint
+
+`lake build Collatz` succeeds, **289 jobs**.  Zero `sorry`.  Zero added axioms.
+
+**Both halves of the conjecture remain open.**

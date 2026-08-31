@@ -228,6 +228,7 @@ import Collatz.Strategy.SwapForm
 import Collatz.Strategy.LogCoordinate
 import Collatz.Strategy.LiftingLaw
 import Collatz.Strategy.RenormTower
+import Collatz.Strategy.HarvestSplit
 import Collatz.Search.BarinaRange
 import Collatz.Search.VerifiedRange
 import Collatz.Strategy.AffineExchange
