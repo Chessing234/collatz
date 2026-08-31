@@ -9900,3 +9900,28 @@ with the finding that the two independent certificates are priced identically.
 `lake build Collatz` succeeds, **303 jobs**.  Zero `sorry`.  Zero added axioms.
 
 **Both halves of the conjecture remain open.**
+
+### Round LXIX, addendum — divergence track: record-depth rigidity, refuted
+
+The divergence track proposed **record-depth rigidity**: a *record* is an odd orbit
+value exceeding all previous ones; a divergent orbit has infinitely many; the claim
+was that every record must be **deep**, `v₂(r+1) ≥ 2`.  The motivation was sound —
+`ShallowChain.two_step_exact` makes a shallow record drop by exactly `(r−1)/4`, a
+per-visit identity rather than an average — and it nominally clears all three filters
+(`v₂` uses F1, `drop_of_v2_one` is specific to `3n+1` so F2, "record" needs an order
+so F3).
+
+**Refuted by the first nontrivial start.**  Under the accelerated map,
+`3 → 5 → 8 → 4 → 2 → 1`, records `3, 5, 8`; the record `5` has `v₂(6) = 1` — shallow.
+(The agent's write-up gave the unaccelerated orbit `3 → 10 → 5 → …`; the conclusion is
+the same either way.)
+
+And the reason it fails is structural, not accidental.  Over odd `n < 120 000` there
+are `163 146` odd records, of which `82 379` are shallow — **fraction `0.50494`**,
+matching Terras' base rate `P(v₂ = 1) = 1/2` exactly.  **Records are an unbiased
+sample of the `2`-adic depth law, not a special subsequence.**  So any device
+constraining the depth of the record subsequence is the already-dead statistical drift
+statement one level removed, and the `50/50` split must not be reported as progress.
+
+Filter verdict: it dies to an exact counterexample rather than to F1/F2/F3 — the
+sharpest kind of death, since no repair is available.
