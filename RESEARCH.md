@@ -8472,3 +8472,75 @@ globally at density `0.33333`.  Nothing here changes that.
 `lake build Collatz` succeeds, **284 jobs**.  Zero `sorry`.  Zero added axioms.
 
 **Both halves of the conjecture remain open.**
+
+## Round L — Collatz is a base swap perturbed by one
+
+Pushing the Round XLIX reduction to its end point.
+
+### The form
+
+Put `U = n + 2`, even exactly at a contraction, and write `U = 2^a · w` with `w`
+odd.  Then the whole map — one contraction plus the growth run it releases — is
+
+**`U ↦ 3^(a−1) · w + 1`.**
+
+Take the `2`-part, replace it by a `3`-part one power smaller, add one.  Verified
+faithful for every even `n < 60 000` with no exceptions; `swap_form` derives it in
+Lean from `ReturnMap.return_map`.
+
+**So Collatz is the base-swap operator `2^a ↦ 3^(a−1)` perturbed by `+1`.**  The
+swap alone is a monoid map and trivial.  The `+1` is the entire problem, and its
+role is now exactly visible: `S(U)` is always *odd*, so the swap destroys all
+`2`-content, and `+1` is what regenerates it and returns the state to the domain.
+
+### Period one, completely classified
+
+`S(U) + 1 = U` reads `w · (2^a − 3^(a−1)) = 1`, so `w = 1` and
+`2^a − 3^(a−1) = 1`.  Since `2^a < 3^(a−1)` for every `a ≥ 3`
+(`two_pow_lt_three_pow`, a two-line induction), only `a = 1, 2` survive:
+
+**`fixed_point_iff` — the only fixed points are `U = 2` and `U = 4`,**
+
+that is `n = 0` and the trivial cycle `n = 2`.  A family of exponential Diophantine
+equations collapses to an induction.
+
+### The difficulty, located and bounded at `w = 1`
+
+Everything now sits in one quantity: `v₂(3^k · m + 1)` — how much `2`-content
+adding one regenerates from an odd number whose `3`-part the swap has just made.
+That is a genuine `2`-adic × `3`-adic interaction, in the coordinate where one
+exists.
+
+At `m = 1` it is bounded outright.  `3^k % 8 ∈ {1, 3}` (`three_pow_mod_eight`),
+hence
+
+**`not_eight_dvd_three_pow_succ` — `8 ∤ 3^k + 1` for every `k`,**
+
+so `v₂(3^k + 1) ≤ 2` always: from `U = 2^a` the next state has `a′ ≤ 2`, where
+`3^(a′−1) < 2^(a′)`, so it contracts.  The pure powers of two can never launch a
+growth run.
+
+For general `m` the bound fails and the structure reappears as a congruence.
+Measured: `v₂(3^k·m + 1) ≥ j` holds exactly on a residue class of `k` modulo
+`2^(j−2)` — at `j = 4`, `m = 5` gives `k ≡ 1 (mod 4)`, `m = 7` gives `k ≡ 2
+(mod 4)`, `m = 11` is empty.  **Deep regeneration requires the `3`-exponent to lie
+in an exponentially thin class.**
+
+### What it does not do
+
+It classifies period one, not period `L`.  The same computation at period `L` puts
+`2^E − 3^(E−L)` in the denominator, positive only when
+`E/L < log 3 / log(3/2) = 2.7095…`, so `E ≤ ⌊2.7095·L⌋` — finite for each `L`, but
+with `C(E−1, L−1)` valuation words to check, and the standing bound already forces
+`E ≥ 6809`.  The small-`L` checks this makes available are therefore subsumed.
+
+The regeneration question is not answered.  It is put in its sharpest form:
+**how large can `v₂(3^k·m + 1)` be along an actual orbit?**  Every filter model
+shares the swap; none shares the way `+1` regenerates.  That is where a separating
+argument has to live.
+
+### Axiom footprint
+
+`lake build Collatz` succeeds, **285 jobs**.  Zero `sorry`.  Zero added axioms.
+
+**Both halves of the conjecture remain open.**
