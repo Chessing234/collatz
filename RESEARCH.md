@@ -8619,3 +8619,85 @@ without it.
 `lake build Collatz` succeeds, **286 jobs**.  Zero `sorry`.  Zero added axioms.
 
 **Both halves of the conjecture remain open.**
+
+## Round LII — the limitation, assessed; and the device it calls for
+
+Round LI ended by saying the recursion is self-referential.  This round finds out
+what that actually costs, and builds the tool matched to the answer.
+
+### Everything collapses onto one function
+
+Chasing what the log-coordinate `t` becomes after a step: the new odd part is
+`3^s − 1` defactored, so the whole dynamics is governed by
+
+**`Λ(s) = dlog₃(oddpart(3^s − 1))`.**
+
+That one function is the conjecture.  So: is `Λ` structured?
+
+### Four measurements, with a `2`-adic discrete log to `2^44`
+
+* **Exactly multiplicatively self-similar.**  `3^(2s) − 1 = (3^s − 1)(3^s + 1)` and
+  `dlog` is additive, so **`Λ(2s) = Λ(s) + Ψ(s)`**, `Ψ(s) = dlog₃(oddpart(3^s+1))`.
+  Verified for all `s < 60`, no exceptions.
+* **Additively opaque.**  `Λ(s+1) − Λ(s)` takes `24` distinct values in `24`
+  consecutive samples.  No pattern.
+* **Not `2`-adically continuous.**  `Λ mod 2^4` is determined by `s mod 2^k` for no
+  `k ≤ 15`, and the Mahler coefficients do not decay — valuations
+  `0, 2, 6, 0, 1, 0, 3, 0, 1, 2, 3, …`, no growth.  By Mahler's theorem that rules
+  out continuity, hence **every `p`-adic analytic method at once**.
+* **But Lipschitz on each stratum.**  Restricted to `{s : v₂(s) = j}`, `Λ mod 2^n`
+  *is* determined by `s mod 2^(n+j+c)` — measured `c = 1` at `j = 0`, `c = 2` at
+  `j = 1, 2`, across `n = 4, 6, 8`.
+
+### The assessment
+
+**The discontinuity is caused by the defactoring.**  `3^s − 1` must be divided by
+`2^(2+v₂(s))`, an exponent that jumps with `v₂(s)`, and division by `2^k` is not
+continuous in `k`.  So the step that makes `Λ` immune to analysis is *the even
+branch dividing* — filter F1, recurring one level up, in the log coordinate.
+
+And then the barrier, in one sentence:
+
+> `Λ` is regular exactly on the strata of the `v₂`-filtration, and the recursion
+> `a′ = 2 + v₂(s)` moves the orbit **between** strata at every step.  The dynamics
+> is transverse to the stratification on which the object is regular.
+
+That is why the multiplicative self-similarity cannot be iterated — the dynamics is
+additive in `s` — and why the stratum-wise regularity cannot be composed —
+consecutive steps lie in different strata.  Two exact structures, neither usable,
+for the same reason.
+
+### `Strategy/LiftingLaw`
+
+The arithmetic engine underneath, formalised:
+
+* `three_pow_succ_even` / `three_pow_succ_odd` — `3^k + 1` is `2·odd` for even `k`,
+  `4·odd` for odd `k`.
+* `three_pow_sub_one_odd` — `3^q − 1 = 2·odd` for odd `q`.
+* **`three_pow_sub_one_factor`** — for odd `q` and `j ≥ 1`,
+  `3^(2^j·q) − 1 = 2^(j+2)·odd`.
+
+That is lifting the exponent at `p = 2` without a valuation function:
+`v₂(3^s − 1) = 2 + v₂(s)` for even `s`, `1` for odd `s`.  The induction is the
+factorisation `3^(2m) − 1 = (3^m−1)(3^m+1)` plus the mod-`8` congruences of
+Round LI.  This single law produces the depth formula `a′ = 2 + v₂(s)`, the
+stratification, *and* the discontinuity.
+
+Kernel-checked sharp: `3^(2^j·q) − 1` is divisible by `2^(j+2)` and not by
+`2^(j+3)`, at `(j,q) = (1,1), (2,1), (3,1), (1,3), (2,5), (4,7)`.
+
+### Devices tried and their verdicts
+
+* **Mahler expansion** (the canonical basis for functions on `ℤ₂`) — *refuted*:
+  coefficients do not decay, so `Λ` is not continuous and has no Mahler series.
+* **Stratified `2`-adic analysis** — *works, but does not compose*: `Λ` is Lipschitz
+  on each `v₂`-stratum with an explicit, measured modulus, and the dynamics leaves
+  the stratum immediately.
+* **The multiplicative functional equation** — *exact, but not iterable*: it relates
+  `Λ(2s)` to `Λ(s)`, while the dynamics moves `s` additively.
+
+### Axiom footprint
+
+`lake build Collatz` succeeds, **287 jobs**.  Zero `sorry`.  Zero added axioms.
+
+**Both halves of the conjecture remain open.**
