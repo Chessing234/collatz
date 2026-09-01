@@ -293,6 +293,7 @@ import Collatz.Strategy.PosBridge
 import Collatz.Strategy.RayAsymmetry
 import Collatz.Strategy.GenBlock
 import Collatz.Strategy.PosLadder
+import Collatz.Strategy.ImageExclusion
 import Collatz.Search.BarinaRange
 import Collatz.Search.VerifiedRange
 import Collatz.Strategy.AffineExchange
