@@ -290,6 +290,7 @@ import Collatz.Strategy.DepthThreshold
 import Collatz.Strategy.ShiftTrichotomy
 import Collatz.Strategy.MirrorFixedPoint
 import Collatz.Strategy.PosBridge
+import Collatz.Strategy.RayAsymmetry
 import Collatz.Search.BarinaRange
 import Collatz.Search.VerifiedRange
 import Collatz.Strategy.AffineExchange
