@@ -213,6 +213,70 @@ theorem hhMin_eq_Bsum_pos_fexp (a : Nat) :
   have hnl : a ≤ RealizableBound.fexp a + 1 := by have := a_le_fexp a; omega
   exact hhMin_eq_Bsum_pos hl hnl
 
+/-! ## Closed forms: the Beatty recursion eliminated
+
+`pos` is defined operationally, as a fuelled forward scan for the `i`-th one-bit.
+Both it and `beattyCount` have closed forms, so every statement about them can be
+turned into flat integer arithmetic.  `pos_eq_div` needed no new induction: the
+repository already contained the dual fact — `ExtremalTime.tildeTime` is *defined*
+as `j * l / n`, and `HHMinTime.tildeTime_of_bit` already identifies it at one-bits.
+-/
+
+/-- **`beattyCount` in closed form.**  The running weight is the ceiling
+`⌈i·n/l⌉`, written in `Nat` as `((l−1) + i·n)/l`.  Direct from `beatty_invariant`
+and `beattyRem_lt`; holds for every `i`, with no upper bound needed. -/
+theorem beattyCount_eq_div {l n : Nat} (hl : 0 < l) (hnl : n ≤ l) (i : Nat) :
+    beattyCount l n i = ((l - 1) + i * n) / l := by
+  have hinv := beatty_invariant hl hnl i
+  have hlt := beattyRem_lt hl hnl i
+  have hcomm : beattyCount l n i * l = l * beattyCount l n i := Nat.mul_comm _ _
+  have hlo : beattyCount l n i * l ≤ (l - 1) + i * n := by
+    rw [hcomm]; omega
+  have hhi : (l - 1) + i * n < (beattyCount l n i + 1) * l := by
+    rw [Nat.add_mul, Nat.one_mul, hcomm]; omega
+  exact (Nat.div_eq_of_lt_le hlo hhi).symm
+
+/-- **`pos` in closed form.**  The position of the `i`-th one-bit is exactly
+`l·i/n` in `Nat` division. -/
+theorem pos_eq_div {l n : Nat} (hl : 0 < l) (hnl : n ≤ l) (hn : 0 < n)
+    {i : Nat} (hi : i < n) :
+    pos l n i = l * i / n := by
+  have hcnt : beattyCount l n l = n := beatty_count_eq hl hnl
+  have hilt : i < beattyCount l n l := by rw [hcnt]; exact hi
+  obtain ⟨_, hbit, hcount⟩ := pos_spec l n i hilt
+  have htt := tildeTime_of_bit hl hnl hn hbit
+  rw [hcount] at htt
+  have hunfold : tildeTime l n i = i * l / n := rfl
+  rw [hunfold] at htt
+  rw [← htt, Nat.mul_comm]
+
+/-- **`hpos`, pointwise, as flat integer arithmetic.**  With `L = fexp a + 1`, the
+condition `pos L a i = fexp i` — a statement about a fuelled scan over a Beatty
+word — is equivalent to a pair of linear inequalities.  Every trace of the
+recursion is gone. -/
+theorem pos_eq_fexp_iff {a : Nat} (ha : 0 < a) {i : Nat} (hi : i < a) :
+    pos (RealizableBound.fexp a + 1) a i = RealizableBound.fexp i
+      ↔ (a * RealizableBound.fexp i ≤ (RealizableBound.fexp a + 1) * i
+          ∧ (RealizableBound.fexp a + 1) * i < a * RealizableBound.fexp i + a) := by
+  have hl : 0 < RealizableBound.fexp a + 1 := by omega
+  have hnl : a ≤ RealizableBound.fexp a + 1 := by have := a_le_fexp a; omega
+  rw [pos_eq_div hl hnl ha hi]
+  constructor
+  · intro h
+    have hdm := Nat.div_add_mod ((RealizableBound.fexp a + 1) * i) a
+    have hmod : (RealizableBound.fexp a + 1) * i % a < a := Nat.mod_lt _ ha
+    rw [h] at hdm
+    omega
+  · intro ⟨h1, h2⟩
+    have hlo : RealizableBound.fexp i * a ≤ (RealizableBound.fexp a + 1) * i := by
+      have hc : RealizableBound.fexp i * a = a * RealizableBound.fexp i := Nat.mul_comm _ _
+      omega
+    have hhi : (RealizableBound.fexp a + 1) * i < (RealizableBound.fexp i + 1) * a := by
+      have hc : (RealizableBound.fexp i + 1) * a = a * RealizableBound.fexp i + a := by
+        rw [Nat.add_mul, Nat.one_mul, Nat.mul_comm]
+      omega
+    exact Nat.div_eq_of_lt_le hlo hhi
+
 /-! ## The capstone: the two certificates are one integer
 
 `PriceIdentity.numerators_agree` supplies the other half, `Bsum pos a = Bcap a`, under
