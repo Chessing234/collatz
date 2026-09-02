@@ -10902,3 +10902,103 @@ now also guarding `StairGap.gap_step` and `StairGap.no_run_18`.  `gap_step`,
 2. Range to `2 855 820` for `length_ge_12079`; scan the fuel first, it will
    likely exceed `224`.
 3. Audit the fifteen `*_of_heavy` consumers at window `6955`.
+
+## Round LXXV, iteration 4 — the gap decides its own recurrence, and the cliff is located
+
+Iteration 3 proved `gap_step` under the hypothesis `fexp (a+665) = fexp a + 1054`
+and closed by saying the break was still Diophantine.  It is not.  The `fexp`
+increment is *determined by the gap*, and the break identity is as exact as the
+no-break one.
+
+### The dichotomy
+
+Write `3 ^ 665 = 2 ^ 1054 + δ` and `gapAt a + 3 ^ a = 2 · 2 ^ (fexp a)`.  Then
+comparing `3 ^ (a+665)` with `2 ^ (fexp a + 1055)` reduces, term by term, to
+
+    3 ^ a · δ    versus    2 ^ 1054 · gapAt a
+
+— the very quantity `gap_step` subtracts.  So:
+
+```
+fexp_step_of_noBreak : 3 ^ a * stairDelta < 2 ^ 1054 * gapAt a →
+                         fexp (a + 665) = fexp a + 1054
+fexp_step_of_break   : 2 ^ 1054 * gapAt a ≤ 3 ^ a * stairDelta →
+                         fexp (a + 665) = fexp a + 1055
+```
+
+The recurrence decides its own applicability: `fexp` advances by `1054` exactly
+when the subtraction would leave something positive.  Checked against `fexp`
+directly at every `a < 400` and at every rung of `PreCertified`'s table — zero
+disagreements, as the proof requires.  Every `fexp` hypothesis downstream is now
+discharged (`gap_step_of_noBreak`, `stairRun_of_noBreak`), so `StairRun` is a
+statement about integer arithmetic on `gapAt`, not about a recursion anyone has
+to evaluate.
+
+### The break identity
+
+```
+gap_break : 2 ^ 1054 * gapAt a ≤ 3 ^ a * stairDelta →
+    gapAt (a + 665) = 2 ^ 1055 * gapAt a + 3 ^ a * (2 ^ 1055 - 3 ^ 665)
+```
+
+Also exact.  At a break the gap has just come down to at most `δ / 2 ^ 1054`
+of `3 ^ a`, and this multiplies it back up to just over `1` — its maximum.  So
+the two branches together describe `gapAt` along `665`-steps completely, with no
+approximation anywhere.
+
+### The cliff, and why it is where it is
+
+`break_within` is `run_bound` contrapositive: a run longer than its budget is
+impossible, so a break occurs.  And the break is where the gap is smallest,
+hence where `RouteCap.reach_sharp` bites hardest.  **The break point is the
+ladder's cliff.**
+
+For the staircase carrying `PreCertified`'s table:
+
+```
+break_at_15601        : ¬ NoBreak 15601
+fexp_16266            : fexp 16266 = fexp 15601 + 1055
+range_gt_142907493    : (certificate reaches past 15601 at range c) → 142907493 < c
+```
+
+Reaching past `15601` costs a verified range above `142 907 493`, against the
+`3 380 808` that reaches `8286`: **forty-two times the range for less than twice
+the reach.**  Iteration 2's five hand-picked rungs showed the cost rising
+smoothly; this shows where it actually jumps, and gives the structural reason.
+
+### Where the remaining gap actually is — sharper than last time
+
+`15601` is not an accident.  `24727/15601` is the next convergent of `log₂ 3`
+after `1054/665`, which is precisely why the run ends there: the staircase of
+step `665` exhausts itself exactly when a better rational approximation takes
+over.  `fexp 15601 = 24726` and `3 ^ 15601 < 2 ^ 24727` by a margin of
+`1.8 · 10⁻⁵` — the new `δ`, three orders of magnitude smaller than the old one.
+
+So the recursion is visible: a second-level staircase of step `15601`, with the
+two sides of the approximation swapped (this level has `3 ^ 665 > 2 ^ 1054`; the
+next has `3 ^ 15601 < 2 ^ 24727`).  The same algebra should apply.  **That
+recursion is not formalized**, and until it is, nothing here bounds the ladder
+beyond the first staircase.  But the remaining gap is now a specific, named,
+elementary construction rather than "Diophantine".
+
+Iterations 2, 3 and 4 have each moved that line: from "the rate is Diophantine",
+to "within a run it is elementary", to "both branches are elementary and the
+open part is one explicit level of recursion".  Each move was found the same
+way — by checking whether a quantity that looked asymptotic was in fact exact.
+
+`lake build Collatz` succeeds, **351 jobs**; `scripts/check_integrity.sh` passes,
+now also guarding `StairGap.gap_break` and `StairGap.range_gt_142907493`.  Every
+new theorem except `range_gt_142907493` depends on `[propext, Quot.sound]` only.
+Zero `sorry`, zero added axioms.
+
+### Next session — three tasks, one primary
+
+1. **Primary.**  The second-level staircase.  Define `gapAt₂ a = 2 ^ (fexp a + 1)
+   − 3 ^ a` unchanged but step by `15601` instead of `665`, with
+   `δ₂ = 2 ^ 24727 − 3 ^ 15601` (note the reversed sign).  Prove the analogue of
+   `fexp_step_of_noBreak` / `gap_break` at this level.  If both go through, the
+   pattern is a genuine recursion on the continued fraction and the general
+   statement becomes reachable; if the sign reversal breaks the algebra, that is
+   itself the obstruction and should be recorded as one.
+2. Range to `2 855 820` for `length_ge_12079`; scan fuel first, expect `> 224`.
+3. Audit the fifteen `*_of_heavy` consumers at window `6955`.

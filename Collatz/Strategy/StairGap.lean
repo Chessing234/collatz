@@ -307,5 +307,204 @@ theorem no_run_18 : ¬ StairRun 4296 18 := by
   have := eighteen_too_many
   omega
 
+/-! ## The dichotomy: the gap decides its own recurrence
+
+`gap_step` takes the `fexp` increment as a hypothesis.  It need not.  Writing
+`3 ^ 665 = 2 ^ 1054 + δ` and `gapAt a + 3 ^ a = 2 · 2 ^ (fexp a)`, the comparison
+`3 ^ (a+665)` against `2 ^ (fexp a + 1055)` reduces exactly to
+
+    3 ^ a · δ   versus   2 ^ 1054 · gapAt a,
+
+which is the same quantity `gap_step` subtracts.  So the recurrence *decides its
+own applicability*: `fexp` advances by `1054` precisely when the subtraction
+`2 ^ 1054 · gapAt a − 3 ^ a · δ` would leave something positive, and by `1055`
+otherwise.  Checked against `fexp` directly at every `a < 400` and at the rungs
+of the table: zero disagreements, as the proof requires.
+
+This removes every `fexp` hypothesis downstream.  `StairRun` becomes a statement
+about integer arithmetic on `gapAt`, not about a recursion nobody wants to
+evaluate. -/
+
+/-- The no-break criterion at `a`. -/
+def NoBreak (a : Nat) : Prop := 3 ^ a * stairDelta < 2 ^ 1054 * gapAt a
+
+theorem three_pow_665_eq : (3:Nat) ^ 665 = 2 ^ 1054 + stairDelta := by
+  have := two_pow_lt_three_pow
+  unfold stairDelta
+  omega
+
+theorem gapAt_add (a : Nat) : gapAt a + 3 ^ a = 2 * 2 ^ fexp a := by
+  have := three_pow_le a
+  unfold gapAt
+  omega
+
+set_option maxRecDepth 20000 in
+set_option exponentiation.threshold 20000 in
+/-- `3 ^ 665 < 2 ^ 1055`: the other side of the convergent, needed for the break
+branch. -/
+theorem three_pow_lt_two_pow : (3:Nat) ^ 665 < 2 ^ 1055 := by decide
+
+/-- Splitting `2 ^ (fexp a + 1054 + 1)`. -/
+theorem pow_split (a : Nat) :
+    (2:Nat) ^ (fexp a + 1054 + 1) = 2 * 2 ^ fexp a * 2 ^ 1054 := by
+  rw [show fexp a + 1054 + 1 = fexp a + 1 + 1054 from by omega, Nat.pow_add,
+    Nat.pow_succ, Nat.mul_comm (2 ^ fexp a) 2]
+
+/-- The lower half of both branches: `2 ^ (fexp a + 1054) ≤ 3 ^ (a + 665)`
+always. -/
+theorem pow_le_pow_shift (a : Nat) : (2:Nat) ^ (fexp a + 1054) ≤ 3 ^ (a + 665) := by
+  rw [Nat.pow_add 2 (fexp a) 1054, Nat.pow_add 3 a 665]
+  exact Nat.mul_le_mul (fexp_le a) (Nat.le_of_lt two_pow_lt_three_pow)
+
+/-- **No break: `fexp` advances by `1054`.**  Derived from the gap, with no
+appeal to the `fexp` recursion. -/
+theorem fexp_step_of_noBreak {a : Nat} (h : NoBreak a) : fexp (a + 665) = fexp a + 1054 := by
+  refine RouteCap.fexp_eq_of (pow_le_pow_shift a) ?_
+  have e2 : (3:Nat) ^ (a + 665) = 3 ^ a * 3 ^ 665 := Nat.pow_add 3 a 665
+  have e4 : (3:Nat) ^ a * 3 ^ 665 = 3 ^ a * 2 ^ 1054 + 3 ^ a * stairDelta := by
+    rw [three_pow_665_eq, Nat.mul_add]
+  have e5 : 2 * 2 ^ fexp a * 2 ^ 1054 = gapAt a * 2 ^ 1054 + 3 ^ a * 2 ^ 1054 := by
+    rw [← gapAt_add a, Nat.add_mul]
+  have e6 : gapAt a * 2 ^ 1054 = 2 ^ 1054 * gapAt a := Nat.mul_comm _ _
+  have e7 := pow_split a
+  unfold NoBreak at h
+  omega
+
+/-- **Break: `fexp` advances by `1055`.**  The complementary branch. -/
+theorem fexp_step_of_break {a : Nat} (h : 2 ^ 1054 * gapAt a ≤ 3 ^ a * stairDelta) :
+    fexp (a + 665) = fexp a + 1055 := by
+  refine RouteCap.fexp_eq_of ?_ ?_
+  · have e2 : (3:Nat) ^ (a + 665) = 3 ^ a * 3 ^ 665 := Nat.pow_add 3 a 665
+    have e4 : (3:Nat) ^ a * 3 ^ 665 = 3 ^ a * 2 ^ 1054 + 3 ^ a * stairDelta := by
+      rw [three_pow_665_eq, Nat.mul_add]
+    have e5 : 2 * 2 ^ fexp a * 2 ^ 1054 = gapAt a * 2 ^ 1054 + 3 ^ a * 2 ^ 1054 := by
+      rw [← gapAt_add a, Nat.add_mul]
+    have e6 : gapAt a * 2 ^ 1054 = 2 ^ 1054 * gapAt a := Nat.mul_comm _ _
+    have e7 : (2:Nat) ^ (fexp a + 1055) = 2 * 2 ^ fexp a * 2 ^ 1054 := by
+      rw [show fexp a + 1055 = fexp a + 1054 + 1 from by omega]; exact pow_split a
+    omega
+  · have e2 : (3:Nat) ^ (a + 665) = 3 ^ a * 3 ^ 665 := Nat.pow_add 3 a 665
+    have e8 : (2:Nat) ^ (fexp a + 1055 + 1) = 2 ^ (fexp a + 1) * 2 ^ 1055 := by
+      rw [show fexp a + 1055 + 1 = fexp a + 1 + 1055 from by omega, Nat.pow_add]
+    have hlt := lt_fexp a
+    have hstep : (3:Nat) ^ a * 3 ^ 665 < 2 ^ (fexp a + 1) * 3 ^ 665 :=
+      Nat.mul_lt_mul_of_pos_right hlt (by
+        have := Nat.one_le_pow 665 3 (by omega); omega)
+    have hstep2 : (2:Nat) ^ (fexp a + 1) * 3 ^ 665 ≤ 2 ^ (fexp a + 1) * 2 ^ 1055 :=
+      Nat.mul_le_mul (Nat.le_refl _) (Nat.le_of_lt three_pow_lt_two_pow)
+    omega
+
+/-- **The break identity, exactly.**  Across a rung where `fexp` advances by
+`1055`, the gap *grows*: it is multiplied by `2 ^ 1055` and then increased by
+`3 ^ a · (2 ^ 1055 − 3 ^ 665)`.  Normalised, the gap resets from at most
+`δ / 2 ^ 1054 ≈ 4.4 · 10⁻⁵` back up to just over `1`, its maximum. -/
+theorem gap_break {a : Nat} (h : 2 ^ 1054 * gapAt a ≤ 3 ^ a * stairDelta) :
+    gapAt (a + 665) = 2 ^ 1055 * gapAt a + 3 ^ a * (2 ^ 1055 - 3 ^ 665) := by
+  have hf := fexp_step_of_break h
+  have hdef : gapAt (a + 665) = 2 * 2 ^ fexp (a + 665) - 3 ^ (a + 665) := rfl
+  have hle : (3:Nat) ^ (a + 665) ≤ 2 * 2 ^ fexp (a + 665) := three_pow_le (a + 665)
+  have e2 : (3:Nat) ^ (a + 665) = 3 ^ a * 3 ^ 665 := Nat.pow_add 3 a 665
+  have h3 : 2 * (2:Nat) ^ fexp (a + 665) = 2 ^ 1055 * (2 * 2 ^ fexp a) := by
+    rw [hf, show fexp a + 1055 = 1055 + fexp a from by omega, Nat.pow_add,
+      ← Nat.mul_assoc 2 (2 ^ 1055) (2 ^ fexp a), Nat.mul_comm 2 (2 ^ 1055), Nat.mul_assoc]
+  have h2 : (2:Nat) ^ 1055 * (gapAt a + 3 ^ a) = 2 ^ 1055 * (2 * 2 ^ fexp a) := by
+    rw [gapAt_add a]
+  have h1 : (2:Nat) ^ 1055 * (gapAt a + 3 ^ a) = 2 ^ 1055 * gapAt a + 2 ^ 1055 * 3 ^ a :=
+    Nat.mul_add _ _ _
+  have e11 : (3:Nat) ^ a * (2 ^ 1055 - 3 ^ 665) = 3 ^ a * 2 ^ 1055 - 3 ^ a * 3 ^ 665 :=
+    Nat.mul_sub _ _ _
+  have e12 : (2:Nat) ^ 1055 * 3 ^ a = 3 ^ a * 2 ^ 1055 := Nat.mul_comm _ _
+  have e13 : (3:Nat) ^ a * 3 ^ 665 ≤ 3 ^ a * 2 ^ 1055 :=
+    Nat.mul_le_mul (Nat.le_refl _) (Nat.le_of_lt three_pow_lt_two_pow)
+  omega
+
+/-- `gap_step` with the `fexp` hypothesis discharged. -/
+theorem gap_step_of_noBreak {a : Nat} (h : NoBreak a) :
+    gapAt (a + 665) + 3 ^ a * stairDelta = 2 ^ 1054 * gapAt a :=
+  gap_step (fexp_step_of_noBreak h)
+
+/-- A staircase run, from the arithmetic criterion alone. -/
+theorem stairRun_of_noBreak {a k : Nat} (h : ∀ j : Nat, j < k → NoBreak (a + 665 * j)) :
+    StairRun a k := by
+  intro j hj
+  have := fexp_step_of_noBreak (h j hj)
+  rw [show a + 665 * (j + 1) = a + 665 * j + 665 from by omega]
+  exact this
+
+/-! ## Every run ends, and where it ends is where the ladder gets expensive
+
+`run_bound` says a run of `k` rungs costs `k · δ · 3 ^ a` against a budget of
+`gapAt a · 3 ^ 665`.  Contrapositively, once `k` exceeds that budget a break must
+have occurred — and by `gap_break` the gap at a break has just come down to at
+most `δ / 2 ^ 1054` of `3 ^ a`, its smallest value anywhere on the run.
+
+That is exactly where `RouteCap.reach_sharp` bites hardest, so **the break point
+is the ladder's cliff**.  The staircase carrying `PreCertified`'s table breaks at
+`a = 16266`; the last index before it is `a = 15601`, and the two theorems below
+are the same fact seen from both sides. -/
+
+/-- **A run longer than its budget is impossible**, so a break occurs. -/
+theorem break_within {a k : Nat} (h : gapAt a * 3 ^ 665 < k * stairDelta * 3 ^ a) :
+    ¬ (∀ j : Nat, j < k → NoBreak (a + 665 * j)) := by
+  intro hall
+  have := run_bound (stairRun_of_noBreak hall)
+  omega
+
+/-! ### The cliff, checked -/
+
+set_option maxRecDepth 40000 in
+set_option exponentiation.threshold 40000 in
+theorem fexp_15601_lo : (2:Nat) ^ 24726 ≤ 3 ^ 15601 := by decide
+
+set_option maxRecDepth 40000 in
+set_option exponentiation.threshold 40000 in
+theorem fexp_15601_hi : (3:Nat) ^ 15601 < 2 ^ (24726 + 1) := by decide
+
+theorem fexp_15601 : fexp 15601 = 24726 :=
+  RouteCap.fexp_eq_of fexp_15601_lo fexp_15601_hi
+
+theorem gapAt_15601 : gapAt 15601 = 2 * 2 ^ 24726 - 3 ^ 15601 := by
+  unfold gapAt; rw [fexp_15601]
+
+set_option maxRecDepth 40000 in
+set_option exponentiation.threshold 40000 in
+theorem break_arith :
+    2 ^ 1054 * (2 * 2 ^ 24726 - 3 ^ 15601) ≤ 3 ^ 15601 * (3 ^ 665 - 2 ^ 1054) := by
+  decide
+
+/-- **`15601` is a break point**: the staircase carrying `PreCertified`'s table
+ends there, and `fexp` advances by `1055` at the next rung. -/
+theorem break_at_15601 : ¬ NoBreak 15601 := by
+  intro h
+  unfold NoBreak at h
+  rw [gapAt_15601] at h
+  unfold stairDelta at h
+  have := break_arith
+  omega
+
+theorem fexp_16266 : fexp 16266 = fexp 15601 + 1055 := by
+  have h : (2:Nat) ^ 1054 * gapAt 15601 ≤ 3 ^ 15601 * stairDelta := by
+    rw [gapAt_15601]; unfold stairDelta; exact break_arith
+  have := fexp_step_of_break h
+  rw [show (15601 : Nat) + 665 = 16266 from by omega] at this
+  exact this
+
+set_option maxRecDepth 40000 in
+set_option exponentiation.threshold 40000 in
+/-- The witness for the cliff: `N = 142 907 493` is the largest value the sharp
+inequality admits at `a = 15601`. -/
+theorem cliff_wit :
+    6 * 142907493 * (2 * 2 ^ 24726 - 3 ^ 15601) ≤ 15601 * 3 ^ 15601 := by decide
+
+/-- **The ladder's cliff.**  A certificate whose reach passes `15601` needs a
+verified range above `142 907 493` — against the `3 380 808` that reaches `8286`.
+Forty-two times the range for less than twice the reach, and the reason is
+structural: `15601` is the last index of a staircase run, where the gap is at its
+smallest (`break_at_15601`). -/
+theorem range_gt_142907493 {c A : Nat} (hA : 15601 < A)
+    (hcert : ∀ i : Nat, i < A → Bcap i + 3 ^ i * c < 2 * 2 ^ fexp i * c) :
+    142907493 < c :=
+  RouteCap.range_gt_of_reach hA fexp_15601_lo fexp_15601_hi cliff_wit hcert
+
 end StairGap
 end Collatz

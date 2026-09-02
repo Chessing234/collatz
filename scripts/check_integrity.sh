@@ -55,6 +55,8 @@ import Collatz
 #print axioms Collatz.RouteCap.range_gt_22543234
 #print axioms Collatz.StairGap.gap_step
 #print axioms Collatz.StairGap.no_run_18
+#print axioms Collatz.StairGap.gap_break
+#print axioms Collatz.StairGap.range_gt_142907493
 #print axioms Collatz.Search.reachesOne_of_lt_1086464
 #print axioms Collatz.GapSandwich.cycle_length_determined
 #print axioms Collatz.NewModels.word_is_cycle_word

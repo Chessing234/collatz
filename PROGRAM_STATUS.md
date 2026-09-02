@@ -190,11 +190,28 @@ the kernel clean.
   comparisons, no evaluation of `fexp` along the run.  The true run length is
   `17`, breaking at `a = 16266`, so the bound is off by less than one rung.
 
-  What is still Diophantine is *chaining runs*: at a break the gap resets upward
-  by roughly `3 ^ a · 2 ^ 1054` and a new run starts with its own `h₀`.  Bounding
-  the whole ladder needs the next level of the continued fraction of `log₂ 3`.
-  So the honest split is now: **within a run, elementary; across breaks,
-  Diophantine.**
+  **The break is elementary too.**  `StairGap.fexp_step_of_noBreak` /
+  `fexp_step_of_break` prove that the `fexp` increment is *decided by the gap
+  itself*: it is `1054` exactly when `3 ^ a · δ < 2 ^ 1054 · gapAt a`, and `1055`
+  otherwise — the same quantity `gap_step` subtracts.  So no `fexp` hypothesis
+  survives anywhere, and `gap_break` gives the other branch exactly:
+  `gapAt (a+665) = 2 ^ 1055 · gapAt a + 3 ^ a · (2 ^ 1055 − 3 ^ 665)`.  The gap
+  resets from at most `δ / 2 ^ 1054 ≈ 4.4 · 10⁻⁵` back to just over `1`.
+
+  **The cliff, located and proved.**  The break point is where the gap is
+  smallest, hence where `reach_sharp` bites hardest.  `break_at_15601` proves
+  `15601` is a break (`fexp_16266 : fexp 16266 = fexp 15601 + 1055`), and
+  `range_gt_142907493` proves a certificate reaching past `15601` needs a
+  verified range above `142 907 493` — **forty-two times** the `3 380 808` that
+  reaches `8286`, for less than twice the reach.
+
+  What remains is going one level up the continued fraction.  `15601` is not an
+  accident: `24727/15601` is the next convergent of `log₂ 3` after `1054/665`,
+  which is exactly why the run ends there.  The same algebra should apply with
+  the two sides swapped, giving a second-level staircase of step `15601`.  That
+  recursion is not formalized.  So the split is now: **the whole first-level
+  staircase, both branches, is elementary and proved; the recursion to the next
+  convergent is not attempted.**
 * **(P2) no divergence — NOT met.**  F refuted as templated; A, D, E blocked.
 * **Verdict: neither half is closed.  Cycles are not excluded; divergence is not
   excluded.**
