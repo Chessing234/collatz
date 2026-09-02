@@ -289,6 +289,37 @@ theorem not_logBlockDescentWithin_fourteen : ¬ LogBlockDescentWithin 14 := by
   have := hno k hk'
   omega
 
+/-! ## Prior art: this is Rozier's falling-time conjecture
+
+**Added Round LXXV.27, correcting an omission.**  The `LogBlockDescentWithin C`
+line was developed here without a literature check, and it is not new.  It is a
+renormalisation of a published open conjecture.
+
+O. Rozier, *Is the Syracuse falling time bounded by 12?* (arXiv:2107.11160; in
+*Number Theory and Applications*, Springer 2022) defines the Syracuse *jump* as
+`⌊log₂ n⌋ + 1` Syracuse steps and the *falling time* `sft(n)` as the least number
+of jumps landing below `n`.  That is exactly this file's schema with the block
+length measured in jumps rather than accelerated steps: `LogBlockDescentWithin C`
+is `sft(n) ≤ C` up to the change of unit.  Rozier reports the largest known
+`sft` as `10`, conjectures `sft` uniformly bounded, and records
+`ft(12 235 060 455) = 14` — the same integer this development rediscovered in
+Round LXXV.11 as a ratio record and banked as
+`not_logBlockDescentWithin_sixteen`.
+
+`63 728 127` (Round LXXV.10) is likewise a known record, the longest total
+stopping time below `10 ^ 8`.
+
+So: the schema, the conjecture, and both record witnesses are prior art.  What
+this file adds is **formalisation** — the kills as machine-checked theorems, the
+refutations as `decide`-backed witnesses, and `collatz_of_logBlock17_above` with
+its finite part discharged in the kernel.  That is worth having and is not a
+mathematical contribution; the entry is corrected so no later reader mistakes one
+for the other.
+
+The repository already cites Rozier for a different result
+(`Papers/rozier-terracol-2026-paradoxical.md`, used by `Strategy.Paradoxical`),
+which makes the omission a search failure rather than an unavailable source. -/
+
 /-! ## Refuting `LogBlockDescentWithin C`, parametrically
 
 A refutation needs one number: an `n` whose stopping time exceeds `C · ⌊log₂ n⌋`.

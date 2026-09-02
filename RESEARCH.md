@@ -12780,3 +12780,78 @@ now also guarding `drops_within_224`.  Zero `sorry`, zero added axioms.
    was written, as `Bootstrap`'s staircase remark was checked in LXXV.24.
 2. Report scan coverage again as a percentage.
 3. Bank `cert 9616` at `4 733 176` when the cores free up.
+
+## Round LXXV, iteration 27 — a literature check that should have happened first
+
+Asked what in this repository the outside world has not seen, I checked instead
+of answering from memory.  The answer is: **essentially nothing, mathematically**,
+and one specific omission needed correcting.
+
+### The `LogBlockDescentWithin` line is Rozier's conjecture
+
+O. Rozier, *Is the Syracuse falling time bounded by 12?* (arXiv:2107.11160;
+Springer 2022) defines the Syracuse *jump* as `⌊log₂ n⌋ + 1` Syracuse steps and
+the *falling time* `sft(n)` as the least number of jumps landing below `n`.
+`LogBlockDescentWithin C` is `sft(n) ≤ C` up to the change of unit.  He
+conjectures `sft` uniformly bounded — the same open question this development
+spent Rounds LXXV.8–LXXV.26 sandwiching — and records `ft(12 235 060 455) = 14`,
+the integer rediscovered in LXXV.11 and banked as
+`not_logBlockDescentWithin_sixteen`.  `63 728 127` from LXXV.10 is the known
+longest-total-stopping-time record below `10 ^ 8`.
+
+The repository already cites Rozier for a *different* paper
+(`Papers/rozier-terracol-2026-paradoxical.md`, consumed by
+`Strategy.Paradoxical`).  So the source was one search away and the omission is a
+process failure, not an access problem.  `DriftSurvivors` and `PROGRAM_STATUS`
+now carry the citation.
+
+### What that leaves
+
+Nothing in this repository is new mathematics.  Checked against the literature:
+
+* cycle-length bounds — ours is `14187`; the literature is past `10 ^ 11`, and
+  verification to `2 ^ 71` implies far more.  Ours is a formalisation exercise at
+  small scale, not a result;
+* the verified range `3 998 720` — known to `2 ^ 71`;
+* the σ/log₂ records — known, and in Rozier;
+* `0.05004 = 1 − H(log₃ 2)` — Terras/Everett;
+* the continued fraction of `log₂ 3`, `1054/665`, the `306 + 665k` staircase —
+  standard;
+* the obstruction theorems — folklore cautions, formalised.
+
+### What is actually here
+
+Three things, none of them a mathematical contribution:
+
+1. **A Mathlib-free, `sorry`-free formalisation at scale** — `5447` theorems,
+   `361` files, axioms confined to `propext`, `Classical.choice`, `Quot.sound`,
+   with `scripts/check_integrity.sh` enforcing it.  Whether a development this
+   size without Mathlib is unusual, I do not know.
+2. **Obstructions as machine-checked propositions rather than remembered
+   cautions** — `no_bounded_blockDescentWithin`, `affine_vacuous_of_heavy`,
+   `drop_iff_light_and_gap`, `route_misses_a_length`, `GapBarriers.exists_realizer`.
+   A proposal can be *run against* these.  That is the artifact with the clearest
+   value, and it is engineering.
+3. **A ledger that records its own errors.**  This round is the fifth correction
+   in twelve rounds, after the closed-form oversell (LXXV.23), the duplicated
+   bootstrap plan (LXXV.23), the meaningless scan reporting (LXXV.25), and the
+   Diophantine misattributions (LXXV.2–7).
+
+### The process fix
+
+The brief's step 1 says inventory the repo.  It does not say check the
+literature, and I did not.  Adding it: **before opening a line of work, search for
+the named conjecture.**  Twenty rounds went into a sandwich on a constant whose
+conjecture has a name, an author, and a paper the repository already cites.
+
+`lake build Collatz` succeeds, **364 jobs**; `scripts/check_integrity.sh` passes.
+No new theorem this round; two docstrings corrected.
+
+### Next session — three tasks, one primary
+
+1. **Primary.**  Literature-check the *other* open lines before extending them:
+   `RouteCap`'s certificate cap, the `StairGap` recurrences, and the
+   `AffineObstruction` results.  Each should be searched for prior art and
+   annotated either way, the way `DriftSurvivors` now is.
+2. Report scan coverage as a percentage.
+3. Bank `cert 9616` at `4 733 176` when the cores free up.

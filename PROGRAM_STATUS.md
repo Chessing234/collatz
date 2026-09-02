@@ -182,6 +182,16 @@ alone, and the `≤ 12` came from `MersenneDescent`, which bounds `σ` on the
 Mersenne family only — not globally.  **`C ≥ 15` is open and no upper bound is
 known.**
 
+**Prior art (Round LXXV.27).**  This whole line is a renormalisation of
+O. Rozier, *Is the Syracuse falling time bounded by 12?* (arXiv:2107.11160).
+His *falling time* `sft(n)` counts jumps of `⌊log₂ n⌋ + 1` Syracuse steps;
+`LogBlockDescentWithin C` is `sft(n) ≤ C` up to the change of unit.  He
+conjectures `sft` uniformly bounded and records `ft(12 235 060 455) = 14` — the
+integer rediscovered here in LXXV.11.  `63 728 127` (LXXV.10) is the known
+longest-total-stopping-time record below `10 ^ 8`.  The schema, the conjecture
+and both witnesses are prior art; the formalisation is not.  The repository
+already cited Rozier for a different paper, so this was a search failure.
+
 **`C ≤ 16` is refuted and `C = 17` is the live candidate.**
 
 *Correction (Round LXXV.25).*  Rounds LXXV.15–24 each reported the
