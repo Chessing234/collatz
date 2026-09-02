@@ -11720,3 +11720,90 @@ added axioms, no `native_decide`.
    for the next staircase rung is a kernel computation that can be done now, in
    `PreCertified`'s own style; the range it would need is the open question.
 3. Chunk `logCheck` to raise the kernel-verified base range from `20 000`.
+
+## Round LXXV, iteration 13 — two search methods tried; one works, one does not
+
+Both were requested; both were built and run.  The results split cleanly, and one
+of them corrects an assessment I gave two iterations ago.
+
+### Numina / Kimina-Prover: blocked, and the adapted version works
+
+**The direct route is not available.**  Numina's Lean models are trained on
+Mathlib.  This repository forbids Mathlib — the `lakefile` pulls no dependency,
+and `ring`, `norm_num`, `push_neg`, `nlinarith`, `Nat.find` do not exist here.
+Model output would be mostly untypable against this codebase, and the local
+machine has no CUDA besides.  Not a judgement about the models; a mismatch of
+target.
+
+**The adapted version is `scripts/search/lean_agent.py`**: the same
+generate-and-check loop over the tactic vocabulary this repo actually admits,
+harvested from its own proofs.  Every candidate is checked by `lake env lean`, so
+a reported proof is kernel-accepted rather than model-asserted.
+
+Run against six glue lemmas hand-proved in rounds LXXV.3–LXXV.6 — the arithmetic
+plumbing that consumed most of the wall-clock in those rounds:
+
+```
+SOLVED g1  simp [Nat.succ_mul, Nat.add_mul, Nat.mul_add] ; simp [Nat.mul_comm, Nat.mul_left_comm]
+SOLVED g2  rw [Nat.pow_succ] ; simp [Nat.mul_comm, Nat.mul_left_comm]
+SOLVED g3  simp [Nat.mul_comm, Nat.mul_left_comm]
+SOLVED g4  omega
+SOLVED g6  simp [Nat.succ_mul, Nat.add_mul, Nat.mul_add] ; simp [Nat.mul_comm, Nat.mul_left_comm]
+open   g5
+```
+
+`g5` (`3 ^ (a+b) = 3 ^ a * 3 ^ b`) failed only because no atom could *apply* a
+lemma with explicit arguments.  Adding term-mode closers — the applications the
+repo already uses — closes it in six attempts.  **6/6.**
+
+This is worth keeping.  It does not prove anything new, but rounds LXXV.3 and
+LXXV.6 each lost several build cycles to exactly this class of goal, and the
+agent finds them in seconds.
+
+### FunSearch: the harness works, the method does not fit
+
+`scripts/search/funsearch_ratio.py` is a real island-model program search — the
+evaluator agrees with all four known records — and it **rediscovers `n = 27`
+(ratio `14.75`) within ten iterations, then plateaus there for six thousand.**
+
+The reason is visible in the record holders themselves:
+
+```
+27           = 3^3
+63 728 127   = 3^4 · 97 · 8111
+12 235 060 455 = 3 · 5 · 3779 · 215843
+```
+
+No family, no shared shape, no consistent `v₂(n+1)` (they are `2`, `9`, `3`).
+The big records are **structureless**, so there is no constructor to evolve, and
+constructor evolution is precisely what FunSearch does.
+
+**This corrects iteration 10's assessment.**  I called this "an unusually good
+fit" for FunSearch on the grounds that the evaluator is cheap and the landscape
+sparse.  Sparsity was necessary but not sufficient: cap sets, FunSearch's
+flagship result, are sparse *and* algebraically structured, and the construction
+is what the program encodes.  Here the sparsity is real and the structure is
+absent, so the right tool is what is already running — brute-force enumeration
+with parallelism, which found `16.58` in under a minute across eight workers.
+
+Recorded as a killed approach, with the obstruction named: **no constructor,
+therefore no program to search over.**  It is not killed for the sieve-design
+question, where the object genuinely is a heuristic; that remains untried.
+
+### Status of the running scan
+
+The `[10 ^ 10, 10 ^ 12)` sweep is still going; one record so far, the `16.58`
+already banked as `not_logBlockDescentWithin_sixteen`.
+
+`lake build Collatz` succeeds, **358 jobs**; `scripts/check_integrity.sh` passes.
+Both harnesses live in `scripts/search/` and touch nothing on the kernel-checked
+path.
+
+### Next session — three tasks, one primary
+
+1. **Primary.**  Collect the scan's remaining records; each is a one-`decide`
+   refutation of the next `C` via `not_logBlockDescentWithin_of_witness`.
+2. Point `lean_agent.py` at the *next* round's glue rather than the last one:
+   run it speculatively on the arithmetic shapes a `cert 8951` computation will
+   need, so the tactics are known before the proof is written.
+3. Chunk `logCheck` to raise the kernel-verified base range from `20 000`.
