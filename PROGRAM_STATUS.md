@@ -173,8 +173,28 @@ the kernel clean.
   ranges above `2 770 233`, `3 897 857`, `5 633 687`, `8 651 415`, `22 543 234`.
   The last is the useful one — frontier `22619` costs more than six and a half
   times the range of frontier `13133` for less than twice the frontier, and the
-  gap is still shrinking.  This replaces the measured cost law with proved
-  arithmetic at named indices; the *asymptotic* law remains Diophantine.
+  gap is still shrinking.
+
+  **Correction to the previous entry.**  That entry said the growth law was
+  Diophantine.  Within one staircase run it is not.  `Strategy.StairGap` proves
+
+      gapAt (a + 665) + 3 ^ a · (3 ^ 665 − 2 ^ 1054) = 2 ^ 1054 · gapAt a
+
+  as an *exact integer identity* (`gap_step`) whenever `fexp` advances by `1054`
+  across the rung — it is `2 · 2 ^ (F+1054) = 2 ^ 1054 · (2 · 2 ^ F)` rearranged,
+  nothing more.  So the normalised gap loses at least
+  `(3 ^ 665 − 2 ^ 1054) / 3 ^ 665 ≈ 4.365 · 10⁻⁵` per rung, and `run_bound` gives
+  `k · δ · 3 ^ a ≤ gapAt a · 3 ^ 665`: **a staircase run is finite with an
+  explicit length bound.**  At `a = 4296` that reads `k ≤ 17.42`, and
+  `no_run_18` turns it into the unconditional `¬ StairRun 4296 18` — three kernel
+  comparisons, no evaluation of `fexp` along the run.  The true run length is
+  `17`, breaking at `a = 16266`, so the bound is off by less than one rung.
+
+  What is still Diophantine is *chaining runs*: at a break the gap resets upward
+  by roughly `3 ^ a · 2 ^ 1054` and a new run starts with its own `h₀`.  Bounding
+  the whole ladder needs the next level of the continued fraction of `log₂ 3`.
+  So the honest split is now: **within a run, elementary; across breaks,
+  Diophantine.**
 * **(P2) no divergence — NOT met.**  F refuted as templated; A, D, E blocked.
 * **Verdict: neither half is closed.  Cycles are not excluded; divergence is not
   excluded.**

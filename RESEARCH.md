@@ -10800,3 +10800,105 @@ now also guarding `Frontier11025.length_ge_11025` and
 2. Range to `2 855 820` for `length_ge_12079` — but expect fuel `> 224`, so scan
    first and thread `Search.FuelMonotone`.
 3. Audit the fifteen `*_of_heavy` consumers at window `6955`.
+
+## Round LXXV, iteration 3 — the staircase law is not Diophantine after all
+
+**Correction first.**  Iteration 2 closed by saying the ladder's growth law
+"needs an effective irrationality measure for `log₂ 3` — Baker territory".  That
+was wrong for the part that matters.  Within one staircase run the law is an
+exact integer identity, and this iteration proves it.
+
+### The identity
+
+Write `gapAt a = 2 · 2 ^ (fexp a) − 3 ^ a`, the quantity `RouteCap.reach_sharp`
+charges a certificate rung against, and `δ = 3 ^ 665 − 2 ^ 1054`, positive
+because `665 · log₂ 3 = 1054.0000629…`.  Then `Strategy.StairGap.gap_step`:
+
+```
+fexp (a + 665) = fexp a + 1054  →
+  gapAt (a + 665) + 3 ^ a * stairDelta = 2 ^ 1054 * gapAt a
+```
+
+No error term.  Both sides are literally the same integer.  The whole content is
+`2 · 2 ^ (F + 1054) = 2 ^ 1054 · (2 · 2 ^ F)` together with
+`3 ^ (a+665) = 3 ^ a · 3 ^ 665`, rearranged — `gap_algebra` isolates it as
+`(2PU − QV) + Q(V − U) = U(2P − Q)` over abstract naturals.
+
+Dividing by `3 ^ (a+665)`: the normalised gap obeys
+`h' = (2^1054/3^665)·h − δ/3^665 < h − δ/3^665`, so it loses at least
+`δ / 3 ^ 665 ≈ 4.365 · 10⁻⁵` every rung.  That is the constant iteration 2
+measured as `4.37 · 10⁻⁵` and could not explain.  It is now derived.
+
+### A run is finite, with a sharp bound
+
+`run_invariant` carries the induction; `run_bound` is the conclusion:
+
+```
+StairRun a k  →  k * stairDelta * 3 ^ a ≤ gapAt a * 3 ^ 665
+```
+
+where `StairRun a k` says `fexp` advances by exactly `1054` across each of the
+first `k` rungs from `a`.  At `a = 4296` — the reach of the first certificate in
+`PreCertified`'s table, and the start of the staircase the whole ladder rides —
+this reads `k ≤ 17.42`.
+
+`no_run_18` turns that into an unconditional theorem: **`¬ StairRun 4296 18`**.
+It costs three kernel comparisons — two to pin `fexp 4296 = 6808` through
+`RouteCap.fexp_eq_of`, one for the final inequality — and evaluates `fexp` at no
+rung of the run at all.
+
+The run from `4296` is in fact exactly `17` rungs, breaking at `a = 16266` where
+`fexp` advances by `1055`.  **The bound is off by less than one rung.**
+
+### The two halves closing on `c`
+
+`range_gt_along_run` combines `reach_sharp` with `run_invariant`.  The factor
+`3 ^ (665k)` cancels on both sides and what survives is linear in `k`:
+
+```
+(a + 665k) * 3 ^ a * 3 ^ 665  <  6c * (gapAt a * 3 ^ 665 − k * stairDelta * 3 ^ a)
+```
+
+The left side grows with `k`; the bracket on the right shrinks with `k` and is
+exactly what `run_bound` drives to zero.  So `c` is squeezed from both
+directions.  This is Round XLIV's measured divergence with both halves proved,
+inside a run.
+
+### What is still Diophantine, stated exactly
+
+Chaining runs.  At a break the gap resets upward by roughly `3 ^ a · 2 ^ 1054`
+and a new run begins with its own `h₀`; bounding the *whole* ladder means
+controlling those resets, which is the next level of the continued fraction of
+`log₂ 3`.  Nothing here touches that.  So the split is now:
+
+* **within a staircase run — elementary**, and proved;
+* **across breaks — Diophantine**, and untouched.
+
+Iteration 2 drew that line in the wrong place, one level too coarse.  Recording
+where the line actually falls is the point of this iteration.
+
+**Method note worth keeping.**  The identity was found by *checking whether the
+measured constant was exact* before assuming it was asymptotic.  `4.37e−5` was
+sitting in the iteration-2 table as an empirical slope; one integer computation
+showed `gap(a+665) + 3^a·δ − 2^1054·gap(a) = 0` on the nose at every rung, and
+the theorem followed in an afternoon.  A measured constant should be tested for
+exactness before it is filed under "asymptotic".
+
+`lake build Collatz` succeeds, **351 jobs**; `scripts/check_integrity.sh` passes,
+now also guarding `StairGap.gap_step` and `StairGap.no_run_18`.  `gap_step`,
+`run_bound` and `no_run_18` depend on `[propext, Quot.sound]` only.  Zero
+`sorry`, zero added axioms.
+
+### Next session — three tasks, one primary
+
+1. **Primary.**  The break.  When `fexp (a + 665) = fexp a + 1055` instead, the
+   same algebra gives `gapAt (a + 665) = 2 ^ 1055 · gapAt a + 3 ^ a · (2 ^ 1055 −
+   3 ^ 665)` — again exact, again elementary.  Formalize it (`gap_break`), and
+   the two cases together give a complete description of `gapAt` along `665`-steps
+   with no approximation anywhere.  Whether that suffices to chain runs is the
+   real question; the first thing to check is whether the reset value
+   `2 ^ 1055 − 3 ^ 665` is small in the same normalised sense, which would make
+   the *second* run start where the first ended rather than fresh.
+2. Range to `2 855 820` for `length_ge_12079`; scan the fuel first, it will
+   likely exceed `224`.
+3. Audit the fifteen `*_of_heavy` consumers at window `6955`.

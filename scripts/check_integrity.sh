@@ -53,6 +53,8 @@ import Collatz
 #print axioms Collatz.RouteCap.route_misses_a_length
 #print axioms Collatz.Frontier11025.length_ge_11025
 #print axioms Collatz.RouteCap.range_gt_22543234
+#print axioms Collatz.StairGap.gap_step
+#print axioms Collatz.StairGap.no_run_18
 #print axioms Collatz.Search.reachesOne_of_lt_1086464
 #print axioms Collatz.GapSandwich.cycle_length_determined
 #print axioms Collatz.NewModels.word_is_cycle_word
