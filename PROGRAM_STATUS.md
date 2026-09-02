@@ -422,6 +422,20 @@ the kernel clean.
   nothing else.  No frontier moves — the banked certificates are sharper — but
   the ladder is no longer opaque anywhere.
 
+  **The cycle side's bottleneck is `Q`, not the gap.**  Round LXXV.22 bridged the
+  cycle equation to the staircase: a cycle is necessarily light, so
+  `CycleGapBridge.gapAt_le_of_light` gives `gapAt a ≤ 2 ^ E − 3 ^ a`, and
+  `cycle_min_gap_le` gives `m · gapAt a ≤ Q` unconditionally — no verified range,
+  no certificate.
+
+  Rearranged this caps `m` by `Q / gapAt a`, and turning that into a number needs
+  an upper bound on `Q`; the only one available is `affineC_le_Bcap`, which *is*
+  the certificate.  So the chain reproduces the frontier in closed form and stops
+  in the same place.  **The useful content is where it stops**: `gapAt a` is now
+  known exactly and contributes no slack, while `Q ≤ Bcap a` is an estimate over
+  all admissible words that ignores which word the cycle has.  Sharpening
+  `2 ^ E − 3 ^ a` further buys nothing; effort on this side belongs on `Q`.
+
   **The alternation is unconditionally live.**  The previous entry listed
   stalling as the open problem and guessed it needed `log₂ 3`'s continued
   fraction.  It does not.  Writing `n = fexp m`, so that `StairGeneric.delta m n`

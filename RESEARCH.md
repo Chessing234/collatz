@@ -12376,3 +12376,82 @@ now also guarding `cert_of_gap_bound`.  Both new theorems depend on
 2. Collect the `[10 ^ 12, 10 ^ 13)` scan.
 3. Bank `cert 9616` — now optional, since `cert_of_gap_bound` gives a weaker
    rung with no computation; worth comparing the two routes at `9616` directly.
+
+## Round LXXV, iteration 22 — the cycle equation meets the staircase, and stops
+
+`StairGap` and `StairLower` control `gapAt a = 2 ^ (fexp a + 1) − 3 ^ a` exactly,
+by recurrences with no approximation.  The cycle equation
+`m · (2 ^ E − 3 ^ a) = Q` involves the same kind of object.  The primary task was
+to find out whether the exact control buys anything there.
+
+### The bridge
+
+A cycle is necessarily light (`Cycle.two_pow_gt_three_pow_of_accCycle`), so `E`
+is past the Beatty exponent and
+
+```
+gapAt_le_of_light  : 3 ^ a < 2 ^ E → gapAt a ≤ 2 ^ E - 3 ^ a
+cycle_min_gap_le   : 0 < m → 0 < E → T^E(m) = m → m * gapAt (oddCount m E) ≤ affineC E m
+cycle_equation     : … → m * (2 ^ E - 3 ^ (oddCount m E)) = affineC E m
+```
+
+All three unconditional — no verified range, no certificate, nothing beyond being
+a cycle.  `gapAt a` is the *smallest* gap a light window with that odd count can
+have, so the bridge is tight in that variable.
+
+### The answer: it buys nothing, and that is the finding
+
+Rearranged, the bridge caps the cycle minimum by `m ≤ Q / gapAt a`.  Turning that
+into a number needs an upper bound on `Q`, and the only one available is
+`RealizableBound.affineC_le_Bcap` — which *is* the certificate.  So the chain
+reproduces the frontier argument in closed form (which
+`CertClosedForm.cert_of_gap_bound` already did last round) and stops in exactly
+the same place.
+
+**The useful content is where it stops.**  `gapAt a` is now known exactly and
+contributes no slack whatsoever; the entire loss is in `Q ≤ Bcap a`, an estimate
+over *all* admissible words that ignores which word the cycle actually has.  So
+sharpening `2 ^ E − 3 ^ a` further buys nothing on the cycle side, and effort
+belongs on `Q`.
+
+That is a redirection rather than a theorem about cycles, and worth recording
+precisely because three rounds of exact gap machinery (LXXV.3, LXXV.5, LXXV.6)
+made the gap look like the promising object.  It was the right object for
+understanding the *ladder's price*; it is the wrong one for the cycle bound.
+
+### Method note
+
+This is the fourth round in a row whose primary task ended in a negative or a
+redirection: heaviness (18), affine (19), light-window-as-ingredient (20), the
+gap on the cycle side (22), with the closed-form certificate (21) as
+consolidation between them.  None of these were wasted — each replaced a guess
+with a checkable statement — but the pattern is worth naming: **the local
+structure around both halves is now well mapped, and further progress needs a new
+object, not a better estimate of an existing one.**  `Q` is the first candidate
+this mapping has produced.
+
+### Status
+
+Cycle bound `14187`.  `C ≤ 16` refuted; `C = 17` verified in the kernel to
+`3 998 720`, unrefuted by scan to `10 ^ 12`.  The `[10 ^ 12, 10 ^ 13)` scan has
+run seven rounds with **no record and no worker finished** — six alive, checked
+each round.
+
+`lake build Collatz` succeeds, **363 jobs**; `scripts/check_integrity.sh` passes,
+now also guarding `cycle_min_gap_le`.  All three new theorems depend on
+`[propext, Quot.sound]` only.  Zero `sorry`, zero added axioms.
+
+### Next session — three tasks, one primary
+
+1. **Primary.**  `Q = affineC E m`, the newly identified bottleneck.  It is
+   `Σ_i 3 ^ (a−i) · 2 ^ (j_i)` over the odd-step positions, so it is determined
+   by the valuation word, and `CLOSURE.md`'s Class 3 says `(length, ones, wC)` is
+   a *complete* invariant of a word.  Check whether `Q` for a **cycle** word is
+   constrained beyond `Q ≤ Bcap a` — specifically whether the cyclic condition
+   (the word closes up) forces `Q` into a residue class or a subinterval that the
+   all-words bound ignores.  That is the one input the frontier argument has never
+   used.
+2. Collect the `[10 ^ 12, 10 ^ 13)` scan.
+3. Compare the two routes to a rung at `9616`: `cert 9616` by kernel evaluation
+   versus `cert_of_gap_bound` with no computation, to see how much the factor of
+   two actually costs in frontier.
