@@ -287,5 +287,121 @@ theorem not_logBlockDescentWithin_fourteen : ¬ LogBlockDescentWithin 14 := by
   have := hno k hk'
   omega
 
+/-! ## Refuting `LogBlockDescentWithin C`, parametrically
+
+A refutation needs one number: an `n` whose stopping time exceeds `C · ⌊log₂ n⌋`.
+Stated once, so a new record costs one `decide` rather than a new proof. -/
+
+/-- **A witness refutes `LogBlockDescentWithin C`.**  `hno` says the orbit of `n`
+has not fallen below `n` at any step up to `C · L`, where `L = ⌊log₂ n⌋`. -/
+theorem not_logBlockDescentWithin_of_witness {C n L : Nat} (h1 : 1 < n)
+    (hL : Nat.log2 n = L) (hno : ∀ j : Nat, j ≤ C * L → n ≤ acceleratedOrbit j n) :
+    ¬ LogBlockDescentWithin C := by
+  intro h
+  obtain ⟨k, hk, hdrop⟩ := h n h1
+  have hk' : k ≤ C * Nat.log2 n := hk
+  rw [hL] at hk'
+  have := hno k hk'
+  omega
+
+/-! ### The two records
+
+`σ(n) / ⌊log₂ n⌋` has exactly three record values below `2 · 10⁸`, found by direct
+scan: `n = 3` at `4`, `n = 27` at `59/4 = 14.75`, and `n = 63 728 127` at
+`376/25 = 15.04`.  The gap between the second and third is a factor of `2.4`
+million in `n` for a gain of `0.29` in the ratio — the landscape is sparse, and
+enumeration to `3 · 10⁶` (this file's previous state) stopped just short.
+
+The second record's orbit peaks at `483 308 017 730`, `39` bits, so the kernel
+computation is small despite the `376` steps. -/
+
+set_option maxRecDepth 4000 in
+theorem log2_63728127 : Nat.log2 63728127 = 25 := by decide
+
+set_option maxRecDepth 100000 in
+theorem no_drop_63728127 :
+    ∀ j : Nat, j ≤ 15 * 25 → 63728127 ≤ acceleratedOrbit j 63728127 := by decide
+
+/-- **`C ≤ 15` is refuted.**  `63 728 127` has `⌊log₂⌋ = 25` and does not fall
+below itself until step `376`, against a block of `15 · 25 = 375`. -/
+theorem not_logBlockDescentWithin_fifteen : ¬ LogBlockDescentWithin 15 :=
+  not_logBlockDescentWithin_of_witness (by omega) log2_63728127 no_drop_63728127
+
+/-! ## The other side: a verified base range for `C = 16`
+
+`not_logBlockDescentWithin_fifteen` says `C ≤ 15` fails.  A scan of every odd
+`n < 10 ^ 10` finds no ratio above `15.04`, so `C = 16` is unrefuted there.  This
+section verifies it in the kernel on an initial range.
+
+`Search.exists_lt_of_dropsWithin` forgets the bound on `k`, which is exactly what
+`BlockDescentWithin` needs, so the bounded soundness lemma comes first.  It is
+the same induction with the index tracked, and it is reusable: any future descent
+work over `dropsWithin` needs it. -/
+
+theorem exists_le_of_dropsAux {n : Nat} : ∀ (fuel j : Nat),
+    Search.dropsAux n fuel (acceleratedOrbit j n) = true →
+    ∃ k : Nat, k ≤ j + fuel ∧ acceleratedOrbit k n < n := by
+  intro fuel
+  induction fuel with
+  | zero => intro j h; simp [Search.dropsAux] at h
+  | succ fuel ih =>
+    intro j h
+    rw [Search.dropsAux_succ] at h
+    have hnext : acceleratedStep (acceleratedOrbit j n) = acceleratedOrbit (j + 1) n :=
+      (acceleratedOrbit_succ_step j n).symm
+    by_cases hlt : acceleratedStep (acceleratedOrbit j n) < n
+    · exact ⟨j + 1, by omega, by rw [← hnext]; exact hlt⟩
+    · rw [if_neg hlt, hnext] at h
+      obtain ⟨k, hk, hlt'⟩ := ih (j + 1) h
+      exact ⟨k, by omega, hlt'⟩
+
+/-- **Bounded soundness of the drop search.**  `Search.exists_lt_of_dropsWithin`
+with the witness index bounded by the fuel. -/
+theorem exists_le_of_dropsWithin {fuel n : Nat} (h : Search.dropsWithin fuel n = true) :
+    ∃ k : Nat, k ≤ fuel ∧ acceleratedOrbit k n < n := by
+  obtain ⟨k, hk, hlt⟩ :=
+    exists_le_of_dropsAux (n := n) fuel 0 (by rw [acceleratedOrbit]; exact h)
+  exact ⟨k, by omega, hlt⟩
+
+/-! ### The sweep -/
+
+/-- Check that every `n` in `[lo, lo + len)` drops within `16 · ⌊log₂ n⌋` steps. -/
+def logCheck (lo len : Nat) : Bool :=
+  match len with
+  | 0 => true
+  | k + 1 => Search.dropsWithin (16 * Nat.log2 (lo + k)) (lo + k) && logCheck lo k
+
+theorem logCheck_read {lo len n : Nat} (h : logCheck lo len = true)
+    (hlo : lo ≤ n) (hhi : n < lo + len) :
+    Search.dropsWithin (16 * Nat.log2 n) n = true := by
+  induction len with
+  | zero => omega
+  | succ k ih =>
+    rw [logCheck, Bool.and_eq_true] at h
+    by_cases hnk : n < lo + k
+    · exact ih h.2 hnk
+    · have : n = lo + k := by omega
+      subst this
+      exact h.1
+
+set_option maxHeartbeats 4000000 in
+set_option maxRecDepth 100000 in
+theorem logCheck_2_20000 : logCheck 2 19998 = true := by decide
+
+/-- **`LogBlockDescentWithin 16` holds below `20 000`.**  Every `n` with
+`2 ≤ n < 20 000` falls below itself within `16 · ⌊log₂ n⌋` accelerated steps.
+
+Certificate story: `logCheck` runs `Search.dropsWithin` at the per-`n` fuel
+`16 · ⌊log₂ n⌋` for each of the `19 998` values and conjoins the results; the
+kernel evaluates it by `decide`, `logCheck_read` extracts one entry, and
+`exists_le_of_dropsWithin` turns the Boolean into the bounded existential.  No
+`native_decide`.
+
+The unverified scan reaches `10 ^ 10` with the same conclusion; this is the part
+the kernel has checked. -/
+theorem logBlockDescentWithin_16_below_20000 {n : Nat} (h2 : 2 ≤ n) (hN : n < 20000) :
+    ∃ k : Nat, k ≤ 16 * Nat.log2 n ∧ acceleratedOrbit k n < n :=
+  exists_le_of_dropsWithin (logCheck_read logCheck_2_20000 h2 (by omega))
+
 end DriftSurvivors
 end Collatz

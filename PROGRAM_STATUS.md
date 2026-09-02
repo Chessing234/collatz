@@ -121,9 +121,18 @@ alone, and the `≤ 12` came from `MersenneDescent`, which bounds `σ` on the
 Mersenne family only — not globally.  **`C ≥ 15` is open and no upper bound is
 known.**
 
-The scoreboard: over every odd `n < 3 · 10⁶` the maximum of `σ(n) / ⌊log₂ n⌋` is
-`59/4 = 14.75` at `n = 27`, with the only earlier record `n = 3` at `4`.  Two
-records below three million — the landscape is very sparse.
+**The constant is now sandwiched.**  `not_logBlockDescentWithin_fifteen` refutes
+`C ≤ 15`, and `logBlockDescentWithin_16_below_20000` verifies `C = 16` in the
+kernel for every `2 ≤ n < 20 000`.
+
+The scoreboard, from a direct scan of every odd `n < 10 ^ 10`: `σ(n) / ⌊log₂ n⌋`
+has exactly three record values — `n = 3` at `4`, `n = 27` at `59/4 = 14.75`, and
+`n = 63 728 127` at `376/25 = 15.04`.  Nothing beats `15.04` up to `10 ^ 10`, so
+`C = 16` is unrefuted there; the kernel has checked the first `20 000`.  The
+records are `2.4` million apart in `n` for a gain of `0.29` in the ratio.
+
+`not_logBlockDescentWithin_of_witness` makes each new record a one-`decide`
+instantiation, so raising the refuted `C` costs a search, not a proof.
 
 A proposed drift hypothesis can now be checked against `no_bounded_blockDescent`
 mechanically rather than against a remembered caution — the same service

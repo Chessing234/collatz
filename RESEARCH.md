@@ -11501,3 +11501,93 @@ axioms.
    proved.
 2. Range to `2 855 820` for `length_ge_12079`; scan fuel first, expect `> 224`.
 3. Audit the fifteen `*_of_heavy` consumers at window `6955`.
+
+## Round LXXV, iteration 10 — the record falls; the constant is sandwiched
+
+Iteration 9's primary was to push the `σ(n) / ⌊log₂ n⌋` record past `14.75` "or
+establish that it is hard to", and noted the Python scan was exhausted at
+`3 · 10⁶`.  Rewriting the scan in C moved the ceiling to `10 ^ 10` in seconds,
+and the record fell almost immediately.
+
+### The new record
+
+```
+n = 63 728 127     σ = 376     ⌊log₂ n⌋ = 25     ratio = 15.04
+```
+
+Three record values exist below `10 ^ 10`, and no more: `n = 3` at `4`, `n = 27`
+at `14.75`, and this one.  The previous round's pessimism about sparsity was
+right about the spacing — `2.4` million apart in `n` for a gain of `0.29` — and
+wrong about the conclusion, because the ceiling was an artefact of the scanning
+language, not of the problem.
+
+`63 728 127`'s orbit peaks at `483 308 017 730`, only `39` bits, so the whole
+`376`-step check is small for the kernel.
+
+### `C ≤ 15` refuted, parametrically
+
+```
+not_logBlockDescentWithin_of_witness :
+    1 < n → Nat.log2 n = L → (∀ j ≤ C * L, n ≤ acceleratedOrbit j n)
+    → ¬ LogBlockDescentWithin C
+```
+
+stated once, so the next record costs one `decide` and no proof.  Instantiated at
+`(C, n, L) = (15, 63 728 127, 25)`: `15 · 25 = 375 < 376`.
+
+### The other side, kernel-checked
+
+`logBlockDescentWithin_16_below_20000` : every `2 ≤ n < 20 000` falls below itself
+within `16 · ⌊log₂ n⌋` accelerated steps.  Certificate story: `logCheck` runs
+`Search.dropsWithin` at the per-`n` fuel `16 · ⌊log₂ n⌋` across the `19 998`
+values and conjoins; `decide` evaluates it; `logCheck_read` extracts one entry;
+`exists_le_of_dropsWithin` converts Boolean to bounded existential.  No
+`native_decide`.
+
+That last step needed a lemma the repository lacked.
+`Search.exists_lt_of_dropsWithin` **forgets the bound on `k`**, which is exactly
+what `BlockDescentWithin` needs.  `exists_le_of_dropsWithin` is the same
+induction with the index tracked, and is reusable by any future descent work over
+`dropsWithin`.
+
+`logCheck 2 99998` was tried and does not finish in ten minutes — the cost is the
+size of the conjunction term, not the arithmetic, and the repository's own answer
+to that is chunking (`checkRange`).  Five chunks would buy `10 ^ 5` for about two
+minutes of permanent build time, which is not worth it against a `10 ^ 10` scan;
+`20 000` is what the kernel holds.
+
+### Where the constant stands
+
+**`C ≤ 15` refuted.  `C = 16` verified below `20 000`, unrefuted below `10 ^ 10`.**
+
+That is a genuine sandwich on standing problem `G3`, and it is the first
+quantitative statement this development has about the divergence half.  It proves
+nothing about divergence — `LogBlockDescentWithin 16` for *all* `n` remains open
+and would settle the conjecture — but the target now has a number on both sides
+instead of one.
+
+### Method note
+
+Two iterations in a row, the binding constraint was the *measurement*, not the
+mathematics: iteration 9's wrong window came from not scanning, and iteration 10's
+record came from scanning faster.  Worth stating as a rule alongside the earlier
+one about exactness: **before concluding a search space is exhausted, check
+whether the search tool is the limit.**
+
+`lake build Collatz` succeeds, **354 jobs**; `scripts/check_integrity.sh` passes,
+now guarding `not_logBlockDescentWithin_fifteen` and
+`logBlockDescentWithin_16_below_20000`.  All three new theorems depend on
+`[propext, Quot.sound]` only.  Zero `sorry`, zero added axioms, no
+`native_decide`.
+
+### Next session — three tasks, one primary
+
+1. **Primary.**  Extend the scan past `10 ^ 10` and look for a fourth record.
+   The three known records sit at `n = 3, 27, 63 728 127`; the jumps are wildly
+   irregular, so extrapolation is worthless and only enumeration or a constructor
+   search will settle whether `15.04` is extremal.  A hit raises the refuted `C`
+   by one `decide`.  A clean scan to `10 ^ 12` is itself worth recording, since it
+   would make `C = 16` the first genuinely plausible value of the constant.
+2. Range to `2 855 820` for `length_ge_12079`; scan fuel first, expect `> 224`.
+3. Chunk `logCheck` to raise the kernel-verified base range from `20 000` toward
+   `10 ^ 5`, if a cheap chunking scheme lands under a minute.
