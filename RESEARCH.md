@@ -12291,3 +12291,88 @@ now also guarding `drop_iff_light_and_gap`.  Zero `sorry`, zero added axioms.
 2. Collect the `[10 ^ 12, 10 ^ 13)` scan; if it completes empty, record the
    decade as clean.
 3. Bank `cert 9616` once the cores are free.
+
+## Round LXXV, iteration 21 — the certificate in closed form
+
+The plan was `G4` via the gap recurrence.  Setting that up surfaced a sharper
+target first, and it is the one worth having.
+
+### The opaque step
+
+Every rung of the frontier ladder rests on a `cert` computation.
+`PreCertified.cert_8951` is an `8951`-step kernel evaluation over `14 000`-bit
+numbers; the next is larger.  What they establish is
+`Bcap i + 3 ^ i · c < 2 · 2 ^ (fexp i) · c` for all `i < A`, but *why* it holds at
+a given `(A, c)` was visible only by running them.  That was the one opaque step
+in the whole ladder.
+
+### Both sides, in closed form
+
+`RouteCap.reach_sharp` already had the necessary direction:
+
+    certificate at `a`   ⟹   a · 3 ^ a < 6c · gapAt a.
+
+`CertClosedForm.cert_of_gap_bound` adds the sufficient one:
+
+    (∀ i < A, i · 3 ^ i < 3c · gapAt i)   ⟹   certificate to `A`,
+
+with no kernel evaluation at all.  The factor of two between them is exactly the
+slack between `three_Bcap_le` (`3 · Bcap a ≤ a · 3 ^ a`, proved here) and
+`six_Bcap_ge` (`a · 3 ^ a ≤ 6 · Bcap a`, proved in LXXV.2) — the two directions
+of the same summand estimate on `Bcap a = Σ 3 ^ (a−1−i) · 2 ^ (fexp i)`.
+
+Checked against every threshold the ladder actually uses:
+
+| `c` | sufficient reach | actual `A` | necessary bound |
+|---|---|---|---|
+| `1 086 055` | `≥ 2965` | `4296` | `≤ 4960` |
+| `2 010 160` | `≥ 4960` | `6291` | `≤ 7620` |
+| `3 380 808` | `≥ 6955` | `8286` | `≤ 9615` |
+| `3 997 765` | `≥ 7620` | `8951` | `≤ 10280` |
+
+The bounds bracket the truth in all four, landing a rung or two either side.
+(The endpoints are themselves staircase rungs, which is `RouteCap`'s theorem that
+the reach moves only on the `306 + 665k` staircase showing through.)
+
+### What it buys, and what it does not
+
+**Buys:** the `cert` computations were never logically necessary.  They purchase a
+factor of two in the reach and nothing else.  A frontier theorem can now be
+stated at any `c` with no kernel evaluation, given control of `gapAt` — which
+`StairGeneric` and `StairLower` supply *exactly*, via recurrences with no
+approximation anywhere.
+
+**Does not:** move any frontier.  The banked certificates are sharper than the
+closed form, so `Frontier14187` remains the record.  What changed is that the
+ladder is now transparent end to end: `gapAt` by exact recurrence, the
+certificate by closed-form sandwich, the cap by `cert_reach_le`, the price by
+`StairLower`'s cliffs.
+
+Worth being clear that this is consolidation, not progress on either half of the
+conjecture.  It makes an existing argument legible; it does not make it reach
+further.
+
+### Status
+
+Cycle bound `14187`.  `C ≤ 16` refuted; `C = 17` verified in the kernel to
+`3 998 720`, unrefuted by scan to `10 ^ 12`.  The `[10 ^ 12, 10 ^ 13)` scan has
+run six rounds with **no record and no worker finished** — six alive, checked.
+
+`lake build Collatz` succeeds, **362 jobs**; `scripts/check_integrity.sh` passes,
+now also guarding `cert_of_gap_bound`.  Both new theorems depend on
+`[propext, Quot.sound]` only.  Zero `sorry`, zero added axioms.
+
+### Next session — three tasks, one primary
+
+1. **Primary.**  `G4` proper, now that the setup is clean.  For a cycle,
+   `n · (2 ^ E − 3 ^ L) = Q` with the window necessarily *light*
+   (`AffineObstruction.light_of_drop` applied to the cycle's return), so
+   `2 ^ E − 3 ^ L > 0` and `E ≥ fexp L + 1`, giving
+   `2 ^ E − 3 ^ L ≥ gapAt L`.  Combined with `three_Bcap_le`'s `Q ≤ Bcap L ≤
+   L · 3 ^ (L−1)`, that caps the cycle minimum by `L / (3 · h_L)` where
+   `h_L = gapAt L / 3 ^ L`.  Check whether that is stronger than the existing
+   frontier bound or merely equal to it in other coordinates — the answer decides
+   whether `StairLower`'s exact `gapAt` control buys anything on the cycle side.
+2. Collect the `[10 ^ 12, 10 ^ 13)` scan.
+3. Bank `cert 9616` — now optional, since `cert_of_gap_bound` gives a weaker
+   rung with no computation; worth comparing the two routes at `9616` directly.

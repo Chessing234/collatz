@@ -406,6 +406,22 @@ the kernel clean.
   that the ladder dies at these indices.  `RouteCap.cert_reach_le` remains the
   statement that it dies eventually.
 
+  **The certificate is now bounded on both sides in closed form.**
+  `RouteCap.reach_sharp` gave the necessary direction — a certificate at `a`
+  forces `a · 3 ^ a < 6c · gapAt a`.  Round LXXV.21 adds the sufficient one:
+  `CertClosedForm.cert_of_gap_bound` proves that `i · 3 ^ i < 3c · gapAt i` for
+  every `i < A` *implies* the certificate to `A`, with no kernel evaluation.  The
+  factor of two between them is exactly the slack between
+  `CertClosedForm.three_Bcap_le` (`3 · Bcap a ≤ a · 3 ^ a`) and
+  `RouteCap.six_Bcap_ge` (`a · 3 ^ a ≤ 6 · Bcap a`).
+
+  Checked at every threshold the ladder uses — `(1 086 055, 4296)`,
+  `(2 010 160, 6291)`, `(3 380 808, 8286)`, `(3 997 765, 8951)` — the bounds
+  bracket the true reach in all four, a rung or two either side.  So the `cert`
+  computations were never logically necessary; they buy a factor of two and
+  nothing else.  No frontier moves — the banked certificates are sharper — but
+  the ladder is no longer opaque anywhere.
+
   **The alternation is unconditionally live.**  The previous entry listed
   stalling as the open problem and guessed it needed `log₂ 3`'s continued
   fraction.  It does not.  Writing `n = fexp m`, so that `StairGeneric.delta m n`

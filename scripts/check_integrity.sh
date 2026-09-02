@@ -71,6 +71,7 @@ import Collatz
 #print axioms Collatz.DriftSurvivors.no_constant_above_threshold
 #print axioms Collatz.AffineObstruction.affine_vacuous_of_heavy
 #print axioms Collatz.AffineObstruction.drop_iff_light_and_gap
+#print axioms Collatz.CertClosedForm.cert_of_gap_bound
 #print axioms Collatz.PreCertified.bank_8951
 #print axioms Collatz.Frontier14187.length_ge_14187
 #print axioms Collatz.DriftSurvivors.logBlockDescentWithin_16_below_20000

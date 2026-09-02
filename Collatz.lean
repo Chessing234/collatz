@@ -65,6 +65,7 @@ import Collatz.Strategy.Frontier13133
 import Collatz.Strategy.Frontier14187
 import Collatz.Strategy.RouteCap
 import Collatz.Strategy.StairGap
+import Collatz.Strategy.CertClosedForm
 import Collatz.Strategy.StairGeneric
 import Collatz.Strategy.StairLower
 import Collatz.Strategy.DriftSurvivors
