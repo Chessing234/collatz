@@ -68,7 +68,7 @@ import Collatz
 #print axioms Collatz.DriftSurvivors.not_logBlockDescentWithin_sixteen
 #print axioms Collatz.DriftSurvivors.logBlockDescentWithin_17_below_100000
 #print axioms Collatz.PreCertified.bank_8951
-#print axioms Collatz.Frontier13133.length_ge_13133
+#print axioms Collatz.Frontier14187.length_ge_14187
 #print axioms Collatz.DriftSurvivors.logBlockDescentWithin_16_below_20000
 #print axioms Collatz.Search.reachesOne_of_lt_1086464
 #print axioms Collatz.GapSandwich.cycle_length_determined

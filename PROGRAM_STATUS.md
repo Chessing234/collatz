@@ -206,11 +206,12 @@ the kernel clean.
 ## Acceptance criteria
 
 * **(P1) no nontrivial cycles — NOT met.**  Strongest unconditional result is
-  `Frontier13133.length_ge_13133`, on the verified range `3 382 272`
-  (`Search.VerifiedRung13133`); it supersedes `RealizableFrontier6809.length_ge_6809`
-  by six risers, and **exhausts the banked ladder** — every rung of
-  `PreCertified`'s table is now unconditional.  Going further needs a new
-  certificate as well as a new range.  Round XLIV proved the paying route cannot
+  `Frontier14187.length_ge_14187`, on the verified range `3 998 720`
+  (`Search.VerifiedRung14187`); it supersedes `RealizableFrontier6809.length_ge_6809`
+  by seven risers.  Round LXXV.12 exhausted the originally banked table, LXXV.14
+  banked `cert_8951` past it, and LXXV.15 supplied its range — so the ladder is
+  again fully unconditional, one rung further out.  Each additional rung now
+  costs a fresh certificate *and* a fresh range.  Round XLIV proved the paying route cannot
   reach further: the verified range needed to kill the `k`-th ladder rung is
   `≈ a_k·a_{k+1}/(6 ln 2)`, which diverges, so **no finite verified range excludes all
   cycle lengths**.  Climbing two rungs does not touch that conclusion — an
@@ -219,13 +220,13 @@ the kernel clean.
   banked in `Strategy.PreCertified` and need only the corresponding ranges;
   `Strategy.FrontierParametric.length_ge_of_cert` makes each a one-line
   instantiation.  None of the original seven remain conditional: `13133` was the last, and
-  `Search.VerifiedRung13133` supplies its range.  Round LXXV.14 banks the next
-  rung past the table — `PreCertified.cert_8951` and `pow_gap_8951` at threshold
-  `3 997 765`, frontier `14187`, with
-  `FrontierParametric.length_ge_14187_of_verified` as its conditional form.  The
-  threshold was computed by a routine that reproduces all seven earlier
-  thresholds exactly, so the arithmetic is cross-checked and not merely asserted.
-  Only the range is outstanding.
+  `Search.VerifiedRung13133` supplies its range.  Round LXXV.14 banked the next rung —
+  `PreCertified.cert_8951` and `pow_gap_8951` at threshold `3 997 765`, frontier
+  `14187` — using a routine that reproduces all seven earlier thresholds exactly,
+  so the arithmetic is cross-checked and not merely asserted.  Round LXXV.15
+  supplied the range (`Search.VerifiedRung14187`), so `14187` is now
+  unconditional too.  The marginal rung cost `616 448` of verified range for
+  `1054` of frontier.
 
   **Round XLIV's divergence claim is now a theorem, not a measurement.**
   `Strategy.RouteCap.cert_reach_le`: any certificate reaching odd-step budget

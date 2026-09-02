@@ -11878,3 +11878,68 @@ now guarding `logBlockDescentWithin_17_below_100000` and `bank_8951`.  Zero
 3. Run `lean_agent.py` speculatively on the arithmetic shapes the next
    `PreCertified` entry will need, so the tactics are known before the proof is
    written.
+
+## Round LXXV, iteration 15 — rung eight, and the fuel stops being a coincidence
+
+`Search.VerifiedRung14187` sweeps the `602` blocks `3303 … 3904` —
+`[3 382 272, 3 998 720)` — and `Frontier14187.length_ge_14187` follows from the
+`cert_8951` banked last round.  **No nontrivial accelerated cycle is shorter than
+`14187`, unconditionally.**
+
+The ladder is fully unconditional again, one rung past where LXXV.12 exhausted
+it: LXXV.14 banked the certificate, this round supplied the range.  Each further
+rung now costs a fresh certificate *and* a fresh range.
+
+### The fuel, a fourth time — withdrawing the prediction properly
+
+Worst drop time in the new interval is `188`, at `n = 3 428 767`, thirty-six
+below the standing `224`.  The record by extension:
+
+| range reached | worst drop in the new interval |
+|---|---|
+| `1 665 024` | `222` |
+| `2 011 136` | `224` (tie) |
+| `2 404 352` | `224` (tie, at `2·1 126 015 + 1`) |
+| `2 856 960` | `221` |
+| `3 382 272` | `195` |
+| `3 998 720` | `188` |
+
+Iteration 5 predicted the fuel would have to rise after the tie.  Four extensions
+later it has not, and the trend is *downward*.  `n = 1 126 015` has held the
+record while the range grew by a factor of `2.4` past it.  The prediction is not
+merely unconfirmed; the data points the other way, and the honest reading is that
+large drop times are a feature of small numbers rather than of the frontier.
+Recording the table so the claim is checkable rather than remembered.
+
+### Cost accounting
+
+This rung: `616 448` of verified range bought `1054` of frontier.  The rate is
+the same `1054` per rung the staircase has given throughout — `RouteCap` proved
+the frontier moves only on the `306 + 665k` staircase — while the range price
+climbs.  `StairLower.range_gt_492286389612` is where that ends: a reach past
+`190537` needs a range above `4.9 · 10¹¹`, five orders beyond here.
+
+`lake build Collatz` succeeds, **360 jobs**; `scripts/check_integrity.sh` passes.
+The sweep is `[propext, Quot.sound]`; the frontier adds `Classical.choice` through
+`RouteCap`, as every rung does.  Zero `sorry`, zero added axioms, no
+`native_decide`.
+
+### A process note
+
+The `[10 ^ 12, 10 ^ 13)` scan was launched twice this round.  The first launch
+used `&` inside a foreground shell call and the workers died when the call
+returned — no output files, no processes, and it would have been easy to report
+"scan running" without checking.  The relaunch waits on the jobs explicitly.
+Worth recording next to the two earlier measurement lessons: **verify a
+background job exists before reporting it as running.**
+
+### Next session — three tasks, one primary
+
+1. **Primary.**  Collect the `[10 ^ 12, 10 ^ 13)` scan.  Refuting `C = 17` needs
+   a ratio above `17`; the last two record gains were `0.29` and `1.54`, so it is
+   plausible but not assured within this decade.
+2. Bank `cert 9616` — the next staircase rung, frontier `15241` — the same way
+   `cert_8951` was banked, and record its threshold.  Pure kernel computation,
+   available now; the range is the open part.
+3. Run `lean_agent.py` on the arithmetic shapes the next `PreCertified` entry
+   needs, before writing the proof rather than after.
