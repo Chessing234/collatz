@@ -11316,3 +11316,110 @@ Zero `sorry`, zero added axioms.
    drift statements survive them, as a Lean proposition.
 2. Range to `2 855 820` for `length_ge_12079`; scan fuel first, expect `> 224`.
 3. Audit the fifteen `*_of_heavy` consumers at window `6955`.
+
+## Round LXXV, iteration 8 — leaving the ladder; the drift kill boundary, drawn
+
+Seven iterations went into the certificate ladder.  It is now capped
+(`RouteCap.cert_reach_le`), priced at four indices, and structurally complete
+(`StairLower.progress`).  Further work there is rate estimation with known
+diminishing returns, so this iteration returns to **P2, divergence**, which
+nothing since Round F has touched.
+
+**This iteration proves no new descent fact.**  It converts a prose warning into
+theorems and refreshes one stale constant.  Saying so plainly, because the
+temptation with a classification file is to present bookkeeping as progress.
+
+### The schema, and why the existential is empty
+
+Every descent-style hypothesis in this development has one shape:
+
+```
+BlockDescent B := ∀ n, 1 < n → acceleratedOrbit (B n) n < n
+```
+
+`exists_blockDescent_iff` proves `(∃ B, BlockDescent B) ↔ FiniteStoppingTime`,
+which `Reductions` already knows is equivalent to the conjecture.  So "some block
+length works" carries nothing.  **All the content is in constraining the shape of
+`B`** — which is exactly what the repository's existing kills do, and why they
+matter.
+
+### What is killed, as theorems
+
+`no_bounded_blockDescent` : no `B` with a ceiling.  The witness is
+`DensitySaturation.no_bounded_block_descent` — `2 ^ j − 1 < T^B(2 ^ j − 1)` for
+every `0 < B < j` — applied at `j = c + 2`.  Two corollaries fall out
+immediately:
+
+* `no_constant_blockDescent` — the Round F refutation, one line;
+* `no_modular_blockDescent` — `B n` a function of `n mod 2 ^ M`.  A function on
+  finitely many residues is bounded, so the whole "emptying residue classes"
+  family is the boundedness kill wearing a disguise.  Worth having explicitly:
+  that family keeps being proposed.
+
+`no_runLength_blockDescent` is separate — `r(n) = v₂(n+1)` is unbounded, so
+boundedness says nothing — and comes from
+`RunLengthAny.no_tail_at_any_run_length`.
+
+### What survives
+
+A `B` growing with the *size* of `n`.  Nothing above reaches it.
+
+```
+LogBlockDescent C          := BlockDescent (fun n => C * Nat.log2 n)
+logBlock_unbounded         : the block length is unbounded, so the kill cannot apply
+collatz_of_logBlockDescent : it would settle the conjecture
+not_logBlockDescent_one    : C = 1 is refuted
+```
+
+`not_logBlockDescent_one` uses `MersenneLower.mersenne_sigma_gt`: `2 ^ (2m) − 1`
+has `log₂ ≈ 2m − 1` but needs more than `3m` steps to drop.  Against
+`MersenneDescent`, which checks `σ ≤ 12j` on that family to `j = 200`, the open
+window is `2 ≤ C ≤ 12` as far as this development can see.  This is standing
+problem **G3** with an explicit function in place of "a proved function of `n`".
+
+The point of the file is mechanical checkability: a future round can test a
+proposed drift hypothesis against `no_bounded_blockDescent` instead of against a
+remembered caution.  That is the same service `GapBarriers.exists_realizer`
+performs for the reachability warning, and it was worth an iteration for the same
+reason.
+
+### The refreshed constant
+
+`Escape.divergent_avoids_verified` excludes `[1, 1 086 463]` from a divergent
+orbit — the range of the round that wrote it.  `divergent_avoids_2404352` does it
+at the current range: **a divergent orbit never takes a value below
+`2 404 352`**, a `2.2`-fold wider exclusion.  Consequently its minimum, which
+exists by `AccCycle.exists_accCycleMin`, is at least that, and
+`Frontier11025.heavy_window_6955` applies: a divergent orbit is heavy for its
+first `6955` accelerated steps from its minimum, with more than `4379` of them
+odd.  Those two were already stated for any non-reaching `n`, so they covered
+divergence all along; only the range is new.
+
+### Honest assessment
+
+Small iteration.  The classification is reusable infrastructure rather than
+mathematics, and the one genuinely new inequality — `C = 1` refuted — is a
+corollary of a theorem proved two rounds ago.  What it buys is that P2 now has a
+stated frontier instead of a warning, which is what nine iterations of ladder work
+had for P1 and P2 lacked.
+
+`lake build Collatz` succeeds, **354 jobs**; `scripts/check_integrity.sh` passes,
+now also guarding `DriftSurvivors.no_bounded_blockDescent` and
+`DriftSurvivors.divergent_avoids_2404352`.  `exists_blockDescent_iff` uses
+`Classical.choice` (it constructs `B` by choice from the existential); the rest
+stay within `[propext, Classical.choice, Quot.sound]`.  Zero `sorry`, zero added
+axioms.
+
+### Next session — three tasks, one primary
+
+1. **Primary.**  Attack `LogBlockDescent C` from below: raise the refuted `C`.
+   `not_logBlockDescent_one` used the crudest available lower bound on `σ`.
+   `MersenneLower.sigma_gt_1054_665` gives `σ(n) > (1054/665)·r(n)`, within
+   `6 · 10⁻⁸` of `log₂ 3`; on `n = 2 ^ j − 1`, `r = j` and `Nat.log2 n = j − 1`,
+   so it refutes every `C` with `C(j−1) ≤ (1054/665)j` for arbitrarily large `j`
+   — i.e. `C = 1` only.  To refute `C = 2` a *different family* is needed, one
+   whose stopping time exceeds twice its bit length.  Search for one
+   computationally first; if none exists below a few million, that is itself
+   evidence worth recording about where the true constant sits.
+2. Range to `2 855 820` for `length_ge_12079`; scan fuel first, expect `> 224`.
+3. Audit the fifteen `*_of_heavy` consumers at window `6955`.

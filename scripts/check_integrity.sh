@@ -63,6 +63,8 @@ import Collatz
 #print axioms Collatz.StairLower.range_gt_492286389612
 #print axioms Collatz.StairLower.alternation_live
 #print axioms Collatz.StairLower.progress
+#print axioms Collatz.DriftSurvivors.no_bounded_blockDescent
+#print axioms Collatz.DriftSurvivors.divergent_avoids_2404352
 #print axioms Collatz.Search.reachesOne_of_lt_1086464
 #print axioms Collatz.GapSandwich.cycle_length_determined
 #print axioms Collatz.NewModels.word_is_cycle_word

@@ -84,11 +84,37 @@ the next lemma below.
 
 ---
 
-## B — Discrete stochastic localization — **open, not started**
+## B — Discrete stochastic localization — **open; the kill boundary is now drawn**
 
 Expected reduction to A stands: `κ` positive exactly on the ghosts.  Note the repo
 already refutes the pointwise/block Lyapunov family and excursion-peak potentials
 (`Φ(159487) ≈ 53930`, unbounded), so any drift inequality must be genuinely new.
+
+*That warning is now a set of theorems* — `Strategy.DriftSurvivors`.  The schema is
+
+    BlockDescent B := ∀ n, 1 < n → acceleratedOrbit (B n) n < n
+
+and `exists_blockDescent_iff` shows `(∃ B, BlockDescent B)` is exactly
+`FiniteStoppingTime`, hence a restatement of the conjecture: **all content is in
+the shape of `B`.**  What is refuted:
+
+* `no_bounded_blockDescent` — any `B` with a ceiling, via the Mersenne family;
+* `no_constant_blockDescent`, `no_modular_blockDescent` — corollaries, covering
+  the constant-block and `mod 2^M` families in one line each;
+* `no_runLength_blockDescent` — `B n = r(n) + s(r(n))`, from
+  `RunLengthAny.no_tail_at_any_run_length`; not a boundedness consequence.
+
+What survives: `B` growing with the *size* of `n`.  `LogBlockDescent C` is
+`BlockDescent (fun n => C * Nat.log2 n)`; `logBlock_unbounded` proves the
+boundedness kill cannot apply to it, `collatz_of_logBlockDescent` proves it would
+settle the conjecture, and `not_logBlockDescent_one` refutes `C = 1`.  With
+`MersenneDescent` checking `σ ≤ 12j` on that family to `j = 200`, the open window
+is `2 ≤ C ≤ 12` as far as this development can see.  This is standing problem
+**G3** with an explicit function in place of "a proved function of `n`".
+
+A proposed drift hypothesis can now be checked against `no_bounded_blockDescent`
+mechanically rather than against a remembered caution — the same service
+`GapBarriers.exists_realizer` performs for the reachability warning.
 
 ---
 

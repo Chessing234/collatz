@@ -1,0 +1,224 @@
+import Collatz.Strategy.DensitySaturation
+import Collatz.Strategy.RunLengthAny
+import Collatz.Strategy.MersenneLower
+import Collatz.Strategy.Pillars
+import Collatz.Strategy.Reductions
+import Collatz.Strategy.Escape
+import Collatz.Strategy.Frontier11025
+
+/-!
+# Which descent schemas survive the repository's kills
+
+`PROGRAM_STATUS` records, as prose, that "the repo already refutes the
+pointwise/block Lyapunov family", so any new drift inequality "must be genuinely
+new".  That is a warning without a boundary.  This file draws the boundary.
+
+## The schema
+
+Every descent-style hypothesis in this development has the shape: *there is a
+block length `B n` within which `n` drops below itself*.
+
+    BlockDescent B  :=  ∀ n, 1 < n → acceleratedOrbit (B n) n < n
+
+The **existential** over `B` is a restatement — `exists_blockDescent_iff` proves
+`(∃ B, BlockDescent B) ↔ FiniteStoppingTime`, which `Reductions` already knows is
+equivalent to the conjecture.  So no content lives in "some `B` works".  All the
+content is in *constraining the shape of `B`*, and that is exactly what the
+existing kills do.
+
+## What is killed
+
+`no_bounded_blockDescent` : **no bounded `B` works.**  The witness is the
+Mersenne family: `DensitySaturation.no_bounded_block_descent` says
+`2 ^ j − 1 < T^B(2 ^ j − 1)` whenever `0 < B < j`, so choosing `j` past the bound
+defeats any `B` with a ceiling.  Three corollaries follow immediately and cover
+everything the prose warning meant:
+
+* `no_constant_blockDescent` — `B` constant (Round F's refutation);
+* `no_modular_blockDescent` — `B n` a function of `n mod 2 ^ M`, since a function
+  on finitely many residues is bounded;
+* `no_runLength_blockDescent` — `B n = r(n) + s(r(n))` at any *fixed* run length,
+  from `RunLengthAny.no_tail_at_any_run_length` (this one is not a boundedness
+  consequence: `r` is unbounded, and the kill is a separate construction).
+
+## What survives
+
+A `B` that **grows with the size of `n`**.  Nothing above touches it, because
+`no_bounded_blockDescent` needs a ceiling and `r(n)` is not the size.  The
+canonical shape:
+
+    LogBlockDescent C  :=  BlockDescent (fun n => C * Nat.log2 n)
+
+`logBlock_unbounded` shows the block length is unbounded, so the boundedness kill
+provably does not apply; `collatz_of_logBlockDescent` shows it would settle the
+conjecture.  This is standing problem **G3** with an explicit function in place of
+"controlled by a proved function of `n`".
+
+It is not vacuous in either direction.  `not_logBlockDescent_one` refutes `C = 1`
+outright, from `MersenneLower.mersenne_sigma_gt`: the family `2 ^ (2m) − 1` has
+`log₂ ≈ 2m − 1` but takes more than `3m` steps to drop.  And
+`Strategy.MersenneDescent` checks the same family descends within `12 j` for
+`2 ≤ j ≤ 200`, so `C = 12` is not refuted there.  The open interval is
+`2 ≤ C ≤ 12` as far as this development can see, and `LogBlockDescent C` for any
+`C` is open.
+
+## Honest scope
+
+Nothing here proves a new descent fact.  What it does is convert a prose warning
+into theorems, so a future round can check a proposed drift hypothesis against
+`no_bounded_blockDescent` mechanically instead of against a remembered caution —
+the same service `GapBarriers.exists_realizer` performs for the reachability
+warning.
+-/
+
+namespace Collatz
+namespace DriftSurvivors
+
+open Reach Strategy
+
+/-! ## The schema -/
+
+/-- A descent schema: `n` drops below itself within `B n` accelerated steps. -/
+def BlockDescent (B : Nat → Nat) : Prop :=
+  ∀ n : Nat, 1 < n → acceleratedOrbit (B n) n < n
+
+theorem finiteStoppingTime_of_blockDescent {B : Nat → Nat} (h : BlockDescent B) :
+    Strategy.FiniteStoppingTime := fun n hn => ⟨B n, h n hn⟩
+
+/-- Any block-descent schema settles the conjecture. -/
+theorem collatz_of_blockDescent {B : Nat → Nat} (h : BlockDescent B) :
+    CollatzConjecture :=
+  Strategy.collatz_of_finiteStoppingTime (finiteStoppingTime_of_blockDescent h)
+
+/-- **The existential is a restatement.**  Content lives only in the shape of
+`B`, never in its existence. -/
+theorem exists_blockDescent_iff :
+    (∃ B : Nat → Nat, BlockDescent B) ↔ Strategy.FiniteStoppingTime := by
+  constructor
+  · rintro ⟨B, hB⟩
+    exact finiteStoppingTime_of_blockDescent hB
+  · intro h
+    have h' : ∀ n : Nat, 1 < n → ∃ k : Nat, acceleratedOrbit k n < n := h
+    refine ⟨fun n => if hn : 1 < n then Classical.choose (h' n hn) else 0, ?_⟩
+    intro n hn
+    show acceleratedOrbit (if hn : 1 < n then Classical.choose (h' n hn) else 0) n < n
+    rw [dif_pos hn]
+    exact Classical.choose_spec (h' n hn)
+
+/-! ## The boundedness kill -/
+
+/-- **No bounded block length works.**  The Mersenne family `2 ^ j − 1` rises at
+every step below `j`, so a ceiling `c` is defeated at `j = c + 2`. -/
+theorem no_bounded_blockDescent {B : Nat → Nat} {c : Nat} (hb : ∀ n : Nat, B n ≤ c) :
+    ¬ BlockDescent B := by
+  intro h
+  have hp2 : (2:Nat) ^ 2 = 4 := by decide
+  have hpow : (2:Nat) ^ 2 ≤ 2 ^ (c + 2) := Nat.pow_le_pow_right (by omega) (by omega)
+  have hn1 : 1 < 2 ^ (c + 2) - 1 := by omega
+  have hdrop := h (2 ^ (c + 2) - 1) hn1
+  have hble : B (2 ^ (c + 2) - 1) ≤ c := hb _
+  rcases Nat.eq_zero_or_pos (B (2 ^ (c + 2) - 1)) with h0 | hpos
+  · rw [h0, acceleratedOrbit_zero] at hdrop
+    omega
+  · have hrise := DensitySaturation.no_bounded_block_descent
+      (B := B (2 ^ (c + 2) - 1)) (j := c + 2) hpos (by omega)
+    omega
+
+/-- `B` constant. -/
+theorem no_constant_blockDescent (c : Nat) : ¬ BlockDescent (fun _ => c) :=
+  no_bounded_blockDescent (c := c) (fun _ => Nat.le_refl c)
+
+/-- `B n` determined by `n` modulo a fixed power of two.  A function on finitely
+many residues is bounded, so this is the boundedness kill again — the reason the
+"emptying residue classes" family cannot supply a descent schema either. -/
+theorem no_modular_blockDescent {M c : Nat} (f : Nat → Nat)
+    (hf : ∀ r : Nat, r < 2 ^ M → f r ≤ c) :
+    ¬ BlockDescent (fun n => f (n % 2 ^ M)) := by
+  refine no_bounded_blockDescent (c := c) (fun n => hf _ ?_)
+  have h1 : 1 ≤ (2:Nat) ^ M := Nat.one_le_pow M 2 (by omega)
+  exact Nat.mod_lt _ (by omega)
+
+/-! ## The run-length kill
+
+Not a boundedness consequence: `r(n) = v₂(n+1)` is unbounded.  It is
+`RunLengthAny.no_tail_at_any_run_length`, restated against the schema. -/
+
+/-- **No tail keyed to the run length works.**  For every `s` and every run
+length `i + 2` there is an `n` with that run length exactly whose orbit has not
+dropped after `i + 2 + s (i + 2)` steps. -/
+theorem no_runLength_blockDescent (s : Nat → Nat) (i : Nat) :
+    ∃ n d : Nat, 1 < n ∧ d % 2 = 1 ∧ n + 1 = 2 ^ (i + 2) * d ∧
+      ¬ acceleratedOrbit (i + 2 + s (i + 2)) n < n := by
+  obtain ⟨n, d, hd, hnd, hge⟩ :=
+    RunLengthAny.no_tail_at_any_run_length i (i + 2 + s (i + 2))
+  have hp2 : (2:Nat) ^ 2 = 4 := by decide
+  have h4 : (2:Nat) ^ 2 ≤ 2 ^ (i + 2) := Nat.pow_le_pow_right (by omega) (by omega)
+  have hdpos : 1 ≤ d := by omega
+  have hm1 : (2:Nat) ^ (i + 2) * 1 ≤ 2 ^ (i + 2) * d :=
+    Nat.mul_le_mul (Nat.le_refl _) hdpos
+  have hm2 : (2:Nat) ^ (i + 2) * 1 = 2 ^ (i + 2) := Nat.mul_one _
+  exact ⟨n, d, by omega, hd, hnd, by omega⟩
+
+/-! ## The survivor -/
+
+/-- Block length linear in the bit length.  This is standing problem `G3` with an
+explicit function. -/
+def LogBlockDescent (C : Nat) : Prop := BlockDescent (fun n => C * Nat.log2 n)
+
+/-- It would settle the conjecture. -/
+theorem collatz_of_logBlockDescent {C : Nat} (h : LogBlockDescent C) : CollatzConjecture :=
+  collatz_of_blockDescent h
+
+/-- **The boundedness kill provably does not apply**: the block length is
+unbounded.  Witnessed on the powers of two, where `Nat.log2 (2 ^ k) = k`. -/
+theorem logBlock_unbounded {C : Nat} (hC : 0 < C) (c : Nat) :
+    ∃ n : Nat, c < C * Nat.log2 n := by
+  refine ⟨2 ^ (c + 1), ?_⟩
+  have hlog : Nat.log2 (2 ^ (c + 1)) = c + 1 := Nat.log2_two_pow
+  rw [hlog]
+  have hm : 1 * (c + 1) ≤ C * (c + 1) := Nat.mul_le_mul (by omega) (Nat.le_refl _)
+  omega
+
+/-- **`C = 1` is refuted.**  `2 ^ (2m) − 1` has `Nat.log2 = 2m − 1` but needs more
+than `3m` steps to drop, and `2m − 1 ≤ 3m`. -/
+theorem not_logBlockDescent_one : ¬ LogBlockDescent 1 := by
+  intro h
+  have hdrop : acceleratedOrbit (1 * Nat.log2 3) 3 < 3 := h 3 (by omega)
+  have hlog : (1:Nat) * Nat.log2 3 = 1 := by decide
+  rw [hlog] at hdrop
+  have hge := MersenneLower.mersenne_sigma_gt 1 1 (by omega)
+  have he : (2:Nat) ^ (2 * 1) - 1 = 3 := by decide
+  rw [he] at hge
+  omega
+
+/-! ## The divergence-side range, refreshed
+
+`Escape.divergent_avoids_verified` states the same fact at `1 086 464`, the
+verified range of the round that wrote it.  `Search.VerifiedRung11025` has since
+reached `2 404 352`, so the exclusion zone is `2.2` times wider.  The proof is
+`Escape`'s, at the current constant.
+
+This is the strongest unconditional statement the development has about a
+divergent orbit: it never takes a value below `2 404 352`, so its minimum — which
+exists, by `AccCycle.exists_accCycleMin` — is at least that, and
+`Frontier11025.heavy_window_6955` then applies to it.  A divergent orbit is heavy
+for its first `6955` accelerated steps from its minimum, with more than `4379` of
+those steps odd (`Frontier11025.odd_steps_6955`).  Those two facts are stated for
+any non-reaching `n`, so they cover divergence as well as cycles; what is new here
+is only the range. -/
+
+theorem divergent_avoids_2404352 {n : Nat} (h : Divergence.Divergent n) (i : Nat)
+    (hpos : 0 < orbit i n) : 2404352 ≤ orbit i n := by
+  by_cases hlt : orbit i n < 2404352
+  · exfalso
+    exact Divergence.not_divergent_of_reachesOne
+      (Search.reachesOne_of_lt_2404352 hpos hlt) (Escape.divergent_tail h i)
+  · omega
+
+/-- The window collapses on the whole refreshed range. -/
+theorem divergent_window_one_2404352 {n : Nat} (h : Divergence.Divergent n) (i : Nat)
+    (hpos : 0 < orbit i n) {B : Nat} (hB : B < 2404352) : B < orbit i n :=
+  Nat.lt_of_lt_of_le hB (divergent_avoids_2404352 h i hpos)
+
+end DriftSurvivors
+end Collatz
