@@ -292,7 +292,16 @@ the kernel clean.
 
 ## Acceptance criteria
 
-* **(P1) no nontrivial cycles — NOT met.**  Strongest unconditional result is
+* **(P1) no nontrivial cycles — NOT met, and far below the literature.**
+  Eliahou (1993) proved any nontrivial cycle has at least **17 087 915** elements,
+  and Simons–de Weger (2005) excluded all `m`-cycles for `m ≤ 68`.  This
+  development's `14187` is **about `1/1200` of Eliahou's bound**, by the same
+  tool — RESEARCH.md's own convergent table identifies `17 087 915` as tied to
+  `q₁₅` and notes that *the known Collatz cycle-length bounds are literally
+  numerators of convergents of `log₂ 3`*.  The number below is the state of this
+  formalisation, not of the subject.
+
+  Strongest unconditional result here is
   `Frontier14187.length_ge_14187`, on the verified range `3 998 720`
   (`Search.VerifiedRung14187`); it supersedes `RealizableFrontier6809.length_ge_6809`
   by seven risers.  Round LXXV.12 exhausted the originally banked table, LXXV.14

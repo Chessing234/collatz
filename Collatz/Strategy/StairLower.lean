@@ -165,6 +165,25 @@ theorem step_of_lower {a M : Nat} (h : 2 ^ fexp a * gapAt M < lgapAt a * 3 ^ M) 
     rw [e]
     exact this
 
+/-! ## The staircase indices are convergent denominators, as the repository knew
+
+Round LXXV.28 literature-checked this construction.  It is **Eliahou's tool**:
+his 1993 bound of `17 087 915` on cycle length comes from the continued fraction
+of `log₂ 3`, and RESEARCH.md's own convergent table (Round LXXIV) already records
+`q₉ = 15 601`, `q₁₃ = 190 537` ("Lagarias's bound") and `q₁₅ = 10 781 274`
+("Eliahou's `k(2^40)`"), with the note that *the known Collatz cycle-length
+bounds are literally numerators of convergents of `log₂ 3`*.
+
+The indices this file derives independently — `665`, `15601`, `31867`, `79335`,
+`190537` — are exactly those denominators and their semiconvergents.  So the
+recurrences here re-derive a known object from a different direction (exact
+integer identities rather than approximation theory), which is worth something as
+formalisation and nothing as mathematics.  In particular
+`range_gt_492286389612` sits at `a = 190537`, which is `q₁₃`.
+
+Recording it here so the connection is visible from the construction rather than
+only from a research-log table eight thousand lines long. -/
+
 /-! ## The chain, run
 
 Every `fexp` below is derived.  The only kernel computations are the four drain

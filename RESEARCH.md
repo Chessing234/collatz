@@ -12855,3 +12855,75 @@ No new theorem this round; two docstrings corrected.
    annotated either way, the way `DriftSurvivors` now is.
 2. Report scan coverage as a percentage.
 3. Bank `cert 9616` at `4 733 176` when the cores free up.
+
+## Round LXXV, iteration 28 — literature check on the cycle side, and a correction to my own framing
+
+Last round's failure (the uncited Rozier conjecture) made this round's primary a
+literature check on the remaining open lines.  The result is more nuanced than
+last round implied, and part of it corrects me rather than the repository.
+
+### The cycle side was already checked — by earlier rounds, thoroughly
+
+Eliahou (1993) proved any nontrivial cycle has at least **17 087 915** elements;
+Simons–de Weger (2005) excluded all `m`-cycles for `m ≤ 68`.  Both use the
+continued fraction of `log₂ 3`.
+
+**The repository already knows this**, and knows it more sharply than I did.
+RESEARCH.md's Round LXXIV convergent table lists `q₉ = 15 601` (the
+"Crandall-era dangerous region"), `q₁₃ = 190 537` ("Lagarias's bound") and
+`q₁₅ = 10 781 274` ("Eliahou's `k(2^40)`"), and states outright:
+
+> **The known Collatz cycle-length bounds are literally numerators of convergents
+> of `log₂ 3`.**
+
+`CLOSURE.md` records the Steiner / Simons / Simons–de Weger ladder.  Round LXVIII
+is titled "the Eliahou form at Barina scale".  A claim of an earlier round's was
+sent to an adversarial referee, came back refuted, and was recorded as refuted.
+
+**So last round's framing was unfair to the prior work.**  The Rozier omission
+was real, but it was in `DriftSurvivors` — a file *this session* created — not a
+pre-existing failure.  On the cycle side the literature work was done before I
+arrived.  Correcting that here.
+
+### What the check did produce
+
+Two things worth recording.
+
+**One.**  The staircase indices `StairLower` derives independently — `665`,
+`15601`, `31867`, `79335`, `190537` — are exactly those convergent denominators
+and their semiconvergents.  `range_gt_492286389612` sits at `a = 190537`, which
+is `q₁₃`, Lagarias's bound.  So `StairGap`/`StairGeneric`/`StairLower`
+re-derive Eliahou's tool from a different direction — exact integer identities
+instead of approximation theory.  Worth something as formalisation, nothing as
+mathematics.  A pointer now sits in `StairLower` so the connection is visible
+from the construction rather than only from a research log eight thousand lines
+long.
+
+**Two.**  `PROGRAM_STATUS`'s P1 entry did not state the comparison.  It called
+`length_ge_14187` "the strongest unconditional result", true of this development
+and misleading as a headline: it is about **`1/1200` of Eliahou's 1993 bound**,
+by the same tool.  The entry now says so in its first sentence.
+
+### Scan coverage
+
+`[10 ^ 12, 10 ^ 13)`: **`8.4 · 10 ^ 11` of `9 · 10 ^ 12` cleared, `9.33 %`, no
+records.**  Up from `1.3 %` last round.
+
+### Status
+
+Cycle bound `14187` (literature: `1.7 · 10 ^ 7`).  `C ≤ 16` refuted, `C = 17`
+verified in the kernel to `3 998 720` — that line is Rozier's falling-time
+conjecture, cited since LXXV.27.
+
+`lake build Collatz` succeeds, **364 jobs**; `scripts/check_integrity.sh` passes.
+No new theorem; two docstrings corrected.
+
+### Next session — three tasks, one primary
+
+1. **Primary.**  Finish the sweep on the two lines not yet checked:
+   `RouteCap`'s certificate cap (`A ≤ 6c`) and `AffineObstruction`'s
+   `drop_iff_light_and_gap`.  Both are almost certainly folklore — the second is
+   Terras 1976 unwound — but "almost certainly" is what cost LXXV.27.  Annotate
+   either way.
+2. Report scan coverage again.
+3. Bank `cert 9616` at `4 733 176` when the cores free up.
