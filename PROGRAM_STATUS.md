@@ -110,6 +110,18 @@ boundedness kill cannot apply to it and `collatz_of_logBlockDescentWithin` prove
 it would settle the conjecture.  This is standing problem **G3** with an explicit
 function in place of "a proved function of `n`".
 
+**The reduction, stated exactly.**  The verified range and the `C = 17` range are
+now the same number, so the brief's pattern (C) is statable with nothing hidden:
+
+    collatz_of_logBlock17_above :
+      (∀ n ≥ 3 998 720, ∃ k ≤ 17 · ⌊log₂ n⌋, T^k(n) < n) → CollatzConjecture
+
+The finite part is discharged in the kernel; the hypothesis is a stopping-time
+bound on numbers *above a range this repository has verified*, with the constant
+pinned between the refuted `16` and the heuristic ceiling `19.98`.
+`collatz_of_logBlock17_above_of` takes the range as a parameter, so extending it
+moves the threshold with no new proof.
+
 *Two corrections to the first version of this entry.*  (i) The schema must read
 "drops **within** `B n` steps", not "at exactly step `B n`" — an orbit that has
 already descended can come back up, and `27` does exactly that (`σ(27) = 59` but

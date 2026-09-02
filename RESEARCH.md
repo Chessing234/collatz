@@ -12003,3 +12003,76 @@ added axioms, no `native_decide`.
 3. Audit the repository for further *forgotten bounds* of the shape above — any
    `∃ k, P k` proved from a bounded search where the bound was discarded.  Two
    have now cost a round each; a grep for the pattern is cheap insurance.
+
+## Round LXXV, iteration 17 — the audit comes back empty; the reduction gets stated
+
+### The forgotten-bound audit: no further instances
+
+Last round named a pattern after hitting it twice — an existential proved from a
+bounded search that discards the bound.  The audit for more of them comes back
+**empty**.  All twelve theorems in the repository with an
+`∃ k, acceleratedOrbit k … ` conclusion are either concrete small facts
+(`three_reaches_one_accelerated` and friends), hypotheses of other results
+(`OrbitMin.no_drop`, `ScaleLadder.divergent_rung`), or the trivial
+`NeverDrops.self_witness`.  None is proved from a bounded search.
+
+So the pattern was real but confined to exactly the two places already fixed,
+`Search.exists_lt_of_dropsWithin` and `Strategy.exists_drop_of_not_survives`.
+Recording the negative result so the audit is not repeated.
+
+### The reduction, stated exactly
+
+Iteration 16 pushed the `C = 17` kernel range to `3 998 720` — the same number as
+the verified range.  That coincidence makes the brief's pattern (C) statable with
+nothing hidden:
+
+```
+collatz_of_logBlock17_above :
+    (∀ n ≥ 3998720, ∃ k ≤ 17 * Nat.log2 n, acceleratedOrbit k n < n)
+    → CollatzConjecture
+```
+
+**The finite check is discharged.**  What remains is a stopping-time bound on
+numbers above a range this repository has verified in the kernel, with the
+constant pinned between the refuted `16` (`not_logBlockDescentWithin_sixteen`)
+and the heuristic ceiling `19.98`.
+
+This is worth stating precisely because it is easy to state something *weaker*
+and think it stronger.  The hypothesis here is not "almost all `n`", not "`n` in
+some density-one set", and not an asymptotic — it is every `n` past an explicit
+threshold, which is exactly the shape the brief's `G3` asks for and exactly the
+shape Terras-style results cannot supply.  Naming that gap is the point; the
+theorem does not narrow it.
+
+`collatz_of_logBlock17_above_of` takes the range as a parameter, so a future
+extension of `Search.VerifiedRung*` moves the threshold with no new proof.
+
+### Deferred, and why
+
+`cert 9616` was queued as task 2 and is not done.  `cert_8951` took roughly twenty
+minutes of kernel time on an idle machine; six scan workers are currently holding
+the cores, and the marginal value is one more rung of a ladder `RouteCap` has
+already proved cannot reach all lengths.  Deferring it is a scheduling decision,
+not an obstruction — the computation is available whenever the cores are.
+
+### Status
+
+`C ≤ 16` refuted.  `C = 17` verified in the kernel to `3 998 720`, unrefuted by
+scan to `10 ^ 12`, with `[10 ^ 12, 10 ^ 13)` still running.  Cycle bound `14187`.
+
+`lake build Collatz` succeeds, **360 jobs**; `scripts/check_integrity.sh` passes,
+now also guarding `collatz_of_logBlock17_above`.  Zero `sorry`, zero added
+axioms, no `native_decide`.
+
+### Next session — three tasks, one primary
+
+1. **Primary.**  Collect the `[10 ^ 12, 10 ^ 13)` scan.  A ratio above `17`
+   refutes `C = 17` by one `decide` and moves the reduction's constant to `18`.
+2. Bank `cert 9616` once the cores are free.
+3. The reduction's hypothesis is now the sharpest open statement on the
+   divergence side.  Check whether *any* of the repository's existing heavy-window
+   machinery bears on it — `Frontier14187.heavy_window_8950` constrains
+   never-droppers above `3 997 765`, which is the same regime.  If a
+   never-dropper must be heavy for `8950` steps, does that bound its stopping
+   time?  If yes, the reduction closes on a range; if no, the reason is the next
+   obstruction to record.

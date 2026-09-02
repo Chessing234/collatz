@@ -591,5 +591,48 @@ theorem logBlockDescentWithin_17_below_3998720 {n : Nat} (h2 : 2 ≤ n)
         exists_le_drop_of_not_survives (K := 10) (by omega) (Nat.le_refl 10) hs
       exact ⟨k, by omega, hlt'⟩
 
+/-! ## What is actually left: the reduction, stated exactly
+
+The verified range and the `C = 17` range are now the same number, `3 998 720`.
+That makes the brief's pattern (C) — *a reduction to a finite check plus a proved
+bound* — statable with nothing hidden: the finite check is done, and what remains
+is exactly the tail.
+
+`collatz_of_logBlock17_above` is the honest form of standing problem `G3` for this
+development.  Its hypothesis is not a weakening of the conjecture dressed up; it
+is a bound on the stopping time of numbers *above a range this repository has
+verified in the kernel*, with the constant pinned between the refuted `16` and
+the heuristic ceiling `19.98`. -/
+
+/-- **The reduction.**  If every `n ≥ 3 998 720` falls below itself within
+`17 · ⌊log₂ n⌋` accelerated steps, the Collatz conjecture follows — because
+everything below `3 998 720` is already proved
+(`logBlockDescentWithin_17_below_3998720`).
+
+This is the whole outstanding content of the `C = 17` line, with the finite part
+discharged. -/
+theorem collatz_of_logBlock17_above
+    (h : ∀ n : Nat, 3998720 ≤ n →
+      ∃ k : Nat, k ≤ 17 * Nat.log2 n ∧ acceleratedOrbit k n < n) :
+    CollatzConjecture := by
+  refine collatz_of_blockDescentWithin (B := fun n => 17 * Nat.log2 n) ?_
+  intro n hn
+  rcases Nat.lt_or_ge n 3998720 with hlt | hge
+  · exact logBlockDescentWithin_17_below_3998720 (by omega) hlt
+  · exact h n hge
+
+/-- The same, with the range as a parameter: any future extension of the verified
+range moves the threshold with no new proof. -/
+theorem collatz_of_logBlock17_above_of {N : Nat}
+    (hbase : ∀ n : Nat, 2 ≤ n → n < N →
+      ∃ k : Nat, k ≤ 17 * Nat.log2 n ∧ acceleratedOrbit k n < n)
+    (h : ∀ n : Nat, N ≤ n → ∃ k : Nat, k ≤ 17 * Nat.log2 n ∧ acceleratedOrbit k n < n) :
+    CollatzConjecture := by
+  refine collatz_of_blockDescentWithin (B := fun n => 17 * Nat.log2 n) ?_
+  intro n hn
+  rcases Nat.lt_or_ge n N with hlt | hge
+  · exact hbase n (by omega) hlt
+  · exact h n hge
+
 end DriftSurvivors
 end Collatz
