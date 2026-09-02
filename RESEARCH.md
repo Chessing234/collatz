@@ -11943,3 +11943,63 @@ background job exists before reporting it as running.**
    available now; the range is the open part.
 3. Run `lean_agent.py` on the arithmetic shapes the next `PreCertified` entry
    needs, before writing the proof rather than after.
+
+## Round LXXV, iteration 16 — the C = 17 range jumps forty-fold, for free
+
+The primary task was the `[10 ^ 12, 10 ^ 13)` scan.  It is genuinely running —
+seven processes, six output files, no records yet, none finished — checked rather
+than assumed, per last round's process note.  So the session went to the gap it
+leaves.
+
+### The gap, and why most of it was already closed
+
+`logBlockDescentWithin_17_below_100000` checks `10 ^ 5` by brute kernel
+computation, against a scan reaching `10 ^ 12`.  But the repository had already
+swept `[1, 3 998 720)` at fuel `224` to build `Search.VerifiedRung14187`, and
+`224 ≤ 17 · ⌊log₂ n⌋` as soon as `⌊log₂ n⌋ ≥ 14`.  The sweep was sitting there
+unused for this purpose.
+
+```
+logBlockDescentWithin_17_below_3998720 :
+    2 ≤ n → n < 3998720 → ∃ k ≤ 17 * Nat.log2 n, acceleratedOrbit k n < n
+```
+
+**A fortyfold extension at no new kernel computation at all.**  Above `40 000`,
+`n` either survives the level-`10` sieve — then `Search.drops_all_3905` gives
+`dropsWithin 224 n`, and `224 ≤ 17 · 15` — or it does not, and the sieve drops it
+within `10` steps.  Below `40 000` the five `logCheckC` chunks stand.
+
+### The second forgotten bound
+
+The non-survivor half needed the sieve's drop index, and
+`Strategy.exists_drop_of_not_survives` throws it away:
+`Congruence.exists_descends_of_not_survives` produces `i ≤ K` and the wrapper
+returns `⟨i, _⟩` instead of `⟨i, hiK, _⟩`.  `exists_le_drop_of_not_survives` is
+that proof with the bound kept.
+
+This is the **second** time this exact shape has blocked work here — round
+LXXV.10 needed `exists_le_of_dropsWithin` because `Search.exists_lt_of_dropsWithin`
+forgot its bound the same way.  Two instances is a pattern worth naming: *an
+existential proved from a bounded search should keep the bound*, because the
+bound is free at the point of proof and expensive to recover later.  Both
+recovered versions now sit next to the originals.
+
+### Status
+
+`C ≤ 16` refuted (`n = 12 235 060 455`, ratio `16.58`).  `C = 17` verified in the
+kernel to `3 998 720`, unrefuted by scan to `10 ^ 12`.  The kernel-to-scan gap is
+now five orders rather than seven.
+
+`lake build Collatz` succeeds, **360 jobs**; `scripts/check_integrity.sh` passes.
+Both new theorems depend on `[propext, Quot.sound]` only.  Zero `sorry`, zero
+added axioms, no `native_decide`.
+
+### Next session — three tasks, one primary
+
+1. **Primary.**  Collect the `[10 ^ 12, 10 ^ 13)` scan; a ratio above `17` refutes
+   `C = 17` by one `decide`.
+2. Bank `cert 9616` (frontier `15241`) as `cert_8951` was banked, and record its
+   threshold from the routine that reproduces all eight known ones.
+3. Audit the repository for further *forgotten bounds* of the shape above — any
+   `∃ k, P k` proved from a bounded search where the bound was discarded.  Two
+   have now cost a round each; a grep for the pattern is cheap insurance.

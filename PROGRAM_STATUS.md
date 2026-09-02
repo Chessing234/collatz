@@ -124,9 +124,14 @@ known.**
 **`C ≤ 16` is refuted and `C = 17` is the live candidate.**  The
 `[10 ^ 10, 10 ^ 12)` sweep completed — eight workers, whole interval, exactly one
 record — so over every odd `n < 10 ^ 12`, `σ(n) / ⌊log₂ n⌋ ≤ 16.5758`.
-`logBlockDescentWithin_17_below_100000` verifies `C = 17` in the kernel for every
-`2 ≤ n < 100 000`, chunked five ways because one `decide` over `10 ^ 5` does not
-terminate.
+`logBlockDescentWithin_17_below_3998720` verifies `C = 17` in the kernel for
+every `2 ≤ n < 3 998 720` — the **whole verified range**, at no kernel cost beyond
+the sweep `Search.VerifiedRung14187` already performs.  Above `40 000`, `n` either
+survives the level-`10` sieve, in which case `Search.drops_all_3905` gives
+`dropsWithin 224 n` and `224 ≤ 17 · 15 ≤ 17 · ⌊log₂ n⌋`; or it does not, and
+`exists_le_drop_of_not_survives` gives a drop within `10` steps.  Below `40 000`
+it is the five `logCheckC` chunks of
+`logBlockDescentWithin_17_below_100000`, which stands.
 
 Against the Class 2 prediction `1/γ ≈ 19.98`: observed maximum `16.58` at
 `10 ^ 12`, so if the prediction holds the convergence is slow and three more

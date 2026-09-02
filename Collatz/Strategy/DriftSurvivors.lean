@@ -5,6 +5,7 @@ import Collatz.Strategy.Pillars
 import Collatz.Strategy.Reductions
 import Collatz.Strategy.Escape
 import Collatz.Strategy.Frontier11025
+import Collatz.Search.VerifiedRung14187
 
 /-!
 # Which descent schemas survive the repository's kills
@@ -528,6 +529,67 @@ theorem logBlockDescentWithin_17_below_100000 {n : Nat} (h2 : 2 ≤ n) (hN : n <
       · exact logCheckC_read lc17_c h (by omega)
       · exact logCheckC_read lc17_d h2' (by omega)
     · exact logCheckC_read lc17_e h1 (by omega)
+
+/-! ## Closing the gap between the kernel range and the scan
+
+`logBlockDescentWithin_17_below_100000` checks `10 ^ 5` by brute kernel
+computation, against a scan that reaches `10 ^ 12`.  Most of that gap closes for
+free, because the repository has already swept `[1, 3 998 720)` at fuel `224`
+for `Search.VerifiedRung14187`, and `224 ≤ 17 · ⌊log₂ n⌋` as soon as
+`⌊log₂ n⌋ ≥ 14`.
+
+Two ingredients are needed.  The survivor half is the block sweep plus
+`exists_le_of_dropsWithin`.  The non-survivor half needs the sieve's drop to be
+*bounded*, and it is — `Congruence.exists_descends_of_not_survives` produces an
+index `i ≤ K`, and `Strategy.exists_drop_of_not_survives` simply forgets it, the
+same way `Search.exists_lt_of_dropsWithin` forgot its bound.  Recovering it is
+the proof below with `⟨i, hiK, _⟩` in place of `⟨i, _⟩`. -/
+
+/-- **The sieve's drop, with its index bound kept.**
+`Strategy.exists_drop_of_not_survives` with the witness bounded by `K`. -/
+theorem exists_le_drop_of_not_survives {n K : Nat} (hn : 1024 < n) (hK : K ≤ 10)
+    (h : ¬ Congruence.survives K (n % 2 ^ K) = true) :
+    ∃ k : Nat, k ≤ K ∧ acceleratedOrbit k n < n := by
+  obtain ⟨i, hiK, hd⟩ := Congruence.exists_descends_of_not_survives h
+  have hmod : n % 2 ^ K % 2 ^ i = n % 2 ^ i := Minimal.mod_pow_two_mod (by omega)
+  rw [hmod] at hd
+  have hle : 2 ^ i ≤ n := by
+    have h1 : (2:Nat) ^ i ≤ 2 ^ 10 := Arith.two_pow_le_two_pow (by omega)
+    have h2 : (2:Nat) ^ 10 = 1024 := by decide
+    omega
+  exact ⟨i, hiK, Congruence.accOrbit_lt_of_descends_of_mod hd hle⟩
+
+/-- **`LogBlockDescentWithin 17` on the whole verified range.**  Every `n` with
+`2 ≤ n < 3 998 720` falls below itself within `17 · ⌊log₂ n⌋` accelerated steps —
+a fortyfold extension of the direct check, at no kernel cost beyond the sweep
+that `Search.VerifiedRung14187` already performs.
+
+Certificate story: below `40 000` it is the five `logCheckC` chunks.  Above, `n`
+either survives the level-`10` sieve — and then `Search.drops_all_3905` gives
+`dropsWithin 224 n`, with `224 ≤ 17 · 15 ≤ 17 · ⌊log₂ n⌋` — or it does not, and
+`exists_le_drop_of_not_survives` gives a drop within `10` steps.  No
+`native_decide`, and no new kernel computation at all. -/
+theorem logBlockDescentWithin_17_below_3998720 {n : Nat} (h2 : 2 ≤ n)
+    (hN : n < 3998720) :
+    ∃ k : Nat, k ≤ 17 * Nat.log2 n ∧ acceleratedOrbit k n < n := by
+  rcases Nat.lt_or_ge n 40000 with hsmall | hbig
+  · exact logBlockDescentWithin_17_below_100000 h2 (by omega)
+  · have hp : (2:Nat) ^ 10 = 1024 := by decide
+    have hlog : 15 ≤ Nat.log2 n := by
+      refine (Nat.le_log2 (by omega)).mpr ?_
+      have h15 : (2:Nat) ^ 15 = 32768 := by decide
+      omega
+    by_cases hs : Congruence.survives 10 (n % 2 ^ 10) = true
+    · have hmem := Search.mem_survivors_of_survives hs
+      have hlt : n / 2 ^ 10 < 3905 := by rw [hp]; omega
+      have hdec : 2 ^ 10 * (n / 2 ^ 10) + n % 2 ^ 10 = n := Nat.div_add_mod n (2 ^ 10)
+      have hcheck := Search.drops_all_3905 hlt hmem
+      rw [hdec] at hcheck
+      obtain ⟨k, hk, hlt'⟩ := exists_le_of_dropsWithin hcheck
+      exact ⟨k, by omega, hlt'⟩
+    · obtain ⟨k, hk, hlt'⟩ :=
+        exists_le_drop_of_not_survives (K := 10) (by omega) (Nat.le_refl 10) hs
+      exact ⟨k, by omega, hlt'⟩
 
 end DriftSurvivors
 end Collatz

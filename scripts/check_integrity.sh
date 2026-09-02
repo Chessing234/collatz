@@ -66,7 +66,7 @@ import Collatz
 #print axioms Collatz.DriftSurvivors.no_bounded_blockDescent
 #print axioms Collatz.DriftSurvivors.divergent_avoids_2404352
 #print axioms Collatz.DriftSurvivors.not_logBlockDescentWithin_sixteen
-#print axioms Collatz.DriftSurvivors.logBlockDescentWithin_17_below_100000
+#print axioms Collatz.DriftSurvivors.logBlockDescentWithin_17_below_3998720
 #print axioms Collatz.PreCertified.bank_8951
 #print axioms Collatz.Frontier14187.length_ge_14187
 #print axioms Collatz.DriftSurvivors.logBlockDescentWithin_16_below_20000
