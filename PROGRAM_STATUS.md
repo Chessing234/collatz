@@ -121,8 +121,19 @@ alone, and the `≤ 12` came from `MersenneDescent`, which bounds `σ` on the
 Mersenne family only — not globally.  **`C ≥ 15` is open and no upper bound is
 known.**
 
-**`C ≤ 16` is refuted**, by four records of `σ(n) / ⌊log₂ n⌋` found by direct
-scan:
+**`C ≤ 16` is refuted and `C = 17` is the live candidate.**  The
+`[10 ^ 10, 10 ^ 12)` sweep completed — eight workers, whole interval, exactly one
+record — so over every odd `n < 10 ^ 12`, `σ(n) / ⌊log₂ n⌋ ≤ 16.5758`.
+`logBlockDescentWithin_17_below_100000` verifies `C = 17` in the kernel for every
+`2 ≤ n < 100 000`, chunked five ways because one `decide` over `10 ^ 5` does not
+terminate.
+
+Against the Class 2 prediction `1/γ ≈ 19.98`: observed maximum `16.58` at
+`10 ^ 12`, so if the prediction holds the convergence is slow and three more
+integer values of `C` remain for search to knock out.  The scan neither confirms
+nor contradicts it.
+
+The four records of `σ(n) / ⌊log₂ n⌋`:
 
 | `n` | `σ` | `⌊log₂ n⌋` | ratio |
 |---|---|---|---|
@@ -207,8 +218,14 @@ the kernel clean.
   odd steps, still finite and still not all lengths.  Rungs to frontier `13133` are
   banked in `Strategy.PreCertified` and need only the corresponding ranges;
   `Strategy.FrontierParametric.length_ge_of_cert` makes each a one-line
-  instantiation.  None remain conditional: `13133` was the last, and `Search.VerifiedRung13133`
-  supplies its range.
+  instantiation.  None of the original seven remain conditional: `13133` was the last, and
+  `Search.VerifiedRung13133` supplies its range.  Round LXXV.14 banks the next
+  rung past the table — `PreCertified.cert_8951` and `pow_gap_8951` at threshold
+  `3 997 765`, frontier `14187`, with
+  `FrontierParametric.length_ge_14187_of_verified` as its conditional form.  The
+  threshold was computed by a routine that reproduces all seven earlier
+  thresholds exactly, so the arithmetic is cross-checked and not merely asserted.
+  Only the range is outstanding.
 
   **Round XLIV's divergence claim is now a theorem, not a measurement.**
   `Strategy.RouteCap.cert_reach_le`: any certificate reaching odd-step budget

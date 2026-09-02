@@ -142,5 +142,16 @@ theorem length_ge_13133_of_verified
   length_ge_of_cert (c := 3380808) (A := 8286) (F := 13133) (by omega)
     PreCertified.bank_8286 PreCertified.pow_gap_8286 hver hn h hnr
 
+open AccCycle in
+/-- The first rung past the range this development has verified.  `cert_8951` and
+`pow_gap_8951` are proved; only `hver` is outstanding, and by
+`RouteCap.reach_sharp` the range it needs is at least `3 997 765`. -/
+theorem length_ge_14187_of_verified
+    (hver : ∀ {n m : Nat}, 0 < n → ¬ ReachesOne n →
+      (∃ i : Nat, acceleratedOrbit i n = m) → 3997765 ≤ m)
+    {n L : Nat} (hn : 0 < n) (h : AccIsCycleOf n L) (hnr : ¬ ReachesOne n) : 14187 ≤ L :=
+  length_ge_of_cert (c := 3997765) (A := 8951) (F := 14187) (by omega)
+    PreCertified.bank_8951 PreCertified.pow_gap_8951 hver hn h hnr
+
 end FrontierParametric
 end Collatz

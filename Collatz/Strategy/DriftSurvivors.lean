@@ -447,5 +447,87 @@ below itself until step `547`, against a block of `16 · 33 = 528`. -/
 theorem not_logBlockDescentWithin_sixteen : ¬ LogBlockDescentWithin 16 :=
   not_logBlockDescentWithin_of_witness (by omega) log2_12235060455 no_drop_12235060455
 
+/-! ## The scan completed, and the live constant is `C = 17`
+
+The `[10 ^ 10, 10 ^ 12)` sweep finished: eight workers, the whole interval, and
+**exactly one record** — the `16.5758` at `n = 12 235 060 455` already banked.
+So over every odd `n < 10 ^ 12`,
+
+    σ(n) / ⌊log₂ n⌋  ≤  16.5758,
+
+`C ≤ 16` is refuted and `C = 17` is the smallest value not refuted anywhere.
+
+Against the Class 2 prediction of `1/γ ≈ 19.98`: the observed maximum is `16.58`
+at `10 ^ 12`, so if the prediction is right the convergence is slow, and three
+more integer values of `C` remain to be knocked out by search.  The prediction is
+neither confirmed nor contradicted by this scan; recording it as such.
+
+This section verifies `C = 17` in the kernel on an initial range, chunked in the
+repository's own `checkRange` style — one `decide` over `10 ^ 5` does not
+terminate, five over `2 · 10 ^ 4` do. -/
+
+/-- `logCheck` at an arbitrary constant. -/
+def logCheckC (C lo len : Nat) : Bool :=
+  match len with
+  | 0 => true
+  | k + 1 => Search.dropsWithin (C * Nat.log2 (lo + k)) (lo + k) && logCheckC C lo k
+
+theorem logCheckC_read {C lo len n : Nat} (h : logCheckC C lo len = true)
+    (hlo : lo ≤ n) (hhi : n < lo + len) :
+    Search.dropsWithin (C * Nat.log2 n) n = true := by
+  induction len with
+  | zero => omega
+  | succ k ih =>
+    rw [logCheckC, Bool.and_eq_true] at h
+    by_cases hnk : n < lo + k
+    · exact ih h.2 hnk
+    · have : n = lo + k := by omega
+      subst this
+      exact h.1
+
+set_option maxHeartbeats 4000000 in
+set_option maxRecDepth 100000 in
+theorem lc17_a : logCheckC 17 2 19998 = true := by decide
+
+set_option maxHeartbeats 4000000 in
+set_option maxRecDepth 100000 in
+theorem lc17_b : logCheckC 17 20000 20000 = true := by decide
+
+set_option maxHeartbeats 4000000 in
+set_option maxRecDepth 100000 in
+theorem lc17_c : logCheckC 17 40000 20000 = true := by decide
+
+set_option maxHeartbeats 4000000 in
+set_option maxRecDepth 100000 in
+theorem lc17_d : logCheckC 17 60000 20000 = true := by decide
+
+set_option maxHeartbeats 4000000 in
+set_option maxRecDepth 100000 in
+theorem lc17_e : logCheckC 17 80000 20000 = true := by decide
+
+/-- **`LogBlockDescentWithin 17` holds below `100 000`.**  Every `n` with
+`2 ≤ n < 100 000` falls below itself within `17 · ⌊log₂ n⌋` accelerated steps.
+
+Certificate story unchanged from the `C = 16` version, except that the sweep is
+five chunks rather than one: `logCheckC` runs `Search.dropsWithin` at the per-`n`
+fuel `17 · ⌊log₂ n⌋`, `decide` evaluates each chunk, `logCheckC_read` extracts one
+entry, and `exists_le_of_dropsWithin` turns the Boolean into the bounded
+existential.  No `native_decide`.
+
+The unverified scan reaches `10 ^ 12` with the same conclusion; this is the part
+the kernel has checked. -/
+theorem logBlockDescentWithin_17_below_100000 {n : Nat} (h2 : 2 ≤ n) (hN : n < 100000) :
+    ∃ k : Nat, k ≤ 17 * Nat.log2 n ∧ acceleratedOrbit k n < n := by
+  refine exists_le_of_dropsWithin ?_
+  rcases Nat.lt_or_ge n 40000 with h | h
+  · rcases Nat.lt_or_ge n 20000 with h1 | h1
+    · exact logCheckC_read lc17_a h2 (by omega)
+    · exact logCheckC_read lc17_b h1 (by omega)
+  · rcases Nat.lt_or_ge n 80000 with h1 | h1
+    · rcases Nat.lt_or_ge n 60000 with h2' | h2'
+      · exact logCheckC_read lc17_c h (by omega)
+      · exact logCheckC_read lc17_d h2' (by omega)
+    · exact logCheckC_read lc17_e h1 (by omega)
+
 end DriftSurvivors
 end Collatz

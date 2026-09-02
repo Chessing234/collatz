@@ -27,7 +27,8 @@ attains it, and `F = ⌊A·log₂ 3⌋ + 1` the frontier in accelerated steps.
 | `2 010 160` | `6291` | `9971` | proved — `Frontier9971` |
 | `2 403 661` | `6956` | `11025` | certificate banked here |
 | `2 855 820` | `7621` | `12079` | certificate banked here |
-| `3 380 808` | `8286` | `13133` | certificate banked here |
+| `3 380 808` | `8286` | `13133` | proved — `Frontier13133` |
+| `3 997 765` | `8951` | `14187` | certificate banked here (Round LXXV.14) |
 
 Each `c` is the exact threshold: the certificate fails at `c − 1`.  The rungs are
 `306 + 665k`, the one-sided semiconvergent staircase of `log₂ 3` that
@@ -38,6 +39,12 @@ staircase, never between rungs, which is why the table has risers and no slope.
 
 Proved: the certificates, and the gaps `2 ^ (F−1) < 3 ^ A`.  These are the two
 kernel-checkable ingredients of a `length_ge_F` theorem.
+
+*Round LXXV.14 note.*  Rungs `7863` through `13133` are no longer conditional —
+`Strategy.Frontier13133` and its predecessors supply every range in the table.
+`8951` is the first entry banked past that point, computed the same way: its
+threshold `3 997 765` is the least `c` for which the certificate reaches, and the
+routine that produced it reproduces all seven earlier thresholds exactly.
 
 Not proved: any `length_ge_F` for `F > 6809`.  That needs `VerifiedBelow c` for
 the corresponding `c`, which this development does not have.  Nothing here
@@ -81,6 +88,11 @@ set_option maxRecDepth 40000 in
 set_option exponentiation.threshold 20000 in
 theorem cert_8286 : cert 8286 3380808 0 1 1 = true := by decide
 
+set_option maxHeartbeats 8000000 in
+set_option maxRecDepth 40000 in
+set_option exponentiation.threshold 20000 in
+theorem cert_8951 : cert 8951 3997765 0 1 1 = true := by decide
+
 /-! ## The certificates in consumable form
 
 `RealizableBound.affineC_le_Bcap` and `le_fexp_of_affineC_le` take the
@@ -116,6 +128,11 @@ theorem bank_8286 (i : Nat) (hi : i < 8286) :
   have h := cert_sound 8286 0 3380808 (by simpa using cert_8286) i hi
   simpa using h
 
+theorem bank_8951 (i : Nat) (hi : i < 8951) :
+    Bcap i + 3 ^ i * 3997765 < 2 * 2 ^ fexp i * 3997765 := by
+  have h := cert_sound 8951 0 3997765 (by simpa using cert_8951) i hi
+  simpa using h
+
 /-! ## The exponent gaps
 
 `2 ^ (F − 1) < 3 ^ A` says every accelerated cycle shorter than `F` has fewer
@@ -144,6 +161,10 @@ theorem pow_gap_7621 : (2:Nat) ^ 12078 < 3 ^ 7621 := by decide
 set_option maxRecDepth 20000 in
 set_option exponentiation.threshold 20000 in
 theorem pow_gap_8286 : (2:Nat) ^ 13132 < 3 ^ 8286 := by decide
+
+set_option maxRecDepth 20000 in
+set_option exponentiation.threshold 20000 in
+theorem pow_gap_8951 : (2:Nat) ^ 14186 < 3 ^ 8951 := by decide
 
 end PreCertified
 end Collatz

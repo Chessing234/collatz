@@ -11807,3 +11807,74 @@ path.
    run it speculatively on the arithmetic shapes a `cert 8951` computation will
    need, so the tactics are known before the proof is written.
 3. Chunk `logCheck` to raise the kernel-verified base range from `20 000`.
+
+## Round LXXV, iteration 14 — the scan closes; the ladder reopens one rung
+
+### The scan is complete
+
+The `[10 ^ 10, 10 ^ 12)` sweep finished: eight workers, the whole interval,
+**exactly one record** — the `16.5758` at `n = 12 235 060 455` already banked as
+`not_logBlockDescentWithin_sixteen`.  So
+
+    max over odd n < 10^12  of  σ(n) / ⌊log₂ n⌋   =   16.5758,
+
+`C ≤ 16` is refuted and **`C = 17` is the smallest value not refuted anywhere**.
+
+`logBlockDescentWithin_17_below_100000` verifies `C = 17` in the kernel for every
+`2 ≤ n < 100 000`.  It is chunked five ways: one `decide` over `10 ^ 5` does not
+terminate in ten minutes, five over `2 · 10 ^ 4` finish, which is the
+repository's own `checkRange` answer to the same problem.  `logCheckC` is the old
+`logCheck` with the constant abstracted, so the `C = 16` theorem is untouched.
+
+Against the Class 2 prediction `1/γ ≈ 19.98`: observed maximum `16.58` at
+`10 ^ 12`.  If the prediction holds, convergence is slow and three more integer
+values of `C` remain for search.  The scan neither confirms nor contradicts it —
+worth stating plainly, since a completed scan invites over-reading in both
+directions.
+
+### The ladder reopens: `cert 8951`
+
+Iteration 12 exhausted `PreCertified`'s banked table.  This one banks the next
+rung past it:
+
+```
+cert_8951    : cert 8951 3997765 0 1 1 = true
+pow_gap_8951 : 2 ^ 14186 < 3 ^ 8951
+length_ge_14187_of_verified : (range ≥ 3 997 765) → 14187 ≤ L
+```
+
+The threshold `3 997 765` was not guessed.  It came from a routine that computes
+the least `c` for which the certificate reaches a given `A`, and **that routine
+reproduces all seven previously known thresholds exactly** — `1 086 055`,
+`1 358 718`, `1 664 599`, `2 010 160`, `2 403 661`, `2 855 820`, `3 380 808`.
+Cross-checked, not asserted.
+
+`cert_8951` **depends on no axioms at all**; it is pure kernel computation.  Only
+the range is outstanding, and that is the honest state: `RouteCap.reach_sharp`
+says a certificate reaching past `8951` needs `c` at least this large, and
+nothing in this development supplies it yet.
+
+### Where P1 stands
+
+Unconditional: `length_ge_13133`.  Banked and conditional: `14187`.  Capped:
+`RouteCap.cert_reach_le` (`A ≤ 6c`) and `RouteCap.route_misses_a_length`, so the
+route provably never reaches all lengths however many rungs are added.  The
+marginal rung costs about `617 000` of verified range for `1054` of frontier, and
+`StairLower` prices the cliffs where that rate collapses.
+
+`lake build Collatz` succeeds, **358 jobs**; `scripts/check_integrity.sh` passes,
+now guarding `logBlockDescentWithin_17_below_100000` and `bank_8951`.  Zero
+`sorry`, zero added axioms, no `native_decide`.
+
+### Next session — three tasks, one primary
+
+1. **Primary.**  Extend the ratio scan past `10 ^ 12`.  Eight workers cleared
+   `[10 ^ 10, 10 ^ 12)` in roughly half an hour, so `10 ^ 13` is a few hours and
+   `10 ^ 14` is overnight.  Refuting `C = 17` needs a ratio above `17`; the last
+   two records gained `0.29` and `1.54`, so the next one plausibly clears it.
+2. Range to `3 997 765` for `length_ge_14187`.  About `600` blocks; scan the fuel
+   first — `224` has now survived three extensions and is looking structural
+   rather than lucky.
+3. Run `lean_agent.py` speculatively on the arithmetic shapes the next
+   `PreCertified` entry will need, so the tactics are known before the proof is
+   written.
