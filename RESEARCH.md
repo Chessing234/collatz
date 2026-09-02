@@ -11423,3 +11423,81 @@ axioms.
    evidence worth recording about where the true constant sits.
 2. Range to `2 855 820` for `length_ge_12079`; scan fuel first, expect `> 224`.
 3. Audit the fifteen `*_of_heavy` consumers at window `6955`.
+
+## Round LXXV, iteration 9 — two corrections to iteration 8, found by asking for data
+
+Prompted by a question about whether FunSearch-style search applies here, the
+first move was to measure the landscape rather than argue about it: scan every
+odd `n < 3 · 10⁶` for records of `σ(n) / ⌊log₂ n⌋`, the quantity
+`LogBlockDescent` is about.  Two records exist in that whole range — `n = 3` at
+`4`, and `n = 27` at `59/4 = 14.75`.  Both of iteration 8's claims about this
+schema were wrong, and the scan shows it immediately.
+
+### Correction 1 — the schema was the wrong one
+
+`BlockDescent B` asks for the drop *at* step `B n`.  That is not `G3`, and it is
+refutable for empty reasons: an orbit that has already descended can come back
+up.  `27` is the witness — it first falls below itself at step `59`, but
+`T^60(27) = 35 > 27`.  So the exact-step schema is refuted at `C = 15` by an
+accident of where the orbit happens to sit at step `60`, which says nothing about
+descent.
+
+`BlockDescentWithin B := ∀ n > 1, ∃ k ≤ B n, T^k(n) < n` is the faithful form.
+The boundedness kill survives it unchanged — `no_bounded_block_descent` gives a
+rise at *every* step below `j`, not merely one — so
+`no_bounded_blockDescentWithin` is the same proof with the witness quantified
+over `k`.
+
+### Correction 2 — the open window was wrong at both ends
+
+Iteration 8 recorded `2 ≤ C ≤ 12`.
+
+* The lower end: `not_logBlockDescent_one` refuted only `C = 1`, using
+  `mersenne_sigma_gt`.  `27` alone refutes **`C ≤ 14`**:
+  `Nat.log2 27 = 4`, `σ(27) = 59`, and `14 · 4 = 56 < 59`, so no `k ≤ 56` drops.
+  That is `not_logBlockDescentWithin_fourteen`, fourteen times stronger and
+  proved by one `decide` over `57` orbit values.
+* The upper end: the `≤ 12` came from `MersenneDescent`, which bounds `σ ≤ 12j`
+  **on the Mersenne family only**.  Reading a family-specific check as a global
+  bound was the error.  No upper bound on `C` is known.
+
+**`C ≥ 15` is open, with no upper bound.**
+
+### On FunSearch, recorded because the answer shaped the work
+
+The scan is also the answer to whether FunSearch-style program search fits this
+project.  It fits exactly one shape here and it is this one: *find an `n`
+maximising a cheap computable score*.  The evaluator is three lines, the score is
+a real number, the output is a witness that converts to Lean as a literal plus a
+`decide`, and the landscape is sparse enough (two records in `3 · 10⁶`) that
+brute force stops being useful almost immediately — which is precisely the regime
+where evolving a *constructor* beats enumerating.  The cap-set profile.
+
+It does not fit the conjecture or either half of it.  FunSearch returns objects
+and heuristics with numeric scores; both halves of Collatz are `∀`-statements
+with no witness to find.  Nothing in the method upgrades a construction into a
+proof, and this repository's whole discipline is that only kernel-checked
+implications count.
+
+Worth noting the repository's obstruction theorems would serve as *evaluator
+constraints* rather than targets: `no_bounded_blockDescentWithin` says a search
+over bounded block lengths is guaranteed to fail, so a scorer can reject that
+region a priori instead of rediscovering it.
+
+`lake build Collatz` succeeds, **354 jobs**; `scripts/check_integrity.sh` passes,
+now also guarding `DriftSurvivors.not_logBlockDescentWithin_fourteen`.  The two
+new refutations depend on `[propext, Quot.sound]` only.  Zero `sorry`, zero added
+axioms.
+
+### Next session — three tasks, one primary
+
+1. **Primary.**  Push the `σ(n) / ⌊log₂ n⌋` record past `14.75`, or establish
+   that it is hard to.  The brute-force scan is exhausted by `3 · 10⁶`; the next
+   move is a constructor search — parameterised families `n = f(j)` scored by the
+   ratio — rather than more enumeration.  Any hit raises
+   `not_logBlockDescentWithin_fourteen` immediately, since the Lean side is one
+   `decide`.  A negative result over a wide constructor space is also worth
+   recording: it would be evidence that `27` is extremal, which no one has
+   proved.
+2. Range to `2 855 820` for `length_ge_12079`; scan fuel first, expect `> 224`.
+3. Audit the fifteen `*_of_heavy` consumers at window `6955`.

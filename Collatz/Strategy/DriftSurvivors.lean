@@ -220,5 +220,72 @@ theorem divergent_window_one_2404352 {n : Nat} (h : Divergence.Divergent n) (i :
     (hpos : 0 < orbit i n) {B : Nat} (hB : B < 2404352) : B < orbit i n :=
   Nat.lt_of_lt_of_le hB (divergent_avoids_2404352 h i hpos)
 
+/-! ## Correction: the schema should read "within", not "at exactly"
+
+`BlockDescent` asks for the drop *at* step `B n`.  That is the wrong reading of
+`G3`, and it is refutable for uninteresting reasons: an orbit that has already
+dropped can come back up, so `T^(B n)(n) < n` can fail at a step where the orbit
+had descended long before.  `27` shows it — it first falls below itself at step
+`59`, but `T^60(27) = 35`.
+
+The faithful schema asks for a drop *somewhere within* the block. -/
+
+/-- `n` drops below itself within `B n` accelerated steps.  This is `G3`'s reading. -/
+def BlockDescentWithin (B : Nat → Nat) : Prop :=
+  ∀ n : Nat, 1 < n → ∃ k : Nat, k ≤ B n ∧ acceleratedOrbit k n < n
+
+theorem blockDescentWithin_of_blockDescent {B : Nat → Nat} (h : BlockDescent B) :
+    BlockDescentWithin B := fun n hn => ⟨B n, Nat.le_refl _, h n hn⟩
+
+theorem collatz_of_blockDescentWithin {B : Nat → Nat} (h : BlockDescentWithin B) :
+    CollatzConjecture :=
+  Strategy.collatz_of_finiteStoppingTime (fun n hn => by
+    obtain ⟨k, _, hk⟩ := h n hn
+    exact ⟨k, hk⟩)
+
+/-- **The boundedness kill survives the correction.**  `no_bounded_block_descent`
+gives a rise at *every* step below `j`, not just one, so the Mersenne witness
+defeats the "within" reading too. -/
+theorem no_bounded_blockDescentWithin {B : Nat → Nat} {c : Nat} (hb : ∀ n : Nat, B n ≤ c) :
+    ¬ BlockDescentWithin B := by
+  intro h
+  have hp2 : (2:Nat) ^ 2 = 4 := by decide
+  have hpow : (2:Nat) ^ 2 ≤ 2 ^ (c + 2) := Nat.pow_le_pow_right (by omega) (by omega)
+  have hn1 : 1 < 2 ^ (c + 2) - 1 := by omega
+  obtain ⟨k, hk, hdrop⟩ := h (2 ^ (c + 2) - 1) hn1
+  have hble : B (2 ^ (c + 2) - 1) ≤ c := hb _
+  rcases Nat.eq_zero_or_pos k with h0 | hpos
+  · rw [h0, acceleratedOrbit_zero] at hdrop
+    omega
+  · have hrise := DensitySaturation.no_bounded_block_descent
+      (B := k) (j := c + 2) hpos (by omega)
+    omega
+
+/-- The survivor, in the corrected reading. -/
+def LogBlockDescentWithin (C : Nat) : Prop :=
+  BlockDescentWithin (fun n => C * Nat.log2 n)
+
+theorem collatz_of_logBlockDescentWithin {C : Nat} (h : LogBlockDescentWithin C) :
+    CollatzConjecture := collatz_of_blockDescentWithin h
+
+/-- **`C ≤ 14` is refuted, by `27` alone.**  `Nat.log2 27 = 4` and `27` does not
+fall below itself until step `59`, so a block of `14 · 4 = 56` steps is not
+enough.  This supersedes `not_logBlockDescent_one`, which was weaker by a factor
+of fourteen.
+
+A scan of every odd `n < 3 · 10⁶` finds **no** larger value of
+`σ(n) / ⌊log₂ n⌋` than `27`'s `59/4 = 14.75`; the only earlier record is `n = 3`
+at `4`.  So `C ≥ 15` is open, and the records are extremely sparse — two of them
+below three million. -/
+theorem not_logBlockDescentWithin_fourteen : ¬ LogBlockDescentWithin 14 := by
+  intro h
+  obtain ⟨k, hk, hdrop⟩ := h 27 (by omega)
+  have hk' : k ≤ 14 * Nat.log2 27 := hk
+  have hlog : (14:Nat) * Nat.log2 27 = 56 := by decide
+  rw [hlog] at hk'
+  have hno : ∀ j : Nat, j ≤ 56 → 27 ≤ acceleratedOrbit j 27 := by decide
+  have := hno k hk'
+  omega
+
 end DriftSurvivors
 end Collatz

@@ -104,13 +104,26 @@ the shape of `B`.**  What is refuted:
 * `no_runLength_blockDescent` — `B n = r(n) + s(r(n))`, from
   `RunLengthAny.no_tail_at_any_run_length`; not a boundedness consequence.
 
-What survives: `B` growing with the *size* of `n`.  `LogBlockDescent C` is
-`BlockDescent (fun n => C * Nat.log2 n)`; `logBlock_unbounded` proves the
-boundedness kill cannot apply to it, `collatz_of_logBlockDescent` proves it would
-settle the conjecture, and `not_logBlockDescent_one` refutes `C = 1`.  With
-`MersenneDescent` checking `σ ≤ 12j` on that family to `j = 200`, the open window
-is `2 ≤ C ≤ 12` as far as this development can see.  This is standing problem
-**G3** with an explicit function in place of "a proved function of `n`".
+What survives: `B` growing with the *size* of `n`.  `LogBlockDescentWithin C` is
+`BlockDescentWithin (fun n => C * Nat.log2 n)`; `logBlock_unbounded` proves the
+boundedness kill cannot apply to it and `collatz_of_logBlockDescentWithin` proves
+it would settle the conjecture.  This is standing problem **G3** with an explicit
+function in place of "a proved function of `n`".
+
+*Two corrections to the first version of this entry.*  (i) The schema must read
+"drops **within** `B n` steps", not "at exactly step `B n`" — an orbit that has
+already descended can come back up, and `27` does exactly that (`σ(27) = 59` but
+`T^60(27) = 35`).  `BlockDescentWithin` is the faithful form; the boundedness
+kill survives it unchanged, because `no_bounded_block_descent` gives a rise at
+*every* step below `j`.  (ii) The stated open window `2 ≤ C ≤ 12` was wrong at
+both ends.  `not_logBlockDescentWithin_fourteen` refutes **`C ≤ 14`** using `27`
+alone, and the `≤ 12` came from `MersenneDescent`, which bounds `σ` on the
+Mersenne family only — not globally.  **`C ≥ 15` is open and no upper bound is
+known.**
+
+The scoreboard: over every odd `n < 3 · 10⁶` the maximum of `σ(n) / ⌊log₂ n⌋` is
+`59/4 = 14.75` at `n = 27`, with the only earlier record `n = 3` at `4`.  Two
+records below three million — the landscape is very sparse.
 
 A proposed drift hypothesis can now be checked against `no_bounded_blockDescent`
 mechanically rather than against a remembered caution — the same service
