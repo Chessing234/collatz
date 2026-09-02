@@ -156,6 +156,21 @@ steps**, and neither the heavy-window theorems nor the affine identity contains
 one.  A future proposal can be checked against `affine_vacuous_of_heavy`: if its
 inequality follows from heaviness alone, it is this one again.
 
+**And the missing ingredient is not a smaller lemma.**  Round LXXV.20 asked
+whether "force a light window on a schedule" could be obtained separately, as
+`G1` in sieve-testable form.  It cannot, because **descent and lightness are the
+same event**: `AffineObstruction.light_of_drop` shows a drop at step `j` forces
+the window light with *no hypothesis at all*, and `drop_iff_light_and_gap` gives
+the exact converse — `T^j(n) < n` iff the window is light **and**
+`affineC j n < n · (2 ^ j − 3 ^ a)`.  `Structure.Density.accOrbit_lt_of_light`
+already had one direction; what was missing is that it runs both ways.
+
+So a theorem forcing light windows on a `log₂ n` schedule *is*
+`collatz_of_logBlock17_above`'s hypothesis, not a prerequisite for it.  Any plan
+treating it as a stepping stone is circular.  Three routes to that hypothesis are
+now closed with named obstructions, and the third closes the local search rather
+than leaving it open.
+
 *Two corrections to the first version of this entry.*  (i) The schema must read
 "drops **within** `B n` steps", not "at exactly step `B n`" — an orbit that has
 already descended can come back up, and `27` does exactly that (`σ(27) = 59` but
