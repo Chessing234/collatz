@@ -12222,3 +12222,72 @@ now also guarding `affine_vacuous_of_heavy`.  All three new theorems depend on
    at any `M` would be the first ingredient the two dead routes lacked.
 2. Collect the `[10 ^ 12, 10 ^ 13)` scan.
 3. Bank `cert 9616` once the cores are free.
+
+## Round LXXV, iteration 20 — the missing ingredient is the target restated
+
+Iterations 18 and 19 closed two routes and named what they lacked: *a statement
+forcing a light window after a controlled number of steps*.  Last round's plan
+was to hunt for that statement separately — `G1` in a form the sieve machinery
+could test.
+
+**There is nothing separate to hunt for.**  Descent and lightness are the same
+event.
+
+```
+light_of_drop : acceleratedOrbit j n < n → 3 ^ oddCount n j < 2 ^ j
+drop_iff_light_and_gap (n j) :
+    acceleratedOrbit j n < n ↔
+      3 ^ oddCount n j < 2 ^ j ∧ affineC j n < n * (2 ^ j - 3 ^ oddCount n j)
+```
+
+`light_of_drop` needs **no hypothesis at all** — not even `0 < n`, since at
+`n = 0` the hypothesis is already false.  (The `0 < n` I first wrote was
+flagged by the unused-variable linter, which is a better reviewer than I was
+here.)  `Structure.Density.accOrbit_lt_of_light` already had the useful
+direction, light plus a size threshold giving a drop; what was missing is that
+the implication runs both ways, with the `affineC` correction made explicit.
+
+**Consequence.**  A theorem forcing light windows on a `log₂ n` schedule *is* a
+theorem forcing descent on a `log₂ n` schedule — which is exactly
+`DriftSurvivors.collatz_of_logBlock17_above`'s hypothesis.  Not a prerequisite
+for it, the same statement.  Any plan that treats "force a light window" as a
+stepping stone toward the reduction is circular, including the one this round
+was sent to execute.
+
+Recording that plainly.  Three iterations in a row have now ended in a negative
+result about the same target, and the third one is the informative one: the first
+two said *these tools don't reach it*, this one says *the thing they were missing
+is the target*.  That closes the local search rather than leaving it open, which
+is worth more than another route that also fails.
+
+### Where this leaves the divergence half
+
+`collatz_of_logBlock17_above` is the sharpest statement, its finite part is
+discharged to `3 998 720`, the constant is pinned in `[17, 19.98]` with `≤ 16`
+refuted, and the three obvious in-repository routes to its hypothesis are closed
+with named obstructions.  Nothing here is stuck in the sense of an unfinished
+proof; the target is simply hard, and the local structure around it is now mapped
+rather than guessed at.
+
+### Status
+
+Cycle bound `14187`.  `C ≤ 16` refuted; `C = 17` verified in the kernel to
+`3 998 720`, unrefuted by scan to `10 ^ 12`.  The `[10 ^ 12, 10 ^ 13)` scan has
+now run five rounds with **no record and no worker finished** — six alive,
+checked each round.
+
+`lake build Collatz` succeeds, **361 jobs**; `scripts/check_integrity.sh` passes,
+now also guarding `drop_iff_light_and_gap`.  Zero `sorry`, zero added axioms.
+
+### Next session — three tasks, one primary
+
+1. **Primary.**  Stop attacking the reduction from inside this stack and change
+   the object.  The cycle side has an asset the divergence side does not: the
+   cycle equation pins `n` exactly, `n · (2 ^ E − 3 ^ L) = Q`.  `G4` asks whether
+   `2 ^ E − 3 ^ L` can divide `Q` at all, and `StairGeneric` now gives exact
+   control of `2 ^ E − 3 ^ L` along the staircase.  Check whether the gap
+   recurrence says anything about the *divisibility*, which is a question the
+   scale-free obstruction does not touch.
+2. Collect the `[10 ^ 12, 10 ^ 13)` scan; if it completes empty, record the
+   decade as clean.
+3. Bank `cert 9616` once the cores are free.

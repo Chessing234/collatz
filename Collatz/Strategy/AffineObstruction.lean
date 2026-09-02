@@ -85,5 +85,81 @@ theorem light_caps_start (n j : Nat) (hnd : n ≤ acceleratedOrbit j n)
     Nat.mul_le_mul (Nat.le_refl n) (Nat.le_of_lt hlight)
   omega
 
+/-! ## Is "force a light window" an independent ingredient?  No — it is the
+descent question itself
+
+Iterations 18 and 19 closed two routes and named what they lacked: a statement
+*forcing a light window after a controlled number of steps*.  The natural next
+move is to look for that statement separately — `G1` in a sieve-testable form.
+
+This section shows there is nothing separate to look for.  **Descent and
+lightness are the same event**, up to the `affineC` correction:
+
+* `light_of_drop` — a drop at step `j` *forces* the window light, with **no
+  hypothesis at all**.  So lightness is not an extra ingredient that descent
+  needs; it is a consequence of descent.
+* `drop_iff_light_and_gap` — the exact converse, with the correction made
+  explicit: `T^j(n) < n` holds precisely when the window is light **and**
+  `affineC j n < n · (2 ^ j − 3 ^ a)`.
+
+`Structure.Density.accOrbit_lt_of_light` already had the useful direction (light
+plus a size threshold gives a drop).  What was missing is that the implication
+runs both ways, and that is what settles the question: a theorem forcing light
+windows on a `log₂ n` schedule *is* a theorem forcing descent on a `log₂ n`
+schedule, which is `DriftSurvivors.collatz_of_logBlock17_above`'s hypothesis.
+Not a prerequisite for it — the same statement.
+
+So the ingredient the two dead routes lacked is not a smaller lemma waiting to be
+proved.  It is the target restated, and any plan that treats it as a stepping
+stone is circular.  Recorded so the next round does not spend a cycle looking. -/
+
+/-- **A drop forces a light window.**  Entirely unconditional: if the orbit of
+`n` falls below `n` at step `j`, then `3 ^ a < 2 ^ j` for that window.  No
+positivity is needed — at `n = 0` the hypothesis is already false. -/
+theorem light_of_drop {n j : Nat} (h : acceleratedOrbit j n < n) :
+    3 ^ oddCount n j < 2 ^ j := by
+  have hid := affine_exact n j
+  have h2 : 0 < (2:Nat) ^ j := by
+    have := Nat.one_le_pow j 2 (by omega); omega
+  have hlt : 2 ^ j * acceleratedOrbit j n < 2 ^ j * n :=
+    Nat.mul_lt_mul_of_pos_left h h2
+  have hc1 : (3:Nat) ^ oddCount n j * n = n * 3 ^ oddCount n j := Nat.mul_comm _ _
+  have hc2 : (2:Nat) ^ j * n = n * 2 ^ j := Nat.mul_comm _ _
+  have hfin : n * 3 ^ oddCount n j < n * 2 ^ j := by omega
+  exact Nat.lt_of_mul_lt_mul_left hfin
+
+/-- **Descent, characterised exactly.**  `T^j(n) < n` iff the window is light and
+the accumulator fits inside the gap it opens.  Also unconditional: at `n = 0`
+both sides are false. -/
+theorem drop_iff_light_and_gap (n j : Nat) :
+    acceleratedOrbit j n < n ↔
+      (3 ^ oddCount n j < 2 ^ j ∧
+        affineC j n < n * (2 ^ j - 3 ^ oddCount n j)) := by
+  have hid := affine_exact n j
+  have h2 : 0 < (2:Nat) ^ j := by
+    have := Nat.one_le_pow j 2 (by omega); omega
+  constructor
+  · intro h
+    have hlight := light_of_drop h
+    refine ⟨hlight, ?_⟩
+    have hlt : 2 ^ j * acceleratedOrbit j n < 2 ^ j * n :=
+      Nat.mul_lt_mul_of_pos_left h h2
+    have hsub : n * (2 ^ j - 3 ^ oddCount n j) = n * 2 ^ j - n * 3 ^ oddCount n j :=
+      Nat.mul_sub _ _ _
+    have hc1 : (3:Nat) ^ oddCount n j * n = n * 3 ^ oddCount n j := Nat.mul_comm _ _
+    have hc2 : (2:Nat) ^ j * n = n * 2 ^ j := Nat.mul_comm _ _
+    have hle : n * 3 ^ oddCount n j ≤ n * 2 ^ j :=
+      Nat.mul_le_mul (Nat.le_refl n) (Nat.le_of_lt hlight)
+    omega
+  · rintro ⟨hlight, hgap⟩
+    have hsub : n * (2 ^ j - 3 ^ oddCount n j) = n * 2 ^ j - n * 3 ^ oddCount n j :=
+      Nat.mul_sub _ _ _
+    have hc1 : (3:Nat) ^ oddCount n j * n = n * 3 ^ oddCount n j := Nat.mul_comm _ _
+    have hc2 : (2:Nat) ^ j * n = n * 2 ^ j := Nat.mul_comm _ _
+    have hle : n * 3 ^ oddCount n j ≤ n * 2 ^ j :=
+      Nat.mul_le_mul (Nat.le_refl n) (Nat.le_of_lt hlight)
+    have hlt : 2 ^ j * acceleratedOrbit j n < 2 ^ j * n := by omega
+    exact Nat.lt_of_mul_lt_mul_left hlt
+
 end AffineObstruction
 end Collatz
