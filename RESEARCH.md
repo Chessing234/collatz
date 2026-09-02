@@ -12455,3 +12455,85 @@ now also guarding `cycle_min_gap_le`.  All three new theorems depend on
 3. Compare the two routes to a rung at `9616`: `cert 9616` by kernel evaluation
    versus `cert_of_gap_bound` with no computation, to see how much the factor of
    two actually costs in frontier.
+
+## Round LXXV, iteration 23 — an inventory miss, and a correction to iteration 21
+
+Two things this round, both corrective.  Neither advances a bound; both fix
+something I had wrong.
+
+### The planned target already existed
+
+Iteration 22 identified `Q = affineC E m` as the cycle side's bottleneck and set
+next round's primary as: does the cyclic condition constrain `Q` beyond
+`Q ≤ Bcap a`?  The first concrete step was to be a *lower* bound on `Q`.
+
+`Strategy.Bootstrap.affineC_ge_pow` already proves it —
+`3 ^ a ≤ affineC j x + 2 ^ a`, i.e. `Q ≥ 3 ^ a − 2 ^ a` — and
+`Bootstrap.bootstrap_floor` already turns it into the cycle statement
+`3 ^ a ≤ (2 ^ L − 3 ^ a) · m + 2 ^ a`.  There is even a `bootstrap_loop`
+carrying a floor `c` to a new floor, and a `bootstrap_loses` measuring that the
+loop returns `≈ 3c/a`, weaker than it started.
+
+So the plan was built on an incomplete inventory of the repository's own
+bootstrap material.  The brief's step 1 says to inventory before choosing a
+target; I chose from memory of recent rounds instead.  Recording that as the
+reason, not as an excuse.
+
+### Correction to iteration 21
+
+That round said the `cert` computations "were never logically necessary — they
+buy a factor of two and nothing else", and that a frontier theorem "can now be
+stated at any `c` with no kernel evaluation, given control of `gapAt`".
+
+The statement is true.  The implicature is wrong, and the clause doing the work
+is "given control of `gapAt`".  `cert_of_gap_bound`'s hypothesis is
+`∀ i < A, i · 3 ^ i < 3c · gapAt i` — a condition at **every** `i` below the
+reach, not at the staircase rungs.  `StairGeneric` and `StairLower` determine
+`gapAt` everywhere by exact recurrences, but *evaluating* it at every `i < A` is
+a computation of the same order as `cert` itself.
+
+**The closed form does not save the computation.  It explains it.**  That is
+still worth having — the certificate went from opaque to pinned between two
+explicit inequalities — but it is a structural result, not a computational one,
+and iteration 21 sold it as both.
+
+### What the sandwich actually costs
+
+| reach `A` | closed form needs `c >` | `cert` needs `c ≥` | ratio |
+|---|---|---|---|
+| `8286` | `4 685 313` | `3 380 808` | `1.386` |
+| `8951` | `5 540 467` | `3 997 765` | `1.386` |
+| `9616` | `6 559 829` | `4 733 176` | `1.386` |
+
+A `39 %` larger range, not a factor of two.  `CertClosedForm.Bcap_sandwich`
+confines the ratio `a · 3 ^ a / (3 · Bcap a)` to `[1, 2]`; the observed `1.386`
+is `2 ln 2`, and the reason is visible — `Bcap a` averages
+`2 ^ (fexp i) / 3 ^ i = 2 ^ (−θ_i)` over fractional parts, and
+`∫₀¹ 2 ^ (−θ) dθ = 1/(2 ln 2) = 0.7213`.  That assumes the `θ_i` equidistribute,
+so it is a heuristic and is recorded as one.
+
+Also computed: the next rung's threshold, `A = 9616` at `c = 4 733 176`, frontier
+`15241`, from the routine that reproduces all eight known thresholds exactly.
+Not banked as a `cert` — the kernel evaluation is available when the cores are.
+
+### Status
+
+Cycle bound `14187`.  `C ≤ 16` refuted; `C = 17` verified in the kernel to
+`3 998 720`, unrefuted by scan to `10 ^ 12`.  The `[10 ^ 12, 10 ^ 13)` scan has
+run eight rounds with **no record and no worker finished** — six alive, checked.
+
+`lake build Collatz` succeeds, **363 jobs**; `scripts/check_integrity.sh` passes.
+`Bcap_sandwich` depends on `[propext, Quot.sound]`.  Zero `sorry`, zero added
+axioms.
+
+### Next session — three tasks, one primary
+
+1. **Primary.**  Inventory first, then choose — specifically, read
+   `Strategy/Bootstrap.lean` and `Strategy/CycleAccumulator.lean` end to end and
+   write down what the bootstrap loop's loss factor actually is and what would
+   have to change to make it gain.  `bootstrap_loses` measures it; the question
+   is whether the loss is structural or an artefact of the `Bcap` estimate,
+   which is the same `Q` question in the form the repository has already set up.
+2. Collect the `[10 ^ 12, 10 ^ 13)` scan.  Eight rounds without a record is
+   itself worth reporting once a worker finishes.
+3. Bank `cert 9616` at `4 733 176` when the cores free up.

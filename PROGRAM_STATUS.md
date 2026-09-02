@@ -417,10 +417,26 @@ the kernel clean.
 
   Checked at every threshold the ladder uses — `(1 086 055, 4296)`,
   `(2 010 160, 6291)`, `(3 380 808, 8286)`, `(3 997 765, 8951)` — the bounds
-  bracket the true reach in all four, a rung or two either side.  So the `cert`
-  computations were never logically necessary; they buy a factor of two and
-  nothing else.  No frontier moves — the banked certificates are sharper — but
-  the ladder is no longer opaque anywhere.
+  bracket the true reach in all four, a rung or two either side.  No frontier
+  moves; the banked certificates are sharper.
+
+  *Correction (Round LXXV.23).*  The previous entry said the `cert` computations
+  "were never logically necessary".  The statement is true and the implicature
+  wrong: `cert_of_gap_bound`'s hypothesis is a condition at **every** `i < A`,
+  and evaluating `gapAt` at every `i < A` is a computation of the same order as
+  `cert`.  The closed form does not save the computation — **it explains it**, by
+  pinning the certificate between two explicit inequalities.
+
+  Measured cost: the closed form needs a `39 %` larger range for the same reach
+  (`4 685 313` vs `3 380 808` at `A = 8286`, and the same ratio at `8951` and
+  `9616`), not a factor of two.  The ratio is `a · 3 ^ a / (3 · Bcap a)`, which
+  `CertClosedForm.Bcap_sandwich` confines to `[1, 2]` and which appears to tend
+  to `2 ln 2 = 1.386` because `Bcap` averages `2 ^ (−θ_i)` over fractional parts
+  and `∫₀¹ 2 ^ (−θ) dθ = 1/(2 ln 2)` — a heuristic, recorded as one.
+
+  The threshold for the next rung, `A = 9616`, is `4 733 176` (frontier `15241`),
+  from the routine that reproduces all eight known thresholds exactly.  Not
+  banked as a `cert`.
 
   **The cycle side's bottleneck is `Q`, not the gap.**  Round LXXV.22 bridged the
   cycle equation to the staircase: a cycle is necessarily light, so

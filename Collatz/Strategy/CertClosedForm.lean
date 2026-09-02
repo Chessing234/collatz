@@ -107,5 +107,48 @@ theorem cert_necessary {a c : Nat}
     a * 3 ^ a < 6 * c * (2 * 2 ^ fexp a - 3 ^ a) :=
   RouteCap.reach_sharp h
 
+/-! ## Correction: this is a structural sandwich, not a computational shortcut
+
+The section above says a frontier theorem "can now be stated at any `c` with no
+kernel evaluation, given control of `gapAt`".  The statement is true; the
+implicature is not, and it is worth correcting explicitly.
+
+`cert_of_gap_bound`'s hypothesis is `∀ i < A, i · 3 ^ i < 3c · gapAt i` — a
+condition at **every** `i` below the reach, not at the staircase rungs.
+`StairGeneric` and `StairLower` determine `gapAt` everywhere in principle, by
+exact recurrences, but *evaluating* it at every `i < A` is a computation of the
+same order as `cert` itself.  So the closed form does not save the computation.
+What it does is explain it: the certificate is pinned between two explicit
+inequalities, and the pinning is what was previously invisible.
+
+## What the sandwich costs, measured
+
+The closed form and the certificate need different ranges for the same reach.
+The ratio is `a · 3 ^ a / (3 · Bcap a)`, which `Bcap_sandwich` confines to
+`[1, 2]`, and which comes out the same at every rung tried:
+
+| reach `A` | closed form needs `c >` | `cert` needs `c ≥` | ratio |
+|---|---|---|---|
+| `8286` | `4 685 313` | `3 380 808` | `1.386` |
+| `8951` | `5 540 467` | `3 997 765` | `1.386` |
+| `9616` | `6 559 829` | `4 733 176` | `1.386` |
+
+`1.386` is `2 · ln 2`, and the reason is visible: `Bcap a` averages
+`2 ^ (fexp i) / 3 ^ i = 2 ^ (−θ_i)` over the fractional parts `θ_i`, and
+`∫₀¹ 2 ^ (−θ) dθ = 1 / (2 ln 2) = 0.7213`, so `a · 3 ^ a / (3 · Bcap a) → 2 ln 2`.
+That is a heuristic — it assumes the `θ_i` equidistribute — and is recorded as
+one, not proved.
+
+So the price of the closed form is a `39 %` larger verified range, not a factor
+of two.  Also recorded: the threshold for the next rung, `A = 9616`, is
+`4 733 176`, computed by the routine that reproduces all eight known thresholds
+exactly.  It is not banked as a `cert` here; the computation is available when
+the cores are. -/
+
+/-- The two directions of the `Bcap` estimate, together.  The certificate and its
+closed form differ by exactly this ratio. -/
+theorem Bcap_sandwich (a : Nat) : 3 * Bcap a ≤ a * 3 ^ a ∧ a * 3 ^ a ≤ 6 * Bcap a :=
+  ⟨three_Bcap_le a, RouteCap.six_Bcap_ge a⟩
+
 end CertClosedForm
 end Collatz
