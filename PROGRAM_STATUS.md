@@ -121,18 +121,29 @@ alone, and the `≤ 12` came from `MersenneDescent`, which bounds `σ` on the
 Mersenne family only — not globally.  **`C ≥ 15` is open and no upper bound is
 known.**
 
-**The constant is now sandwiched.**  `not_logBlockDescentWithin_fifteen` refutes
-`C ≤ 15`, and `logBlockDescentWithin_16_below_20000` verifies `C = 16` in the
-kernel for every `2 ≤ n < 20 000`.
+**`C ≤ 16` is refuted**, by four records of `σ(n) / ⌊log₂ n⌋` found by direct
+scan:
 
-The scoreboard, from a direct scan of every odd `n < 10 ^ 10`: `σ(n) / ⌊log₂ n⌋`
-has exactly three record values — `n = 3` at `4`, `n = 27` at `59/4 = 14.75`, and
-`n = 63 728 127` at `376/25 = 15.04`.  Nothing beats `15.04` up to `10 ^ 10`, so
-`C = 16` is unrefuted there; the kernel has checked the first `20 000`.  The
-records are `2.4` million apart in `n` for a gain of `0.29` in the ratio.
+| `n` | `σ` | `⌊log₂ n⌋` | ratio |
+|---|---|---|---|
+| `3` | `4` | `1` | `4` |
+| `27` | `59` | `4` | `14.75` |
+| `63 728 127` | `376` | `25` | `15.04` |
+| `12 235 060 455` | `547` | `33` | `16.58` |
 
-`not_logBlockDescentWithin_of_witness` makes each new record a one-`decide`
+`not_logBlockDescentWithin_of_witness` makes each one a one-`decide`
 instantiation, so raising the refuted `C` costs a search, not a proof.
+`logBlockDescentWithin_16_below_20000` still holds — `C = 16` fails globally but
+not on the first `20 000`.
+
+**Where the ratio is heading.**  The count of `n < N` with `σ(n) > k` is
+heuristically `N · 2^(−γk)` with `γ = 1 − H(log₃ 2) = 0.05004…`, which
+`CLOSURE.md` already identifies as *the* constant of Class 2.  If so,
+`sup σ(n)/⌊log₂ n⌋ = 1/γ ≈ 19.98`, making **`C = 20` the critical constant**:
+every `C ≤ 19` refutable by a large enough scan, `C ≥ 20` the only
+possibly-true range.  Not proved — `γ` is a density statement and this is a
+pointwise supremum, exactly the "almost all, therefore all" gap.  But it turns
+refuting any `C ≤ 19` into a search with a predicted stopping point.
 
 A proposed drift hypothesis can now be checked against `no_bounded_blockDescent`
 mechanically rather than against a remembered caution — the same service
@@ -184,9 +195,9 @@ the kernel clean.
 ## Acceptance criteria
 
 * **(P1) no nontrivial cycles — NOT met.**  Strongest unconditional result is
-  `Frontier11025.length_ge_11025`, on the verified range `2 404 352`
-  (`Search.VerifiedRung11025`); it supersedes `RealizableFrontier6809.length_ge_6809`
-  by four risers of the ladder.  Round XLIV proved the paying route cannot
+  `Frontier12079.length_ge_12079`, on the verified range `2 856 960`
+  (`Search.VerifiedRung12079`); it supersedes `RealizableFrontier6809.length_ge_6809`
+  by five risers of the ladder.  Round XLIV proved the paying route cannot
   reach further: the verified range needed to kill the `k`-th ladder rung is
   `≈ a_k·a_{k+1}/(6 ln 2)`, which diverges, so **no finite verified range excludes all
   cycle lengths**.  Climbing two rungs does not touch that conclusion — an
@@ -194,8 +205,8 @@ the kernel clean.
   odd steps, still finite and still not all lengths.  Rungs to frontier `13133` are
   banked in `Strategy.PreCertified` and need only the corresponding ranges;
   `Strategy.FrontierParametric.length_ge_of_cert` makes each a one-line
-  instantiation.  Two remain conditional (`12079` and `13133`, needing `2 855 820` and
-  `3 380 808`); `11025` is now unconditional.
+  instantiation.  One remains conditional (`13133`, needing `3 380 808`); `12079` is now
+  unconditional.
 
   **Round XLIV's divergence claim is now a theorem, not a measurement.**
   `Strategy.RouteCap.cert_reach_le`: any certificate reaching odd-step budget

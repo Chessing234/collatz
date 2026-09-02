@@ -11591,3 +11591,96 @@ now guarding `not_logBlockDescentWithin_fifteen` and
 2. Range to `2 855 820` for `length_ge_12079`; scan fuel first, expect `> 224`.
 3. Chunk `logCheck` to raise the kernel-verified base range from `20 000` toward
    `10 ^ 5`, if a cheap chunking scheme lands under a minute.
+
+## Round LXXV, iteration 11 — a fourth record, and the ratio's likely ceiling
+
+Two things this round: the cycle bound moves a rung, and the `LogBlockDescent`
+constant moves again — with, for the first time, a *predicted* place for it to
+stop.
+
+### Rung six: no cycle shorter than `12079`
+
+`Search.VerifiedRung12079` sweeps blocks `2348 … 2789` — `442` blocks,
+`[2 404 352, 2 856 960)` — and `Frontier12079.length_ge_12079` follows from the
+banked `PreCertified.cert_7621`.  **Unconditional.**  One banked rung remains:
+`13133` at `3 380 808`.
+
+**The fuel prediction was wrong, in the safe direction.**  Iteration 5 noted the
+previous extension only *tied* the standing fuel record of `224` (at
+`n = 2 252 031`, the odd predecessor of twice the old holder `1 126 015`) and
+predicted the next extension would have to raise it.  It did not: the worst drop
+time in the new interval is `221`, three below the record.  Drop times are not
+monotone in the range, and `1 126 015` still holds the record over everything
+below `2 856 960`.
+
+### A fourth ratio record
+
+The parallel scan past `10 ^ 10` produced one almost immediately:
+
+```
+n = 12 235 060 455    σ = 547    ⌊log₂ n⌋ = 33    ratio = 16.58
+```
+
+`16 · 33 = 528 < 547`, so `not_logBlockDescentWithin_sixteen` follows from the
+parametric witness lemma — one `decide`, no new proof, exactly as iteration 10
+set it up.  The orbit peaks at `49` bits.
+
+The four records: `4`, `14.75`, `15.04`, `16.58`, at `n = 3, 27, 63 728 127,
+12 235 060 455`.
+
+### Where the ratio is heading — and it is a constant this repo already owns
+
+The number of `n < N` with `σ(n) > k` is heuristically `N · 2^(−γk)` with
+
+    γ = 1 − H(log₃ 2) = 0.05004…
+
+which is not a new constant here.  `CLOSURE.md` Class 2 identifies exactly this
+number as *the* constant of the counting class — "every appearance of `0.05004`
+is one number: `D(log₃2 ‖ ½)`, a large-deviation rate" — where it already shows
+up as the heavy-language density deficit, the image density of `w ↦ C mod G`, and
+the bounded-reverse-path exponent.
+
+If the heuristic holds, the largest `σ` below `N` is about `log₂ N / γ`, so
+
+    sup  σ(n) / ⌊log₂ n⌋  =  1/γ  ≈  19.98,
+
+making **`C = 20` the critical constant** for `LogBlockDescentWithin`: every
+`C ≤ 19` refutable by a large enough scan, `C ≥ 20` the only possibly-true range.
+
+**This is not proved and the gap is the standard one.**  `γ` is a density
+statement; `sup σ(n)/log₂ n` is a pointwise supremum.  Upgrading one to the other
+is precisely the "almost all, therefore all" move the brief forbids, and the
+missing arithmetic lemma is the same one that has blocked Terras since 1976.  What
+*is* established: the observed climb, and that the value it appears to approach is
+a number this development already has three independent names for.
+
+The practical consequence is real even without the proof: refuting a given
+`C ≤ 19` is now a search problem with a predicted stopping point rather than an
+open question, and each hit costs one `decide`.  If a scan ever produced a ratio
+above `20`, that would be evidence *against* the Class 2 heuristic — which would
+be more interesting than the refutation.
+
+### Method note, third in a row
+
+Iteration 9 mis-scoped because it did not scan; iteration 10's record came from
+scanning faster; this one from scanning in parallel.  Eight workers over
+`[10 ^ 10, 10 ^ 12)` found the record in under a minute.  The standing rule holds:
+check whether the search tool is the limit before concluding the space is.
+
+`lake build Collatz` succeeds, **356 jobs**; `scripts/check_integrity.sh` passes,
+now guarding `Frontier12079.length_ge_12079` and
+`DriftSurvivors.not_logBlockDescentWithin_sixteen`.  The range sweep and the
+refutation depend on `[propext, Quot.sound]` only.  Zero `sorry`, zero added
+axioms, no `native_decide`.
+
+### Next session — three tasks, one primary
+
+1. **Primary.**  Let the `[10 ^ 10, 10 ^ 12)` scan finish and collect every
+   record it found; each is a one-`decide` refutation of the next `C`.  If the
+   ratios continue toward `19.98` without crossing it, record that as support for
+   the Class 2 prediction; if one crosses `20`, that is the more interesting
+   outcome and should be checked twice before it is believed.
+2. Range to `3 380 808` for `length_ge_13133`, the last banked rung.  Scan fuel
+   first; `224` has now survived two extensions.
+3. Chunk `logCheck` to raise the kernel-verified base range from `20 000`, using
+   the repository's own `checkRange` chunking pattern rather than one `decide`.

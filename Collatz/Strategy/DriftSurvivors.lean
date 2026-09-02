@@ -403,5 +403,49 @@ theorem logBlockDescentWithin_16_below_20000 {n : Nat} (h2 : 2 ≤ n) (hN : n < 
     ∃ k : Nat, k ≤ 16 * Nat.log2 n ∧ acceleratedOrbit k n < n :=
   exists_le_of_dropsWithin (logCheck_read logCheck_2_20000 h2 (by omega))
 
+/-! ### The third record, and where the ratio is heading
+
+A parallel scan past `10 ^ 10` found a fourth record almost at once:
+
+```
+n = 12 235 060 455    σ = 547    ⌊log₂ n⌋ = 33    ratio = 16.58
+```
+
+so `C ≤ 16` falls too.  The orbit peaks at `49` bits, again small.
+
+**The ratios are climbing, and there is a predicted ceiling.**  The number of
+`n < N` with `σ(n) > k` is heuristically `N · 2 ^ (−γk)` with
+`γ = 1 − H(log₃ 2) = 0.05004…` — the large-deviation rate that `CLOSURE.md`
+identifies as *the* constant of this repository's Class 2, where it already
+appears as the heavy-language density deficit and the bounded-reverse-path
+exponent.  If that heuristic is right, the largest `σ` below `N` is about
+`log₂ N / γ`, so
+
+    sup  σ(n) / ⌊log₂ n⌋  =  1/γ  ≈  19.98.
+
+That would make **`C = 20` the critical constant** for `LogBlockDescentWithin`,
+with every `C ≤ 19` refutable by a large enough scan and `C ≥ 20` the only
+possibly-true range.  Nothing here proves it: `γ` is a density statement and this
+is a pointwise supremum, which is exactly the "almost all, therefore all" gap the
+brief warns about.  What is proved is the climb so far — `14.75`, `15.04`,
+`16.58` — and the observation that the target it appears to approach is a
+constant the development already has a name for.
+
+Practical consequence: refuting a given `C ≤ 19` is a search problem with a
+predicted stopping point, not an open mathematical question.  Each hit costs one
+`decide`. -/
+
+set_option maxRecDepth 4000 in
+theorem log2_12235060455 : Nat.log2 12235060455 = 33 := by decide
+
+set_option maxRecDepth 200000 in
+theorem no_drop_12235060455 :
+    ∀ j : Nat, j ≤ 16 * 33 → 12235060455 ≤ acceleratedOrbit j 12235060455 := by decide
+
+/-- **`C ≤ 16` is refuted.**  `12 235 060 455` has `⌊log₂⌋ = 33` and does not fall
+below itself until step `547`, against a block of `16 · 33 = 528`. -/
+theorem not_logBlockDescentWithin_sixteen : ¬ LogBlockDescentWithin 16 :=
+  not_logBlockDescentWithin_of_witness (by omega) log2_12235060455 no_drop_12235060455
+
 end DriftSurvivors
 end Collatz

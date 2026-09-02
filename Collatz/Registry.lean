@@ -118,9 +118,9 @@ def cycleLengthDraft : LemmaDraft where
 
 /-- The current cycle-length frontier, superseding `cycleLengthDraft`'s `27`. -/
 def cycleFrontierDraft : LemmaDraft where
-  name := "length_ge_11025"
-  source := "this project, Collatz/Strategy/Frontier11025.lean"
-  statement := "No nontrivial accelerated cycle has length below 11025. The realizability certificate of RealizableBound reaches odd-step budget 6956 once the verified range passes 2403661; Search/VerifiedRung11025 supplies that range by sweeping 2348 blocks of 1024 at fuel 224, and FrontierParametric.length_ge_of_cert combines the two. Unconditional. Two banked rungs remain conditional: 12079 at range 2855820 and 13133 at 3380808. RouteCap.cert_reach_le caps the whole route at reach 6c, and RouteCap.range_gt_22543234 proves the range required for frontier 22619 exceeds 22543234, so the ladder is a finite resource with a proved price."
+  name := "length_ge_12079"
+  source := "this project, Collatz/Strategy/Frontier12079.lean"
+  statement := "No nontrivial accelerated cycle has length below 12079. The realizability certificate of RealizableBound reaches odd-step budget 7621 once the verified range passes 2855820; Search/VerifiedRung12079 supplies that range by sweeping 2790 blocks of 1024 at fuel 224, and FrontierParametric.length_ge_of_cert combines the two. Unconditional. One banked rung remains conditional: 13133 at range 3380808. RouteCap.cert_reach_le caps the whole route at reach 6c, and StairLower.range_gt_492286389612 prices the level-3 cliff at a range above 4.9e11, so the ladder is a finite resource with a proved price."
   status := "proved"
 
 /-- What the initial odd-run length does and does not control. -/
