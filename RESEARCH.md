@@ -12618,3 +12618,82 @@ now also guarding `cycle_min_cap`.  Both new theorems depend on
    observations into checked statements rather than adding new guesses.
 2. Collect the `[10 ^ 12, 10 ^ 13)` scan.
 3. Bank `cert 9616` at `4 733 176` when the cores free up.
+
+## Round LXXV, iteration 25 — a null result that was not a result
+
+The `[10 ^ 12, 10 ^ 13)` scan was killed.  It produced **zero output**: no
+sub-range completed, all six files empty.
+
+### What I had been reporting, and why it was wrong
+
+Rounds LXXV.15 through LXXV.24 each carried a status line of the form:
+
+> The `[10 ^ 12, 10 ^ 13)` scan has run *n* rounds with **no record and no worker
+> finished** — six alive, checked.
+
+The "checked" was real — `ps` confirmed the processes existed each round, which
+was the fix from LXXV.15's own process note.  But confirming processes exist is
+not confirming progress, and I let "no record" accumulate across ten rounds as
+though the absence were informative.  **It was not.**  The scanner printed
+nothing until it found a record *or* finished a whole `1.5 · 10 ^ 12` sub-range,
+so an empty file was exactly as consistent with "barely started" as with "swept
+clean".  Ten rounds of "no record" carried no information at all, and reporting
+it in the same sentence as a verified fact gave it a weight it never had.
+
+**The decade `[10 ^ 12, 10 ^ 13)` is not cleared.  Nothing was learned from that
+run.**
+
+### What still stands
+
+The `[10 ^ 10, 10 ^ 12)` sweep of Round LXXV.14 **did** complete — all eight
+workers printed their `done` line, which is why that one is quotable.  So
+
+    max over odd n < 10^12 of  σ(n) / ⌊log₂ n⌋  =  16.5758
+
+is unaffected, `C ≤ 16` stays refuted, and `C = 17` stays the live candidate.
+Every Lean theorem is untouched: none of them ever depended on the unfinished
+scan.
+
+### The fix
+
+`scripts/ratio_pscan2.c` emits
+
+    PROGRESS cleared_to=<n> best=<ratio>
+
+every `2 · 10 ^ 10` numbers, flushed.  A kill now leaves a lower bound on
+coverage instead of nothing.  Relaunched over `[10 ^ 12, 10 ^ 13)` in six
+workers; at roughly `16 ns` per candidate a worker needs about `3.3` hours for
+its `1.5 · 10 ^ 12` slice, so the full decade is a few hours of wall clock — the
+earlier run was probably about half done when it died, but *probably* is the
+strongest word available and that is the whole problem.
+
+### Third shell failure of the session
+
+The relaunch failed once before succeeding: `rm -f p13_*.txt` with no matching
+files raises zsh's `nomatch` and aborts the command, so the loop that followed
+never ran.  That is the third distinct shell subtlety to cost a launch this
+session, after `&`-backgrounded jobs dying with the foreground call (LXXV.15) and
+the same glob issue on `o13_*.txt`.  All three had the same shape: **the launch
+reported success while launching nothing.**  The general fix is the one applied
+here — make the job emit evidence of its own progress, and check for that
+evidence rather than for the launch command's exit status.
+
+### Status
+
+Cycle bound `14187`.  `C ≤ 16` refuted; `C = 17` verified in the kernel to
+`3 998 720`, unrefuted by *completed* scan to `10 ^ 12`.  Scan of
+`[10 ^ 12, 10 ^ 13)` restarted from zero with progress reporting.
+
+`lake build Collatz` succeeds, **363 jobs**; `scripts/check_integrity.sh` passes.
+No Lean change this round.  Zero `sorry`, zero added axioms.
+
+### Next session — three tasks, one primary
+
+1. **Primary.**  The prose-claim sweep deferred from LXXV.24: grep the long
+   docstring headers in `Collatz/Strategy/` for claims stated in prose but never
+   as theorems, and check which are now provable with machinery built since.
+   `Bootstrap`'s staircase remark was one such and became `cycle_min_cap`;
+   `CLOSURE.md` flags several more as "open task" or "needs recomputing".
+2. Read the scan's `PROGRESS` lines and report actual coverage — a number, not
+   an absence.
+3. Bank `cert 9616` at `4 733 176` when the cores free up.

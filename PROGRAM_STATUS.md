@@ -182,8 +182,19 @@ alone, and the `≤ 12` came from `MersenneDescent`, which bounds `σ` on the
 Mersenne family only — not globally.  **`C ≥ 15` is open and no upper bound is
 known.**
 
-**`C ≤ 16` is refuted and `C = 17` is the live candidate.**  The
-`[10 ^ 10, 10 ^ 12)` sweep completed — eight workers, whole interval, exactly one
+**`C ≤ 16` is refuted and `C = 17` is the live candidate.**
+
+*Correction (Round LXXV.25).*  Rounds LXXV.15–24 each reported the
+`[10 ^ 12, 10 ^ 13)` scan as "running, no record yet, workers checked".  That
+scan was killed and produced **zero output** — no sub-range completed, all six
+files empty.  The absence of records was never evidence: the scanner emitted
+nothing until a record *or* a finished sub-range, so an empty file was equally
+consistent with "no record found" and "barely started".  **The decade
+`[10 ^ 12, 10 ^ 13)` is not cleared and nothing was learned from that run.**
+`scripts/ratio_pscan2.c` now emits a `PROGRESS cleared_to=` line every
+`2 · 10 ^ 10`, so partial coverage survives a kill.
+
+What stands is unaffected: the `[10 ^ 10, 10 ^ 12)` sweep completed — eight workers, whole interval, exactly one
 record — so over every odd `n < 10 ^ 12`, `σ(n) / ⌊log₂ n⌋ ≤ 16.5758`.
 `logBlockDescentWithin_17_below_3998720` verifies `C = 17` in the kernel for
 every `2 ≤ n < 3 998 720` — the **whole verified range**, at no kernel cost beyond
