@@ -12537,3 +12537,84 @@ axioms.
 2. Collect the `[10 ^ 12, 10 ^ 13)` scan.  Eight rounds without a record is
    itself worth reporting once a worker finishes.
 3. Bank `cert 9616` at `4 733 176` when the cores free up.
+
+## Round LXXV, iteration 24 — the inventory pays, and the staircase form lands
+
+Last round's primary was to inventory before choosing, after LXXV.23 discovered
+the previous plan duplicated existing work.  Reading `Strategy/Bootstrap.lean`
+end to end paid immediately.
+
+### What the inventory found
+
+The file is complete on its own terms: `affineC_ge_pow` (floor on the
+accumulator, no hypotheses), `bootstrap_step` (a floor on the cycle point caps
+the gap), `bootstrap_floor` (the converse), `bootstrap_loop` (the composition),
+and `bootstrap_loses` — the gain factor is exactly `3 (1 − (2/3) ^ a) / a`, below
+`1` for every `a ≥ 4`.  At `a = 2966` one turn divides the range by a thousand.
+So the self-strengthening idea is closed, and was closed before I arrived.
+
+But its header also says something it could not prove:
+
+> The complementary, two-sided reading is a staircase rather than a bootstrap.
+> Because `L = ⌊a log₂ 3⌋ + 1` is forced, the gap `G(a) = 2 ^ (fexp a + 1) − 3 ^ a`
+> is a function of `a` alone, and the minimum is pinned by it.
+
+`G(a)` is **exactly `StairGap.gapAt a`**.  That file postdates `Bootstrap` by
+twenty rounds, so the prose had no theorem to point at.  It does now.
+
+### The staircase form
+
+```
+cycle_min_cap : 0 < m → AccIsCycleOf m L → (∀ i ≤ L, 2 ^ i ≤ 3 ^ oddCount m i)
+              → 3 * (m * gapAt (oddCount m L)) ≤ oddCount m L * 3 ^ oddCount m L
+```
+
+**No `L` appears on either side.**  `bootstrap_step` caps
+`3 · (2 ^ L − 3 ^ a) · c`, which still mentions the cycle length; replacing the
+gap by `gapAt a` — legitimate by `gapAt_le_of_light`, an equality exactly when
+`L` is minimal — removes it.  The cycle minimum is capped by `a / (3 h_a)` with
+`h_a = gapAt a / 3 ^ a`, and `h_a` is what `StairGap` and `StairLower` compute
+exactly, down to `6.45 · 10 ^ (−8)` at the level-3 cliff.
+
+`range_cap_of_cycle` is the same inequality read as a floor on the verified
+range — arriving at `RouteCap.reach_sharp`'s inequality **from the cycle side**
+rather than from the certificate, which is a small independent check that the two
+developments agree.
+
+### What it is and is not
+
+It is the cycle-side frontier with the length variable eliminated, so the whole
+bound now depends on one number per odd count, computed exactly.  It is not a
+stronger bound: at minimal `L` it coincides with `bootstrap_step`, and at
+non-minimal `L` it is weaker (the true gap is larger).  The gain is in form, not
+strength — the same kind of gain as `CertClosedForm`, and worth exactly as much.
+
+### Method note, recorded against LXXV.23
+
+Two rounds ago the plan duplicated `Bootstrap`; this round the plan was to read
+`Bootstrap`, and doing so produced the theorem.  The difference was not effort
+but order: **the file's own header contained the next result, in prose, waiting
+for machinery that had since been built.**  Worth checking the other long-form
+headers in `Strategy/` for the same pattern — prose claims written before the
+tools to state them existed.
+
+### Status
+
+Cycle bound `14187`.  `C ≤ 16` refuted; `C = 17` verified to `3 998 720`,
+unrefuted by scan to `10 ^ 12`.  Scan `[10 ^ 12, 10 ^ 13)`: nine rounds, no
+record, no worker finished — six alive, checked.
+
+`lake build Collatz` succeeds, **363 jobs**; `scripts/check_integrity.sh` passes,
+now also guarding `cycle_min_cap`.  Both new theorems depend on
+`[propext, Quot.sound]` only.  Zero `sorry`, zero added axioms.
+
+### Next session — three tasks, one primary
+
+1. **Primary.**  Apply the method that worked: grep the long docstring headers in
+   `Collatz/Strategy/` for claims stated in prose but never as theorems, and
+   check which are now provable with machinery built since.  `Bootstrap`'s
+   staircase remark was one; `CLOSURE.md` explicitly flags others as "open task"
+   or "needs recomputing before reuse".  This is cheap, and it converts existing
+   observations into checked statements rather than adding new guesses.
+2. Collect the `[10 ^ 12, 10 ^ 13)` scan.
+3. Bank `cert 9616` at `4 733 176` when the cores free up.

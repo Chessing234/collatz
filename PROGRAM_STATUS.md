@@ -446,7 +446,21 @@ the kernel clean.
 
   Rearranged this caps `m` by `Q / gapAt a`, and turning that into a number needs
   an upper bound on `Q`; the only one available is `affineC_le_Bcap`, which *is*
-  the certificate.  So the chain reproduces the frontier in closed form and stops
+  the certificate.
+
+  **The `L`-free form (Round LXXV.24).**  `Strategy.Bootstrap`'s header describes
+  "a staircase rather than a bootstrap" — the gap is a function of the odd count
+  alone — but could not state it, because `G(a) = 2 ^ (fexp a + 1) − 3 ^ a` is
+  `StairGap.gapAt a` and `StairGap` postdates that file.
+  `CycleGapBridge.cycle_min_cap` states it:
+
+      3 · m · gapAt a  ≤  a · 3 ^ a,      `a = oddCount m L`,
+
+  for a cycle with every prefix heavy.  **No `L` appears.**  So the cycle minimum
+  is capped by `a / (3 h_a)` with `h_a = gapAt a / 3 ^ a`, a quantity `StairGap`
+  and `StairLower` compute exactly.  `range_cap_of_cycle` reads it as a floor on
+  the verified range, arriving at `RouteCap.reach_sharp`'s inequality from the
+  cycle side instead of from the certificate.  So the chain reproduces the frontier in closed form and stops
   in the same place.  **The useful content is where it stops**: `gapAt a` is now
   known exactly and contributes no slack, while `Q ≤ Bcap a` is an estimate over
   all admissible words that ignores which word the cycle has.  Sharpening

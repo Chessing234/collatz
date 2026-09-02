@@ -1,5 +1,6 @@
 import Collatz.Strategy.StairGap
 import Collatz.Structure.Cycle
+import Collatz.Strategy.Bootstrap
 
 /-!
 # The cycle equation against the staircase gap
@@ -104,6 +105,54 @@ theorem cycle_equation {m E : Nat} (hpos : 0 < m) (hE : 0 < E)
   have hc2 : (3:Nat) ^ oddCount m E * m = m * 3 ^ oddCount m E := Nat.mul_comm _ _
   have hle : m * 3 ^ oddCount m E ≤ m * 2 ^ E :=
     Nat.mul_le_mul (Nat.le_refl m) (Nat.le_of_lt hlight)
+  omega
+
+/-! ## The staircase form: a cap on the cycle minimum in terms of `a` alone
+
+`Strategy.Bootstrap`'s header describes what it calls "a staircase rather than a
+bootstrap": because the cycle length is forced, the gap
+`G(a) = 2 ^ (fexp a + 1) − 3 ^ a` is a function of the odd count alone, and the
+minimum is pinned by it.  That file could not state it as a theorem —
+`G(a)` is exactly `StairGap.gapAt a`, and `StairGap` did not exist when it was
+written.  It does now.
+
+`Bootstrap.bootstrap_step` caps `3 · G · c` where `G = 2 ^ L − 3 ^ a` still
+mentions `L`.  Replacing `G` by `gapAt a` — legitimate by `gapAt_le_of_light`,
+and an equality exactly when `L` is minimal — **eliminates `L` from the
+statement**:
+
+    3 · m · gapAt a  ≤  a · 3 ^ a,        `a = oddCount m L`.
+
+So the cycle minimum is capped by `a · 3 ^ a / (3 · gapAt a) = a / (3 h_a)` with
+`h_a = gapAt a / 3 ^ a`, a quantity `StairGap` and `StairLower` compute exactly
+and `StairLower`'s cliffs drive to `10 ^ (−8)`.  That is the whole cycle-side
+frontier with the length variable removed. -/
+
+/-- **The cycle minimum, capped in terms of the odd count alone.**  For a cycle
+whose every prefix is heavy, `3 · m · gapAt a ≤ a · 3 ^ a`.  No `L` appears. -/
+theorem cycle_min_cap {m L : Nat} (hm : 0 < m) (h : AccCycle.AccIsCycleOf m L)
+    (hheavy : ∀ i : Nat, i ≤ L → 2 ^ i ≤ 3 ^ oddCount m i) :
+    3 * (m * gapAt (oddCount m L)) ≤ oddCount m L * 3 ^ oddCount m L := by
+  have hbridge := cycle_min_gap_le hm h.1 h.2
+  have hsharp : 3 * affineC L m ≤ oddCount m L * 3 ^ oddCount m L :=
+    HeavyResidue.heavy_accumulator_bound_sharp m L hheavy
+  have hmul : 3 * (m * gapAt (oddCount m L)) ≤ 3 * affineC L m :=
+    Nat.mul_le_mul (Nat.le_refl 3) hbridge
+  omega
+
+/-- The same, read as a floor on the verified range: a cycle with odd count `a`
+and every point at least `c` forces `3 · c · gapAt a ≤ a · 3 ^ a`.  This is
+`RouteCap.reach_sharp`'s inequality arrived at from the cycle side rather than
+from the certificate. -/
+theorem range_cap_of_cycle {m L c : Nat} (hm : 0 < m) (hc : c ≤ m)
+    (h : AccCycle.AccIsCycleOf m L)
+    (hheavy : ∀ i : Nat, i ≤ L → 2 ^ i ≤ 3 ^ oddCount m i) :
+    3 * (c * gapAt (oddCount m L)) ≤ oddCount m L * 3 ^ oddCount m L := by
+  have hcap := cycle_min_cap hm h hheavy
+  have hmono : c * gapAt (oddCount m L) ≤ m * gapAt (oddCount m L) :=
+    Nat.mul_le_mul hc (Nat.le_refl _)
+  have h3 : 3 * (c * gapAt (oddCount m L)) ≤ 3 * (m * gapAt (oddCount m L)) :=
+    Nat.mul_le_mul (Nat.le_refl 3) hmono
   omega
 
 end CycleGapBridge

@@ -73,6 +73,7 @@ import Collatz
 #print axioms Collatz.AffineObstruction.drop_iff_light_and_gap
 #print axioms Collatz.CertClosedForm.cert_of_gap_bound
 #print axioms Collatz.CycleGapBridge.cycle_min_gap_le
+#print axioms Collatz.CycleGapBridge.cycle_min_cap
 #print axioms Collatz.PreCertified.bank_8951
 #print axioms Collatz.Frontier14187.length_ge_14187
 #print axioms Collatz.DriftSurvivors.logBlockDescentWithin_16_below_20000
