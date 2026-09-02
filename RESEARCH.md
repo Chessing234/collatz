@@ -11684,3 +11684,39 @@ axioms, no `native_decide`.
    first; `224` has now survived two extensions.
 3. Chunk `logCheck` to raise the kernel-verified base range from `20 000`, using
    the repository's own `checkRange` chunking pattern rather than one `decide`.
+
+## Round LXXV, iteration 12 — the banked ladder is exhausted
+
+`Search.VerifiedRung13133` sweeps blocks `2790 … 3302` — `513` blocks,
+`[2 856 960, 3 382 272)` — and `Frontier13133.length_ge_13133` follows from
+`PreCertified.cert_8286`, the last entry that file banked.  **No nontrivial
+accelerated cycle is shorter than `13133`, unconditionally.**
+
+Every rung of `PreCertified`'s table now has its verified range: `6809`, `7863`,
+`8917`, `9971`, `11025`, `12079`, `13133`.  Nothing is left conditional there.
+Going further needs a new certificate *and* a new range, and `Strategy.RouteCap`
+prices both — `cert_reach_le` caps any such route at reach `6c`, and
+`StairLower.range_gt_492286389612` puts the range for a reach past `190537` above
+`4.9 · 10¹¹`.  So this closes the ladder as a programme, not merely as a table.
+
+**The fuel, a third time.**  Worst drop time in the new interval is `195`, at
+`n = 3 137 471` — twenty-nine below the standing `224`.  Iteration 5 predicted the
+fuel would have to rise after the `224` tie; three extensions later it has not,
+and the record still belongs to `n = 1 126 015`, inside the first million and a
+factor of three below the current range.  Whatever drives large drop times, it is
+not proximity to the frontier.  The prediction is withdrawn rather than restated.
+
+`lake build Collatz` succeeds, **358 jobs**; `scripts/check_integrity.sh` passes.
+The range sweep is `[propext, Quot.sound]`; the frontier theorem adds
+`Classical.choice` through `RouteCap`, as all of them do.  Zero `sorry`, zero
+added axioms, no `native_decide`.
+
+### Next session — three tasks, one primary
+
+1. **Primary.**  Collect the `[10 ^ 10, 10 ^ 12)` scan's records — one was in at
+   the time of writing (`16.58`) and the workers were still running.  Each is a
+   one-`decide` refutation of the next `C`.
+2. The cycle side now needs a *new certificate*, not a new range.  `cert 8951 …`
+   for the next staircase rung is a kernel computation that can be done now, in
+   `PreCertified`'s own style; the range it would need is the open question.
+3. Chunk `logCheck` to raise the kernel-verified base range from `20 000`.

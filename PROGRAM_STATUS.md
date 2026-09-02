@@ -195,9 +195,11 @@ the kernel clean.
 ## Acceptance criteria
 
 * **(P1) no nontrivial cycles — NOT met.**  Strongest unconditional result is
-  `Frontier12079.length_ge_12079`, on the verified range `2 856 960`
-  (`Search.VerifiedRung12079`); it supersedes `RealizableFrontier6809.length_ge_6809`
-  by five risers of the ladder.  Round XLIV proved the paying route cannot
+  `Frontier13133.length_ge_13133`, on the verified range `3 382 272`
+  (`Search.VerifiedRung13133`); it supersedes `RealizableFrontier6809.length_ge_6809`
+  by six risers, and **exhausts the banked ladder** — every rung of
+  `PreCertified`'s table is now unconditional.  Going further needs a new
+  certificate as well as a new range.  Round XLIV proved the paying route cannot
   reach further: the verified range needed to kill the `k`-th ladder rung is
   `≈ a_k·a_{k+1}/(6 ln 2)`, which diverges, so **no finite verified range excludes all
   cycle lengths**.  Climbing two rungs does not touch that conclusion — an
@@ -205,8 +207,8 @@ the kernel clean.
   odd steps, still finite and still not all lengths.  Rungs to frontier `13133` are
   banked in `Strategy.PreCertified` and need only the corresponding ranges;
   `Strategy.FrontierParametric.length_ge_of_cert` makes each a one-line
-  instantiation.  One remains conditional (`13133`, needing `3 380 808`); `12079` is now
-  unconditional.
+  instantiation.  None remain conditional: `13133` was the last, and `Search.VerifiedRung13133`
+  supplies its range.
 
   **Round XLIV's divergence claim is now a theorem, not a measurement.**
   `Strategy.RouteCap.cert_reach_le`: any certificate reaching odd-step budget

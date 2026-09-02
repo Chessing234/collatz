@@ -61,6 +61,7 @@ import Collatz.Strategy.Frontier8917
 import Collatz.Strategy.Frontier9971
 import Collatz.Strategy.Frontier11025
 import Collatz.Strategy.Frontier12079
+import Collatz.Strategy.Frontier13133
 import Collatz.Strategy.RouteCap
 import Collatz.Strategy.StairGap
 import Collatz.Strategy.StairGeneric
@@ -134,6 +135,7 @@ import Collatz.Search.VerifiedRung8917
 import Collatz.Search.VerifiedRung9971
 import Collatz.Search.VerifiedRung11025
 import Collatz.Search.VerifiedRung12079
+import Collatz.Search.VerifiedRung13133
 import Collatz.Strategy.RealizableFrontier6809
 import Collatz.Strategy.JointRank
 import Collatz.Strategy.PAdicJoint

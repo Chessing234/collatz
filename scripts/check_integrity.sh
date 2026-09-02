@@ -66,7 +66,7 @@ import Collatz
 #print axioms Collatz.DriftSurvivors.no_bounded_blockDescent
 #print axioms Collatz.DriftSurvivors.divergent_avoids_2404352
 #print axioms Collatz.DriftSurvivors.not_logBlockDescentWithin_sixteen
-#print axioms Collatz.Frontier12079.length_ge_12079
+#print axioms Collatz.Frontier13133.length_ge_13133
 #print axioms Collatz.DriftSurvivors.logBlockDescentWithin_16_below_20000
 #print axioms Collatz.Search.reachesOne_of_lt_1086464
 #print axioms Collatz.GapSandwich.cycle_length_determined
