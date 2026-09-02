@@ -292,14 +292,26 @@ the kernel clean.
 
 ## Acceptance criteria
 
-* **(P1) no nontrivial cycles — NOT met, and far below the literature.**
-  Eliahou (1993) proved any nontrivial cycle has at least **17 087 915** elements,
-  and Simons–de Weger (2005) excluded all `m`-cycles for `m ≤ 68`.  This
-  development's `14187` is **about `1/1200` of Eliahou's bound**, by the same
-  tool — RESEARCH.md's own convergent table identifies `17 087 915` as tied to
-  `q₁₅` and notes that *the known Collatz cycle-length bounds are literally
-  numerators of convergents of `log₂ 3`*.  The number below is the state of this
-  formalisation, not of the subject.
+* **(P1) no nontrivial cycles — NOT met.  The number is small because the
+  kernel-verified range is small, not because the method is weak.**
+  Eliahou (1993) proved any nontrivial cycle has at least **17 087 915**
+  elements; Simons–de Weger (2005) excluded all `m`-cycles for `m ≤ 68`.
+
+  *Correction to the LXXV.28 wording, made LXXV.29.*  That entry called `14187`
+  "about `1/1200` of Eliahou's bound, **by the same tool**", which mis-attributes
+  the gap.  The two numbers sit at different verified ranges — `3 998 720` here
+  against Eliahou's `2 ^ 40` — and the ladder's price is superlinear.  At equal
+  range this route is competitive: RESEARCH.md's Round LXXIV closed form gives
+  `price(17 087 915) = 2.124 × 10 ^ 14`, matching Halbeisen–Hungerbühler's
+  reported `m = 2.12 × 10 ^ 14` and reproducing their `L_max = 102 225 496`,
+  derived here without reference to the paper.  The rungs are the convergent
+  numerators of `log₂ 3` — `…, 125 743, 301 994, 17 087 915, 102 225 496, …` —
+  and `StairLower.range_gt_492286389612` prices `301 994` at `4.9 × 10 ^ 11`.
+
+  So the honest statement is: **this formalisation kernel-checks a range of
+  `3 998 720`, and that is what caps its frontier at `14187`.**  The method
+  reaches Eliahou's rung at a range of `2.1 × 10 ^ 14`, which nothing here has
+  verified.
 
   Strongest unconditional result here is
   `Frontier14187.length_ge_14187`, on the verified range `3 998 720`

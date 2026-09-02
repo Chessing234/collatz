@@ -12927,3 +12927,100 @@ No new theorem; two docstrings corrected.
    either way.
 2. Report scan coverage again.
 3. Bank `cert 9616` at `4 733 176` when the cores free up.
+
+## Round LXXV, iteration 29 — the sweep finishes, and corrects last round's correction
+
+Two lines remained unchecked: `RouteCap`'s certificate cap and
+`AffineObstruction`'s `drop_iff_light_and_gap`.  Both check out as prior art, and
+checking them exposed an error in LXXV.28's own correction.
+
+### `AffineObstruction` is Terras, and duplicates this repository
+
+`light_of_drop` — a drop forces a light window — is Terras's elementary
+inequality `σ(n) ≥ κ(n)`, where `κ` is the **coefficient stopping time**, the
+least index at which `2 ^ S > 3 ^ m` (R. Terras, *A stopping time problem on the
+positive integers*, Acta Arith. 30, 1976).
+
+Worse than prior art: **it duplicates this repository.**
+`Strategy.CoefficientStopping` already cites Terras, states the
+Coefficient Stopping Time conjecture (`σ = κ`, Conj. 2.9), and proves the easy
+half as `no_drop_of_coeff_le` / `stoppingTime_ge_coefficient` over abstract
+sequences.  I wrote `light_of_drop` in LXXV.20 without checking that file.  Both
+are kept — abstract form and concrete instance — now cross-referenced so they are
+not maintained as independent.
+
+What is *not* duplicated is the exact converse.  `cst_gap_criterion` (new) states
+it in the form that matters:
+
+```
+3 ^ oddCount n j < 2 ^ j →
+  (acceleratedOrbit j n < n ↔ affineC j n < n * (2 ^ j - 3 ^ oddCount n j))
+```
+
+**At a light index, dropping is equivalent to the accumulator fitting inside the
+gap the lightness opens.**  Terras's conjecture is the assertion that this holds
+at the first light index for every `n ≥ 2`; it is open, and he verified it for
+`κ(n) < 2593`.  So `AffineObstruction` names the precise obstruction to a 1976
+conjecture — which is a clarification of a known open problem, not a step toward
+it.
+
+### `RouteCap` checks out, and LXXV.28 mis-attributed the gap
+
+The cycle-side content — no finite verified range collapses the ladder — is the
+repository's own limitative theorem, and Round LXXIV's closed form already
+reproduces published constants: `price(17 087 915) = 2.124 × 10 ^ 14` matches
+Halbeisen–Hungerbühler's reported `m = 2.12 × 10 ^ 14`, and their
+`L_max = 102 225 496` falls out as the next rung, derived without reference to
+the paper.
+
+That matters for what I wrote last round.  LXXV.28 called `14187` "about
+`1/1200` of Eliahou's bound, **by the same tool**".  The ratio is right; the
+attribution is wrong.  The two numbers sit at different verified ranges —
+`3 998 720` here against Eliahou's `2 ^ 40` — and the ladder's price is
+superlinear, so comparing raw frontiers across ranges says nothing about method.
+At equal range the route is competitive; it reaches Eliahou's rung at a range of
+`2.1 × 10 ^ 14`.
+
+**The honest statement: this formalisation kernel-checks `3 998 720`, and that is
+what caps its frontier at `14187`.**  Not a weaker tool — a smaller certificate.
+`PROGRAM_STATUS`'s P1 entry has been rewritten accordingly.
+
+### The sweep, concluded
+
+All four lines opened this session have now been checked:
+
+| line | status |
+|---|---|
+| `DriftSurvivors` / `LogBlockDescentWithin` | Rozier's falling-time conjecture (LXXV.27) |
+| `StairGap` family | Eliahou's tool; indices are convergent denominators (LXXV.28) |
+| `RouteCap` | the repository's own limitative theorem; price matches HH (this round) |
+| `AffineObstruction` | Terras 1976, and duplicates `CoefficientStopping` (this round) |
+
+Nothing opened this session is new mathematics.  Three of the four were already
+known *to this repository* in some form; the fourth was one search away.
+
+### Scan coverage
+
+`[10 ^ 12, 10 ^ 13)`: **`1.08 · 10 ^ 12` of `9 · 10 ^ 12`, `12.00 %`, no
+records.**
+
+### Status
+
+Cycle bound `14187`; verified range `3 998 720`.  `C ≤ 16` refuted, `C = 17`
+verified in the kernel to the same range.
+
+`lake build Collatz` succeeds, **364 jobs**; `scripts/check_integrity.sh` passes,
+now also guarding `cst_gap_criterion`.  Zero `sorry`, zero added axioms.
+
+### Next session — three tasks, one primary
+
+1. **Primary.**  With the sweep finished and every line identified as known, the
+   honest next move is to stop opening lines and make the *formalisation* the
+   deliverable, since that is the only part with any claim to novelty.  Concretely:
+   state Terras's Coefficient Stopping Time conjecture and Rozier's falling-time
+   conjecture as named Lean propositions with their finite parts discharged, the
+   way `collatz_of_logBlock17_above` already does for the latter.  A machine-checked
+   statement of a named open conjecture, with a kernel-verified base range, is a
+   real artifact even though the mathematics is someone else's.
+2. Report scan coverage.
+3. Bank `cert 9616` at `4 733 176` when the cores free up.

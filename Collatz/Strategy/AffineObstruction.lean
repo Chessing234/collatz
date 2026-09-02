@@ -113,6 +113,34 @@ So the ingredient the two dead routes lacked is not a smaller lemma waiting to b
 proved.  It is the target restated, and any plan that treats it as a stepping
 stone is circular.  Recorded so the next round does not spend a cycle looking. -/
 
+/-! ### Prior art, and a duplication of this repository's own work
+
+**Added Round LXXV.29.**  `light_of_drop` is Terras's elementary inequality
+`σ(n) ≥ κ(n)` — R. Terras, *A stopping time problem on the positive integers*,
+Acta Arith. 30 (1976) — where `κ` is the **coefficient stopping time**, the least
+`m` with `2 ^ (S_m) > 3 ^ m`, i.e. the first light index.  A drop cannot precede
+the first light window; that is exactly this lemma.
+
+`Strategy.CoefficientStopping` already proves it here, as
+`no_drop_of_coeff_le` / `stoppingTime_ge_coefficient`, over abstract sequences,
+and states the hard half as `CSTHard`:
+
+> **Coefficient Stopping Time conjecture (Terras 1976, Conj. 2.9).**
+> `σ(n) = κ(n)` for every `n ≥ 2`.
+
+`light_of_drop` was written in Round LXXV.20 without checking that file, so it
+duplicates it in this development's own `acceleratedOrbit` / `oddCount`
+indexing.  Recording the duplication rather than deleting either: the abstract
+form and the concrete instance are both used, but they should not be maintained
+as if independent.
+
+What is *not* duplicated is `drop_iff_light_and_gap`, which names the exact
+obstruction to the hard half.  `cst_gap_criterion` below states it in the form
+that matters: **at a light index, dropping is equivalent to the accumulator
+fitting inside the gap the lightness opens.**  Terras's conjecture is the claim
+that this always holds at `κ`; it is open, verified by Terras for `κ(n) < 2593`
+and by this repository over its own range. -/
+
 /-- **A drop forces a light window.**  Entirely unconditional: if the orbit of
 `n` falls below `n` at step `j`, then `3 ^ a < 2 ^ j` for that window.  No
 positivity is needed — at `n = 0` the hypothesis is already false. -/
@@ -160,6 +188,17 @@ theorem drop_iff_light_and_gap (n j : Nat) :
       Nat.mul_le_mul (Nat.le_refl n) (Nat.le_of_lt hlight)
     have hlt : 2 ^ j * acceleratedOrbit j n < 2 ^ j * n := by omega
     exact Nat.lt_of_mul_lt_mul_left hlt
+
+/-- **The coefficient-stopping criterion, localised.**  At a light index,
+dropping is equivalent to `affineC` fitting inside the gap.  Terras's
+Coefficient Stopping Time conjecture is the assertion that this holds at the
+first light index, for every `n ≥ 2`. -/
+theorem cst_gap_criterion (n j : Nat) (hlight : 3 ^ oddCount n j < 2 ^ j) :
+    acceleratedOrbit j n < n ↔ affineC j n < n * (2 ^ j - 3 ^ oddCount n j) := by
+  have h := drop_iff_light_and_gap n j
+  constructor
+  · intro hd; exact (h.mp hd).2
+  · intro hg; exact h.mpr ⟨hlight, hg⟩
 
 end AffineObstruction
 end Collatz
