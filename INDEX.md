@@ -1,26 +1,26 @@
 # Concept index
 
-3126 theorems/lemmas across 206 files.
+5192 theorems/lemmas across 342 files.
 
 ## Cluster sizes
 
-- orbit windows: 654
-- affine accumulator: 317
-- cycle equations: 276
-- parity word: 230
-- descent: 206
-- divisibility: 203
-- gap G=2^L-3^a: 173
-- 3-adic valuation: 171
-- heavy words: 150
-- counting/entropy: 144
-- C mod 2^j: 137
-- Beatty/Sturmian: 96
-- C mod G: 82
-- 2-adic valuation: 65
-- reverse paths: 54
-- residue classes: 35
-- finite-state: 21
+- orbit windows: 883
+- cycle equations: 387
+- affine accumulator: 360
+- descent: 358
+- 2-adic valuation: 304
+- divisibility: 283
+- parity word: 267
+- 3-adic valuation: 263
+- gap G=2^L-3^a: 207
+- C mod 2^j: 180
+- heavy words: 175
+- counting/entropy: 157
+- Beatty/Sturmian: 128
+- C mod G: 117
+- reverse paths: 89
+- residue classes: 44
+- finite-state: 30
 
 ## Concept pairs with no theorem mentioning both
 
@@ -28,18 +28,14 @@ Heuristic: a regex over statement text, so treat these as *candidates* for a mis
 
 - 2-adic valuation <-> Beatty/Sturmian
 - 2-adic valuation <-> counting/entropy
-- 2-adic valuation <-> heavy words
 - 2-adic valuation <-> parity word
 - 2-adic valuation <-> residue classes
-- 2-adic valuation <-> reverse paths
 - 3-adic valuation <-> counting/entropy
 - Beatty/Sturmian <-> C mod 2^j
 - Beatty/Sturmian <-> counting/entropy
-- Beatty/Sturmian <-> descent
 - Beatty/Sturmian <-> finite-state
 - Beatty/Sturmian <-> residue classes
 - Beatty/Sturmian <-> reverse paths
-- C mod 2^j <-> reverse paths
 - C mod G <-> counting/entropy
 - C mod G <-> finite-state
 - C mod G <-> residue classes
@@ -54,17 +50,16 @@ Heuristic: a regex over statement text, so treat these as *candidates* for a mis
 - gap G=2^L-3^a <-> residue classes
 - gap G=2^L-3^a <-> reverse paths
 - parity word <-> reverse paths
-- residue classes <-> reverse paths
 
 ## What is known
 
 | object | magnitude | mod 2^j | mod 3^j | valuation | word struct | cross-window | actual orbit | divisibility |
 |---|---|---|---|---|---|---|---|---|
-| C (accumulator) | 140 | 27 | 8 | 2 | 204 | 45 | 90 | 48 |
-| G (the gap) | 146 | 8 | 6 | . | 86 | 9 | 35 | 51 |
-| parity word | 42 | 7 | 5 | . | 99 | 33 | 11 | 15 |
-| orbit state x | 487 | 47 | 29 | 4 | 289 | 28 | 603 | 46 |
-| cycle min n | 173 | 3 | 5 | 1 | 98 | 8 | 94 | 31 |
-| delta = G/gcd | 14 | . | . | . | 3 | 1 | . | 5 |
-| heavy language | 131 | 7 | 1 | . | 46 | 6 | 26 | 2 |
-| reverse path | 39 | . | 14 | . | 8 | . | 24 | 7 |
+| C (accumulator) | 158 | 28 | 8 | 2 | 222 | 45 | 103 | 58 |
+| G (the gap) | 175 | 8 | 7 | . | 108 | 9 | 43 | 61 |
+| parity word | 46 | 7 | 5 | . | 105 | 33 | 11 | 15 |
+| orbit state x | 655 | 47 | 35 | 4 | 368 | 35 | 842 | 50 |
+| cycle min n | 197 | 3 | 5 | 1 | 112 | 8 | 115 | 33 |
+| delta = G/gcd | 22 | . | . | . | 3 | 3 | . | 9 |
+| heavy language | 157 | 7 | 1 | . | 54 | 6 | 30 | 2 |
+| reverse path | 64 | 1 | 21 | 1 | 8 | . | 25 | 13 |

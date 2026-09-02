@@ -10,6 +10,10 @@ Everything the development knows about a hypothetical counterexample, collected
 into two statements so that the next round of work has a single object to attack
 rather than a bibliography.
 
+*Later: see `Strategy.ProfileSharp`* for the same two statements at the extended
+verified range — `768 000 → 1 664 599`, heavy window `2592 → 5625`, cycle length
+`2593 → 8917`.  No clause is added or removed there; only the constants move.
+
 `neverDropper_profile` is the divergence side.  A never-dropper at the verified
 range satisfies, simultaneously:
 

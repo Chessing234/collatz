@@ -116,6 +116,20 @@ def cycleLengthDraft : LemmaDraft where
   statement := "No nontrivial accelerated cycle has length 26 or less. The bounded affine identity pins every cycle point to at most (3^L - 2^L)/(2^L - 3^a); applying the verified range to the least point and that bound to the greatest point, which is at least twice the least, clears every length up to 26."
   status := "proved"
 
+/-- The current cycle-length frontier, superseding `cycleLengthDraft`'s `27`. -/
+def cycleFrontierDraft : LemmaDraft where
+  name := "length_ge_9971"
+  source := "this project, Collatz/Strategy/Frontier9971.lean"
+  statement := "No nontrivial accelerated cycle has length below 9971. The realizability certificate of RealizableBound reaches odd-step budget 6291 once the verified range passes 2010160; Search/VerifiedRung9971 supplies that range by sweeping 1964 blocks of 1024 at fuel 224, and FrontierParametric.length_ge_of_cert combines the two. Unconditional. A stronger bound, 40001, is available only conditionally on BarinaVerified. This is the last rung PreCertified banked whose range the development reaches; 11025, 12079 and 13133 stay conditional on ranges 2403661, 2855820, 3380808."
+  status := "proved"
+
+/-- What the initial odd-run length does and does not control. -/
+def runLengthDraft : LemmaDraft where
+  name := "no_tail_at_any_run_length"
+  source := "this project, Collatz/Strategy/RunLengthAny.lean"
+  statement := "Write r(n) = v2(n+1) for the initial run of odd accelerated steps. There is no s with T^(r(n)+s(r(n)))(n) < n for all odd n > 1: at every run length j >= 2 the descent time is unbounded while r is pinned, witnessed by n = 2^j*d - 1 with 3^j*d = 2^(k+1) - 1. The exception j = 1 is genuine, where sigma = 2 always. Conversely r does bound descent from below: sigma(n) > (1054/665)*r(n) at 665 | r, within 6e-8 of the ceiling log2 3."
+  status := "proved"
+
 /-- Registry entries known to Lean. -/
 def registry : List LemmaDraft :=
   [ seedDraft
@@ -134,6 +148,8 @@ def registry : List LemmaDraft :=
   , tao2022Draft
   , krasikovLagarias2003Draft
   , conway1972Draft
+  , cycleFrontierDraft
+  , runLengthDraft
   ]
 
 /-- The registry is nonempty. -/

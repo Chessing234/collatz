@@ -99,6 +99,17 @@ Warning from D: since every valuation word is realised by an integer residue cla
 bitstream" is false for every *finite* prefix.  Any non-reachability statement must be
 about infinite paths only, and must not follow from prefix reachability.
 
+*The warning is now a theorem, not an observation.*
+`Strategy.GapBarriers.exists_realizer`: for any `(a₀, …, a_{L−1})` with every
+`a i ≥ 1` there is an odd `n₀` whose first `L` valuations are exactly those.  With
+`traj_congr` (determinacy) this is `parity_vector_correspondence` — valuation
+vectors of length `L` correspond exactly to residue classes mod `2^(K+1)`.  So
+prefix reachability is not merely unrefuted but *universal*: **every** finite
+valuation word is realised, with no exceptions to hunt for.  A proposed
+non-reachability argument can therefore be rejected outright the moment it
+consumes a finite prefix, and this is now checkable against a theorem rather than
+against a remembered caution.
+
 ---
 
 ## E — Hybrid isolation of the residual Cantor set — **open, blocked on A/D**
@@ -125,13 +136,87 @@ the kernel clean.
 ## Acceptance criteria
 
 * **(P1) no nontrivial cycles — NOT met.**  Strongest unconditional result is
-  `RealizableFrontier6809.length_ge_6809`.  Round XLIV proved the paying route cannot
+  `Frontier9971.length_ge_9971`, on the verified range `2 011 136`
+  (`Search.VerifiedRung9971`); it supersedes `RealizableFrontier6809.length_ge_6809`
+  by three risers of the ladder.  Round XLIV proved the paying route cannot
   reach further: the verified range needed to kill the `k`-th ladder rung is
   `≈ a_k·a_{k+1}/(6 ln 2)`, which diverges, so **no finite verified range excludes all
-  cycle lengths**.
+  cycle lengths**.  Climbing two rungs does not touch that conclusion — an
+  independent check at Barina's `704·2^60` puts the reach there at only `~7·10^10`
+  odd steps, still finite and still not all lengths.  Rungs to frontier `13133` are
+  banked in `Strategy.PreCertified` and need only the corresponding ranges;
+  `Strategy.FrontierParametric.length_ge_of_cert` makes each a one-line
+  instantiation.  Three remain conditional (`11025`, `12079`, `13133`, needing
+  `2 403 661`, `2 855 820`, `3 380 808`); `9971` is now unconditional, and it is
+  the last banked rung the verified range reaches.
+
+  **Round XLIV's divergence claim is now a theorem, not a measurement.**
+  `Strategy.RouteCap.cert_reach_le`: any certificate reaching odd-step budget
+  `A` at range `c` forces `A ≤ 6c`; hence
+  `RouteCap.frontier_le_of_route` gives `F ≤ fexp (6c) + 1`, and
+  `RouteCap.route_misses_a_length` exhibits, for every `c`, a cycle length the
+  route cannot reach.  The proof is two collisions: `2 ^ fexp a ≤ 3 ^ a` turns
+  the certificate into `Bcap a < 3 ^ a · c`, and `3 ^ i < 2 · 2 ^ fexp i` turns
+  the `a` summands of `Bcap a` into `a · 3 ^ a ≤ 6 · Bcap a`.  The constant `6`
+  is far from tight — at `c = 2 010 160` it allows `A < 12 060 960` against the
+  actual `6291` — because it discards how closely `3 ^ a` approaches
+  `2 ^ (fexp a + 1)`, which is the Diophantine content of the measured
+  `a_k · a_{k+1} / (6 ln 2)` law and is *not* proved here.  Finiteness is
+  proved; the rate is not.
 * **(P2) no divergence — NOT met.**  F refuted as templated; A, D, E blocked.
 * **Verdict: neither half is closed.  Cycles are not excluded; divergence is not
   excluded.**
+
+---
+
+## Next smallest lemma — ANSWERED (negative)
+
+> **Resolved.**  The refined reading — may the tail depend on the run length? —
+> is **false**, and `Strategy.RunLengthUnbounded.no_tail_at_run_length_two`
+> proves it: for every `B` there is an `n ≡ 3 (mod 8)`, hence with `r(n) = 2`
+> exactly, whose orbit has still not descended after `B` steps.  So no
+> `s : ℕ → ℕ` satisfies `T^(r(n) + s(r(n)))(n) < n` for all odd `n > 1`.
+>
+> The construction: for `n = 8a + 3`, `T³(n) = 9a + 4`, so choosing `9a + 5 = 2^k`
+> lands the orbit exactly on `2^k − 1`, and `ScaleLadder.climb` carries it to
+> `3^k − 1`.  Solvable iff `k ≡ 5 (mod 6)`, giving `a₀ = 3`, `a_{j+1} = 64a_j + 35`
+> and the family `27, 1819, 116507, 7456539, …`.
+>
+> **Where the obstruction is not.**  The `2^j − 1` family this question proposed
+> as the first test does *not* refute the shape: `Strategy.MersenneDescent`
+> checks that it descends within `12j` for `2 ≤ j ≤ 200`, with the ratio `σ/j`
+> peaking at `11.2` on the small case `j = 5` and staying under `4.34` past
+> `j = 30`.  The obstruction is at *small fixed* run length instead.
+>
+> **Where the run length does work.**  `r(n) = 1` is genuinely different:
+> `σ = 2` for every `n ≡ 1 (mod 4)`, already in
+> `Structure.CycleMinClass.two_step_descent`.  So `j = 1` is the sole exception.
+>
+> **Now proved at every run length.**  `Strategy.RunLengthAny.no_tail_at_any_run_length`
+> generalizes the construction to every `j ≥ 2`: take `n = 2^j·d − 1` with
+> `3^j·d = 2^(k+1) − 1`, which is solvable whenever `2·3^(j−1) ∣ k+1`.  That
+> divisibility is `Strategy.LiftExponentThree.two_pow_three_pow`, the `p = 3`
+> lift, which this repository previously lacked (`LiftExponent` covers `p = 2`
+> only).  The construction's one inequality, `n < 2^k − 1`, reduces exactly to
+> `2^(j+1) < 3^j` — true precisely for `j ≥ 2`, which is why `j = 1` is a genuine
+> exception rather than an artefact.
+>
+> So the run length controls the descent time **only** at `j = 1`.
+>
+> **But it does bound it from below, everywhere.**
+> `Strategy.MersenneLower.sigma_gt_run_half`: for every odd `n`, no iterate falls
+> below `n` within `r + r/2` steps, i.e. `σ(n) > (3/2)·r(n)` — no parity
+> assumption.  Sharpened at `12 ∣ r` to `σ(n) > (19/12)·r(n)` by
+> `sigma_gt_nineteen_twelfths`, using the convergent `19/12` of `log₂ 3`.  That
+> is within `0.1%` of `log₂ 3` itself, which is the ceiling no argument of this
+> shape can pass: the run lifts `n` by exactly `(3/2)^r` and a Terras step halves
+> at best.  The whole content is
+> `8^m ≤ 9^m`, i.e. `2^(3m) ≤ 3^(2m)`: the run lifts `n` by `(3/2)^r`, and a
+> Terras step can at best halve.  Measured over all odd `n < 200 000` of even run
+> length the bound never fails and its worst-case slack is `6.7%`.
+>
+> So `r(n)` bounds the descent time from **below** but not from **above** — which
+> is the precise sense in which the original question's shape was the wrong one.
 
 ---
 

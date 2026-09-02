@@ -71,7 +71,7 @@ The **only** `d = 1`-specific assets:
 
 | asset | what it is | what it is worth |
 |---|---|---|
-| (a) | verified range, no cycle minimum `< 1086464` | exactly `L = 183` of 6809 (2.7 %) |
+| (a) | verified range, no cycle minimum `< 1086464` | exactly `L = 183` of 6809 (2.7 %) — *stated at the range and frontier of its round; both have since moved (`2 011 136`, `9971`), so the count needs recomputing before reuse* |
 | (b) | `accOrbit_small`, orbit of 1 stays `≤ 2` | false for `d = 7, 11` |
 | (c) | `sign(d) = +1` | `Nat` statements do not typecheck for `d < 0` |
 | (d) | `|d| < 2` | exclusions `2^m + |d|·6^a ≤ 2^(m+a)` need `|d| ≤ 2` |
@@ -109,10 +109,12 @@ The **only** `d = 1`-specific assets:
   reassembles the single global identity `2^L/3^a = ∏(1 + 1/(3x_t))`, so it is at best
   information-preserving.  At full strength (`SegmentMonoid.cycle_frontier`,
   `3n(2^L − 3^a) ≤ a·2^L`, plus asset (a)) it admits exactly the pairs
-  `(2966,4701), (3631,5755), (4296,6809), …` — the repository's own frontier ledge
-  list.  **Membership test for a proposed multiplicative cycle argument**: does it
-  reduce to a bound on the factors of `∏(1 + 1/(3x_t))`?  If yes it is at most
-  `RealizableFrontier6809` in new coordinates.
+  `(2966,4701), (3631,5755), (4296,6809), (4961,7863), (5626,8917), …` — the
+  repository's own frontier ledge list, whose `(A, F)` pairs run along the
+  semiconvergent staircase `A = 306 + 665k` of `log₂ 3`.  **Membership test for a
+  proposed multiplicative cycle argument**: does it reduce to a bound on the factors
+  of `∏(1 + 1/(3x_t))`?  If yes it is at most the ledge in new coordinates — at
+  present `Frontier8917`.
 * **the `(word, magnitude)` fibre (Round XI)** — over a fixed parity word the map
   `n ↦ 2^j·x_j` is **exactly affine** with word-determined coefficients
   (`ScaleFibre.fibre_affine`), so the coupling is `kappa(w,n) = E(w)/n` **identically**,
@@ -128,6 +130,53 @@ The **only** `d = 1`-specific assets:
   The explicit scale above which the word decides is `N(w) = 2^(L−a)·3^a/G ≥ 2^L/G`
   (`ScaleFibre.drop_of_scale`, `two_pow_le_shape`): **all residual fibre freedom sits at
   small `G`, i.e. on the frontier.**
+* **reversal on the residual (Round LXXIV)** — `G` is reversal-invariant (it sees
+  only length and odd count) but `gcd(C, G)` is not: `ResidualReversal.reversal_breaks_delta`
+  exhibits a length-12 word, heavy at every proper prefix, with `δ = 1909` whose
+  reversal has `δ = 83` against the same `G`.  Broken in 548 of 6423 words to length
+  14, and 7 of 142 heavy ones.  The apparent survivor — every `δ = 1` word reverses
+  to one — is the rigid family `(10)^k` restated (`PhantomMediant`), hence Class 3.
+  **Membership test for a proposed symmetry of the residual**: does it act
+  nontrivially on a set that is not already completely characterised?  If the only
+  set it preserves is the rigid `δ = 1` family, it carries nothing.
+
+* **the counting drift (Round LXXIV)** — a drift inequality on the number of
+  surviving residue classes, rather than on orbit values, cannot reach zero.
+  `ValuationDensity.two_pow_le_Enum`: the all-ones valuation vector is admissible at
+  every length (`2^ℓ ≤ 3^ℓ` always), so the no-drop density satisfies `E_ℓ ≥ 2^(−ℓ)`
+  and the survivor set is nonempty at every level, forever.  A counting drift can
+  give density `→ 0` — Terras 1976 — but never emptiness.  **Membership test for a
+  proposed counting/measure argument**: does its conclusion require the surviving set
+  to empty?  If yes it is dead.  Arguments about the decay *rate* are untouched here;
+  those are Class 2 and closed by the L¹ barrier instead.
+
+* **track C's quantifier swap (Round LXXIV)** — the only thing separating an
+  infinite-path statement from prefix reachability is `∀L ∃n` → `∃n ∀L`, and that
+  swap has no content: `WordInjective.word_injective` proves the odd-map valuation
+  word determines the integer, and `word_injective_bounded` does it from a **bounded**
+  prefix (the first `n' + 1` valuations, an explicit linear modulus).  So an integer
+  realizing every prefix of an infinite word is the integer whose word that is, and
+  "no integer sits at a divergent point of the inverse limit" is the divergence half
+  verbatim in `2`-adic coordinates.  **Membership test for a proposed limit-object
+  argument**: does it use only the correspondence between an integer and its infinite
+  word?  If yes it is dead — the correspondence is injective and carries nothing.
+  Scope: an argument using a genuine property of the limit (measure, dimension, a
+  transcendence input) is *not* refuted by injectivity.
+
+* **the block induction on the residual (Round LXXIV)** — `(C, G)` composes exactly
+  under concatenation by one two-dimensional cocycle (`PhantomMediant.C_append`,
+  `gap_append`), but **the cocycle does not descend to `gcd(C, G)`**.
+  `ResidualComposition.delta_no_composition_law`: there is no `F` whatsoever with
+  `δ(uv) = F(δu, δv, |u|, a(u), |v|, a(v))` — witnessed at length 6 by right factors
+  agreeing in all of `(δ, L, a, G)` whose concatenations with a common left factor
+  have `δ = 55` and `δ = 5`, both nontrivial.  `C` alone separates them, and a
+  bilinear cocycle does not transport multiplicative information.  **Membership test
+  for a proposed block/segment induction on the residual**: does it need `δ` (or
+  `gcd(C,G)`) of a concatenation to be a function of the factors' data?  If yes it is
+  dead.  Scope: the *destruction* witness `δ(u) = δ(v) = 5`, `δ(uv) = 1` lies in the
+  rigid `δ = 1` family (`(01)^k`), so a rule restricted to trivial-factor-free words
+  is not refuted by that witness — but it is by `delta_no_composition_law`.
+
 * `ScaleLadder.block_lower` / `block_upper` **cannot be applied to a cycle at all** —
   their hypothesis is a `Floor` with two consecutive rungs, and `no_high_floor` says a
   bounded orbit has none.  Empirically zero rung-to-rung blocks over 68 orbits.
@@ -195,7 +244,20 @@ Hence the divergence-half analogue of `C(w,d) = d·C(w,1)`:
 
 Stated weakness, from the agent that built it: `3x+d` differs from `3x+1` in one
 constant, whereas `expStep` differs on a whole branch, so this filter kills a coarser
-class of mechanisms than the cycle filter does.  Narrowing it is the natural next task.
+class of mechanisms than the cycle filter does.  Narrowing it was recorded as the
+natural next task.
+
+**Round LXXIV: it cannot be narrowed, and the coarseness is forced.**  The filter
+works only because `expStep` has a one-line divergence proof — every step strictly
+increases — so a usable witness must satisfy `x < g x` for all `x ≥ 1`.
+`FilterWidth.increasing_ne_halving`: such a witness has `g x ≠ x / 2` at **every**
+even `x ≥ 2`, so it cannot agree with the Collatz even branch anywhere, not even at
+one point.  The natural interpolation `f_c(x) = x/2 when 2^c ∣ x, else 3x/2 or
+(3x+1)/2` — Terras at `c = 1`, `expStep` in the limit — dies at once: of the first
+20000 starts, 12677 (`c=2`), 6149 (`c=3`) and 3045 (`c=4`) dip below their own start,
+so `f_c` contracts and its divergence stops being provable.  *Not* settled: a witness
+divergent for some reason other than pointwise increase; the theorem covers
+no-contraction witnesses, which is every witness known.
 
 ### The error diagnostic 3 exists to prevent
 
@@ -255,8 +317,33 @@ exact rationals on eleven genuine cycles, `d = 1, 5, 7, 13, 59, −1`).
 **Membership test for a proposed sharpening of the coupling on the cycle half**: does it
 rest on a lower bound for orbit values that is *not* a consequence of `affine_exact`?
 If not, it is the cycle equation in new coordinates.  The only qualifying input known is
-asset (a), now spent three ways — `CycleProduct` (`L ≥ 1539`), a power-of-two floor
-(`2593`), a free floor (`4701`) — all short of `RealizableFrontier6809`.
+asset (a), now spent four ways — `CycleProduct` (`L ≥ 1539`), a power-of-two floor
+(`2593`), a free floor (`4701`), and the realizability certificate
+(`RealizableFrontier6809` at `6809`, extended to `Frontier8917` at `8917` and then
+`Frontier9971` at `9971`).
+
+*Round LXXIII note.*  The `8917` bound is the **same** asset spent further, not a new
+qualifying input: it buys two more risers of the certificate ladder by extending the
+verified range, and Round XLIV already showed the range required per riser diverges.
+So the closure map is unchanged by it — the ladder is asset-(a)-bound, and no amount
+of climbing supplies the missing input.
+
+*Round LXXV note — the ladder's finiteness is now a theorem.*  `9971` is one further
+riser and changes nothing here for the same reason.  What did change is the status of
+the phrase "no amount of climbing": `Strategy.RouteCap.cert_reach_le` proves the
+certificate reach obeys `A ≤ 6c` for every verified range `c`, so
+`RouteCap.route_misses_a_length` exhibits, for each `c`, a cycle length the route
+cannot reach.  The membership test above therefore has a machine-checked
+counterpart: **a proposal that spends only asset (a) is bounded by `fexp (6c) + 1`
+and can be rejected by citation.**  The *rate* at which `c` must grow is still only
+measured, not proved; that part is Diophantine (an effective irrationality measure
+for `log₂ 3`) and outside this development's budget.
+
+The run-length results of the same round (`MersenneLower.sigma_gt_run_half`,
+`σ(n) > (3/2)·r(n)`) rest on `Discrepancy.orbit_lower`, a consequence of
+`affine_exact`, so by the test above they cannot sharpen the cycle half — correctly,
+since they are statements about the descent time of individual `n` rather than cycle
+statements at all.
 
 The same test kills the ordering route: `CoupledCycle.prefix_gap` is the exact ordering
 restriction `G ∣ C` imposes, and `prefix_gap_of_heavy` derives its conclusion from

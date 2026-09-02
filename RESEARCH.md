@@ -6982,6 +6982,14 @@ inspects the numeral: `ValuationBeatty.orbit_time_le_fexp`, `even_steps_per_306`
 (`cert_1086464`), a finite table checked by `decide`; those are generic in
 statement but their certificates would need recomputing at another bound.
 
+*Later: not at a larger bound.*  `Strategy.CertMonotone.cert_mono_c` shows the
+raw checker is monotone in the range, and `bank_mono` shows the unpacked form
+these lemmas actually consume is too — the multiplier `2·2^(fexp i) − 3^i` is
+positive by `lt_fexp`, so raising `c` only slackens the inequality.  So
+`cert_1086464` and its siblings apply verbatim at any larger range with no
+recomputation; `cert_barina_4296` is the instance.  A *smaller* bound is a
+different matter and is not claimed.
+
 **(c) Free transfer** — since `1086464 ≤ barinaBound`, every shape-(b) theorem
 applies verbatim to a `BarinaVerified` counterexample.  `ge_barina_ge_proved` is
 the one-line bridge; **no theorem needed restating, and none was
@@ -9895,6 +9903,19 @@ unconditional bound.  What this round produces is an exact, executable recipe fo
 `7863` — raise the fuel past `224`, extend `266` blocks, then `cert 4961` — together
 with the finding that the two independent certificates are priced identically.
 
+*Later: the recipe was executed.*  `Search.VerifiedRung7863` extends the sweep and
+`Strategy.Frontier7863.length_ge_7863` is now unconditional; a second rung followed
+(`VerifiedRung8917`, `Frontier8917.length_ge_8917`), so `8917` is the strongest
+unconditional cycle bound.  Two things were added beyond the recipe.  First,
+`Search.FuelMonotone.dropsWithin_mono`: the recipe says to raise the fuel, but
+monotonicity means the `1061` blocks already proved at `200` can be *read* at `224`
+with no recomputation, so an extension costs only its new blocks.  Second, the
+certificates were decoupled from the ranges — `Strategy.PreCertified` banks six rungs
+out to frontier `13133`, and `Strategy.FrontierParametric.length_ge_of_cert` states the
+frontier theorem once over `(c, A, F)`, so a future range extension is an
+instantiation rather than a proof.  Measured cost confirms why that split matters:
+the block sweeps run `261 s`, every banked certificate together `6 s`.
+
 ### Axiom footprint
 
 `lake build Collatz` succeeds, **303 jobs**.  Zero `sorry`.  Zero added axioms.
@@ -10150,10 +10171,524 @@ the threshold growth is forced), and **`depth_capped_of_no_growth`** (a non-grow
 window has `3^(S−N) ≤ 2^S`).
 
 This constrains the **depth multiset of a given window**.  It is not a descent theorem:
-`no_uniform_block` and the `2^j − 1` family stand untouched.
+`no_uniform_block` stands untouched.
+
+*Later:* the `2^j − 1` family no longer stands untouched.  `Strategy.MersenneDescent`
+checks that it descends within `12j` for `2 ≤ j ≤ 200`, so it is not the obstruction
+it was taken for; and `Strategy.RunLengthAny.no_tail_at_any_run_length` settles the
+run-length question outright — no tail depending only on `r(n) = v₂(n+1)` works at any
+`j ≥ 2`, while `j = 1` forces `σ = 2`.  The mean of `(σ − j)/j` over that family drifts
+to `2.81` by `j ≈ 400`, matching the random-walk descent rate
+`2·log(3/2)/log(4/3) = 2.8188` rather than the block-depth threshold `2.7095` above —
+the two constants are close but unrelated.
 
 ### Axiom footprint
 
-`lake build Collatz` succeeds, **307 jobs**.  Zero `sorry`.  Zero added axioms.
+`lake build Collatz` succeeds, **337 jobs**.  Zero `sorry`.  Zero added axioms.
 
 **Both halves of the conjecture remain open.**
+
+# Round LXXIII — the frontier ladder executed, and what the run length controls
+
+Two lines this round.  The first executes a recipe the repository had already
+written down; the second answers a question it had posed and left open.
+
+## 1. The cycle frontier: `6809 → 8917`
+
+Round LXIX derived an exact recipe for `7863` — index `A = 4961`, range
+`c ≥ 1 358 718`, `266` more blocks, fuel past `224` — and explicitly claimed no
+improvement.  It is now executed, and one rung further.
+
+* `Search.FuelMonotone` — `dropsWithin_mono`, `checkBlock_mono`,
+  `checkRange_mono`.  The recipe says to raise the fuel; monotonicity means the
+  `1061` blocks already proved at `200` are *read* at `224` with no
+  recomputation, so an extension costs only its new blocks.  `VerifiedExtended`
+  had noted this plumbing was not required at its own endpoint; crossing block
+  `1099` requires it.
+* `Search.VerifiedRung7863` (`266` blocks, range `1 358 848`) and
+  `Search.VerifiedRung8917` (`299` more, range `1 665 024`).  The second needs
+  no fuel change: the worst drop in `[1 358 848, 1 665 024)` is `214`, below the
+  `224` already forced.  **Drop times are not monotone in the range**, so the
+  fuel must be measured per range, never extrapolated.
+* `Strategy.Frontier7863.length_ge_7863` and
+  `Strategy.Frontier8917.length_ge_8917`.  The latter is the strongest
+  unconditional cycle bound here.
+
+**The certificates were decoupled from the ranges**, which is the reusable part.
+`Strategy.PreCertified` banks six rungs out to frontier `13133` at their exact
+least thresholds; `Strategy.FrontierParametric.length_ge_of_cert` states the
+frontier theorem once over `(c, A, F)`, with `length_ge_6809_again` recovering
+the old bound by instantiation as both a subsumption check and a non-vacuity
+witness.  `Strategy.CertMonotone` shows a certificate survives any *larger*
+range — including `bank_mono` for the unpacked form, which settles the caveat
+recorded in the parametricity audit above.
+
+Measured cost explains why the split matters: the block sweeps run `261 s`, every
+banked certificate together `6 s`.  **Ranges are the whole expense; certificates
+are free.**  Climbing stopped at `8917` by choice — each further rung is
+mechanical and buys a fixed `+1054` for a linearly growing sweep — and none of it
+touches Round XLIV's conclusion that the range needed per rung diverges.
+
+`scripts/audit_ladder.py` re-checks the whole ladder outside Lean: reach, exact
+riser, frontier optimality, and that the rungs lie on the semiconvergent
+staircase `306 + 665k` of `log₂ 3`.
+
+## 2. What the initial run length controls
+
+`PROGRAM_STATUS` asked whether `n > T^(r(n) + s(n))(n)` for explicit `s`, with
+`r(n) = v₂(n+1)`, and proposed `n = 2^j − 1` as the first test.  Answered, and
+the obstruction is not where the question expected it.
+
+* **Not in that family.**  `Strategy.MersenneDescent` checks it descends within
+  `12j` for `2 ≤ j ≤ 200`; `σ/j` peaks at `11.2` on the small case `j = 5` and
+  stays under `4.34` past `j = 30`.
+* **No tail depending only on `r` works, at any `j ≥ 2`.**
+  `Strategy.RunLengthUnbounded.no_tail_at_run_length_two`, then
+  `Strategy.RunLengthAny.no_tail_at_any_run_length`.  For `n = 8a+3`,
+  `T³(n) = 9a+4`, so choosing `9a+5 = 2^k` lands the orbit exactly on `2^k − 1`
+  and `ScaleLadder.climb` carries it to `3^k − 1`.  The first member is `27`.
+  Generalizing needs `3^j ∣ 2^(2·3^(j−1)m) − 1` — lifting the exponent at
+  `p = 3`, which the repository lacked (`LiftExponent` covers `p = 2` only) and
+  is now `Strategy.LiftExponentThree.two_pow_three_pow`.
+* **`j = 1` is a genuine exception**, not an artefact: the construction needs
+  `n < 2^k − 1`, which reduces exactly to `2^(j+1) < 3^j`, true precisely for
+  `j ≥ 2`.  And at `j = 1`, `σ = 2` always
+  (`Structure.CycleMinClass.two_step_descent`).
+* **But `r` does bound descent from below, everywhere.**
+  `Strategy.MersenneLower.sigma_gt_run_half`: `σ(n) > r + r/2` for every odd `n`,
+  no parity assumption; sharpened at `12 ∣ r` to `σ(n) > (19/12)·r` by the
+  convergent `19/12` of `log₂ 3`.  That is within `0.1 %` of `log₂ 3`, the
+  ceiling no argument of this shape can pass — the run lifts by exactly
+  `(3/2)^r` and a Terras step halves at best.
+
+So `r(n)` bounds the descent time from **below** but not from **above**, which is
+the precise sense in which the question's shape was the wrong one: it asked for
+an upper bound in terms of `r`, and `r` only ever supplies lower ones.
+
+## Corrections
+
+* `Strategy.CycleVerified.cycle_length_ge_2966` is **superseded** and retained
+  only as a cross-check.  It reaches odd-budget `2966` where
+  `RealizableFrontier6809` already reached `4296` at the same verified range —
+  the product bound `2^K·N^L ≤ (3N+1)^L` at `N = 1 086 464` yields what that
+  file's Beatty certificate yields at `c = 620 859`.  Its value is corroboration:
+  it lands on the riser indices `2966` and `3631` from a completely different
+  inequality.
+* A measured mean of `(σ − j)/j ≈ 2.718` over the `2^j − 1` family is **not** the
+  block-depth threshold `log 3/log(3/2) = 2.7095` of Round LXXII.  It drifts to
+  `2.81` by `j ≈ 400`, matching the random-walk rate `2·log(3/2)/log(4/3) =
+  2.8188`.  Two close constants, unrelated.
+
+## Axiom footprint
+
+`lake build Collatz` succeeds, **338 jobs**.  Zero `sorry`.  Zero added axioms.
+The block sweeps and every banked certificate depend on no axioms at all.
+
+**Both halves of the conjecture remain open.**  The cycle half is bounded, not
+excluded, and Round XLIV's divergence of the per-rung range requirement caps this
+method regardless of effort; the divergence half is untouched by this round.
+
+### Round LXXIII, addendum — what the run length bounds, and the convergents again
+
+Written after the main entry; these results came later in the same round.
+
+**The run length bounds descent from below, everywhere.**
+`Strategy.MersenneLower.sigma_gt_run_half`: for every odd `n`, no iterate falls
+below `n` within `r + r/2` steps, where `r = v₂(n+1)` — no parity assumption.  The
+mechanism is one inequality: the opening run lifts `n` by exactly `(3/2)^r`, and a
+Terras step halves at best, so `run_no_drop_pow` needs only `2^(t+r) ≤ 3^r`.
+
+That hypothesis makes the constant a question about rational approximation, and
+the convergents of `log₂ 3` from below give the instances — they alternate:
+
+| convergent | `2^p ≤ 3^q` | ratio to `log₂ 3` |
+|---|---|---|
+| `19/12` | yes | `0.998972` |
+| `65/41` | no | — |
+| `84/53` | yes | `0.999964` |
+| `485/306` | no | — |
+| `1054/665` | yes | `0.99999994` |
+
+`sigma_gt_1054_665` comes within `6·10⁻⁸` of `log₂ 3`, which is the ceiling no
+argument of this shape can pass.  **Its denominator `665` is the spacing of the
+frontier ladder's risers** (`306 + 665k`) — two unrelated arguments, the same
+continued fraction.
+
+**The `2^j − 1` family is sandwiched.**  `MersenneDescent` gives `σ ≤ 12j` for
+`2 ≤ j ≤ 200` (a finite check); `MersenneLower.mersenne_sigma_gt` gives
+`σ > 3j/2` for every even `j`, from `8^m ≤ 9^m`.  Linear growth, both sides.
+
+**Heaviness now follows from never-dropping.**  The repository had fifteen
+`*_of_heavy` consumers and no producer from a never-dropper;
+`Frontier8917.heavy_of_neverDrops` supplies one at the extended range, and with
+it `heavy_window_5625` (against `2592`) and `odd_steps_5625` — a counterexample's
+minimum takes more than `3541` odd steps in its first `5625`.  The density is
+unchanged at `17/27`; the window is what doubled.
+
+**The counterexample profile is restated** at the new constants in
+`Strategy.ProfileSharp`: `≥ 1 664 599`, heavy for `5625` steps, cycle length
+`≥ 8917`.  No clause is added or removed.
+
+**A lower bound on the total stopping time**, which the development lacked:
+`TotalStoppingLower.total_stopping_exact`, `2^k = 3^(oddCount n k)·n + affineC k n`
+when the orbit reaches `1` in `k` steps.  Exact, not an inequality.  Measured, the
+residual over `3^q` stays below `n`, so `k − q·log₂ 3 ∈ [log₂ n, log₂ n + 1)`;
+that last part is measured and **not** proved — it does not follow from the
+identity, since the trailing even steps change neither `q` nor the accumulator.
+
+### Axiom footprint
+
+`lake build Collatz` succeeds from a clean tree, **340 jobs**.  Zero `sorry`.
+Zero added axioms.
+
+**Both halves of the conjecture remain open.**
+
+## Round LXXIV, iteration 1 — the residual has no composition law
+
+**Candidate.** Induct on a block decomposition of the word to force `δ ≥ 2`.
+The motivation is that `(C, G)` composes *exactly* under concatenation, by a
+single two-dimensional cocycle (`PhantomMediant.C_append`, `gap_append`):
+`C(uv) = 3^a(v)·C(u) + 2^|u|·C(v)` and the same for `G`.  If the residual
+inherited any composition rule from that cocycle, block control would compose.
+
+**Membership audit** (all four `CLOSURE.md` tests passed, so it was admissible):
+no orbit lower bound is invoked — no orbit appears at all; it does not reduce to
+the factors of `∏(1 + 1/(3x_t))`; it consumes no prefix of an infinite path; and
+it is *not* `d`-free, since `δ` is precisely the `d`-separating residual.
+
+**Refuted by its own arithmetic** — `Strategy.ResidualComposition`.
+`delta_no_composition_law`: there is **no** `F` with
+`δ(uv) = F(δu, δv, |u|, a(u), |v|, a(v))`, for any `F` whatsoever.  Witness, all
+of length ≤ 6:
+
+| word | `L` | `a` | `C` | `G` | `gcd` | `δ` |
+|---|---|---|---|---|---|---|
+| `u  = [0,1]`          | 2 | 1 | 2  | 1  | 1  | 1  |
+| `v  = [0,0,0,1]`      | 4 | 1 | 8  | 13 | 1  | 13 |
+| `v' = [0,0,1,0]`      | 4 | 1 | 4  | 13 | 1  | 13 |
+| `uv  = [0,1,0,0,0,1]` | 6 | 2 | 38 | 55 | 1  | **55** |
+| `uv' = [0,1,0,0,1,0]` | 6 | 2 | 22 | 55 | 11 | **5**  |
+
+The right factors agree in every one of `(δ, L, a, G)` — the cocycle's entire
+input — and the concatenations agree in `(L, a, G)` and differ in `δ` elevenfold.
+`C` is the only thing that separates them, which is the point: the residual reads
+`C` against `G` multiplicatively, and multiplicative information is exactly what
+a bilinear cocycle does not transport.  So the cocycle **does not descend to the
+residual**, and no block induction of any composition rule can force `δ ≥ 2`.
+
+`delta_created`: `δ(u) = δ(v) = 1` with `δ(uv) = 7`.  `delta_destroyed`:
+`δ = 5` on both halves with `δ(uv) = 1`.  The residual is created out of nothing
+and destroyed by concatenation.
+
+**Stated weakness, exactly.**  `delta_destroyed`'s concatenation is `(01)^4`, a
+member of the rigid `δ = 1` family that `PhantomMediant` already characterised
+(for `L ≤ 22`: the all-even word and the two rotations of `(10)^(L/2)`, nothing
+else).  So the *destruction* direction is exhibited only on that family, and a
+composition law restricted to words with no trivial factor is **not** refuted.
+`delta_no_composition_law` does not share the weakness — `concats_nontrivial`
+checks `δ ≠ 1` on both of its concatenations — and it is the theorem the kill
+rests on.
+
+**What this closes.**  The block-induction route to `δ ≥ 2`, for every
+composition rule.  It does not touch the counting route, which `DeltaSpectrum`
+had already identified as the same route as the equidistribution of `C mod G`.
+
+`lake build Collatz` succeeds, **341 jobs**; `scripts/check_integrity.sh` passes.
+Zero `sorry`, zero added axioms.
+
+*Housekeeping, same iteration.*  `Collatz/ProgramA`–`ProgramG.lean` — untracked
+drafts written against `Mathlib` and carrying six `sorry`s — were turning the
+integrity gate red while being imported by nothing.  They are moved verbatim to
+`Sketches/`, outside the scanned tree; nothing is deleted, and the gate is green.
+
+## Round LXXIV, iteration 2 — track C: the quantifier swap has no content
+
+**Candidate.** Isolation.  The infinite admissible valuation words form an
+inverse limit — a Cantor set of `2`-adic integers — and one asks that no positive
+integer sit at a divergent point of it.  This is the premise of the quarantined
+`Sketches/ProgramE`, and it is the natural track-C target because it is a
+statement about the *limit*, not about any prefix, so `exists_realizer` does not
+settle it.
+
+**Membership audit.**  Passes three tests outright: no orbit lower bound is
+invoked, it does not reduce to the factors of `∏(1 + 1/(3x_t))`, and it consumes
+no finite prefix.  The `d`-free test is where it wobbles — the `2`-adic
+conjugacy is `d`-free — but it does not die there either, since the statement is
+about `3x+1`'s integer points specifically.
+
+**Killed by circularity** (`CLOSURE.md` diagnostic 5, track-C form), and the kill
+is a theorem rather than an observation — `Strategy.WordInjective`.
+
+The only thing separating track C from prefix reachability is the quantifier
+swap `∀L ∃n` → `∃n ∀L`.  **That swap has no content, because the `n` is
+unique.**  `word_injective`: two odd positive integers whose odd-map valuation
+sequences agree at every index are equal.  So an integer realizing every prefix
+of an infinite word is not a new object to be excluded; it *is* the integer whose
+word that is, and asking whether a divergent word has an integer realizer is
+asking whether some integer diverges — the divergence half verbatim.
+
+`word_injective_bounded` sharpens it and is the form that matters: agreement on
+the first `n' + 1` valuations already forces `n = n'`.  The modulus is explicit
+and linear, so no limit is involved at all — the `∃n ∀L` statement is decided by
+a **bounded** prefix.  That is the strongest form of the kill: track C's escape
+from prefix-consuming arguments is illusory, because the object it quantifies
+over is pinned by a prefix of length `n' + 1`.
+
+**The proof**, three inputs, all already here.  `traj_affine_exact` gives
+`2^{K_L}·A = 3^L·n + S` and `2^{K_L}·B = 3^L·n' + S` with the *same* `K_L` and
+`S` — both are functions of the word alone — so `3^L·(n' − n) = 2^{K_L}·(B − A)`;
+`AccumulatorCap.dvd_cancel_three_pow` strips the `3^L` since `2^{K_L}` is not
+divisible by `3`; `Ksum_ge` gives `K_L ≥ L`, and at `L = n' + 1` the modulus
+exceeds the difference.
+
+**Scope, stated exactly.**  This closes the *coordinate change*: passing to the
+inverse limit and asking for isolation buys nothing.  It does **not** close every
+limit-object argument — one that used a genuine property of the limit (a measure,
+a dimension, a transcendence input) is untouched by injectivity.  What is refuted
+is the specific hope that `∃n ∀L` is a weaker target than divergence.
+
+`lake build Collatz` succeeds, **343 jobs**; `scripts/check_integrity.sh` passes.
+Zero `sorry`, zero added axioms (`propext`, `Quot.sound` only).
+
+## Round LXXIV, iteration 3 — track B: the counting drift cannot reach zero
+
+**Candidate.**  A **counting drift**: a drift inequality on the number of
+surviving residue classes rather than on orbit values.  Let `S_j` be the set of
+residues mod `2^j` whose first `j` steps never drop, and seek an inequality
+driving `|S_j|` down.  This is the right shape for track B — it is not a
+pointwise or block Lyapunov function, and not an excursion-peak potential, since
+it is a potential on a *set* and not on any trajectory.
+
+**Membership audit.**  It rests on no orbit lower bound and does not reduce to
+the factors of `∏(1 + 1/(3x_t))`.  It is not prefix-consuming in the fatal sense
+either — it is a statement about *all* residues at level `j`, not about
+continuing one path.  It is however **`d`-free**, which is the first kill: the
+survivor classes are the same for every `3x+d`, so Round X's divergence-half
+filter applies and `expStep` — heavy at every scale, every orbit divergent —
+refutes any mechanism of this shape.
+
+**The second kill is constructive, and it is the useful one.**
+`ValuationDensity.Enum_pos` / `two_pow_le_Enum`: `E_ℓ ≥ 2^(−ℓ) > 0` at **every**
+length.  The witness is explicit — the all-ones valuation vector is admissible at
+every `ℓ` because `2^ℓ ≤ 3^ℓ` always, so `dpRow ℓ ℓ = 1` and the DP's `K = ℓ`
+term alone contributes `2^ℓ` to `Enum ℓ`.  The bound is tight at `ℓ = 1`
+(`Enum 1 = 2 = 2^1`), confirming it is exactly the all-ones term.
+
+So a counting drift can deliver density `→ 0` — which is Terras's theorem, known
+since 1976 — but **never emptiness**, and density zero does not exclude a
+divergent orbit.  The survivor set is nonempty at every level, forever.
+
+**What this closes.**  Any argument whose conclusion is "the surviving set
+eventually empties".  It does *not* close arguments about the *rate* at which
+density decays, which is Class 2 (the counting class) and closed separately by
+the unconditional L¹ barrier.
+
+**Connection worth recording.**  This kill is a corollary of the DP built for the
+work-plan's item 12 — the same object that computes `E_ℓ = 1/2, 3/8, 1/4, …`
+proves it never reaches `0`.  A construction built to measure a density turned
+out to refute the hypothesis class that density belonged to, which is the
+cheapest kind of kill available.
+
+`lake build Collatz` succeeds, **343 jobs**; `scripts/check_integrity.sh` passes.
+Zero `sorry`, zero added axioms.
+
+## Round LXXIV, iteration 4 — reversal is not a symmetry of the residual
+
+**Candidate.**  `G = 2^|w| − 3^a(w)` depends only on length and odd count, so it
+is manifestly **reversal-invariant**.  If `gcd(C, G)` were too, `δ` would carry a
+nontrivial involution on words, the `δ = 1` words would come in pairs, and a
+fixed-point or parity argument would open on the residual.
+
+**Membership audit.**  Passed all four tests: no orbit lower bound (no orbit
+appears), no reduction to the factors of `∏(1 + 1/(3x_t))`, no prefix consumed,
+and not `d`-free — `δ` is the `d`-separating residual.  Admissible, so it was
+formalized rather than dismissed.
+
+**Refuted by computation** — `Strategy.ResidualReversal`.  At length 12,
+`w = 111100110100` is heavy at every proper prefix with `gcd(C, G) = 1` and
+`δ = 1909`; its reversal has `gcd = 23` and `δ = 83`, against the **same**
+`G = 1909`.  Measured scope: over every word of length `≤ 14` with `G > 0` the
+gcd is preserved in 5875 cases and **broken in 548**; restricting to words heavy
+at every proper prefix does not rescue it — 7 of 142 break, and the witness above
+is the smallest heavy one.  Reversal is a genuine involution
+(`reverse_involutive`), so this is an involution failing to descend, not a defect
+of the map.
+
+**The near-miss, and why it is empty.**  Over the same range *every* `δ = 1` word
+reverses to a `δ = 1` word — 24 of 24 — which looks exactly like the sought
+structure.  It is not.  The census returns 14 all-even words and 14 of the form
+`(10)^k` or `(01)^k`, and nothing else: precisely the family `PhantomMediant`
+already characterised as the *only* `δ = 1` words up to length 22.  That set is
+reversal-closed because reversing `(10)^k` gives `(01)^k`.  So the closure is the
+rigidity result restated, and by the Class 3 test it carries no information — a
+symmetry of a set whose elements are already listed tells you nothing.
+
+**What this closes.**  Any argument pairing words by reversal to constrain `δ`.
+It leaves rotation untouched, which was closed separately and for a different
+reason (the walk is closed, so max and min are rotation-invariant).
+
+**Worth recording as method.**  The candidate was killed by the *second* check,
+not the first.  The first check found the near-miss on `δ = 1` and looked like a
+discovery; identifying the 24 words is what turned it into a restatement of a
+known theorem.  A symmetry observed on a set should always be tested against a
+census of that set before it is believed.
+
+`lake build Collatz` succeeds, **344 jobs**; `scripts/check_integrity.sh` passes.
+Zero `sorry`, zero added axioms.
+
+## Round LXXIV, iteration 5 — the divergence-half filter cannot be narrowed
+
+**Candidate.**  Not a new attack but the open task `CLOSURE.md` records against
+its own Round X filter: `expStep` differs from `T` on a whole branch, whereas
+`3x+d` differs in one constant, so the divergence-half filter is coarser than the
+cycle filter.  *Narrowing it is the natural next task.*  The natural attempt is an
+interpolating family that keeps the halving branch on a thin set:
+
+    f_c(x) = x/2  when 2^c ∣ x,  else 3x/2 (even) or (3x+1)/2 (odd)
+
+which is Terras at `c = 1` and `expStep` in the limit.
+
+**Refuted, and the refutation generalises past the family** —
+`Strategy.FilterWidth`.
+
+The filter works only because `expStep` has a *one-line* divergence proof: every
+step strictly increases.  A witness whose divergence were conjectural would
+refute nothing.  So a usable witness must satisfy `x < g x` for all `x ≥ 1` — a
+**no-contraction witness**.
+
+`increasing_ne_halving`: such a witness has `g x ≠ x/2` at **every** even
+`x ≥ 2`.  It cannot agree with the Collatz even branch anywhere — not on a sparse
+set, not at a single point.  So `expStep`'s whole-branch difference is **forced**,
+not an artefact of the choice, and the filter's coarseness is not reducible by
+picking a better map of this kind.
+
+The measurement confirms it where the attempt actually breaks: over the first
+`20000` starts the number whose orbit dips below its own start is `12677` at
+`c = 2`, `6149` at `c = 3`, `3045` at `c = 4`.  Every `c ≥ 2` contracts somewhere,
+so `x < f_c x` fails and divergence — if true at all — stops being provable by
+the means that made `expStep` useful.  Admitting halving on any set of positive
+density reintroduces dips, which is `increasing_ne_halving` appearing numerically.
+
+**Scope, stated exactly.**  Settled: the filter cannot be narrowed by weakening
+the even branch, and "differs on a whole branch" is the minimum distance a
+no-contraction witness can achieve.  **Not** settled: whether an entirely
+different style of witness — divergent for a reason other than pointwise increase
+— could do better.  Nothing here rules that out, and the theorems are about
+no-contraction witnesses only, which is the class every known witness belongs to.
+
+**Why this is worth an iteration.**  A filter is infrastructure for killing
+candidates; knowing it cannot be sharpened is as useful as sharpening it, because
+it stops future rounds from spending cycles on the interpolation idea.  The
+`CLOSURE.md` entry has been amended so the open task now reads as answered rather
+than pending.
+
+`lake build Collatz` succeeds, **345 jobs**; `scripts/check_integrity.sh` passes.
+Zero `sorry`, zero added axioms.
+
+## Round LXXV, iteration 1 — one more rung, and a proof that the ladder ends
+
+Two pieces, one of each kind the brief asks for: a number moved, and a route
+closed.
+
+### The number
+
+`Strategy.PreCertified` banked `cert_6291` and `pow_gap_6291` against the
+threshold `2 010 160` and had been waiting for a range.  `Search.VerifiedRung9971`
+supplies it: the `338` blocks `1626 … 1963`, sweeping `[1 665 024, 2 011 136)`,
+all at fuel `224`.  A direct scan puts the worst drop time in the new interval at
+`222` (`n = 1 689 023`), so the fuel did not have to move — the second extension
+in a row where it did not, while the range grew by a factor of `1.85`.  The `224`
+record still belongs to `n = 1 126 015`, well inside the first million; the worst
+drop time is not tracking the range.
+
+`Strategy.Frontier9971.length_ge_9971` follows by the usual one-line
+instantiation of `FrontierParametric.length_ge_of_cert`:
+
+```
+length_ge_9971 : 0 < n → AccIsCycleOf n L → ¬ ReachesOne n → 9971 ≤ L
+```
+
+Unconditional, `[propext, Classical.choice, Quot.sound]`.  The heavy window
+widens with the certificate's reach: `heavy_window_6290` gives `2 ^ j ≤ 3 ^ a(j)`
+for every `j ≤ 6290`, and `odd_steps_6290` reads `3960 < oddCount m 6290` off it
+at the same `17/27` from `RunAlgebra.heavy_even_bound`.
+
+This is the **last** banked rung the development's range reaches.  `11025`,
+`12079`, `13133` need `2 403 661`, `2 855 820`, `3 380 808` and stay conditional.
+
+### The route closed
+
+Round XLIV asserted that no finite verified range excludes all cycle lengths,
+supporting it with a *measurement*: the range needed to kill the `k`-th rung
+grows like `a_k · a_{k+1} / (6 ln 2)`.  A measured growth rate is not a theorem,
+and the assertion is load-bearing — it is the reason this ladder is a finite
+resource rather than a programme.  `Strategy.RouteCap` proves it.
+
+```
+reach_lt_six_mul  : Bcap a + 3 ^ a * c < 2 * 2 ^ fexp a * c → a < 6 * c
+cert_reach_le     : (∀ i < A, Bcap i + 3 ^ i * c < 2 * 2 ^ fexp i * c) → A ≤ 6 * c
+frontier_le_of_route : … → 2 ^ (F − 1) < 3 ^ A → F ≤ fexp (6 * c) + 1
+route_misses_a_length : ∀ c, ∃ F₀, ∀ A F, cert … → gap … → F < F₀
+```
+
+Two collisions between `Bcap` and `fexp`, and nothing else:
+
+* `2 ^ fexp a ≤ 3 ^ a` (`fexp_le`) weakens the certificate's right-hand side
+  from `2 · 2 ^ fexp a · c` to `2 · 3 ^ a · c`, so the condition already forces
+  `Bcap a < 3 ^ a · c`;
+* `3 ^ i < 2 · 2 ^ fexp i` (`lt_fexp`) says each of the `a` summands of
+  `Bcap a = Σ_{i<a} 3 ^ (a−1−i) · 2 ^ (fexp i)` exceeds `3 ^ a / 6`, giving
+  `a · 3 ^ a ≤ 6 · Bcap a` (`six_Bcap_ge`, by induction on the `Bcap` recursion).
+
+Together `a · 3 ^ a ≤ 6 · Bcap a < 6 · 3 ^ a · c`, and cancelling `3 ^ a` gives
+`a < 6c`.  No positivity hypothesis on `c` is needed; at `c = 0` the certificate
+condition is unsatisfiable and the reach is `0`.
+
+**What is proved and what is not.**  Proved: the route's frontier is bounded by a
+function of the range alone, so *every* finite verification leaves cycle lengths
+untouched.  Not proved: the rate.  `a < 6c` allows `A < 12 060 960` at this
+repository's range against an actual `6291`, a factor of `1917`.  The slack is
+exactly the crude step `2 ^ fexp a ≤ 3 ^ a`, which throws away how closely
+`3 ^ a` approaches `2 ^ (fexp a + 1)` from below.  Recovering the measured
+quadratic law needs an effective irrationality measure for `log₂ 3` — Baker
+territory, and outside this development's no-Mathlib, no-external-theorem budget.
+The honest split is: **finiteness is elementary, the rate is Diophantine.**
+
+**Why this is worth the iteration.**  The repository's most valuable artefacts
+are the ones that stop future rounds spending cycles, and until now the reason
+not to keep climbing the ladder was a table of measurements.  It is now a
+theorem with an explicit `F₀`, which means the acceptance criterion (P1) can be
+stated exactly: the certificate route can reach frontier `F` only for
+`F ≤ fexp (6c) + 1`, and `CollatzConjecture` needs all `F`.  Any future proposal
+of the form "verify further, then re-instantiate" is refuted by citation.
+
+**Killed-approach log.**  Two candidates were checked against the repository
+before `RouteCap` was chosen and both were already covered: (i) the mod-`3`
+filter — `S(n) mod 3` is exactly the parity of the preceding valuation, so the
+mod-`3` orbit carries no information beyond the valuation word, which
+`GapBarriers.exists_realizer` shows is arbitrary; this is already
+`Structure.CycleModThree.accStep_mod_three_of_odd` and `BcapSharp.leaf_vacuous`.
+(ii) A `3`-adic Lyapunov quantity on orbit points — vacuous for the same reason,
+since every point after one odd step is coprime to `3`, so `v₃` is identically
+`0` along the orbit.  Neither is new; recording them keeps the next round from
+re-deriving them.
+
+`lake build Collatz` succeeds, **348 jobs**; `scripts/check_integrity.sh` passes,
+now also guarding `Frontier9971.length_ge_9971`,
+`Search.reachesOne_of_lt_2011136` and `RouteCap.route_misses_a_length`.
+Zero `sorry`, zero added axioms.
+
+### Next session — three tasks, one primary
+
+1. **Primary.**  Sharpen `reach_lt_six_mul` from `a < 6c` toward the measured
+   law without importing Baker.  The tractable half is the *lower* bound on
+   `2 · 2 ^ fexp a − 3 ^ a` along the `306 + 665k` staircase, where
+   `Strategy.PosLadder` already derives the semiconvergent structure of
+   `log₂ 3`; a rung-restricted `a² < K · c` would be strictly stronger than
+   anything currently proved and needs no external theorem.
+2. Extend the range to `2 403 661` and unlock `length_ge_11025`.  Purely
+   mechanical — `338` blocks bought `1054` of frontier here, and the next riser
+   needs `384` more blocks — but by task 1 it buys one rung, not a programme.
+3. Audit which of the fifteen `*_of_heavy` consumers actually improve at window
+   `6290` rather than `5625`; the window widened but nothing downstream was
+   re-derived at the new reach.

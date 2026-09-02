@@ -48,6 +48,9 @@ cat > /tmp/collatz_axcheck.lean <<'LEAN'
 import Collatz
 #print axioms Collatz.RealizableBound.length_ge_4701
 #print axioms Collatz.RealizableFrontier6809.length_ge_6809
+#print axioms Collatz.Frontier9971.length_ge_9971
+#print axioms Collatz.Search.reachesOne_of_lt_2011136
+#print axioms Collatz.RouteCap.route_misses_a_length
 #print axioms Collatz.Search.reachesOne_of_lt_1086464
 #print axioms Collatz.GapSandwich.cycle_length_determined
 #print axioms Collatz.NewModels.word_is_cycle_word
