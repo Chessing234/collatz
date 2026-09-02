@@ -24,7 +24,7 @@ attains it, and `F = ⌊A·log₂ 3⌋ + 1` the frontier in accelerated steps.
 | `1 086 055` | `4296` | `6809` | proved — `RealizableFrontier6809` |
 | `1 358 718` | `4961` | `7863` | certificate banked here |
 | `1 664 599` | `5626` | `8917` | certificate banked here |
-| `2 010 160` | `6291` | `9971` | certificate banked here |
+| `2 010 160` | `6291` | `9971` | proved — `Frontier9971` |
 | `2 403 661` | `6956` | `11025` | certificate banked here |
 | `2 855 820` | `7621` | `12079` | certificate banked here |
 | `3 380 808` | `8286` | `13133` | certificate banked here |
@@ -101,6 +101,16 @@ theorem bank_6291 (i : Nat) (hi : i < 6291) :
   have h := cert_sound 6291 0 2010160 (by simpa using cert_6291) i hi
   simpa using h
 
+theorem bank_6956 (i : Nat) (hi : i < 6956) :
+    Bcap i + 3 ^ i * 2403661 < 2 * 2 ^ fexp i * 2403661 := by
+  have h := cert_sound 6956 0 2403661 (by simpa using cert_6956) i hi
+  simpa using h
+
+theorem bank_7621 (i : Nat) (hi : i < 7621) :
+    Bcap i + 3 ^ i * 2855820 < 2 * 2 ^ fexp i * 2855820 := by
+  have h := cert_sound 7621 0 2855820 (by simpa using cert_7621) i hi
+  simpa using h
+
 theorem bank_8286 (i : Nat) (hi : i < 8286) :
     Bcap i + 3 ^ i * 3380808 < 2 * 2 ^ fexp i * 3380808 := by
   have h := cert_sound 8286 0 3380808 (by simpa using cert_8286) i hi
@@ -122,6 +132,14 @@ theorem pow_gap_5626 : (2:Nat) ^ 8916 < 3 ^ 5626 := by decide
 set_option maxRecDepth 20000 in
 set_option exponentiation.threshold 20000 in
 theorem pow_gap_6291 : (2:Nat) ^ 9970 < 3 ^ 6291 := by decide
+
+set_option maxRecDepth 20000 in
+set_option exponentiation.threshold 20000 in
+theorem pow_gap_6956 : (2:Nat) ^ 11024 < 3 ^ 6956 := by decide
+
+set_option maxRecDepth 20000 in
+set_option exponentiation.threshold 20000 in
+theorem pow_gap_7621 : (2:Nat) ^ 12078 < 3 ^ 7621 := by decide
 
 set_option maxRecDepth 20000 in
 set_option exponentiation.threshold 20000 in

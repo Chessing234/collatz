@@ -59,6 +59,7 @@ import Collatz.Strategy.FrontierParametric
 import Collatz.Strategy.Frontier7863
 import Collatz.Strategy.Frontier8917
 import Collatz.Strategy.Frontier9971
+import Collatz.Strategy.Frontier11025
 import Collatz.Strategy.RouteCap
 import Collatz.Strategy.ProfileSharp
 import Collatz.Strategy.TotalStoppingLower
@@ -126,6 +127,7 @@ import Collatz.Search.FuelMonotone
 import Collatz.Search.VerifiedRung7863
 import Collatz.Search.VerifiedRung8917
 import Collatz.Search.VerifiedRung9971
+import Collatz.Search.VerifiedRung11025
 import Collatz.Strategy.RealizableFrontier6809
 import Collatz.Strategy.JointRank
 import Collatz.Strategy.PAdicJoint

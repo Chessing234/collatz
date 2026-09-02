@@ -136,9 +136,9 @@ the kernel clean.
 ## Acceptance criteria
 
 * **(P1) no nontrivial cycles — NOT met.**  Strongest unconditional result is
-  `Frontier9971.length_ge_9971`, on the verified range `2 011 136`
-  (`Search.VerifiedRung9971`); it supersedes `RealizableFrontier6809.length_ge_6809`
-  by three risers of the ladder.  Round XLIV proved the paying route cannot
+  `Frontier11025.length_ge_11025`, on the verified range `2 404 352`
+  (`Search.VerifiedRung11025`); it supersedes `RealizableFrontier6809.length_ge_6809`
+  by four risers of the ladder.  Round XLIV proved the paying route cannot
   reach further: the verified range needed to kill the `k`-th ladder rung is
   `≈ a_k·a_{k+1}/(6 ln 2)`, which diverges, so **no finite verified range excludes all
   cycle lengths**.  Climbing two rungs does not touch that conclusion — an
@@ -146,9 +146,8 @@ the kernel clean.
   odd steps, still finite and still not all lengths.  Rungs to frontier `13133` are
   banked in `Strategy.PreCertified` and need only the corresponding ranges;
   `Strategy.FrontierParametric.length_ge_of_cert` makes each a one-line
-  instantiation.  Three remain conditional (`11025`, `12079`, `13133`, needing
-  `2 403 661`, `2 855 820`, `3 380 808`); `9971` is now unconditional, and it is
-  the last banked rung the verified range reaches.
+  instantiation.  Two remain conditional (`12079` and `13133`, needing `2 855 820` and
+  `3 380 808`); `11025` is now unconditional.
 
   **Round XLIV's divergence claim is now a theorem, not a measurement.**
   `Strategy.RouteCap.cert_reach_le`: any certificate reaching odd-step budget
@@ -163,6 +162,19 @@ the kernel clean.
   `2 ^ (fexp a + 1)`, which is the Diophantine content of the measured
   `a_k · a_{k+1} / (6 ln 2)` law and is *not* proved here.  Finiteness is
   proved; the rate is not.
+
+  **The price of each rung is now proved too, rung by rung.**
+  `RouteCap.reach_sharp` keeps the gap instead of discarding it:
+  `a · 3 ^ a < 6c · (2 · 2 ^ fexp a − 3 ^ a)`.  Measured against the seven known
+  thresholds this is tight to within a factor `1.22`, so essentially all of the
+  slack in `a < 6c` was the one crude step.  `RouteCap.range_gt_of_reach` turns
+  it into a kernel-checkable lower bound on `c` at any chosen index, and five
+  rungs are checked: reaching past `a = 8286, 9616, 10946, 12276, 14271` needs
+  ranges above `2 770 233`, `3 897 857`, `5 633 687`, `8 651 415`, `22 543 234`.
+  The last is the useful one — frontier `22619` costs more than six and a half
+  times the range of frontier `13133` for less than twice the frontier, and the
+  gap is still shrinking.  This replaces the measured cost law with proved
+  arithmetic at named indices; the *asymptotic* law remains Diophantine.
 * **(P2) no divergence — NOT met.**  F refuted as templated; A, D, E blocked.
 * **Verdict: neither half is closed.  Cycles are not excluded; divergence is not
   excluded.**

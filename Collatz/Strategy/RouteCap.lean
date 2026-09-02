@@ -85,22 +85,38 @@ theorem six_Bcap_ge : ∀ a : Nat, a * 3 ^ a ≤ 6 * Bcap a := by
 
 /-! ## The cap -/
 
+/-- **The exact form of the collision.**  A certificate step at index `a` bounds
+`a · 3 ^ a` by six times the range times the *gap* `2 · 2 ^ fexp a − 3 ^ a`, not
+by six times the range times `3 ^ a`.  Everything else in this file is this
+inequality with the gap estimated one way or another. -/
+theorem reach_sharp {a c : Nat}
+    (h : Bcap a + 3 ^ a * c < 2 * 2 ^ fexp a * c) :
+    a * 3 ^ a < 6 * c * (2 * 2 ^ fexp a - 3 ^ a) := by
+  have hlt := lt_fexp a
+  have hp2 : (2:Nat) ^ (fexp a + 1) = 2 ^ fexp a * 2 := Nat.pow_succ 2 (fexp a)
+  have hYX : (3:Nat) ^ a ≤ 2 * 2 ^ fexp a := by omega
+  have hsub : (2 * 2 ^ fexp a - 3 ^ a) * c = 2 * 2 ^ fexp a * c - 3 ^ a * c :=
+    Nat.sub_mul _ _ _
+  have hmul : 3 ^ a * c ≤ 2 * 2 ^ fexp a * c := Nat.mul_le_mul hYX (Nat.le_refl c)
+  have hB : Bcap a < (2 * 2 ^ fexp a - 3 ^ a) * c := by omega
+  have hlow := six_Bcap_ge a
+  have hcomm : 6 * c * (2 * 2 ^ fexp a - 3 ^ a) = 6 * ((2 * 2 ^ fexp a - 3 ^ a) * c) := by
+    rw [Nat.mul_assoc, Nat.mul_comm c]
+  omega
+
 /-- **A certificate step at index `a` forces `a < 6c`.**  The verified range caps
 the certificate's reach linearly, so no finite range reaches every odd-step
-budget. -/
+budget.  This is `reach_sharp` with the gap estimated crudely, by
+`2 ^ fexp a ≤ 3 ^ a`. -/
 theorem reach_lt_six_mul {a c : Nat}
     (h : Bcap a + 3 ^ a * c < 2 * 2 ^ fexp a * c) : a < 6 * c := by
-  -- weaken the certificate condition by `2 ^ fexp a ≤ 3 ^ a`
+  have hsharp := reach_sharp h
   have hfe : (2:Nat) ^ fexp a ≤ 3 ^ a := fexp_le a
-  have hup : 2 * 2 ^ fexp a * c ≤ 2 * 3 ^ a * c :=
-    Nat.mul_le_mul (Nat.mul_le_mul (Nat.le_refl 2) hfe) (Nat.le_refl c)
-  have hdist : 2 * 3 ^ a * c = 2 * (3 ^ a * c) := Nat.mul_assoc 2 (3 ^ a) c
-  have hBlt : Bcap a < 3 ^ a * c := by omega
-  -- and combine with the lower bound
-  have hlow := six_Bcap_ge a
+  have hgap : 2 * 2 ^ fexp a - 3 ^ a ≤ 3 ^ a := by omega
+  have hmono : 6 * c * (2 * 2 ^ fexp a - 3 ^ a) ≤ 6 * c * 3 ^ a :=
+    Nat.mul_le_mul (Nat.le_refl (6 * c)) hgap
+  have hcomm : 6 * c * 3 ^ a = 3 ^ a * (6 * c) := Nat.mul_comm _ _
   have hL : a * 3 ^ a = 3 ^ a * a := Nat.mul_comm a (3 ^ a)
-  have hR : 6 * (3 ^ a * c) = 3 ^ a * (6 * c) := by
-    simp [Nat.mul_comm, Nat.mul_left_comm, Nat.mul_assoc]
   have hchain : 3 ^ a * a < 3 ^ a * (6 * c) := by omega
   exact Nat.lt_of_mul_lt_mul_left hchain
 
@@ -147,6 +163,166 @@ theorem route_misses_a_length (c : Nat) :
   intro A F hcert hgap
   have := frontier_le_of_route hcert hgap
   omega
+
+/-! ## Proved lower bounds on the range each future rung needs
+
+`reach_lt_six_mul` throws the gap away; keeping it turns the ladder's measured
+cost into proved arithmetic.  The gap `2 · 2 ^ fexp a − 3 ^ a` measures how far
+`3 ^ a` sits below `2 ^ (fexp a + 1)`, and on the `306 + 665k` staircase it
+shrinks: `≈ 5.0 · 10⁻⁴ · 3 ^ a` at `a = 8286`, `≈ 1.1 · 10⁻⁴ · 3 ^ a` at
+`a = 14271`.  Since `reach_sharp` reads `a · 3 ^ a < 6c · gap`, a shrinking gap
+is a growing range requirement, and the requirement can be *proved* rung by rung
+without any statement about how the gap behaves in general.
+
+Pinning `fexp a` needs no evaluation of the `fexp` recursion — two big-number
+comparisons suffice. -/
+
+/-- `fexp a = F` from the two comparisons that characterise it. -/
+theorem fexp_eq_of {a F : Nat} (h1 : (2:Nat) ^ F ≤ 3 ^ a) (h2 : (3:Nat) ^ a < 2 ^ (F + 1)) :
+    fexp a = F := by
+  have hge : F ≤ fexp a := le_fexp_of_pow_le h1
+  have hle : fexp a ≤ F := by
+    rcases Nat.lt_or_ge (fexp a) (F + 1) with hok | hcon
+    · omega
+    · exfalso
+      have hmono := Arith.two_pow_le_two_pow hcon
+      have := fexp_le a
+      omega
+  omega
+
+/-- **The range a rung costs, from below.**  If a certificate at range `c`
+reaches past the index `a`, and `N` satisfies `6N · gap ≤ a · 3 ^ a` at `a`, then
+`N < c`.  Both `F` and `N` are supplied as literals and checked by the kernel;
+nothing about the growth of the gap is assumed. -/
+theorem range_gt_of_reach {c A a F N : Nat} (ha : a < A)
+    (hF1 : (2:Nat) ^ F ≤ 3 ^ a) (hF2 : (3:Nat) ^ a < 2 ^ (F + 1))
+    (hN : 6 * N * (2 * 2 ^ F - 3 ^ a) ≤ a * 3 ^ a)
+    (hcert : ∀ i : Nat, i < A → Bcap i + 3 ^ i * c < 2 * 2 ^ fexp i * c) : N < c := by
+  have hfe : fexp a = F := fexp_eq_of hF1 hF2
+  have hsharp := reach_sharp (hcert a ha)
+  rw [hfe] at hsharp
+  -- the gap is positive, so `6N · gap < 6c · gap` cancels
+  have hpos : 0 < 2 * 2 ^ F - 3 ^ a := by
+    have hlt := lt_fexp a
+    have hp2 : (2:Nat) ^ (fexp a + 1) = 2 ^ fexp a * 2 := Nat.pow_succ 2 (fexp a)
+    rw [hfe] at hlt hp2
+    omega
+  have hchain : 6 * N * (2 * 2 ^ F - 3 ^ a) < 6 * c * (2 * 2 ^ F - 3 ^ a) := by omega
+  have hcancel : 6 * N < 6 * c :=
+    Nat.lt_of_mul_lt_mul_right hchain
+  omega
+
+
+/-! ### The rungs, checked
+
+Five rungs of the `306 + 665k` staircase, spanning the last banked certificate
+(`a = 8286`) and four beyond it.  Each needs three kernel comparisons: the two
+that pin `fexp a`, and the one that certifies `N`.  Each `N` is the largest
+integer the inequality admits, so these are the sharpest bounds `reach_sharp`
+gives at those indices.
+
+| `a` | frontier it would reach | range provably required |
+|---|---|---|
+| `8286` | `13133` | `> 2 770 233` |
+| `9616` | `15241` | `> 3 897 857` |
+| `10946` | `17349` | `> 5 633 687` |
+| `12276` | `19457` | `> 8 651 415` |
+| `14271` | `22619` | `> 22 543 234` |
+
+The last row is the point.  `PreCertified` records that frontier `13133` costs a
+range of `3 380 808` — a measurement.  Frontier `22619` provably costs more than
+`22 543 234`, six and a half times as much for less than twice the frontier, and
+the gap `2 · 2 ^ fexp a − 3 ^ a` is still shrinking. -/
+
+set_option maxRecDepth 40000 in
+set_option exponentiation.threshold 30000 in
+theorem lo_8286 : (2:Nat) ^ 13132 ≤ 3 ^ 8286 := by decide
+
+set_option maxRecDepth 40000 in
+set_option exponentiation.threshold 30000 in
+theorem hi_8286 : (3:Nat) ^ 8286 < 2 ^ (13132 + 1) := by decide
+
+set_option maxRecDepth 40000 in
+set_option exponentiation.threshold 30000 in
+theorem wit_8286 : 6 * 2770233 * (2 * 2 ^ 13132 - 3 ^ 8286) ≤ 8286 * 3 ^ 8286 := by decide
+
+/-- A certificate reaching past index `8286` needs a verified range above
+`2770233`. -/
+theorem range_gt_2770233 {c A : Nat} (hA : 8286 < A)
+    (hcert : ∀ i : Nat, i < A → Bcap i + 3 ^ i * c < 2 * 2 ^ fexp i * c) : 2770233 < c :=
+  range_gt_of_reach hA lo_8286 hi_8286 wit_8286 hcert
+
+set_option maxRecDepth 40000 in
+set_option exponentiation.threshold 30000 in
+theorem lo_9616 : (2:Nat) ^ 15240 ≤ 3 ^ 9616 := by decide
+
+set_option maxRecDepth 40000 in
+set_option exponentiation.threshold 30000 in
+theorem hi_9616 : (3:Nat) ^ 9616 < 2 ^ (15240 + 1) := by decide
+
+set_option maxRecDepth 40000 in
+set_option exponentiation.threshold 30000 in
+theorem wit_9616 : 6 * 3897857 * (2 * 2 ^ 15240 - 3 ^ 9616) ≤ 9616 * 3 ^ 9616 := by decide
+
+/-- A certificate reaching past index `9616` needs a verified range above
+`3897857`. -/
+theorem range_gt_3897857 {c A : Nat} (hA : 9616 < A)
+    (hcert : ∀ i : Nat, i < A → Bcap i + 3 ^ i * c < 2 * 2 ^ fexp i * c) : 3897857 < c :=
+  range_gt_of_reach hA lo_9616 hi_9616 wit_9616 hcert
+
+set_option maxRecDepth 40000 in
+set_option exponentiation.threshold 30000 in
+theorem lo_10946 : (2:Nat) ^ 17348 ≤ 3 ^ 10946 := by decide
+
+set_option maxRecDepth 40000 in
+set_option exponentiation.threshold 30000 in
+theorem hi_10946 : (3:Nat) ^ 10946 < 2 ^ (17348 + 1) := by decide
+
+set_option maxRecDepth 40000 in
+set_option exponentiation.threshold 30000 in
+theorem wit_10946 : 6 * 5633687 * (2 * 2 ^ 17348 - 3 ^ 10946) ≤ 10946 * 3 ^ 10946 := by decide
+
+/-- A certificate reaching past index `10946` needs a verified range above
+`5633687`. -/
+theorem range_gt_5633687 {c A : Nat} (hA : 10946 < A)
+    (hcert : ∀ i : Nat, i < A → Bcap i + 3 ^ i * c < 2 * 2 ^ fexp i * c) : 5633687 < c :=
+  range_gt_of_reach hA lo_10946 hi_10946 wit_10946 hcert
+
+set_option maxRecDepth 40000 in
+set_option exponentiation.threshold 30000 in
+theorem lo_12276 : (2:Nat) ^ 19456 ≤ 3 ^ 12276 := by decide
+
+set_option maxRecDepth 40000 in
+set_option exponentiation.threshold 30000 in
+theorem hi_12276 : (3:Nat) ^ 12276 < 2 ^ (19456 + 1) := by decide
+
+set_option maxRecDepth 40000 in
+set_option exponentiation.threshold 30000 in
+theorem wit_12276 : 6 * 8651415 * (2 * 2 ^ 19456 - 3 ^ 12276) ≤ 12276 * 3 ^ 12276 := by decide
+
+/-- A certificate reaching past index `12276` needs a verified range above
+`8651415`. -/
+theorem range_gt_8651415 {c A : Nat} (hA : 12276 < A)
+    (hcert : ∀ i : Nat, i < A → Bcap i + 3 ^ i * c < 2 * 2 ^ fexp i * c) : 8651415 < c :=
+  range_gt_of_reach hA lo_12276 hi_12276 wit_12276 hcert
+
+set_option maxRecDepth 40000 in
+set_option exponentiation.threshold 30000 in
+theorem lo_14271 : (2:Nat) ^ 22618 ≤ 3 ^ 14271 := by decide
+
+set_option maxRecDepth 40000 in
+set_option exponentiation.threshold 30000 in
+theorem hi_14271 : (3:Nat) ^ 14271 < 2 ^ (22618 + 1) := by decide
+
+set_option maxRecDepth 40000 in
+set_option exponentiation.threshold 30000 in
+theorem wit_14271 : 6 * 22543234 * (2 * 2 ^ 22618 - 3 ^ 14271) ≤ 14271 * 3 ^ 14271 := by decide
+
+/-- A certificate reaching past index `14271` needs a verified range above
+`22543234`. -/
+theorem range_gt_22543234 {c A : Nat} (hA : 14271 < A)
+    (hcert : ∀ i : Nat, i < A → Bcap i + 3 ^ i * c < 2 * 2 ^ fexp i * c) : 22543234 < c :=
+  range_gt_of_reach hA lo_14271 hi_14271 wit_14271 hcert
 
 end RouteCap
 end Collatz

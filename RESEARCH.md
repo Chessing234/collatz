@@ -10692,3 +10692,111 @@ Zero `sorry`, zero added axioms.
 3. Audit which of the fifteen `*_of_heavy` consumers actually improve at window
    `6290` rather than `5625`; the window widened but nothing downstream was
    re-derived at the new reach.
+
+## Round LXXV, iteration 2 — the ladder's price, proved rung by rung
+
+Iteration 1 proved the certificate route is finite (`RouteCap.cert_reach_le`,
+`A ≤ 6c`) and said openly that the *rate* was still only measured.  This
+iteration closes most of that gap, and climbs one more rung on the way.
+
+### Where `a < 6c` loses, measured first
+
+The chain is `a · 3 ^ a ≤ 6 · Bcap a` and `Bcap a < gap_a · c`, where
+
+    gap_a := 2 · 2 ^ (fexp a) − 3 ^ a
+
+is how far `3 ^ a` sits below `2 ^ (fexp a + 1)`.  `a < 6c` comes from throwing
+the gap away as `gap_a ≤ 3 ^ a`.  Against the seven known thresholds:
+
+| `a` | `c` actual | `gap_a / 3 ^ a` | `a·3^a / (6·gap_a)` | ratio |
+|---|---|---|---|---|
+| `4296` | `1 086 055` | `7.61e−4` | `941 357` | `0.867` |
+| `5626` | `1 664 599` | `6.73e−4` | `1 392 782` | `0.837` |
+| `6956` | `2 403 661` | `5.86e−4` | `1 978 824` | `0.823` |
+| `8286` | `3 380 808` | `4.99e−4` | `2 770 233` | `0.819` |
+
+So the sharp chain predicts the true threshold to within a factor `1.22`, and
+**every bit of the factor-`1900` slack in `a < 6c` is the single step
+`gap_a ≤ 3 ^ a`.**  That makes the sharpening worth doing and tells us exactly
+what it buys.
+
+### The sharp inequality
+
+`Strategy.RouteCap.reach_sharp`:
+
+```
+Bcap a + 3 ^ a * c < 2 * 2 ^ fexp a * c  →  a * 3 ^ a < 6 * c * (2 * 2 ^ fexp a - 3 ^ a)
+```
+
+`reach_lt_six_mul` is now a two-line corollary of it rather than a separate
+argument, so nothing was lost.  The proof needs `Nat.sub_mul` and the positivity
+`3 ^ a < 2 · 2 ^ fexp a` from `lt_fexp`; no new machinery.
+
+### The price of a rung, kernel-checked
+
+`RouteCap.range_gt_of_reach` takes `(a, F, N)` as literals and three kernel
+comparisons — `2 ^ F ≤ 3 ^ a`, `3 ^ a < 2 ^ (F+1)`, and
+`6N · (2·2^F − 3^a) ≤ a · 3 ^ a` — and concludes that any certificate reaching
+past index `a` needs range `c > N`.  `fexp a` is pinned by the first two
+(`fexp_eq_of`), so the `fexp` recursion is never evaluated: the whole cost is
+three big-number comparisons, which the kernel's GMP-backed `Nat` does in
+milliseconds even at `22 618` bits.
+
+Five rungs of the `306 + 665k` staircase are checked:
+
+| `a` | frontier it would reach | range provably required |
+|---|---|---|
+| `8286` | `13133` | `> 2 770 233` |
+| `9616` | `15241` | `> 3 897 857` |
+| `10946` | `17349` | `> 5 633 687` |
+| `12276` | `19457` | `> 8 651 415` |
+| `14271` | `22619` | `> 22 543 234` |
+
+Each `N` is the largest the inequality admits.  The last row carries the
+content: frontier `22619` costs more than **six and a half times** the range of
+frontier `13133` for less than **twice** the frontier, because `gap_a / 3 ^ a`
+falls from `5.0e−4` to `1.1e−4` across those rungs.  Superlinear cost, proved at
+named indices rather than measured.
+
+### One more rung, while we were here
+
+`Search.VerifiedRung11025` sweeps blocks `1964 … 2347` — `384` blocks,
+`[2 011 136, 2 404 352)` — and `Frontier11025.length_ge_11025` follows from
+`PreCertified.cert_6956`.  **No nontrivial accelerated cycle is shorter than
+`11025`, unconditionally.**  `PreCertified` gained `bank_6956`, `bank_7621`,
+`pow_gap_6956`, `pow_gap_7621`, so the banked table is now complete and
+`FrontierParametric` carries all six conditional rungs.
+
+**The fuel is `224` and this time only just.**  The worst drop time in the new
+interval is exactly `224`, at `n = 2 252 031 = 2 · 1 126 015 + 1` — the odd
+predecessor of twice the standing record holder, so the record is *tied* by the
+same orbit reached one step earlier rather than met independently.  The next
+extension should expect to raise the fuel.
+
+### What is still not proved
+
+The asymptotic law.  `range_gt_of_reach` is checked at indices someone chooses;
+turning "`gap_a / 3 ^ a` keeps shrinking" into a theorem is a statement about how
+well `2 ^ p / 3 ^ q` approximates `1` from above along the staircase, i.e. an
+effective irrationality measure for `log₂ 3`.  That is Baker territory and stays
+outside this development's no-Mathlib, no-external-theorem budget.  The honest
+split is unchanged from iteration 1 and now sharper: **finiteness is elementary,
+the price at any named rung is elementary, the asymptotic price is Diophantine.**
+
+`lake build Collatz` succeeds, **350 jobs**; `scripts/check_integrity.sh` passes,
+now also guarding `Frontier11025.length_ge_11025` and
+`RouteCap.range_gt_22543234`.  Zero `sorry`, zero added axioms.
+
+### Next session — three tasks, one primary
+
+1. **Primary.**  The gap `gap_a` obeys a visible linear law along the staircase —
+   `gap_{a+665} / 3^{a+665} ≈ gap_a / 3^a − 4.37e−5` over the measured range.
+   That law is *not* Diophantine folklore; it is the statement that
+   `3 ^ 665 / 2 ^ 1054` is a specific number just above `1`, and the linearity is
+   the first-order expansion of `(3^665/2^1054)^k`.  Formalize
+   `gap_{a+665} · 2 ^ 1054 = gap_a · 3 ^ 665 − (something explicit)` and the
+   shrinking becomes an elementary induction, not an approximation theorem.
+   That would upgrade the five checked rungs to all of them.
+2. Range to `2 855 820` for `length_ge_12079` — but expect fuel `> 224`, so scan
+   first and thread `Search.FuelMonotone`.
+3. Audit the fifteen `*_of_heavy` consumers at window `6955`.

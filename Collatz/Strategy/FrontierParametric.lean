@@ -119,6 +119,22 @@ theorem length_ge_9971_of_verified
     PreCertified.bank_6291 PreCertified.pow_gap_6291 hver hn h hnr
 
 open AccCycle in
+theorem length_ge_11025_of_verified
+    (hver : ∀ {n m : Nat}, 0 < n → ¬ ReachesOne n →
+      (∃ i : Nat, acceleratedOrbit i n = m) → 2403661 ≤ m)
+    {n L : Nat} (hn : 0 < n) (h : AccIsCycleOf n L) (hnr : ¬ ReachesOne n) : 11025 ≤ L :=
+  length_ge_of_cert (c := 2403661) (A := 6956) (F := 11025) (by omega)
+    PreCertified.bank_6956 PreCertified.pow_gap_6956 hver hn h hnr
+
+open AccCycle in
+theorem length_ge_12079_of_verified
+    (hver : ∀ {n m : Nat}, 0 < n → ¬ ReachesOne n →
+      (∃ i : Nat, acceleratedOrbit i n = m) → 2855820 ≤ m)
+    {n L : Nat} (hn : 0 < n) (h : AccIsCycleOf n L) (hnr : ¬ ReachesOne n) : 12079 ≤ L :=
+  length_ge_of_cert (c := 2855820) (A := 7621) (F := 12079) (by omega)
+    PreCertified.bank_7621 PreCertified.pow_gap_7621 hver hn h hnr
+
+open AccCycle in
 theorem length_ge_13133_of_verified
     (hver : ∀ {n m : Nat}, 0 < n → ¬ ReachesOne n →
       (∃ i : Nat, acceleratedOrbit i n = m) → 3380808 ≤ m)
