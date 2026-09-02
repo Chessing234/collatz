@@ -226,10 +226,45 @@ the kernel clean.
   `range_gt_3608044635` (reach past `79335`).  Against the `3 380 808` that
   reaches `8286`: a **thousandfold** range for less than ten times the reach.
 
-  What is still not proved: that the pattern continues for every convergent.
-  Each level needs its own `Step` instance, and the instances are supplied by
-  kernel comparisons, not by a theorem about the continued fraction.  A general
-  statement would need the recurrence for the convergents themselves.
+  **The steps are generated too.**  The previous entry said each level needs its
+  own `Step` instance from a kernel comparison on an ever-larger literal.  That
+  is no longer so.  `Strategy.StairLower` runs the same kind of recurrence on the
+  dual quantity `lgapAt a = 3 ^ a − 2 ^ (fexp a)`, and its core is
+  *unconditional*:
+
+      3 ^ (a+M) + 2 ^ (fexp a) · gapAt M
+          = 2 ^ (fexp a) · (2 · 2 ^ (fexp M)) + lgapAt a · 3 ^ M
+
+  — true for all `a` and `M`, no hypothesis (`key_identity`).  Reading it one way
+  gives `lower_step` and `lgap_step`; the other way gives `lower_break`.
+
+  The two staircases interlock.  `gap_step` drains `gapAt` under a *step* and
+  where it exhausts is the next **cliff**; `lgap_step` drains `lgapAt` under a
+  *cliff* and where it exhausts is the next **step**:
+
+      lgap, M = 15601 :   665 → 16266 → 31867,  exhausts      (steps)
+      gap,  m = 31867 : 15601 → 47468 → 79335,  exhausts      (cliffs)
+      lgap, M = 79335 : 31867 → 111202,         exhausts      (steps)
+                                ↳ 190537 is the next cliff
+
+  Every `fexp` in that diagram is derived.  `step_31867` re-derives
+  `StairGeneric.step2` from the recurrence, and `fexp_190537 = 301993` is
+  obtained from `lower_break` with **no comparison at `301 994` bits**.
+
+  **Level-3 cliff:** `range_gt_492286389612` — a certificate reaching past
+  `190537` needs a verified range above `4.9 · 10¹¹`.
+
+  **Scale, honestly.**  These cliffs are still far inside what a Barina-scale
+  range (`704 · 2^60 ≈ 8.1 · 10²⁰`) would support; an independent check puts the
+  reach there at `~7 · 10¹⁰` odd steps.  What is proved is the *shape* of the
+  cost curve — superlinear, jumping exactly at the from-above convergents — not
+  that the ladder dies at these indices.  `RouteCap.cert_reach_le` remains the
+  statement that it dies eventually.
+
+  Still open: that the alternation continues forever.  Each level's drain
+  comparisons are still kernel `decide`s on specific literals; a general theorem
+  would have to prove the drains never stall, which is a statement about
+  `log₂ 3`'s continued fraction that this development does not have.
 * **(P2) no divergence — NOT met.**  F refuted as templated; A, D, E blocked.
 * **Verdict: neither half is closed.  Cycles are not excluded; divergence is not
   excluded.**

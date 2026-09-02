@@ -63,6 +63,7 @@ import Collatz.Strategy.Frontier11025
 import Collatz.Strategy.RouteCap
 import Collatz.Strategy.StairGap
 import Collatz.Strategy.StairGeneric
+import Collatz.Strategy.StairLower
 import Collatz.Strategy.ProfileSharp
 import Collatz.Strategy.TotalStoppingLower
 import Collatz.Strategy.MersenneDescent
