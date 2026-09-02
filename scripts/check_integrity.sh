@@ -69,6 +69,7 @@ import Collatz
 #print axioms Collatz.DriftSurvivors.logBlockDescentWithin_17_below_3998720
 #print axioms Collatz.DriftSurvivors.collatz_of_logBlock17_above
 #print axioms Collatz.DriftSurvivors.no_constant_above_threshold
+#print axioms Collatz.AffineObstruction.affine_vacuous_of_heavy
 #print axioms Collatz.PreCertified.bank_8951
 #print axioms Collatz.Frontier14187.length_ge_14187
 #print axioms Collatz.DriftSurvivors.logBlockDescentWithin_16_below_20000

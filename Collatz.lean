@@ -122,6 +122,7 @@ import Collatz.Strategy.ArchimedeanCeiling
 import Collatz.Strategy.Rotation
 import Collatz.Strategy.GapSandwich
 import Collatz.Strategy.RunAlgebra
+import Collatz.Strategy.AffineObstruction
 import Collatz.Strategy.Bootstrap
 import Collatz.Strategy.CycleLanguage
 import Collatz.Strategy.MinimalCycle

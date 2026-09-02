@@ -139,6 +139,23 @@ information about the size of `n`.  The certificate stack does bring size in, bu
 only in the direction *`n` large ⟹ heavy*.  Nothing there bounds `σ(n)` against
 `log₂ n`.
 
+**Nor does the affine identity** (`Strategy.AffineObstruction`, Round LXXV.19).
+`no_drop_forces` extracts everything `affine_exact` says about a window with no
+descent — `n · 2 ^ j ≤ 3 ^ a · n + affineC j n` — and
+`affine_vacuous_of_heavy` proves that same inequality **from heaviness alone**,
+with no descent hypothesis.  So the identity's entire content about non-descent
+is `light_caps_start`: light windows cap `n`, which is the certificate already in
+the repository.  On heavy windows it says nothing new, and heavy windows exist at
+every length.
+
+**The shared obstruction, named once.**  Both routes are *scale-free in the
+length*: every inequality they produce is satisfied by taking the window heavy,
+and heaviness is available at every `j`.  Bounding `σ(n)` against `log₂ n`
+requires a statement that **forces a light window after a controlled number of
+steps**, and neither the heavy-window theorems nor the affine identity contains
+one.  A future proposal can be checked against `affine_vacuous_of_heavy`: if its
+inequality follows from heaviness alone, it is this one again.
+
 *Two corrections to the first version of this entry.*  (i) The schema must read
 "drops **within** `B n` steps", not "at exactly step `B n`" — an orbit that has
 already descended can come back up, and `27` does exactly that (`σ(27) = 59` but

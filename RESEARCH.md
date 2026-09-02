@@ -12145,3 +12145,80 @@ now also guarding `no_constant_above_threshold`.  The new theorem depends on
    an *upper* bound on the orbit.  Check whether an upper bound on the excursion
    constrains `σ` against `log₂ n`, or whether it fails for the same scale-free
    reason.
+
+## Round LXXV, iteration 19 — the affine route closes too, and the shared obstruction gets a name
+
+Last round's task 3: does the `Bcap`/`affineC` upper bound constrain `σ` against
+`log₂ n`?  It bounds the orbit from above, so it looked like it might force a
+descent.
+
+**It does not.**  `Strategy.AffineObstruction` states why in two theorems.
+
+`no_drop_forces` extracts everything `affine_exact` gives about a window with no
+descent:
+
+```
+n ≤ T^j(n)  →  n * 2 ^ j ≤ 3 ^ (oddCount n j) * n + affineC j n
+```
+
+`affine_vacuous_of_heavy` proves the **same inequality from heaviness alone**,
+with no descent hypothesis:
+
+```
+2 ^ j ≤ 3 ^ (oddCount n j)  →  n * 2 ^ j ≤ 3 ^ (oddCount n j) * n + affineC j n
+```
+
+So on a heavy window `no_drop_forces` carries no information.  The identity's
+entire content about non-descent is the contrapositive, `light_caps_start`: a
+light window caps `n` by `affineC j n / (2 ^ j − 3 ^ a)`.  That is the
+certificate, `RealizableBound`, already here.  And heavy windows exist at every
+length.
+
+### The obstruction, named once for both routes
+
+Iterations 18 and 19 killed two different-looking routes, and the reason is the
+same in different clothing:
+
+> **The machinery is scale-free in the length.**  Every inequality it produces —
+> heaviness, the affine bound, the certificate — is satisfied by taking the
+> window heavy, and heaviness is available at every `j`
+> (`ValuationDensity.Enum_pos`).  Bounding `σ(n)` against `log₂ n` requires a
+> statement that **forces a light window after a controlled number of steps**.
+> Neither the heavy-window theorems nor the affine identity contains one.
+
+That is now a checkable test rather than a remembered caution: a proposal to
+bound the stopping time from this stack can be run against
+`affine_vacuous_of_heavy`, and if its inequality follows from heaviness alone it
+is this one again.  Same service `GapBarriers.exists_realizer` performs for
+reachability and `no_bounded_blockDescentWithin` for constant blocks.
+
+### Why this was worth two iterations
+
+Both routes looked promising for a good reason: `Frontier14187.heavy_window_8950`
+and the certificate operate in *exactly* the regime the reduction's hypothesis
+names, numbers above `3 997 765`.  Matching regimes is what made them worth
+trying and what makes the negative result worth recording — the next person to
+look at `collatz_of_logBlock17_above` will see the same match and try the same
+two things.
+
+### Status
+
+`C ≤ 16` refuted; `C = 17` verified in the kernel to `3 998 720`, unrefuted by
+scan to `10 ^ 12`.  Cycle bound `14187`.  The `[10 ^ 12, 10 ^ 13)` scan has run
+several rounds with **no record and no worker finished** — six alive, checked.
+
+`lake build Collatz` succeeds, **361 jobs**; `scripts/check_integrity.sh` passes,
+now also guarding `affine_vacuous_of_heavy`.  All three new theorems depend on
+`[propext, Quot.sound]` only.  Zero `sorry`, zero added axioms.
+
+### Next session — three tasks, one primary
+
+1. **Primary.**  With both in-repository routes to the reduction closed, the next
+   move is not another route from the same stack.  It is to ask what a
+   light-window-forcing statement would have to look like, and whether any
+   *finite* version is checkable: for a fixed `M`, is there a residue class mod
+   `2 ^ M` all of whose members go light within a bounded number of steps?  That
+   is `G1` in a form the sieve machinery can actually test, and a positive answer
+   at any `M` would be the first ingredient the two dead routes lacked.
+2. Collect the `[10 ^ 12, 10 ^ 13)` scan.
+3. Bank `cert 9616` once the cores are free.
