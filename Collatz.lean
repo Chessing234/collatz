@@ -67,6 +67,7 @@ import Collatz.Strategy.RouteCap
 import Collatz.Strategy.StairGap
 import Collatz.Strategy.CertClosedForm
 import Collatz.Strategy.CycleGapBridge
+import Collatz.Strategy.AssetA
 import Collatz.Strategy.StairGeneric
 import Collatz.Strategy.StairLower
 import Collatz.Strategy.DriftSurvivors

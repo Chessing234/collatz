@@ -12697,3 +12697,86 @@ No Lean change this round.  Zero `sorry`, zero added axioms.
 2. Read the scan's `PROGRESS` lines and report actual coverage — a number, not
    an absence.
 3. Bank `cert 9616` at `4 733 176` when the cores free up.
+
+## Round LXXV, iteration 26 — asset (a) requantified, and it shrank
+
+The prose-claim sweep from LXXV.24's plan, run over `Collatz/Strategy/` headers
+and `CLOSURE.md`.  The best hit was an entry `CLOSURE.md` had already flagged
+against itself.
+
+### The flagged entry
+
+`CLOSURE.md` lists the verified range as the only `d = 1`-specific asset with a
+number attached, and marks the number stale:
+
+> exactly `L = 183` of `6809` (2.7 %) — *stated at the range and frontier of its
+> round; both have since moved, so the count needs recomputing before reuse*
+
+The quantity is the first empty level of the sieve tower: the least `K` with no
+`x` below the verified range surviving `K` steps without falling below itself,
+i.e. `K = 1 + max σ(x)`.  Direct computation confirms the original —
+`max σ = 183` at `x = 1 027 431` below `1 086 464`, matching the witness the
+round recorded — and gives the current value: `max σ = 224` at `x = 1 126 015`
+below `3 998 720`.
+
+### It shrank
+
+| round | range | largest non-dropping `L` | frontier | share |
+|---|---|---|---|---|
+| then | `1 086 464` | `183` | `6809` | `2.69 %` |
+| now | `3 998 720` | `224` | `14187` | `1.58 %` |
+
+**The asset is worth relatively less than it was**, despite the range having
+grown `3.7×`.  The reason is structural and already proved in this repository:
+the frontier advances `1054` per staircase rung (`RouteCap`, the `306 + 665k`
+staircase), while `max σ` over a range grows like the logarithm of it.
+Numerator crawls, denominator climbs.
+
+**Extending the verified range dilutes asset (a).**  That is worth stating
+plainly, because "extend the range" is the reflex move on the cycle side and has
+been this development's most frequent action — eight rungs of it.  Each one makes
+the sole `d = 1`-specific asset a smaller fraction of the total.  It is still the
+right move for the headline number; it is not accumulating leverage.
+
+### Now theorems, not measurements
+
+```
+drops_within_224   : 2 ≤ n → n < 3998720 → ∃ k ≤ 224, acceleratedOrbit k n < n
+sigma_1126015_ge   : ∀ j ≤ 223, 1126015 ≤ acceleratedOrbit j 1126015
+```
+
+The first reuses `Search.VerifiedRung14187`'s sweep with no new kernel
+computation over the range — below `8192` the `C = 17` chunks give
+`17 · ⌊log₂ n⌋ ≤ 204`, above it the level-`10` sieve plus the fuel-`224` blocks.
+The second proves the constant sharp, and **depends on no axioms at all**.
+
+So the flagged entry is now a checked statement with a witness, not a remembered
+measurement, and `CLOSURE.md` has been updated in place.
+
+### Scan coverage, as a number
+
+Per LXXV.25's fix, the `[10 ^ 12, 10 ^ 13)` scan now reports.  Each of six
+workers has cleared `2 · 10 ^ 10` of its `1.5 · 10 ^ 12` slice: **`1.2 · 10 ^ 11`
+of `9 · 10 ^ 12`, or `1.3 %`, no records.**  Measured rate `19.6 ns` per
+candidate, so the decade needs about `4.1` hours of CPU per worker.  That is the
+sentence the previous ten rounds could not produce.
+
+### Status
+
+Cycle bound `14187`.  `C ≤ 16` refuted; `C = 17` verified in the kernel to
+`3 998 720`, unrefuted by completed scan to `10 ^ 12` and by `1.3 %` of the next
+decade.
+
+`lake build Collatz` succeeds, **364 jobs**; `scripts/check_integrity.sh` passes,
+now also guarding `drops_within_224`.  Zero `sorry`, zero added axioms.
+
+### Next session — three tasks, one primary
+
+1. **Primary.**  Continue the prose sweep — it produced a theorem on its first
+   run.  Remaining flagged sites: `RepetitionDescent`'s "Bridge left open",
+   `MatrixReducible`'s "left open rather than settled", `ExpSum`'s reference to
+   what `CycleLanguage` leaves open, and `JointRank`'s "last hypothesis class
+   left open by `NoFiniteRanking`".  Check each against machinery built since it
+   was written, as `Bootstrap`'s staircase remark was checked in LXXV.24.
+2. Report scan coverage again as a percentage.
+3. Bank `cert 9616` at `4 733 176` when the cores free up.

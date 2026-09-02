@@ -71,7 +71,7 @@ The **only** `d = 1`-specific assets:
 
 | asset | what it is | what it is worth |
 |---|---|---|
-| (a) | verified range, no cycle minimum `< 1086464` | exactly `L = 183` of 6809 (2.7 %) — *stated at the range and frontier of its round; both have since moved (`2 011 136`, `9971`), so the count needs recomputing before reuse* |
+| (a) | verified range, no cycle minimum `< 3998720` | exactly `L = 224` of 14187 (**1.58 %**) — recomputed in Round LXXV.26 and now a theorem: `AssetA.drops_within_224` proves every `2 ≤ n < 3 998 720` drops within `224` steps, and `AssetA.sigma_1126015_ge` proves that sharp (`σ(1 126 015) = 224`).  **The share fell** from `183/6809 = 2.69 %`: the range grew `3.7×` but the frontier grew faster, because it advances `1054` per staircase rung while `max σ` over a range grows like its logarithm.  Extending the verified range *dilutes* this asset. |
 | (b) | `accOrbit_small`, orbit of 1 stays `≤ 2` | false for `d = 7, 11` |
 | (c) | `sign(d) = +1` | `Nat` statements do not typecheck for `d < 0` |
 | (d) | `|d| < 2` | exclusions `2^m + |d|·6^a ≤ 2^(m+a)` need `|d| ≤ 2` |
