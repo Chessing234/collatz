@@ -11216,3 +11216,103 @@ now also guarding `StairLower.key_identity` and
    about all levels rather than a table of instances.
 2. Range to `2 855 820` for `length_ge_12079`; scan fuel first, expect `> 224`.
 3. Audit the fifteen `*_of_heavy` consumers at window `6955`.
+
+## Round LXXV, iteration 7 — the alternation never stalls, and it needed no analysis
+
+Last round set this as the primary target and framed it as the hard part: prove
+the alternation between the two staircases does not stall, and it looked like it
+needed `log₂ 3`'s continued fraction.  It needed `Nat.lt_or_ge`.
+
+### The two chains partition
+
+Write `n = fexp m`, so `StairGeneric.delta m n` and `StairLower.lgapAt m` are the
+same number, `3 ^ m − 2 ^ (fexp m)`.  Then:
+
+```
+gap chain advances from M   ⟺  3 ^ M * lgapAt m < 2 ^ (fexp m) * gapAt M
+lgap chain advances from m  ⟺  2 ^ (fexp m) * gapAt M ≤ lgapAt m * 3 ^ M
+```
+
+The first is `StairGeneric.NoBreak m (fexp m) M`; the second is the hypothesis of
+`StairLower.lower_step`.  They are literal negations.
+
+```
+alternation_live (m M : Nat) :
+    StairGeneric.NoBreak m (fexp m) M ∨ 2 ^ fexp m * gapAt M ≤ lgapAt m * 3 ^ M
+```
+
+**Depends on no axioms at all.**  Exactly one chain advances, always, at every
+configuration.
+
+### The one arithmetic input
+
+`lgapAt_pos : 0 < a → 0 < lgapAt a` — that `3 ^ a` is never a power of two.  It is
+parity: `3 ^ a` is odd (`Arith.three_pow_odd`), `2 ^ (fexp a)` is even once
+`fexp a ≥ 1`, and `fexp a ≥ 1` because `fexp a = 0` would force `3 ^ a < 2`.
+Together with `gapAt_pos` (immediate from `lt_fexp`), neither gap ever vanishes,
+so there is always material to drain.
+
+### Every index is a step
+
+```
+step_self : 0 < m → Step m (fexp m)
+```
+
+`Step` is not a special property of `665` and `31867`.  Every `m ≥ 1` satisfies
+it; those two indices are merely where `delta / 3 ^ m` happens to be small, which
+is what makes their staircases long and their cliffs expensive.  In hindsight the
+`Step` structure was never a Diophantine condition — it was `fexp`'s defining
+inequalities wearing a different name.
+
+### Progress
+
+```
+progress {m M : Nat} (hm : 0 < m) :
+    gapAt (M + m) * 3 ^ M < gapAt M * 3 ^ (M + m)
+      ∨ lgapAt (m + M) * 3 ^ m < lgapAt m * 3 ^ (m + M)
+```
+
+For every `m ≥ 1` and every `M`, one chain advances and strictly decreases its
+normalised quantity.  With `lgapAt_pos` and `gapAt_pos` saying neither can reach
+zero, the alternation runs forever.
+
+### What this does and does not give
+
+**Does:** the structural picture is complete and unconditional.  The staircase
+apparatus — two exact recurrences, four branch lemmas, generation of both steps
+and cliffs, and now non-stalling — uses no input beyond `Nat` arithmetic and one
+parity argument.
+
+**Does not:** a rate.  `progress` gives strict decrease with no bound on speed, so
+the cliff prices remain known only at the checked instances (`1.43 · 10⁸`,
+`3.61 · 10⁹`, `4.92 · 10¹¹`).  Nothing here improves `RouteCap.reach_lt_six_mul`'s
+`a < 6c` as a general bound.  A rate needs the partial quotients of `log₂ 3` —
+and *that* is where the continued fraction genuinely enters, nowhere earlier.
+
+### Closing the ledger on five wrong guesses
+
+Rounds LXXV.2 through LXXV.6 each nominated some piece of this as Diophantine and
+each was wrong: the rate law, the break branch, the sign at the next level, the
+per-level `Step` instances, and now the stalling.  In every case the object
+satisfied an exact integer identity or a triviality.  The line has finally been
+found, and it is narrow: **everything structural about the staircases is
+elementary; only the growth rate of the partial quotients is not.**  That is worth
+recording as the settled boundary rather than as another guess.
+
+`lake build Collatz` succeeds, **353 jobs**; `scripts/check_integrity.sh` passes,
+now also guarding `StairLower.alternation_live` and `StairLower.progress`.
+`alternation_live` depends on no axioms; the rest use `[propext, Quot.sound]`.
+Zero `sorry`, zero added axioms.
+
+### Next session — three tasks, one primary
+
+1. **Primary.**  Leave the ladder.  It is now capped (`RouteCap.cert_reach_le`),
+   priced (`range_gt_*` at four indices), and structurally complete
+   (`StairLower.progress`); further work there is rate estimation with known
+   diminishing returns.  Return to **P2, divergence**, which nine iterations have
+   not touched.  The smallest open item on that side is the `PROGRAM_STATUS`
+   entry for program B — a drift inequality that is not refuted by the existing
+   pointwise/block Lyapunov kills.  Re-read those kills and state precisely which
+   drift statements survive them, as a Lean proposition.
+2. Range to `2 855 820` for `length_ge_12079`; scan fuel first, expect `> 224`.
+3. Audit the fifteen `*_of_heavy` consumers at window `6955`.

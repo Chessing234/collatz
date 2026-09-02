@@ -262,5 +262,132 @@ theorem range_gt_492286389612 {c A : Nat} (hA : 190537 < A)
     492286389612 < c :=
   RouteCap.range_gt_of_reach hA lo_190537 hi_190537 wit_190537 hcert
 
+/-! ## The alternation never stalls
+
+The two chains have complementary entry conditions.  Writing `n = fexp m`, so
+that `StairGeneric.delta m n` and `lgapAt m` are the same number:
+
+* the **gap chain** advances from `M` iff `3 ^ M · lgapAt m < 2 ^ (fexp m) · gapAt M`
+  (this is `StairGeneric.NoBreak m (fexp m) M`);
+* the **lgap chain** advances from `m` iff `2 ^ (fexp m) · gapAt M ≤ lgapAt m · 3 ^ M`.
+
+These are negations of each other.  So **exactly one of the two chains advances,
+always** — `alternation_live` below is `Nat.lt_or_ge` after unfolding, and needs
+no hypothesis.
+
+Previous rounds listed "the alternation might stall" as the open problem and
+guessed it needed the continued fraction of `log₂ 3`.  It does not: the two
+conditions partition, and the only genuinely arithmetic input is that neither gap
+ever vanishes, which is `3 ^ a` never being a power of two — parity, one line. -/
+
+/-- `0 < fexp a` for `a ≥ 1`. -/
+theorem fexp_pos {a : Nat} (ha : 0 < a) : 0 < fexp a := by
+  obtain ⟨b, rfl⟩ : ∃ b, a = b + 1 := ⟨a - 1, by omega⟩
+  have h3 : (3:Nat) ≤ 3 ^ (b + 1) := by
+    have h1 : (1:Nat) ≤ 3 ^ b := Nat.one_le_pow b 3 (by omega)
+    have h2 : (3:Nat) ^ (b + 1) = 3 ^ b * 3 := Nat.pow_succ 3 b
+    omega
+  rcases Nat.eq_zero_or_pos (fexp (b + 1)) with h | h
+  · exfalso
+    have := lt_fexp (b + 1)
+    rw [h] at this
+    have : (2:Nat) ^ (0 + 1) = 2 := by decide
+    omega
+  · exact h
+
+theorem two_pow_even {k : Nat} (hk : 0 < k) : 2 ^ k % 2 = 0 := by
+  obtain ⟨j, rfl⟩ : ∃ j, k = j + 1 := ⟨k - 1, by omega⟩
+  rw [Nat.pow_succ]
+  omega
+
+/-- **`3 ^ a` is never a power of two.**  The one arithmetic input the whole
+alternation needs, and it is parity. -/
+theorem lgapAt_pos {a : Nat} (ha : 0 < a) : 0 < lgapAt a := by
+  have hle := fexp_le a
+  have hodd : (3:Nat) ^ a % 2 = 1 := Arith.three_pow_odd a
+  have heven : (2:Nat) ^ fexp a % 2 = 0 := two_pow_even (fexp_pos ha)
+  unfold lgapAt
+  omega
+
+/-- `gapAt` is positive at every index, directly from `lt_fexp`. -/
+theorem gapAt_pos (a : Nat) : 0 < gapAt a := by
+  have h := lt_fexp a
+  have h2 : (2:Nat) ^ (fexp a + 1) = 2 * 2 ^ fexp a := by rw [Nat.pow_succ]; omega
+  unfold gapAt
+  omega
+
+/-- **Every `m ≥ 1` is a staircase step.**  The `Step` structure is not a special
+property of `665` and `31867`; those are only the indices where `delta / 3 ^ m`
+is small. -/
+theorem step_self {m : Nat} (hm : 0 < m) : Step m (fexp m) := by
+  refine ⟨?_, lt_fexp m⟩
+  have h := lgapAt_pos hm
+  have hle := fexp_le m
+  unfold lgapAt at h
+  omega
+
+/-- **The two chains partition.**  Unconditional. -/
+theorem alternation_live (m M : Nat) :
+    StairGeneric.NoBreak m (fexp m) M ∨ 2 ^ fexp m * gapAt M ≤ lgapAt m * 3 ^ M := by
+  unfold StairGeneric.NoBreak StairGeneric.delta
+  have hcomm : (3:Nat) ^ M * (3 ^ m - 2 ^ fexp m) = lgapAt m * 3 ^ M := by
+    unfold lgapAt; exact Nat.mul_comm _ _
+  rw [hcomm]
+  exact Nat.lt_or_ge (lgapAt m * 3 ^ M) (2 ^ fexp m * gapAt M)
+
+/-! ## Strict decrease along whichever chain runs -/
+
+/-- Along a gap chain the normalised gap strictly decreases. -/
+theorem gap_strict_decrease {m n a : Nat} (h : Step m n)
+    (hb : StairGeneric.NoBreak m n a) :
+    gapAt (a + m) * 3 ^ a < gapAt a * 3 ^ (a + m) := by
+  have hd : 0 < StairGeneric.delta m n := by
+    have := h.lo; unfold StairGeneric.delta; omega
+  have hs := StairGeneric.gap_step h hb
+  have h3a : 0 < (3:Nat) ^ a := by
+    have := Nat.one_le_pow a 3 (by omega); omega
+  have hpos : 0 < 3 ^ a * StairGeneric.delta m n := Nat.mul_pos h3a hd
+  have hmul : (2:Nat) ^ n * gapAt a ≤ 3 ^ m * gapAt a :=
+    Nat.mul_le_mul (Nat.le_of_lt h.lo) (Nat.le_refl _)
+  have h1 : gapAt (a + m) < 3 ^ m * gapAt a := by omega
+  have h2 : gapAt (a + m) * 3 ^ a < 3 ^ m * gapAt a * 3 ^ a :=
+    Nat.mul_lt_mul_of_pos_right h1 h3a
+  have hpow : (3:Nat) ^ (a + m) = 3 ^ a * 3 ^ m := Nat.pow_add 3 a m
+  have hre : (3:Nat) ^ m * gapAt a * 3 ^ a = gapAt a * (3 ^ a * 3 ^ m) := by
+    rw [Nat.mul_comm (3 ^ m) (gapAt a), Nat.mul_assoc, Nat.mul_comm (3 ^ m) (3 ^ a)]
+  rw [hpow]
+  omega
+
+/-- Along an lgap chain the normalised dual gap strictly decreases. -/
+theorem lgap_strict_decrease {a M : Nat}
+    (h : 2 ^ fexp a * gapAt M ≤ lgapAt a * 3 ^ M) :
+    lgapAt (a + M) * 3 ^ a < lgapAt a * 3 ^ (a + M) := by
+  have hs := lgap_step h
+  have hG := gapAt_pos M
+  have h2f : 0 < (2:Nat) ^ fexp a := by
+    have := Nat.one_le_pow (fexp a) 2 (by omega); omega
+  have hpos : 0 < 2 ^ fexp a * gapAt M := Nat.mul_pos h2f hG
+  have h3a : 0 < (3:Nat) ^ a := by
+    have := Nat.one_le_pow a 3 (by omega); omega
+  have h1 : lgapAt (a + M) < lgapAt a * 3 ^ M := by omega
+  have h2 : lgapAt (a + M) * 3 ^ a < lgapAt a * 3 ^ M * 3 ^ a :=
+    Nat.mul_lt_mul_of_pos_right h1 h3a
+  have hpow : (3:Nat) ^ (a + M) = 3 ^ a * 3 ^ M := Nat.pow_add 3 a M
+  have hre : lgapAt a * 3 ^ M * 3 ^ a = lgapAt a * (3 ^ a * 3 ^ M) := by
+    rw [Nat.mul_assoc, Nat.mul_comm (3 ^ M) (3 ^ a)]
+  rw [hpow]
+  omega
+
+/-- **Progress, unconditionally.**  For every `m ≥ 1` and every `M`, one of the
+two chains advances and strictly decreases its normalised quantity.  Neither
+quantity can reach zero (`lgapAt_pos`, `gapAt_pos`), so the alternation runs
+forever. -/
+theorem progress {m M : Nat} (hm : 0 < m) :
+    gapAt (M + m) * 3 ^ M < gapAt M * 3 ^ (M + m)
+      ∨ lgapAt (m + M) * 3 ^ m < lgapAt m * 3 ^ (m + M) := by
+  rcases alternation_live m M with h | h
+  · exact Or.inl (gap_strict_decrease (step_self hm) h)
+  · exact Or.inr (lgap_strict_decrease h)
+
 end StairLower
 end Collatz

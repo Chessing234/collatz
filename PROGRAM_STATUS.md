@@ -261,10 +261,32 @@ the kernel clean.
   that the ladder dies at these indices.  `RouteCap.cert_reach_le` remains the
   statement that it dies eventually.
 
-  Still open: that the alternation continues forever.  Each level's drain
-  comparisons are still kernel `decide`s on specific literals; a general theorem
-  would have to prove the drains never stall, which is a statement about
-  `log₂ 3`'s continued fraction that this development does not have.
+  **The alternation is unconditionally live.**  The previous entry listed
+  stalling as the open problem and guessed it needed `log₂ 3`'s continued
+  fraction.  It does not.  Writing `n = fexp m`, so that `StairGeneric.delta m n`
+  and `lgapAt m` are the same number, the two chains' entry conditions are
+
+      gap chain advances from `M`  ⟺  3 ^ M · lgapAt m < 2 ^ (fexp m) · gapAt M
+      lgap chain advances from `m` ⟺  2 ^ (fexp m) · gapAt M ≤ lgapAt m · 3 ^ M
+
+  — literal negations of each other.  `StairLower.alternation_live` is
+  `Nat.lt_or_ge` after unfolding and **depends on no axioms at all**.
+  `StairLower.progress` combines it with the two strict-decrease lemmas: for every
+  `m ≥ 1` and every `M`, one chain advances and strictly decreases its normalised
+  quantity.
+
+  The only arithmetic input the whole apparatus needs is `StairLower.lgapAt_pos`:
+  `3 ^ a` is never a power of two, for `a ≥ 1`.  That is parity, one line.
+  `StairLower.step_self` then shows **every** `m ≥ 1` is a valid `Step` — `665`
+  and `31867` are not structurally special, they are merely where
+  `delta / 3 ^ m` is small.
+
+  Still open, and now the only thing: the *rate*.  `progress` gives strict
+  decrease but no bound on how fast the normalised gaps shrink, so the cliff
+  prices are known only at the checked instances (`1.43 · 10⁸`, `3.61 · 10⁹`,
+  `4.92 · 10¹¹`).  A rate would need the partial quotients of `log₂ 3`, which is
+  where the continued fraction genuinely does enter — and nowhere earlier, which
+  is what five rounds of wrong guesses eventually established.
 * **(P2) no divergence — NOT met.**  F refuted as templated; A, D, E blocked.
 * **Verdict: neither half is closed.  Cycles are not excluded; divergence is not
   excluded.**
