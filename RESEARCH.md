@@ -11002,3 +11002,110 @@ Zero `sorry`, zero added axioms.
    itself the obstruction and should be recorded as one.
 2. Range to `2 855 820` for `length_ge_12079`; scan fuel first, expect `> 224`.
 3. Audit the fifteen `*_of_heavy` consumers at window `6955`.
+
+## Round LXXV, iteration 5 — the staircase is parametric, and the second level lands
+
+Iteration 4 ended with a prediction: the next level of the recursion would need
+the approximation sides swapped.  **That prediction was wrong**, and the way it
+was wrong is the useful part.
+
+### Nothing in the argument used `665`
+
+`Strategy.StairGeneric` states the whole development over a pair `(m, n)`,
+assuming only
+
+    2 ^ n < 3 ^ m        (so `δ = 3 ^ m − 2 ^ n` is a positive integer)
+    3 ^ m < 2 ^ (n + 1)  (so `δ < 2 ^ n`)
+
+i.e. exactly `n = fexp m`.  Under that `Step m n`:
+
+```
+fexp_step_noBreak : 3^a * delta m n < 2^n * gapAt a → fexp (a+m) = fexp a + n
+fexp_step_break   : 2^n * gapAt a ≤ 3^a * delta m n → fexp (a+m) = fexp a + n + 1
+gap_step          : … → gapAt (a+m) + 3^a * delta m n = 2^n * gapAt a
+gap_break         : … → gapAt (a+m) = 2^(n+1) * gapAt a + 3^a * (2^n − delta m n)
+run_bound         : Run m n a k → k * delta m n * 3^a ≤ gapAt a * 3^m
+```
+
+`Step 665 1054` recovers `Strategy.StairGap` verbatim (`delta 665 1054` is
+`stairDelta` by `rfl`).  The abstract induction lemma `StairGap.run_algebra` was
+already parametric and is reused unchanged.
+
+### The two sides play different roles
+
+The convergent denominators of `log₂ 3` alternate which side they approach from,
+and last round I read that as "the algebra flips".  It does not.  The two sides
+do different jobs:
+
+| `m` | `n = fexp m` | `δ / 3 ^ m` | role |
+|---|---|---|---|
+| `665` | `1054` | `4.365e−5` | staircase **step** (level 1) |
+| `15601` | `24726` | `0.5` | **break point** — where level 1 ends |
+| `31867` | `50508` | `7.265e−6` | staircase **step** (level 2) |
+| `79335` | `125742` | `0.5` | **break point** — where level 2 ends |
+
+The from-below convergents are the steps; the from-above ones are exactly the
+points where `gapAt / 3 ^ a` is extremal, i.e. the cliffs.  Same algebra, same
+signs, different constants — and the alternation is what makes the cliffs and the
+steps interleave.
+
+### The level-2 run, and two new cliffs
+
+`StairGap.break_at_15601` ends level 1 at `a = 15601` with normalised gap
+`1.819 · 10⁻⁵`.  Stepping by `31867` keeps draining at `7.265 · 10⁻⁶` a rung:
+
+```
+noBreak_15601, noBreak_47468, break_at_79335
+```
+
+so the run is `15601 → 47468 → 79335`, with gaps `1.819e−5`, `1.093e−5`,
+`3.665e−6`, and then it breaks.  **`fexp 47468 = 75234` and
+`fexp 79335 = 125742` are derived from the recurrence, not computed** — no
+`125 743`-bit comparison is ever made to establish them, only `fexp_step_noBreak`
+applied twice.  `fexp_le` and `lt_fexp` then hand `RouteCap.range_gt_of_reach`
+its two hypotheses for free, so the only kernel computation left is the witness.
+
+```
+range_gt_723837160   : reach past 47468 → 723 837 160 < c
+range_gt_3608044635  : reach past 79335 → 3 608 044 635 < c
+```
+
+Against the `3 380 808` that reaches `8286`: **a thousandfold range for less than
+ten times the reach.**  Iteration 2 checked five rungs by hand and saw the price
+rising smoothly; iterations 4 and 5 show where it jumps and why — at the
+from-above convergents, and nowhere else.
+
+### What is still open
+
+That the pattern continues for *every* convergent.  Each level needs its own
+`Step` instance, and the instances come from kernel comparisons on specific
+literals, not from a theorem about the continued fraction of `log₂ 3`.  A general
+statement — "for every `j` there is a step `m_j` with `δ_j / 3 ^ m_j → 0`" —
+would need the convergent recurrence itself, which is a statement about `log₂ 3`
+that this development does not have.  That is the honest remaining gap, and it is
+now one level more specific than last round's.
+
+**On the prediction that failed.**  Three rounds running, the guess about what
+was "Diophantine" has been too pessimistic, and each time the fix was the same:
+compute the object exactly instead of estimating it.  Round LXXV iteration 4's
+guess about the sign was the fourth such miss.  The standing correction is that
+`log₂ 3`'s continued fraction enters this problem only through *which literals*
+to feed the kernel, not through any inequality that needs proving analytically —
+so far.
+
+`lake build Collatz` succeeds, **352 jobs**; `scripts/check_integrity.sh` passes,
+now also guarding `StairGeneric.gap_step` and `StairGeneric.range_gt_3608044635`.
+`step2` depends on no axioms at all; the rest use `[propext, Quot.sound]` except
+the two `range_gt_*`, which pick up `Classical.choice` from `RouteCap`.  Zero
+`sorry`, zero added axioms.
+
+### Next session — three tasks, one primary
+
+1. **Primary.**  Level 3.  The next from-below convergent after `31867` is the
+   next step; find it, check `Step`, and instantiate.  If `δ / 3 ^ m` keeps
+   falling by the same factor (`~6` per level), three more levels put the cliff
+   past `10 ^ 12` and the ladder is quantitatively dead well below any plausible
+   verification.  The instantiation is now one `Step` plus two `decide`s, so the
+   cost is finding the literal, not proving anything new.
+2. Range to `2 855 820` for `length_ge_12079`; scan fuel first, expect `> 224`.
+3. Audit the fifteen `*_of_heavy` consumers at window `6955`.

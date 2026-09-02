@@ -205,13 +205,31 @@ the kernel clean.
   verified range above `142 907 493` — **forty-two times** the `3 380 808` that
   reaches `8286`, for less than twice the reach.
 
-  What remains is going one level up the continued fraction.  `15601` is not an
-  accident: `24727/15601` is the next convergent of `log₂ 3` after `1054/665`,
-  which is exactly why the run ends there.  The same algebra should apply with
-  the two sides swapped, giving a second-level staircase of step `15601`.  That
-  recursion is not formalized.  So the split is now: **the whole first-level
-  staircase, both branches, is elementary and proved; the recursion to the next
-  convergent is not attempted.**
+  **The recursion is real, and it is not a sign reversal.**
+  `Strategy.StairGeneric` states the whole development over a pair `(m, n)` with
+  `2 ^ n < 3 ^ m < 2 ^ (n+1)` — the only two facts the algebra ever used.  The
+  previous entry predicted the next level would need the signs swapped.  It does
+  not.  The convergent denominators of `log₂ 3` alternate sides, and the two
+  sides play *different roles*:
+
+  * the ones approaching from below — `665`, `31867` — are the staircase
+    **steps**, with `δ / 3 ^ m = 4.365 · 10⁻⁵` and `7.265 · 10⁻⁶`;
+  * the ones approaching from above — `15601`, `79335` — are the **break
+    points**, where the gap is extremal and the ladder's price jumps.
+
+  `Step 665 1054` recovers `StairGap` verbatim; `Step 31867 50508` continues past
+  its cliff.  The level-2 run is `15601 → 47468 → 79335`, then `break_at_79335`.
+  `fexp` at `47468` and `79335` is *derived from the recurrence*, never computed:
+  no `125 743`-bit comparison is made to establish it.
+
+  **New cliffs, proved.**  `range_gt_723837160` (reach past `47468`) and
+  `range_gt_3608044635` (reach past `79335`).  Against the `3 380 808` that
+  reaches `8286`: a **thousandfold** range for less than ten times the reach.
+
+  What is still not proved: that the pattern continues for every convergent.
+  Each level needs its own `Step` instance, and the instances are supplied by
+  kernel comparisons, not by a theorem about the continued fraction.  A general
+  statement would need the recurrence for the convergents themselves.
 * **(P2) no divergence — NOT met.**  F refuted as templated; A, D, E blocked.
 * **Verdict: neither half is closed.  Cycles are not excluded; divergence is not
   excluded.**
