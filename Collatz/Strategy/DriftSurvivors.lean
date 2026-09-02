@@ -6,6 +6,7 @@ import Collatz.Strategy.Reductions
 import Collatz.Strategy.Escape
 import Collatz.Strategy.Frontier11025
 import Collatz.Search.VerifiedRung14187
+import Collatz.Strategy.ValuationDensity
 
 /-!
 # Which descent schemas survive the repository's kills
@@ -633,6 +634,59 @@ theorem collatz_of_logBlock17_above_of {N : Nat}
   rcases Nat.lt_or_ge n N with hlt | hge
   · exact hbase n (by omega) hlt
   · exact h n hge
+
+/-! ## Does the heavy-window machinery bear on the reduction?  No, and why
+
+`Frontier14187.heavy_window_8950` constrains never-droppers above `3 997 765` —
+the same regime as `collatz_of_logBlock17_above`'s hypothesis — so it is the
+natural thing to try.  It does not help, and the reason is already a theorem
+here.
+
+Heaviness says `2 ^ j ≤ 3 ^ (oddCount m j)`, and `RunAlgebra.heavy_even_bound`
+turns that into `17 · (even steps) < 10 · (odd steps)`: a constraint on the
+*shape* of the first `j` steps, forcing more than `17/27` of them odd.  It says
+nothing about `j` itself, because **the heavy language is nonempty at every
+length** — `ValuationDensity.Enum_pos` proves `E_ℓ ≥ 2 ^ (−ℓ) > 0` for all `ℓ`,
+with the all-ones word as an explicit witness at every scale.  So a bound of the
+form "heavy ⟹ `j` small" is refuted outright.
+
+Heaviness is also **scale-free**: it is a statement about the valuation word, and
+carries no information about the size of `n`.  The certificate machinery does
+bring `n`'s size in, but in the direction *`n` large ⟹ heavy*, never the reverse.
+So nothing in that stack bounds `σ(n)` against `log₂ n`, which is the whole
+content of the reduction.
+
+What can be said cleanly is the complementary negative: the reduction's block
+length genuinely has to grow. -/
+
+theorem two_pow_ge (m : Nat) : m + 1 ≤ 2 ^ m := by
+  induction m with
+  | zero => decide
+  | succ m ih =>
+    have h : (2:Nat) ^ (m + 1) = 2 ^ m * 2 := Nat.pow_succ 2 m
+    omega
+
+/-- **No constant block length works, above any threshold.**  For every bound `B`
+and every threshold `N` there is an `n > N` whose orbit has not fallen below `n`
+at any step up to `B`.
+
+`no_bounded_blockDescentWithin` already refuted constant blocks, but only by
+exhibiting *some* witness; this places a witness above every `N`, which is what
+the reduction needs.  It rules out the natural weakening of `G3` — "a constant
+block suffices for all `n` past some `N₀`" — and so justifies the `⌊log₂ n⌋`
+factor in `collatz_of_logBlock17_above` rather than leaving it a stylistic
+choice. -/
+theorem no_constant_above_threshold (B N : Nat) :
+    ∃ n : Nat, N < n ∧ ∀ k : Nat, k ≤ B → ¬ acceleratedOrbit k n < n := by
+  refine ⟨2 ^ (N + B + 2) - 1, ?_, ?_⟩
+  · have h := two_pow_ge (N + B + 2)
+    omega
+  · intro k hk
+    rcases Nat.eq_zero_or_pos k with h0 | hpos
+    · rw [h0, acceleratedOrbit_zero]; omega
+    · have := DensitySaturation.no_bounded_block_descent (B := k)
+        (j := N + B + 2) hpos (by omega)
+      omega
 
 end DriftSurvivors
 end Collatz

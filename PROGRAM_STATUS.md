@@ -122,6 +122,23 @@ pinned between the refuted `16` and the heuristic ceiling `19.98`.
 `collatz_of_logBlock17_above_of` takes the range as a parameter, so extending it
 moves the threshold with no new proof.
 
+**The `⌊log₂ n⌋` factor is forced, not stylistic.**
+`no_constant_above_threshold (B N)` produces, for every bound `B` and every
+threshold `N`, an `n > N` that has not dropped at any step up to `B`.  So the
+natural weakening of `G3` — "a constant block suffices for all `n` past some
+`N₀`" — is refuted, and the block length has to grow with `n`.
+
+**The heavy-window machinery does not bear on the reduction.**
+`Frontier14187.heavy_window_8950` constrains never-droppers in exactly the same
+regime, so it is the natural thing to try, but heaviness bounds the *shape* of
+the first `j` steps (`RunAlgebra.heavy_even_bound`: more than `17/27` odd) and
+never `j` itself — the heavy language is nonempty at every length by
+`ValuationDensity.Enum_pos`, with the all-ones word explicit at every scale.
+Heaviness is also scale-free: it is a statement about the valuation word, with no
+information about the size of `n`.  The certificate stack does bring size in, but
+only in the direction *`n` large ⟹ heavy*.  Nothing there bounds `σ(n)` against
+`log₂ n`.
+
 *Two corrections to the first version of this entry.*  (i) The schema must read
 "drops **within** `B n` steps", not "at exactly step `B n`" — an orbit that has
 already descended can come back up, and `27` does exactly that (`σ(27) = 59` but

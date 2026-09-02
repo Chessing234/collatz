@@ -12076,3 +12076,72 @@ axioms, no `native_decide`.
    never-dropper must be heavy for `8950` steps, does that bound its stopping
    time?  If yes, the reduction closes on a range; if no, the reason is the next
    obstruction to record.
+
+## Round LXXV, iteration 18 — heaviness does not bear on the reduction, and why
+
+Task 3 from last round asked whether the repository's heavy-window machinery
+bears on `collatz_of_logBlock17_above`.  `Frontier14187.heavy_window_8950`
+constrains never-droppers above `3 997 765`, which is exactly the reduction's
+regime, so it was the natural thing to try.
+
+**It does not, and the reason is already a theorem here.**
+
+Heaviness says `2 ^ j ≤ 3 ^ (oddCount m j)`, which
+`RunAlgebra.heavy_even_bound` converts to `17 · (even) < 10 · (odd)` — a
+constraint on the *shape* of the first `j` steps, forcing more than `17/27` of
+them odd.  It says nothing about `j`, because **the heavy language is nonempty at
+every length**: `ValuationDensity.Enum_pos` gives `E_ℓ ≥ 2 ^ (−ℓ) > 0` for all
+`ℓ`, with the all-ones word explicit at every scale.  A bound of the form
+"heavy ⟹ `j` small" is refuted outright by a theorem proved in Round LXXIV.
+
+Heaviness is also **scale-free** — a statement about the valuation word, carrying
+no information about the size of `n`.  The certificate machinery does bring size
+in, but only in the direction *`n` large ⟹ heavy*, never the reverse.  So nothing
+in that stack bounds `σ(n)` against `log₂ n`, which is the entire content of the
+reduction.
+
+Recording this as a killed route with the obstruction named, rather than leaving
+it as an untried idea that looks promising: it *does* look promising, the regimes
+match exactly, and that is why it is worth writing down that it fails.
+
+### The complementary positive: the `log₂ n` factor is forced
+
+```
+no_constant_above_threshold (B N : Nat) :
+    ∃ n, N < n ∧ ∀ k ≤ B, ¬ acceleratedOrbit k n < n
+```
+
+For every bound `B` and every threshold `N` there is an `n > N` that has not
+dropped at any step up to `B`.  `no_bounded_blockDescentWithin` already refuted
+constant blocks, but only by exhibiting *some* witness; this places one above
+every `N`, which is what the reduction needs.
+
+Consequence: the natural weakening of `G3` — "a constant block suffices for all
+`n` past some `N₀`" — is refuted, so the `⌊log₂ n⌋` in
+`collatz_of_logBlock17_above` is forced rather than stylistic.  Worth having
+explicitly, because a growing block length looks like a hedge until something
+rules out the constant one.
+
+### Status
+
+`C ≤ 16` refuted.  `C = 17` verified in the kernel to `3 998 720`, unrefuted by
+scan to `10 ^ 12`; `[10 ^ 12, 10 ^ 13)` still running, no records, six workers
+alive and checked.  Cycle bound `14187`.
+
+`lake build Collatz` succeeds, **360 jobs**; `scripts/check_integrity.sh` passes,
+now also guarding `no_constant_above_threshold`.  The new theorem depends on
+`[propext, Quot.sound]` only.  Zero `sorry`, zero added axioms.
+
+### Next session — three tasks, one primary
+
+1. **Primary.**  Collect the `[10 ^ 12, 10 ^ 13)` scan.  It has now run several
+   rounds without a record; if it completes empty, that is a real datum — it
+   would mean the gap from `16.58` to the next record spans more than a decade,
+   against `27 → 63 728 127` (six decades) and `63 728 127 → 12 235 060 455`
+   (two).  Either way the result is worth recording rather than waiting on.
+2. Bank `cert 9616` once the cores are free.
+3. With heaviness ruled out, the next candidate bearing on the reduction is the
+   `Bcap`/`affineC` bound itself: it gives `T^j(n) ≤ (3 ^ a · n + Bcap a)/2 ^ j`,
+   an *upper* bound on the orbit.  Check whether an upper bound on the excursion
+   constrains `σ` against `log₂ n`, or whether it fails for the same scale-free
+   reason.
