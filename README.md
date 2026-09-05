@@ -38,7 +38,7 @@ Every proof must pass CI.
 
 ## Status
 
-5 594 theorem and lemma declarations across 362 modules, 100 288 lines.
+5 641 theorem and lemma declarations across 363 modules, 100 973 lines.
 
 Verified range: every positive `n < 3 998 720` reaches 1.  Cycle bound: no accelerated
 cycle through a non-reaching point has length below 14187.  **Both are finite results.**
@@ -100,7 +100,9 @@ Substituting `x' >= x` gives obstructions; substituting the other way proves des
 
 Of three consecutive odd preimages of a node prime to `3`, exactly two are again prime to `3`, each below `22` times the node.
 
-So at least `(N/22)^(1/5)` integers up to `N` reach `1`; the literature's exponent is `0.84`, and positive density is open.
+Charging every fertile child its own size, at least `N^(3/8)/131` integers up to `N` reach `1`.
+
+The literature's exponent is `0.84`; positive density is open, and counting alone cannot reach it.
 
 For `x >= 2^(v+W)`, the first excursion descends if and only if `3^v < 2^(v+W)`.
 

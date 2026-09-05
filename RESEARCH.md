@@ -13185,3 +13185,108 @@ depended on it.
    from `CLOSURE.md` Class 4.
 3. Exact order of `4` modulo `3 ^ (k+1)`, completing `LiftExponentThree`, as
    the first lemma of backward mixing.
+
+## Round LXXVI, iteration 2 — every child charged its own size: `1/5` becomes `3/8`
+
+The primary from iteration 1, done.  Same novelty tag
+(**FORMALIZATION-OF-KNOWN**), same ceiling; the scalar moves.
+
+### §1 Inventory delta
+
+* New: `Collatz/Strategy/TreeBranching.lean`, 59 declarations.
+* Changed: `Collatz.lean` (import), `scripts/check_integrity.sh` (two more
+  guards), `PROGRAM_STATUS.md` (G6), `Papers/krasikov-lagarias-2003-bounds.md`,
+  `INDEX.md`, `README.md`.
+* `lake build Collatz`: **366 jobs**; `scripts/check_integrity.sh` passes;
+  axioms `propext`, `Classical.choice`, `Quot.sound` only; zero `sorry`.
+
+### §3 The scalar
+
+**G6 exponent: `1/5` → `3/8`.**
+
+    count_pow_eight : 1 ≤ N → N ^ 3 < 8 · 10 ^ 16 · (reachesOneUpToCount N) ^ 8
+
+At least `N ^ 0.375 / 131` integers up to `N` reach `1` within `N` accelerated
+steps.  Literature: `0.84`.
+
+### What is proved
+
+*Every fertile child, ranked.*  For `a` odd and prime to `3`, the admissible
+valuations are `v₀ + 2j`; `4 ^ j mod 9` cycles `1, 4, 7`
+(`four_pow_mod_nine`), so the child at `j` is infertile exactly when
+`j ≡ phase a (mod 3)`.  The `i`-th fertile child therefore sits at
+`j_i = i + ⌊(i + 2 − phase)/2⌋`, with valuation `fval a i ≤ tmpl i`, where
+`tmpl i = 2 + 2i + 2⌊(i+2)/2⌋ = 4, 6, 10, 12, 16, 18, …` — a bound uniform in
+the phase (`fval_le_tmpl`).  `fval_admissible` proves the child is admissible
+and fertile; `fch_inj` that `(a, i) ↦ fch a i` is injective; `fch_lt` that a
+parent at most `3X / 2 ^ tmpl i` has its `i`-th child below `X`.
+
+*A disjoint-family counting principle.*  `family_count`: maps `f i`, injective
+on `{a ≤ Y i : P i a}`, with pairwise disjoint images inside `{n ≤ X : Q n}`,
+give `Σ_i countUpTo (P i) (Y i) ≤ countUpTo Q X`.  Built from
+`countUpTo_remove` (delete one element), `image_count` (one injection, by
+induction on `Y` generalising `Q`), `imgB` (image membership as a Boolean) and
+`countUpTo_split`.  Reusable; the repository had no such principle.
+
+*The recursion.*  `NF X` = odd `n ≤ X` prime to `3` reaching `1` within `X`
+steps; `NF_rec : 64 ≤ X → Σ_{i<6} NF (3X / 2 ^ tmpl i) ≤ NF X`.  The step
+budget is discharged by `reachesOneBy_iff` / `reachesOneBy_fch` and
+`3X/16 + 18 ≤ X`.
+
+*Closing it without real numbers.*  On the two-type lattice `fs k = NF (2^k)`,
+`hs k = NF (3 · 2^k)`: `fs_rec` is exact (`3 · 2^k / 2^t = 3 · 2^(k−t)`),
+`hs_rec` loses `9/8` once (`9 · 2^(k−t) ≥ 2^(k−t+3)`).  The joint claim
+
+    2 · 13 ^ k ≤ 10 ^ k · 200 · fs k,      3 · 13 ^ k ≤ 10 ^ k · 200 · hs k
+
+is proved for all `k` (`claims`), with inductive steps reducing to the
+`decide`-checked integer inequalities
+
+    I1 : 2 · 13 ^ 18 ≤ 3 · Σ_{i<6} 10 ^ tmpl i · 13 ^ (18 − tmpl i)
+    I2 : 3 · 13 ^ 15 ≤ 2 · Σ_{i<6} 10 ^ (tmpl i − 3) · 13 ^ (18 − tmpl i)
+
+(margins `4.5 %` and `2 %`) and base cases `k < 18` from `NF ≥ 1`.  Then
+`13 ^ 8 ≥ 8 · 10 ^ 8` converts ratio `13/10` into exponent `3/8`.
+
+### §2 Measurement provenance
+
+The two inequalities `I1`, `I2` are kernel-evaluated; a different answer would
+have been a failed `decide`.  The exponent choice was made by hand: the
+recursion's true root is `2 ^ 0.388`, `13/10 = 2 ^ 0.3785` is the rational
+that clears both `I1` and `I2` and still satisfies `(13/10) ^ 8 ≥ 8`.  Four
+children would not do: at `13/10` the interval for the `h/f` ratio is empty
+with `tmpl ≤ 12` and opens only from `tmpl = 16`.
+
+### §7 Standing problems
+
+G1 untouched · G2 untouched · G3 untouched this round · G4 untouched this
+round · G5 untouched · **G6 attacked: `3/8`; obstruction: residue types modulo
+`3 ^ k` do not close at any finite level** · G7 untouched.
+
+### §D Bottleneck, precisely
+
+`fch a i mod 3` is decided by `2 ^ fval · a mod 9`, i.e. by `a mod 9` and the
+phase; `fch a i mod 9` needs `a mod 27`.  A per-type recursion
+`NF_r(X) ≥ Σ NF_{r'}(…)` with `r` modulo `3 ^ k` needs `r'` modulo `3 ^ k`,
+which needs the parent modulo `3 ^ (k+1)`.  Krasikov–Lagarias get around this
+with difference inequalities in which the finer classes appear only through
+inequalities that can be closed.  Formalising that is the next rung; it is
+not creative work, and it stops at `0.84` in the literature.
+
+### §G Killed-approach log
+
+Nothing killed.  Considered and not done: certifying the true root `0.388`
+by a finer rational (`1297/1000`); the gain over `3/8` is `0.4 %` of exponent
+and buys nothing.
+
+### §F Next round — three tasks, one primary
+
+1. **Primary (creative, cheap): the mod-`6 ^ k` blindness barrier** as a
+   theorem — every light word is the cycle word of some `3x + d` with
+   `d ≡ 1 (mod 6 ^ k)`, for every `k`.  Statement of what a cycle proof must
+   use.  ≈ 100 lines on top of `NewModels.word_is_cycle_word` and
+   `DeltaSpectrum`.
+2. Backward mixing modulo `3 ^ k`: exact order of `4` modulo `3 ^ (k+1)`
+   (`LiftExponentThree` has the divisibility half).
+3. Per-type recursion modulo `9` as the first Krasikov–Lagarias rung, if (1)
+   and (2) leave time.

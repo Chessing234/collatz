@@ -609,7 +609,7 @@ the kernel clean.
 
 ---
 
-## Standing problem G6 — inverse-tree coverage — **attacked; first exponent `1/5`**
+## Standing problem G6 — inverse-tree coverage — **attacked; exponent `1/5`, then `3/8`**
 
 **Before Round LXXVI:** nothing proved.  `Papers/KrasikovLagarias2003` recorded
 the Krasikov–Lagarias lower bound as a proposition with no proof claimed, and
@@ -635,10 +635,28 @@ that residue is `1`.  So each fertile node has two fertile children below `22 a`
 reachers at most `22 ^ k`.  Novelty tag: **FORMALIZATION-OF-KNOWN** (Crandall
 1978; the literature's exponent is `0.84`, Krasikov–Lagarias 2003).
 
-**Obstruction to the scalar.**  The level argument charges every child the
-size of the largest of the three, `2 ^ (v₀+4) a / 3`.  Charging each its own
-size gives `N(X) ≥ N(3X/16) + N(3X/64)` and exponent `≈ 0.30`; tracking the
-parent's residue modulo `9, 27, …` is the difference-inequality method and is
-where `0.84` comes from.  Neither is formalised.  Positive density — the
-statement that would matter — is open in the literature; Tao's almost-all
-theorem does not imply it.
+**Second pass (`Strategy.TreeBranching`, same round).**  Every fertile child
+charged its own size.  The `i`-th fertile child of `a` (`i ≥ 0`) has valuation
+at most `tmpl i = 4, 6, 10, 12, 16, 18, …` (`fval_le_tmpl`), because the
+infertile valuations are exactly one residue class of `j` modulo `3`
+(`fval_admissible`, from `4 ^ j mod 9` cycling through `1, 4, 7`).  With a
+disjoint-family counting principle (`family_count`) this gives the exact
+recursion
+
+    NF_rec : 64 ≤ X → Σ_{i<6} NF (3X / 2 ^ tmpl i) ≤ NF X
+
+for the fertile count `NF`.  On the lattice `{2 ^ k, 3 · 2 ^ k}` a joint
+induction with ratio `13/10` — two integer inequalities checked by `decide`
+(`I1`, `I2`) and base cases from `NF ≥ 1` — certifies
+
+    count_pow_eight : 1 ≤ N → N ^ 3 < 8 · 10 ^ 16 · (reachesOneUpToCount N) ^ 8.
+
+**The scalar is `3/8 = 0.375`.**  The recursion's true root is `≈ 0.388`;
+`13/10 ≥ 2 ^ (3/8)` is what the rational certificate reaches.
+
+**Obstruction to the scalar now.**  Going further needs the parent's residue
+modulo `9`, `27`, …; the children's residues modulo `3 ^ k` depend on the
+parent modulo `3 ^ (k+1)`, so no finite system closes and the
+difference-inequality device of Krasikov–Lagarias is required — that is where
+`0.84` comes from.  Positive density — the statement that would matter — is
+open in the literature; Tao's almost-all theorem does not imply it.

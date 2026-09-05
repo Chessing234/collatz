@@ -148,6 +148,7 @@ import Collatz.Strategy.PAdicJoint
 import Collatz.Strategy.PrimeLedge
 import Collatz.Strategy.ReverseTree
 import Collatz.Strategy.TreeCount
+import Collatz.Strategy.TreeBranching
 import Collatz.Strategy.InfiniteWord
 import Collatz.Strategy.RunRefined
 import Collatz.Strategy.RepetitionDescent
