@@ -606,3 +606,39 @@ the kernel clean.
 > than `n`.  So `s` must be large enough to undo `(3/2)^j` growth — at least
 > `j·log₂3` further even steps.  Determine whether that many are available, as a
 > function of `j`, or exhibit the family where they are not.
+
+---
+
+## Standing problem G6 — inverse-tree coverage — **attacked; first exponent `1/5`**
+
+**Before Round LXXVI:** nothing proved.  `Papers/KrasikovLagarias2003` recorded
+the Krasikov–Lagarias lower bound as a proposition with no proof claimed, and
+that recording was itself vacuous — `N ^ p ≤ count · N ^ q` holds at `p = q`
+because `1` reaches `1`.  RESEARCH.md's early inverse-tree analysis (Agent C,
+"CEILING — inverse-tree counting saturates at exponent exactly 1") is a heuristic
+ceiling, not a bound.
+
+**Now (`Strategy.TreeCount`):**
+
+    two_pow_le_count : 22 ^ k ≤ N → 2 ^ k ≤ reachesOneUpToCount N
+    count_pow_five   : 1 ≤ N → N < 22 * reachesOneUpToCount N ^ 5
+    krasikovLagariasLowerBound_holds : krasikovLagariasLowerBound   -- p/q = 1/5
+
+The count is the repository's own computable one — integers in `[1, N]` reaching
+`1` within `N` accelerated steps — so no classical decidability is smuggled in.
+
+**Mechanism.**  Every odd `a` prime to `3` has odd preimages `(2 ^ v a − 1)/3` at
+every `v` in one parity class; over three consecutive such `v` the residue of
+`2 ^ v a` modulo `9` runs through `1, 4, 7`, and the child is prime to `3` unless
+that residue is `1`.  So each fertile node has two fertile children below `22 a`,
+`(a, v) ↦ child` is injective, and level `k` of the tree is `2 ^ k` distinct
+reachers at most `22 ^ k`.  Novelty tag: **FORMALIZATION-OF-KNOWN** (Crandall
+1978; the literature's exponent is `0.84`, Krasikov–Lagarias 2003).
+
+**Obstruction to the scalar.**  The level argument charges every child the
+size of the largest of the three, `2 ^ (v₀+4) a / 3`.  Charging each its own
+size gives `N(X) ≥ N(3X/16) + N(3X/64)` and exponent `≈ 0.30`; tracking the
+parent's residue modulo `9, 27, …` is the difference-inequality method and is
+where `0.84` comes from.  Neither is formalised.  Positive density — the
+statement that would matter — is open in the literature; Tao's almost-all
+theorem does not imply it.

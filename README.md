@@ -38,7 +38,7 @@ Every proof must pass CI.
 
 ## Status
 
-5 192 theorem and lemma declarations across 342 modules, 94 754 lines.
+5 594 theorem and lemma declarations across 362 modules, 100 288 lines.
 
 Verified range: every positive `n < 3 998 720` reaches 1.  Cycle bound: no accelerated
 cycle through a non-reaching point has length below 14187.  **Both are finite results.**
@@ -97,6 +97,10 @@ An excursion is a run of odd steps followed by the halvings after it.
 It satisfies the exact identity `2^(v+W) x' + 2^v = 3^v (x+1)`.
 
 Substituting `x' >= x` gives obstructions; substituting the other way proves descent.
+
+Of three consecutive odd preimages of a node prime to `3`, exactly two are again prime to `3`, each below `22` times the node.
+
+So at least `(N/22)^(1/5)` integers up to `N` reach `1`; the literature's exponent is `0.84`, and positive density is open.
 
 For `x >= 2^(v+W)`, the first excursion descends if and only if `3^v < 2^(v+W)`.
 

@@ -12,7 +12,8 @@ bound on the number of integers up to `N` that eventually reach `1` under the
 time for all large `N`.
 
 This file records the lower-bound theorem as a proposition and proves a simple
-closure property of the set of numbers that reach `1`.
+closure property of the set of numbers that reach `1`.  The proposition is
+discharged, with the weak exponent `1/5`, in `Strategy.TreeCount`.
 
 Source: I. Krasikov and J. C. Lagarias, Bounds for the 3x+1 problem using
 difference inequalities, Acta Arith. 109 (2003), 237--258.
@@ -34,14 +35,20 @@ steps.  This is a finite, computable approximation to the true count. -/
 def reachesOneUpToCount (N : Nat) : Nat :=
   Collatz.countUpTo (fun n => 0 < n ∧ n ≤ N ∧ reachesOneBy n N = true) N
 
-/-- Krasikov--Lagarias (2003), main result (recorded, not proved): there are
-explicit positive rational constants `p/q` such that for all sufficiently
-large `N`, at least `N^(p/q)` positive integers `≤ N` have finite total
-stopping time under the accelerated `3x+1` map. -/
+/-- Krasikov--Lagarias (2003), main result (recorded): there are explicit
+positive rational constants `p/q` such that for all sufficiently large `N`,
+at least `N^(p/q)` positive integers `≤ N` have finite total stopping time
+under the accelerated `3x+1` map — i.e. `N ^ p ≤ (count N) ^ q`.
+
+*Correction (Round LXXVI).*  The first recording read
+`N ^ p ≤ reachesOneUpToCount N * N ^ q`, which at `p = q` is satisfied by the
+single integer `1` and therefore asserted nothing.  The form below is the
+intended one.  `Strategy.TreeCount.krasikovLagariasLowerBound_holds` proves it
+with `p / q = 1 / 5` and `N₀ = 22 ^ 9`; the paper's exponent is `0.84`. -/
 def krasikovLagariasLowerBound : Prop :=
   ∃ p q : Nat, 0 < p ∧ 0 < q ∧
     ∃ N0 : Nat, ∀ N : Nat, N0 ≤ N → 0 < N →
-      N ^ p ≤ reachesOneUpToCount N * N ^ q
+      N ^ p ≤ reachesOneUpToCount N ^ q
 
 /-- The set of numbers that reach `1` is closed under the accelerated step:
 if `n` reaches `1`, then so does `acceleratedStep n`. -/

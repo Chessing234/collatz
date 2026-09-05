@@ -13024,3 +13024,164 @@ now also guarding `cst_gap_criterion`.  Zero `sorry`, zero added axioms.
    real artifact even though the mathematics is someone else's.
 2. Report scan coverage.
 3. Bank `cert 9616` at `4 733 176` when the cores free up.
+
+## Round LXXVI, iteration 1 — G6 gets its first exponent; a recorded proposition was vacuous
+
+New session, `Prompts/loop-v2.md` followed step by step.  The brief this time
+is "new mathematics and creative approaches".  What this round delivers is
+neither a breakthrough nor new mathematics; it is the first kernel-checked
+content on a standing problem that had none, with the tag stated up front.
+
+### §0 Novelty gate
+
+*Statement.*  "At least `N ^ α` integers in `[1, N]` reach `1` under `3x + 1`,
+for an explicit `α > 0`."
+
+*Literature.*  Crandall 1978 (first positive exponent), Sander 1990, Krasikov
+1989 (`0.43`), Applegate–Lagarias 1995 (`0.81`), Krasikov–Lagarias 2003
+(`0.84`, difference inequalities on residues modulo `3 ^ k`).  Positive density
+is open; Tao 2019 gives almost-all descent below any unbounded function, not a
+positive proportion reaching `1`.
+
+*Repository.*
+
+    grep -rn "krasikovLagariasLowerBound\|reachesOneUpToCount" --include='*.lean' .
+    grep -ril "crandall\|krasikov\|inverse tree\|backward tree\|preimage" Collatz/ Papers/
+
+`Papers/KrasikovLagarias2003.lean` records the bound as a proposition, "no proof
+claimed".  `ReverseTree`, `Predecessors`, `Predecessor`, `BackwardRange` have
+the one-step preimage law, the doubling ray, and the `y ≡ 2 (mod 3)` branch
+criterion — no count of any kind.  RESEARCH.md line 114 (Agent C, early round)
+analysed the counting exponent heuristically and recorded that pure counting
+saturates at exactly `1` with zero slack, which is why the rigorous record is
+`0.84`.  Nothing was proved.
+
+*Tag.*  **FORMALIZATION-OF-KNOWN.**
+
+### §1 Inventory delta
+
+* New: `Collatz/Strategy/TreeCount.lean`, 45 declarations.
+* Changed: `Papers/KrasikovLagarias2003.lean` (statement corrected, see §H),
+  `Collatz.lean` (import), `scripts/check_integrity.sh` (three guards),
+  `Papers/krasikov-lagarias-2003-bounds.md`, `INDEX.md` (regenerated:
+  `5594` theorems across `362` files), `README.md` (counts).
+* `lake build Collatz`: **365 jobs**.  `scripts/check_integrity.sh` passes.
+  Axioms: `propext`, `Classical.choice`, `Quot.sound` only.  Zero `sorry`.
+
+### §3 The scalar
+
+**G6 exponent: nothing → `1/5`.**  In the level form the exponent is
+`log 2 / log 22 = 0.2243…`; the stated theorem uses `1/5` so that the
+threshold and constants are integers.  Literature: `0.84`.
+
+### What is proved
+
+The odd preimage of `a` at valuation `v` is `child a v = (2 ^ v a − 1)/3`,
+admissible when `2 ^ v a ≡ 1 (mod 3)`.  Then:
+
+* `child_eq`, `child_odd`, `child_pos`, `orbit_child` (`T ^ v (child a v) = a`,
+  via `ReverseTree.orbit_two_pow_mul`), `child_lt` (`< 22 a` for `v ≤ 6`);
+* `child_mod_three`: the child is prime to `3` **iff** `2 ^ v a ≢ 1 (mod 9)`;
+* `child_inj`: `(a, v) ↦ child a v` is injective on odd `a` — the child
+  remembers its parent and its valuation (`3c + 1 = 2 ^ v a`, odd part unique);
+* `sel0_spec`, `sel1_spec`, `sel0_lt_sel1`: of the three consecutive admissible
+  valuations `v₀, v₀+2, v₀+4` (`v₀ ∈ {1, 2}` by `a mod 3`), the two whose
+  `2 ^ v a` is not `1 (mod 9)` are selected; multiplying by `4` cycles
+  `1 → 4 → 7 → 1`, so exactly two qualify, both `≤ 6`;
+* `enum k i`: level `k` of the tree indexed by binary words; `enum_good`,
+  `enum_le` (`≤ 22 ^ k`), `enum_reaches` (within `6k` accelerated steps),
+  `enum_inj` (the first `2 ^ k` are pairwise distinct);
+* `le_countUpTo_of_inj`: an injective family of `m` values in `[1, N]` all
+  satisfying `p` gives `m ≤ countUpTo p N` — a general counting principle the
+  repository did not have, built on `hitB` (membership in a finite family) with
+  `countUpTo_congr`, `countUpTo_mono`, `countUpTo_or_eq`;
+* `two_pow_le_count`, `count_pow_five`, `krasikovLagariasLowerBound_holds`.
+
+The count is the repository's own computable one (reaching `1` within `N`
+steps), so the theorem is about the exact object the paper file defined — no
+classical decidability of `ReachesOne` is used to state it.
+
+### §5 Attack sketches — three, from different families
+
+1. **Inverse tree (chosen).**  Above.  Falsifier: fewer than two fertile
+   children among three consecutive admissible valuations — refuted by the
+   mod-`9` cycle.  Next lemma: the size-aware recursion.
+2. **Diophantine / local barrier.**  "Every light word is the cycle word of
+   some `3x + d` with `d ≡ 1 (mod 6 ^ k)`, for every `k`."  Next lemma:
+   `δ(w) ∣ G` and `G` is coprime to `6`, so `d = δ · t` with
+   `t ≡ δ⁻¹ (mod 6 ^ k)`; `NewModels.word_is_cycle_word` then realises the
+   cycle.  Size ≈ 100 lines.  Falsifier: none — it is true; the risk is that it
+   sharpens Class 4 of `CLOSURE.md` without moving any scalar.  Not chosen for
+   that reason; it is the cheap secondary for next round because it states
+   exactly what a cycle proof must use: `d = 1` as an integer, not any residue
+   of it at `2` or `3`.
+3. **Fixed-modulus mixing, backward.**  "The children `child a (v + 2j)`,
+   `j < 3 ^ k`, hit every residue modulo `3 ^ k` exactly once."  Next lemma:
+   `4` has order exactly `3 ^ k` modulo `3 ^ (k+1)` (`LiftExponentThree` has
+   the divisibility half, not the exactness).  Size ≈ 200 lines.  Falsifier:
+   none; risk is duplicating Wirsching's book.  Not chosen this round; it is
+   the engine for raising the exponent by residue types.
+
+### §4 Permission to produce nothing — not exercised
+
+The theorem is real and moves a scalar from undefined to a number.  It is
+recorded at its size: a `1978`-grade bound in a `2003`-grade problem.
+
+### §D Bottlenecks
+
+* The level argument charges every child the largest size.  Charging each child
+  its own size gives `N(X) ≥ N(3X/16) + N(3X/64)` (worst residue class) and
+  exponent `≈ 0.30`; that needs a count over size budgets rather than levels.
+* Past `0.30`: parents' residues modulo `9`, then `27`, … — the children's
+  residues modulo `3 ^ k` depend on the parent modulo `3 ^ (k+1)`, so the
+  recursion is not closed at any finite level and must be handled by the
+  difference-inequality device of Krasikov–Lagarias.
+* The ceiling: pure counting cannot reach density `1` (RESEARCH.md line 114).
+  This line is a formalisation ladder toward `0.84`, not a route to the
+  conjecture.
+
+### §E Gap list, as Lean statements
+
+    -- size-aware recursion, N(X) = fertile reachers below X
+    ∀ X, N (3 * X / 16) + N (3 * X / 64) ≤ N X
+    -- backward mixing
+    ∀ k a, a % 3 ≠ 0 → ∀ i j, i < 3 ^ k → j < 3 ^ k →
+      child a (v0 a + 2 * i) % 3 ^ k = child a (v0 a + 2 * j) % 3 ^ k → i = j
+    -- positive density (open in the literature)
+    ∃ c, 0 < c ∧ ∀ N, N ≤ c * reachesOneUpToCount N
+
+### §7 Standing problems
+
+G1 mixing mod `2^M`: untouched · G2 integer-vs-ghost: untouched · G3 uniform
+descent: untouched this round (Rozier line, LXXV) · G4 cycle cutoff: untouched
+this round · G5 Lyapunov: untouched · **G6 inverse-tree coverage: attacked,
+exponent `1/5` proved, obstruction is worst-case size charging** · G7
+almost-all → all: untouched.
+
+### §G Killed-approach log
+
+Nothing killed.  One thing declined: no attempt was made to go from the tree
+count to positive density, because the repository's own ceiling analysis and
+the literature both say counting saturates below `1`.
+
+### §H Corrections to previous rounds
+
+**The recorded Krasikov–Lagarias proposition was vacuous.**
+`krasikovLagariasLowerBound` read `N ^ p ≤ reachesOneUpToCount N * N ^ q`; at
+`p = q` that is `count ≥ 1`, true because `1` reaches `1`.  It has been
+corrected to `N ^ p ≤ reachesOneUpToCount N ^ q` and proved in that form.  The
+paper file had carried the vacuous statement since it was written; nothing
+depended on it.
+
+### §F Next round — three tasks, one primary
+
+1. **Primary.**  The size-aware recursion: prove
+   `N (X / 6) + N (X / 22) ≤ N X` for the count of fertile reachers below `X`
+   (the child with the smaller selected valuation is below `16 a / 3 < 6 a`),
+   then the explicit growth `N X ^ 100 ≥ X ^ 29 / K`, or the same content in a
+   fuel-defined recursive `g` evaluated in the kernel at named `X`.  Target
+   scalar: `0.29`.
+2. The mod-`6 ^ k` blindness barrier, as a theorem in `Strategy/`, cross-linked
+   from `CLOSURE.md` Class 4.
+3. Exact order of `4` modulo `3 ^ (k+1)`, completing `LiftExponentThree`, as
+   the first lemma of backward mixing.

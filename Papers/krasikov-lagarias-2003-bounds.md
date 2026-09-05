@@ -8,4 +8,6 @@ Krasikov and Lagarias use difference inequalities to obtain a non-trivial lower 
 
 Lean file: `Collatz/Papers/KrasikovLagarias2003.lean`.
 
-Formalization status: a computable bounded reachability predicate `reachesOneBy n B`, a finite counting function `reachesOneUpToCount N`, and the lower-bound proposition are defined.  The closure property "if `n` reaches `1` then `T(n)` reaches `1`" is proved.  The main lower-bound theorem is recorded as a proposition; no proof is claimed.
+Formalization status: a computable bounded reachability predicate `reachesOneBy n B`, a finite counting function `reachesOneUpToCount N`, and the lower-bound proposition are defined.  The closure property "if `n` reaches `1` then `T(n)` reaches `1`" is proved.
+
+Round LXXVI: the recorded proposition was mis-stated (`N^p ≤ count · N^q`, vacuous at `p = q`) and has been corrected to `N^p ≤ count^q`.  `Collatz/Strategy/TreeCount.lean` proves it with exponent `p/q = 1/5` (`krasikovLagariasLowerBound_holds`), together with the unconditional `N < 22 · count(N)^5` for every `N ≥ 1` (`count_pow_five`).  The proof is the elementary Crandall-style branching bound — two of every three consecutive odd preimages are prime to three, each below `22` times the parent — not the paper's difference-inequality method, and the exponent `0.224` is far below the paper's `0.84`.

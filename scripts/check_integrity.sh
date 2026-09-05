@@ -86,6 +86,9 @@ import Collatz
 #print axioms Collatz.PrimeLedge.ledge_descend
 #print axioms Collatz.PrimeLedge.gap_translate_iff
 #print axioms Collatz.PrimeLedge.gap_translate_iff_neg
+#print axioms Collatz.TreeCount.two_pow_le_count
+#print axioms Collatz.TreeCount.count_pow_five
+#print axioms Collatz.TreeCount.krasikovLagariasLowerBound_holds
 LEAN
 axout="$(lake env lean /tmp/collatz_axcheck.lean)"
 printf '%s\n' "$axout"
