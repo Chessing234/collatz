@@ -13290,3 +13290,113 @@ and buys nothing.
    (`LiftExponentThree` has the divisibility half).
 3. Per-type recursion modulo `9` as the first Krasikov–Lagarias rung, if (1)
    and (2) leave time.
+
+## Round LXXVI, iteration 3 — local blindness at `2` and `3`, as a theorem
+
+The creative item from iteration 2's plan.  Cheap, and the first thing this
+session has produced whose *statement* I could not find in print.
+
+### §0 Novelty gate
+
+*Statement.*  "For every light parity word with an odd step and every `k`,
+some `d ≡ 1 (mod 6 ^ k)` has a positive integer cycle of `3x + d` carrying
+exactly that word."
+
+*Literature (two web searches, queries recorded).*
+`Lagarias "rational cycles" 3x+1 3x+d integer cycles every parity word
+denominator d ≡ 1 mod 2^k` → Lagarias 1990 (*The set of rational cycles for
+the 3x+1 problem*, Acta Arith. 56) and Lagarias, *3x+1 dynamics on rationals
+with fixed denominator* (arXiv math/0204170): integer cycles of `3x + k` are
+the rational cycles of `3x + 1` with denominator `k`, and the parity vector
+determines the cycle.  `"3x+d" OR "3x+k" cycles "parity vector" congruence d
+modulo power of 2 realize every word "no local" obstruction` → the `3x + k`
+generalisation literature (arXiv 2101.08060; Kaneda, *Two remarks on the
+Collatz cycle conjecture*, arXiv 1010.6206; the counting/searching-for-cycles
+papers arXiv 1909.00213, 1907.13302).  None states the modulo-`6 ^ k` form.
+The barrier it encodes — `3x − 1`, `3x + 5` have cycles, so a proof must use
+`d = 1` — is folklore.
+
+*Repository.*  `grep -rn "Coprime\|coprime\|dvd_of_dvd_mul\|inverse"` → no
+modular-inverse machinery; `NewModels.word_is_cycle_word` is Lagarias 1990
+in the repository's coordinates; `CLOSURE.md` Class 4 is the `d`-free barrier
+with the genuine cycles as witnesses.  The residues-modulo-`6 ^ k` form was
+nowhere.
+
+*Tag.*  **NEW as a stated theorem; corollary of Lagarias 1990 and the Chinese
+remainder theorem; barrier content folklore.**
+
+### §1 Inventory delta
+
+* New: `Collatz/Strategy/LocalBlindness.lean`, 10 declarations.
+* Changed: `Collatz.lean`, `scripts/check_integrity.sh` (two guards),
+  `CLOSURE.md` (Class 4 sharpened, with a membership test), `PROGRAM_STATUS.md`,
+  `README.md`, `INDEX.md` (`5651` theorems, `364` files).
+* `lake build Collatz`: **367 jobs**; integrity passes; `local_blindness`
+  depends on `propext`, `Quot.sound` only.
+
+### What is proved
+
+    local_blindness :
+      0 < L → 0 < oddCount r L → 3 ^ oddCount r L ≤ 2 ^ L → ∀ k,
+      ∃ d x, d % 2 = 1 ∧ d % 6 ^ k = 1 % 6 ^ k ∧ 0 < x ∧
+        genOrbit d L x = x ∧ genOddCount d L x = oddCount r L ∧
+        genU d L x = affineC L r
+
+and `local_blindness_two_three` reads it modulo `2 ^ k` and `3 ^ k`
+separately.  Proof: the gap `G = 2 ^ L − 3 ^ a` is odd and not divisible by
+`3` (`gap_not_three_dvd`, from `2 ^ L mod 3 ∈ {1, 2}`), so the denominator
+`δ = G / gcd(C, G)` is prime to `6 ^ k`; some power `δ ^ e ≡ 1 (mod 6 ^ k)`
+(`exists_pow_one_mod`: the repository's `Pigeonhole.exists_repeat_of_le` on
+`δ ^ i mod 6 ^ k`, then `Nat.Coprime.dvd_of_dvd_mul_left` — core Lean has no
+Bézout); `d = δ ^ e` and `x = δ ^ (e−1) · C / gcd(C, G)` satisfy `G x = d C`,
+and `NewModels.gen_cycle_of_gap_dvd` with `gen_scale_data` does the rest.
+
+**Why only `2` and `3`.**  The proof uses exactly that `δ ∣ G` and `G` is
+prime to `6`.  At `p = 5` the statement is false: the two `3x + 5` cycle words
+of length `27` have `δ = 5` (`DeltaSpectrum.w187_delta`), so no
+`d ≡ 1 (mod 5)` realises them.  The dynamics is blind to `d` precisely at the
+primes it is built from.
+
+**What it says to the ledger.**  Every cycle-side proposal that consumes `d`
+only through its residues modulo `2 ^ k · 3 ^ m` is dead by citation, for any
+`k, m`: Terras classes, the affine law modulo powers of `2`, heaviness, the
+order of `2` modulo the gap, the `3`-adic law of `ThreeAdic` — all of it.  The
+inputs a cycle proof may use about `d = 1` are archimedean, and the ledger
+already knows which those are: assets (a) and (d).
+
+### §5 Attack sketches
+
+1. **This one (chosen).**  Falsifier: a light word whose denominator is even
+   or divisible by `3` — impossible, since `δ ∣ G`.
+2. *Least-counterexample `3`-adic sieve (inverse tree).*  Every predecessor of
+   the least counterexample `m` is a counterexample, hence `≥ m`; so `m ≢ 2
+   (mod 3)` (its odd predecessor `(2m − 1)/3` would be smaller), `m ≢ 4 (mod
+   9)` (the predecessor `(4m − 1)/3` would then have a smaller odd predecessor),
+   and further classes modulo `27`, `81`, … from every backward path whose
+   size factor `∏ 2 ^ (v_i) / 3` dips below `1`.  A sieve at the prime `3`,
+   composable with the forward sieve modulo `2 ^ k`.  Next lemma: the
+   depth-one exclusion.  Falsifier: if the repository or the literature already
+   has it.  **Checked next.**
+3. *Backward mixing modulo `3 ^ k`* — exact order of `4` modulo `3 ^ (k+1)`;
+   deferred again, it is the engine for G6's next rung and for sketch 2's
+   depth.
+
+### §7 Standing problems
+
+G1–G3 untouched · **G4 cycle cutoff: attacked; obstruction named exactly —
+no local input at `2` or `3` can cut it, only archimedean input** · G5
+untouched · G6 at `3/8` (iteration 2) · G7 untouched.
+
+### §G Killed-approach log
+
+Killed by proof: every cycle-side mechanism using `d` modulo `2 ^ k 3 ^ m`.
+Listed in `CLOSURE.md` Class 4 with a membership test.
+
+### §F Next round
+
+1. **Primary.**  Sketch 2 — novelty gate first (grep `Minimal`, `Predecessor`,
+   `BackwardRange`; search "least counterexample Collatz mod 3 predecessor").
+   If clear: `least_counterexample_not_two_mod_three`, then modulo `9`, then
+   the general depth-`D` exclusion as a decidable sieve.
+2. Sketch 3.
+3. G6's next rung (types modulo `9`).

@@ -38,7 +38,7 @@ Every proof must pass CI.
 
 ## Status
 
-5 641 theorem and lemma declarations across 363 modules, 100 973 lines.
+5 651 theorem and lemma declarations across 364 modules, 101 194 lines.
 
 Verified range: every positive `n < 3 998 720` reaches 1.  Cycle bound: no accelerated
 cycle through a non-reaching point has length below 14187.  **Both are finite results.**
@@ -103,6 +103,10 @@ Of three consecutive odd preimages of a node prime to `3`, exactly two are again
 Charging every fertile child its own size, at least `N^(3/8)/131` integers up to `N` reach `1`.
 
 The literature's exponent is `0.84`; positive density is open, and counting alone cannot reach it.
+
+Every light parity word with an odd step is the cycle word of some `3x+d` with `d = 1` modulo any power of `6`.
+
+So a proof that `3x+1` has no cycle must use the integer `1` through its size, never through a congruence at `2` or `3`.
 
 For `x >= 2^(v+W)`, the first excursion descends if and only if `3^v < 2^(v+W)`.
 

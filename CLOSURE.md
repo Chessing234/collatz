@@ -67,6 +67,18 @@ yes, it is in this class and is dead.
 `C ↦ d·C` is refuted by the genuine cycles of `3x−1`, `3x+5`, `3x+7`, `3x+11`,
 `3x+13`.  Everything in Classes 1–3 is in this class.
 
+*Sharpened (Round LXXVI.3), `Strategy.LocalBlindness`.*  The class is larger
+than "`d`-free": it contains every mechanism that sees `d` only through its
+residues modulo powers of `2` and `3`.  `local_blindness`: for every light word
+with an odd step and every `k`, some odd `d ≡ 1 (mod 6 ^ k)` has a positive
+cycle with exactly that word.  So `d mod 2 ^ k` and `d mod 3 ^ k` carry no
+information about cycle words, for any `k`; a cycle proof must use `d = 1` as
+an integer, through the archimedean place — which is what assets (a) and (d)
+are.  The blindness is *only* at `2` and `3`: at `p = 5` the `3x+5` words have
+`δ = 5` and no `d ≡ 1 (mod 5)` realises them.  **Membership test**: does the
+proposed argument use `d` only modulo `2 ^ k · 3 ^ m` for some `k, m`?  If yes
+it is dead, by citation.
+
 The **only** `d = 1`-specific assets:
 
 | asset | what it is | what it is worth |

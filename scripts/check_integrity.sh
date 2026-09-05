@@ -91,6 +91,8 @@ import Collatz
 #print axioms Collatz.TreeCount.krasikovLagariasLowerBound_holds
 #print axioms Collatz.TreeBranching.NF_rec
 #print axioms Collatz.TreeBranching.count_pow_eight
+#print axioms Collatz.LocalBlindness.local_blindness
+#print axioms Collatz.LocalBlindness.local_blindness_two_three
 LEAN
 axout="$(lake env lean /tmp/collatz_axcheck.lean)"
 printf '%s\n' "$axout"

@@ -660,3 +660,29 @@ parent modulo `3 ^ (k+1)`, so no finite system closes and the
 difference-inequality device of Krasikov–Lagarias is required — that is where
 `0.84` comes from.  Positive density — the statement that would matter — is
 open in the literature; Tao's almost-all theorem does not imply it.
+
+---
+
+## Class 4 sharpened — local blindness at `2` and `3` — **theorem (Round LXXVI.3)**
+
+`Strategy.LocalBlindness.local_blindness`: for every parity word of length
+`L ≥ 1` with an odd step and `3 ^ a ≤ 2 ^ L`, and for **every** `k`, there is an
+odd `d ≡ 1 (mod 6 ^ k)` and a positive `x` that is a period-`L` cycle point of
+`x ↦ (3x + d)/2, x/2` with exactly that word (same odd count, same
+accumulator).  `local_blindness_two_three` reads it at each prime:
+`d ≡ 1 (mod 2 ^ k)` and `d ≡ 1 (mod 3 ^ k)` at once.
+
+**Consequence for every cycle-side proposal in this ledger.**  Any argument
+that consumes `d` only through residues modulo `2 ^ k · 3 ^ m` cannot exclude a
+single light word, for any `k, m`.  The `d = 1`-specific inputs a cycle proof
+may use are archimedean: the verified range (asset (a)) and `|d| < 2`
+(asset (d)).  This is `CLOSURE.md` Class 4 with the exact scope of the
+blindness stated and proved: only at `2` and `3` — at `p = 5` the `3x + 5`
+words have denominator `5` and are not realised by any `d ≡ 1 (mod 5)`.
+
+Ingredients: Lagarias 1990 (rational cycles ↔ integer cycles of `3x + d`,
+here `NewModels.word_is_cycle_word`), the gap `2 ^ L − 3 ^ a` being prime to
+`6`, and a modular inverse obtained without Bézout from the repository's
+pigeonhole on the powers of the denominator (`exists_pow_one_mod`).
+Axioms: `propext`, `Quot.sound` only.  Novelty tag: **NEW as a stated
+theorem; corollary of known results; barrier content folklore.**
