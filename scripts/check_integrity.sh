@@ -93,6 +93,10 @@ import Collatz
 #print axioms Collatz.TreeBranching.count_pow_eight
 #print axioms Collatz.LocalBlindness.local_blindness
 #print axioms Collatz.LocalBlindness.local_blindness_two_three
+#print axioms Collatz.Subtree.S_rec
+#print axioms Collatz.ClassChild.fch_mod_27
+#print axioms Collatz.TreeCertificate.certF
+#print axioms Collatz.TreeCertificate.certH
 LEAN
 axout="$(lake env lean /tmp/collatz_axcheck.lean)"
 printf '%s\n' "$axout"

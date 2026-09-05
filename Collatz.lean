@@ -150,6 +150,9 @@ import Collatz.Strategy.ReverseTree
 import Collatz.Strategy.TreeCount
 import Collatz.Strategy.TreeBranching
 import Collatz.Strategy.LocalBlindness
+import Collatz.Strategy.Subtree
+import Collatz.Strategy.ClassChild
+import Collatz.Strategy.TreeCertificate
 import Collatz.Strategy.InfiniteWord
 import Collatz.Strategy.RunRefined
 import Collatz.Strategy.RepetitionDescent
