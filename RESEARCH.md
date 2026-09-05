@@ -13400,3 +13400,83 @@ Listed in `CLOSURE.md` Class 4 with a membership test.
    the general depth-`D` exclusion as a decidable sieve.
 2. Sketch 3.
 3. G6's next rung (types modulo `9`).
+
+## Round LXXVI, iteration 4 — sketch 2 killed by the inventory; the type refinement measured
+
+### §0 Novelty gate on sketch 2 (least-counterexample `3`-adic sieve)
+
+*Repository.*  `grep -rn "% 3" Collatz/Strategy/OrbitDescent.lean` →
+`minimal_orbit_profile` already carries `m % 3 ≠ 2 ∧ m % 9 ≠ 4` for the least
+never-dropper, via `neverDrops_of_joins` (a predecessor of any orbit point is
+a never-dropper, hence `≥ m`), and the sharper forbidden windows
+`[m, (3m+1)/2)` and `[m, (9m+5)/4)` on the orbit.  **DUPLICATE-OF-OURS** at
+depths one and two.
+
+*Literature.*  Search `Collatz "least counterexample" "mod 3" predecessor
+"(2n-1)/3"` → nothing specific (arXiv 1209.3495 on De Bruijn graphs,
+1511.09141 on consecutive integers; no residue-mod-`3` statement).
+
+*The rest, killed by analysis.*  Deeper exclusions come only from backward
+paths whose size factor `∏ 2 ^ v_i / 3` first dips below `1`: `(2,2,1,1)` at
+depth `4` (one class modulo `81`), `(2,2,2,1,1,1)` at depth `6`, and in general
+the near-Sturmian words with `Σ v_i = ⌊D log₂ 3⌋`.  Polynomially many per
+depth, each cutting `~3 ^ (−D)` of the classes: the excluded density
+*converges* to a constant below `1`, so the survivor density of the `3`-adic
+sieve does not tend to zero, unlike the `2`-adic sieve's `2 ^ (−0.05 k)`.  A
+decidable `sieveCheck` for the prime `3` would be a few excluded classes
+modulo `81` and `2187`.  Not built.  **§4 exercised: no artifact.**
+
+### The type refinement of G6 — a measurement that was a bug, and the correction
+
+I set up the residue-type system `N_r(X) ≥ Σ_v Σ_{r'' lifting c(r,v)} N_{r''}(3X/2^v)`
+in `scripts/tree_types.py`, and it reported certified exponent `1.0000` at
+every level.  A different answer would have looked like a number below `0.84`;
+`1.0` means the system as written is unsound, and it is: the recursion runs
+from **parent** classes to **child** classes, so the sound inequality is
+
+    N_c(X) ≥ Σ_{(r, v) : c(r, v) ≡ c (mod 3^k)} N_r(3X / 2 ^ v),
+        c mod 3^k,  r mod 3^(k+1),
+
+which bounds the child class *one level coarser* than the parents it needs.
+Per-lift lower bounds cannot be recovered from a bound on the sum of three
+lifts, so this system does not close by itself — iteration 2's bottleneck
+statement stands, and the sentence in this entry's first draft claiming
+otherwise was wrong.  What closes it in Krasikov–Lagarias is a transfer
+between classes; checked against the paper next, before any formalisation.
+The script is kept, with its docstring corrected, as the record of the
+mistake.
+
+### The Krasikov–Lagarias system, read and measured (§2 provenance: `scripts/tree_types.py`)
+
+Read from arXiv math/0205002 §2: for each class `m (mod 3^k)` they take the
+**infimum over roots in the class** of the subtree count, so a child whose
+class is known only modulo `3^(k−1)` is handled by the *minimum over its three
+lifts* (their (P3)); the LP `L_k^NT(λ)` finds weights `c^m` with
+`c^m ≤ λ^{−2} c^{4m} + λ^{α−2} c̄_{k−1}^{…}`.  The preimage `(2a−1)/3 < a`
+enters at a *larger* relative scale ("advanced" term), which a plain induction
+on scale cannot use; Applegate–Lagarias 1995 truncated those terms (`0.81` at
+`k = 9`), Krasikov–Lagarias 2003 eliminated them (`0.84` at `k = 11`).
+
+Measured, in the odd-only formulation of `TreeBranching` (valuations `≤ 18`;
+a different answer would have been a different table):
+
+| classes mod | drop `v = 1` | charge `v = 1` at `v = 2` | K–L full | lattice (one option) | lattice, double induction |
+|---|---|---|---|---|---|
+| `3^2` | `0.371` | `0.437` | `0.437` | `0.381` | `0.381` |
+| `3^3` | `0.417` | `0.569` | `0.611` | `0.471` | `0.495` |
+| `3^4` | `0.436` | `0.618` | `0.689` | `0.499` | `0.532` |
+| `3^5` | `0.450` | `0.636` | `0.734` | `0.509` | `0.547` |
+| `3^6` | `0.460` | `0.650` | `0.761` | — | `0.557` |
+
+"Lattice, double induction" is the scheme that maps onto a Lean proof with no
+real numbers: claims at scales `2^y a` and `3·2^y a`, induction outer on `y`
+and inner on the root `a`, each child using the better of its two sound
+options; the `v = 1` child (the only one below its parent) is reached by the
+inner induction.  At classes modulo `81` it certifies `0.532 > 1/2`.
+
+**Decision.**  Formalise the double-induction scheme at classes modulo `81`
+with ratio `71/50` (`(71/50)^2 ≥ 2`), target theorem
+`N < C · (reachesOneUpToCount N)^2`: at least `√N / c` integers up to `N` reach
+`1`, kernel-checked.  Specification written to the session scratchpad
+(`SPEC_treehalf.md`); adversarial verification of the scheme and the exact
+integer certificate are running as a workflow before any Lean is written.
