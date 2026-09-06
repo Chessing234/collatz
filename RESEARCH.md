@@ -13869,3 +13869,23 @@ available here with a finer ratio.  Provisional until `kl_verify.py 13`
 (running) reports zero violations.  The tables are stored as
 `scripts/certificates/kl_cert_13_11_361_200.npz` (int64, compressed; SHA-256
 in the commit) and are reproducible from the script in about four hours.
+
+### Level `13` independently verified
+
+`scripts/kl_verify.py 13 11 361 200 24 0,2,7,12`: **`12 754 584` inequalities
+checked, `0` violations**, minimum relative slack `2.360 · 10^{−14}`,
+`K = 10^15`, `W_0(5) = 401`.  No longer provisional:
+
+> **Theorem (computer-verified, two independent checkers).**  For every
+> `N ≥ 10`, with `y` the integer such that `10 · 2^y ≤ N < 20 · 2^y`, the
+> number of positive integers `n ≤ N` whose `3x + 1` orbit reaches `1` is at
+> least `(401 / 10^15) · (361/200)^y`; in particular at least `c · N^{0.852}`
+> for an explicit `c > 0`.
+
+Proof: `Devices/AbsoluteBound.md` applied to
+`scripts/certificates/kl_cert_13_11_361_200.npz`.  Previous record:
+`x^{0.84}` (Krasikov–Lagarias 2003).  This is the strongest statement of the
+session; it is an improved constant in a known theorem, not a step toward
+positive density, and the same method's own values (`0.8531, 0.8630` at levels
+`12, 13`, increments shrinking by `0.88` per level) suggest its ceiling is
+near `0.93`.
