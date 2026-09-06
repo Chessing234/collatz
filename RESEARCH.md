@@ -13834,3 +13834,21 @@ past their level, and it points the other way.  Level `14` is running to
 test the extrapolation.  The level-`13` certificate at `λ = 361/200 =
 2^{0.8520}` is running; the lattice loss (`≈ 0.005`) leaves it a margin of
 about `0.006`.
+
+### In flight at the end of the session (2026-09-06)
+
+The level-`13` certificate (`scripts/kl_certify.py 13 11 361 200 24 300
+1000000000 0,2,7,12`, memory-lean version, running alone) had finished its
+first repair pass after `30 min` (`6 377 292` entries lowered, minimum table
+entry `87`, all positive); level `12` needed thirteen passes, so expect
+several hours.  Its log is the session scratchpad file `cert13.txt`; on
+success it writes `scripts/scratch/kl_cert_13_11_361_200.npy`.  To finish:
+
+    cd scripts && python3 -u kl_verify.py 13 11 361 200 24 0,2,7,12    # independent re-check
+    # then store as int64 npz with sha256 (as for level 12), record K and W_0(5),
+    # and state: #{n ≤ N reaching 1} ≥ (W_0(5)/K) · (361/200)^y for 10·2^y ≤ N,
+    # exponent log₂(361/200) = 0.8520.
+
+Level `14` of the continuous system (`kl_levels.py 14`, ≈ `1.5 h`, ≈ `1.5 GB`)
+was killed for memory while the certificate ran and should be rerun alone,
+to test the extrapolated ceiling `≈ 0.93`.
