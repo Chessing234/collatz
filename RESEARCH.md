@@ -13822,3 +13822,15 @@ no longer provisional:
 Proof: `Devices/AbsoluteBound.md` applied to the certificate
 `scripts/certificates/kl_cert_12_11_359_200.npz`.  Previous record:
 `x^{0.84}`, Krasikov–Lagarias 2003.
+
+### Level `13` of the continuous system: `0.8630`
+
+`kl_levels.py 13` (`1 062 882` classes, `1653 s`): exponent `0.8630`.  The
+increments are `0.0126, 0.0123, 0.0113, 0.0099` for levels `9 → 13` and
+shrink by a factor `≈ 0.88` per level; if that continues, the method's
+ceiling is about `0.93`, not `1`.  Krasikov–Lagarias hoped the
+`L_k^{NT}` family would eventually give `x^{1−ε}`; this is the first data
+past their level, and it points the other way.  Level `14` is running to
+test the extrapolation.  The level-`13` certificate at `λ = 361/200 =
+2^{0.8520}` is running; the lattice loss (`≈ 0.005`) leaves it a margin of
+about `0.006`.
