@@ -152,6 +152,7 @@ import Collatz.Strategy.TreeBranching
 import Collatz.Strategy.LocalBlindness
 import Collatz.Strategy.Subtree
 import Collatz.Strategy.ClassChild
+import Collatz.Strategy.BackwardMixing
 import Collatz.Strategy.TreeCertificate
 import Collatz.Strategy.TreeHalf
 import Collatz.Strategy.TreeCertificate2
