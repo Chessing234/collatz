@@ -14129,3 +14129,29 @@ expansion.  Novelty: **NEW** — the reduction "3-adic balance of the tree of
 `1` ⟹ counting exponent near `1`" with an explicit pair of constants, in the
 kernel.  Measured but not certified: depth `12` at ratio `21/20` has slack
 `4 %`; ratio `22/21` (`0.805`) already closes at depth `6`.
+
+### Round LXXVII, closing — why balance cannot be bootstrapped (killed)
+
+The complement `B` of the tree of `1` is also closed under the inverse map,
+with the same exact recursion `B_c(X) = Σ_v B9_{R(c,v)}((3X+1)/2^v)` and the
+initial condition `B ≡ 0` below the verified range; its components have odd
+minima `≡ 3 (mod 4)` (the parent of a minimum is larger, so `v = 1`).  At every
+scale the class-count vectors of `T` and `B` sum to the uniform vector, so a
+skew of `T` is the mirror skew of `B` weighted by the size ratio.  Theorem C
+(`TreeBalance9`) applied to both halves says only: whichever half is thin is
+skewed — and "`T` thin, `B` fat and nearly balanced" is consistent.  The
+closure `n ↦ 4n + 1` (same forward image) is already the child at valuation
+`v + 2`, so it adds no inequality.  Tao's theorem controls orbit minima
+against a function tending to infinity, never against the fixed verified
+range (G7, unchanged).  **Killed:** any attempt to make the balance
+hypothesis unconditional from closure properties of `T`, `B`, or the
+`4n + 1` symmetry.  What would revive it: a handle on the 3-adic
+distribution of *one* inverse-closed set that is not merely "it satisfies
+the recursion" — nothing in the repository or the literature supplies one.
+
+### §7 Standing problems (end of Round LXXVII)
+
+G1–G3 untouched · G4 attacked (LocalBlindness) · G5 untouched · **G6:
+`0.852` certified; limit `1` at rate `1/k`; conditional `0.84` under G8** ·
+G7 untouched · **G8 (new): 3-adic balance of the tree of `1`; the
+closure-symmetry route to it is killed.**
