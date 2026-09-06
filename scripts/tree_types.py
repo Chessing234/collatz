@@ -214,3 +214,115 @@ if __name__ == "__main__" and len(sys.argv) > 3 and sys.argv[3] == "lattice2":
     for k in range(2, kmax + 1):
         print(f"lattice2: vmax = {vmax:2d}, classes mod 3^{k} ({len(classes(k)[1]):4d}): "
               f"exponent {exponent_lattice2(k, vmax):.4f}")
+
+# ---------------------------------------------------------------------------
+# Multi-type lattice: claim types (j, y) for scales 3^j 2^y a, j = 0..J, with
+# the double induction (outer on y, inner on the root).  From type j < J a
+# child at valuation v goes EXACTLY to type (j+1, y - v) (retarded, since
+# 3^j 2^y a = 3^j 2^(y-v) (3c+1) >= 3^(j+1) 2^(y-v) c); from the top type J
+# it goes to (J, y - v + 1) at a loss of 3/2 (index y when v = 1: the child
+# is below its parent, inner induction).  Either way each child may also use
+# any type (j', y') with 3^j' 2^y' c <= the available bound; we take the best
+# of the exact option and, for the top type, the rounded one.
+
+def growth_multi(k, lam, vmax, J, iters=800):
+    import math
+    mod, types = classes(k)
+    idx = {r: i for i, r in enumerate(types)}
+    sub = 3 ** (k - 1)
+    lifts = {c: [r for r in types if r % sub == c] for c in range(sub)}
+    ch = {r: children(r, k, vmax, 'full') for r in types}
+    n = len(types)
+    W = [[1.0] * n for _ in range(J + 1)]      # W[j][class]
+    rate = 1.0
+    for _ in range(iters):
+        nW = [[0.0] * n for _ in range(J + 1)]
+        for j in range(J + 1):
+            for r in types:
+                tot = 0.0
+                for v, c in ch[r]:
+                    if j < J:
+                        # exact: type (j+1, y - v), weight lam^{-v}
+                        tot += lam ** (-v) * min(W[j + 1][idx[rr]] for rr in lifts[c])
+                    else:
+                        # top type: (J, y - v + 1), weight lam^{1-v}
+                        tot += lam ** (1 - v) * min(W[J][idx[rr]] for rr in lifts[c])
+                nW[j][idx[r]] = tot
+        rate = max(max(row) for row in nW)
+        W = [[x / rate for x in row] for row in nW]
+    return rate
+
+def exponent_multi(k, vmax, J):
+    import math
+    lo, hi = 1.0, 2.0
+    for _ in range(40):
+        mid = (lo + hi) / 2
+        if growth_multi(k, mid, vmax, J) >= 1.0:
+            lo = mid
+        else:
+            hi = mid
+    return math.log2(lo)
+
+if __name__ == "__main__" and len(sys.argv) > 3 and sys.argv[3] == "multi":
+    for k in (4, 5):
+        for J in (0, 1, 2, 3, 4, 6, 8):
+            print(f"multi: classes mod 3^{k}, J = {J} ({(J+1)*len(classes(k)[1]):5d} constants): "
+                  f"exponent {exponent_multi(k, vmax, J):.4f}")
+
+# ---------------------------------------------------------------------------
+# Multi-type lattice with induction on the ABSOLUTE bound 3^j 2^y a: from
+# type j a child at valuation v has true bound 3^(j+1) 2^(y-v) c and may use
+# ANY type j' <= J at index y' = y - v + floor((j+1-j') log2 3) (so that
+# 3^j' 2^y' <= 3^(j+1) 2^(y-v)); every such bound is below the parent's, so
+# the claim is available by strong induction on the bound.  Each child takes
+# the best option.
+
+def growth_abs(k, lam, vmax, J, iters=800):
+    import math
+    mod, types = classes(k)
+    idx = {r: i for i, r in enumerate(types)}
+    sub = 3 ** (k - 1)
+    lifts = {c: [r for r in types if r % sub == c] for c in range(sub)}
+    ch = {r: children(r, k, vmax, 'full') for r in types}
+    n = len(types)
+    L3 = math.log2(3)
+    shifts = {}
+    for j in range(J + 1):
+        for jp in range(0, min(J, j + 1) + 1):
+            shifts[(j, jp)] = math.floor((j + 1 - jp) * L3 + 1e-12)
+    W = [[1.0] * n for _ in range(J + 1)]
+    rate = 1.0
+    for _ in range(iters):
+        nW = [[0.0] * n for _ in range(J + 1)]
+        for j in range(J + 1):
+            for r in types:
+                tot = 0.0
+                for v, c in ch[r]:
+                    best = 0.0
+                    for jp in range(0, min(J, j + 1) + 1):
+                        e = shifts[(j, jp)]
+                        val = lam ** (e - v) * min(W[jp][idx[rr]] for rr in lifts[c])
+                        if val > best:
+                            best = val
+                    tot += best
+                nW[j][idx[r]] = tot
+        rate = max(max(row) for row in nW)
+        W = [[x / rate for x in row] for row in nW]
+    return rate
+
+def exponent_abs(k, vmax, J):
+    import math
+    lo, hi = 1.0, 2.0
+    for _ in range(40):
+        mid = (lo + hi) / 2
+        if growth_abs(k, mid, vmax, J) >= 1.0:
+            lo = mid
+        else:
+            hi = mid
+    return math.log2(lo)
+
+if __name__ == "__main__" and len(sys.argv) > 3 and sys.argv[3] == "abs":
+    for k in (3, 4, 5):
+        for J in (0, 1, 2, 3, 5, 8):
+            print(f"abs: classes mod 3^{k}, J = {J} ({(J+1)*len(classes(k)[1]):5d} constants): "
+                  f"exponent {exponent_abs(k, vmax, J):.4f}")

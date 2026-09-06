@@ -609,7 +609,7 @@ the kernel clean.
 
 ---
 
-## Standing problem G6 — inverse-tree coverage — **attacked; exponent `1/5`, `3/8`, then `1/2`**
+## Standing problem G6 — inverse-tree coverage — **attacked; exponent `1/5`, `3/8`, `1/2`, then `2/3`**
 
 **Before Round LXXVI:** nothing proved.  `Papers/KrasikovLagarias2003` recorded
 the Krasikov–Lagarias lower bound as a proposition with no proof claimed, and
@@ -676,11 +676,26 @@ Wirsching `0.48` (mod `27`); the double-induction scheme certifies `0.53` at
 mod `81` and `0.557` at mod `729`, against `0.84` for K–L's eliminated system
 at mod `3^11`.
 
+**Fourth pass (`Strategy.TreeTwoThirds`, Round LXXVI.7): induction on the
+absolute bound.**  `TreeHalf` inducts on the scale index and so cannot use a
+child's claim at a *larger* index — the "advanced" terms that
+Krasikov–Lagarias eliminate by back-substitution.  Inducting instead on the
+absolute bound `2^y a` / `3·2^y a` makes every child claim available (its bound
+is always strictly below the parent's), so the H-step can take the child at
+`v = 1` up to `2^(y+2) c`.  Measured on the certificate's map this is worth
+`0.53 → 0.66` at classes mod `81` and `0.695` at mod `243`.  With classes
+mod `243`, children mod `81`, ratio `8/5`, `324` decide-checked inequalities:
+
+    count_cube : 1 ≤ N → N ^ 2 < 4 · 10 ^ 29 · (reachesOneUpToCount N) ^ 3
+
+**The scalar is `2/3`.**  The continuous system's value at this level is
+`0.73`; the literature's record `0.84` uses classes mod `3^11`.
+
 **Obstruction to the scalar now.**  Each further level triples the class
-count and the certificate; the scheme's own limit (classes mod `3^k`,
-`k → ∞`) is below the K–L eliminated system, whose limit is itself
-conjectured below `1`.  Positive density — the statement that would matter —
-is open in the literature; Tao's almost-all theorem does not imply it.
+count and the certificate (mod `729`: `972` inequalities); the scheme's limit
+in `k` is the K–L continuous system's, whose limit is itself conjectured
+below `1`.  Positive density — the statement that would matter — is open in
+the literature; Tao's almost-all theorem does not imply it.
 
 ---
 

@@ -154,6 +154,8 @@ import Collatz.Strategy.Subtree
 import Collatz.Strategy.ClassChild
 import Collatz.Strategy.TreeCertificate
 import Collatz.Strategy.TreeHalf
+import Collatz.Strategy.TreeCertificate2
+import Collatz.Strategy.TreeTwoThirds
 import Collatz.Strategy.InfiniteWord
 import Collatz.Strategy.RunRefined
 import Collatz.Strategy.RepetitionDescent

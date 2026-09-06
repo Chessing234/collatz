@@ -93,6 +93,24 @@ theorem fch_mod_27 {a : Nat} (ha : Good a) (i : Nat) :
   unfold fch
   rw [h, e]
 
+/-- `fval a i = fval (a % 243) i`. -/
+theorem fval_eq_mod_243 (a i : Nat) : fval a i = fval (a % 243) i :=
+  fval_eq_of_mod_nine (by rw [Nat.mod_mod_of_dvd a (⟨27, rfl⟩ : (9:Nat) ∣ 243)]) i
+
+/-- The `i`-th fertile child of `a`, modulo `81`, is decided by `a mod 243`. -/
+theorem fch_mod_81 {a : Nat} (ha : Good a) (i : Nat) :
+    fch a i % 81 = ((2 ^ fval (a % 243) i * (a % 243)) % 243 - 1) / 3 := by
+  have h3 := (fval_admissible ha i).1
+  have h := child_mod_pow h3 4
+  have e81 : (3:Nat) ^ 4 = 81 := rfl
+  have e243 : (3:Nat) ^ (4 + 1) = 243 := rfl
+  rw [e81, e243] at h
+  have e : (2 ^ fval a i * a) % 243 = (2 ^ fval (a % 243) i * (a % 243)) % 243 := by
+    rw [Nat.mul_mod, Nat.mul_mod (2 ^ fval (a % 243) i) (a % 243) 243, Nat.mod_mod,
+      fval_eq_mod_243 a i]
+  unfold fch
+  rw [h, e]
+
 /-- The children's residues are again prime to `3` (they are fertile), read at level `27`. -/
 theorem fch_mod_27_fertile {a : Nat} (ha : Good a) (i : Nat) : fch a i % 27 % 3 ≠ 0 := by
   rw [Nat.mod_mod_of_dvd _ (⟨9, rfl⟩ : (3:Nat) ∣ 27)]
