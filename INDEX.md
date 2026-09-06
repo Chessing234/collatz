@@ -1,6 +1,6 @@
 # Concept index
 
-5883 theorems/lemmas across 376 files.
+5884 theorems/lemmas across 376 files.
 
 ## Cluster sizes
 
@@ -8,7 +8,7 @@
 - cycle equations: 403
 - descent: 397
 - affine accumulator: 391
-- 3-adic valuation: 324
+- 3-adic valuation: 325
 - 2-adic valuation: 305
 - divisibility: 286
 - gap G=2^L-3^a: 272

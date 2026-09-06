@@ -14248,7 +14248,7 @@ only): `nine_expand`, `four_pow_three_pow`, `one_add_pow`, `three_factor`,
 `four_pow_eq_one_of_mul`, `class_eq_imp_eq`, `child_class_inj`,
 `child_class_surj`, `child_class_period`, `backward_mixing`, `child_succ`,
 `tauIter`, `three_tau_iter`, `three_mul_mod`, `tau_cycle`, `tau_period`,
-`tau_mod_index`, `tau_class_eq_iff`, `deep_child_congr`.  Scripts: `syracuse_lift.py`, `syracuse_test.py`,
+`tau_mod_index`, `tau_class_eq_iff`, `tau_lift`, `deep_child_congr`.  Scripts: `syracuse_lift.py`, `syracuse_test.py`,
 `backward_cover.py`, `phase_word.py`, `tree_perroot.py`.  Note:
 `Devices/BackwardMixing.md`.
 
@@ -14324,6 +14324,13 @@ subtree recovering full coverage at scale `M^(≈1.3)` rather than `4^M`.
   admissible child is `4c + 1`, so a node's children are the forward orbit of
   `τ c = 4c + 1`, and `tau_cycle` says **`τ` acts on `ℤ/3^k` as a single
   `3^k`-cycle from any start** — `backward_mixing` in one line.
+* **A‴ (kernel-checked, Theorem B mechanically).**  `tau_lift`:
+  `τ(c + j·3^k) ≡ τ(c) + j·3^k (mod 3^(k+1))`, so all of a node's children
+  carry the same lift index and the parent's next digit shifts them all
+  equally.  `StochasticTree` Theorem B's "one adversarial digit per node per
+  generation" is therefore exact, and the min-over-lifts relaxation is
+  over-pessimistic in a precisely identified way: it lets the adversary choose
+  per valuation, the truth is one choice per node, propagated by `τ`.
 * **D (measurement, unconditional).**  The subtree of any node covers every
   class mod `M = 3^k` by scale `Θ(a·M log M)` — the coupon-collector rate of a
   density-one equidistributed set.  First unconditional quantitative statement

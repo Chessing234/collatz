@@ -508,6 +508,25 @@ theorem tau_class_eq_iff (c k i j : Nat) :
   · intro h
     rw [tau_mod_index c k i, tau_mod_index c k j, h]
 
+/-- **`τ` preserves the lift index.**  If two classes modulo `3 ^ (k+1)` sit
+over the same class modulo `3 ^ k`, separated by `j · 3 ^ k`, then so do their
+`τ`-images.  Since a node's children are `τ ^ i` of its first child, *all* of a
+node's children carry the same lift index — the parent's next `3`-adic digit
+shifts every one of them by the same amount.  That is the exact mechanism
+behind `Devices/StochasticTree.md` Theorem B ("one adversarial digit per node
+per generation"): the coupling across the children of a node is not merely
+*some* coupling, it is the identity on lift indices. -/
+theorem tau_lift (c j k : Nat) :
+    (4 * (c + j * 3 ^ k) + 1) % 3 ^ (k + 1) = (4 * c + 1 + j * 3 ^ k) % 3 ^ (k + 1) := by
+  have he : 4 * (c + j * 3 ^ k) + 1 = (4 * c + 1 + j * 3 ^ k) + 3 ^ (k + 1) * j := by
+    rw [three_pow_succ]
+    have h3 : 4 * (j * 3 ^ k) = j * 3 ^ k + 3 * (j * 3 ^ k) := by omega
+    have h4 : 3 * (j * 3 ^ k) = 3 * 3 ^ k * j := by
+      rw [Nat.mul_assoc, Nat.mul_comm j (3 ^ k)]
+    rw [Nat.mul_add, h3, h4]
+    omega
+  rw [he, Nat.add_mul_mod_self_left]
+
 /-! ## 6. The `2`-adic mirror: anti-mixing
 
 The `3`-adic statement above is as strong as it could be.  The `2`-adic one is

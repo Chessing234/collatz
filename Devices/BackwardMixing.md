@@ -61,6 +61,21 @@ theorem reads
 only modulo `3^k`.)  This is the memorable form: the inverse Syracuse tree
 branches by iterating `4c+1`, and that map is a `3^k`-cycle at every level.
 
+## 1c. The lift index is `τ`-invariant — Theorem B, mechanically
+
+`BackwardMixing.tau_lift`: `τ(c + j·3^k) ≡ τ(c) + j·3^k (mod 3^(k+1))`.  Since
+a node's children are `τ^i` of its first child, **all of a node's children
+carry the same lift index**, and the parent's next 3-adic digit shifts every
+one of them by the same amount `δ·(−1)^(v₀)`.  So the coupling across a node's
+children in `Devices/StochasticTree.md` Theorem B is not merely *some*
+coupling — it is the identity on lift indices, and "one adversarial digit per
+node per generation" is exact rather than a modelling choice.
+
+Read against the min-relaxation: the Krasikov–Lagarias system lets the
+adversary choose a lift independently for each valuation `v`.  The truth is one
+choice for the whole node, propagated by `τ`.  Theorem B already says that
+recovering this coupling is worth exactly one level — `tau_lift` says *why*.
+
 ## 2. The `k = 2` face: a universal word
 
 `phase n ∈ {0,1,2}` (`TreeBranching`) is the slot residue mod `3` whose child
