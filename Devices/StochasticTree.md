@@ -202,6 +202,24 @@ and `3^12 > 2^19` make the type-`j ≥ 12` claims follow from `(j−12, y+19)` b
 monotonicity with no loss, so only `j < 12` needs the step and only
 `y < 36` the base (`base_bound`, `K = 10^15`).
 
+*What `Bal4` says, honestly.*  The map `n ↦ (3n+1)/2` is a bijection from
+the members of `T` below `X` that are `3 mod 4` onto the members of `T` in
+class `2 mod 3` below `(3X+1)/2`; the fertile ones among the former are the
+children of the parents `≡ 2, 8 (mod 9)`.  So `Bal4` is *equivalent* to
+`N9 2 (3X/2) + N9 8 (3X/2) ≥ (1/2 − ε')·M X` — a statement across the scales
+`X` and `3X/2`, i.e. exactly the advanced term of Krasikov–Lagarias asserted
+to be of fair size.  Under mod-`3` and mod-`9` balance and a power-law
+ansatz `M ~ X^α` it reads `(2/3)(3/2)^α ≥ 1 − 2ε'`, which already forces
+`α ≥ 1 − O(ε')` in two lines.  The theorem's content beyond that heuristic is
+that it needs neither the ansatz nor balance between the classes mod `3`, and
+that it is kernel-checked; its content *relative to K–L* is that a
+distributional statement about `T` replaces their back-substitution.  The
+cleaner theorem — `Equi` alone, no 2-adic hypothesis — is true by the
+argument of the previous draft of this section (expand the advanced terms to
+depth `D` and drop the remainder; `scripts`-level check: at `α = 0.85`,
+`ε = 1/100`, depth `30` retains `98.9 %` of the mass, slack `2.8 %`) and is
+the next formalisation target.
+
 *Status against the closure map.*  Equi and Bal4 are statements about the
 tree of `1`, not `d`-free, not functions of `(L, a, C, G)`, positive about the
 tree (diagnostic 4 does not apply).  They are implied by the conjecture and
