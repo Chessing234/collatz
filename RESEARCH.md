@@ -14399,6 +14399,16 @@ made a theorem (a proved upper bound `X_cover ≤ a · M^C` for an explicit `C`)
 since that is an unconditional statement about the tree of `1` and the
 repository has none.  Second: the multiplicative-character factorisation of
 §5 at depth `2`, to see exactly which correlation the affine step introduces.
+Third, and cheapest: `tau_lift` says the min-over-lifts is over-pessimistic in
+a precisely identified way — the adversary is allowed one choice per valuation
+where the truth is one per node.  Theorem B prices the repair at one level, but
+that pricing was proved for a *general* finite-memory coupling; whether the
+`τ`-specific form (the identity on lift indices, the same shift `δ·(−1)^(v₀)`
+for every child) admits a cheaper certificate than "go one level up" is not
+settled by Theorem B and has not been checked.  Falsifier: the coupled system
+at level `k` reproducing `α_(k+1)` to five decimals, which `kl_relax.py`
+already measured — so this is a question about the *cost* of the certificate,
+not about the exponent it reaches.
 
 **G′ — killed this round (second).**  The `τ`-orbit route to G8.  `τ x = 4x+1`
 preserves the Syracuse successor (`child_succ`), so every inverse-closed set is
