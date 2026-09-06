@@ -13713,3 +13713,51 @@ size, and the remaining distance to positive density is not on this line.
 
 G1–G3 untouched · G4 attacked (LocalBlindness) · G5 untouched · **G6:
 `7/10`; obstruction: certificate size; limit below `1`** · G7 untouched.
+
+## Round LXXVI, iteration 9 — the Krasikov–Lagarias system beyond its published level
+
+### §0 Novelty gate
+
+*Statement.*  "At least `x^α` integers below `x` reach `1`, for an `α` larger
+than the published `0.84`."
+
+*Literature.*  Search `3x+1 lower bound integers reaching 1 improvement
+"0.84" Krasikov Lagarias since 2003` → nothing beyond Krasikov–Lagarias 2003
+(the hits are heuristics and other objects: Rozier's lower-bound hypothesis,
+average total stopping time, operator dynamics).  Their paper computes the
+linear-program family `L_k^{NT}` up to `k = 11` and remarks that one hopes
+`x^{1−ε}` can eventually be reached; no later computation of the same system
+at `k ≥ 12` is known to me.
+
+*Repository.*  `scripts/tree_types.py` (this session) is the only occurrence.
+
+*Tag.*  If a level `≥ 12` certificate closes: **NEW — an improved constant in
+a published theorem, computer-assisted**, by the same kind of computation
+the original used, plus the absolute-bound induction of `Devices/AbsoluteBound.md`
+as its own soundness proof (K–L's Theorem 2.2 would do as well).
+
+### §2 Measurements (`scripts/kl_levels.py`, vectorised; geometric-mean growth rate)
+
+| classes mod | `3^6` | `3^7` | `3^8` | `3^9` | `3^10` | `3^11` |
+|---|---|---|---|---|---|---|
+| continuous system | `0.7608` | `0.7826` | `0.8032` | `0.8168` | `0.8295` | `0.8418` |
+
+**The level-`11` value reproduces Krasikov–Lagarias's `0.84`.**  That is the
+validation this line needed: the odd-only formulation with all valuations and
+the minimum over lifts is their system.  Increments of `≈ 0.0125` per level
+predict `≈ 0.853` at `3^12` and `≈ 0.864` at `3^13` (running).
+
+The rigorous lattice version (types `3^j 2^y a`, `j ≤ 11`, options "drop
+`0, 2, 7, 12` levels") loses `0.004` against the continuous value at level `6`
+(`0.7571` vs `0.7608`; `0.7555` with drops `0, 2, 12` only) — so a level-`13`
+certificate should certify about `0.86`, and a level-`12` one about `0.849`.
+
+### §2 Provenance of the certificates
+
+`scripts/kl_certify.py`: float power iteration → integer tables → decreasing
+repair `W ← min(W, ⌊F(W)⌋)` → **every inequality re-verified with Python
+integers**, then the base bound and `K`.  Validated at level `4` against the
+kernel-checked certificate of `TreeCertificate` (same tables, same slack).
+Level `12` at `λ = 359/200 = 2^{0.844}` is running in the background.  A
+different outcome — infeasible — would print `feasible=False` with the pass
+at which the repair drove a table entry to zero.
