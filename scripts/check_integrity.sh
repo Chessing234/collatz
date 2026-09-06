@@ -102,6 +102,9 @@ import Collatz
 #print axioms Collatz.TreeCertificate2.certH
 #print axioms Collatz.TreeTwoThirds.claims
 #print axioms Collatz.TreeTwoThirds.count_cube
+#print axioms Collatz.TreeCertificate3.certH
+#print axioms Collatz.TreeSevenTenths.claims
+#print axioms Collatz.TreeSevenTenths.count_ten
 LEAN
 axout="$(lake env lean /tmp/collatz_axcheck.lean)"
 printf '%s\n' "$axout"

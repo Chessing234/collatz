@@ -609,7 +609,7 @@ the kernel clean.
 
 ---
 
-## Standing problem G6 — inverse-tree coverage — **attacked; exponent `1/5`, `3/8`, `1/2`, then `2/3`**
+## Standing problem G6 — inverse-tree coverage — **attacked; exponent `1/5`, `3/8`, `1/2`, `2/3`, then `7/10`**
 
 **Before Round LXXVI:** nothing proved.  `Papers/KrasikovLagarias2003` recorded
 the Krasikov–Lagarias lower bound as a proposition with no proof claimed, and
@@ -691,11 +691,22 @@ mod `243`, children mod `81`, ratio `8/5`, `324` decide-checked inequalities:
 **The scalar is `2/3`.**  The continuous system's value at this level is
 `0.73`; the literature's record `0.84` uses classes mod `3^11`.
 
-**Obstruction to the scalar now.**  Each further level triples the class
-count and the certificate (mod `729`: `972` inequalities); the scheme's limit
-in `k` is the K–L continuous system's, whose limit is itself conjectured
-below `1`.  Positive density — the statement that would matter — is open in
-the literature; Tao's almost-all theorem does not imply it.
+**Fifth pass (`Strategy.TreeSevenTenths`, Round LXXVI.8): the same proof at
+classes mod `729`**, children mod `243`, ratio `13/8` (`(13/8)^10 ≥ 2^7`),
+certificate `TreeCertificate3` (`972` inequalities, `decide` in `3 min`,
+`[propext]`):
+
+    count_ten : 1 ≤ N → N ^ 7 < 1.28 · 10 ^ 99 · (reachesOneUpToCount N) ^ 10
+
+**The scalar is `7/10`.**  Every proof is the `TreeTwoThirds` proof with the
+constants substituted; the scheme is parametric in the tables.
+
+**Obstruction to the scalar now.**  The next level (mod `2187`, `2916`
+inequalities) would cost about ten minutes of kernel time for `≈ 0.72`; the
+scheme's limit in the level is the K–L continuous system's (`0.76` at this
+level, `0.84` at mod `3^11`), whose limit is itself conjectured below `1`.
+Positive density — the statement that would matter — is open in the
+literature; Tao's almost-all theorem does not imply it.
 
 ---
 

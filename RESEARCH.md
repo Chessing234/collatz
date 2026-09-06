@@ -13680,3 +13680,36 @@ no gain at any `J`).
    else.  Beyond that the line is the K–L ladder, whose end is not `1`.
 2. The constant: replace the base case `S ≥ 1` by the verified range.
 3. The session's report.
+
+## Round LXXVI, iteration 8 — one more rung, mechanically: `7/10`
+
+`scripts/tree_types.py` (absolute-bound scheme, geometric-mean rate) at
+classes mod `729`: growth `1.020` at `λ = 13/8 = 2^0.7004`, `1.005` at
+`1.64`, below `1` at `1.66` — so the level certifies about `0.715`, and
+`7/10` with the same `2 %` margin the previous certificate had.
+`scripts/tree_certificate3.py` generated `TreeCertificate3` (`972`
+inequalities, `decide` in `3 min`, `[propext]`); `ClassChild.fch_mod_243` is
+the class transition at level `729`; `TreeSevenTenths.lean` is
+`TreeTwoThirds.lean` with the constants substituted (moduli `243, 81 →
+729, 243`; ratio `8/5 → 13/8`; the clearing factor `25 → 64`; the final
+exponents `3 → 10`).
+
+    count_ten : 1 ≤ N → N ^ 7 < 128 · 10 ^ 97 · (reachesOneUpToCount N) ^ 10
+
+Axioms `propext`, `Classical.choice`, `Quot.sound`.  **G6: `2/3 → 7/10`.**
+
+### §4 What this round is
+
+A rung, not an idea: the proof is parametric in the tables, and the
+substitution took one script and three fixes (a lemma name and two
+divisibility witnesses that the textual substitution missed, and the factor
+in the H-assembly's statement).  The next rung (mod `2187`) is `≈ 0.72` for
+ten minutes of kernel time; the scheme's own limit is the continuous
+system's `0.76` here and `0.84` at K–L's level.  **The line stops here for
+this session**: the remaining distance to the literature is certificate
+size, and the remaining distance to positive density is not on this line.
+
+### §7 Standing problems
+
+G1–G3 untouched · G4 attacked (LocalBlindness) · G5 untouched · **G6:
+`7/10`; obstruction: certificate size; limit below `1`** · G7 untouched.

@@ -1,6 +1,6 @@
 # Concept index
 
-5734 theorems/lemmas across 370 files.
+5761 theorems/lemmas across 372 files.
 
 ## Cluster sizes
 
@@ -15,8 +15,8 @@
 - parity word: 269
 - Beatty/Sturmian: 192
 - heavy words: 185
+- counting/entropy: 183
 - C mod 2^j: 183
-- counting/entropy: 182
 - C mod G: 142
 - reverse paths: 94
 - residue classes: 45

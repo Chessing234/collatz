@@ -38,7 +38,7 @@ Every proof must pass CI.
 
 ## Status
 
-5 734 theorem and lemma declarations across 370 modules, 102 638 lines.
+5 761 theorem and lemma declarations across 372 modules, 103 200 lines.
 
 Verified range: every positive `n < 3 998 720` reaches 1.  Cycle bound: no accelerated
 cycle through a non-reaching point has length below 14187.  **Both are finite results.**
@@ -104,7 +104,7 @@ Charging every fertile child its own size, at least `N^(3/8)/131` integers up to
 
 With residue classes modulo `81` and a generated integer certificate, at least `√N / 4.5·10^10` of them do.
 
-Inducting on the absolute bound instead of the scale index, at least `N^(2/3) / 7.4·10^9` do; the literature's exponent is `0.84`.
+Inducting on the absolute bound instead of the scale index, at least `N^(2/3) / 7.4·10^9` do, and at classes modulo `729` at least `N^(7/10) / 8·10^9`; the literature's exponent is `0.84`.
 
 The literature's exponent is `0.84`; positive density is open, and counting alone cannot reach it.
 
