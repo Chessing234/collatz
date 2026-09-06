@@ -13540,3 +13540,74 @@ only**; minimum relative slack `1.25 %`.  In Lean, `certF`, `certH`, `amin_le`,
 All three are imported by `Collatz.lean` and guarded in
 `scripts/check_integrity.sh`.  The integration — the double induction and
 `count_sqrt` — is running as a workflow with two independent attempts.
+
+## Round LXXVI, iteration 6 — `count_sqrt`: the exponent is `1/2`
+
+The integration workflow's two agents died on a session limit before writing
+a line, so the integration was done in the main loop from the refereed
+specification.  `Collatz/Strategy/TreeHalf.lean` (30 declarations) compiles;
+`count_sqrt` depends on `propext`, `Classical.choice`, `Quot.sound` only.
+
+### §3 The scalar
+
+**G6 exponent: `3/8` → `1/2`.**
+
+    count_sqrt : 1 ≤ N → N < 2 · 10 ^ 21 · (reachesOneUpToCount N) ^ 2
+
+At least `√N / (4.5 · 10 ^ 10)` integers in `[1, N]` reach `1` within `N`
+accelerated steps.  Literature at this level of the class system: `0.43`
+(Krasikov 1989, classes mod `9`), `0.48` (Wirsching, mod `27`); the record is
+`0.84` (Krasikov–Lagarias 2003, mod `3^11` with elimination).
+
+### What is proved
+
+* `Root a := Good a ∧ 5 ≤ a ∧ ∃ t, T^t a = 1`; children of roots are roots
+  (`root_fch`); the class transition `childRes (a % 81) (fval a i) = fch a i % 27`
+  (`childRes_eq`, from `ClassChild`); the lift bound `lift_le`.
+* `scale_identity : 3 · (2^(y−v) · c) + 2^(y−v) = 2^y · a` from `3c + 1 = 2^v a`
+  — the exact form of the budget slack the referees insisted on.
+* `childF_bound`, `childH_bound`: one certificate summand each, from the two
+  induction hypotheses via `rearr` (exponent bookkeeping) and `term_le`; the
+  `max` is handled by cases on `Nat.le_total`, the `if 3 ≤ v` branch by cases.
+* `assemble`: certificate + `S_rec` + per-child bounds ⇒ the claim, the same
+  bookkeeping as `TreeBranching.step_f`.
+* `step` (`y ≥ 23`) with hypotheses `ihO` (all `y' < y`, all roots) and `ihI`
+  (index `y`, roots below `a`); `base` (`y ≤ 22`, from `S ≥ 1` and `base_bound`);
+  `claims_aux` — outer induction on a bound `n ≥ y`, inner on a bound `N > a`;
+  `claims`.
+* `count_sqrt`: `claimF y 5` with `10 · 2^y ≤ N < 20 · 2^y`, `S 5 (2^y·5) ≤
+  count(2^y·5 + 4) ≤ count N`, and `2^y · 2500^y ≤ 71^(2y)`.
+
+### §2 Provenance
+
+Compile: `lake env lean Collatz/Strategy/TreeHalf.lean` — zero errors, zero
+warnings.  The two errors met on the way are worth recording: `scale_identity`'s
+implicit scale unified with the literal `18` from a nearby hypothesis (so the
+"identity" was stated at `y = 18`), caught because `omega` then failed on the
+budget with the wrong atom in its counterexample; and `rw [← h1]` with
+`h1 : fval a i = 1` rewrote every literal `1`, including the `+ 1` of the
+child equation.  Both are the kind of thing a reader of the final file cannot
+see.
+
+### §7 Standing problems
+
+G1–G3 untouched · G4 attacked (LocalBlindness) · G5 untouched · **G6: `1/2`;
+obstruction: each further class level triples the certificate, and the
+scheme's limit is below K–L's eliminated system, whose limit is conjectured
+below `1`** · G7 untouched.
+
+### §G Killed-approach log
+
+The two-agent integration (session limit, not a mathematical failure).
+
+### §F Next
+
+1. Certify the true root of the mod-`81` system (`0.53`, rational
+   `1.4455…`) or the mod-`243` system (`0.547`), if the scalar is to move
+   again on this line; expected cost is a larger certificate only, since
+   every proof in `TreeHalf` is parametric in the tables.
+2. Optimise the constant `2 · 10^21` by replacing the base case `S ≥ 1` with
+   the verified range (every `n < 3 998 720` reaches `1`).
+3. Elsewhere: the line has reached a formalisation ladder; the creative
+   items (a barrier at the primes `2`, `3`; the killed `3`-adic sieve) are
+   recorded.  A new object is needed for the next round, not a new rung.

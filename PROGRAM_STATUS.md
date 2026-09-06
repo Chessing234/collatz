@@ -609,7 +609,7 @@ the kernel clean.
 
 ---
 
-## Standing problem G6 — inverse-tree coverage — **attacked; exponent `1/5`, then `3/8`**
+## Standing problem G6 — inverse-tree coverage — **attacked; exponent `1/5`, `3/8`, then `1/2`**
 
 **Before Round LXXVI:** nothing proved.  `Papers/KrasikovLagarias2003` recorded
 the Krasikov–Lagarias lower bound as a proposition with no proof claimed, and
@@ -654,12 +654,33 @@ induction with ratio `13/10` — two integer inequalities checked by `decide`
 **The scalar is `3/8 = 0.375`.**  The recursion's true root is `≈ 0.388`;
 `13/10 ≥ 2 ^ (3/8)` is what the rational certificate reaches.
 
-**Obstruction to the scalar now.**  Going further needs the parent's residue
-modulo `9`, `27`, …; the children's residues modulo `3 ^ k` depend on the
-parent modulo `3 ^ (k+1)`, so no finite system closes and the
-difference-inequality device of Krasikov–Lagarias is required — that is where
-`0.84` comes from.  Positive density — the statement that would matter — is
-open in the literature; Tao's almost-all theorem does not imply it.
+**Third pass (`Strategy.TreeHalf`, Round LXXVI.5–6): the Krasikov–Lagarias
+residue-class system at classes modulo `81`.**  The children's residues modulo
+`27` are decided by the parent modulo `81` (`ClassChild.fch_mod_27`); the
+class-uniform subtree counts of `Subtree` (`S a Y`, recursion `S_rec` over the
+six fertile children with disjoint subtrees) are bounded below by a double
+induction — strong in the scale index `y`, and for fixed `y` strong in the
+root — whose per-class constants are the generated integer certificate
+`TreeCertificate` (ratio `71/50`, `108` inequalities and the lift bounds
+closed by `decide`, axioms `[propext]`).  The child whose class is known only
+modulo `27` is charged the minimum of the constants over its three lifts,
+which is the K–L device (their (P3)).  Result:
+
+    count_sqrt : 1 ≤ N → N < 2 · 10 ^ 21 · (reachesOneUpToCount N) ^ 2
+
+**The scalar is `1/2`.**  The scheme was refereed by three adversarial passes
+before formalisation (they found one threshold error, `y₀ = 18 → 23`, fixed);
+the constant `2 · 10 ^ 21` is what the trivial base case `S ≥ 1` costs and is
+not optimised.  Literature at this level: Krasikov 1989 `0.43` (mod `9`),
+Wirsching `0.48` (mod `27`); the double-induction scheme certifies `0.53` at
+mod `81` and `0.557` at mod `729`, against `0.84` for K–L's eliminated system
+at mod `3^11`.
+
+**Obstruction to the scalar now.**  Each further level triples the class
+count and the certificate; the scheme's own limit (classes mod `3^k`,
+`k → ∞`) is below the K–L eliminated system, whose limit is itself
+conjectured below `1`.  Positive density — the statement that would matter —
+is open in the literature; Tao's almost-all theorem does not imply it.
 
 ---
 
