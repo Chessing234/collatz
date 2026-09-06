@@ -13953,7 +13953,7 @@ level (the truncation), which is Theorem A seen in floating point.
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
 | `ρ_k(1)` min | .5759 | .7133 | .7715 | .8073 | .8305 | .8595 | .8749 | .8872 | .8987 | .9088 | .9171 | .9249 |
 | `k(1−ρ_k)` | 1.27 | 1.15 | 1.14 | 1.16 | 1.19 | 1.12 | 1.13 | 1.13 | 1.11 | 1.09 | 1.08 | 1.05 |
-| `α_k` | .6112 | .6891 | .7336 | .7608 | .7826 | .8032 | .8168 | .8295 | .8418 | .8531 | .8630 | running |
+| `α_k` | .6112 | .6891 | .7336 | .7608 | .7826 | .8032 | .8168 | .8295 | .8418 | .8531 | .8630 | .8725 |
 
 `ρ_k(1)` max: `1.527, 1.514, 1.510, 1.504, 1.502, 1.502, 1.502, 1.501, 1.501`
 (`k = 3…11`): constant, the max relaxation is a ghost.  Coupled relaxation
@@ -14067,3 +14067,46 @@ because the loss is `≈ 1.1/k`, and the ceiling is `1`.  Round I's
 "equidistribution mod 3 along backward orbits is itself Collatz-hard" is
 withdrawn as a claim: Equi is implied by the conjecture and does not imply
 it; whether it is easier is unknown.
+
+### Round LXXVII, continued — Theorem C made unconditional in its logic and kernel-checked
+
+The reduction of §4 needed Krasikov–Lagarias's elimination of advanced
+terms.  It does not, if the balance hypothesis is taken modulo `36` instead
+of modulo `9`: the members `≡ 1 (mod 4)` of the tree are exactly the
+children at valuation `≥ 2`, whose parents are *smaller* scales, so a 2-adic
+balance (`Bal4`: the residue `1 mod 4` carries at most `1/2 + 1/64` of each
+class mod `3`) accounts for the `v = 1` children without ever counting them.
+`Strategy/TreeBalance.lean` (31 declarations, `lake build` green,
+`check_integrity` green, axioms `propext, Classical.choice, Quot.sound`):
+
+    count_balance : Equi → Bal4 → ∀ N ≥ 1,
+      N ^ 89 < 20 ^ 89 · 10 ^ 1500 · (reachesOneUpToCount N) ^ 100.
+
+Ingredients: `family` (the children of the class-`parentRes c v` parents at
+`v = 2 … 16` are distinct `1 mod 4` members of class `c`, by
+`family_count`), `count_rec` (`61 · Σ_v M ≤ 99 · M`), the certificate `cert`
+(one integer inequality, ratio `(79/75)^12 = 2^0.8995`, slack `2.4 %`), the
+`19/12` lattice (`drop`: type `j ≥ 12` from `(j − 12, y + 19)` with no loss),
+`base_bound` (`K = 10^15`), and the absolute-bound induction `claims_aux`.
+The `1/64` tolerances and the exponent `0.89` are one point on the curve
+`(1 − 3ε)(1 − 2ε')·3^(α−1)/(2^α − 1) ≥ 1·(2/3)…`; with `ε = ε' = 1/1000` and ratio `37/35` the
+same scheme certifies `0.96` (integer check in Python, slack `3.2 %`; not run in the kernel).
+
+**Scalar.**  A *conditional* exponent: `0.89` under balance modulo `36`,
+kernel-checked, against `0.852` unconditional.  Level `14` of the K–L system
+bisected to `0.8725` (`k(1 − α) = 1.79`), confirming the `1/k` law.
+
+**§7.**  G8 is now a precise pair of statements (`TreeBalance.Equi`,
+`TreeBalance.Bal4`) with a kernel-checked consequence.  What would refute
+the route: a proof that a thin tree can be balanced — impossible, since the
+theorem says the opposite; what would *advance* it: any handle on the
+mod-`36` distribution of the integers reaching `1` above the verified
+range, which is the tree's own distribution and is open.
+
+**Mechanism check (`scripts/tree_digits.py`).**  The raw residue imbalance of
+the depth-`(k+1)` descendants under the root's digit is `0.447, 0.349, 0.299,
+0.262, 0.234, 0.211` for `k = 2 … 7`, decaying like `k^(−0.6)`, *slower* than
+the certificate's `1/k` loss.  So residues alone overstate the adversary's
+gain; the extra cancellation comes from the descendants' own subtrees.  The
+explanation in §5 of the note is qualitatively right and quantitatively
+incomplete; recorded as such.

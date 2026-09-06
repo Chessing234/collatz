@@ -159,6 +159,7 @@ import Collatz.Strategy.TreeTwoThirds
 import Collatz.Strategy.TreeCertificate3
 import Collatz.Strategy.TreeSevenTenths
 import Collatz.Strategy.TreeStochastic
+import Collatz.Strategy.TreeBalance
 import Collatz.Strategy.InfiniteWord
 import Collatz.Strategy.RunRefined
 import Collatz.Strategy.RepetitionDescent

@@ -108,6 +108,9 @@ import Collatz
 #print axioms Collatz.TreeStochastic.parent_bijection
 #print axioms Collatz.TreeStochastic.mass_conservation_weighted
 #print axioms Collatz.TreeStochastic.mass_conservation
+#print axioms Collatz.TreeBalance.family
+#print axioms Collatz.TreeBalance.claims
+#print axioms Collatz.TreeBalance.count_balance
 LEAN
 axout="$(lake env lean /tmp/collatz_axcheck.lean)"
 printf '%s\n' "$axout"

@@ -111,7 +111,7 @@ three lifts of each class.
 | 11 | 0.8418 | 0.8987 | 1.11 | 1.74 | 0.105 | 0.177 |
 | 12 | 0.8531 | 0.9088 | 1.09 | 1.76 | — | — |
 | 13 | 0.8630 | 0.9171 | 1.08 | 1.78 | — | — |
-| 14 | (running) | 0.9249 | 1.05 | — | — | — |
+| 14 | 0.8725 | 0.9249 | 1.05 | 1.79 | — | — |
 
 (`kl_spectrum.py K 24 300`; `ρ_12, ρ_13, ρ_14` with 200/160/160 iterations, `ρ_14` at `0.7 GB`.  A
 different answer — a ceiling — would show `k(1 − ρ_k)` growing linearly.)
@@ -125,7 +125,7 @@ decays like the reciprocal of the level: **polynomially, to zero**.  Hence
 > conjecture that the method reaches `x^(1−ε)` is supported by the mechanism.
 
 But the rate is the reciprocal of the level: `1 − α_k ≈ 1.8/k` at the
-current levels.  Exponent `0.90` needs level `≈ 20` (`3.5·10^9` classes),
+current levels.  Level `14` gives `0.8725` (bisected to `5·10^(−5)`, `alpha14.txt`).  Exponent `0.90` needs level `≈ 20` (`3.5·10^9` classes),
 `0.95` needs level `≈ 40`.  The method reaches `1 − ε` in principle and
 `≈ 0.87` in practice.
 
@@ -154,45 +154,63 @@ not checked against the text this session, where the `3x+1` map appears
 through exactly these digit questions; Erdős' conjecture that `2^n` has a
 ternary digit `2` for `n > 8` lives in the same place.
 
-## 6. Theorem C — a reduction (conditional; paper-level, not formalised)
+## 6. Theorem C — a balanced tree of `1` is a fat tree of `1` (kernel-checked)
 
-Let `T` be the set of positive integers whose orbit reaches `1`, `N_R(X) :=
-#{n ∈ T : n ≤ X, n ≡ R (mod 3^(k+1))}` and `M_c(X)` the same modulo `3^k`.
-Each `m ∈ T` in class `R` with `2^v m ≡ 1 (mod 3)` has the child
-`(2^v m − 1)/3 ∈ T` in class `childClass k v R`, at most `X` when `m ≤
-(3X+1)/2^v`, and distinct `(m, v)` give distinct children (`fch_inj`).  So
+`Strategy/TreeBalance.lean` (`count_balance`; axioms `propext`,
+`Classical.choice`, `Quot.sound`).  Let `T` be the integers reaching `1`
+(within `X` steps for the count up to `X`, as in `reachesOneUpToCount`), and
+write `M c X`, `N9 R X`, `M1 c X` for its odd members below `X` in class
+`c mod 3`, in class `R mod 9`, and in class `c` with residue `1 mod 4`.
 
-    M_c(X) ≥ Σ_{(R, v) : childClass k v R = c} N_R((3X + 1)/2^v).           (T)
+* **Equi** (3-adic balance): for `X ≥ 2^20` and every fertile `R mod 9`,
+  `61 · M (R mod 3) X ≤ 192 · N9 R X` — each class mod `9` carries at least
+  `1/3 − 1/64` of its class mod `3`.
+* **Bal4** (2-adic balance): for `X ≥ 2^20` and every `c`,
+  `128 · M1 c X ≤ 66 · M c X` — the residue `1 mod 4` carries at most
+  `1/2 + 1/64` of each class.
 
-**Hypothesis Equi_k(ε):** `N_R(X) ≥ (1/3 − ε) · M_{R mod 3^k}(X)` for every
-fertile `R` and every `X ≥ X_0`.  Under it, (T) closes at level `k`:
+> **Theorem** (`count_balance`).  `Equi → Bal4 → ∀ N ≥ 1,
+> N^89 < 20^89 · 10^1500 · (reachesOneUpToCount N)^100` — at least
+> `c · N^0.89` integers up to `N` reach `1`.
 
-    M_c(X) ≥ (1/3 − ε) Σ_{(R,v)} M_{R mod 3^k}((3X+1)/2^v),
+Both hypotheses hold trivially below the verified range (`T` is everything
+there), and both follow from "`T` has positive density and is
+equidistributed modulo `36`".  Contrapositive: **if the tree of `1` is thin
+(fewer than `N^0.89` members below `N` infinitely often), then above `2^20`
+its members are unbalanced modulo `9` inside some class modulo `3`, or
+unbalanced modulo `4`, by more than `1/64`.**
 
-whose matrix at exponent `1` is `(1 − 3ε) · A_1^T`-shaped: column sums
-`1 − 3ε` by Theorem A.  The `v = 1` terms are advanced (`3X/2 > X`); K–L 2003
-§3 (their back-substitution theorem) eliminates them with a geometric loss
-`((3/2)^α/3)^d` per depth `d`, which is `2^(−d)` at `α = 1`.  Then the
-standard scale induction gives `#T ∩ [1, N] ≥ c · N^(α(ε))` with `α(ε) → 1`
-as `ε → 0`, **at any single level `k`, including `k = 1`** (classes mod `3`,
-lifts mod `9`).
+*Proof shape.*  Every member `n ≡ 1 (mod 4)` of `T` in class `c` is the
+child `(2^v m − 1)/3`, `v ≥ 2`, of a member `m ≤ (3X+1)/2^v` of `T` in the
+class `parentRes c v ≡ 2^(−v)(3c+1) (mod 9)`, and distinct `(m, v)` give
+distinct children (`family`, via `TreeBranching.family_count`):
 
-> *Conditional theorem.*  If the integers reaching `1` are, within each class
-> mod `3`, asymptotically equidistributed among the three classes mod `9`,
-> then at least `N^(1−o(1))` of them lie below `N`.  Contrapositive: **a thin
-> tree of `1` (counting exponent below `1`) forces a persistent imbalance
-> mod `9` among the integers that reach `1`.**
+    M1 c X ≥ Σ_{v=2}^{16} N9 (parentRes c v) ((3X+1)/2^v).            (T')
 
-What is proved here: (T) is elementary; Theorem A supplies the column sums;
-K–L's elimination is cited, not reproved; the scale induction is
-`Devices/AbsoluteBound.md`'s.  What is not: Equi_k(ε) for any `k` — it is a
-statement about `T` itself.  Its status against the closure map: it is not
-`d`-free (it is about the tree of `1`), not determined by `(L, a, C, G)`, and
-it is a *positive* statement about the tree, so diagnostic 4 (cycle-blindness)
-does not apply.  It is Collatz-flavoured but strictly weaker than Collatz: it
-is implied by "`T` has positive density and is equidistributed mod `9`" and
-does not imply the conjecture.  Whether it is *easier* is not known; nothing
-in the literature attacks the 3-adic distribution of `T`.
+`Bal4` turns the left side into `M c X`, `Equi` the right into class counts
+mod `3` (`count_rec`: `61 · Σ_v M (…) ≤ 99 · M c X`).  Every scale on the
+right is `≤ 3X/4`: **the 2-adic balance replaces the advanced `v = 1` term of
+Krasikov–Lagarias** (the `1 mod 4` members are exactly the children at
+`v ≥ 2`; the `3 mod 4` members are the `v = 1` children whose parents are
+larger, and `Bal4` says the two halves have comparable size).  At exponent
+`1` the recursion is critical by Theorem A, so the slack `61/99 = (2/3)(1 −
+3/64)/(1 + 2/64)` costs exactly the exponent: the certificate `cert` is the
+single inequality `99 · 79^173 ≤ 61 · Σ_{i<15} 79^(12(14−i)) · 75^(12i+5)`,
+ratio `(79/75)^12 = 2^0.8995`, slack `2.4 %`.  The induction is on the
+absolute bound `3^j 2^y` with weight `(79/75)^(12y+19j)`; `19/12 < log₂ 3`
+and `3^12 > 2^19` make the type-`j ≥ 12` claims follow from `(j−12, y+19)` by
+monotonicity with no loss, so only `j < 12` needs the step and only
+`y < 36` the base (`base_bound`, `K = 10^15`).
+
+*Status against the closure map.*  Equi and Bal4 are statements about the
+tree of `1`, not `d`-free, not functions of `(L, a, C, G)`, positive about the
+tree (diagnostic 4 does not apply).  They are implied by the conjecture and
+do not imply it; the theorem converts a small distributional statement about
+`T` into a counting exponent near `1`, which the unconditional method reaches
+only at level `≈ 20`.  Whether the balance is *easier* than counting is not
+known; the same mechanism at level `k` gives the same exponent curve
+(`ρ_avg` is level-independent), so **the cheapest hypothesis — modulo `36` —
+is as strong as any**.
 
 ## 7. Where this leaves G6
 
