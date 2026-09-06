@@ -36,8 +36,9 @@ def system(k, vmax):
         # 2^v r mod 3^k: v <= vmax <= 24 and mod <= 3^13, so the product fits int64
         m = ((np.left_shift(np.int64(1), v.astype(np.int64)) % mod) * fertile.astype(np.int64)) % mod
         c = (m - 1) // 3          # residue mod 3^(k-1), fertile
-        lifts = np.stack([pos[c], pos[c + sub], pos[c + 2 * sub]])   # (3, n)
-        children.append((v.astype(np.float64), lifts, ok))
+        lifts = np.stack([pos[c], pos[c + sub], pos[c + 2 * sub]]).astype(np.int32)   # (3, n)
+        children.append((v.astype(np.uint8), lifts, ok))
+        del m, c
     return n, children
 
 def growth(children, n, alpha, iters=300, window=40):
@@ -47,7 +48,7 @@ def growth(children, n, alpha, iters=300, window=40):
         nw = np.zeros(n)
         for v, lifts, ok in children:
             m = np.minimum(np.minimum(w[lifts[0]], w[lifts[1]]), w[lifts[2]])
-            nw += np.where(ok, (3.0 / 2.0 ** v) ** alpha * m, 0.0)
+            nw += np.where(ok, (3.0 / 2.0 ** v.astype(np.float64)) ** alpha * m, 0.0)
         tot_old = w.sum(); tot_new = nw.sum()
         logs.append(math.log(tot_new / tot_old))
         w = nw / tot_new
