@@ -1,25 +1,25 @@
 # Concept index
 
-5761 theorems/lemmas across 372 files.
+5874 theorems/lemmas across 376 files.
 
 ## Cluster sizes
 
 - orbit windows: 941
 - cycle equations: 402
-- descent: 395
+- descent: 397
 - affine accumulator: 391
+- 3-adic valuation: 316
 - 2-adic valuation: 305
-- 3-adic valuation: 291
-- divisibility: 285
+- divisibility: 286
 - gap G=2^L-3^a: 272
 - parity word: 269
 - Beatty/Sturmian: 192
+- counting/entropy: 189
 - heavy words: 185
-- counting/entropy: 183
 - C mod 2^j: 183
 - C mod G: 142
-- reverse paths: 94
-- residue classes: 45
+- reverse paths: 95
+- residue classes: 50
 - finite-state: 30
 
 ## Concept pairs with no theorem mentioning both
@@ -30,7 +30,6 @@ Heuristic: a regex over statement text, so treat these as *candidates* for a mis
 - 2-adic valuation <-> counting/entropy
 - 2-adic valuation <-> parity word
 - 2-adic valuation <-> residue classes
-- 3-adic valuation <-> counting/entropy
 - Beatty/Sturmian <-> C mod 2^j
 - Beatty/Sturmian <-> counting/entropy
 - Beatty/Sturmian <-> finite-state
@@ -59,4 +58,4 @@ Heuristic: a regex over statement text, so treat these as *candidates* for a mis
 | cycle min n | 208 | 3 | 5 | 1 | 114 | 8 | 124 | 33 |
 | delta = G/gcd | 33 | . | . | . | 10 | 9 | . | 9 |
 | heavy language | 170 | 7 | 1 | . | 67 | 6 | 40 | 2 |
-| reverse path | 64 | 1 | 21 | 1 | 8 | . | 25 | 13 |
+| reverse path | 65 | 1 | 22 | 1 | 8 | . | 25 | 13 |

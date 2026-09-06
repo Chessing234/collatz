@@ -14155,3 +14155,178 @@ G1–G3 untouched · G4 attacked (LocalBlindness) · G5 untouched · **G6:
 `0.852` certified; limit `1` at rate `1/k`; conditional `0.84` under G8** ·
 G7 untouched · **G8 (new): 3-adic balance of the tree of `1`; the
 closure-symmetry route to it is killed.**
+
+## Round LXXVIII — the inverse tree is exactly 3-adically equidistributed at every node
+
+### §0 Novelty gate
+
+*Statement.*  "For every fertile odd `a` and every `k`, the map
+`i ↦ child a (v₀ a + 2i) mod 3^k` is a bijection of `{0,…,3^k−1}` onto
+`ℤ/3^k`, and is `3^k`-periodic; so the fertile children of any node hit each
+of the `2·3^(k−1)` fertile classes mod `3^k` exactly once per period."
+
+*Repository.*  The injectivity half is the **open** Lean statement of the
+Round LXXVI gap list (§E, "backward mixing", line 13148 of this file); the
+exact order of `4` modulo `3^(k+1)` is Round LXXVI's next-round item 3
+("completing `LiftExponentThree`, as the first lemma of backward mixing").
+`TreeBranching.phase` and `ClassChild.child_mod_pow` are its `k = 1, 2`
+shadows.  `grep -rniE "phase|rotation|necklace|infertile"` over `Collatz/`,
+`Devices/`, `RESEARCH.md`, `CLOSURE.md`, `PROGRAM_STATUS.md`: the phase and
+the one-infertile-per-three fact are recorded (LXXVI); the per-period
+bijection, the universal word, and the covering measurements are not.
+
+*Literature.*  K–L 2003 §2–3 and Applegate–Lagarias 1995 II use the class
+transition `r ↦ (2^v r − 1)/3` but state no per-period bijection; that `4`
+generates the index-`2` subgroup of `(ℤ/3^(k+1))ˣ` is classical, its use as an
+exact equidistribution statement for the inverse tree is not recorded there as
+far as this session could check.  Tao 2022 §1.3 defines the Syracuse random
+variable; that it *is* the K–L Perron vector at exponent `1` is new here.
+
+*Tag.*  **NEW (structural)**: the bijection (kernel-checked), the universal
+word, the identification of the K–L Perron vector with `Syrac(ℤ/3^n)`, the
+`L^∞` non-equidistribution of `Syrac`, and the covering measurements.
+Full statement: `Devices/BackwardMixing.md`.
+
+### §1 Inventory delta
+
+`Collatz/Strategy/BackwardMixing.lean` (14 declarations, `lake build Collatz`
+green at 379 jobs, `check_integrity.sh` green, axioms `propext, Quot.sound`
+only): `nine_expand`, `four_pow_three_pow`, `one_add_pow`, `three_factor`,
+`three_dvd_right`, `cancel_three_pow`, `four_pow_exact`, `four_pow_ne_one`,
+`mod_cancel_add`, `shrink_inj`, `inj_on_range_surj`, `two_pow_step`,
+`step_mod_three`, `step_mod_three_pow_ne`, `four_pow_eq_one_of_mul`,
+`class_eq_imp_eq`, `child_class_inj`, `child_class_surj`,
+`child_class_period`, `backward_mixing`.  Scripts: `syracuse_lift.py`,
+`syracuse_test.py`, `backward_cover.py`, `phase_word.py`.  Note:
+`Devices/BackwardMixing.md`.
+
+### §2 Measurements (provenance in each cell)
+
+`scripts/backward_cover.py scale` / `valuation`, best-first search over the
+actual descendants of a root, exact integers, no model.
+
+| | one generation | subtree, measured |
+|---|---|---|
+| total valuation to cover `ℤ/3^k` | `2·3^k` | `≈ 5k` (`4,11,16,22,26,31,36` at `k=1..7`, root `1`) |
+| scale `X/a` to cover `ℤ/3^k` | `4^(3^k)` | `Θ(M log M)`, `M = 3^k` |
+
+`log_M(X/a)` at `k = 6,7,8,9` — root `1`: `1.31, 1.30, 1.31, 1.28`; root
+`1234567`: `1.37, 1.27, 1.27, 1.19`; root `10^11−23`: `1.43, 1.45,
+1.40, 1.30`.  `X/(a·M·log M)` stays in `[0.16, 4.05]` with no trend — the
+coupon-collector scale for a set of counting exponent `1` equidistributed
+mod `M`.
+
+`scripts/syracuse_lift.py 12` (`μ_n` built by the exact recursion, `A = 64`
+valuations, projection error `≤ 1.4·10^(−18)`):
+
+| `n` | 2 | 4 | 6 | 8 | 10 | 12 |
+|---|---|---|---|---|---|---|
+| `β_n` min lift share `×3` | .2857 | .3585 | .3721 | .3770 | .3792 | .3798 |
+| `γ_n` max lift share `×3` | 1.5714 | 1.5342 | 1.5223 | 1.5150 | 1.5137 | 1.5131 |
+| mean lift oscillation | 1.286 | .921 | .703 | .567 | .472 | .400 |
+
+`scripts/syracuse_test.py 8` (`μ` as a K–L test vector): the certified growth
+is `0.2857, 0.3448, 0.3598, 0.3682, 0.3726, 0.3758, 0.3772, 0.3781` at levels
+`1…8`, against the true `ρ_k(1) = 0.2857, 0.5759, 0.7133, 0.7715, 0.8073,
+0.8305, 0.8595, 0.8749` (the second row reproduces the published
+`StochasticTree` table, one index shift).  Exponent certified by `μ`:
+`0.070, 0.077, 0.057, 0.034, 0.025, 0.015, 0, 0`.
+
+### §3 The scalar
+
+No exponent moved.  What moved is the *mechanism*: the K–L loss is now
+localised as a truncation of an exactly equidistributed branching, with the
+subtree recovering full coverage at scale `M^(≈1.3)` rather than `4^M`.
+
+### §4 What the round is
+
+* **A (kernel-checked).**  `backward_mixing`: bijection + periodicity, every
+  node, every level, axioms `propext, Quot.sound`.  Closes the Round LXXVI
+  gap-list statement and its named first lemma (`four_pow_ne_one`: the order
+  of `4` modulo `3^(k+1)` is exactly `3^k`).
+* **B (elementary, new).**  The universal phase word
+  `W = 2 0 X 1 1 X 0 2 X`: every fertile node's `9`-slot phase sequence is a
+  rotation of `W`, offset a function of `n mod 27`, counts always `(2,2,2)`.
+  So `Equi` (G8) is not about which phases the tree produces.
+* **C (identification).**  The Perron vector of the lift-averaged K–L system
+  at exponent `1` is Tao's Syracuse random variable `Syrac(ℤ/3^(k+1))`,
+  exactly (`A_1 μ = μ`, consistent projections).
+* **D (measurement, unconditional).**  The subtree of any node covers every
+  class mod `M = 3^k` by scale `Θ(a·M log M)` — the coupon-collector rate of a
+  density-one equidistributed set.  First unconditional quantitative statement
+  about the tree of `1`'s 3-adic behaviour above the verified range that is
+  not a restatement of the conjecture (covering is strictly weaker than
+  balance).
+
+### §5 Attack sketches and the choice
+
+1. *Chosen:* make the per-node equidistribution exact and kernel-checked, then
+   measure what the truncation costs.  Falsifier: a node whose children fail
+   the bijection at some level — impossible, it is a theorem.
+2. *Not taken:* upgrade covering to balance by a coupon-collector argument.
+   It needs a lower bound on the multiplicities, which is the counting
+   exponent, which is what balance is for — the bootstrap does not open.
+3. *Not taken:* prove `L^∞` lift-equidistribution of `Syrac(ℤ/3^n)`.  Killed
+   in §G: the shares converge to `0.3798` and `1.5131`.
+
+### §6 Hard constraints
+
+Covering is not balance; `Θ(M log M)` coverage is consistent with wildly
+unequal multiplicities.  Nothing here touches "almost all → all", and no
+exponent is certified by this round.
+
+### §7 Standing problems
+
+G1–G5 untouched as G-numbers; the Round LXXVI **gap-list line "backward
+mixing" is now a theorem** (`backward_mixing`) and is struck ·
+**G6: unchanged as a scalar (`0.852` verified, `7/10` kernel-checked); its
+mechanism is now described exactly — per-node equidistribution truncated by
+the geometric slot weights, recovered by the subtree at scale `M^(≈1.3)`** ·
+G7 untouched · **G8 (`Equi`): sharpened twice — not about which phases the
+tree produces (§4 B), and not implied by any `L^∞` statement about the
+Syracuse random variable (§4 C and §G).**
+
+### §8 Output
+
+**C — novelty tags.**  A: NEW (the group-theoretic input is classical; the
+statement about the tree, its sharp form and its kernel proof are the
+content).  B: NEW.  C: NEW identification.  D: NEW measurement.
+
+**D — bottlenecks.**  Stated exactly in `Devices/BackwardMixing.md` §5: within
+one generation the tree is diagonalised by the multiplicative characters of
+`(ℤ/3^(k+1))ˣ` — the per-period bijection *is* character orthogonality applied
+to `4^i · base a` — and across generations the affine `u ↦ (u−1)/3` destroys
+the factorisation.  The residual obstruction is exactly the interference of
+the multiplicative structure at `2` and `3` with the additive `+1`, the same
+object as Lagarias 2009's ternary digits.
+
+**E — gap list, updated.**  The "backward mixing" line is now a theorem and is
+struck.  Remaining from that list: the size-aware recursion
+`∀ X, N (3X/16) + N (3X/64) ≤ N X`, and positive density.  New line, the
+honest form of G8:
+
+    -- multiplicity balance (not covering) of the tree of 1
+    ∀ ε > 0, ∃ X₀, ∀ X ≥ X₀, ∀ R fertile mod 9,
+      (1 − 3ε) · M (R mod 3) X ≤ 3 · N9 R X
+
+**F — next round.**  Primary: whether the covering measurement of §2 can be
+made a theorem (a proved upper bound `X_cover ≤ a · M^C` for an explicit `C`),
+since that is an unconditional statement about the tree of `1` and the
+repository has none.  Second: the multiplicative-character factorisation of
+§5 at depth `2`, to see exactly which correlation the affine step introduces.
+
+**G — killed this round.**  The `L^∞` route to G8 through Tao's Syracuse
+random variable: `β_n ↑ 0.3798`, `γ_n ↓ 1.5131`, both monotone (convex
+combinations of reflected lower-level shares) and both bounded away from `1`.
+Used as a K–L test vector, `μ` certifies exponent `≤ 0.077` and `0` from level
+`7` on.  A by-product: `γ_∞ ≈ 1.513` is the max-relaxation ghost's constant
+`1.50` of `Devices/StochasticTree.md` §4.
+
+**H — corrections.**  `Devices/StochasticTree.md` §5 attributed the `1/k` law
+to "the imbalance of the residues mod `3` among a node's depth-`k`
+descendants".  Per period there is no imbalance at all (§4 A, B); the correct
+statement is that the geometric slot weights truncate an exactly balanced
+sequence, and that the subtree restores balance at scale `M^(≈1.3)`.  The
+round-LXXVII note's `tree_digits.py` measurement (`k^(−0.6)`) is the truncated
+imbalance, not a structural one, and the present `meanosc ~ n^(−0.65)` is the
+same quantity for the Syracuse law.

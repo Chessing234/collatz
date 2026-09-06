@@ -746,3 +746,35 @@ here `NewModels.word_is_cycle_word`), the gap `2 ^ L − 3 ^ a` being prime to
 pigeonhole on the powers of the denominator (`exists_pow_one_mod`).
 Axioms: `propext`, `Quot.sound` only.  Novelty tag: **NEW as a stated
 theorem; corollary of known results; barrier content folklore.**
+
+---
+
+## Backward mixing modulo `3 ^ k` — **theorem (Round LXXVIII)**
+
+`Strategy.BackwardMixing.backward_mixing`: for every odd `a` prime to `3` and
+every `k`, the map `i ↦ child a (v₀ a + 2 i) mod 3 ^ k` is a **bijection** of
+`{0,…,3 ^ k − 1}` onto `ℤ/3 ^ k`, and is `3 ^ k`-periodic in `i`.  Reading off
+the classes divisible by `3`: the fertile children of any node, listed by
+increasing valuation, hit each of the `2 · 3 ^ (k−1)` fertile classes modulo
+`3 ^ k` exactly once per period.
+
+This closes the "backward mixing" line of the Round LXXVI gap list (which
+asked only for injectivity) and its named first lemma, `four_pow_ne_one`:
+**the order of `4` modulo `3 ^ (k+1)` is exactly `3 ^ k`**, completing
+`LiftExponentThree`.  Proof: the admissible multiples are the geometric
+progression `4 ^ i · base a`; `4` generates the index-`2` subgroup
+`{u : u ≡ 1 (mod 3)}` of `(ℤ/3 ^ (k+1))ˣ`; and `s ↦ (s − 1)/3` carries that
+subgroup bijectively onto `ℤ/3 ^ k`.  Axioms `propext`, `Quot.sound`.
+
+**Consequence for G6/G8.**  The 3-adic imbalance that costs Krasikov–Lagarias
+its exponent is a *truncation* effect: per period the branching is exactly
+equidistributed, but a period costs valuation `2 · 3 ^ k` while a node below
+`X` contributes only its first `O(1)` children.  The subtree recovers coverage
+far faster — measured `Θ(a · M log M)` in scale, `M = 3 ^ k`
+(`scripts/backward_cover.py`), the coupon-collector rate of a density-one
+equidistributed set.  At `k = 2` the theorem says every node's `9`-slot phase
+sequence is a rotation of the universal word `2 0 X 1 1 X 0 2 X`, counts always
+`(2,2,2)`: the balance hypothesis `Equi` (G8) is **not** about which phases the
+tree produces.  Details and the killed `L^∞` route through Tao's Syracuse
+random variable: `Devices/BackwardMixing.md`.  Novelty tag: **NEW
+(structural)**; the group-theoretic input is classical.
