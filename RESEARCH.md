@@ -13852,3 +13852,20 @@ success it writes `scripts/scratch/kl_cert_13_11_361_200.npy`.  To finish:
 Level `14` of the continuous system (`kl_levels.py 14`, ≈ `1.5 h`, ≈ `1.5 GB`)
 was killed for memory while the certificate ran and should be rerun alone,
 to test the extrapolated ceiling `≈ 0.93`.
+
+## Round LXXVI, iteration 11 — level `13` closes: exponent `0.8520` (provisional)
+
+`scripts/kl_certify.py 13 11 361 200 24 300 1000000000 0,2,7,12` (memory-lean
+version, run alone, `≈ 4 h`): twelve repair passes, then every one of the
+`12 754 584` cleared inequalities holds with Python integers, minimum relative
+slack `2.36 · 10^{−14}`, tables in `[73, 773 889 063]`, base bound
+`K = 10^15`, `W_0(5) = 401`.  By `Devices/AbsoluteBound.md`,
+
+    #{ n ≤ N : n reaches 1 } ≥ (401 / 10^15) · (361/200)^y   whenever 10 · 2^y ≤ N,
+
+**exponent `log₂(361/200) = 0.8520`.**  The continuous system's value at this
+level is `0.8630`; the lattice loss is again `≈ 0.005`, so about `0.858` is
+available here with a finer ratio.  Provisional until `kl_verify.py 13`
+(running) reports zero violations.  The tables are stored as
+`scripts/certificates/kl_cert_13_11_361_200.npz` (int64, compressed; SHA-256
+in the commit) and are reproducible from the script in about four hours.
