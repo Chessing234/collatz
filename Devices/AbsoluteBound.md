@@ -94,3 +94,40 @@ checked by `scripts/kl_certify.py` with exact integer arithmetic; the theorem
 above is the paper proof they rest on.  The continuous system (all real
 scales, `scripts/kl_levels.py`) is the Krasikov–Lagarias system itself; it
 reproduces their `0.84` at level `11` (`0.8418` here).
+
+## The two computer-verified theorems (Round LXXVI.10–11)
+
+Both are the Theorem above applied to a certificate that was (i) built by
+`scripts/kl_certify.py` and checked there with Python integers, and (ii)
+re-checked by the independent `scripts/kl_verify.py`, which re-derives every
+ingredient from the definitions and shares no code with the certifier.
+
+**Level 12.**  `k = 12`, `J = 11`, `λ = 359/200 = 2^{0.84398}`, options "drop
+`0, 2, 7, 12`", `V = 24`.  Certificate
+`scripts/certificates/kl_cert_12_11_359_200.npz`, SHA-256
+`e39309a19bdeb5d2f4f07e67264ad386e8fbfcf25711ff92bf6f1940bd6ff96e`;
+`4 251 528` inequalities, `0` violations, minimum relative slack
+`7.5 · 10^{−14}`; `K = 10^15`, `W_0(5) = 627`.
+
+> For `N ≥ 10` and `y` with `10 · 2^y ≤ N < 20 · 2^y`:
+> `#{ n ≤ N : n reaches 1 } ≥ (627 / 10^15) · (359/200)^y`.
+
+**Level 13.**  `k = 13`, `J = 11`, `λ = 361/200 = 2^{0.85199}`, same options.
+Certificate `scripts/certificates/kl_cert_13_11_361_200.npz`, SHA-256
+`53b2bdd8158ab8e26d8dca589e77817ed29044415be5ef980aa4c97f7851ba3a`;
+`12 754 584` inequalities, `0` violations, minimum relative slack
+`2.4 · 10^{−14}`; `K = 10^15`, `W_0(5) = 401`.
+
+> For `N ≥ 10` and `y` with `10 · 2^y ≤ N < 20 · 2^y`:
+> `#{ n ≤ N : n reaches 1 } ≥ (401 / 10^15) · (361/200)^y`,
+> hence at least `c · N^{0.852}` integers up to `N` reach `1`.
+
+Previous record: `x^{0.84}` (Krasikov–Lagarias 2003, level `11`).
+
+Reproduce (about `20 min` and `4 h` respectively, `2 GB` free memory):
+
+    cd scripts
+    python3 kl_certify.py 12 11 359 200 24 300 1000000000 0,2,7,12
+    python3 kl_verify.py  12 11 359 200 24 0,2,7,12
+    python3 kl_certify.py 13 11 361 200 24 300 1000000000 0,2,7,12
+    python3 kl_verify.py  13 11 361 200 24 0,2,7,12
