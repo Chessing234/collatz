@@ -456,6 +456,58 @@ theorem tau_cycle (c k : Nat) :
   exact ⟨inj, fun r hr => inj_on_range_surj (3 ^ k) (fun i => tauIter i c % 3 ^ k)
     (fun _ _ => Nat.mod_lt _ (three_pow_pos _)) inj r hr⟩
 
+/-- `τ` iterated is `3 ^ k`-periodic modulo `3 ^ k`. -/
+theorem tau_period (c k i : Nat) :
+    tauIter (i + 3 ^ k) c % 3 ^ k = tauIter i c % 3 ^ k := by
+  obtain ⟨d, hd⟩ := two_pow_three_pow k
+  have hfour : (4:Nat) ^ 3 ^ k = 3 ^ (k + 1) * d + 1 := by
+    rw [← hd, show (4:Nat) = 2 ^ 2 from rfl, ← Nat.pow_mul]
+  have hB : (4:Nat) ^ (i + 3 ^ k) * (3 * c + 1)
+      = (4 ^ i * (3 * c + 1)) * (3 ^ (k + 1) * d + 1) := by
+    rw [Nat.pow_add, hfour]
+    simp [Nat.mul_comm, Nat.mul_left_comm]
+  have hexp : ∀ B : Nat, B * (3 ^ (k + 1) * d + 1) = B + 3 ^ (k + 1) * (d * B) := by
+    intro B
+    rw [Nat.mul_add, Nat.mul_one, Nat.mul_comm B (3 ^ (k + 1) * d), Nat.mul_assoc]
+    omega
+  have hmul : 4 ^ (i + 3 ^ k) * (3 * c + 1)
+      = 4 ^ i * (3 * c + 1) + 3 ^ (k + 1) * (d * (4 ^ i * (3 * c + 1))) := by
+    rw [hB, hexp]
+  have h1 : (3 * tauIter (i + 3 ^ k) c + 1) % 3 ^ (k + 1)
+      = (3 * tauIter i c + 1) % 3 ^ (k + 1) := by
+    rw [three_tau_iter, three_tau_iter, hmul, Nat.add_mul_mod_self_left]
+  rw [three_mul_mod, three_mul_mod] at h1
+  omega
+
+theorem tau_mod_index (c k : Nat) : ∀ i, tauIter i c % 3 ^ k = tauIter (i % 3 ^ k) c % 3 ^ k := by
+  intro i
+  induction i using Nat.strongRecOn with
+  | _ i ih =>
+    rcases Nat.lt_or_ge i (3 ^ k) with h | h
+    · rw [Nat.mod_eq_of_lt h]
+    · have hp : 0 < (3:Nat) ^ k := three_pow_pos k
+      have hlt : i - 3 ^ k < i := by omega
+      have he : i - 3 ^ k + 3 ^ k = i := by omega
+      have hmod : (i - 3 ^ k) % 3 ^ k = i % 3 ^ k := (Nat.mod_eq_sub_mod h).symm
+      have step : tauIter i c % 3 ^ k = tauIter (i - 3 ^ k) c % 3 ^ k := by
+        have hp2 := tau_period c k (i - 3 ^ k)
+        rw [he] at hp2
+        exact hp2
+      rw [step, ih _ hlt, hmod]
+
+/-- **`τ` is a perfect equidistribution sequence modulo `3 ^ k`**: two iterates
+share a class exactly when their indices agree modulo `3 ^ k`.  Consequently,
+among any `L` consecutive iterates each class is hit `⌊L/3 ^ k⌋` or
+`⌈L/3 ^ k⌉` times — discrepancy strictly below `1`, at every level. -/
+theorem tau_class_eq_iff (c k i j : Nat) :
+    tauIter i c % 3 ^ k = tauIter j c % 3 ^ k ↔ i % 3 ^ k = j % 3 ^ k := by
+  constructor
+  · intro h
+    rw [tau_mod_index c k i, tau_mod_index c k j] at h
+    exact (tau_cycle c k).1 _ _ (Nat.mod_lt _ (three_pow_pos k)) (Nat.mod_lt _ (three_pow_pos k)) h
+  · intro h
+    rw [tau_mod_index c k i, tau_mod_index c k j, h]
+
 /-! ## 6. The `2`-adic mirror: anti-mixing
 
 The `3`-adic statement above is as strong as it could be.  The `2`-adic one is

@@ -14247,8 +14247,8 @@ only): `nine_expand`, `four_pow_three_pow`, `one_add_pow`, `three_factor`,
 `step_mod_three`, `step_mod_three_pow_ne`, `four_pow_mul_ne`,
 `four_pow_eq_one_of_mul`, `class_eq_imp_eq`, `child_class_inj`,
 `child_class_surj`, `child_class_period`, `backward_mixing`, `child_succ`,
-`tauIter`, `three_tau_iter`, `three_mul_mod`, `tau_cycle`,
-`deep_child_congr`.  Scripts: `syracuse_lift.py`, `syracuse_test.py`,
+`tauIter`, `three_tau_iter`, `three_mul_mod`, `tau_cycle`, `tau_period`,
+`tau_mod_index`, `tau_class_eq_iff`, `deep_child_congr`.  Scripts: `syracuse_lift.py`, `syracuse_test.py`,
 `backward_cover.py`, `phase_word.py`, `tree_perroot.py`.  Note:
 `Devices/BackwardMixing.md`.
 
@@ -14392,6 +14392,22 @@ made a theorem (a proved upper bound `X_cover ≤ a · M^C` for an explicit `C`)
 since that is an unconditional statement about the tree of `1` and the
 repository has none.  Second: the multiplicative-character factorisation of
 §5 at depth `2`, to see exactly which correlation the affine step introduces.
+
+**G′ — killed this round (second).**  The `τ`-orbit route to G8.  `τ x = 4x+1`
+preserves the Syracuse successor (`child_succ`), so every inverse-closed set is
+a disjoint union of `τ`-orbits with seeds `x ≢ 5 (mod 8)`, and with
+`tau_class_eq_iff` the class counts obey the exact identity
+`N_r(X) = Σ_{i≥0} Sd_{τ^(−i)r}(X_i)`, `X_i ≈ X/4^i` — verified exactly
+(`scripts/tau_decomp.py`).  Under a power law this is a cyclic convolution
+whose kernel is invertible at every character, so G8 is *equivalent* to
+mod-`3^k` balance of the `2`-adically cut subset `T ∩ {n ≢ 5 (mod 8)}`.  The
+hope — that the identity averages the imbalance over the nine scales `X/4^i`,
+with `L(s) = ⌊log_4((3X+1)/(3s+1))⌋ + 1` equidistributed mod `9` because the
+tree's log-scale steps `v log 2 − log 3` are non-lattice — fails on
+measurement: `56 %` of seeds have `L = 1` and `33 %` have `L = 2`, in every
+seed class, because a `τ` step costs a factor `4` while the tree's mass sits at
+the top of the range.  No averaging happens; the identity re-expresses the
+imbalance rather than reducing it.
 
 **G — killed this round.**  The `L^∞` route to G8 through Tao's Syracuse
 random variable: `β_n ↑ 0.3798`, `γ_n ↓ 1.5131`, both monotone (convex

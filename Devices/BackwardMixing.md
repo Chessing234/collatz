@@ -136,6 +136,43 @@ against `X`.  But it is the first evidence in this repository about the
 3-adic behaviour of thin inverse-closed sets, and it says the min-over-lifts
 adversary of Krasikov–Lagarias is not realised by any root tested.
 
+## 3c. The τ-orbit decomposition, and why it does not reduce G8
+
+Since `τ x = 4x + 1` preserves the Syracuse successor (`child_succ`), any
+inverse-closed set `S` is a disjoint union of `τ`-orbits, whose seeds are the
+members with `x ≢ 5 (mod 8)` (an `x ≡ 5 mod 8` is `4y+1` with `y` odd, hence
+`τ` of a member; the other three odd classes are not).  With `tau_class_eq_iff`
+this gives an **exact** identity for the class counts of `S` below `X`:
+
+    N_r(X)  =  Σ_{i ≥ 0}  Sd_{τ^(−i) r}(X_i),      X_i = (X + 1/3)/4^i − 1/3,
+
+`Sd_c(Y)` = the seeds `≤ Y` in class `c mod 3^k`.  Checked exactly
+(`scripts/tau_decomp.py`, root `1234567`, `X = a·10^4`: `6253` members, `3875`
+seeds, class counts rebuilt from the seeds agree on the nose, and the closed
+form `L(s) = ⌊log_4((3X+1)/(3s+1))⌋ + 1` for the orbit length matches).
+
+Under a power law `Sd_c(Y) ≈ σ_c Y^α` the identity becomes a **cyclic
+convolution** on `ℤ/3^k`,
+
+    N_r  ∝  Σ_{i < 3^k} 4^(−iα) σ_{τ^(−i) r},
+
+whose kernel has Fourier coefficients `(1 − 4^(−3^k α))/(1 − 4^(−α) ω^j) ≠ 0`
+at every character — **invertible**.  So the mod-`3^k` balance of `T` and of
+its `τ`-seeds `T ∩ {n ≢ 5 (mod 8)}` determine each other, with an explicit
+circulant.  G8 is *equivalent* to a balance statement about a `2`-adically cut
+subset of the tree.
+
+**Why this is not progress, measured.**  One might hope the identity averages
+the imbalance over the nine scales `X, X/4, …, X/4^8`, and that the orbit
+length `L(s)` equidistributes modulo `9` for a Diophantine reason (the steps of
+the tree in log-scale are `v log 2 − log 3`, non-lattice because `log₂3` is
+irrational).  It does not: `L` is concentrated on the smallest values —
+`56 %` of seeds have `L = 1` and `33 %` have `L = 2`, at every seed class —
+because a `τ` step costs a factor `4` in size while the tree's mass sits at the
+top of the range.  So the identity re-expresses the imbalance of `T` as the
+imbalance of its seeds and no averaging happens.  **Killed:** the route
+"decompose into `τ`-orbits, average over the nine scales".
+
 ## 4. What this kills
 
 The Perron vector of the lift-averaged K–L system at exponent `1`
