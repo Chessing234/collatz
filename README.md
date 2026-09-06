@@ -110,6 +110,8 @@ Outside the kernel, the same scheme at classes modulo `3^12` (4.25 million integ
 
 The literature's exponent is `0.84`; positive density is open, and counting alone cannot reach it.
 
+The lift-averaged Krasikov–Lagarias system is column-stochastic at every level (`Strategy/TreeStochastic`), so the method's limit is exponent `1`, approached like `1/k`; the whole loss is the 3-adic lift-distribution of the inverse tree (`Devices/StochasticTree.md`).
+
 Every light parity word with an odd step is the cycle word of some `3x+d` with `d = 1` modulo any power of `6`.
 
 So a proof that `3x+1` has no cycle must use the integer `1` through its size, never through a congruence at `2` or `3`.

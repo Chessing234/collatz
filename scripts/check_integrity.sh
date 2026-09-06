@@ -105,6 +105,9 @@ import Collatz
 #print axioms Collatz.TreeCertificate3.certH
 #print axioms Collatz.TreeSevenTenths.claims
 #print axioms Collatz.TreeSevenTenths.count_ten
+#print axioms Collatz.TreeStochastic.parent_bijection
+#print axioms Collatz.TreeStochastic.mass_conservation_weighted
+#print axioms Collatz.TreeStochastic.mass_conservation
 LEAN
 axout="$(lake env lean /tmp/collatz_axcheck.lean)"
 printf '%s\n' "$axout"

@@ -13899,3 +13899,171 @@ applications — never for a fault of its own.  Not retried.  The ceiling
 extrapolation therefore rests on levels `9 … 13` only (`0.8168, 0.8295,
 0.8418, 0.8531, 0.8630`; increments `0.0127, 0.0123, 0.0113, 0.0099`).  Anyone
 with `2 GB` free can run it in about ninety minutes.
+
+## Round LXXVII — the Krasikov–Lagarias system is a relaxation of a stochastic one
+
+*Goal for the round (set by Taksh): invent new mathematics and creative
+approaches toward a breakthrough.  What was found is structural, not a
+breakthrough, and is reported as such.*
+
+### §0 Novelty gate
+
+*Statement.*  "The lift-averaged Krasikov–Lagarias transfer matrix at
+exponent `1` is column-stochastic at every class level; hence the whole gap
+between the certified exponents and `1` is the min-over-lifts relaxation, and
+the method's limit is `1`, approached like `1/k`."
+
+*Literature.*  K–L 2003 §2–3, Applegate–Lagarias 1995 II: the programs
+`L_k^{NT}` are solved numerically; the conjecture that the exponents tend to
+`1` is stated without a mechanism; no averaged system, no column sums.
+
+*Repository.*  `grep -rniE "stochastic|column.sum|Haar|stationary|equidistrib"
+RESEARCH.md CLOSURE.md PROGRAM_STATUS.md Devices/` → one 2-adic Haar remark
+(`Devices/FutureCone.md`) and Round I's heuristic "inverse-tree counting
+saturates at exponent exactly 1 … equidistribution-mod-3 along backward orbits
+— itself Collatz-hard" (a prediction, no theorem, and the claim of hardness is
+withdrawn below).
+
+*Tag.*  **NEW (structural)**: Theorem A (kernel-checked identity), Theorem B
+(exact equivalence of two certificate families), the `1/k` law (measured),
+and the reduction of Theorem C (conditional).  Full statement:
+`Devices/StochasticTree.md`.
+
+### §1 Inventory delta (from commands)
+
+`Collatz/Strategy/TreeStochastic.lean` (12 declarations, `lake env lean`
+clean, no warnings): `sumRange_comm`, `sumRange_single`,
+`sumRange_indicator_one`, `sumRange_reindex`, `sum_two_pow`,
+`two_pow_one_mod`, `childClass`, `childClass_lt`, `parent_exists`,
+`parent_unique_aux`, `parent_unique`, `parent_bijection`,
+`mass_conservation`; axioms `[propext, Quot.sound]` (`check_integrity.sh`
+guards the last two).  Scripts: `kl_spectrum.py` (growth of the min / avg /
+max relaxations at exponent `1`, the K–L exponent, the stationary law, the
+lift oscillation), `kl_relax.py` (the coupled relaxation, the loss profile).
+`Devices/StochasticTree.md`.  `lake build Collatz`: 376 jobs, green;
+`check_integrity.sh`: passed.
+
+### §2 Measurements (provenance in each cell)
+
+`kl_spectrum.py K 24 300`, growth = geometric mean over the last 40 of 300
+iterations.  `avg` at exponent `1` returns `0.9999999 = 1 − 2^(−24)` at every
+level (the truncation), which is Theorem A seen in floating point.
+
+| `k` | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| `ρ_k(1)` min | .5759 | .7133 | .7715 | .8073 | .8305 | .8595 | .8749 | .8872 | .8987 | .9088 | .9171 | .9249 |
+| `k(1−ρ_k)` | 1.27 | 1.15 | 1.14 | 1.16 | 1.19 | 1.12 | 1.13 | 1.13 | 1.11 | 1.09 | 1.08 | 1.05 |
+| `α_k` | .6112 | .6891 | .7336 | .7608 | .7826 | .8032 | .8168 | .8295 | .8418 | .8531 | .8630 | running |
+
+`ρ_k(1)` max: `1.527, 1.514, 1.510, 1.504, 1.502, 1.502, 1.502, 1.501, 1.501`
+(`k = 3…11`): constant, the max relaxation is a ghost.  Coupled relaxation
+(`kl_relax.py`): `α^{coupled}_k = α_{k+1}` to five decimals at `k = 3…7`.
+Loss share of the worst 1 / 5 / 20 / 50 % of classes: `0.03 / 0.10 / 0.33 /
+0.66`, level-independent.  Level `14` ran at `0.7 GB` under `nice`
+(`rho13_14.txt`), 70 s for 160 iterations; the exponent bisection is running
+(`alpha14.txt`, one line per bisection step).
+
+### §3 The scalar
+
+Named at the start: **the limit of the K–L exponent family.**  It moved,
+from "`≈ 0.93` (extrapolated from four increments, LXXVI.10–11)" to
+"**`1`**, by Theorem A, at the measured rate `1 − ρ_k(1) ≈ 1.1/k`".  The
+certified exponent (`0.852`) did not move this round; the practical reach of
+the method is `≈ 0.87` (level `14`, or coupled level `13` with three times
+smaller tables).
+
+### §4 What the round is
+
+Three statements and one reduction.
+
+* **A (kernel-checked).**  `mass_conservation`: the lift-averaged transfer at
+  exponent `1` conserves mass exactly, `Σ_r Σ_v 2^(V−1−v)[…] w(child) =
+  (2^V − 1) Σ_ℓ w(ℓ)`; i.e. `A_1 = P^T` for the Haar-random forward Syracuse
+  chain on `ℤ/3^(k+1)`.  Spectral radius exactly `1` at every level.
+* **B (exact, four lines).**  The coupled system at level `k` (children's
+  lifts fixed jointly by the parent's next digit) *is* the K–L system at level
+  `k+1`; measured equality to five decimals.  Every finite-memory refinement of
+  the min over lifts is another level, so the family cannot escape its own
+  rate.
+* **The `1/k` law (measured, twelve levels).**  Loss at exponent `1` is
+  `≈ 1.1/k`; loss in the exponent `≈ 1.8/k`.  Ceiling `1`; exponent `0.9`
+  at level `≈ 20`, `0.95` at `≈ 40`.
+* **C (conditional).**  Equi_k(ε) — the integers reaching `1` split among
+  the three lifts mod `3^(k+1)` of each class mod `3^k` in proportion
+  `≥ 1/3 − ε` — implies at least `N^(α(ε))` of them below `N`, `α(ε) → 1`,
+  at any single level including `k = 1` (mod `9` inside mod `3`), via (T) +
+  Theorem A + K–L's elimination of advanced terms (cited, not reproved).
+  Contrapositive: a thin tree of `1` forces a persistent mod-`9` imbalance in
+  the set of integers that reach `1`.
+
+### §5 Attack sketches (three, incompatible), and the choice
+
+1. *Automata / 3-adic (chosen).*  The stochastic identity and its
+   consequences above.  Falsifier: a level where `k(1 − ρ_k)` grows —
+   it does not, through `k = 14`.
+2. *Inverse tree, computational.*  Certify `≈ 0.87` by the coupled level-13
+   system (Theorem B): same inequalities as level 14, tables of level 13.
+   Not run: a rung, not an idea, and `≈ 12 h` of a shared 16 GB host.
+   Falsifier: infeasibility at the chosen ratio.
+3. *Conditional on one external theorem.*  Theorem C rests on K–L's
+   back-substitution theorem; the per-root absolute-bound induction of
+   `Devices/AbsoluteBound.md` avoids it for single roots but not for the
+   tree-wide class counts (T), where the `v = 1` term is genuinely advanced.
+   Next lemma if pursued: a per-root version of Equi with a relative
+   threshold `Y ≥ Y_0·a`, which would put Theorem C inside the kernel-checked
+   scheme.  Falsifier: a root whose subtree is lift-skewed at every relative
+   scale (a 3-adic ghost root — the max relaxation's `1.50` says such
+   *per-node* strategies exist, but not that a single 3-adic integer realises
+   one).
+
+### §6 Hard constraints
+
+Nothing here touches "almost all → all".  Exponent `1 − ε` is weaker than
+positive density, which is weaker than the conjecture.  Theorem C's
+hypothesis is a statement about the tree of `1` and is open.
+
+### §7 Standing problems
+
+G1 untouched · G2 untouched · G3 untouched · G4 attacked (LocalBlindness,
+LXXVI.3) · G5 untouched · **G6: `0.852` certified, limit of the method
+identified as `1` with rate `1/k`; obstruction is now one object, the 3-adic
+lift-distribution of the tree** · G7 untouched · **G8 (new): 3-adic
+equidistribution of the tree of `1`, Equi_k(ε); untouched beyond its
+statement.**
+
+### §8 Output
+
+**C — novelty tags.**  A: NEW (identity elementary once seen as `P^T`; the
+identification is the content).  B: NEW.  `1/k` law: NEW measurement.
+C: NEW reduction, conditional.  `kl_spectrum.py`, `kl_relax.py`: tools.
+
+**D — bottlenecks.**  Equi_k(ε) is about the tree itself.  The only handle
+on the tree's 3-adic distribution outside the verified range is through the
+words, i.e. the ternary digits of `2^V a − C_w`, which is Lagarias 2009's
+territory ("Ternary expansions of powers of 2", not checked against the text
+this session).
+
+**E — gap list, exact.**
+* `Equi_k(ε)`: `∀ X ≥ X₀, ∀ R fertile mod 3^(k+1), (1/3 − ε) · #{n ≤ X : n
+  reaches 1, n ≡ R mod 3^k} ≤ #{n ≤ X : n reaches 1, n ≡ R mod 3^(k+1)}`
+  (integer form: `(1 − 3ε)·M ≤ 3·N`).
+* The elimination theorem (K–L 2003 §3) as a Lean statement over `Nat`
+  tables — not started.
+
+**F — next round.**  Primary: the per-root form of Equi and whether the
+absolute-bound induction absorbs it (sketch 3).  Second: a direct
+measurement of the depth-`k` residue imbalance of §5 of the note, to confirm
+the mechanism behind `1/k` (script `tree_digits.py`, below if done this
+round).  Third: the coupled level-13 certificate, only if a machine with
+`2 GB` free for twelve hours is available.
+
+**G — killed this round.**  The max-over-lifts relaxation (ghost, `1.50`).
+Adaptive refinement of high-loss classes (loss not concentrated).  Any
+finite-memory refinement of the min over lifts (Theorem B: it is a level).
+
+**H — corrections.**  Round LXXVI.10–11 extrapolated "a ceiling near
+`0.93`" from four increments shrinking by `0.88`; the increments shrink
+because the loss is `≈ 1.1/k`, and the ceiling is `1`.  Round I's
+"equidistribution mod 3 along backward orbits is itself Collatz-hard" is
+withdrawn as a claim: Equi is implied by the conjecture and does not imply
+it; whether it is easier is unknown.
