@@ -13,3 +13,4 @@ v*_tmp.lean
 
 # Mathlib attack branch: build artifacts and the vendored Mathlib checkout
 MathlibAttack/.lake/
+__pycache__/
