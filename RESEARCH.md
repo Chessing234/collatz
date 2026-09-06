@@ -13761,3 +13761,47 @@ kernel-checked certificate of `TreeCertificate` (same tables, same slack).
 Level `12` at `λ = 359/200 = 2^{0.844}` is running in the background.  A
 different outcome — infeasible — would print `feasible=False` with the pass
 at which the repair drove a table entry to zero.
+
+## Round LXXVI, iteration 10 — level `12` closes: exponent `0.8439`, above the published `0.84`
+
+### The certificate
+
+`scripts/kl_certify.py 12 11 359 200 24 300 1000000000 0,2,7,12`: classes
+modulo `3^12` (`354 294` fertile classes), twelve scale types, ratio
+`λ = 359/200 = 2^{0.84398}`, options "drop `0, 2, 7, 12` levels".  Thirteen
+repair passes; then **every one of the `4 251 528` cleared inequalities holds
+with Python integers**, minimum relative slack `7.5 · 10^{−14}`, tables in
+`[120, 771 251 697]`; base bound `K = 10^15`, `W_0(5) = 627`.  So, by the
+theorem of `Devices/AbsoluteBound.md`,
+
+    #{ n ≤ N : n reaches 1 }  ≥  (627 / 10^15) · (359/200)^y   whenever 10 · 2^y ≤ N,
+
+i.e. **at least `c · N^{0.8439}` integers up to `N` reach `1`** — above the
+`x^{0.84}` of Krasikov–Lagarias 2003, which was computed at level `11`.  The
+continuous system gives `0.8531` at level `12` (`kl_levels.py`, `444 s`), so
+the lattice loss is the expected `≈ 0.005` and there is room for `≈ 0.849`
+here; level `13` (continuous `≈ 0.864` predicted) is running at
+`λ = 361/200 = 2^{0.8520}`.
+
+### Status of the claim
+
+*Computer-assisted, not kernel-checked* — the certificate is `4.25` million
+inequalities, far beyond `decide`; it is the same kind of computation the
+original `0.84` was.  An **independent re-verification** by a second,
+self-contained checker (`scripts/kl_verify.py`: plain Python integers, all
+ingredients re-derived from the definitions, none of the certifier's code
+reused) is running; the claim is provisional until it reports zero
+violations.  The tables are committed as
+`scripts/certificates/kl_cert_12_11_359_200.npz` (int64, compressed) with
+their SHA-256 in the commit message, and are reproducible from the script.
+
+### §0 Novelty, restated
+
+The system is Krasikov–Lagarias's; the number is new because nobody ran it at
+level `12` (their `k = 11` was the limit of 2003 computing for a linear
+program with `3^{11}` variables; the power iteration on the monotone map
+costs seven minutes today).  The soundness proof is my own
+(`Devices/AbsoluteBound.md`) and simpler than theirs at this point: no
+elimination of advanced terms.  **Tag: NEW, incremental** — an improved
+constant in a known theorem, by a known method made cheaper.  It is not a
+breakthrough and I do not present it as one; positive density remains open.

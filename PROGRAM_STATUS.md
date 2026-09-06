@@ -609,7 +609,7 @@ the kernel clean.
 
 ---
 
-## Standing problem G6 — inverse-tree coverage — **attacked; exponent `1/5`, `3/8`, `1/2`, `2/3`, then `7/10`**
+## Standing problem G6 — inverse-tree coverage — **attacked; kernel-checked `7/10`; computer-verified `0.8439`, above the literature's `0.84`**
 
 **Before Round LXXVI:** nothing proved.  `Papers/KrasikovLagarias2003` recorded
 the Krasikov–Lagarias lower bound as a proposition with no proof claimed, and
@@ -701,10 +701,21 @@ certificate `TreeCertificate3` (`972` inequalities, `decide` in `3 min`,
 **The scalar is `7/10`.**  Every proof is the `TreeTwoThirds` proof with the
 constants substituted; the scheme is parametric in the tables.
 
-**Obstruction to the scalar now.**  The next level (mod `2187`, `2916`
-inequalities) would cost about ten minutes of kernel time for `≈ 0.72`; the
-scheme's limit in the level is the K–L continuous system's (`0.76` at this
-level, `0.84` at mod `3^11`), whose limit is itself conjectured below `1`.
+**Beyond the kernel (Round LXXVI.9–10).**  The same scheme with twelve scale
+types and classes modulo `3^12` — `4.25` million inequalities, verified with
+Python integers, `scripts/kl_certify.py` / `kl_verify.py`,
+`Devices/AbsoluteBound.md` for the proof — certifies
+
+    #{ n ≤ N : n reaches 1 } ≥ (627 / 10^15) · (359/200)^y   for 10 · 2^y ≤ N,
+
+exponent `log₂(359/200) = 0.8439`, above Krasikov–Lagarias's `0.84` (their
+level `11`; my implementation reproduces `0.8418` there).  Provisional until
+the independent checker finishes.  Level `13` is running.
+
+**Obstruction to the scalar now.**  The continuous system's values `0.7608,
+0.7826, 0.8032, 0.8168, 0.8295, 0.8418, 0.8531` at levels `6…12` rise by a
+shrinking `≈ 0.012` per level; the limit is unknown and conjectured below
+`1`.
 Positive density — the statement that would matter — is open in the
 literature; Tao's almost-all theorem does not imply it.
 
