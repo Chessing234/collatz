@@ -106,7 +106,7 @@ With residue classes modulo `81` and a generated integer certificate, at least `
 
 Inducting on the absolute bound instead of the scale index, at least `N^(2/3) / 7.4·10^9` do, and at classes modulo `729` at least `N^(7/10) / 8·10^9`; the literature's exponent is `0.84`.
 
-Outside the kernel, the same scheme at classes modulo `3^12` (4.25 million integer inequalities, `scripts/kl_certify.py`) certifies exponent `0.8439`, and at classes modulo `3^13` (12.75 million inequalities) exponent `0.852`, both above the published `0.84` and each verified by two independent checkers; positive density stays open.
+Outside the kernel, the same scheme at classes modulo `3^12` (4.25 million integer inequalities, `scripts/kl_certify.py`) certifies exponent `0.8439`, and at classes modulo `3^13` (12.75 million inequalities) exponent `0.852`, both above the **published** `0.84` (Krasikov–Lagarias 2003, still the refereed record) and each verified by two independent checkers.  Not above the frontier of the method: unrefereed 2026 preprints (Mazur / ProofAtlas, Lean-formalised) report `0.88` at level `15` and `0.90` at level `18` from the same linear program.  This repository has not verified those; they are recorded so the `0.852` is read as "clears the published record", not "clears the field".  Positive density stays open.
 
 The literature's exponent is `0.84`; positive density is open, and counting alone cannot reach it.
 

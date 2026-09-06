@@ -4,22 +4,40 @@
 `Strategy/BackwardMixing.lean`; measurements: `scripts/backward_cover.py`,
 `scripts/phase_word.py`, `scripts/syracuse_lift.py`, `scripts/syracuse_test.py`.*
 
-**Novelty tag: NEW (structural).**  In one sentence: *the inverse Syracuse
-tree is exactly 3-adically equidistributed at every node and every level — the
-`i`-th child's class modulo `3^k` runs over `ℤ/3^k` bijectively and
-`3^k`-periodically in `i` — so the 3-adic imbalance that costs
-Krasikov–Lagarias its exponent is a truncation effect, not a structural one,
-and it is measured here to cost only a polynomial factor in scale.*
+**Novelty tag: FORMALIZATION-OF-KNOWN.**  *Corrected in Round LXXIX. This note
+first shipped tagged NEW (structural).  That was wrong, and the error was mine:
+the Round LXXVIII novelty gate was a `grep` over this repository plus
+recollection of three papers, with no literature search run at all.*
 
-Searched.  Repository: the injectivity half is the *open* Lean statement of the
-Round LXXVI gap list (`RESEARCH.md` §E, "backward mixing"), and the exact order
-of `4` modulo `3^(k+1)` is the Round LXXVI next-round item 3;
-`TreeBranching.phase` and `ClassChild.child_mod_pow` are the `k = 1, 2` shadows
-of it.  Literature: K–L 2003 and Applegate–Lagarias 1995 use the class
-transition `r ↦ (2^v r − 1)/3` but state no per-period bijection; the fact that
-`4` generates the index-`2` subgroup of `(ℤ/3^(k+1))ˣ` is classical, its use as
-an exact equidistribution statement for the inverse tree is not recorded here
-or, as far as this session could check, there.
+In one sentence: *the inverse Syracuse tree is exactly 3-adically equidistributed
+at every node and every level — the `i`-th child's class modulo `3^k` runs over
+`ℤ/3^k` bijectively and `3^k`-periodically in `i` — so the 3-adic imbalance that
+costs Krasikov–Lagarias its exponent is a truncation effect, not a structural
+one.*  **That sentence is a theorem of Krasikov (1989) and of Wirsching (1998,
+2000, 2003).**
+
+## 0. The prior art, exactly
+
+| source | what it states |
+|---|---|
+| Krasikov 1989, Lemma 1(i) (Internat. J. Math. & Math. Sci. 12, 791–796) | `U₁(α) = 4α` is a bijection `R_n² ↔ R_n²`, and for **every** `α ∈ R_n²`, `3^(n−1)` is the least `ℓ` with `U₁^ℓ(α) = α`.  This is §1b below, in the coordinate `α = 3c+1`.  Krasikov calls it "an easy exercise in elementary number theory" and gives no proof.  His Lemma 1(ii),(iii) is §2's fertile-class corollary. |
+| Wirsching, Satz 4.2, *Über das 3n+1 Problem*, Elem. Math. 55 (2000) 142–155, p. 153 — attributed to his monograph LNM 1681 (1998) | as `a` runs once through the `2·3^(ℓ−1)` prime residue classes mod `3^ℓ`, every admissible exponent tuple occurs **exactly once** in a predecessor formula.  He presents it explicitly as the 3-adic mirror of Terras. |
+| Wirsching 2003 (DCDS 9, 771–787), proof of Lemma 4 | verbatim: "For any `a ∈ ℤ₃ˣ` and any integer `s > 0`, the set `{ (2^(j+1)a − 1)/3 : j = 0,…,2·3^s − 1 }` intersects each residue class modulo `3^s` in exactly one point."  Used as a quadrature rule to replace Haar integrals over `ℤ₃ˣ` by per-period averages — the same use proposed here. |
+| Daudin–Pierre, arXiv:1801.07678, Lemma 1 | `child_succ` plus the period, proved by exactly the `τ(c) = 4c+1` computation. |
+| Tao, blog of 25 Jan 2020, Lemma 6 | the same argument for the root `a = 1`. |
+| Banerji 1996; Urata–Kajita 1998; Colussi 2011 | the parametrisation `c_v = (2^v a − 1)/3`, `v = v₀ + 2i`, and `d(n) = 4n+1`. |
+
+Krasikov's Lemma 1 is **not** reproduced in Applegate–Lagarias 1995 or
+Krasikov–Lagarias 2003 — both cite Krasikov only for his Lemma 4, the difference
+inequalities — which is presumably why it reads as new to anyone who enters this
+subject through the 1995/2003 papers, as this repository did.
+
+**What survives.**  The Lean formalisation: no formalisation of any of this was
+found anywhere.  And §4b's 2-adic mirror, which no paper states — but it follows
+from `3c + 1 = 2^v a` in one line and no author would be surprised by it, so it
+is folklore, not new.  Round LXXVI's gap list named the injectivity half as an
+open *Lean* statement in this development; this file closes that line, and only
+that line.
 
 ## 1. The theorem (kernel-checked)
 

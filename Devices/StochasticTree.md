@@ -4,19 +4,72 @@
 `Strategy/TreeStochastic.lean`; measurements: `scripts/kl_spectrum.py`,
 `scripts/kl_relax.py`.*
 
-**Novelty tag: NEW (structural).**  Statement in one sentence: *the
-lift-averaged Krasikov–Lagarias transfer matrix at exponent `1` is
-column-stochastic at every class level, so the whole distance between the
-certified exponents (`0.84`, `0.852`) and `1` is the min-over-lifts
-relaxation, i.e. the 3-adic non-equidistribution of the inverse tree.*
-Searched: K–L 2003 (Acta Arith. 109) §2–3 and Applegate–Lagarias 1995 II;
-both treat the programs `L_k^{NT}` as a black box to be solved numerically and
-conjecture (K–L, end of §1) that the exponents tend to `1`; neither computes
-the averaged system or its column sums.  Repository: `grep -rniE
-"stochastic|column.sum|Haar|stationary"` — one 2-adic Haar remark
-(`Devices/FutureCone.md`) and Round I's heuristic "counting saturates at
-exponent exactly 1" with no mechanism.  Neither contains the identity, the
-equivalence of §3, or the `1/k` law of §4.
+**Novelty tag: MOSTLY-KNOWN; one identity and two measurements survive.**
+*Corrected in Round LXXIX.  This note shipped tagged NEW (structural).  The
+gate said "Searched: K–L 2003 §2–3 and Applegate–Lagarias 1995 II" — and the
+averaged system is in K–L **§6**, and in a **different** Applegate–Lagarias
+paper (Experimental Math. 4 (1995) 193–209, not Math. Comp. 64).  I searched
+the wrong sections of the right papers and the wrong paper of the right
+authors.*
+
+Statement in one sentence: *the lift-averaged Krasikov–Lagarias transfer matrix
+at exponent `1` is column-stochastic at every class level, so the whole distance
+between the certified exponents (`0.84`, `0.852`) and `1` is the min-over-lifts
+relaxation.*
+
+**The prior art.**
+
+* **Krasikov–Lagarias 2003, §6** does the averaging in aggregate, verbatim:
+  "Adding up all the inequalities in `L_k^{NT}(λ)` leads to
+  `c̄_{k,k} ≤ λ^(−2) c̄_{k,k} + (1/3)(λ^(α−1) + λ^(α−2)) c̄_{k−1,k}`" — the `1/3`
+  being exactly the average over the three lifts.  At `λ = 2` this is
+  `c̄ ≤ (1/4)c̄ + (3/4)c̄'`, i.e. the averaged system is **exactly critical**, with
+  equality iff `c̄' = c̄`.  They then state (crediting Applegate–Lagarias) that
+  `λ_k → 2` "would follow from the existence of feasible solutions with
+  `c_{k−1,k}/c_{k,k} → 1`", and the last column of their Table 2 is the
+  min-vs-average defect.  **So "the whole gap is the min-over-lifts relaxation"
+  is their framing, in scalar form.**
+* **Applegate–Lagarias, "The distribution of 3x+1 trees", Experimental Math. 4
+  (1995) 193–209, §6** does it in operator form and solves it: their
+  `W[ℓ mod 3^j]` is defined so that level `j−1` is the average of the three lifts
+  at level `j`; eq. (6.6) is the eigenvector equation, they observe the matrix is
+  `I − (3/4)P` "where `P` is a certain permutation matrix" (that permutation is
+  Krasikov's `U₁`, i.e. `τ`), eq. (6.9) is the mean-`1` normalisation, and
+  Theorem 6.3 extends `W` to `ℤ₃ˣ` with a 3-adic functional equation and a
+  Limit Function Conjecture.  **This is the closest published object to §2's
+  Perron vector** — though it is the *right* (harmonic) eigenvector of the
+  branching operator where §2's is the *left* one (the stationary law), which is
+  a distinction worth making explicitly rather than leaving for a referee.
+* **Tao 2022, Remark 1.13**, verbatim: "One can view the distribution of
+  `Syrac(ℤ₃)` as the unique stationary measure for the discrete Markov process on
+  `ℤ₃` that maps each `x` to `(3x+1)/2^a` … with transition probability `2^(−a)`."
+  His footnote flags the open link to Wirsching's 3-adic Markov process for the
+  inverse map.  **So half of §6's identification is Tao's own remark.**
+* **Tao, blog comments of 28 January 2020**, transplants the K–L min-over-lifts
+  recursion directly onto the Syracuse law, in the variables
+  `c_n(b,m) := inf_{b' ≡ b mod 3^m} P(Syrac(ℤ/3^n) = b')`; and in the post itself:
+  "In some sense this is what Krasikov and Lagarias actually do, though not quite
+  in this language."  **The connection this note claims to make is one Tao had
+  already made in prose.**
+* **Sinai, Comm. Math. Phys. 252 (2004) 581–588**, verbatim: "The strongest
+  version of this theorem where individual probabilities `μ_n(σ/3^n)` converge to
+  `1/3^n` is wrong."  So the `L^∞` non-equidistribution of §4 of
+  `Devices/BackwardMixing.md` is prior art *qualitatively*, fifteen years before
+  the variable was named.
+
+**What survives the check.**  (i) The exact finite-level operator identity
+`A_1 = P^T`, hence spectral radius exactly `1` and Perron vector exactly
+`μ_(k+1)`, together with the consistency `Σ_lifts μ_n = μ_(n−1)` — nobody states
+it as an identity; K–L state the aggregate, A–L solve the dual vector, Tao states
+the `ℤ₃` limit.  Frame it as making explicit an identification Tao anticipated,
+not as a discovery.  (ii) The numerical lift-share limits `0.3798` / `1.5131` and
+their monotonicity.  (iii) The `1/k` rate of §4 — not found anywhere, and the
+sharpest thing in this note.  Two cautions on (iii): `k(1 − α_k)` is *rising*
+across K–L's published range (`1.17 → 1.74` for `k = 3…11`, which this
+repository's own table shows and which its numbers reproduce to four decimals),
+flattening near `1.8` only from `k ≈ 11`; and the level-`18` point available for
+a fit comes from an unrefereed preprint whose author calls it a feasible value,
+not an optimum.
 
 ## 1. Objects
 

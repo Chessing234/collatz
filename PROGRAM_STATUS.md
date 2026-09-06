@@ -609,7 +609,18 @@ the kernel clean.
 
 ---
 
-## Standing problem G6 — inverse-tree coverage — **attacked; kernel-checked `7/10`; computer-verified (twice) `0.8520`, above the literature's `0.84`**
+## Standing problem G6 — inverse-tree coverage — **attacked; kernel-checked `7/10`; computer-verified (twice) `0.8520`, above the *published* `0.84`**
+
+*Round LXXIX correction.*  `0.84` (Krasikov–Lagarias 2003, Acta Arith. 109,
+Theorem 6.1, level `k = 11`) is still the **refereed** record — confirmed against
+Lagarias's 2010 overview, Tao 2022, and two 2026 preprints.  It is **not** the
+frontier of the method: unrefereed 2026 Lean-formalised preprints (Mazur /
+ProofAtlas) report `0.88` at level `15` and `0.90` at level `18` from the same
+Krasikov–Lagarias linear program, with the same `(P3)` min-over-three-lifts and
+the same `4m` child map.  This repository has not verified them.  The honest
+reading of the `0.8520` here is that it clears the published record and sits
+where a level-13 continuation of K–L's Table 2 should sit — it does not clear
+the field.
 
 **Before Round LXXVI:** nothing proved.  `Papers/KrasikovLagarias2003` recorded
 the Krasikov–Lagarias lower bound as a proposition with no proof claimed, and
