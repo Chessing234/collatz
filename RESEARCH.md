@@ -13889,3 +13889,13 @@ session; it is an improved constant in a known theorem, not a step toward
 positive density, and the same method's own values (`0.8531, 0.8630` at levels
 `12, 13`, increments shrinking by `0.88` per level) suggest its ceiling is
 near `0.93`.
+
+### Level `14`: not obtained
+
+`kl_levels.py 14` (`3 188 646` classes; `536 MB` of class arrays after the
+32-bit rewrite, `≈ 0.7 GB` resident) was killed three times by the host for
+system memory pressure — the machine has `16 GB` shared with other
+applications — never for a fault of its own.  Not retried.  The ceiling
+extrapolation therefore rests on levels `9 … 13` only (`0.8168, 0.8295,
+0.8418, 0.8531, 0.8630`; increments `0.0127, 0.0123, 0.0113, 0.0099`).  Anyone
+with `2 GB` free can run it in about ninety minutes.
