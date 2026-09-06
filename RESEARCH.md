@@ -13068,6 +13068,16 @@ saturates at exactly `1` with zero slack, which is why the rigorous record is
 * `lake build Collatz`: **365 jobs**.  `scripts/check_integrity.sh` passes.
   Axioms: `propext`, `Classical.choice`, `Quot.sound` only.  Zero `sorry`.
 
+`scripts/tree_perroot.py 4 7` — the descendants of one root `a` below `a·Y`,
+classes mod `3, 9, 27, 81`, with `χ := max |count − mean| / √mean`.  At
+`Y = 10^7`: root `1` (`1 979 312` descendants) `χ = 0.06, 0.22, 0.21, 0.68`,
+worst relative deviation `0.36 %`; root `25` `χ = 0.29, 1.06, 2.08, 2.93`,
+`1.7 %`; root `1234567` `χ = 0.14, 0.43, 2.29, 2.31`, `0.85 %`; root
+`10^11 − 23` `χ = 0.06, 0.60, 1.33, 2.01`, `1.1 %`.  `χ` never exceeds `3.5`
+over `Y = 10^2 … 10^7` — the signature of exact equidistribution with `√N`
+fluctuation.  The mod-`9` deviations at `Y = 10^7` are `≤ 0.2 %` against the
+`3 %` that `Equi` allows.
+
 ### §3 The scalar
 
 **G6 exponent: nothing → `1/5`.**  In the level form the exponent is
@@ -13199,6 +13209,16 @@ The primary from iteration 1, done.  Same novelty tag
   `INDEX.md`, `README.md`.
 * `lake build Collatz`: **366 jobs**; `scripts/check_integrity.sh` passes;
   axioms `propext`, `Classical.choice`, `Quot.sound` only; zero `sorry`.
+
+`scripts/tree_perroot.py 4 7` — the descendants of one root `a` below `a·Y`,
+classes mod `3, 9, 27, 81`, with `χ := max |count − mean| / √mean`.  At
+`Y = 10^7`: root `1` (`1 979 312` descendants) `χ = 0.06, 0.22, 0.21, 0.68`,
+worst relative deviation `0.36 %`; root `25` `χ = 0.29, 1.06, 2.08, 2.93`,
+`1.7 %`; root `1234567` `χ = 0.14, 0.43, 2.29, 2.31`, `0.85 %`; root
+`10^11 − 23` `χ = 0.06, 0.60, 1.33, 2.01`, `1.1 %`.  `χ` never exceeds `3.5`
+over `Y = 10^2 … 10^7` — the signature of exact equidistribution with `√N`
+fluctuation.  The mod-`9` deviations at `Y = 10^7` are `≤ 0.2 %` against the
+`3 %` that `Equi` allows.
 
 ### §3 The scalar
 
@@ -13548,6 +13568,16 @@ a line, so the integration was done in the main loop from the refereed
 specification.  `Collatz/Strategy/TreeHalf.lean` (30 declarations) compiles;
 `count_sqrt` depends on `propext`, `Classical.choice`, `Quot.sound` only.
 
+`scripts/tree_perroot.py 4 7` — the descendants of one root `a` below `a·Y`,
+classes mod `3, 9, 27, 81`, with `χ := max |count − mean| / √mean`.  At
+`Y = 10^7`: root `1` (`1 979 312` descendants) `χ = 0.06, 0.22, 0.21, 0.68`,
+worst relative deviation `0.36 %`; root `25` `χ = 0.29, 1.06, 2.08, 2.93`,
+`1.7 %`; root `1234567` `χ = 0.14, 0.43, 2.29, 2.31`, `0.85 %`; root
+`10^11 − 23` `χ = 0.06, 0.60, 1.33, 2.01`, `1.1 %`.  `χ` never exceeds `3.5`
+over `Y = 10^2 … 10^7` — the signature of exact equidistribution with `√N`
+fluctuation.  The mod-`9` deviations at `Y = 10^7` are `≤ 0.2 %` against the
+`3 %` that `Equi` allows.
+
 ### §3 The scalar
 
 **G6 exponent: `3/8` → `1/2`.**
@@ -13634,6 +13664,16 @@ for a discretisation.  Cause: the power iteration's last-step ratio is not the
 growth rate when the type structure is periodic.  A geometric-mean rate over a
 window fixes it: `0.658` at mod `81`, `0.695` at mod `243` (script
 `tree_types.py`, modes `abs`; the flawed estimator is kept and labelled).
+
+`scripts/tree_perroot.py 4 7` — the descendants of one root `a` below `a·Y`,
+classes mod `3, 9, 27, 81`, with `χ := max |count − mean| / √mean`.  At
+`Y = 10^7`: root `1` (`1 979 312` descendants) `χ = 0.06, 0.22, 0.21, 0.68`,
+worst relative deviation `0.36 %`; root `25` `χ = 0.29, 1.06, 2.08, 2.93`,
+`1.7 %`; root `1234567` `χ = 0.14, 0.43, 2.29, 2.31`, `0.85 %`; root
+`10^11 − 23` `χ = 0.06, 0.60, 1.33, 2.01`, `1.1 %`.  `χ` never exceeds `3.5`
+over `Y = 10^2 … 10^7` — the signature of exact equidistribution with `√N`
+fluctuation.  The mod-`9` deviations at `Y = 10^7` are `≤ 0.2 %` against the
+`3 %` that `Equi` allows.
 
 ### §3 The scalar
 
@@ -13963,6 +14003,16 @@ Loss share of the worst 1 / 5 / 20 / 50 % of classes: `0.03 / 0.10 / 0.33 /
 (`rho13_14.txt`), 70 s for 160 iterations; the exponent bisection is running
 (`alpha14.txt`, one line per bisection step).
 
+`scripts/tree_perroot.py 4 7` — the descendants of one root `a` below `a·Y`,
+classes mod `3, 9, 27, 81`, with `χ := max |count − mean| / √mean`.  At
+`Y = 10^7`: root `1` (`1 979 312` descendants) `χ = 0.06, 0.22, 0.21, 0.68`,
+worst relative deviation `0.36 %`; root `25` `χ = 0.29, 1.06, 2.08, 2.93`,
+`1.7 %`; root `1234567` `χ = 0.14, 0.43, 2.29, 2.31`, `0.85 %`; root
+`10^11 − 23` `χ = 0.06, 0.60, 1.33, 2.01`, `1.1 %`.  `χ` never exceeds `3.5`
+over `Y = 10^2 … 10^7` — the signature of exact equidistribution with `√N`
+fluctuation.  The mod-`9` deviations at `Y = 10^7` are `≤ 0.2 %` against the
+`3 %` that `Equi` allows.
+
 ### §3 The scalar
 
 Named at the start: **the limit of the K–L exponent family.**  It moved,
@@ -14194,10 +14244,12 @@ green at 379 jobs, `check_integrity.sh` green, axioms `propext, Quot.sound`
 only): `nine_expand`, `four_pow_three_pow`, `one_add_pow`, `three_factor`,
 `three_dvd_right`, `cancel_three_pow`, `four_pow_exact`, `four_pow_ne_one`,
 `mod_cancel_add`, `shrink_inj`, `inj_on_range_surj`, `two_pow_step`,
-`step_mod_three`, `step_mod_three_pow_ne`, `four_pow_eq_one_of_mul`,
-`class_eq_imp_eq`, `child_class_inj`, `child_class_surj`,
-`child_class_period`, `backward_mixing`.  Scripts: `syracuse_lift.py`,
-`syracuse_test.py`, `backward_cover.py`, `phase_word.py`.  Note:
+`step_mod_three`, `step_mod_three_pow_ne`, `four_pow_mul_ne`,
+`four_pow_eq_one_of_mul`, `class_eq_imp_eq`, `child_class_inj`,
+`child_class_surj`, `child_class_period`, `backward_mixing`, `child_succ`,
+`tauIter`, `three_tau_iter`, `three_mul_mod`, `tau_cycle`,
+`deep_child_congr`.  Scripts: `syracuse_lift.py`, `syracuse_test.py`,
+`backward_cover.py`, `phase_word.py`, `tree_perroot.py`.  Note:
 `Devices/BackwardMixing.md`.
 
 ### §2 Measurements (provenance in each cell)
@@ -14232,6 +14284,16 @@ is `0.2857, 0.3448, 0.3598, 0.3682, 0.3726, 0.3758, 0.3772, 0.3781` at levels
 `StochasticTree` table, one index shift).  Exponent certified by `μ`:
 `0.070, 0.077, 0.057, 0.034, 0.025, 0.015, 0, 0`.
 
+`scripts/tree_perroot.py 4 7` — the descendants of one root `a` below `a·Y`,
+classes mod `3, 9, 27, 81`, with `χ := max |count − mean| / √mean`.  At
+`Y = 10^7`: root `1` (`1 979 312` descendants) `χ = 0.06, 0.22, 0.21, 0.68`,
+worst relative deviation `0.36 %`; root `25` `χ = 0.29, 1.06, 2.08, 2.93`,
+`1.7 %`; root `1234567` `χ = 0.14, 0.43, 2.29, 2.31`, `0.85 %`; root
+`10^11 − 23` `χ = 0.06, 0.60, 1.33, 2.01`, `1.1 %`.  `χ` never exceeds `3.5`
+over `Y = 10^2 … 10^7` — the signature of exact equidistribution with `√N`
+fluctuation.  The mod-`9` deviations at `Y = 10^7` are `≤ 0.2 %` against the
+`3 %` that `Equi` allows.
+
 ### §3 The scalar
 
 No exponent moved.  What moved is the *mechanism*: the K–L loss is now
@@ -14258,6 +14320,10 @@ subtree recovering full coverage at scale `M^(≈1.3)` rather than `4^M`.
   classes mod `2 ^ M` against all `3 ^ k` classes mod `3 ^ k`: mod `3` the
   spread is per-node and immediate, mod `2` it can only come from depth.  That
   is the structural reason G1 is a different problem from backward mixing.
+* **A″ (kernel-checked, the memorable form).**  `child_succ`: the next
+  admissible child is `4c + 1`, so a node's children are the forward orbit of
+  `τ c = 4c + 1`, and `tau_cycle` says **`τ` acts on `ℤ/3^k` as a single
+  `3^k`-cycle from any start** — `backward_mixing` in one line.
 * **D (measurement, unconditional).**  The subtree of any node covers every
   class mod `M = 3^k` by scale `Θ(a·M log M)` — the coupon-collector rate of a
   density-one equidistributed set.  First unconditional quantitative statement
@@ -14315,6 +14381,11 @@ honest form of G8:
     -- multiplicity balance (not covering) of the tree of 1
     ∀ ε > 0, ∃ X₀, ∀ X ≥ X₀, ∀ R fertile mod 9,
       (1 − 3ε) · M (R mod 3) X ≤ 3 · N9 R X
+
+**F′ — the per-root shadow of G8, measured.**  Thin inverse-closed sets (the
+subtree of one large root) are equidistributed mod `3^k` to within `√N`
+fluctuation, at every scale and modulus tested, comfortably inside `Equi`'s
+tolerance.  The min-over-lifts adversary is not realised by any root tested.
 
 **F — next round.**  Primary: whether the covering measurement of §2 can be
 made a theorem (a proved upper bound `X_cover ≤ a · M^C` for an explicit `C`),

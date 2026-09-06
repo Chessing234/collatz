@@ -23,7 +23,7 @@ def counts_mod(a, Y, k):
             c = (2 ** v * n - 1) // 3
             if c > X:
                 break
-            if c % 3:
+            if c % 3 and c != n:          # c == n only at the fixed point 1
                 cnt[c % m] += 1
                 tot += 1
                 stack.append(c)
@@ -41,10 +41,12 @@ def fold(cnt, k, j):
 if __name__ == '__main__':
     K = int(sys.argv[1]) if len(sys.argv) > 1 else 3
     E = int(sys.argv[2]) if len(sys.argv) > 2 else 7
-    for a in (1, 27, 1234567, 99999999977):
+    roots = [int(x) for x in sys.argv[3:]] or [1, 25, 1234567, 99999999977]
+    for a in roots:
+        assert a % 2 == 1 and a % 3 != 0, f'root {a} must be odd and prime to 3'
         print(f"root a = {a}")
         print(f"  {'Y':>9} {'nodes':>9} " +
-              " ".join(f"{'min/max mod 3^'+str(j):>18}" for j in range(1, K + 1)))
+              " ".join(f"{'min/max mod 3^'+str(j)+' chi':>26}" for j in range(1, K + 1)))
         for e in range(2, E + 1):
             Y = 10 ** e
             cnt, tot = counts_mod(a, Y, K)
@@ -55,5 +57,6 @@ if __name__ == '__main__':
                 c = fold(cnt, K, j)
                 vals = [c[r] for r in range(3 ** j) if r % 3]
                 mean = tot / len(vals)
-                cells.append(f"{min(vals)/mean:8.4f}/{max(vals)/mean:<9.4f}")
+                chi = max(abs(v - mean) for v in vals) / mean ** 0.5
+                cells.append(f"{min(vals)/mean:6.4f}/{max(vals)/mean:<6.4f} chi{chi:5.2f}")
             print(f"  {Y:>9} {tot:>9} " + " ".join(cells), flush=True)

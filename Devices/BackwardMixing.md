@@ -47,6 +47,20 @@ lift `4^(3^j) = 3^(j+1)c + 1` with `c ≡ 1 mod 3`, from the repository's
 (**the exact order of `4` modulo `3^(k+1)` is `3^k`** — the Round LXXVI item),
 and `inj_on_range_surj`, a from-scratch pigeonhole.
 
+## 1b. The same theorem in one line: `4c + 1` is a full cycle
+
+`BackwardMixing.child_succ`: the next admissible child is `4c + 1` — the
+classical "`n` and `4n+1` have the same Syracuse successor" — so a node's
+children *are* the forward orbit of the affine map `τ c = 4c + 1`, and the
+theorem reads
+
+> **`BackwardMixing.tau_cycle`: `τ c = 4c + 1` acts on `ℤ/3^k` as a single
+> `3^k`-cycle, from any starting point.**
+
+(Because `3·τ^i(c) + 1 = 4^i·(3c + 1)` and `3x + 1` modulo `3^(k+1)` sees `x`
+only modulo `3^k`.)  This is the memorable form: the inverse Syracuse tree
+branches by iterating `4c+1`, and that map is a `3^k`-cycle at every level.
+
 ## 2. The `k = 2` face: a universal word
 
 `phase n ∈ {0,1,2}` (`TreeBranching`) is the slot residue mod `3` whose child
@@ -89,6 +103,38 @@ Covering scales, `log_M(X/a)`, for roots `1`, `1234567`, `10^11−23` at
 `1` equidistributed modulo `M`: **the tree's 3-adic covering is as fast as a
 density-one set would manage.**  The obstruction is in the multiplicities, not
 in the support.
+
+## 3b. Per-root balance: the computable shadow of G8
+
+`Equi` is about the tree of `1`, which below `10^9` is every integer, so it
+cannot be tested.  The subtree of one large root **is** a genuine thin
+inverse-closed set — the root `10^11 − 23` has only `1.9·10^6` descendants
+below `10^18` — and its balance is exactly the per-root statement
+`Devices/StochasticTree.md` §5 sketch 3 asked for.  `scripts/tree_perroot.py`
+enumerates the descendants of `a` below `a·Y` and reports, for each modulus,
+`min/max` of the class counts against their mean and
+`χ := max |count − mean| / √mean`.
+
+At `Y = 10^7` (`k = 1,2,3,4`, i.e. moduli `3, 9, 27, 81`):
+
+| root | descendants | `χ` | worst relative deviation |
+|---|---|---|---|
+| `1` | `1 979 312` | `0.06, 0.22, 0.21, 0.68` | `0.36 %` |
+| `25` | `1 693 382` | `0.29, 1.06, 2.08, 2.93` | `1.7 %` |
+| `1234567` | `4 019 372` | `0.14, 0.43, 2.29, 2.31` | `0.85 %` |
+| `10^11 − 23` | `1 937 402` | `0.06, 0.60, 1.33, 2.01` | `1.1 %` |
+
+`χ` stays `O(1)` — never above `3.5` — across `Y = 10^2 … 10^7`, five orders of
+magnitude and four moduli.  That is the signature of exact equidistribution
+with `√N` fluctuation, not of a residual bias.  In particular the mod-`9`
+deviations are `≤ 0.2 %` at `Y = 10^7` against the `3 %` that `Equi` allows
+(`Equi` asks each class mod `9` to carry `≥ 1/3 − 1/100` of its class mod `3`).
+
+Honest scope: this is the *per-root* statement, not `Equi`, which is a claim
+about `T ∩ [1,X]` as a union over all roots; and the roots tested are small
+against `X`.  But it is the first evidence in this repository about the
+3-adic behaviour of thin inverse-closed sets, and it says the min-over-lifts
+adversary of Krasikov–Lagarias is not realised by any root tested.
 
 ## 4. What this kills
 

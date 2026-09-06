@@ -1,14 +1,14 @@
 # Concept index
 
-5874 theorems/lemmas across 376 files.
+5880 theorems/lemmas across 376 files.
 
 ## Cluster sizes
 
 - orbit windows: 941
-- cycle equations: 402
+- cycle equations: 403
 - descent: 397
 - affine accumulator: 391
-- 3-adic valuation: 316
+- 3-adic valuation: 321
 - 2-adic valuation: 305
 - divisibility: 286
 - gap G=2^L-3^a: 272
@@ -16,7 +16,7 @@
 - Beatty/Sturmian: 192
 - counting/entropy: 189
 - heavy words: 185
-- C mod 2^j: 183
+- C mod 2^j: 184
 - C mod G: 142
 - reverse paths: 95
 - residue classes: 50

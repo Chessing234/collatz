@@ -307,15 +307,25 @@ theorem four_pow_eq_one_of_mul {B d k : Nat} (hB : B % 3 ≠ 0)
 
 /-! ## 5. Backward mixing -/
 
-/-- One direction of the injectivity, with the indices ordered. -/
-theorem class_eq_imp_eq {a : Nat} (ha : a % 3 ≠ 0) {k i j : Nat} (hij : i ≤ j) (hj : j < 3 ^ k)
-    (h : (4 ^ i * base a) % 3 ^ (k + 1) = (4 ^ j * base a) % 3 ^ (k + 1)) : i = j := by
-  have hsplit : (4:Nat) ^ j * base a = (4 ^ i * base a) * 4 ^ (j - i) := by
+/-- `4 ^ i * B` is prime to `3` whenever `B` is. -/
+theorem four_pow_mul_ne {B : Nat} (hB : B % 3 ≠ 0) (i : Nat) : (4 ^ i * B) % 3 ≠ 0 := by
+  have h4 : (4:Nat) ^ i % 3 = 1 := by
+    induction i with
+    | zero => decide
+    | succ i ih => rw [Nat.pow_succ, Nat.mul_mod, ih]
+  rw [Nat.mul_mod, h4, Nat.one_mul, Nat.mod_mod_of_dvd _ (Nat.dvd_refl 3)]
+  exact hB
+
+/-- **The geometric progression `4 ^ i · B` is injective modulo `3 ^ (k+1)`
+for `i < 3 ^ k`**, for every `B` prime to `3`.  One direction, indices ordered. -/
+theorem class_eq_imp_eq {B : Nat} (hB : B % 3 ≠ 0) {k i j : Nat} (hij : i ≤ j) (hj : j < 3 ^ k)
+    (h : (4 ^ i * B) % 3 ^ (k + 1) = (4 ^ j * B) % 3 ^ (k + 1)) : i = j := by
+  have hsplit : (4:Nat) ^ j * B = (4 ^ i * B) * 4 ^ (j - i) := by
     have he : i + (j - i) = j := by omega
     have hji : (4:Nat) ^ j = 4 ^ i * 4 ^ (j - i) := by rw [← Nat.pow_add, he]
     rw [hji, Nat.mul_right_comm]
   rw [hsplit] at h
-  have hone := four_pow_eq_one_of_mul (step_mod_three_pow_ne ha i) h.symm
+  have hone := four_pow_eq_one_of_mul (four_pow_mul_ne hB i) h.symm
   rcases Nat.eq_zero_or_pos (j - i) with hd | hd
   · omega
   · exact absurd hone (four_pow_ne_one hd (by omega))
@@ -338,9 +348,10 @@ theorem child_class_inj {a : Nat} (ha : a % 3 ≠ 0) (k : Nat) {i j : Nat}
   have heq : (2 ^ (v0 a + 2 * i) * a) % 3 ^ (k + 1)
       = (2 ^ (v0 a + 2 * j) * a) % 3 ^ (k + 1) := by omega
   rw [two_pow_step, two_pow_step] at heq
+  have hbase : base a % 3 ≠ 0 := by rw [base_mod_three ha]; omega
   rcases Nat.le_total i j with hij | hij
-  · exact class_eq_imp_eq ha hij hj heq
-  · exact (class_eq_imp_eq ha hij hi heq.symm).symm
+  · exact class_eq_imp_eq hbase hij hj heq
+  · exact (class_eq_imp_eq hbase hij hi heq.symm).symm
 
 /-- **Backward mixing, surjective half.**  Every class modulo `3 ^ k` is the
 class of one of the first `3 ^ k` children. -/
@@ -382,6 +393,68 @@ theorem backward_mixing {a : Nat} (ha : a % 3 ≠ 0) (k : Nat) :
   ⟨fun _ _ hi hj h => child_class_inj ha k hi hj h,
    fun _ hr => child_class_surj ha k hr,
    fun i => child_class_period ha k i⟩
+
+/-! ## 5b. The same theorem, as a fact about `c ↦ 4 c + 1`
+
+The next admissible child is `4c + 1` — the classical "`n` and `4n+1` have the
+same Syracuse successor" — so a node's children *are* the forward orbit of the
+affine map `τ c = 4c + 1`, and `backward_mixing` says exactly:
+
+> **`τ c = 4 c + 1` acts on `ℤ/3^k` as a single `3^k`-cycle**, from any
+> starting point. -/
+
+/-- The next admissible child is `4c + 1`. -/
+theorem child_succ {a v : Nat} (h : (2 ^ v * a) % 3 = 1) :
+    child a (v + 2) = 4 * child a v + 1 := by
+  have e3 : (2:Nat) ^ (v + 2) * a = 4 * (2 ^ v * a) := by
+    rw [Nat.pow_add, show (2:Nat) ^ 2 = 4 from rfl, Nat.mul_right_comm,
+        Nat.mul_comm (2 ^ v * a) 4]
+  have h2 : (2 ^ (v + 2) * a) % 3 = 1 := by rw [e3, Nat.mul_mod, h]
+  have e1 : 3 * child a (v + 2) + 1 = 2 ^ (v + 2) * a := child_eq h2
+  have e2 : 3 * child a v + 1 = 2 ^ v * a := child_eq h
+  omega
+
+/-- `τ c = 4c + 1`, iterated. -/
+def tauIter : Nat → Nat → Nat
+  | 0, c => c
+  | (i + 1), c => 4 * tauIter i c + 1
+
+theorem three_tau_iter (c : Nat) : ∀ i, 3 * tauIter i c + 1 = 4 ^ i * (3 * c + 1) := by
+  intro i
+  induction i with
+  | zero => simp [tauIter]
+  | succ i ih =>
+    show 3 * (4 * tauIter i c + 1) + 1 = 4 ^ (i + 1) * (3 * c + 1)
+    rw [Nat.pow_succ, Nat.mul_comm (4 ^ i) 4, Nat.mul_assoc, ← ih]
+    omega
+
+/-- `3 x + 1` modulo `3 ^ (k+1)` sees `x` only modulo `3 ^ k`. -/
+theorem three_mul_mod (x k : Nat) : (3 * x + 1) % 3 ^ (k + 1) = 3 * (x % 3 ^ k) + 1 := by
+  have hp : 0 < (3:Nat) ^ k := three_pow_pos k
+  have hr : x % 3 ^ k < 3 ^ k := Nat.mod_lt _ hp
+  have hd := Nat.div_add_mod x (3 ^ k)
+  have hsplit : 3 * x + 1 = 3 ^ (k + 1) * (x / 3 ^ k) + (3 * (x % 3 ^ k) + 1) := by
+    rw [three_pow_succ, Nat.mul_assoc]
+    omega
+  rw [hsplit, Nat.mul_add_mod, Nat.mod_eq_of_lt]
+  rw [three_pow_succ]
+  omega
+
+/-- **`τ c = 4c + 1` acts on `ℤ/3^k` as a single `3^k`-cycle**, from any start. -/
+theorem tau_cycle (c k : Nat) :
+    (∀ i j, i < 3 ^ k → j < 3 ^ k → tauIter i c % 3 ^ k = tauIter j c % 3 ^ k → i = j)
+    ∧ (∀ r, r < 3 ^ k → ∃ i, i < 3 ^ k ∧ tauIter i c % 3 ^ k = r) := by
+  have hB : (3 * c + 1) % 3 ≠ 0 := by omega
+  have inj : ∀ i j, i < 3 ^ k → j < 3 ^ k →
+      tauIter i c % 3 ^ k = tauIter j c % 3 ^ k → i = j := by
+    intro i j hi hj h
+    have key : (4 ^ i * (3 * c + 1)) % 3 ^ (k + 1) = (4 ^ j * (3 * c + 1)) % 3 ^ (k + 1) := by
+      rw [← three_tau_iter c i, ← three_tau_iter c j, three_mul_mod, three_mul_mod, h]
+    rcases Nat.le_total i j with hij | hij
+    · exact class_eq_imp_eq hB hij hj key
+    · exact (class_eq_imp_eq hB hij hi key.symm).symm
+  exact ⟨inj, fun r hr => inj_on_range_surj (3 ^ k) (fun i => tauIter i c % 3 ^ k)
+    (fun _ _ => Nat.mod_lt _ (three_pow_pos _)) inj r hr⟩
 
 /-! ## 6. The `2`-adic mirror: anti-mixing
 
