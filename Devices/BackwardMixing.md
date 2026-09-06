@@ -131,6 +131,26 @@ One number is explained, though: `γ_∞ ≈ 1.5131` against the max-relaxation
 ghost's measured growth `1.50` at every level (`StochasticTree` §4) — the
 ghost's constant is the worst lift share of the Syracuse law.
 
+## 4b. The 2-adic mirror: anti-mixing (kernel-checked)
+
+The 3-adic statement is as strong as it could be; the 2-adic one is as weak as
+it could be, and for the same reason `3·child + 1 = 2^v · a`.  Modulo `2^M` the
+right side vanishes as soon as `v ≥ M`, so
+
+> `BackwardMixing.deep_child_congr`: for **any** two nodes `n, m` and any
+> admissible valuations `v, w ≥ M`, `child n v ≡ child m w (mod 2^M)`.
+
+Every child taken at valuation `≥ M`, from every node at once, sits in the one
+class solving `3c ≡ −1 (mod 2^M)` — `1, 1, 5, 5, 21, 21, 85, 85, …` for
+`M = 1…8`.  So a node's children occupy at most `⌈(M − v₀)/2⌉ + 1` classes
+modulo `2^M`, against **all** `3^k` classes modulo `3^k`.
+
+That asymmetry is the reason G1 (mixing modulo `2^M`) is a different kind of
+problem from backward mixing modulo `3^k`: mod `3` the spread is per-node and
+immediate, mod `2` it can only come from depth.  It also says the two "local
+blindness" phenomena of `Strategy/LocalBlindness` have different mechanisms at
+the two primes, which that theorem's uniform statement does not distinguish.
+
 ## 5. Where the wall is, stated exactly
 
 Within one generation the tree is diagonalised by the *multiplicative*

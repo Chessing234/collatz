@@ -14251,6 +14251,13 @@ subtree recovering full coverage at scale `M^(≈1.3)` rather than `4^M`.
 * **C (identification).**  The Perron vector of the lift-averaged K–L system
   at exponent `1` is Tao's Syracuse random variable `Syrac(ℤ/3^(k+1))`,
   exactly (`A_1 μ = μ`, consistent projections).
+* **A′ (kernel-checked, the mirror).**  `deep_child_congr`: for any two nodes
+  and any admissible valuations `v, w ≥ M`, the two children agree modulo
+  `2 ^ M` — every deep child of every node sits in the single class solving
+  `3c ≡ −1 (mod 2 ^ M)`.  So one generation reaches at most `⌈(M−v₀)/2⌉ + 1`
+  classes mod `2 ^ M` against all `3 ^ k` classes mod `3 ^ k`: mod `3` the
+  spread is per-node and immediate, mod `2` it can only come from depth.  That
+  is the structural reason G1 is a different problem from backward mixing.
 * **D (measurement, unconditional).**  The subtree of any node covers every
   class mod `M = 3^k` by scale `Θ(a·M log M)` — the coupon-collector rate of a
   density-one equidistributed set.  First unconditional quantitative statement

@@ -383,5 +383,61 @@ theorem backward_mixing {a : Nat} (ha : a % 3 ≠ 0) (k : Nat) :
    fun _ hr => child_class_surj ha k hr,
    fun i => child_class_period ha k i⟩
 
+/-! ## 6. The `2`-adic mirror: anti-mixing
+
+The `3`-adic statement above is as strong as it could be.  The `2`-adic one is
+as weak as it could be, and for the same reason — `3 · child + 1 = 2 ^ v · a`.
+Modulo `2 ^ M` the right-hand side vanishes as soon as `v ≥ M`, so the child's
+class is pinned to the single solution of `3 c ≡ −1 (mod 2 ^ M)`, *for every
+node at once*.  A node's children therefore occupy at most `⌈(M − v₀)/2⌉ + 1`
+classes modulo `2 ^ M` — the ones at `v < M`, plus that one universal class —
+against all `3 ^ k` classes modulo `3 ^ k`.  This is why G1 (mixing modulo
+`2 ^ M`) is a different kind of problem from backward mixing modulo `3 ^ k`:
+mod `3` the spread is per-node and immediate, mod `2` it can only come from
+depth. -/
+
+/-- **2-adic anti-mixing.**  Every child taken at valuation `≥ M`, from any
+node whatever, lies in one and the same class modulo `2 ^ M`. -/
+theorem deep_child_congr {n m v w M : Nat}
+    (hn : (2 ^ v * n) % 3 = 1) (hm : (2 ^ w * m) % 3 = 1)
+    (hv : M ≤ v) (hw : M ≤ w) :
+    child n v % 2 ^ M = child m w % 2 ^ M := by
+  have hP : 0 < (2:Nat) ^ M := two_pow_pos M
+  -- `3 c + 1 ≡ 0 (mod 2 ^ M)` for both children
+  have key : ∀ x y : Nat, (2 ^ x * y) % 3 = 1 → M ≤ x →
+      (3 * (child y x % 2 ^ M) + 1) % 2 ^ M = 0 := by
+    intro x y hxy hx
+    have hc : 3 * child y x + 1 = 2 ^ x * y := child_eq hxy
+    have hsplit : (2:Nat) ^ x = 2 ^ M * 2 ^ (x - M) := by
+      rw [← two_pow_add]
+      have : M + (x - M) = x := by omega
+      rw [this]
+    have h0 : (3 * child y x + 1) % 2 ^ M = 0 := by
+      rw [hc, hsplit, Nat.mul_assoc]
+      exact Nat.mul_mod_right _ _
+    rw [Nat.add_mod, Nat.mul_mod, Nat.mod_mod_of_dvd _ (Nat.dvd_refl _), ← Nat.mul_mod,
+        ← Nat.add_mod]
+    exact h0
+  -- both residues solve `3 A + 1 = 2 ^ M · q` with `q ∈ {1, 2}`
+  have step : ∀ A : Nat, A < 2 ^ M → (3 * A + 1) % 2 ^ M = 0 →
+      3 * A + 1 = 2 ^ M ∨ 3 * A + 1 = 2 * 2 ^ M := by
+    intro A hA h0
+    obtain ⟨q, hq⟩ : (2:Nat) ^ M ∣ (3 * A + 1) := Nat.dvd_of_mod_eq_zero h0
+    have hq2 : q ≤ 2 := by
+      rcases Nat.lt_or_ge q 3 with h | h
+      · omega
+      · have : (2:Nat) ^ M * 3 ≤ 2 ^ M * q := Nat.mul_le_mul_left _ h
+        omega
+    have hq0 : q ≠ 0 := by
+      intro h
+      rw [h, Nat.mul_zero] at hq
+      omega
+    have hqv : q = 1 ∨ q = 2 := by omega
+    rcases hqv with h | h <;> rw [h] at hq <;> omega
+  have hA : child n v % 2 ^ M < 2 ^ M := Nat.mod_lt _ hP
+  have hB : child m w % 2 ^ M < 2 ^ M := Nat.mod_lt _ hP
+  rcases step _ hA (key v n hn hv) with h1 | h1 <;>
+    rcases step _ hB (key w m hm hw) with h2 | h2 <;> omega
+
 end BackwardMixing
 end Collatz
