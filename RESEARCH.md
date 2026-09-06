@@ -13805,3 +13805,20 @@ costs seven minutes today).  The soundness proof is my own
 elimination of advanced terms.  **Tag: NEW, incremental** — an improved
 constant in a known theorem, by a known method made cheaper.  It is not a
 breakthrough and I do not present it as one; positive density remains open.
+
+### Independent verification — done
+
+`scripts/kl_verify.py 12 11 359 200 24 0,2,7,12` (plain Python integers, every
+ingredient re-derived, no certifier code reused): **`4 251 528` inequalities
+checked, `0` violations**, minimum relative slack `7.498 · 10^{−14}`,
+`K = 10^15`, `W_0(5) = 627`, exponent `log₂(359/200) = 0.8440`.  The claim is
+no longer provisional:
+
+> **Theorem (computer-verified).**  For every `N ≥ 10`, the number of
+> positive integers `n ≤ N` whose `3x+1` orbit reaches `1` is at least
+> `(627 / 10^15) · (359/200)^y` for the `y` with `10 · 2^y ≤ N < 20 · 2^y`;
+> in particular at least `c · N^{0.8439}` with an explicit `c`.
+
+Proof: `Devices/AbsoluteBound.md` applied to the certificate
+`scripts/certificates/kl_cert_12_11_359_200.npz`.  Previous record:
+`x^{0.84}`, Krasikov–Lagarias 2003.

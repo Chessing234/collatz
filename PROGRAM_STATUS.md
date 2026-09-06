@@ -609,7 +609,7 @@ the kernel clean.
 
 ---
 
-## Standing problem G6 — inverse-tree coverage — **attacked; kernel-checked `7/10`; computer-verified `0.8439`, above the literature's `0.84`**
+## Standing problem G6 — inverse-tree coverage — **attacked; kernel-checked `7/10`; computer-verified (twice) `0.8439`, above the literature's `0.84`**
 
 **Before Round LXXVI:** nothing proved.  `Papers/KrasikovLagarias2003` recorded
 the Krasikov–Lagarias lower bound as a proposition with no proof claimed, and
@@ -709,8 +709,9 @@ Python integers, `scripts/kl_certify.py` / `kl_verify.py`,
     #{ n ≤ N : n reaches 1 } ≥ (627 / 10^15) · (359/200)^y   for 10 · 2^y ≤ N,
 
 exponent `log₂(359/200) = 0.8439`, above Krasikov–Lagarias's `0.84` (their
-level `11`; my implementation reproduces `0.8418` there).  Provisional until
-the independent checker finishes.  Level `13` is running.
+level `11`; my implementation reproduces `0.8418` there).  **Independently
+re-verified** by `scripts/kl_verify.py`: `4 251 528` inequalities, `0`
+violations.  Level `13` is running.
 
 **Obstruction to the scalar now.**  The continuous system's values `0.7608,
 0.7826, 0.8032, 0.8168, 0.8295, 0.8418, 0.8531` at levels `6…12` rise by a
