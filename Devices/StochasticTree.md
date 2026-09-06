@@ -220,6 +220,28 @@ depth `D` and drop the remainder; `scripts`-level check: at `α = 0.85`,
 `ε = 1/100`, depth `30` retains `98.9 %` of the mass, slack `2.8 %`) and is
 the next formalisation target.
 
+*The one-hypothesis theorem, kernel-checked.*  `Strategy/TreeBalance9.lean`
+(`count_balance9`) drops `Bal4`: with `T` the integers reaching `1` in any
+number of steps and `Equi` the mod-`9` balance to `1/100` above `2^20`,
+
+> `Equi → ∀ N ≥ 1, N^21 < 20^21 · 10^1375 · (reachCount N)^25`
+
+— at least `c · N^0.84` integers up to `N` reach `1`.  The advanced terms are
+handled the way Krasikov–Lagarias handle them, by back-substitution, but
+finitely and inside the certificate: on the lattice `3^j 2^y` a node at depth
+`d`, total valuation `V`, is advanced when `2^V ≤ 3^d`; `expand` applies the
+recursion (R) to every advanced node to depth `10` (the path counts `A d V`
+are a literal table whose recursion the kernel checks, `A_rec`), keeps the
+retarded nodes as leaves, and drops the depth-`10` advanced frontier.  Every
+retarded leaf has a strictly smaller bound (`19 d < 12 V`), so the
+absolute-bound induction on the `19/12` lattice closes with one certificate
+inequality at ratio `(21/20)^12 = 2^0.8447` (`cert`, `145` leaves, slack
+`3 %`).  Axioms `propext, Classical.choice, Quot.sound`; the certificate and the base bound are
+kernel-evaluated in seconds.  So the honest statement of Theorem C is:
+**a set of integers closed under the inverse map that is balanced modulo `9`
+inside each class modulo `3` — the tree of `1` under `Equi` — has counting
+exponent at least `0.84`; a thin tree of `1` is unbalanced modulo `9`.**
+
 *Status against the closure map.*  Equi and Bal4 are statements about the
 tree of `1`, not `d`-free, not functions of `(L, a, C, G)`, positive about the
 tree (diagnostic 4 does not apply).  They are implied by the conjecture and

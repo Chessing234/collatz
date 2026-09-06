@@ -114,6 +114,8 @@ The lift-averaged Krasikov–Lagarias system is column-stochastic at every level
 
 If the integers reaching `1` are balanced modulo `36` within their classes modulo `3` (to `1/64`), at least `N^0.89/c` of them lie below `N` (`Strategy/TreeBalance.count_balance`, kernel-checked); a thin tree of `1` is an unbalanced one.
 
+With only the balance modulo `9` (to `1/100`), at least `N^0.84/c` of them lie below `N` (`Strategy/TreeBalance9.count_balance9`, kernel-checked): the advanced terms of Krasikov–Lagarias are expanded to depth ten inside the certificate.
+
 Every light parity word with an odd step is the cycle word of some `3x+d` with `d = 1` modulo any power of `6`.
 
 So a proof that `3x+1` has no cycle must use the integer `1` through its size, never through a congruence at `2` or `3`.

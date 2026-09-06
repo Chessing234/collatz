@@ -14110,3 +14110,22 @@ the certificate's `1/k` loss.  So residues alone overstate the adversary's
 gain; the extra cancellation comes from the descendants' own subtrees.  The
 explanation in §5 of the note is qualitatively right and quantitatively
 incomplete; recorded as such.
+
+### Round LXXVII, continued — the one-hypothesis form, kernel-checked
+
+`Strategy/TreeBalance9.lean` (37 declarations): `count_balance9 : Equi →
+∀ N ≥ 1, N ^ 21 < 20 ^ 21 · 10 ^ 1375 · (reachCount N) ^ 25`, i.e. mod-`9`
+balance to `1/100` above `2^20` alone gives exponent `0.84`.  Unbounded
+reachability (`ReachOne`, classical decidability), classes collapsed to
+`Mm X = min (M 1 X) (M 2 X)` because the parents' classes mod `3` depend only
+on the parity of the valuation.  The advanced terms are expanded to depth
+`10` (`expand`: `Leaves + Front ≤ 300^D · Mm(root)`, induction on the depth,
+with the path table `A` a literal list checked by `decide +kernel` in three
+seconds and the convolution `conv` re-indexing the frontier); the certificate
+`cert` (145 retarded leaves, ratio `(21/20)^12`, slack `3 %`) and the base
+bound are kernel-evaluated in about six seconds each.  What the earlier draft of Theorem C cited from Krasikov–Lagarias
+(their back-substitution theorem) is now replaced by a finite, checked
+expansion.  Novelty: **NEW** — the reduction "3-adic balance of the tree of
+`1` ⟹ counting exponent near `1`" with an explicit pair of constants, in the
+kernel.  Measured but not certified: depth `12` at ratio `21/20` has slack
+`4 %`; ratio `22/21` (`0.805`) already closes at depth `6`.

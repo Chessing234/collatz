@@ -111,6 +111,9 @@ import Collatz
 #print axioms Collatz.TreeBalance.family
 #print axioms Collatz.TreeBalance.claims
 #print axioms Collatz.TreeBalance.count_balance
+#print axioms Collatz.TreeBalance9.expand
+#print axioms Collatz.TreeBalance9.cert
+#print axioms Collatz.TreeBalance9.count_balance9
 LEAN
 axout="$(lake env lean /tmp/collatz_axcheck.lean)"
 printf '%s\n' "$axout"
