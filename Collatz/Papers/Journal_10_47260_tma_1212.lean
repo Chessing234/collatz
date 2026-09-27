@@ -1,0 +1,39 @@
+import Collatz.Basic
+import Collatz.Papers.MathlibCopied
+
+/-!
+Lean notes for Robert Deloin, "A Brand new Approach to Collatz Conjecture", 2022.
+
+Title: A Brand new Approach to Collatz Conjecture
+
+Abstract (from harvested metadata, truncated):
+Abstract The aim of this paper is to propose a brand new approach on Collatz conjecture as well as a proof of it. The method is based on the fundamental theorem of arithmetics and on a definition of trajectories that implies a contradiction to the latter theorem when a divergence or looping of the algorithm is assumed. This contradiction proves Collatz conjecture. Mathematics Subject Classification: 11A51, 11Y05, 11Y11. Keywords: Conjecture, Collatz, Syracuse, 3n+1, Trajectory.
+
+Status: statement recorded under `mainStatement`.
+Only the named checked lemmas below are kernel-proved.
+This file does not claim a complete formalization of the paper.
+
+Source: https://doi.org/10.47260/tma/1212
+-/
+
+namespace Collatz.Papers.Journal_10_47260_tma_1212
+
+/-- Exact bibliographic citation tracked by this file. -/
+def citation : String :=
+  "Robert Deloin, \"A Brand new Approach to Collatz Conjecture\", Theoretical Mathematics & Applications, DOI:10.47260/tma/1212 [2022]."
+
+/-- Recorded nontrivial-cycle exclusion shell; the paper's theorem is not proved. -/
+def mainStatement : Prop :=
+  ∀ n : Nat, 1 < n → ∀ k : Nat, 0 < k → Collatz.orbit k n = n →
+    ∃ j : Nat, j ≤ k ∧ Collatz.orbit j n = 1
+
+/-- Checked: the trivial cycle through `1` returns after three steps. -/
+theorem orbit_one_returns : Collatz.orbit 3 1 = 1 :=
+  (Collatz.Papers.MathlibCopied.trivial_cycle).1
+
+theorem step_branches_on_cycle :
+    Collatz.step 1 = 4 ∧ Collatz.step 4 = 2 ∧ Collatz.step 2 = 1 := by
+  have h := Collatz.Papers.MathlibCopied.trivial_cycle
+  exact ⟨h.2.1, h.2.2.1, h.2.2.2⟩
+
+end Collatz.Papers.Journal_10_47260_tma_1212
