@@ -1,0 +1,28 @@
+import Collatz.Strategy.PeriodicRigidity
+import Collatz.Strategy.PeriodicDefectMinimum
+import Collatz.Strategy.PeriodicSingleDefect
+import Collatz.Strategy.PeriodicSingleDefectAll
+
+#print axioms Collatz.PeriodicRigidity.branch_rigidity
+#print axioms Collatz.PeriodicRigidity.invariant_constant
+#print axioms Collatz.PeriodicRigidity.defect_progression
+#print axioms Collatz.PeriodicRigidity.defect_packing
+#print axioms Collatz.PeriodicRigidity.threeLabel_defect
+#print axioms Collatz.PeriodicRigidity.divisibleLabel_defect
+#print axioms Collatz.PeriodicRigidity.divisibleLabel_least_period
+#print axioms Collatz.PeriodicRigidity.eventually_invariant_constant
+#print axioms Collatz.PeriodicRigidity.collatz_iff_eventually_periodic_basin
+#print axioms Collatz.PeriodicDefectMinimum.mass_conservation
+#print axioms Collatz.PeriodicDefectMinimum.defects_twice_exits
+#print axioms Collatz.PeriodicDefectMinimum.minimum_defects
+#print axioms Collatz.PeriodicDefectMinimum.threshold_sum
+#print axioms Collatz.PeriodicDefectMinimum.variation_lower_bound
+#print axioms Collatz.PeriodicDefectMinimum.variation_sharp
+#print axioms Collatz.PeriodicSingleDefect.affine_single_defect
+#print axioms Collatz.PeriodicSingleDefect.doubling_invariant_of_single_defect
+#print axioms Collatz.PeriodicSingleDefect.single_defect_rigidity
+#print axioms Collatz.PeriodicSingleDefect.one_defect_iff
+#print axioms Collatz.PeriodicSingleDefectAll.composable_lift
+#print axioms Collatz.PeriodicSingleDefectAll.descend_single_defect
+#print axioms Collatz.PeriodicSingleDefectAll.all_single_defect
+#print axioms Collatz.PeriodicSingleDefectAll.one_defect_iff_all

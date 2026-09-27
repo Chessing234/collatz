@@ -1,0 +1,10 @@
+import Collatz.Strategy.PeriodicVariationStability
+
+#print axioms Collatz.PeriodicVariationStability.cut_cost
+#print axioms Collatz.PeriodicVariationStability.variation_stability
+#print axioms Collatz.PeriodicVariationStability.equality_rigidity
+#print axioms Collatz.PeriodicVariationStability.spike_variation
+#print axioms Collatz.PeriodicVariationStability.optimal_iff
+#print axioms Collatz.PeriodicVariationStability.near_optimal_uniform
+#print axioms Collatz.PeriodicVariationStability.stability_sharp
+#print axioms Collatz.PeriodicVariationStability.nested_spikes_variation
