@@ -1,0 +1,548 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=25mm,headheight=15pt]{geometry}
+\usepackage{fontspec}
+\setmainfont{texgyrepagella-regular.otf}[BoldFont=texgyrepagella-bold.otf,ItalicFont=texgyrepagella-italic.otf,BoldItalicFont=texgyrepagella-bolditalic.otf]
+\setsansfont{texgyreheros-regular.otf}[BoldFont=texgyreheros-bold.otf]
+\setmonofont[Path=fonts/,Scale=0.88]{JuliaMono-Regular.ttf}
+\usepackage{amsmath,amsthm,amssymb,mathtools}
+\usepackage{microtype,xcolor,booktabs,longtable,array,enumitem,fancyhdr,fvextra}
+\usepackage[unicode,colorlinks=true,linkcolor=teal!55!black,urlcolor=teal!55!black,citecolor=teal!55!black]{hyperref}
+\usepackage{bookmark}
+\definecolor{ink}{HTML}{183540}
+\definecolor{muted}{HTML}{52626B}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\sffamily\color{muted}Uniform Syracuse atom bound}
+\fancyhead[R]{\small\sffamily\color{muted}Verified derivation}
+\fancyfoot[C]{\small\thepage}
+\setlength{\parskip}{5pt}\setlength{\parindent}{0pt}
+\setlength{\emergencystretch}{2em}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}\newtheorem{remark}[theorem]{Remark}
+\newcommand{\Z}{\mathbb Z}\newcommand{\N}{\mathbb N}\newcommand{\R}{\mathbb R}
+\newcommand{\E}{\mathbb E}\newcommand{\PP}{\mathbb P}
+\newcommand{\pos}[1]{\left(#1\right)_{+}}
+\newcommand{\proj}[2]{\pi_{#1,#2}}
+\newcommand{\av}[2]{\langle #2\rangle_{#1}}
+\newcommand{\normone}[2]{\lVert #2\rVert_{1,#1}}
+\newcommand{\code}[1]{{\small\nolinkurl{#1}}}
+\hypersetup{pdftitle={A Uniform Lower Bound for Syracuse Atoms},pdfauthor={Research derivation and Lean verification record}}
+\begin{document}
+\begin{center}
+{\LARGE\bfseries\color{ink}A Uniform Lower Bound\\[4pt]for Syracuse Atoms}\par
+\vspace{7pt}
+{\large Mathematical derivation and checked Lean source}\par
+\vspace{6pt}
+{\sffamily Reverification: 12 September 2026}
+\end{center}
+\begin{abstract}
+We derive a constant $c>0$, independent of the depth $n$ and the unit residue
+$r\pmod{3^n}$, such that the actual Syracuse probability satisfies
+$\mu_n(r)\ge c3^{-n}$. The connection is a positive-part comparison of
+filtered backward marks with the full law, followed by a fixed-cylinder
+argument and a bounded inverse step. We give the complete derivation of this
+connection, state precisely the imported analytic inputs, explain their
+summability mechanism, and append the consolidated Lean proof that was
+compiled for this document. The argument uses substantial prior work by
+Terence Tao and Lech Mazur. It does not prove the Collatz conjecture or
+establish historical priority.
+\end{abstract}
+\tableofcontents
+\newpage
+
+\section{The exact theorem and the probability law}
+Let $R_n=\Z/3^n\Z$ and $U_n=R_n^\times$. If $h\le q$, write
+$\proj hq:R_q\to R_h$ for reduction modulo $3^h$.
+Let $A_1,A_2,\ldots$ be independent positive integer variables satisfying
+\begin{equation}\label{geom}
+ \PP(A_i=v)=2^{-v},\qquad v=1,2,\ldots.
+\end{equation}
+All powers of $2$ below are inverted in the indicated odd-modulus ring.
+Define the probability mass function
+\begin{equation}\label{law}
+ \mu_n(r)=\PP\left(\sum_{j=1}^{n}3^{j-1}2^{-(A_1+\cdots+A_j)}=r\text{ in }R_n\right).
+\end{equation}
+The empty sum at level zero is zero. The reversed iid list has the same
+law, so this is equivalently the recursive law used in Lean:
+\begin{equation}\label{step}
+ F_{n,v}(z)=2^{-v}(3\widetilde z+1)\pmod{3^{n+1}},\qquad
+ \mu_{n+1}(r)=\sum_{z\in R_n}\sum_{v\ge1}
+ \mu_n(z)2^{-v}\mathbf1_{F_{n,v}(z)=r}.
+\end{equation}
+Here $\widetilde z$ is the canonical integer representative. Changing its
+lift by $3^n$ changes $3\widetilde z$ by $3^{n+1}$, so the map is well-defined.
+The Lean objects are \code{Erdos1135.Tao.syracStep} and
+\code{Erdos1135.Tao.syracPMF}.
+
+\begin{theorem}[Uniform atom lower bound]\label{main}
+There exists a real number $c>0$ such that for every integer $n\ge1$ and
+every $r\in U_n$,
+\begin{equation}\label{mainbound}
+ \mu_n(r)\ge \frac{c}{3^n}.
+\end{equation}
+\end{theorem}
+The quantifier order is $\exists c\;\forall n\;\forall r$. No hypothesis
+about deterministic Collatz convergence is present.
+
+For $n\ge1$, the law is supported on $U_n$: reducing the sum in
+\eqref{law} modulo $3$ leaves $2^{-A_1}\ne0$. There are $2\cdot3^{n-1}$ units.
+Consequently, if $m_n=\min_{r\in U_n}\mu_n(r)$, averaging and
+Theorem~\ref{main} give
+\begin{equation}\label{theta}
+ c3^{-n}\le m_n\le\frac32\,3^{-n}.
+\end{equation}
+In particular $m_n=\Theta(3^{-n})$, and
+$\log m_n=-n\log3+O(1)$, hence $m_n=3^{-n+o(n)}$.
+This is stronger than the exponential-rate conjecture discussed in
+Tao's 2020 note~\cite{tao2020}. The asymptotic interpretation is an elementary
+corollary explained here; the literal audited Lean endpoint is
+\eqref{mainbound}.
+
+\section{Normalization, projectivity, and the source inputs}
+For a function $f:R_q\to\R$, put
+\[
+ \av qf=3^{-q}\sum_{y\in R_q}f(y),\qquad
+ \normone qf=\av q{|f|},\qquad t_+=\max(t,0).
+\]
+The density used in the imported core library is
+\begin{equation}\label{rho}
+ \rho_q(y)=\frac23\,3^q\mu_q(y),\qquad \av q{\rho_q}=\frac23.
+\end{equation}
+This is density relative to unit Haar measure, extended by zero, for
+positive $q$. We still take all displayed averages over the \emph{full}
+ring $R_q$. At $q=0$, the same definition gives $\rho_0(0)=2/3$.
+
+Reduction in \eqref{law} discards all terms indexed above $h$. Therefore
+\begin{equation}\label{projective}
+ \sum_{\proj hq(y)=x}\mu_q(y)=\mu_h(x),\qquad
+ \sum_{\proj hq(y)=x}\rho_q(y)=3^{q-h}\rho_h(x).
+\end{equation}
+Each fiber has $3^{q-h}$ points. In particular
+$\av q{f\circ\proj hq}=\av hf$.
+
+We use the following imported fine-scale mixing theorem~\cite{tao2019,mazur}:
+for every positive integer $A$, there exists $C_A\ge0$ such that
+\begin{equation}\label{mix}
+ \normone q{\rho_q-\rho_k\circ\proj kq}
+ \le \frac{2C_A}{3k^A},\qquad 1\le k\le q.
+\end{equation}
+It is \code{Tao.taoProp114FineScaleMixing} together with the exact
+normalization lemma for the reference density.
+
+The second major input is Mazur's core construction and its uniform
+variation estimate. Section~\ref{coreinputs} specifies precisely the facts
+used and the quantitative majorant yielding their convergence. These are
+\emph{proved library theorems}, not added assumptions in the final Lean
+statement. This document does not reproduce the proofs of the entire
+imported Fourier and core library; it gives every step from these explicitly
+identified results to Theorem~\ref{main}. The supporting source is pinned
+and included in the local verification scan.
+
+\section{Prefix transport and the one-sided estimate}
+For a finite valuation word $w=(a_1,\ldots,a_d)$, write
+$|w|=d$, $s(w)=\sum_i a_i$, and $p(w)=2^{-s(w)}$. Use the outer-first
+composition convention
+\[
+ \Phi_w(z)=\phi_{a_1}\circ\cdots\circ\phi_{a_d}(z),
+ \qquad \phi_v(z)=2^{-v}(3z+1).
+\]
+Thus the constant term of $\Phi_w$ is the finite sum in \eqref{law}.
+On $R_{q-d}\to R_q$, $\Phi_w$ is injective: its linear coefficient is
+$3^d2^{-s(w)}$. Define the weighted density transport
+\begin{equation}\label{transport}
+ (T_{w,q}f)(y)=3^d p(w)\sum_{\substack{z\in R_{q-d}\\\Phi_w(z)=y}}f(z).
+\end{equation}
+Injectivity, followed by summation, gives
+\begin{equation}\label{transportnorm}
+ \normone q{T_{w,q}f}=p(w)\normone{q-d}f.
+\end{equation}
+This positive linear map is the mathematical form of the imported
+reference prefix transport.
+
+Let $\mathcal W$ be a finite prefix-free family with $|w|\le q$.
+Its prefix events are pairwise disjoint under the product law
+\eqref{geom}, so
+\begin{equation}\label{kraft}
+ \sum_{w\in\mathcal W}p(w)\le1.
+\end{equation}
+Attaching the full residual Syracuse law after each word yields a selected
+subdensity of the full law:
+\begin{equation}\label{selected}
+ S(y):=\sum_{w\in\mathcal W}T_{w,q}\rho_{q-|w|}(y)\le\rho_q(y).
+\end{equation}
+The factor $2/3$ in \eqref{rho} is the same for all residual lengths,
+including zero, so the normalization is consistent.
+
+Suppose $1\le k\le q-|w|$ for all words, and replace each residual density
+by its $k$-digit projection. Set
+\[
+ L(y)=\sum_{w\in\mathcal W}T_{w,q}
+       (\rho_k\circ\proj{k}{q-|w|})(y).
+\]
+By \eqref{transportnorm}, \eqref{mix}, and \eqref{kraft},
+\begin{align}
+ \normone q{L-S}
+ &\le\sum_{w\in\mathcal W}p(w)
+    \normone{q-|w|}{\rho_k\circ\proj{k}{q-|w|}-\rho_{q-|w|}}\notag\\
+ &\le \frac{2C_A}{3k^A}.
+\end{align}
+Since $S\le\rho_q$, pointwise $(L-\rho_q)_+\le |L-S|$, whence
+\begin{equation}\label{onesided}
+ \av q{(L-\rho_q)_+}\le\frac{2C_A}{3k^A}.
+\end{equation}
+\textbf{The useful change of estimate:} rejected words are favorable to a
+lower bound. Their total mass is not an error term in \eqref{onesided}.
+This is why the positive part is used instead of absolute error against
+the full law.
+
+\section{Filtered kernels and iteration}
+For an imported selected prefix family of maximum horizon $H$, a terminal
+conductor $k$, and a word filter $0\le\psi(w)\le1$, define
+\begin{equation}\label{kernel}
+ Kf=\sum_{w\in\mathcal W}\psi(w)T_{w,H+k}
+                  (f\circ\proj{k}{H+k-|w|}).
+\end{equation}
+Positivity gives $(Kf-Kg)_+\le K((f-g)_+)$. The mean identity from
+\eqref{transportnorm} gives, for $u\ge0$,
+\[
+ \av{H+k}{Ku}=\left(\sum_w\psi(w)p(w)\right)\av ku\le\av ku.
+\]
+Consequently
+\begin{equation}\label{contract}
+ \av{H+k}{(Kf-Kg)_+}\le\av k{(f-g)_+}.
+\end{equation}
+Also $K\rho_k\le L$ because $\psi\le1$ and the transported densities
+are nonnegative. Absorbing $2/3$ into the constant in \eqref{onesided},
+\begin{equation}\label{onestage}
+ \av{H+k}{(K\rho_k-\rho_{H+k})_+}\le D_A/k^A.
+\end{equation}
+The constant is uniform over the root-side parameters and the selected
+families. It is not chosen separately at each generation.
+
+For a base $b\ge200$ define $F(b)=b+\lfloor b/100\rfloor$. The imported
+horizon is $H(b)=b+\lfloor3b/5\rfloor$. With arbitrary cap and width
+schedules, define recursively
+\begin{align*}
+ q(b,k,0)&=k,&G(b,k,0)&=\rho_k,\\
+ q(b,k,N+1)&=H(b)+q(F(b),k,N),&
+ G(b,k,N+1)&=K_bG(F(b),k,N).
+\end{align*}
+In the last line the cap schedule is shifted by one, as in the Lean
+recursion. The core word filter is the indicator
+\[
+ \psi_{b,m}(w)=\mathbf1_{\{b\le |w|+m,\ |w|\le b+m\}}.
+\]
+The selected family itself is the imported capped least-crossing word
+family; it is not selected using the terminal density. Its exact source
+name is \code{ndShiftedReferenceSelectedWords}. The results above need its
+prefix-free property, bounded horizon, and original probabilities only.
+
+\begin{lemma}[All-generation comparison]\label{iteration}
+For every positive integer $A$ there exists $D_A\ge0$ such that
+\[
+ \av{q(b,k,N)}{(G(b,k,N)-\rho_{q(b,k,N)})_+}
+ \le ND_A/k^A\qquad(k\ge1).
+\]
+\end{lemma}
+\begin{proof}
+The case $N=0$ has error zero. For the inductive step put
+$t=q(F(b),k,N)\ge k$ and split
+\[
+ (K_bG-\rho_{H(b)+t})_+
+ \le (K_bG-K_b\rho_t)_++(K_b\rho_t-\rho_{H(b)+t})_+.
+\]
+Average and use \eqref{contract}, the induction hypothesis, and
+\eqref{onestage}. The result is at most
+$ND_A/k^A+D_A/t^A\le(N+1)D_A/k^A$.
+\end{proof}
+
+\section{The core inputs and why their tails are uniform}\label{coreinputs}
+Fix once and for all
+\[
+ b_0=32^5,\quad b_{j+1}=F(b_j),\quad
+ \operatorname{cap}(j)=\lfloor j/100\rfloor,\quad m(b)=\lceil b^{3/5}\rceil.
+\]
+For each $N$, let
+\[
+ k_N=\lfloor b_N/4\rfloor,\quad q_N=q(b_0,k_N,N),\quad
+ G_N=G(b_0,k_N,N)
+\]
+with these cap and width schedules. The use of $k_N$ at every level of
+one backward recursion is important: it is a fixed terminal conductor
+for that recursion, although it changes when $N$ changes.
+
+Write $s_j$ for the probability that the imported least-crossing word at
+floor $b_j$, with cap $\lfloor j/100\rfloor$, lies in the narrow strip
+$[b_j-m(b_j),b_j+m(b_j)]$, and set $P_N=\prod_{j<N}s_j$.
+The imported core results provide the following facts.
+\begin{enumerate}[label=\textbf{C\arabic*.},leftmargin=34pt]
+\item $0<s_j\le1$, $\sum_j(1-s_j)<\infty$, and hence
+      $P_N\ge p>0$ for every $N$.
+\item $G_N\ge0$, it vanishes on nonunits, and
+      $\av{q_N}{G_N}=(2/3)P_N$. In particular some unit $y_N$ satisfies
+      $G_N(y_N)\ge(2/3)P_N$.
+\item For every odd integer $M\ge16^{b_0}$ there exists a real $\ell_M$
+      such that
+      \begin{equation}\label{uniformtail}
+      |\ell_M-G_N(M\bmod3^{q_N})|\le T_N,\qquad T_N\longrightarrow0,
+      \end{equation}
+      where the \emph{same} sequence $T_N$ works for all such $M$.
+\end{enumerate}
+
+Here is the summability mechanism behind C1 and C3, so that the root
+uniformity is explicit. Let
+\[
+ C_{\rm strip}=8\cdot35!\cdot576^{35},\quad g=2013/2000,\quad
+ r_1=g(200/201)^6,\quad r_2=g2^{-1/100}.
+\]
+Both $0<r_1,r_2<1$ are checked in the supporting library. The imported
+strip and cap bounds imply
+\begin{equation}\label{deficits}
+ 0\le1-s_j\le \frac{C_{\rm strip}}{b_0^6}(200/201)^{6j}+2^{-j/100}.
+\end{equation}
+Thus the deficits are summable. Since every $s_j>0$, eventually $s_j\ge1/2$;
+then $-\log s_j\le2(1-s_j)$. Therefore
+$p=\exp(\sum_j\log s_j)>0$ and $P_N\ge p$. No numerical lower estimate
+for $p$ is claimed.
+
+For some fixed $C\ge0$, define
+\begin{align}
+ B_j={}&\frac23(4b_0^{3/5}+1)6(2^{b_0+1}+16^{b_0})(j+1)^3\notag\\[-2pt]
+ &\hspace{8mm}\cdot\left[\frac{2C8^6+C_{\rm strip}}{b_0^6}r_1^j+r_2^j\right].\label{majorant}
+\end{align}
+Mazur's increment theorem bounds the absolute difference between consecutive
+core observables by the original state denominator times $B_j$. For a
+singleton root that denominator is exactly $1$, \emph{independently of $M$}.
+The singleton observable is exactly $G_j(M\bmod3^{q_j})$, not an approximation
+to it. Since $\sum_j(j+1)^3r_i^j<\infty$, we may take
+\[
+ T_N=\sum_{j\ge N}B_j.
+\]
+The Cauchy criterion and telescoping prove \eqref{uniformtail}. The
+constant $C$, all factors in \eqref{majorant}, and the tail cutoff are
+chosen before the physical root. This is the extra information that an
+arbitrary $L^1$-mixing family need not possess.
+
+For direct source correspondence, C1 uses
+\code{exists_pos_le_coreProbabilityProduct}; C2 uses
+\code{exists_unit_rootCoreBackwardMark_ge_product}; C3 uses
+\code{exists_coreMarkedLimit_with_root_uniform_tail},
+\code{rootCoreSingletonState_denominator_eq_one}, and
+\code{rootCoreSingletonState_markedMass_eq_backwardMark}.
+These are in the imported core backward-mean and summed-variation modules.
+
+\section{Freezing one positive cylinder}
+\begin{lemma}\label{fixed}
+There exist $q_*\ge1$, $y_*\in U_{q_*}$, $a>0$, and $N_*$ such that
+for every $N\ge N_*$ with $q_N\ge q_*$ and every $z\in R_{q_N}$,
+\[
+ \proj{q_*}{q_N}(z)=y_*\quad\Longrightarrow\quad G_N(z)\ge a.
+\]
+\end{lemma}
+\begin{proof}
+Choose $N_*$ so that $T_j<p/6$ for all $j\ge N_*$. By C2 choose
+$y_*\in U_{q_{N_*}}$ with $G_{N_*}(y_*)\ge2p/3$ and put
+$q_*=q_{N_*}$, $a=p/3$. For every eligible $M\equiv y_*\pmod{3^{q_*}}$,
+\begin{align*}
+ G_N(M)&\ge\ell_M-T_N\\
+       &\ge G_{N_*}(M)-T_{N_*}-T_N>2p/3-p/6-p/6=p/3.
+\end{align*}
+All function arguments here are reduced at their respective conductors.
+For any fixed finite $z\in R_{q_N}$ above $y_*$, choose an odd natural
+representative $M$ of $z$ with $M\ge16^{b_0}$. Such representatives exist
+arbitrarily far out because $3^{q_N}$ is odd: among consecutive integer
+lifts, parity alternates. Applying the preceding inequality to this $M$
+gives the claimed finite-quotient assertion.
+\end{proof}
+The representative may depend on $N$ and $z$. This causes no dependence
+in $a$ or $T_N$, since \eqref{uniformtail} is uniform over every eligible
+representative. The favorable residue itself is chosen only once.
+
+\section{Vanishing error and projection onto a fixed subcell}
+For $b\ge200$, $\lfloor b/100\rfloor\ge2$. Thus $b_N\ge b_0+2N$.
+Using the remainder bound $b_N\le4k_N+3$ gives
+\[
+ b_0+2N\le4k_N+3,\qquad N\le2k_N,\qquad q_N\ge k_N\ge1.
+\]
+Lemma~\ref{iteration}, with $A=2$, yields for $N>0$
+\begin{equation}\label{error}
+ \varepsilon_N:=\av{q_N}{(G_N-\rho_{q_N})_+}
+ \le\frac{ND_2}{k_N^2}\le\frac{4D_2}{N}\longrightarrow0.
+\end{equation}
+Only linear growth is needed here; stronger geometric floor estimates
+were used in the imported summability analysis.
+
+\begin{lemma}[Fixed-fiber estimate]\label{fiber}
+Let $h\le q$, $x\in R_h$, and suppose $f(z)\ge a$ whenever
+$\proj hq(z)=x$. Then
+\[
+ a\le\rho_h(x)+3^h\av q{(f-\rho_q)_+}.
+\]
+\end{lemma}
+\begin{proof}
+For every point of the fiber,
+$a\le\rho_q(z)+(f(z)-\rho_q(z))_+$. Sum over that fiber and bound its
+nonnegative error by the error over the full ring. By \eqref{projective},
+\[
+ 3^{q-h}a\le3^{q-h}\rho_h(x)+3^q\av q{(f-\rho_q)_+}.
+\]
+Division by the positive fiber cardinality proves the assertion.
+\end{proof}
+
+\begin{proposition}[A positive cylinder for the actual law]\label{actual}
+For $q_*,y_*,a$ from Lemma~\ref{fixed}, every $h\ge q_*$ and every
+$x\in R_h$ with $\proj{q_*}h(x)=y_*$ satisfy $\rho_h(x)\ge a$.
+\end{proposition}
+\begin{proof}
+Fix $h$ and $x$ \emph{first}. For all sufficiently large $N$, $N\ge N_*$
+and $q_N\ge h$, and $G_N\ge a$ on the entire fiber above $x$. Thus
+Lemma~\ref{fiber} and \eqref{error} give
+\[
+ a\le\rho_h(x)+3^h\varepsilon_N\le\rho_h(x)+\frac{4D_2\,3^h}{N}.
+\]
+Letting $N\to\infty$ proves the result. Equivalently, if
+$\delta=a-\rho_h(x)>0$, choose an integer
+$N>\max(N_*+2h+1,4D_2 3^h/\delta)$; the same inequality contradicts
+$\delta>0$. This finite contradiction is the implementation in Lean.
+\end{proof}
+The factor is $3^h$, not a harmless uniform constant in $h$. The proof
+works because the test conductor $h$ is fixed before $N$ is enlarged.
+No assertion is inferred by multiplying a moving-conductor $L^1$ error
+by its exponentially growing cardinality.
+
+\section{Bounded inverse coverage of the fixed cylinder}
+For $t,c\in\N$ put
+\[
+ d_t=(4^t-1)/3,\qquad c_t=4^tc+d_t=(3c+1)d_t+c.
+\]
+These are natural numbers and
+\begin{equation}\label{sibling}
+ 3c_t+1=4^t(3c+1).
+\end{equation}
+The residues $d_t$, $0\le t<3^q$, permute $R_q$. Indeed, for $s<t$,
+\[
+ d_t-d_s=4^s\frac{4^{t-s}-1}{3},\qquad
+ v_3(d_t-d_s)=v_3(t-s)<q.
+\]
+The identity $v_3(4^m-1)=1+v_3(m)$ follows by induction on $v_3(m)$:
+for $3\nmid u$, the geometric sum $(4^u-1)/3$ is $u\not\equiv0\pmod3$;
+and if $x\equiv1\pmod3$, then $x^2+x+1$ has valuation exactly one.
+Factor $x^3-1=(x-1)(x^2+x+1)$ repeatedly. This proves distinctness,
+and cardinality gives surjectivity. Since $3c+1$ is invertible modulo
+$3^q$, the affine formula for $c_t$ also permutes all residues.
+The corresponding existing Lean result is \code{CollatzTargetDensity.sibling_residue}.
+
+\begin{lemma}[Bounded inverse valuation]\label{inverse}
+If $q\le h$, $y\in R_q$, and $r\in U_{h+1}$, there are
+$1\le v\le2\cdot3^q+2$ and $z\in R_h$ with
+$\proj qh(z)=y$ and $F_{h,v}(z)=r$.
+\end{lemma}
+\begin{proof}
+Let $R$ be the canonical representative of $r$. If $R\equiv1\pmod3$,
+take $e=2$ and $c=(4R-1)/3$; if $R\equiv2\pmod3$, take $e=1$ and
+$c=(2R-1)/3$. In both cases $c\in\N$ and $3c+1=2^eR$.
+Choose $0\le t<3^q$ so that $c_t\equiv y\pmod{3^q}$.
+Then \eqref{sibling} gives $3c_t+1=2^{2t+e}R$. Set $v=2t+e$ and
+$z=c_t\pmod{3^h}$. Reducing $c_t$ before multiplying by $3$ preserves
+the equation modulo $3^{h+1}$. Division by $2^v$ proves
+$F_{h,v}(z)=r$, and $v\le2\cdot3^q+2$.
+\end{proof}
+No assertion about whether $r$ converges is used. This is finite residue
+arithmetic, and the bound depends on the prescribed cylinder only.
+
+\section{Proof of the uniform bound at every depth}
+Apply Lemma~\ref{inverse} to the cylinder from Proposition~\ref{actual}.
+Set
+\[
+ V=2\cdot3^{q_*}+2,\qquad d=3\,2^{-V}a>0.
+\]
+If $h\ge q_*$ and $r\in U_{h+1}$, select the inverse child $z$ above
+$y_*$. A single nonnegative term of \eqref{step} yields
+\[
+ \mu_{h+1}(r)\ge2^{-v}\mu_h(z).
+\]
+Multiplying by $(2/3)3^{h+1}$, Proposition~\ref{actual} gives
+\begin{equation}\label{spread}
+ \rho_{h+1}(r)\ge3\,2^{-v}\rho_h(z)\ge3\,2^{-V}a=d.
+\end{equation}
+This is a lower bound for all units at every depth at least $q_*+1$.
+For $1\le h<q_*+1$, fix a unit $r\in R_h$. Every lift of $r$ in
+$R_{q_*+1}$ is a unit. By \eqref{projective}, $\rho_h(r)$ is the average
+of the densities on that fiber, all at least $d$ by \eqref{spread}.
+Therefore $\rho_h(r)\ge d$ at every positive depth.
+Finally \eqref{rho} implies
+\[
+ \mu_h(r)=\frac32\,3^{-h}\rho_h(r)\ge\frac32d\,3^{-h}.
+\]
+Taking $c=(3/2)d=(9/2)2^{-V}a>0$ proves Theorem~\ref{main}.
+
+\section{Verification, dependency boundaries, and reproduction}
+\input{verification-summary.tex}
+The consolidated source in Appendix~\ref{appendix} contains all five
+modules of the new comparison-to-floor chain in order. Their local import
+lines are replaced by three supporting imports at the top. The appended
+file was compiled separately from the original modules; it is not a
+hand-transcribed shortened proof. Its last command prints the transitive
+axioms of the literal theorem.
+
+The library supplies the probability definitions, Fourier mixing, core
+construction and variation estimates, as well as sibling arithmetic.
+The appendix therefore compiles \emph{inside the pinned project}, not in
+an empty Lean installation. It does not reproduce Mathlib or all supporting
+source files. The complete original supporting library remains in
+\code{ProofAtlasAttack/vendor/positive-density-log-time-collatz}.
+The imported source's corrected release commit is
+\begin{center}\small\texttt{0aef8b0cfaaf6959500063472f2e328c60df8d54}.\end{center}
+
+From the repository root, reproduce the checks and the document using:
+\begin{Verbatim}[fontsize=\small,breaklines=true]
+cd ProofAtlasAttack
+LEAN_NUM_THREADS=4 python3 scripts/verify.py
+lake env lean ../output/pdf/syracuse-uniform-floor/SyracuseUniformFloor.lean
+cd ../output/pdf/syracuse-uniform-floor
+xelatex -halt-on-error syracuse-uniform-floor.tex
+xelatex -halt-on-error syracuse-uniform-floor.tex
+\end{Verbatim}
+The source is pinned to \code{leanprover/lean4:v4.30.0-rc2}. The package
+check uses cached pinned third-party dependencies; it is not an independent
+LeanChecker replay or a cold rebuild of all Mathlib. A passing kernel check
+establishes the exact formal declaration relative to those foundations;
+it does not establish priority or independently referee this exposition.
+
+The bound is existential and gives no practical numerical constant.
+It concerns the random variables \eqref{law}. It does not replace the
+missing deterministic argument showing that every positive Collatz
+trajectory reaches $1$. In particular, density-one convergence, exclusion
+of all other cycles, and exclusion of all divergent orbits do not follow
+merely by restating this probability estimate.
+
+\begin{thebibliography}{9}
+\bibitem{tao2019} T. Tao, \emph{Almost all orbits of the Collatz map attain
+almost bounded values}, Forum of Mathematics, Pi 10 (2022), e12.
+Preprint arXiv:1909.03562. \url{https://arxiv.org/abs/1909.03562}.
+\bibitem{tao2020} T. Tao, \emph{Equidistribution of Syracuse random variables
+and density of Collatz preimages}, 25 January 2020.
+\url{https://terrytao.wordpress.com/2020/01/25/equidistribution-of-syracuse-random-variables-and-density-of-collatz-preimages/}.
+\bibitem{mazur} L. Mazur, \emph{Explicit Positive-Density Collatz Convergence
+in Logarithmic Time}, 2026. The local proof uses the pinned, corrected
+Apache-2.0 Lean source described above.
+\url{https://www.proofatlas.ai/formalizations/positive-density-log-time-collatz/}.
+\bibitem{lean} L. de Moura and S. Ullrich, \emph{The Lean 4 theorem prover
+and programming language}, CADE 28 (2021), pp. 625--635.
+\bibitem{mathlib} The mathlib Community, \emph{The Lean mathematical library},
+CPP 2020, pp. 367--381. The exact dependency revisions used here are recorded
+in the accompanying verification report.
+\end{thebibliography}
+
+\clearpage\appendix
+\section{Complete consolidated Lean proof}\label{appendix}
+The following listing is the exact UTF-8 content of
+\code{SyracuseUniformFloor.lean}. Automatic line wrapping is typesetting
+only; use the accompanying source file to run it. The source uses the
+three declared supporting imports and includes no unfinished proof steps.
+Comments inherited from early stages describe the scope of those individual
+modules; the final theorem appears at the end of the complete chain.
+

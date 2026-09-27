@@ -1,0 +1,11 @@
+\contentsline {section}{\numberline {1}The exact theorem and the probability law}{2}{section.1}%
+\contentsline {section}{\numberline {2}Normalization, projectivity, and the source inputs}{2}{section.2}%
+\contentsline {section}{\numberline {3}Prefix transport and the one-sided estimate}{3}{section.3}%
+\contentsline {section}{\numberline {4}Filtered kernels and iteration}{4}{section.4}%
+\contentsline {section}{\numberline {5}The core inputs and why their tails are uniform}{5}{section.5}%
+\contentsline {section}{\numberline {6}Freezing one positive cylinder}{6}{section.6}%
+\contentsline {section}{\numberline {7}Vanishing error and projection onto a fixed subcell}{6}{section.7}%
+\contentsline {section}{\numberline {8}Bounded inverse coverage of the fixed cylinder}{7}{section.8}%
+\contentsline {section}{\numberline {9}Proof of the uniform bound at every depth}{8}{section.9}%
+\contentsline {section}{\numberline {10}Verification, dependency boundaries, and reproduction}{8}{section.10}%
+\contentsline {section}{\numberline {A}Complete consolidated Lean proof}{10}{appendix.A}%

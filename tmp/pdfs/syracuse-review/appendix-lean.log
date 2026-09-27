@@ -1,0 +1,3 @@
+'CollatzTargetDensity.SyracuseMinorant.syracuse_uniform_atom_lower_bound' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

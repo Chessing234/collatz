@@ -1,0 +1,22 @@
+Explicit Positive-Density Collatz Convergence in Logarithmic Time
+Research and formalization: Lech Mazur, 2026.
+Copyright 2026 Lech Mazur.
+
+Author-owned formalization code and accompanying build, verification and
+packaging scripts are licensed under the Apache License, Version 2.0.
+See LICENSE and RIGHTS.md. This grant does not cover the paper or infographic
+and does not replace the terms of third-party code.
+
+The two files under FormalConjectures/ retain their original attribution:
+Copyright 2025 The Formal Conjectures Authors.
+Their Apache License, Version 2.0 notices are preserved in those files.
+The Collatz map module was modified to remove the unused, unproved universal
+conjecture declaration; the ordinary Collatz map definition is unchanged.
+
+Mathlib and the other pinned dependencies are not redistributed in the public
+source archive and retain their own license and attribution terms.
+
+Generative AI contributed substantially. The ProofAtlas.ai harness was used
+with OpenAI models accessed through Codex. Anthropic Claude assisted with
+manuscript review. These tools are not represented as human authors or as
+independent mathematical referees.
