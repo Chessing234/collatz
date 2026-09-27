@@ -1,0 +1,1596 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=24mm]{geometry}
+\usepackage{fontspec,amsmath,amssymb,amsthm,fvextra,hyperref,longtable}
+\setmainfont{lmroman10-regular.otf}[BoldFont=lmroman10-bold.otf,ItalicFont=lmroman10-italic.otf]
+\setmonofont{JuliaMono-Regular.ttf}[Path=fonts/,Scale=0.90]
+\hypersetup{colorlinks=true,linkcolor=blue,urlcolor=blue}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newcommand{\N}{\mathbb N}
+\newcommand{\R}{\mathbb R}
+\title{Collatz target density: statement, proof chain, and Lean verification}
+\author{Local formalization report}
+\date{12 September 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+This report documents the target-density theorem in the accompanying Lean
+project. For a positive integer target, its Collatz predecessors have positive
+lower natural density if and only if the target is not divisible by three.
+The argument combines elementary inverse arithmetic and nonperiodic seed
+selection with imported analytic density machinery. The mathematical
+exposition explicitly identifies that substantial imported input; it is not
+a new self-contained derivation of all its analytic estimates. Complete local
+Lean modules in the dependency chain are reproduced at the end. This result
+does not prove that every positive integer reaches one, and no claim of
+historical priority is made.
+\end{abstract}
+\tableofcontents
+\section{The precise assertion}
+Define the ordinary Collatz map on nonnegative integers by
+\[
+ T(n)=\begin{cases}n/2&n\text{ even},\\3n+1&n\text{ odd}.\end{cases}
+\]
+Iteration includes the zeroth iterate, $T^0(n)=n$. For $a>0$ put
+\[
+ R_a=\{n\in\N:n>0,\ \exists k\in\N\ T^k(n)=a\},\qquad
+ P_a(X)=\#(R_a\cap[0,X)).
+\]
+Thus the cutoff is strict and the starting integer zero is excluded.
+\begin{theorem}[Public target-density theorem]
+For every positive integer $a$,
+\[
+ \bigl(\exists c>0\ \exists X_0\in\N\ \forall X\ge X_0:
+ P_a(X)\ge cX\bigr)\quad\Longleftrightarrow\quad 3\nmid a.
+\]
+The constant and cutoff may depend on $a$.
+\end{theorem}
+Equivalently, the lower natural density $\liminf_{X\to\infty}P_a(X)/X$
+is positive exactly for these targets. This equivalence with limit notation
+is elementary; the literal Lean endpoint uses the quantified inequality.
+For $a=1$ the theorem supplies a positive fraction of convergent starts,
+not the assertion that every start converges.
+
+\section{Arithmetic supply of inverse seeds}
+For odd positive $n$, let
+\[
+ S(n)=\frac{3n+1}{2^{v_2(3n+1)}}
+\]
+be the Syracuse map. Every Syracuse step is a finite sequence of ordinary
+Collatz steps. Write $\operatorname{odd}(m)=m/2^{v_2(m)}$ for $m>0$.
+
+\begin{lemma}[One-step inverse arithmetic]
+If $a$ is odd and $3\nmid a$, there is an odd positive $c$ with $S(c)=a$.
+\end{lemma}
+\begin{proof}
+If $a\equiv1\pmod3$, take $c=(4a-1)/3$; if $a\equiv2\pmod3$, take
+$c=(2a-1)/3$. Each quotient is a positive odd integer, and respectively
+$3c+1=4a$ or $3c+1=2a$. Removing all powers of two gives $a$.
+\end{proof}
+
+Let $u_j=(4^j-1)/3$. For $j\ge1$ it is odd and $S(u_j)=1$.
+The identities
+\[
+ u_{m+n}=u_m+4^m u_n,\qquad
+ v_3(4^n-1)=1+v_3(n)\quad(n>0)
+\]
+imply $3^q\mid u_n$ if and only if $3^q\mid n$. Consequently
+\[
+ u_m\equiv u_{m+n}\pmod{3^q}\quad\Longleftrightarrow\quad 3^q\mid n.
+\]
+The map $j\mapsto u_j\pmod{3^q}$ permutes the $3^q$ residues as $j$
+ranges from $0$ to $3^q-1$. Increasing $j$ by arbitrarily large multiples
+of $3^q$ preserves its residue and makes $u_j$ arbitrarily large.
+The valuation identity is the standard lifting-the-exponent calculation;
+the Lean proof uses the multiplicity theorem in Mathlib. This residue
+argument is copied, with attribution, from the upstream source.
+
+Fix the child $c$ above and define
+\[
+ F_c(x)=(3c+1)x+c.
+\]
+Then
+\[
+ 3F_c(x)+1=(3c+1)(3x+1),\qquad
+ S(F_c(x))=\operatorname{odd}(3c+1)\operatorname{odd}(3x+1)=a
+\]
+whenever $S(x)=1$. Also $F_c(x)$ is odd, is larger than $x$, and its slope
+$3c+1$ is coprime to $3^q$. Hence $F_c$ permutes residues modulo $3^q$.
+For every $q$, residue $r$, and size bound $B$, there is therefore an odd
+$M>B$ with $M\equiv r\pmod{3^q}$ and $S(M)=a$.
+
+\section{Removing periodic seeds without assuming convergence}
+Call $x$ nonperiodic for a function $f$ if $f^k(x)\ne x$ for every $k>0$.
+This permits a point that eventually enters a cycle: only the point itself
+must not lie on a cycle.
+\begin{lemma}
+If $x\ne y$ and $f(x)=f(y)$, at least one of $x,y$ is nonperiodic.
+Furthermore, a forward orbit hits a nonperiodic point at most once.
+\end{lemma}
+\begin{proof}
+If $x,y$ have respective positive periods $p,q$, both are fixed by $f^{pq}$.
+Applying $f^{pq-1}$ to $f(x)=f(y)$ gives $x=y$, a contradiction.
+If $f^d(z)=f^e(z)=x$ with $d<e$, then $f^{e-d}(x)=x$,
+contradicting nonperiodicity.
+\end{proof}
+Choose two increasingly large children in any specified ternary residue
+class. They are distinct and have the same image $a$, so one is
+nonperiodic. This proves the exact arithmetic input
+\[
+ \begin{split}
+ \operatorname{SeedSupply}(a):\quad
+ &\forall q,B\in\N\ \forall r\in\mathbb Z/3^q\mathbb Z\ \exists M>B:\\
+ &M\text{ odd},\quad S(M)=a,\quad M\equiv r\pmod{3^q},\quad
+ M\text{ nonperiodic}.
+ \end{split}
+\]
+No convergence of $a$ to one occurs in this argument.
+
+\section{The substantial analytic input and its use}
+The project imports Lech Mazur's Apache-2.0 positive-density source package,
+identified in the local modules by corrected commit
+\texttt{0aef8b0cfaaf6959500063472f2e328c60df8d54}.
+Its analytic estimates are a substantive part of this proof, not an
+elementary consequence of residue coverage. Residue coverage alone would
+not justify positive natural density.
+
+Here is the chain used in \texttt{Activation}, \texttt{SourceCharge}, and
+\texttt{Assembly}. The terminology ``mass'' denotes the weighted inverse-path
+quantities defined in the imported project; it does not denote a count of
+distinct integers until the counting estimate is applied.
+
+\begin{enumerate}
+\item The imported finite-residue averaging estimate chooses a residue with
+marked mass at least $2/3$ times a probability product. The imported product
+has a positive lower bound $p$. Seed supply realizes that residue by an
+arbitrarily large nonperiodic physical seed reaching $a$.
+\item Imported variation bounds are uniform in the seed and have tails
+tending to zero. Choose a generation with tail less than $p/3$ and then
+choose the seed. The marked sequence for this one fixed seed consequently
+has a positive limit. This order of choices is essential: a different seed
+at each generation would not suffice.
+\item The terminal-mark construction gives a fixed $\alpha>0$ and an eventual
+lower bound $\alpha$ on core terminal unit mass. Nonperiodicity supplies
+unique hitting times for the source-charge estimate. If $P>0$ is parent
+source potential and $C>0$ the imported rate constant, choose an integer
+$m>\max(1,88PC/\alpha)$. Then
+\[
+ 44PC/m^2\le\alpha/2.
+\]
+With $H=(8/9)3^m$, the rate inequality gives eventual full terminal mass
+at least $\eta=\alpha/(2H)>0$.
+\item The imported interval synchronization theorem makes this estimate
+available for every sufficiently large cutoff, not merely a subsequence.
+For $x=Y/32$, the terminal sources lie in $[x,32x)$, are odd, and reach $a$.
+The source-charge bound gives
+\[
+ x\eta\le x\,\mathrm{Mass}\le P\,\#\mathrm{Sources}
+ \le P\,\#\{n<Y:n\text{ odd and }S^k(n)=a\text{ for some }k\}.
+\]
+Thus the last count is at least $\eta Y/(32P)$ for every sufficiently
+large $Y$.
+\end{enumerate}
+The formal theorem encapsulating this chain is
+\texttt{positive\_density\_of\_seed\_supply}. The source listings below
+contain its local proof and all its local dependencies. Imported analytic
+modules are retained in the accompanying vendor directory; their full
+contents are not printed here. Accordingly this exposition is a proof
+relative to explicitly identified, formally checked imported lemmas, not
+a replacement for their complete development.
+
+\section{Ordinary Collatz targets and the sharp exception}
+For any positive $a$ with $3\nmid a$, including even $a$, the same formulas
+produce an odd $c$ with $3c+1=2^v a$. If $3\mid c$, replace $c$ by
+$c'=4c+1$. Then
+\[
+ 3c'+1=4(3c+1)=2^{v+2}a,\qquad c'\equiv1\pmod3.
+\]
+We now have an odd child coprime to three which reaches $a$ under $T$.
+Its odd Syracuse predecessor set has positive lower density by the preceding
+argument and is contained in $R_a$. Monotonicity of counting proves the
+forward implication of the theorem.
+
+Suppose instead $3\mid a$. An odd Collatz step has image congruent to one
+modulo three. Working backwards from a multiple of three, every step must
+therefore be an even step, whose unique inverse is doubling. Induction
+on the number of steps proves
+\[
+ T^k(n)=a\text{ for some }k\quad\Longleftrightarrow\quad
+ n=2^j a\text{ for some }j\ge0.
+\]
+In particular $P_a(2^k a)=k$. A positive eventual lower bound $P_a(X)\ge cX$
+would force $c2^k a\le k$ for all large $k$, which is impossible.
+The Lean proof uses $k^2\le2^k$ for $k\ge4$ and chooses $kc>1$.
+This proves the converse and completes the theorem.
+
+\section{What this says about counterexamples}
+Let $B=\{n>0:n\text{ never reaches }1\}$. Every positive orbit reaches
+some integer coprime to three: remove initial factors of two and, if
+necessary, perform one odd step. If $B$ is nonempty, choose such an $a$
+on a bad orbit. Then $a$ is bad. Every predecessor of $a$ is bad as well:
+an orbit that reaches one remains on $1,4,2$, so every later state also
+reaches one. Therefore $R_a\subseteq B$ and
+\[
+ B\ne\varnothing\quad\Longrightarrow\quad
+ \exists c>0\ \exists X_0\ \forall X\ge X_0:\ \#(B\cap[0,X))\ge cX.
+\]
+Consequently full Collatz is equivalent in this project to
+\[
+ \forall\varepsilon>0\ \forall X_0\ \exists X\ge X_0,
+ \quad X>0,\quad \#(B\cap[0,X))<\varepsilon X.
+\]
+That sparsity condition has not been proved. Positive density of each
+individual predecessor set does not imply that their union exhausts every
+integer, or that a bad orbit cannot exist. The formal result is useful
+structural information, but is not a solution of the Collatz conjecture.
+
+\section{Verification and reproducibility}
+The verification run completed successfully on 12 September 2026.
+The toolchain was Lean 4.30.0-rc2. Run from the project directory:
+\begin{Verbatim}[breaklines=true]
+LEAN_NUM_THREADS=4 python3 scripts/verify.py
+\end{Verbatim}
+The script reported \texttt{verified}. It checked 1,485 upstream source
+entries against their manifest hashes, checked nine dependency revisions
+against the upstream lock file, recorded local source SHA-256 hashes,
+and completed the build of both libraries (5,105 build jobs, including
+replayed jobs). It then audited 255 listed theorem endpoints. The public
+target-density theorem and counterexample dichotomy use only
+\texttt{propext}, \texttt{Classical.choice}, and \texttt{Quot.sound}.
+No audited endpoint used an axiom outside this standard set. The source
+escape scan also passed; in particular the scanned proof sources contain
+no executable \texttt{sorry} or additional axiom declaration.
+
+The machine-readable record is \texttt{verification/local-report.json};
+build and axiom logs are in the same directory. Every one of the 13 local
+modules reproduced below was part of this build. The appendix contains
+1,283 source lines and was compared byte-for-byte with those modules.
+It relies on the project's pinned imported libraries, so compilation of
+isolated snippets without those imports is not the verification procedure.
+
+To regenerate this PDF from its output directory, run XeLaTeX twice:
+\begin{Verbatim}[breaklines=true]
+xelatex -interaction=nonstopmode -halt-on-error collatz_target_density_report.tex
+xelatex -interaction=nonstopmode -halt-on-error collatz_target_density_report.tex
+\end{Verbatim}
+The adjacent \texttt{fonts/JuliaMono-Regular.ttf} supplies the Unicode
+characters in the Lean listings.
+
+The check validates the formal statements under Lean's foundations and
+the installed compiler and dependencies. It does not by itself establish
+historical novelty or replace expert review of the translation from an
+informal claim to its definitions. The public map and count definitions are
+printed verbatim below so that this translation can be inspected directly.
+
+\appendix
+\section{Lean source: complete local dependency chain}
+The following files are reproduced verbatim from the verified project, in
+dependency order, starting from the public theorem and the counterexample
+dichotomy. They compile as modules within that project, with its pinned
+imports; the listings are not a single standalone Lean file. This appendix
+includes every transitive local module needed by those two endpoints.
+The much larger imported upstream and Mathlib libraries remain external.
+\subsection{\texorpdfstring{\texttt{CollatzTargetDensity/Dynamics.lean}}{CollatzTargetDensity/Dynamics.lean}}
+\begin{Verbatim}[fontsize=\footnotesize,breaklines=true,breakanywhere=true,numbers=left,numbersep=5pt]
+import Mathlib.Logic.Function.Iterate
+import Lean.Elab.Tactic.Omega
+
+/-!+# Nonperiodic seed selection
+
+Elementary deterministic dynamics used by the proposed all-target extension.
+No Collatz convergence hypothesis occurs in these statements.
+-/
+
+namespace CollatzTargetDensity
+
+def Nonperiodic {α : Type*} (f : α → α) (x : α) : Prop :=
+  ∀ k : ℕ, 0 < k → (f^[k]) x ≠ x
+
+theorem periodic_multiples {α : Type*} {f : α → α} {x : α} {p : ℕ}
+    (hp : (f^[p]) x = x) (q : ℕ) : (f^[q * p]) x = x := by
+  induction q with
+  | zero => simp
+  | succ q ih => rw [Nat.succ_mul, Function.iterate_add_apply, hp, ih]
+
+/-- The restriction of any function to its periodic points is injective. -/
+theorem periodic_predecessors_eq {α : Type*} {f : α → α} {x y : α}
+    {p q : ℕ} (hp : 0 < p) (hq : 0 < q)
+    (hpx : (f^[p]) x = x) (hqy : (f^[q]) y = y)
+    (hxy : f x = f y) : x = y := by
+  have hprod : 0 < q * p := Nat.mul_pos hq hp
+  have hx := periodic_multiples hpx q
+  have hy : (f^[q * p]) y = y := by
+    simpa only [Nat.mul_comm] using periodic_multiples hqy p
+  have he : q * p = (q * p - 1) + 1 := by omega
+  have hiter : (f^[q * p]) x = (f^[q * p]) y := by
+    rw [he, Function.iterate_add_apply, Function.iterate_add_apply]
+    simp only [Function.iterate_one, hxy]
+  exact hx.symm.trans (hiter.trans hy)
+
+/-- Two distinct immediate predecessors provide a nonperiodic choice. -/
+theorem nonperiodic_choice {α : Type*} {f : α → α} {x y : α}
+    (hne : x ≠ y) (hxy : f x = f y) : Nonperiodic f x ∨ Nonperiodic f y := by
+  classical
+  by_cases hx : Nonperiodic f x
+  · exact Or.inl hx
+  · right
+    obtain ⟨p, hp, hpx⟩ : ∃ p, ∃ _ : 0 < p, (f^[p]) x = x := by
+      simpa only [Nonperiodic, not_forall, not_not] using hx
+    intro q hq hqy
+    exact hne (periodic_predecessors_eq hp hq hpx hqy hxy)
+
+/-- Repeated hits would make the target itself periodic. -/
+theorem nonperiodic_hit_time_unique {α : Type*} {f : α → α} {source target : α}
+    (ht : Nonperiodic f target) {d e : ℕ}
+    (hd : (f^[d]) source = target) (he : (f^[e]) source = target) : d = e := by
+  have hnot (a b : ℕ) (ha : (f^[a]) source = target)
+      (hb : (f^[b]) source = target) (hab : a < b) : False := by
+    have hsplit : b = (b - a) + a := by omega
+    rw [hsplit, Function.iterate_add_apply, ha] at hb
+    exact ht (b - a) (by omega) hb
+  by_cases hde : d < e
+  · exact False.elim (hnot d e hd he hde)
+  · by_cases hed : e < d
+    · exact False.elim (hnot e d he hd hed)
+    · omega
+
+/-- A residue-wise supply of two distinct children is enough; neither child's
+    eventual convergence is required. The predicate records residue and size. -/
+theorem select_nonperiodic_child {α : Type*} {f : α → α} (target : α)
+    (P : α → Prop)
+    (hchildren : ∃ x y, P x ∧ P y ∧ f x = target ∧ f y = target ∧ x ≠ y) :
+    ∃ x, P x ∧ f x = target ∧ Nonperiodic f x := by
+  obtain ⟨x, y, hx, hy, hfx, hfy, hne⟩ := hchildren
+  rcases nonperiodic_choice hne (hfx.trans hfy.symm) with h | h
+  · exact ⟨x, hx, hfx, h⟩
+  · exact ⟨y, hy, hfy, h⟩
+
+end CollatzTargetDensity
+\end{Verbatim}
+\subsection{\texorpdfstring{\texttt{CollatzTargetDensity/SeedSupply.lean}}{CollatzTargetDensity/SeedSupply.lean}}
+\begin{Verbatim}[fontsize=\footnotesize,breaklines=true,breakanywhere=true,numbers=left,numbersep=5pt]
+import CollatzTargetDensity.Dynamics
+import Erdos1135.Tao.Syracuse.Basic
+
+namespace CollatzTargetDensity
+open Erdos1135
+
+/-- The arithmetic input to the analytic argument: every finite ternary class
+    contains arbitrarily large nonperiodic immediate predecessors. -/
+def SeedSupply (target : ℕ) : Prop :=
+  ∀ q X : ℕ, ∀ r : Fin (3 ^ q), ∃ M : ℕ,
+    Odd M ∧ X < M ∧ Tao.syracuse M = target ∧ M % 3 ^ q = r ∧
+      Nonperiodic Tao.syracuse M
+
+end CollatzTargetDensity
+\end{Verbatim}
+\subsection{\texorpdfstring{\texttt{CollatzTargetDensity/ResidueSeedCore.lean}}{CollatzTargetDensity/ResidueSeedCore.lean}}
+\begin{Verbatim}[fontsize=\footnotesize,breaklines=true,breakanywhere=true,numbers=left,numbersep=5pt]
+import Erdos1135.ND.PositiveDensity.A5HistoricalAdjacentCylinderPreviousPhysicalLowerShellNoGo
+import Mathlib.NumberTheory.Multiplicity
+
+/-!
+# Arithmetic residue coverage, isolated from density imports
+
+The following proofs are copied without mathematical change from Lech Mazur's
+Apache-2.0 source package, corrected commit
+0aef8b0cfaaf6959500063472f2e328c60df8d54,
+`SuccessfulRootTernaryResidueCoverage.lean`. Modification: namespace changed and
+unneeded target-counting imports and later analytic declarations omitted.
+This is known arithmetic, not a claimed new result.
+-/
+namespace CollatzTargetDensity.ResidueSeedCore
+open Erdos1135 Erdos1135.ND.PositiveDensity
+
+theorem ndCollapseSource_add (m n : ℕ) :
+    ndA5PreviousPhysicalCollapseSource (m + n) =
+      ndA5PreviousPhysicalCollapseSource m + 4 ^ m * ndA5PreviousPhysicalCollapseSource n := by
+  have ha := three_mul_ndA5PreviousPhysicalCollapseSource_add_one (m + n)
+  have hm := three_mul_ndA5PreviousPhysicalCollapseSource_add_one m
+  have hn := three_mul_ndA5PreviousPhysicalCollapseSource_add_one n
+  rw [pow_add, ← hm, ← hn] at ha
+  nlinarith
+
+theorem threePow_succ_dvd_fourPow_sub_one_iff (q n : ℕ) :
+    3 ^ (q + 1) ∣ 4 ^ n - 1 ↔ 3 ^ q ∣ n := by
+  rw [pow_dvd_iff_le_emultiplicity, pow_dvd_iff_le_emultiplicity]
+  have h := Nat.emultiplicity_pow_sub_pow
+    (p := 3) (x := 4) (y := 1)
+    (by norm_num : Nat.Prime 3) (by norm_num : Odd 3)
+    (by norm_num : 3 ∣ 4 - 1) (by norm_num : ¬ 3 ∣ 4) n
+  simp only [one_pow] at h
+  rw [h]
+  norm_num [Nat.Prime.emultiplicity_self (by norm_num : Nat.Prime 3)]
+  rw [add_comm (1 : ENat), ENat.add_le_add_iff_right (by simp)]
+
+theorem threePow_dvd_collapseSource_iff (q n : ℕ) :
+    3 ^ q ∣ ndA5PreviousPhysicalCollapseSource n ↔ 3 ^ q ∣ n := by
+  have h := three_mul_ndA5PreviousPhysicalCollapseSource_add_one n
+  have he : 4 ^ n - 1 = 3 * ndA5PreviousPhysicalCollapseSource n := by omega
+  have hl := threePow_succ_dvd_fourPow_sub_one_iff q n
+  rw [he, pow_succ, Nat.mul_comm (3 ^ q) 3,
+    Nat.mul_dvd_mul_iff_left (by norm_num : 0 < 3)] at hl
+  exact hl
+
+theorem ndCollapseSource_modEq_of_add_iff (q m n : ℕ) :
+    Nat.ModEq (3 ^ q) (ndA5PreviousPhysicalCollapseSource m)
+      (ndA5PreviousPhysicalCollapseSource (m + n)) ↔ 3 ^ q ∣ n := by
+  rw [ndCollapseSource_add, Nat.left_modEq_add_iff]
+  have hc : Nat.Coprime (3 ^ q) (4 ^ m) := by
+    exact (show Nat.Coprime 3 4 by norm_num).pow q m
+  rw [hc.dvd_mul_left, threePow_dvd_collapseSource_iff]
+
+theorem ndCollapseSource_residue_injective (q : ℕ) :
+    Function.Injective (fun m : Fin (3 ^ q) =>
+      (⟨ndA5PreviousPhysicalCollapseSource m % 3 ^ q,
+        Nat.mod_lt _ (by positivity)⟩ : Fin (3 ^ q))) := by
+  intro m n he
+  apply Fin.ext
+  have heq : Nat.ModEq (3 ^ q) (ndA5PreviousPhysicalCollapseSource m)
+      (ndA5PreviousPhysicalCollapseSource n) := congrArg Fin.val he
+  suffices h : ∀ (a b : Fin (3 ^ q)), a ≤ b →
+      Nat.ModEq (3 ^ q) (ndA5PreviousPhysicalCollapseSource a)
+        (ndA5PreviousPhysicalCollapseSource b) → (a : ℕ) = b by
+    rcases le_total m n with hmn | hnm
+    · exact h m n hmn heq
+    · exact (h n m hnm heq.symm).symm
+  intro a b hab hmod
+  obtain ⟨d, hd⟩ := Nat.exists_eq_add_of_le (show (a : ℕ) ≤ b from hab)
+  rw [hd] at hmod
+  have hdiv := (ndCollapseSource_modEq_of_add_iff q a d).mp hmod
+  have hdlt : d < 3 ^ q := by have h := b.isLt; omega
+  have hz : d = 0 := Nat.eq_zero_of_dvd_of_lt hdiv hdlt
+  omega
+
+/-- The existing successful family is a permutation of every finite
+ternary residue space. No finite modulus range is enumerated. -/
+theorem ndCollapseSource_residue_surjective (q : ℕ) :
+    Function.Surjective (fun m : Fin (3 ^ q) =>
+      (⟨ndA5PreviousPhysicalCollapseSource m % 3 ^ q,
+        Nat.mod_lt _ (by positivity)⟩ : Fin (3 ^ q))) :=
+  Finite.surjective_of_injective (ndCollapseSource_residue_injective q)
+
+/-- **ARBITRARILY HIGH SUCCESSFUL RESIDUE COVERAGE.** Every ternary class
+contains unbounded odd integers that reach one in one Syracuse step. -/
+theorem exists_large_oneStepSuccessful_root_in_residue
+    (q X : ℕ) (r : Fin (3 ^ q)) :
+    ∃ M : ℕ, X < M ∧ Odd M ∧ Tao.syracuse M = 1 ∧ M % 3 ^ q = r := by
+  obtain ⟨m, hm⟩ := ndCollapseSource_residue_surjective q r
+  let k := (m : ℕ) + (X + 1) * 3 ^ q
+  have hQ : 1 ≤ 3 ^ q := by
+    have h : 0 < 3 ^ q := by positivity
+    omega
+  have hXk : X < k := by
+    have h := Nat.mul_le_mul_left (X + 1) hQ
+    dsimp only [k]
+    omega
+  have hmod : Nat.ModEq (3 ^ q) (ndA5PreviousPhysicalCollapseSource m)
+      (ndA5PreviousPhysicalCollapseSource k) :=
+    (ndCollapseSource_modEq_of_add_iff q m ((X + 1) * 3 ^ q)).2
+      (Nat.dvd_mul_left _ _)
+  have hr : ndA5PreviousPhysicalCollapseSource k % 3 ^ q = r := by
+    change ndA5PreviousPhysicalCollapseSource m % 3 ^ q =
+      ndA5PreviousPhysicalCollapseSource k % 3 ^ q at hmod
+    exact hmod.symm.trans (congrArg Fin.val hm)
+  obtain ⟨j, hj⟩ := Nat.exists_eq_succ_of_ne_zero (by omega : k ≠ 0)
+  refine ⟨ndA5PreviousPhysicalCollapseSource k,
+    hXk.trans_le (self_le_ndA5PreviousPhysicalCollapseSource k), ?_, ?_, hr⟩
+  · rw [hj]
+    exact ndA5PreviousPhysicalCollapseSource_odd j
+  · rw [hj]
+    exact syracuse_ndA5PreviousPhysicalCollapseSource_succ j
+
+
+end CollatzTargetDensity.ResidueSeedCore
+\end{Verbatim}
+\subsection{\texorpdfstring{\texttt{CollatzTargetDensity/ArithmeticSeeds.lean}}{CollatzTargetDensity/ArithmeticSeeds.lean}}
+\begin{Verbatim}[fontsize=\footnotesize,breaklines=true,breakanywhere=true,numbers=left,numbersep=5pt]
+import CollatzTargetDensity.SeedSupply
+import CollatzTargetDensity.ResidueSeedCore
+
+/-!+# Arbitrary-target nonperiodic seed supply
+
+The residue coverage is the classical backward-mixing phenomenon. The proof
+below uses the imported successful-root coverage as an arithmetic parameter
+space, then transports it to another target by an affine map. It does not
+assert that the new target converges to 1.
+-/
+
+namespace CollatzTargetDensity
+open Erdos1135 Erdos1135.ND.PositiveDensity
+noncomputable section
+
+theorem exists_odd_child {target : ℕ} (hodd : Odd target) (hthree : target % 3 ≠ 0) :
+    ∃ c : ℕ, Odd c ∧ Tao.syracuse c = target := by
+  have hnotdvd : ¬2 ∣ target := by
+    intro hdiv
+    exact (Nat.not_even_iff_odd.mpr hodd) (even_iff_two_dvd.mpr hdiv)
+  by_cases h : target % 3 = 1
+  · let c := (4 * target - 1) / 3
+    have he : 3 * c + 1 = 4 * target := by dsimp [c]; omega
+    refine ⟨c, ⟨c / 2, by omega⟩, ?_⟩
+    rw [Tao.syracuse_eq_ordCompl_two, he]
+    exact Nat.ordCompl_pow_mul_of_not_dvd 2 Nat.prime_two hnotdvd
+  · let c := (2 * target - 1) / 3
+    have he : 3 * c + 1 = 2 * target := by dsimp [c]; omega
+    refine ⟨c, ⟨c / 2, by omega⟩, ?_⟩
+    rw [Tao.syracuse_eq_ordCompl_two, he]
+    exact Nat.ordCompl_pow_mul_of_not_dvd 1 Nat.prime_two hnotdvd
+
+/-- The affine transform x ↦ (3c+1)x+c takes one-step predecessors of 1
+    to one-step predecessors of S(c), and permutes every ternary residue space. -/
+theorem large_child_in_residue {target c : ℕ} (hc : Odd c)
+    (hct : Tao.syracuse c = target) (q X : ℕ) (r : Fin (3 ^ q)) :
+    ∃ M : ℕ, Odd M ∧ X < M ∧ Tao.syracuse M = target ∧ M % 3 ^ q = r := by
+  have hcop : Nat.Coprime (3 * c + 1) 3 := by
+    rw [Nat.add_comm, Nat.coprime_add_mul_left_left]
+    norm_num
+  have hunit : IsUnit ((3 * c + 1 : ℕ) : ZMod (3 ^ q)) := by
+    apply (ZMod.isUnit_iff_coprime _ _).2
+    simpa using hcop.pow 1 q
+  let f : ZMod (3 ^ q) → ZMod (3 ^ q) :=
+    fun x => ((3 * c + 1 : ℕ) : ZMod (3 ^ q)) * x + c
+  have hinj : Function.Injective f := by
+    intro x y hxy
+    exact hunit.mul_left_cancel (add_right_cancel hxy)
+  obtain ⟨y, hy⟩ := Finite.surjective_of_injective hinj (r.val : ZMod (3 ^ q))
+  obtain ⟨x, hx, _hxodd, hxhit, hxres⟩ := ResidueSeedCore.exists_large_oneStepSuccessful_root_in_residue
+    q X ⟨y.val, ZMod.val_lt y⟩
+  let M := (3 * c + 1) * x + c
+  have hxcast : (x : ZMod (3 ^ q)) = y := by
+    calc
+      _ = ((x % 3 ^ q : ℕ) : ZMod (3 ^ q)) := by simp
+      _ = ((y.val : ℕ) : ZMod (3 ^ q)) := congrArg (fun a : ℕ => (a : ZMod (3 ^ q))) hxres
+      _ = y := ZMod.natCast_zmod_val y
+  have hMcast : (M : ZMod (3 ^ q)) = (r.val : ZMod (3 ^ q)) := by
+    simpa only [M, f, Nat.cast_add, Nat.cast_mul, Nat.cast_ofNat, hxcast] using hy
+  refine ⟨M, ?_, ?_, ?_, ?_⟩
+  · obtain ⟨k, hk⟩ := hc
+    refine ⟨(3 * k + 2) * x + k, ?_⟩
+    dsimp [M]
+    rw [hk]
+    ring
+  · dsimp [M]
+    nlinarith
+  · have he : 3 * M + 1 = (3 * c + 1) * (3 * x + 1) := by dsimp [M]; ring
+    rw [Tao.syracuse_eq_ordCompl_two, he, Nat.ordCompl_mul,
+      ← Tao.syracuse_eq_ordCompl_two, ← Tao.syracuse_eq_ordCompl_two,
+      hct, hxhit, mul_one]
+  · have hv := congrArg ZMod.val hMcast
+    simpa only [ZMod.val_natCast, Nat.mod_eq_of_lt r.isLt] using hv
+
+/-- No unproved dynamical assumption: two distinct children in the same
+    residue class allow exclusion of the unique possible periodic child. -/
+theorem seed_supply {target : ℕ} (hodd : Odd target) (hthree : target % 3 ≠ 0) :
+    SeedSupply target := by
+  obtain ⟨c, hc, hct⟩ := exists_odd_child hodd hthree
+  intro q X r
+  obtain ⟨x, hxodd, hxlarge, hxhit, hxres⟩ := large_child_in_residue hc hct q X r
+  obtain ⟨y, hyodd, hylarge, hyhit, hyres⟩ := large_child_in_residue hc hct q x r
+  rcases nonperiodic_choice (Nat.ne_of_lt hylarge) (hxhit.trans hyhit.symm) with hx | hy
+  · exact ⟨x, hxodd, hxlarge, hxhit, hxres, hx⟩
+  · exact ⟨y, hyodd, hxlarge.trans hylarge, hyhit, hyres, hy⟩
+
+end
+end CollatzTargetDensity
+\end{Verbatim}
+\subsection{\texorpdfstring{\texttt{CollatzTargetDensity/SourceCharge.lean}}{CollatzTargetDensity/SourceCharge.lean}}
+\begin{Verbatim}[fontsize=\footnotesize,breaklines=true,breakanywhere=true,numbers=left,numbersep=5pt]
+import CollatzTargetDensity.Dynamics
+import Erdos1135.ND.PositiveDensity.Geom2ShiftedWideSymmetricTerminalWeightedCensus
+
+/-!+# Source charging for nonperiodic seeds
+
+Adapted from Lech Mazur's Apache-2.0 positive-density source package, corrected
+commit 0aef8b0cfaaf6959500063472f2e328c60df8d54. The counting inequalities and
+their proofs are retained; the dynamical hypothesis is changed from convergence
+to 1 to nonperiodicity. These adaptations are separate from the upstream files.
+-/
+
+namespace Erdos1135.ND.PositiveDensity
+open scoped BigOperators
+open CollatzTargetDensity
+noncomputable section
+namespace NDGeom2ShiftedWideSymmetricRootSideUniformFloorState
+
+theorem fullTerminal_eq_of_nonperiodic_ancestor_source_eq
+    {U : NDGeom2ShiftedWideSymmetricRootSideUniformFloorState}
+    {cap : ℕ → ℕ} {n : ℕ} {shift : (U.forwardIterate cap n).state.Label → ℕ} {K : ℕ}
+    (hseed : ∀ i, Nonperiodic Tao.syracuse (U.state.root i))
+    {z w : U.FullTerminalAt cap n shift K}
+    (ha : fullTerminalAncestor z = fullTerminalAncestor w)
+    (hs : ndGeom2PredictableRootSideBoundedOvershootIncidenceSource z =
+      ndGeom2PredictableRootSideBoundedOvershootIncidenceSource w) : z = w := by
+  let p := U.fullTerminalPath cap n shift K z
+  let q := U.fullTerminalPath cap n shift K w
+  have hq : (Tao.syracuse^[q.depth])
+      (ndGeom2PredictableRootSideBoundedOvershootIncidenceSource z) =
+      U.state.root (fullTerminalAncestor z) := by rw [hs, ha]; exact q.terminal_eq
+  have hd := nonperiodic_hit_time_unique (hseed _) p.terminal_eq hq
+  have hw := NDGeom2RootSideSyracusePath.word_eq_of_source_depth_eq p q hs hd
+  have hpw := U.fullTerminalPath_word_eq_reverse cap n shift K z
+  have hqw := U.fullTerminalPath_word_eq_reverse cap n shift K w
+  apply fullTerminal_eq_of_ancestor_word_eq ha
+  apply List.reverse_injective
+  exact hpw.symm.trans (hw.trans hqw)
+
+theorem fullTerminal_mass_mul_lower_le_frozenPotential_mul_card_of_nonperiodic
+    (U : NDGeom2ShiftedWideSymmetricRootSideUniformFloorState)
+    (cap : ℕ → ℕ) (n : ℕ)
+    (shift : (U.forwardIterate cap n).state.Label → ℕ) (K : ℕ)
+    (hseed : ∀ i, Nonperiodic Tao.syracuse (U.state.root i))
+    (X : ℝ)
+    (hX : ∀ z : U.FullTerminalAt cap n shift K,
+      X ≤ (ndGeom2PredictableRootSideBoundedOvershootIncidenceSource z : ℝ)) :
+    X * U.fullTerminalMass cap n shift K ≤
+      U.parentSourcePotential * (U.fullTerminalSources cap n shift K).card := by
+  classical
+  letI := U.state.labelFintype
+  letI := (U.forwardIterate cap n).state.labelFintype
+  let W := fun z : U.FullTerminalAt cap n shift K =>
+    ndGeom2PredictableRootSideBoundedOvershootIncidenceWeight
+      (U.forwardIterate cap n).state.outerWeight z
+  let P := fun i : U.state.Label => (U.state.root i : ℝ) * U.state.outerWeight i
+  let cell := fun z : U.FullTerminalAt cap n shift K =>
+    (fullTerminalAncestor z, ndGeom2PredictableRootSideBoundedOvershootIncidenceSource z)
+  let sources := U.fullTerminalSources cap n shift K
+  have hinj : Function.Injective cell := by
+    intro z w h
+    exact fullTerminal_eq_of_nonperiodic_ancestor_source_eq hseed
+      (congrArg Prod.fst h) (congrArg Prod.snd h)
+  have hsub : Finset.univ.image cell ⊆ Finset.univ.product sources := by
+    intro c hc
+    obtain ⟨z, hz, rfl⟩ := Finset.mem_image.mp hc
+    exact Finset.mem_product.mpr ⟨Finset.mem_univ _, Finset.mem_image.mpr ⟨z, hz, rfl⟩⟩
+  calc
+    X * U.fullTerminalMass cap n shift K = ∑ z, X * W z := by
+      change X * (∑ z, W z) = _
+      rw [Finset.mul_sum]
+    _ ≤ ∑ z : U.FullTerminalAt cap n shift K, P (fullTerminalAncestor z) := by
+      apply Finset.sum_le_sum
+      intro z _
+      have hw := ndGeom2PredictableRootSideBoundedOvershootIncidenceWeight_nonneg
+        (U.forwardIterate cap n).state.outerWeight
+        (U.forwardIterate cap n).state.weight_nonneg z
+      exact (mul_le_mul_of_nonneg_right (hX z) hw).trans
+        (U.fullTerminal_source_mul_weight_le_frozenOwner cap n shift K z)
+    _ = ∑ c ∈ Finset.univ.image cell, P c.1 := by
+      rw [Finset.sum_image]
+      exact fun a _ b _ h => hinj h
+    _ ≤ ∑ c ∈ Finset.univ.product sources, P c.1 := by
+      apply Finset.sum_le_sum_of_subset_of_nonneg hsub
+      intro c _ _
+      exact mul_nonneg (Nat.cast_nonneg _) (U.state.weight_nonneg c.1)
+    _ = U.parentSourcePotential * (U.fullTerminalSources cap n shift K).card := by
+      calc
+        _ = ∑ i : U.state.Label, ∑ _s ∈ sources, P i := Finset.sum_product _ _ _
+        _ = _ := ?_
+      simp only [Finset.sum_const, nsmul_eq_mul, ← Finset.mul_sum]
+      unfold parentSourcePotential ndGeom2PredictableRootSideParentSourcePotential
+        NDGeom2ShiftedWideSymmetricRegenerativeState.rootSideUniformFloorAllLabels
+      dsimp only [P, sources]
+      ring
+
+
+theorem fullTerminal_weighted_source_charge_of_nonperiodic
+    (U : NDGeom2ShiftedWideSymmetricRootSideUniformFloorState)
+    (cap : ℕ → ℕ) (n : ℕ)
+    (shift : (U.forwardIterate cap n).state.Label → ℕ) (K : ℕ)
+    (hseed : ∀ i, Nonperiodic Tao.syracuse (U.state.root i))
+    (X : ℝ) (hX : 0 < X)
+    (hsource : ∀ z : U.FullTerminalAt cap n shift K,
+      X ≤ (ndGeom2PredictableRootSideBoundedOvershootIncidenceSource z : ℝ))
+    (psi : ℕ → ℝ) (hp : ∀ x, 0 ≤ psi x) :
+    letI := (U.forwardIterate cap n).state.labelFintype
+    (∑ z : U.FullTerminalAt cap n shift K,
+      ndGeom2PredictableRootSideBoundedOvershootIncidenceWeight
+        (U.forwardIterate cap n).state.outerWeight z *
+        psi (ndGeom2PredictableRootSideBoundedOvershootIncidenceSource z)) ≤
+      (U.parentSourcePotential / X) *
+        ∑ x ∈ U.fullTerminalSources cap n shift K, psi x := by
+  classical
+  letI := U.state.labelFintype
+  letI := (U.forwardIterate cap n).state.labelFintype
+  let W := fun z : U.FullTerminalAt cap n shift K =>
+    ndGeom2PredictableRootSideBoundedOvershootIncidenceWeight
+      (U.forwardIterate cap n).state.outerWeight z
+  let P := fun i : U.state.Label => (U.state.root i : ℝ) * U.state.outerWeight i
+  let cell := fun z : U.FullTerminalAt cap n shift K =>
+    (fullTerminalAncestor z, ndGeom2PredictableRootSideBoundedOvershootIncidenceSource z)
+  let sources := U.fullTerminalSources cap n shift K
+  have hinj : Function.Injective cell := by
+    intro z w h
+    exact fullTerminal_eq_of_nonperiodic_ancestor_source_eq hseed
+      (congrArg Prod.fst h) (congrArg Prod.snd h)
+  have hsub : Finset.univ.image cell ⊆ Finset.univ.product sources := by
+    intro c hc
+    obtain ⟨z, hz, rfl⟩ := Finset.mem_image.mp hc
+    exact Finset.mem_product.mpr ⟨Finset.mem_univ _, Finset.mem_image.mpr ⟨z, hz, rfl⟩⟩
+  have hmul : X * (∑ z, W z * psi (cell z).2) ≤
+      U.parentSourcePotential * ∑ x ∈ sources, psi x := by
+    calc
+      _ = ∑ z, (X * W z) * psi (cell z).2 := by rw [Finset.mul_sum]; simp [mul_assoc]
+      _ ≤ ∑ z, P (cell z).1 * psi (cell z).2 := by
+        apply Finset.sum_le_sum
+        intro z _
+        apply mul_le_mul_of_nonneg_right _ (hp _)
+        exact (mul_le_mul_of_nonneg_right (hsource z)
+          (ndGeom2PredictableRootSideBoundedOvershootIncidenceWeight_nonneg _
+            (U.forwardIterate cap n).state.weight_nonneg z)).trans
+          (U.fullTerminal_source_mul_weight_le_frozenOwner cap n shift K z)
+      _ = ∑ c ∈ Finset.univ.image cell, P c.1 * psi c.2 := by
+        rw [Finset.sum_image]; exact fun a _ b _ h => hinj h
+      _ ≤ ∑ c ∈ Finset.univ.product sources, P c.1 * psi c.2 := by
+        apply Finset.sum_le_sum_of_subset_of_nonneg hsub
+        intro c _ _
+        exact mul_nonneg (mul_nonneg (Nat.cast_nonneg _) (U.state.weight_nonneg c.1)) (hp _)
+      _ = _ := by
+        calc
+          _ = ∑ i : U.state.Label, ∑ x ∈ sources, P i * psi x := Finset.sum_product _ _ _
+          _ = _ := by
+            simp only [← Finset.mul_sum, ← Finset.sum_mul]
+            unfold parentSourcePotential ndGeom2PredictableRootSideParentSourcePotential
+              NDGeom2ShiftedWideSymmetricRegenerativeState.rootSideUniformFloorAllLabels
+            rfl
+  have hdiv := (le_div_iff₀ hX).2 (by simpa [mul_comm] using hmul)
+  simpa [W, cell, sources, div_eq_mul_inv, mul_comm, mul_left_comm, mul_assoc] using hdiv
+
+
+theorem fullTerminal_weighted_residue_census_of_nonperiodic
+    (U : NDGeom2ShiftedWideSymmetricRootSideUniformFloorState)
+    (cap : ℕ → ℕ) (n : ℕ)
+    (shift : (U.forwardIterate cap n).state.Label → ℕ) (K : ℕ)
+    (hseed : ∀ i, Nonperiodic Tao.syracuse (U.state.root i))
+    (q : ℕ) (X : ℝ) (hX : 0 < X) (hQ : ((3 ^ q : ℕ) : ℝ) ≤ X)
+    (hsource : ∀ z : U.FullTerminalAt cap n shift K,
+      X ≤ (ndGeom2PredictableRootSideBoundedOvershootIncidenceSource z : ℝ) ∧
+      (ndGeom2PredictableRootSideBoundedOvershootIncidenceSource z : ℝ) < 32 * X)
+    (psi : ZMod (3 ^ q) → ℝ) (hp : ∀ y, 0 ≤ psi y) :
+    letI := (U.forwardIterate cap n).state.labelFintype
+    (∑ z : U.FullTerminalAt cap n shift K,
+      ndGeom2PredictableRootSideBoundedOvershootIncidenceWeight
+        (U.forwardIterate cap n).state.outerWeight z *
+        psi (ndGeom2PredictableRootSideBoundedOvershootIncidenceSource z : ZMod (3 ^ q))) ≤
+      33 * U.parentSourcePotential * ndTernaryUniformMean q psi := by
+  classical
+  letI := (U.forwardIterate cap n).state.labelFintype
+  have hc := U.fullTerminal_weighted_source_charge_of_nonperiodic cap n shift K hseed
+    X hX (fun z => (hsource z).1) (fun x => psi (x : ZMod (3 ^ q))) (fun x => hp _)
+  have hs := terminal_source_residue_sum_le (U.fullTerminalSources cap n shift K) q X hX hQ
+    (fun x hx => by obtain ⟨z, _, rfl⟩ := Finset.mem_image.mp hx; exact (hsource z).2) psi hp
+  calc
+    _ ≤ _ := hc
+    _ ≤ (U.parentSourcePotential / X) * (33 * X * ndTernaryUniformMean q psi) :=
+      mul_le_mul_of_nonneg_left hs (div_nonneg U.frozenSourcePotential_nonneg hX.le)
+    _ = _ := by field_simp
+
+
+theorem fullTerminal_fan_two_conductor_bound_of_nonperiodic
+    (U : NDGeom2ShiftedWideSymmetricRootSideUniformFloorState)
+    (cap : ℕ → ℕ) (n : ℕ)
+    (shift : (U.forwardIterate cap n).state.Label → ℕ) (K J : ℕ)
+    (hseed : ∀ i, Nonperiodic Tao.syracuse (U.state.root i))
+    (m k : ℕ) (hmk : m ≤ k) (X : ℝ) (hX : 0 < X)
+    (hQ : ((3 ^ k : ℕ) : ℝ) ≤ X)
+    (hsource : ∀ z : U.FullTerminalAt cap n shift K,
+      X ≤ (ndGeom2PredictableRootSideBoundedOvershootIncidenceSource z : ℝ) ∧
+      (ndGeom2PredictableRootSideBoundedOvershootIncidenceSource z : ℝ) < 32 * X)
+    (epsilon : ℝ) (he : 0 ≤ epsilon)
+    (hL1 : ndTernaryUniformMean k (fun y => |ndSyracuseUnitReferenceDensity k y -
+      ndSyracuseUnitReferenceDensity m (Tao.taoZModThreeProjection hmk y)|) ≤ epsilon) :
+    letI := (U.forwardIterate cap n).state.labelFintype
+    (∑ z : U.FullTerminalAt cap n shift K,
+      ndGeom2PredictableRootSideBoundedOvershootIncidenceWeight
+        (U.forwardIterate cap n).state.outerWeight z *
+        ∑ j : Fin J, (1 / 4 : ℝ) ^ j.val * ndSyracuseUnitReferenceDensity k
+          (ndTerminalSourceFan j.val
+            (ndGeom2PredictableRootSideBoundedOvershootIncidenceSource z) : ZMod (3 ^ k))) ≤
+      (8 / 9 : ℝ) * ((3 ^ m : ℕ) : ℝ) * U.fullTerminalMass cap n shift K +
+        44 * U.parentSourcePotential * epsilon := by
+  classical
+  letI := (U.forwardIterate cap n).state.labelFintype
+  let W := fun z : U.FullTerminalAt cap n shift K =>
+    ndGeom2PredictableRootSideBoundedOvershootIncidenceWeight
+      (U.forwardIterate cap n).state.outerWeight z
+  let source := fun z : U.FullTerminalAt cap n shift K =>
+    ndGeom2PredictableRootSideBoundedOvershootIncidenceSource z
+  let H := (2 / 3 : ℝ) * ((3 ^ m : ℕ) : ℝ)
+  let delta := fun y : ZMod (3 ^ k) => |ndSyracuseUnitReferenceDensity k y -
+    ndSyracuseUnitReferenceDensity m (Tao.taoZModThreeProjection hmk y)|
+  have hW : ∀ z, 0 ≤ W z := fun z =>
+    ndGeom2PredictableRootSideBoundedOvershootIncidenceWeight_nonneg _
+      (U.forwardIterate cap n).state.weight_nonneg z
+  have hmass : 0 ≤ U.fullTerminalMass cap n shift K := Finset.sum_nonneg fun z _ => hW z
+  have hstep (j : ℕ) :
+      (∑ z, W z * ndSyracuseUnitReferenceDensity k
+        (ndTerminalSourceFan j (source z) : ZMod (3 ^ k))) ≤
+      H * U.fullTerminalMass cap n shift K + 33 * U.parentSourcePotential * epsilon := by
+    let psi := fun y : ZMod (3 ^ k) => delta (ndTerminalResidueFan k j y)
+    have hp : ∀ y, 0 ≤ psi y := fun _ => abs_nonneg _
+    have hmean : ndTernaryUniformMean k psi ≤ epsilon := by
+      rw [show psi = (fun y => delta (ndTerminalResidueFan k j y)) from rfl,
+        terminalResidueFan_fullMean]
+      exact hL1
+    have hc := U.fullTerminal_weighted_residue_census_of_nonperiodic cap n shift K hseed
+      k X hX hQ hsource psi hp
+    have hc' : (∑ z, W z * psi (source z : ZMod (3 ^ k))) ≤
+        33 * U.parentSourcePotential * epsilon := hc.trans
+      (mul_le_mul_of_nonneg_left hmean (mul_nonneg (by norm_num) U.frozenSourcePotential_nonneg))
+    have hpoint (x : ℕ) : ndSyracuseUnitReferenceDensity k
+        (ndTerminalSourceFan j x : ZMod (3 ^ k)) ≤ H + psi (x : ZMod (3 ^ k)) := by
+      dsimp [psi, delta]
+      rw [terminalResidueFan_natCast]
+      have hb := unitReferenceDensity_finite_upper m
+        (Tao.taoZModThreeProjection hmk (ndTerminalSourceFan j x : ZMod (3 ^ k)))
+      have ha := le_abs_self (ndSyracuseUnitReferenceDensity k
+          (ndTerminalSourceFan j x : ZMod (3 ^ k)) -
+        ndSyracuseUnitReferenceDensity m
+          (Tao.taoZModThreeProjection hmk (ndTerminalSourceFan j x : ZMod (3 ^ k))))
+      dsimp [H]
+      linarith
+    calc
+      _ ≤ ∑ z, W z * (H + psi (source z : ZMod (3 ^ k))) :=
+        Finset.sum_le_sum fun z _ => mul_le_mul_of_nonneg_left (hpoint _) (hW z)
+      _ = H * U.fullTerminalMass cap n shift K + ∑ z, W z * psi (source z : ZMod (3 ^ k)) := by
+        simp_rw [mul_add]
+        rw [Finset.sum_add_distrib, ← Finset.sum_mul]
+        change (∑ z, W z) * H + _ = H * (∑ z, W z) + _
+        ring
+      _ ≤ _ := add_le_add_right hc' _
+  let B := H * U.fullTerminalMass cap n shift K + 33 * U.parentSourcePotential * epsilon
+  have hB : 0 ≤ B := add_nonneg (mul_nonneg (by dsimp [H]; positivity) hmass)
+    (mul_nonneg (mul_nonneg (by norm_num) U.frozenSourcePotential_nonneg) he)
+  calc
+    _ = ∑ j : Fin J, (1 / 4 : ℝ) ^ j.val *
+        ∑ z, W z * ndSyracuseUnitReferenceDensity k
+          (ndTerminalSourceFan j.val (source z) : ZMod (3 ^ k)) := by
+      simp_rw [Finset.mul_sum]
+      rw [Finset.sum_comm]
+      apply Finset.sum_congr rfl
+      intro j _
+      apply Finset.sum_congr rfl
+      intro z _
+      dsimp [W, source]
+      ring
+    _ ≤ ∑ j : Fin J, (1 / 4 : ℝ) ^ j.val * B :=
+      Finset.sum_le_sum fun j _ => mul_le_mul_of_nonneg_left (hstep _) (by positivity)
+    _ = (∑ j : Fin J, (1 / 4 : ℝ) ^ j.val) * B := (Finset.sum_mul _ _ _).symm
+    _ ≤ (4 / 3 : ℝ) * B := mul_le_mul_of_nonneg_right (terminal_fan_coeff_sum_le J) hB
+    _ = _ := by dsimp [B, H]; ring
+
+
+theorem forwardCoreTerminalUnitMass_le_two_conductor_of_nonperiodic
+    (U : NDGeom2ShiftedWideSymmetricRootSideUniformFloorState)
+    (cap width : ℕ → ℕ) (n K m k : ℕ) (hmk : m ≤ k)
+    (hseed : ∀ i, Nonperiodic Tao.syracuse (U.state.root i))
+    (X : ℝ) (hX : 0 < X) (hQ : ((3 ^ k : ℕ) : ℝ) ≤ X)
+    (hi : ∀ i : (U.forwardIterate cap n).state.Label,
+      ndGeom2ShiftedWideSymmetricPhysicalIntervalMin (U.forwardIterate cap n).floor
+        ((U.forwardIterate cap n).state.root i) < X ∧
+      X ≤ ndGeom2ShiftedWideSymmetricPhysicalIntervalMax (U.forwardIterate cap n).floor
+        ((U.forwardIterate cap n).state.root i))
+    (hsource : ∀ z : (U.forwardIterate cap n).FullTerminalIncidence X hX hi,
+      X ≤ (ndGeom2PredictableRootSideBoundedOvershootIncidenceSource z : ℝ) ∧
+      (ndGeom2PredictableRootSideBoundedOvershootIncidenceSource z : ℝ) < 32 * X)
+    (epsilon : ℝ) (he : 0 ≤ epsilon)
+    (hL1 : ndTernaryUniformMean k (fun y => |ndSyracuseUnitReferenceDensity k y -
+      ndSyracuseUnitReferenceDensity m (Tao.taoZModThreeProjection hmk y)|) ≤ epsilon) :
+    U.forwardCoreTerminalUnitMass cap width n K k X hX hi ≤
+      (8 / 9 : ℝ) * ((3 ^ m : ℕ) : ℝ) * U.fullTerminalMass cap n
+        ((U.forwardIterate cap n).fullTerminalShift X hX hi) 1 +
+        44 * U.parentSourcePotential * epsilon := by
+  classical
+  let V := U.forwardIterate cap n
+  letI := V.state.labelFintype
+  have hmask (i : V.state.Label) : U.forwardCoreOuterWeight cap width n i ≤ V.state.outerWeight i := by
+    unfold forwardCoreOuterWeight
+    split_ifs
+    · exact le_rfl
+    · exact V.state.weight_nonneg i
+  apply (U.forwardCoreTerminalUnitMass_le_full_cap_one_fan cap width n K k X hX hi).trans
+  apply le_trans _ (U.fullTerminal_fan_two_conductor_bound_of_nonperiodic cap n (V.fullTerminalShift X hX hi)
+    1 (K / 2 + 1) hseed m k hmk X hX hQ hsource epsilon he hL1)
+  apply Finset.sum_le_sum
+  intro z _
+  apply mul_le_mul_of_nonneg_right
+  · unfold ndGeom2PredictableRootSideBoundedOvershootIncidenceWeight
+    exact mul_le_mul_of_nonneg_right (hmask _)
+      (ndGeom2PredictableRootSideBoundedOvershootIncidenceAtom_nonneg z)
+  · exact Finset.sum_nonneg fun j _ => mul_nonneg (by positivity)
+      (ndSyracuseUnitReferenceDensity_nonneg _ _)
+
+/-- The physical shell estimate is independent of the eventual target. -/
+theorem fullTerminal_source_window
+    (U : NDGeom2ShiftedWideSymmetricRootSideUniformFloorState)
+    (X : ℝ) (hX : 0 < X)
+    (hi : ∀ i : U.state.Label,
+      ndGeom2ShiftedWideSymmetricPhysicalIntervalMin U.floor (U.state.root i) < X ∧
+      X ≤ ndGeom2ShiftedWideSymmetricPhysicalIntervalMax U.floor (U.state.root i))
+    (z : U.FullTerminalIncidence X hX hi) :
+    X ≤ (ndGeom2PredictableRootSideBoundedOvershootIncidenceSource z : ℝ) ∧
+      (ndGeom2PredictableRootSideBoundedOvershootIncidenceSource z : ℝ) < 32 * X := by
+  have hpacket : ∀ i, 16 ^ U.floor ≤ U.state.root i := fun i =>
+    (Nat.pow_le_pow_right (by norm_num) (U.floor_le_base i)).trans (U.state.rootLower i)
+  have hs := U.fullTerminalShift_spec X hX hi
+    (ndGeom2PredictableRootSideBoundedOvershootIncidenceLabel z)
+  have hb := ndGeom2RootSideCommonFloor_capOne_source_bounds U.state.root_odd
+    (by have h := U.floor_twoHundred; omega) hpacket z
+  exact ⟨hs.2.1.trans hb.1, by nlinarith only [hb.2, hs.2.2]⟩
+
+theorem forwardCoreTerminalUnitMass_le_native_two_conductor_rate_of_nonperiodic
+    (A : ℕ) (hA : 0 < A) :
+    ∃ Cmix : ℝ, 0 ≤ Cmix ∧
+      ∀ (U : NDGeom2ShiftedWideSymmetricRootSideUniformFloorState)
+        (cap width : ℕ → ℕ) (n K m k : ℕ),
+        1 ≤ m → (hmk : m ≤ k) → k ≤ (U.forwardIterate cap n).floor →
+        (∀ i, Nonperiodic Tao.syracuse (U.state.root i)) →
+        ∀ (X : ℝ) (hX : 0 < X)
+          (hi : ∀ i : (U.forwardIterate cap n).state.Label,
+            ndGeom2ShiftedWideSymmetricPhysicalIntervalMin (U.forwardIterate cap n).floor
+              ((U.forwardIterate cap n).state.root i) < X ∧
+            X ≤ ndGeom2ShiftedWideSymmetricPhysicalIntervalMax (U.forwardIterate cap n).floor
+              ((U.forwardIterate cap n).state.root i)),
+          0 < U.forwardCoreTerminalUnitMass cap width n K k X hX hi →
+          U.forwardCoreTerminalUnitMass cap width n K k X hX hi ≤
+            (8 / 9 : ℝ) * ((3 ^ m : ℕ) : ℝ) * U.fullTerminalMass cap n
+              ((U.forwardIterate cap n).fullTerminalShift X hX hi) 1 +
+              44 * U.parentSourcePotential * (Cmix / (m : ℝ) ^ A) := by
+  obtain ⟨Cmix, hCmix, hmix⟩ := unitReferenceDensity_fullL1_polynomial_rate A hA
+  refine ⟨Cmix, hCmix, ?_⟩
+  intro U cap width n K m k hm hmk hk hseed X hX hi hT
+  let V := U.forwardIterate cap n
+  have hQ := U.terminal_conductor_room_of_pos_mark cap width n K k hk X hX hi hT
+  exact U.forwardCoreTerminalUnitMass_le_two_conductor_of_nonperiodic cap width n K m k hmk hseed
+    X hX hQ.le hi
+    (fun z => V.fullTerminal_source_window X hX hi z)
+    (Cmix / (m : ℝ) ^ A) (div_nonneg hCmix (by positivity)) (hmix m k hm hmk)
+
+
+end NDGeom2ShiftedWideSymmetricRootSideUniformFloorState
+end
+end Erdos1135.ND.PositiveDensity
+\end{Verbatim}
+\subsection{\texorpdfstring{\texttt{CollatzTargetDensity/Activation.lean}}{CollatzTargetDensity/Activation.lean}}
+\begin{Verbatim}[fontsize=\footnotesize,breaklines=true,breakanywhere=true,numbers=left,numbersep=5pt]
+import CollatzTargetDensity.SeedSupply
+import Erdos1135.ND.PositiveDensity.Geom2ShiftedWideSymmetricTerminalShiftImageRate
+
+/-!+# Target-independent activation from residue-wise nonperiodic seeds
+
+Adapted from Lech Mazur's Apache-2.0 positive-density package, corrected commit
+0aef8b0cfaaf6959500063472f2e328c60df8d54. The original uniform analytic estimates
+are imported unchanged. Only the physical seed-selection step is generalized.
+-/
+
+namespace CollatzTargetDensity
+open Erdos1135 Erdos1135.ND.PositiveDensity
+open Filter
+open scoped Topology
+noncomputable section
+
+theorem seed_at_generation {target : ℕ} (hsupply : SeedSupply target)
+    {b k : ℕ} (hb : 200 ≤ b) (hk : 1 ≤ k) (cap width : ℕ → ℕ)
+    (hwidth : ∀ B, b ≤ B → 2 ≤ width B) (n X : ℕ) :
+    ∃ (M : ℕ) (hM : Odd M) (hl : 16 ^ b ≤ M),
+      X < M ∧ Tao.syracuse M = target ∧ Nonperiodic Tao.syracuse M ∧
+      (2 / 3 : ℝ) * ndRootCoreProbabilityProduct b cap width n ≤
+        (ndRootCoreSingletonState b M hb hM hl).forwardCoreMarkedMass cap width n k (fun _ => 1) := by
+  obtain ⟨y, _, hy⟩ := exists_unit_rootCoreBackwardMark_ge_product
+    (by omega : 9 ≤ b) hk cap width hwidth n
+  let q := ndRootCoreBackwardConductor b k n
+  let r : Fin (3 ^ q) := ⟨y.val, ZMod.val_lt y⟩
+  obtain ⟨M, hM, hlarge, hhit, hres, hnonperiodic⟩ := hsupply q (max X (16 ^ b)) r
+  have hl : 16 ^ b ≤ M := (le_max_right _ _).trans hlarge.le
+  have heq : (M : ZMod (3 ^ q)) = y := by
+    calc
+      _ = ((M % 3 ^ q : ℕ) : ZMod (3 ^ q)) := by simp
+      _ = ((y.val : ℕ) : ZMod (3 ^ q)) := congrArg (fun a : ℕ => (a : ZMod (3 ^ q))) hres
+      _ = y := ZMod.natCast_zmod_val y
+  refine ⟨M, hM, hl, (le_max_left _ _).trans_lt hlarge, hhit, hnonperiodic, ?_⟩
+  rw [rootCoreSingletonState_markedMass_eq_backwardMark _ _ _ _ _ _ _ _ _ hk]
+  simpa only [heq] using hy
+
+theorem positive_core_limit {target : ℕ} (hsupply : SeedSupply target)
+    {b : ℕ} (hb : 32 ^ 5 ≤ b) (K0 X : ℕ) :
+    ∃ (M : ℕ) (hM : Odd M) (hl : 16 ^ b ≤ M),
+      X < M ∧ Tao.syracuse M = target ∧ Nonperiodic Tao.syracuse M ∧ ∃ ell : ℝ, 0 < ell ∧
+        Tendsto ((ndRootCoreSingletonState b M (by omega) hM hl).coreMarkedSequence
+          (fun n => K0 + n / 100) ndRootCoreWidth) atTop (𝓝 ell) := by
+  let cap (n : ℕ) := K0 + n / 100
+  have hb200 : 200 ≤ b := by omega
+  have hwidth (B : ℕ) (hB : b ≤ B) : 2 ≤ ndRootCoreWidth B := by
+    have h := (rootCoreWidth_guard (hb.trans hB)).1
+    omega
+  have hupper (n : ℕ) : cap n ≤ (K0 + 1) * (n + 1) := by
+    have h := Nat.div_le_self n 100
+    dsimp [cap]
+    nlinarith
+  have hlower (n : ℕ) : K0 + n / 100 ≤ cap n := le_rfl
+  obtain ⟨M0, hM0, hl0, _, _, _, _⟩ :=
+    seed_at_generation hsupply hb200 (by norm_num : 1 ≤ 1)
+      cap ndRootCoreWidth hwidth 0 0
+  let U0 := ndRootCoreSingletonState b M0 hb200 hM0 hl0
+  obtain ⟨p, hp, hprod⟩ := U0.exists_pos_le_coreProbabilityProduct hb cap K0 hlower
+  change ∀ n, p ≤ ndRootCoreProbabilityProduct b cap ndRootCoreWidth n at hprod
+  obtain ⟨C, hC, hlimall⟩ :=
+    NDGeom2ShiftedWideSymmetricRootSideUniformFloorState.exists_coreMarkedLimit_with_root_uniform_tail
+  have ht : ∀ᶠ N in atTop, ndRootCoreVariationTail b (K0 + 1) K0 C N < p / 3 :=
+    (tendsto_order.mp (tendsto_rootCoreVariationTail_zero b (K0 + 1) K0 C)).2 (p / 3) (by positivity)
+  obtain ⟨N, hN⟩ := Filter.eventually_atTop.mp ht
+  let k := (U0.forwardIterate cap N).floor / 4
+  have hk : 1 ≤ k := by have h := (U0.forwardIterate cap N).floor_twoHundred; dsimp [k]; omega
+  obtain ⟨M, hM, hl, hX, hhit, hnonperiodic, hmark⟩ :=
+    seed_at_generation hsupply hb200 hk cap ndRootCoreWidth hwidth N X
+  let U := ndRootCoreSingletonState b M hb200 hM hl
+  have hfloor := U.forward_floor_eq_of_floor_eq U0 cap cap rfl N
+  have hmarked : (2 / 3 : ℝ) * ndRootCoreProbabilityProduct b cap ndRootCoreWidth N ≤
+      U.coreMarkedSequence cap ndRootCoreWidth N := by
+    unfold NDGeom2ShiftedWideSymmetricRootSideUniformFloorState.coreMarkedSequence
+    rw [hfloor]
+    exact hmark
+  obtain ⟨ell, _, hlim, htail⟩ := hlimall U hb cap (K0 + 1) K0 hupper hlower
+  have hdev := (abs_le.mp (htail N)).1
+  have hD : U.denominator = 1 := rootCoreSingletonState_denominator_eq_one b M hb200 hM hl
+  rw [hD, one_mul] at hdev
+  change -(ndRootCoreVariationTail b (K0 + 1) K0 C N) ≤
+    ell - U.coreMarkedSequence cap ndRootCoreWidth N at hdev
+  refine ⟨M, hM, hl, hX, hhit, hnonperiodic, ell, ?_, hlim⟩
+  have hn := hN N le_rfl
+  have hpn := hprod N
+  linarith
+
+
+theorem uniform_terminal_mark {target : ℕ} (hsupply : SeedSupply target)
+    {b : ℕ} (hb : 32 ^ 5 ≤ b) (K0 R : ℕ) :
+    ∃ (M : ℕ) (hM : Odd M) (hl : 16 ^ b ≤ M),
+      R < M ∧ Tao.syracuse M = target ∧ Nonperiodic Tao.syracuse M ∧ ∃ a : ℝ, 0 < a ∧
+      ∀ᶠ n in atTop,
+        let U := ndRootCoreSingletonState b M (by omega) hM hl;
+        let cap := fun n => K0 + n / 100;
+        let V := U.forwardIterate cap n;
+        ∀ (X : ℝ) (hX : 0 < X)
+        (hi : ∀ i : V.state.Label,
+          ndGeom2ShiftedWideSymmetricPhysicalIntervalMin V.floor (V.state.root i) < X ∧
+          X ≤ ndGeom2ShiftedWideSymmetricPhysicalIntervalMax V.floor (V.state.root i)),
+        a ≤ U.forwardCoreTerminalUnitMass cap ndRootCoreWidth n (cap n) (V.floor / 4) X hX hi := by
+  obtain ⟨M, hM, hl, hR, hhit, hnonperiodic, ell, hell, hlim⟩ :=
+    positive_core_limit hsupply hb K0 R
+  let U := ndRootCoreSingletonState b M (by omega) hM hl
+  have hspan : U.rootSpan 0 := by intro i j; change M ≤ 2 ^ 0 * M; simp
+  have hupper (n : ℕ) : K0 + n / 100 ≤ (K0 + 1) * (n + 1) := by
+    have h := Nat.div_le_self n 100
+    nlinarith
+  exact ⟨M, hM, hl, hR, hhit, hnonperiodic, ell / 2, by positivity,
+    U.eventually_terminalUnitMass_ge_of_pos_core_limit _ 0 (K0 + 1) K0 hspan hupper (fun _ => le_rfl) hell hlim⟩
+
+end
+end CollatzTargetDensity
+\end{Verbatim}
+\subsection{\texorpdfstring{\texttt{CollatzTargetDensity/RawBridge.lean}}{CollatzTargetDensity/RawBridge.lean}}
+\begin{Verbatim}[fontsize=\footnotesize,breaklines=true,breakanywhere=true,numbers=left,numbersep=5pt]
+import CollatzTargetDensity.SeedSupply
+import Erdos1135.Tao.Syracuse.CollatzBridge
+import Erdos1135.Parity
+
+/-! Deterministic reachability and transfer to even targets. -/
+namespace CollatzTargetDensity
+open Erdos1135
+noncomputable section
+
+def oddReaches (target : ℕ) : Set ℕ :=
+  {n | Odd n ∧ ∃ k : ℕ, (Tao.syracuse^[k]) n = target}
+
+/-- Choose an odd predecessor prime to 3 of any target prime to 3.
+    This construction also works when the target is even. -/
+theorem exists_fertile_raw_child {target : ℕ} (hthree : target % 3 ≠ 0) :
+    ∃ c : ℕ, Odd c ∧ c % 3 ≠ 0 ∧ Reaches c target := by
+  have hbase : ∃ c v : ℕ, Odd c ∧ 3 * c + 1 = 2 ^ v * target := by
+    by_cases h : target % 3 = 1
+    · let c := (4 * target - 1) / 3
+      have he : 3 * c + 1 = 4 * target := by dsimp [c]; omega
+      exact ⟨c, 2, ⟨c / 2, by omega⟩, he⟩
+    · let c := (2 * target - 1) / 3
+      have he : 3 * c + 1 = 2 * target := by dsimp [c]; omega
+      exact ⟨c, 1, ⟨c / 2, by omega⟩, he⟩
+  have hfertile : ∃ c v : ℕ, Odd c ∧ c % 3 ≠ 0 ∧ 3 * c + 1 = 2 ^ v * target := by
+    obtain ⟨c, v, hc, he⟩ := hbase
+    by_cases h : c % 3 ≠ 0
+    · exact ⟨c, v, hc, h, he⟩
+    · refine ⟨4 * c + 1, v + 2, ⟨2 * c, by omega⟩, by omega, ?_⟩
+      calc
+        _ = 4 * (3 * c + 1) := by ring
+        _ = 4 * (2 ^ v * target) := by rw [he]
+        _ = _ := by rw [pow_add]; ring
+  obtain ⟨c, v, hc, hunit, he⟩ := hfertile
+  refine ⟨c, hc, hunit, v + 1, ?_⟩
+  rw [Function.iterate_add_apply, Function.iterate_one,
+    collatzStep_eq_three_mul_add_one_of_odd hc, he]
+  exact Tao.collatz_iterate_powTwo_mul v target
+
+def rawReaches (target : ℕ) : Set ℕ :=
+  {n | 0 < n ∧ Reaches n target}
+
+theorem oddReaches_subset_rawReaches {seed target : ℕ} (hseed : Reaches seed target) :
+    oddReaches seed ⊆ rawReaches target := by
+  intro n hn
+  obtain ⟨hnodd, k, hk⟩ := hn
+  have hreach : Reaches n seed := by
+    simpa only [hk] using Tao.reaches_syracuse_iterate hnodd k
+  exact ⟨hnodd.pos, hreach.trans hseed⟩
+
+end
+end CollatzTargetDensity
+\end{Verbatim}
+\subsection{\texorpdfstring{\texttt{CollatzTargetDensity/Assembly.lean}}{CollatzTargetDensity/Assembly.lean}}
+\begin{Verbatim}[fontsize=\footnotesize,breaklines=true,breakanywhere=true,numbers=left,numbersep=5pt]
+import CollatzTargetDensity.SourceCharge
+import CollatzTargetDensity.Activation
+import CollatzTargetDensity.RawBridge
+import Erdos1135.ND.PositiveDensity.Geom2ShiftedWideSymmetricPositiveDensityAssembly
+
+/-!
+# Density assembly with an arbitrary target
+
+Adapted from Lech Mazur's Apache-2.0 source, corrected commit
+0aef8b0cfaaf6959500063472f2e328c60df8d54. The analytic inputs and interval
+synchronization are unchanged. The conclusion records a supplied target;
+nonperiodicity replaces seed convergence in the counting step.
+-/
+namespace Erdos1135.ND.PositiveDensity
+open scoped BigOperators
+open Filter CollatzTargetDensity
+noncomputable section
+namespace NDGeom2ShiftedWideSymmetricRootSideUniformFloorState
+
+theorem eventually_pos_fullTerminalMass_of_nonperiodic_mark
+    (U : NDGeom2ShiftedWideSymmetricRootSideUniformFloorState)
+    (cap width : ℕ → ℕ) {a : ℝ}
+    (hseed : ∀ i, Nonperiodic Tao.syracuse (U.state.root i))
+    (ha : 0 < a)
+    (hmark : ∀ᶠ n in atTop,
+      let V := U.forwardIterate cap n;
+      ∀ (X : ℝ) (hX : 0 < X)
+        (hi : ∀ i : V.state.Label,
+          ndGeom2ShiftedWideSymmetricPhysicalIntervalMin V.floor (V.state.root i) < X ∧
+          X ≤ ndGeom2ShiftedWideSymmetricPhysicalIntervalMax V.floor (V.state.root i)),
+        a ≤ U.forwardCoreTerminalUnitMass cap width n (cap n) (V.floor / 4) X hX hi) :
+    ∃ eta : ℝ, 0 < eta ∧ ∀ᶠ n in atTop,
+      let V := U.forwardIterate cap n;
+      ∀ (X : ℝ) (hX : 0 < X)
+        (hi : ∀ i : V.state.Label,
+          ndGeom2ShiftedWideSymmetricPhysicalIntervalMin V.floor (V.state.root i) < X ∧
+          X ≤ ndGeom2ShiftedWideSymmetricPhysicalIntervalMax V.floor (V.state.root i)),
+        eta ≤ U.fullTerminalMass cap n (V.fullTerminalShift X hX hi) 1 := by
+  obtain ⟨Cmix, hCmix, hrate⟩ := forwardCoreTerminalUnitMass_le_native_two_conductor_rate_of_nonperiodic 2 (by decide)
+  obtain ⟨m, hm⟩ := exists_nat_gt (max 1 (88 * U.parentSourcePotential * Cmix / a))
+  have hm1 : (1 : ℝ) < m := (le_max_left _ _).trans_lt hm
+  have hmNat : 1 ≤ m := by exact_mod_cast hm1.le
+  have hmPos : (0 : ℝ) < m := by linarith
+  have hcoarse : 44 * U.parentSourcePotential * (Cmix / (m : ℝ) ^ 2) ≤ a / 2 := by
+    have hmBig : 88 * U.parentSourcePotential * Cmix / a < (m : ℝ) :=
+      (le_max_right _ _).trans_lt hm
+    have hmProd := (div_lt_iff₀ ha).1 hmBig
+    have hmSq : (m : ℝ) ≤ (m : ℝ) ^ 2 := by nlinarith
+    have hpay := mul_le_mul_of_nonneg_left hmSq ha.le
+    rw [← mul_div_assoc]
+    apply (div_le_iff₀ (by positivity : (0 : ℝ) < (m : ℝ) ^ 2)).2
+    nlinarith
+  let H := (8 / 9 : ℝ) * ((3 ^ m : ℕ) : ℝ)
+  have hH : 0 < H := by dsimp [H]; positivity
+  refine ⟨a / (2 * H), by positivity, ?_⟩
+  filter_upwards [hmark, eventually_ge_atTop (2 * m)] with n hn hnlarge
+  intro V X hX hi
+  have hf : U.floor + 2 * n ≤ V.floor := by
+    have h := U.floor_add_two_mul_le_geometricIntervalStoppedIterate_floor cap 0 n
+    rw [U.geometricIntervalStoppedIterate_floor_eq_iterate cap 0 n] at h
+    simpa only [V, U.forwardIterate_eq_iterate cap n] using h
+  have hmk : m ≤ V.floor / 4 := by omega
+  have hT := hn X hX hi
+  have h := hrate U cap width n (cap n) m (V.floor / 4) hmNat hmk
+    (Nat.div_le_self _ _) hseed X hX hi (ha.trans_le hT)
+  apply (div_le_iff₀ (mul_pos (by norm_num) hH)).2
+  change a ≤ U.fullTerminalMass cap n (V.fullTerminalShift X hX hi) 1 * (2 * H)
+  dsimp [H]
+  nlinarith [hcoarse]
+
+
+theorem targetDensity_of_eventually_pos_fullTerminalMass
+    (U : NDGeom2ShiftedWideSymmetricRootSideUniformFloorState)
+    (cap : ℕ → ℕ) {e L : ℕ} (he : U.rootSpan e)
+    (hcap : ∀ n, cap n ≤ L * (n + 1))
+    {eta : ℝ} (target : ℕ)
+    (hseed : ∀ i, Nonperiodic Tao.syracuse (U.state.root i))
+    (htarget : ∀ i, ∃ k : ℕ, (Tao.syracuse^[k]) (U.state.root i) = target)
+    (hP : 0 < U.parentSourcePotential) (heta : 0 < eta)
+    (hmass : ∀ᶠ n in atTop,
+      let V := U.forwardIterate cap n;
+      ∀ (X : ℝ) (hX : 0 < X)
+        (hi : ∀ i : V.state.Label,
+          ndGeom2ShiftedWideSymmetricPhysicalIntervalMin V.floor (V.state.root i) < X ∧
+          X ≤ ndGeom2ShiftedWideSymmetricPhysicalIntervalMax V.floor (V.state.root i)),
+        eta ≤ U.fullTerminalMass cap n (V.fullTerminalShift X hX hi) 1) :
+    ∀ᶠ Y : ℕ in atTop,
+      (eta / (32 * U.parentSourcePotential)) * (Y : ℝ) ≤
+        (Terras.natCount (oddReaches target) Y : ℝ) := by
+  classical
+  obtain ⟨N0, hN0⟩ := eventually_atTop.mp hmass
+  let Nstar := max N0 (1000000000 * (e + L + 3))
+  let V0 := U.iterate cap Nstar
+  letI := V0.state.labelFintype
+  let X0 := ∑ i : V0.state.Label,
+    max 0 (ndGeom2ShiftedWideSymmetricPhysicalIntervalMax V0.floor (V0.state.root i))
+  have hstart (X : ℝ) (hXX : X0 < X) : ∀ i : V0.state.Label,
+      ndGeom2ShiftedWideSymmetricPhysicalIntervalMax V0.floor (V0.state.root i) < X := by
+    intro i
+    have hsingle := Finset.single_le_sum
+      (f := fun j : V0.state.Label => max 0
+        (ndGeom2ShiftedWideSymmetricPhysicalIntervalMax V0.floor (V0.state.root j)))
+      (fun j _ => le_max_left _ _) (Finset.mem_univ i)
+    exact ((le_max_right _ _).trans hsingle).trans_lt hXX
+  apply eventually_atTop.mpr
+  refine ⟨Nat.ceil (32 * (max X0 0 + 1)), ?_⟩
+  intro Y hY
+  have hYlarge : 32 * (max X0 0 + 1) ≤ (Y : ℝ) :=
+    (Nat.le_ceil _).trans (by exact_mod_cast hY)
+  let X := (Y : ℝ) / 32
+  have hX : 0 < X := by dsimp [X]; have := le_max_right X0 0; linarith
+  have hXX : X0 < X := by dsimp [X]; have := le_max_left X0 0; linarith
+  obtain ⟨n, hn, hi⟩ := U.exists_unstopped_generation_all_intervals_contain he cap hcap
+    Nstar (le_max_right _ _) X (hstart X hXX)
+  have hif : ∀ i : (U.forwardIterate cap n).state.Label,
+      ndGeom2ShiftedWideSymmetricPhysicalIntervalMin (U.forwardIterate cap n).floor
+        ((U.forwardIterate cap n).state.root i) < X ∧
+      X ≤ ndGeom2ShiftedWideSymmetricPhysicalIntervalMax (U.forwardIterate cap n).floor
+        ((U.forwardIterate cap n).state.root i) := by
+    rw [U.forwardIterate_eq_iterate cap n]
+    exact hi
+  let shift := (U.forwardIterate cap n).fullTerminalShift X hX hif
+  let sources := U.fullTerminalSources cap n shift 1
+  have hm : eta ≤ U.fullTerminalMass cap n shift 1 :=
+    hN0 n ((le_max_left _ _).trans hn) X hX hif
+  have hwindow (z : U.FullTerminalAt cap n shift 1) :=
+    (U.forwardIterate cap n).fullTerminal_source_window X hX hif z
+  have hcountMass := U.fullTerminal_mass_mul_lower_le_frozenPotential_mul_card_of_nonperiodic
+    cap n shift 1 hseed X (fun z => (hwindow z).1)
+  have hmember (source : ℕ) (hs : source ∈ sources) :
+      source ∈ oddReaches target ∧ X ≤ (source : ℝ) ∧ (source : ℝ) < 32 * X := by
+    obtain ⟨z, _, rfl⟩ := Finset.mem_image.mp hs
+    let p := U.fullTerminalPath cap n shift 1 z
+    obtain ⟨k, hk⟩ := htarget (fullTerminalAncestor z)
+    refine ⟨⟨p.sourceOdd, k + p.depth, ?_⟩, hwindow z⟩
+    rw [Function.iterate_add_apply, p.terminal_eq, hk]
+  have hrange : sources ⊆ Finset.range Y := by
+    intro source hs
+    have h := (hmember source hs).2.2
+    have hlt : (source : ℝ) < Y := by dsimp [X] at h; linarith
+    exact Finset.mem_range.mpr (by exact_mod_cast hlt)
+  have htargetS : (↑sources : Set ℕ) ⊆ oddReaches target :=
+    fun source hs => (hmember source hs).1
+  have hcard : sources.card ≤ Terras.natCount (oddReaches target) Y :=
+    finset_card_le_natCount_of_subset_range hrange htargetS
+  have hcount : X * U.fullTerminalMass cap n shift 1 ≤
+      U.parentSourcePotential * (Terras.natCount (oddReaches target) Y : ℝ) :=
+    hcountMass.trans (mul_le_mul_of_nonneg_left (by exact_mod_cast hcard) hP.le)
+  have htotal := (mul_le_mul_of_nonneg_left hm hX.le).trans hcount
+  rw [div_mul_eq_mul_div]
+  apply (div_le_iff₀ (by positivity : (0 : ℝ) < 32 * U.parentSourcePotential)).2
+  dsimp [X] at htotal
+  nlinarith only [htotal]
+
+
+end NDGeom2ShiftedWideSymmetricRootSideUniformFloorState
+end
+end Erdos1135.ND.PositiveDensity
+
+namespace CollatzTargetDensity
+open Erdos1135 Erdos1135.ND.PositiveDensity Filter
+noncomputable section
+
+/-- Analytic conclusion from residue-wise nonperiodic seed supply.
+    The arithmetic supply is an explicit input, not an assumed Collatz result. -/
+theorem positive_density_of_seed_supply {target : ℕ} (hsupply : SeedSupply target) :
+    ∃ c : ℝ, 0 < c ∧ ∀ᶠ X : ℕ in atTop,
+      c * (X : ℝ) ≤ (Terras.natCount (oddReaches target) X : ℝ) := by
+  classical
+  obtain ⟨M, hM, hl, hMpos, hhit, hnonperiodic, a, ha, hmark⟩ :=
+    uniform_terminal_mark hsupply (b := 32 ^ 5) (by rfl) 0 0
+  let U := ndRootCoreSingletonState (32 ^ 5) M (by norm_num) hM hl
+  let cap := fun n : ℕ => 0 + n / 100
+  have hseed : ∀ i, Nonperiodic Tao.syracuse (U.state.root i) := fun _ => hnonperiodic
+  have htarget : ∀ i, ∃ k : ℕ, (Tao.syracuse^[k]) (U.state.root i) = target := by
+    intro i
+    exact ⟨1, hhit⟩
+  have hspan : U.rootSpan 0 := by intro i j; change M ≤ 2 ^ 0 * M; simp
+  have hcap : ∀ n, cap n ≤ 1 * (n + 1) := by intro n; dsimp [cap]; omega
+  have hP : 0 < U.parentSourcePotential := by
+    change 0 < ndGeom2PredictableRootSideParentSourcePotential (Finset.univ : Finset Unit)
+      (fun _ => (1 : ℝ)) (fun _ => M)
+    simpa [ndGeom2PredictableRootSideParentSourcePotential] using
+      (show (0 : ℝ) < M by exact_mod_cast hMpos)
+  obtain ⟨eta, heta, hmass⟩ := U.eventually_pos_fullTerminalMass_of_nonperiodic_mark
+    cap ndRootCoreWidth hseed ha hmark
+  exact ⟨eta / (32 * U.parentSourcePotential), by positivity,
+    U.targetDensity_of_eventually_pos_fullTerminalMass cap hspan hcap
+      target hseed htarget hP heta hmass⟩
+
+end
+end CollatzTargetDensity
+\end{Verbatim}
+\subsection{\texorpdfstring{\texttt{CollatzTargetDensity/AllTargets.lean}}{CollatzTargetDensity/AllTargets.lean}}
+\begin{Verbatim}[fontsize=\footnotesize,breaklines=true,breakanywhere=true,numbers=left,numbersep=5pt]
+import CollatzTargetDensity.ArithmeticSeeds
+import CollatzTargetDensity.Assembly
+import CollatzTargetDensity.RawBridge
+
+/-!+# Proposed all-target predecessor density endpoint
+
+This file must pass the complete build and an axiom audit before its theorem
+is reported as verified. The new argument depends on the imported analytic
+machinery of Lech Mazur's positive-density theorem.
+-/
+
+namespace CollatzTargetDensity
+open Erdos1135 Filter
+noncomputable section
+
+theorem positive_density_odd_target {target : ℕ}
+    (hodd : Odd target) (hthree : target % 3 ≠ 0) :
+    ∃ c : ℝ, 0 < c ∧ ∀ᶠ X : ℕ in atTop,
+      c * (X : ℝ) ≤ (Terras.natCount (oddReaches target) X : ℝ) :=
+  positive_density_of_seed_supply (seed_supply hodd hthree)
+
+/-- Every positive target prime to 3 has a predecessor set of positive lower
+    natural density. This is not a statement that every integer reaches 1. -/
+theorem positive_density_all_targets {target : ℕ} (hthree : target % 3 ≠ 0) :
+    ∃ c : ℝ, 0 < c ∧ ∃ X₀ : ℕ, ∀ X : ℕ, X₀ ≤ X →
+      c * (X : ℝ) ≤ (Terras.natCount (rawReaches target) X : ℝ) := by
+  obtain ⟨seed, hodd, hunit, hhit⟩ := exists_fertile_raw_child hthree
+  obtain ⟨c, hc, hcount⟩ := positive_density_odd_target hodd hunit
+  obtain ⟨X₀, hX₀⟩ := eventually_atTop.mp hcount
+  refine ⟨c, hc, X₀, ?_⟩
+  intro X hX
+  have hmono := Terras.natCount_mono (oddReaches_subset_rawReaches hhit) X
+  exact (hX₀ X hX).trans (by exact_mod_cast hmono)
+
+end
+end CollatzTargetDensity
+\end{Verbatim}
+\subsection{\texorpdfstring{\texttt{CollatzTargetDensity/ThreeDivisible.lean}}{CollatzTargetDensity/ThreeDivisible.lean}}
+\begin{Verbatim}[fontsize=\footnotesize,breaklines=true,breakanywhere=true,numbers=left,numbersep=5pt]
+import CollatzTargetDensity.RawBridge
+import Erdos1135.Terras.Density.NaturalDensity
+
+/-! Exact predecessor structure for the excluded targets divisible by 3. -/
+namespace CollatzTargetDensity
+open Erdos1135
+
+theorem reaches_three_divisible_iff {target n : ℕ} (hthree : target % 3 = 0) :
+    Reaches n target ↔ ∃ k : ℕ, n = 2 ^ k * target := by
+  constructor
+  · rintro ⟨m, hm⟩
+    induction m generalizing n with
+    | zero => exact ⟨0, by simpa using hm⟩
+    | succ m ih =>
+      rw [Function.iterate_succ_apply] at hm
+      obtain ⟨k, hk⟩ := ih hm
+      have hstep : collatzStep n % 3 = 0 := by
+        rw [hk, Nat.mul_mod, hthree]
+        simp
+      have he : Even n := by
+        by_contra hne
+        rw [collatzStep_eq_three_mul_add_one_of_not_even hne] at hstep
+        omega
+      have hmod := Nat.even_iff.mp he
+      refine ⟨k + 1, ?_⟩
+      calc
+        n = 2 * (n / 2) := by omega
+        _ = 2 * collatzStep n := by rw [collatzStep_eq_div_two_of_even he]
+        _ = 2 * (2 ^ k * target) := by rw [hk]
+        _ = 2 ^ (k + 1) * target := by rw [pow_succ]; ring
+  · rintro ⟨k, rfl⟩
+    exact Tao.reaches_powTwo_mul k target
+
+theorem three_divisible_count_at_dyadic_cutoff {target : ℕ}
+    (hpos : 0 < target) (hthree : target % 3 = 0) (k : ℕ) :
+    Terras.natCount (rawReaches target) (2 ^ k * target) = k := by
+  classical
+  have hmono : StrictMono (fun j : ℕ => 2 ^ j * target) := by
+    intro i j hij
+    exact Nat.mul_lt_mul_of_pos_right
+      ((Nat.pow_lt_pow_iff_right (by decide : 1 < (2 : ℕ))).2 hij) hpos
+  have hfilter : (Finset.range (2 ^ k * target)).filter (fun n => n ∈ rawReaches target) =
+      (Finset.range k).image (fun j => 2 ^ j * target) := by
+    ext n
+    simp only [Finset.mem_filter, Finset.mem_range, Finset.mem_image]
+    constructor
+    · rintro ⟨hnlt, hn⟩
+      obtain ⟨j, hj⟩ := (reaches_three_divisible_iff hthree).1 hn.2
+      refine ⟨j, ?_, hj.symm⟩
+      rw [hj] at hnlt
+      exact hmono.lt_iff_lt.mp hnlt
+    · rintro ⟨j, hj, rfl⟩
+      exact ⟨hmono hj, Nat.mul_pos (by positivity) hpos, Tao.reaches_powTwo_mul j target⟩
+  unfold Terras.natCount
+  rw [Nat.count_eq_card_filter_range, hfilter,
+    Finset.card_image_of_injective _ hmono.injective, Finset.card_range]
+
+theorem square_le_two_pow {k : ℕ} (hk : 4 ≤ k) : k ^ 2 ≤ 2 ^ k := by
+  induction k, hk using Nat.le_induction with
+  | base => decide
+  | succ k hk ih =>
+    rw [pow_succ (2 : ℕ) k]
+    nlinarith
+
+theorem no_positive_lower_density_three_divisible {target : ℕ}
+    (hpos : 0 < target) (hthree : target % 3 = 0) :
+    ¬∃ c : ℝ, 0 < c ∧ ∃ X₀ : ℕ, ∀ X : ℕ, X₀ ≤ X →
+      c * (X : ℝ) ≤ (Terras.natCount (rawReaches target) X : ℝ) := by
+  rintro ⟨c, hc, X₀, hX₀⟩
+  obtain ⟨k, hk⟩ := exists_nat_gt (max ((max X₀ 4 : ℕ) : ℝ) (1 / c))
+  have hknat : max X₀ 4 < k := by exact_mod_cast (le_max_left _ _).trans_lt hk
+  have hk4 : 4 ≤ k := by omega
+  have hck : 1 < (k : ℝ) * c :=
+    (div_lt_iff₀ hc).1 ((le_max_right _ _).trans_lt hk)
+  have hsquare : k ^ 2 ≤ 2 ^ k * target :=
+    (square_le_two_pow hk4).trans (Nat.le_mul_of_pos_right _ hpos)
+  have hroom : X₀ ≤ 2 ^ k * target := by
+    have hk_le_square : k ≤ k ^ 2 := by nlinarith
+    omega
+  have hcount := hX₀ (2 ^ k * target) hroom
+  rw [three_divisible_count_at_dyadic_cutoff hpos hthree k] at hcount
+  have hsquare_real : (k : ℝ) ^ 2 ≤ ((2 ^ k * target : ℕ) : ℝ) := by
+    exact_mod_cast hsquare
+  have hpaid := mul_le_mul_of_nonneg_left hsquare_real hc.le
+  have hkpos : (0 : ℝ) < k := by exact_mod_cast (show 0 < k by omega)
+  nlinarith
+
+end CollatzTargetDensity
+\end{Verbatim}
+\subsection{\texorpdfstring{\texttt{CollatzTargetDensity/Public.lean}}{CollatzTargetDensity/Public.lean}}
+\begin{Verbatim}[fontsize=\footnotesize,breaklines=true,breakanywhere=true,numbers=left,numbersep=5pt]
+import CollatzTargetDensity.AllTargets
+import CollatzTargetDensity.ThreeDivisible
+
+/-! Literal map and count interface for the all-target density extension. -/
+namespace CollatzTargetDensity
+
+def step (n : ℕ) : ℕ := if Even n then n / 2 else 3 * n + 1
+
+def reachesTarget (target n : ℕ) : Prop :=
+  0 < n ∧ ∃ k : ℕ, (step^[k]) n = target
+
+open Classical in
+noncomputable def countBelow (target X : ℕ) : ℕ :=
+  Nat.count (reachesTarget target) X
+
+/-- The count uses positive starting integers strictly below X and the
+    ordinary Collatz map. The lower-density constant may depend on target. -/
+theorem positive_density (target : ℕ) (_hpos : 0 < target) (hthree : target % 3 ≠ 0) :
+    ∃ c : ℝ, 0 < c ∧ ∃ X₀ : ℕ, ∀ X : ℕ, X₀ ≤ X →
+      c * (X : ℝ) ≤ (countBelow target X : ℝ) := by
+  exact positive_density_all_targets hthree
+
+theorem positive_density_iff (target : ℕ) (hpos : 0 < target) :
+    (∃ c : ℝ, 0 < c ∧ ∃ X₀ : ℕ, ∀ X : ℕ, X₀ ≤ X →
+      c * (X : ℝ) ≤ (countBelow target X : ℝ)) ↔ target % 3 ≠ 0 := by
+  constructor
+  · intro h hthree
+    exact no_positive_lower_density_three_divisible hpos hthree h
+  · exact positive_density target hpos
+
+end CollatzTargetDensity
+\end{Verbatim}
+\subsection{\texorpdfstring{\texttt{CollatzTargetDensity/OrbitInvariance.lean}}{CollatzTargetDensity/OrbitInvariance.lean}}
+\begin{Verbatim}[fontsize=\footnotesize,breaklines=true,breakanywhere=true,numbers=left,numbersep=5pt]
+import CollatzTargetDensity.RawBridge
+
+/-! Elementary orbit facts for interpreting the predecessor density result. -/
+namespace CollatzTargetDensity
+open Erdos1135
+
+theorem reaches_one_forward {n a : ℕ} (hna : Reaches n a) (hn : Reaches n 1) :
+    Reaches a 1 := by
+  obtain ⟨d, hd⟩ := hna
+  obtain ⟨t, ht⟩ := hn
+  have hcycle : (collatzStep^[3]) 1 = 1 := by decide
+  have hperiod : (collatzStep^[3 * d]) 1 = 1 := by
+    simpa only [Nat.mul_comm] using periodic_multiples hcycle d
+  refine ⟨t + 2 * d, ?_⟩
+  rw [← hd, ← Function.iterate_add_apply,
+    show t + 2 * d + d = 3 * d + t by omega,
+    Function.iterate_add_apply, ht]
+  exact hperiod
+
+theorem reaches_three_unit (n : ℕ) (hn : 0 < n) :
+    ∃ a : ℕ, a % 3 ≠ 0 ∧ Reaches n a := by
+  induction n using Nat.strong_induction_on with
+  | h n ih =>
+    by_cases hthree : n % 3 ≠ 0
+    · exact ⟨n, hthree, reaches_refl n⟩
+    · by_cases he : Even n
+      · have hmod := Nat.even_iff.mp he
+        have hpos : 0 < n / 2 := by omega
+        have hlt : n / 2 < n := Nat.div_lt_self hn (by decide)
+        obtain ⟨a, ha, hreach⟩ := ih (n / 2) hlt hpos
+        refine ⟨a, ha, reaches_of_reaches_step ?_⟩
+        simpa only [collatzStep_eq_div_two_of_even he] using hreach
+      · exact ⟨3 * n + 1, by omega,
+          reaches_of_step_eq (collatzStep_eq_three_mul_add_one_of_not_even he)⟩
+
+def rawBad : Set ℕ := {n | 0 < n ∧ ¬Reaches n 1}
+
+theorem rawReaches_subset_bad {a : ℕ} (ha : ¬Reaches a 1) :
+    rawReaches a ⊆ rawBad := by
+  intro n hn
+  exact ⟨hn.1, fun h => ha (reaches_one_forward hn.2 h)⟩
+
+theorem bad_three_unit_of_bad {n : ℕ} (hn : n ∈ rawBad) :
+    ∃ a : ℕ, a % 3 ≠ 0 ∧ ¬Reaches a 1 := by
+  obtain ⟨a, ha, hreach⟩ := reaches_three_unit n hn.1
+  exact ⟨a, ha, fun h => hn.2 (hreach.trans h)⟩
+
+end CollatzTargetDensity
+\end{Verbatim}
+\subsection{\texorpdfstring{\texttt{CollatzTargetDensity/CounterexampleDichotomy.lean}}{CollatzTargetDensity/CounterexampleDichotomy.lean}}
+\begin{Verbatim}[fontsize=\footnotesize,breaklines=true,breakanywhere=true,numbers=left,numbersep=5pt]
+import CollatzTargetDensity.AllTargets
+import CollatzTargetDensity.OrbitInvariance
+
+/-!
+# Consequence of the all-target density theorem
+
+It does not establish that the sparse-counterexample criterion holds.
+-/
+namespace CollatzTargetDensity
+open Erdos1135
+noncomputable section
+
+/-- One counterexample would force a positive lower natural density of
+    counterexamples. The density constant is not asserted to be uniform. -/
+theorem counterexamples_positive_density (hbad : rawBad.Nonempty) :
+    ∃ c : ℝ, 0 < c ∧ ∃ X₀ : ℕ, ∀ X : ℕ, X₀ ≤ X →
+      c * (X : ℝ) ≤ (Terras.natCount rawBad X : ℝ) := by
+  obtain ⟨n, hn⟩ := hbad
+  obtain ⟨a, ha, hnot⟩ := bad_three_unit_of_bad hn
+  obtain ⟨c, hc, X₀, hX₀⟩ := positive_density_all_targets ha
+  refine ⟨c, hc, X₀, ?_⟩
+  intro X hX
+  have hmono := Terras.natCount_mono (rawReaches_subset_bad hnot) X
+  exact (hX₀ X hX).trans (by exact_mod_cast hmono)
+
+/-- The counterexample proportion becomes arbitrarily small along arbitrarily
+    large cutoffs. This is a condition, not an established fact. -/
+def SparseBadSubsequence : Prop :=
+  ∀ ε : ℝ, 0 < ε → ∀ X₀ : ℕ, ∃ X : ℕ, X₀ ≤ X ∧ 0 < X ∧
+    (Terras.natCount rawBad X : ℝ) < ε * (X : ℝ)
+
+theorem collatz_iff_sparse_bad_subsequence :
+    (∀ n : ℕ, 0 < n → Reaches n 1) ↔ SparseBadSubsequence := by
+  constructor
+  · intro hall ε hε X₀
+    have hempty : rawBad = ∅ := by
+      ext n
+      constructor
+      · intro hn
+        exact False.elim (hn.2 (hall n hn.1))
+      · intro hn
+        exact False.elim hn
+    let X := max X₀ 1
+    have hXpos : 0 < X := by dsimp [X]; omega
+    have hcount : Terras.natCount rawBad X = 0 := by
+      rw [hempty]
+      simp [Terras.natCount]
+    refine ⟨X, le_max_left _ _, hXpos, ?_⟩
+    rw [hcount, Nat.cast_zero]
+    exact mul_pos hε (by exact_mod_cast hXpos)
+  · intro hsparse n hn
+    by_contra hnot
+    obtain ⟨c, hc, X₀, hX₀⟩ := counterexamples_positive_density ⟨n, hn, hnot⟩
+    obtain ⟨X, hX, _, hsmall⟩ := hsparse c hc X₀
+    exact (not_lt_of_ge (hX₀ X hX)) hsmall
+
+end
+end CollatzTargetDensity
+\end{Verbatim}
+
+\end{document}

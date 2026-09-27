@@ -1,0 +1,30 @@
+The verification run completed successfully on 12 September 2026 using
+\texttt{leanprover/lean4:v4.30.0-rc2}. Run from the project directory:
+\begin{Verbatim}[breaklines=true]
+LEAN_NUM_THREADS=4 python3 scripts/verify.py
+\end{Verbatim}
+The script reported \texttt{verified}. It checked 1,485 upstream source
+entries against their manifest hashes, checked nine dependency revisions
+against the upstream lock file, recorded local source SHA-256 hashes,
+and completed the build of both libraries (5,105 build jobs, including
+replayed jobs). It then audited 255 listed theorem endpoints. The public
+target-density theorem and counterexample dichotomy use only
+\texttt{propext}, \texttt{Classical.choice}, and \texttt{Quot.sound}.
+No audited endpoint used an axiom outside this standard set. The source
+escape scan also passed; in particular the scanned proof sources contain
+no executable \texttt{sorry} or additional axiom declaration.
+
+The machine-readable record is \texttt{verification/local-report.json};
+build and axiom logs are in the same directory. Every one of the 13 local
+modules reproduced below was part of this build. The appendix contains
+1,283 source lines and was compared byte-for-byte with those modules.
+It relies on the project's pinned imported libraries, so compilation of
+isolated snippets without those imports is not the verification procedure.
+
+To regenerate this PDF from its output directory, run XeLaTeX twice:
+\begin{Verbatim}[breaklines=true]
+xelatex -interaction=nonstopmode -halt-on-error collatz_target_density_report.tex
+xelatex -interaction=nonstopmode -halt-on-error collatz_target_density_report.tex
+\end{Verbatim}
+The adjacent \texttt{fonts/JuliaMono-Regular.ttf} supplies the Unicode
+characters in the Lean listings.

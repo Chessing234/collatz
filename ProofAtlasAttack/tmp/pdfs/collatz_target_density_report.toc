@@ -1,0 +1,21 @@
+\contentsline {section}{\numberline {1}The precise assertion}{2}{section.1}%
+\contentsline {section}{\numberline {2}Arithmetic supply of inverse seeds}{2}{section.2}%
+\contentsline {section}{\numberline {3}Removing periodic seeds without assuming convergence}{3}{section.3}%
+\contentsline {section}{\numberline {4}The substantial analytic input and its use}{3}{section.4}%
+\contentsline {section}{\numberline {5}Ordinary Collatz targets and the sharp exception}{4}{section.5}%
+\contentsline {section}{\numberline {6}What this says about counterexamples}{4}{section.6}%
+\contentsline {section}{\numberline {7}Verification and reproducibility}{4}{section.7}%
+\contentsline {section}{\numberline {A}Lean source: complete local dependency chain}{5}{appendix.A}%
+\contentsline {subsection}{\numberline {A.1}\texttt {CollatzTargetDensity/Dynamics.lean}}{5}{subsection.A.1}%
+\contentsline {subsection}{\numberline {A.2}\texttt {CollatzTargetDensity/SeedSupply.lean}}{6}{subsection.A.2}%
+\contentsline {subsection}{\numberline {A.3}\texttt {CollatzTargetDensity/ResidueSeedCore.lean}}{7}{subsection.A.3}%
+\contentsline {subsection}{\numberline {A.4}\texttt {CollatzTargetDensity/ArithmeticSeeds.lean}}{8}{subsection.A.4}%
+\contentsline {subsection}{\numberline {A.5}\texttt {CollatzTargetDensity/SourceCharge.lean}}{10}{subsection.A.5}%
+\contentsline {subsection}{\numberline {A.6}\texttt {CollatzTargetDensity/Activation.lean}}{16}{subsection.A.6}%
+\contentsline {subsection}{\numberline {A.7}\texttt {CollatzTargetDensity/RawBridge.lean}}{18}{subsection.A.7}%
+\contentsline {subsection}{\numberline {A.8}\texttt {CollatzTargetDensity/Assembly.lean}}{18}{subsection.A.8}%
+\contentsline {subsection}{\numberline {A.9}\texttt {CollatzTargetDensity/AllTargets.lean}}{21}{subsection.A.9}%
+\contentsline {subsection}{\numberline {A.10}\texttt {CollatzTargetDensity/ThreeDivisible.lean}}{22}{subsection.A.10}%
+\contentsline {subsection}{\numberline {A.11}\texttt {CollatzTargetDensity/Public.lean}}{23}{subsection.A.11}%
+\contentsline {subsection}{\numberline {A.12}\texttt {CollatzTargetDensity/OrbitInvariance.lean}}{24}{subsection.A.12}%
+\contentsline {subsection}{\numberline {A.13}\texttt {CollatzTargetDensity/CounterexampleDichotomy.lean}}{25}{subsection.A.13}%

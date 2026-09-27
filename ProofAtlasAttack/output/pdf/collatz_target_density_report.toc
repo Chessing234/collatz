@@ -1,0 +1,29 @@
+\contentsline {section}{\numberline {1}Statement and notation}{2}{section.1}%
+\contentsline {section}{\numberline {2}Inverse arithmetic in every ternary residue class}{2}{section.2}%
+\contentsline {section}{\numberline {3}Nonperiodicity and unique hitting times}{3}{section.3}%
+\contentsline {section}{\numberline {4}Finite measures and a precise analytic input}{4}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Reference densities}{4}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Inverse-path data and the estimates used}{4}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}An explicit summable majorant}{5}{subsection.4.3}%
+\contentsline {section}{\numberline {5}Choosing one seed with a positive limiting mark}{6}{section.5}%
+\contentsline {section}{\numberline {6}From path weights to distinct sources}{6}{section.6}%
+\contentsline {section}{\numberline {7}Removing the reference-density mark}{7}{section.7}%
+\contentsline {section}{\numberline {8}A lower bound at every sufficiently large cutoff}{8}{section.8}%
+\contentsline {section}{\numberline {9}All positive targets and the divisible-by-three exception}{8}{section.9}%
+\contentsline {section}{\numberline {10}The exact consequence for possible counterexamples}{8}{section.10}%
+\contentsline {section}{\numberline {A}Verification and reproducibility}{10}{appendix.A}%
+\contentsline {subsection}{\numberline {A.1}Correspondence for the cited analytic inputs}{10}{subsection.A.1}%
+\contentsline {section}{\numberline {B}Lean source: complete local dependency chain}{11}{appendix.B}%
+\contentsline {subsection}{\numberline {B.1}\texttt {CollatzTargetDensity/Dynamics.lean}}{11}{subsection.B.1}%
+\contentsline {subsection}{\numberline {B.2}\texttt {CollatzTargetDensity/SeedSupply.lean}}{12}{subsection.B.2}%
+\contentsline {subsection}{\numberline {B.3}\texttt {CollatzTargetDensity/ResidueSeedCore.lean}}{13}{subsection.B.3}%
+\contentsline {subsection}{\numberline {B.4}\texttt {CollatzTargetDensity/ArithmeticSeeds.lean}}{14}{subsection.B.4}%
+\contentsline {subsection}{\numberline {B.5}\texttt {CollatzTargetDensity/SourceCharge.lean}}{16}{subsection.B.5}%
+\contentsline {subsection}{\numberline {B.6}\texttt {CollatzTargetDensity/Activation.lean}}{22}{subsection.B.6}%
+\contentsline {subsection}{\numberline {B.7}\texttt {CollatzTargetDensity/RawBridge.lean}}{24}{subsection.B.7}%
+\contentsline {subsection}{\numberline {B.8}\texttt {CollatzTargetDensity/Assembly.lean}}{24}{subsection.B.8}%
+\contentsline {subsection}{\numberline {B.9}\texttt {CollatzTargetDensity/AllTargets.lean}}{27}{subsection.B.9}%
+\contentsline {subsection}{\numberline {B.10}\texttt {CollatzTargetDensity/ThreeDivisible.lean}}{28}{subsection.B.10}%
+\contentsline {subsection}{\numberline {B.11}\texttt {CollatzTargetDensity/Public.lean}}{29}{subsection.B.11}%
+\contentsline {subsection}{\numberline {B.12}\texttt {CollatzTargetDensity/OrbitInvariance.lean}}{30}{subsection.B.12}%
+\contentsline {subsection}{\numberline {B.13}\texttt {CollatzTargetDensity/CounterexampleDichotomy.lean}}{31}{subsection.B.13}%

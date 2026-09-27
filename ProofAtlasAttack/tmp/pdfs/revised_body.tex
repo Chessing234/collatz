@@ -1,0 +1,524 @@
+\begin{abstract}
+We give a detailed exposition of the positive lower density of the
+predecessors of a fixed Collatz target. A positive target has a predecessor
+set of positive lower natural density if and only if it is not divisible
+by three. The proof uses inverse arithmetic, nonperiodic orbit points,
+and the analytic inverse-path estimates of Mazur. We state the analytic
+inputs separately and derive the counting conclusion step by step,
+including the multiplicity bound and the passage from residue averages
+to counts of distinct integers. We also prove the resulting criterion
+for universal convergence. The positive-density result and its
+counterexample consequence occur in Mazur's companion paper; they are
+not asserted here as new discoveries. A verification appendix records
+the corresponding Lean development.
+\end{abstract}
+\tableofcontents
+
+\section{Statement and notation}
+Let $\N=\{0,1,2,\ldots\}$ and $\N_{>0}=\N\setminus\{0\}$. The ordinary
+Collatz map is
+\begin{equation}\label{eq:T}
+ T(n)=\begin{cases}n/2,&2\mid n,\\3n+1,&2\nmid n.\end{cases}
+\end{equation}
+We write $n\longrightarrow a$ if $T^k(n)=a$ for some $k\in\N$;
+the case $k=0$ is allowed. For $a>0$ and integer $X\ge0$, set
+\begin{equation}\label{eq:count}
+ R_a=\{n>0:n\longrightarrow a\},\qquad P_a(X)=\#\{n\in R_a:n<X\}.
+\end{equation}
+Throughout, counts are of distinct positive integers and use a strict cutoff.
+
+\begin{theorem}[Target-density characterization]\label{thm:main}
+For every $a\in\N_{>0}$,
+\begin{equation}\label{eq:main}
+ \left(\exists c_a>0\ \exists X_a\in\N\ \forall X\ge X_a:
+ P_a(X)\ge c_aX\right)\quad\Longleftrightarrow\quad 3\nmid a.
+\end{equation}
+\end{theorem}
+The positive direction and the consequence for counterexamples are treated
+in \cite{mazur-predecessors}. The analytic construction used below is from
+the supporting development of \cite{mazur-density}. We give the elementary
+arguments and the deductions from its analytic estimates in full. Those
+estimates are cited results: their Fourier and inverse-path construction
+is not reproved in this paper. This distinction fixes the scope of the
+proof and its dependence on earlier work.
+
+For any set $E\subseteq\N_{>0}$ its lower natural density is
+\[
+ \underline d(E)=\liminf_{X\to\infty}\frac{\#(E\cap[0,X))}{X}.
+\]
+An eventual bound by $cX$, with $c>0$, implies $\underline d(E)\ge c$.
+Conversely, if $d=\underline d(E)>0$, the definition of a lower limit
+gives $\#(E\cap[0,X))/X\ge d/2$ for every sufficiently large $X$.
+Thus \eqref{eq:main} is precisely the assertion
+$\underline d(R_a)>0\iff3\nmid a$.
+
+\section{Inverse arithmetic in every ternary residue class}
+For positive $m$, let $v_p(m)$ denote the exponent of the prime $p$ in $m$.
+The odd part is $\operatorname{odd}(m)=m/2^{v_2(m)}$. On positive odd
+integers the Syracuse map is
+\begin{equation}\label{eq:S}
+ S(n)=\operatorname{odd}(3n+1).
+\end{equation}
+If $v=v_2(3n+1)$, then $T^{v+1}(n)=S(n)$. Repeating this observation
+shows that Syracuse reachability implies ordinary Collatz reachability.
+We use $Q_a(X)$ for the number of positive odd $n<X$ with $S^k(n)=a$
+for some $k\ge0$.
+
+\begin{lemma}[An odd child]\label{lem:child}
+Every positive odd $a$ not divisible by three has an odd positive $c$
+such that $S(c)=a$.
+\end{lemma}
+\begin{proof}
+If $a\equiv1\pmod3$, put $c=(4a-1)/3$. Otherwise $a\equiv2\pmod3$,
+and put $c=(2a-1)/3$. In either case the numerator is positive, odd,
+and divisible by three; division by the odd number three preserves
+oddness. In the two cases respectively,
+$3c+1=4a$ and $3c+1=2a$. Since $a$ is odd, removing exactly the displayed
+power of two leaves $a$.
+\end{proof}
+
+\begin{lemma}[Valuation calculation]\label{lem:valuation}
+For $n>0$, $v_3(4^n-1)=1+v_3(n)$.
+\end{lemma}
+\begin{proof}
+Write $n=3^t u$, where $3\nmid u$. The factorization
+\[
+ 4^u-1=3(1+4+\cdots+4^{u-1})
+\]
+has second factor congruent to $u\not\equiv0\pmod3$, so its valuation
+is exactly one. If $z=1+3h$, then
+\[
+ z^2+z+1=3(1+3h+3h^2),
+\]
+which has valuation one. Consequently, whenever $z\equiv1\pmod3$,
+\[
+ v_3(z^3-1)=v_3(z-1)+1.
+\]
+Starting at $z=4^u$ and cubing $t$ times proves the formula.
+\end{proof}
+
+Define $u_j=(4^j-1)/3=1+4+\cdots+4^{j-1}$, with $u_0=0$.
+For $j\ge1$, $u_j$ is odd, $u_j\ge j$, and $S(u_j)=1$.
+Direct expansion gives
+\begin{equation}\label{eq:uadd}
+ u_{m+n}=u_m+4^m u_n.
+\end{equation}
+For $n>0$, Lemma~\ref{lem:valuation} gives
+$v_3(u_n)=v_3(n)$; for $n=0$ divisibility by $3^q$ holds on both sides.
+Because $4^m$ is a unit modulo $3^q$, \eqref{eq:uadd} yields
+\begin{equation}\label{eq:upermutation}
+ u_{m+n}\equiv u_m\pmod{3^q}\quad\Longleftrightarrow\quad3^q\mid n.
+\end{equation}
+If $0\le i<j<3^q$, their difference $j-i$ is not divisible by $3^q$,
+so $u_i,u_j$ have different residues. There are $3^q$ choices and $3^q$
+residues; hence $j\mapsto u_j$ is a permutation modulo $3^q$ on this range.
+Replacing an index $j$ by $j+t3^q$ preserves its residue and makes $u_j$
+arbitrarily large. In particular, every residue contains arbitrarily
+large odd one-step predecessors of one.
+
+\begin{lemma}[Affine transport]\label{lem:affine}
+Let $c$ be as in Lemma~\ref{lem:child}. Every residue class modulo $3^q$
+contains arbitrarily large odd $M$ with $S(M)=a$.
+\end{lemma}
+\begin{proof}
+Set $A=3c+1$ and $F_c(x)=Ax+c$. Expanding both sides gives
+\[
+ 3F_c(x)+1=3Ax+3c+1=A(3x+1).
+\]
+The identity $\operatorname{odd}(rs)=\operatorname{odd}(r)
+\operatorname{odd}(s)$ follows by adding their powers of two.
+Thus if $S(x)=1$,
+\[
+ S(F_c(x))=\operatorname{odd}(A)\operatorname{odd}(3x+1)=a\cdot1=a.
+\]
+Since $c$ is odd and $A$ even, $F_c(x)$ is odd. It also exceeds $x$.
+Finally $A\equiv1\pmod3$, so $A$ has an inverse modulo $3^q$.
+For a prescribed residue $r$, choose $x=u_j$ in the residue
+$A^{-1}(r-c)$, with $x$ larger than the prescribed size bound.
+The preceding permutation argument permits this choice. Then $M=F_c(x)$
+has every required property.
+\end{proof}
+
+\section{Nonperiodicity and unique hitting times}
+A point $x$ is \emph{nonperiodic} for $f$ if $f^k(x)\ne x$ for all $k>0$.
+This definition does not exclude a point which later enters a cycle.
+
+\begin{lemma}\label{lem:periodic}
+If $f(x)=f(y)$ and both points are periodic, then $x=y$.
+If a point is nonperiodic, each forward orbit visits it at most once.
+\end{lemma}
+\begin{proof}
+Choose positive periods $p,q$ for $x,y$. Iteration gives
+$f^{pq}(x)=x$ and $f^{pq}(y)=y$. Applying $f^{pq-1}$ to their common
+image proves $x=y$. For the second assertion, if
+$f^d(z)=f^e(z)=x$ with $d<e$, then
+$f^{e-d}(x)=f^{e-d}(f^d(z))=f^e(z)=x$, contradicting nonperiodicity.
+\end{proof}
+
+\begin{theorem}[Nonperiodic seed supply]\label{thm:supply}
+For odd $a>0$ with $3\nmid a$, for every $q,B\in\N$ and every residue
+$r\pmod{3^q}$ there exists $M$ such that
+\begin{equation}\label{eq:supply}
+ M>B,\quad M\text{ odd},\quad S(M)=a,\quad M\equiv r\pmod{3^q},
+ \quad M\text{ nonperiodic for }S.
+\end{equation}
+\end{theorem}
+\begin{proof}
+Lemma~\ref{lem:affine} gives $x>B$ and then $y>x$ in the prescribed
+residue, with $S(x)=S(y)=a$. Since $x\ne y$, Lemma~\ref{lem:periodic}
+prevents both from being periodic. Choose the nonperiodic one.
+\end{proof}
+
+\section{Finite measures and a precise analytic input}
+We now specify the analytic results used from \cite{mazur-density}.
+This section separates the cited estimates from the arguments proved
+below; a supply of residues by itself is not a density theorem.
+
+\subsection{Reference densities}
+Let $\mu_0$ be the point mass on $\mathbb Z/1\mathbb Z$.
+Inductively, sample $Y$ with law $\mu_q$ and, independently, a positive
+integer $V$ with $\Pr(V=v)=2^{-v}$. Define $\mu_{q+1}$ as the law of
+\begin{equation}\label{eq:pmf}
+ 2^{-V}(3Y+1)\pmod{3^{q+1}}.
+\end{equation}
+Multiplication by three makes this independent of the representative
+of $Y\pmod{3^q}$; $2^{-V}$ denotes a modular inverse.
+Set
+\[
+ \rho_q(y)=\frac23\,3^q\mu_q(y),\qquad
+ \langle g\rangle_q=\frac1{3^q}\sum_{y\bmod3^q}g(y).
+\]
+The definition gives
+\begin{equation}\label{eq:rho}
+ 0\le\rho_q(y)\le\frac23\,3^q,\qquad
+ \langle\rho_q\rangle_q=\frac23.
+\end{equation}
+The averaging measure is uniform on \emph{all} residues, not only the units.
+For $k\ge m$ let $\pi_{k,m}$ be reduction modulo $3^m$.
+The fine-scale mixing estimate used here is
+\begin{equation}\label{eq:mixing}
+ \exists C\ge0\ \forall k\ge m\ge1:\quad
+ \left\langle\left|\rho_k-\rho_m\circ\pi_{k,m}\right|\right\rangle_k
+ \le\frac{C}{m^2}.
+\end{equation}
+This is a cited analytic estimate, not a consequence of
+\eqref{eq:rho}. The supporting development proves an arbitrary fixed
+polynomial rate; only exponent two is needed here.
+
+\subsection{Inverse-path data and the estimates used}
+An inverse path ending at an odd seed $M$ is a finite list of odd positive
+integers $x_0,\ldots,x_d=M$ with $S(x_i)=x_{i+1}$.
+Its valuation word is $(v_0,\ldots,v_{d-1})$, where
+\[
+ 3x_i+1=2^{v_i}x_{i+1},\qquad v_i\ge1.
+\]
+Once $x_0$ and $d$ are given, this word is uniquely determined.
+Conversely, a word and its endpoint determine the path by solving
+$x_i=(2^{v_i}x_{i+1}-1)/3$ backwards whenever these are odd integers.
+
+The cited construction organizes such paths into finite weighted families.
+We state its required properties in reduced mathematical notation for
+the singleton-seed case. This is a combined statement of several estimates
+in the supporting development, not a claim that one source theorem has
+exactly this presentation. The correspondence to source declarations is
+recorded in the reproducibility appendix.
+
+\begin{theorem}[Analytic inverse-path inputs, cited]\label{thm:input}
+Fix the initial scale $b=32^5$ and the cap $K_n=\lfloor n/100\rfloor$.
+The construction of \cite{mazur-density} has the following properties.
+\begin{enumerate}
+\item For every odd $M\ge16^b$ it gives a nonnegative sequence $A_n(M)$.
+There are a number $p>0$ and nonnegative numbers $d_n$, all independent
+of $M$, such that $\sum_{n\ge0}d_n<\infty$ and
+\begin{equation}\label{eq:increments}
+ |A_{n+1}(M)-A_n(M)|\le d_n.
+\end{equation}
+For each $n$ there are a modulus $3^{q_n}$ and a residue $r_n$ such that
+every sufficiently large odd $M\equiv r_n\pmod{3^{q_n}}$ satisfies
+\begin{equation}\label{eq:activate}
+ A_n(M)\ge\frac23p.
+\end{equation}
+The sequence $d_n$ is chosen before the physical seed $M$.
+\item A generation $n$ has a finite nonempty label set $I_n$, roots
+$r_{n,i}>0$, and a common scale $b_n\ge b+2n$ independent of $M$.
+For suitable nonnegative integer shift radii $s_n$, put
+\[
+ L_{n,i}=\frac{4^{b_n}r_{n,i}}{4\,2^{s_n}3^{b_n}},\qquad
+ U_{n,i}=2^{2s_n}L_{n,i}.
+\]
+Call $x>0$ admissible at $n$ if $L_{n,i}<x\le U_{n,i}$ for every $i$.
+For $N\ge4\cdot10^9$, if $x>U_{N,i}$ for every $i$, then $x$ is
+admissible at some $n\ge N$.
+\item For admissible $(n,x)$ there is a nonnegative terminal mark $B_{n,x}$.
+If $\ell(M)=\lim_n A_n(M)>0$, then for some $N_0$,
+\begin{equation}\label{eq:mark}
+ B_{n,x}\ge\ell(M)/2\qquad(n\ge N_0, x\text{ admissible at }n).
+\end{equation}
+Write $k_n=\lfloor b_n/4\rfloor$. Positivity of this mark implies
+$3^{k_n}\le x$.
+\item For each admissible $(n,x)$ there is a finite family $\mathcal Z_{n,x}$
+of terminal paths to $M$, with source $s(z)$, weight $w(z)\ge0$, and
+\begin{equation}\label{eq:budget}
+ x\le s(z)<32x,\qquad s(z)w(z)\le M.
+\end{equation}
+Two members with the same valuation word are identical. With
+$F_j(t)=4^jt+(4^j-1)/3$ and $J_n=\lfloor K_n/2\rfloor+1$, one has
+\begin{equation}\label{eq:faninput}
+ B_{n,x}\le\sum_{z\in\mathcal Z_{n,x}}w(z)
+       \sum_{j=0}^{J_n-1}4^{-j}\rho_{k_n}(F_j(s(z))\bmod3^{k_n}).
+\end{equation}
+\end{enumerate}
+\end{theorem}
+The weights describe labeled paths; they are not assumed to be counts or
+probabilities on distinct sources. In particular, injectivity of the source
+map is deliberately absent from the analytic inputs. We prove it below
+using the nonperiodicity of $M$.
+
+The principal analytic ingredients behind this statement are finite-residue
+averaging, a positive lower bound on the retained probability product,
+a summable variation bound uniform in the initial root, compression of
+the first valuation, and synchronization of the physical intervals.
+Their proofs and the proof of \eqref{eq:mixing} are the cited portion of
+the argument. The following sections give all deductions from those inputs.
+
+\section{Choosing one seed with a positive limiting mark}
+\begin{lemma}\label{lem:limit}
+If $a$ is odd and $3\nmid a$, there is a nonperiodic odd $M$ with
+$S(M)=a$ and $\ell(M)>0$.
+\end{lemma}
+\begin{proof}
+Let $D_N=\sum_{n=N}^{\infty}d_n$. Summability gives $D_N\to0$.
+For any fixed allowed seed $M$ and $t>N$, telescoping and
+\eqref{eq:increments} give
+\[
+ |A_t(M)-A_N(M)|
+ \le\sum_{n=N}^{t-1}|A_{n+1}(M)-A_n(M)|
+ \le\sum_{n=N}^{t-1}d_n\le D_N.
+\]
+Thus $A_n(M)$ is Cauchy, has a real limit $\ell(M)$, and
+\begin{equation}\label{eq:tail}
+ |\ell(M)-A_N(M)|\le D_N.
+\end{equation}
+Choose $N$ such that $D_N<p/3$. Now apply
+Theorem~\ref{thm:supply} to the residue $r_N$ modulo $3^{q_N}$, using
+a size bound large enough for $M\ge16^b$ and \eqref{eq:activate}.
+This chooses one nonperiodic seed $M$ with $S(M)=a$ and
+$A_N(M)\ge2p/3$. Consequently
+\[
+ \ell(M)\ge A_N(M)-D_N>\frac{2p}{3}-\frac p3=\frac p3>0.
+\]
+All later generations use this same $M$. Uniformity of $D_N$ in $M$
+is what permits the order of choices $p,d_n$, then $N$, then $M$.
+\end{proof}
+
+\section{From path weights to distinct sources}
+Fix the seed $M$ from Lemma~\ref{lem:limit}, and an admissible pair $(n,x)$.
+Abbreviate $\mathcal Z=\mathcal Z_{n,x}$ and put
+\[
+ E=\{s(z):z\in\mathcal Z\},\qquad W=\sum_{z\in\mathcal Z}w(z).
+\]
+\begin{lemma}[Multiplicity and weighted counting]\label{lem:charge}
+The map $z\mapsto s(z)$ is injective. For every nonnegative function
+$\psi$ on the positive integers,
+\begin{equation}\label{eq:charge}
+ \sum_{z\in\mathcal Z}w(z)\psi(s(z))
+ \le\frac Mx\sum_{s\in E}\psi(s).
+\end{equation}
+In particular $xW\le M\#E$.
+\end{lemma}
+\begin{proof}
+Suppose two terminal paths have the same source $s$ and lengths $d,e$.
+Both hit $M$. Nonperiodicity and Lemma~\ref{lem:periodic} imply $d=e$.
+The deterministic Syracuse orbit fixes their valuation words, so the
+terminal-path uniqueness in Theorem~\ref{thm:input} makes the members equal.
+By \eqref{eq:budget}, $xw(z)\le s(z)w(z)\le M$. Multiply by
+$\psi(s(z))\ge0$, sum, and use injectivity:
+\[
+ x\sum_z w(z)\psi(s(z))\le M\sum_z\psi(s(z))
+ =M\sum_{s\in E}\psi(s).
+\]
+Divide by $x>0$. Taking $\psi=1$ proves the final assertion.
+\end{proof}
+
+\begin{lemma}[Residue census]\label{lem:census}
+If $Q=3^k\le x$ and $\psi:\mathbb Z/Q\mathbb Z\to\R_{\ge0}$, then
+\begin{equation}\label{eq:census}
+ \sum_{z\in\mathcal Z}w(z)\psi(s(z)\bmod Q)\le33M\langle\psi\rangle_k.
+\end{equation}
+\end{lemma}
+\begin{proof}
+For any residue, the number of nonnegative integers $t<32x$ in that
+residue is at most $32x/Q+1\le33x/Q$. Since $E\subset[x,32x)$,
+\[
+ \sum_{s\in E}\psi(s\bmod Q)
+ \le\frac{33x}{Q}\sum_{y\bmod Q}\psi(y)=33x\langle\psi\rangle_k.
+\]
+Apply \eqref{eq:charge} and cancel $x$.
+\end{proof}
+
+\section{Removing the reference-density mark}
+The transformation $t\mapsto4t+1$ has iterates
+$F_j(t)=4^jt+(4^j-1)/3$. Indeed this holds at $j=0$, and
+$4F_j(t)+1=F_{j+1}(t)$. Since $4^j$ is invertible modulo $3^k$,
+each $F_j$ permutes those residues and preserves their uniform mean.
+
+Fix integers $1\le m\le k=k_n$ and suppose $B_{n,x}>0$.
+Then $3^k\le x$ by Theorem~\ref{thm:input}. Write
+\[
+ \delta(y)=|\rho_k(y)-\rho_m(\pi_{k,m}y)|,\qquad
+ \varepsilon=\frac{C}{m^2},\qquad H_m=\frac23\,3^m.
+\]
+Equations \eqref{eq:rho} and \eqref{eq:mixing} imply
+\[
+ \rho_k(y)\le H_m+\delta(y),\qquad
+ \langle\delta\rangle_k\le\varepsilon.
+\]
+Using the residue census with $\psi=\delta\circ F_j$ gives
+\[
+ \begin{split}
+ \sum_z w(z)\rho_k(F_j(s(z)))
+ &\le H_m W+\sum_z w(z)\delta(F_j(s(z)))\\
+ &\le H_mW+33M\langle\delta\circ F_j\rangle_k\\
+ &=H_mW+33M\langle\delta\rangle_k
+ \le H_mW+33M\varepsilon.
+ \end{split}
+\]
+Residues modulo $3^k$ are implicit in these evaluations. Multiply by
+$4^{-j}$ and sum over $0\le j<J_n$. Since every summand is nonnegative and
+$\sum_{j=0}^{J_n-1}4^{-j}\le\sum_{j=0}^\infty4^{-j}=4/3$,
+\eqref{eq:faninput} yields the complete estimate
+\begin{equation}\label{eq:unmark}
+ B_{n,x}\le\frac43(H_mW+33M\varepsilon)
+ =\frac89\,3^m W+\frac{44MC}{m^2}.
+\end{equation}
+Thus the constants $8/9$ and $44$ arise respectively from
+$(4/3)(2/3)$ and $(4/3)33$.
+
+Let $\alpha=\ell(M)/2>0$. Choose an integer
+\begin{equation}\label{eq:mchoice}
+ m>\max\{1,88MC/\alpha\}.
+\end{equation}
+As $m^2\ge m$, this implies
+\[
+ \frac{44MC}{m^2}\le\frac{44MC}{m}<\frac\alpha2
+\]
+when $MC>0$; if $MC=0$ the same desired upper bound is immediate.
+For $n\ge2m$, the inequality $b_n\ge b+2n\ge4m$ gives $k_n\ge m$.
+For all sufficiently large $n$ the bound \eqref{eq:mark} also holds.
+Combining it with \eqref{eq:unmark}, for every admissible $x$ we get
+\[
+ \alpha\le B_{n,x}\le\frac89\,3^mW+\frac\alpha2,
+ \qquad W\ge\eta:=\frac{\alpha}{2(8/9)3^m}>0.
+\]
+The integer $m$ and the number $\eta$ have now been fixed independently
+of both $n$ and $x$.
+
+\section{A lower bound at every sufficiently large cutoff}
+Choose $N$ large enough for the preceding mass bound, with
+$N\ge4\cdot10^9$. Since $I_N$ is finite, define
+\[
+ x_* =\sum_{i\in I_N}\max\{0,U_{N,i}\},\qquad
+ Y_* =\left\lceil32(\max\{x_*,0\}+1)\right\rceil.
+\]
+Take any integer $Y\ge Y_*$ and put $x=Y/32$. Then $x>x_*$ and
+$x>U_{N,i}$ for every $i$. Interval synchronization gives some $n\ge N$
+at which $x$ is admissible. At this generation $W\ge\eta$.
+Every source is odd and satisfies $s(z)<32x=Y$. Its terminal path
+reaches $M$, and $S(M)=a$, so $E\subseteq\{s<Y:S^k(s)=a\text{ for some }k\}$.
+Lemma~\ref{lem:charge} therefore gives
+\[
+ \frac{Y}{32}\eta=x\eta\le xW\le M\#E\le M Q_a(Y).
+\]
+Dividing by $M>0$ proves
+\begin{equation}\label{eq:odddensity}
+ Q_a(Y)\ge\frac{\eta}{32M}Y\qquad(Y\ge Y_*).
+\end{equation}
+The synchronization step is why this is a bound for every sufficiently
+large $Y$, rather than for a selected sequence of cutoffs.
+
+\section{All positive targets and the divisible-by-three exception}
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+First let $a>0$ and $3\nmid a$, allowing $a$ to be even.
+The formulas in Lemma~\ref{lem:child} still give an odd positive $c$ and
+$v\in\{1,2\}$ with $3c+1=2^v a$. If $3\nmid c$, set $d=c$ and $w=v$.
+If $3\mid c$, set $d=4c+1$ and $w=v+2$. In the latter case $d$ is odd,
+$d\equiv1\pmod3$, and
+\[
+ 3d+1=12c+4=4(3c+1)=2^{v+2}a.
+\]
+In both cases $d$ is an odd target coprime to three and
+$T^{w+1}(d)=a$: the odd step gives $2^w a$ and $w$ halvings give $a$.
+Every odd Syracuse predecessor of $d$ is consequently an ordinary
+predecessor of $a$. Equation~\eqref{eq:odddensity}, applied to $d$, gives
+$P_a(Y)\ge Q_d(Y)\ge c_dY$ for all sufficiently large $Y$.
+
+Now suppose $3\mid a$. We prove by induction on $k$ that
+$T^k(n)=a$ implies $n=2^j a$ for some $j\ge0$.
+For $k=0$ take $j=0$. For $k+1$, the induction hypothesis applied
+to $T(n)$ gives $T(n)=2^j a$, which is divisible by three.
+An odd $n$ would give $T(n)=3n+1\equiv1\pmod3$, a contradiction.
+Hence $n$ is even and $n=2T(n)=2^{j+1}a$.
+Conversely $T^j(2^ja)=a$ by $j$ halvings. Thus
+\begin{equation}\label{eq:exception}
+ R_a=\{2^ja:j\ge0\},\qquad P_a(2^ka)=k.
+\end{equation}
+For completeness, if $2^ka\le X<2^{k+1}a$, then
+$P_a(X)\le k+1$ and
+$P_a(X)/X\le(k+1)/(2^ka)\to0$. Thus $R_a$ has natural density zero.
+In particular it cannot satisfy an eventual positive linear lower bound.
+This proves both directions.
+\end{proof}
+
+\section{The exact consequence for possible counterexamples}
+Let $\mathcal B=\{n>0:n\not\longrightarrow1\}$ and
+$B(X)=\#(\mathcal B\cap[0,X))$.
+\begin{lemma}\label{lem:bad}
+If $\mathcal B\ne\varnothing$, there is $a\in\mathcal B$ with
+$3\nmid a$, and $R_a\subseteq\mathcal B$.
+\end{lemma}
+\begin{proof}
+Starting from $n\in\mathcal B$, divide out its factors of two and reach
+an odd $u$. If $3\nmid u$, take $a=u$; otherwise take $a=3u+1$.
+Then $3\nmid a$ and $n\longrightarrow a$. The point $a$ cannot reach one,
+as concatenating paths would make $n$ reach one.
+
+Suppose $s\longrightarrow a$ and $s\longrightarrow1$, with hitting
+times $d,t$ respectively. If $d\le t$, then $T^{t-d}(a)=1$.
+If $t<d$, then $a=T^{d-t}(1)$ lies on the cycle $1,4,2$, each point
+of which reaches one. Both possibilities contradict $a\in\mathcal B$.
+Thus every $s\in R_a$ lies in $\mathcal B$.
+\end{proof}
+
+\begin{theorem}[Counterexample density and a conditional criterion]
+If $\mathcal B$ is nonempty, then $B(X)\ge cX$ eventually for some $c>0$.
+Moreover universal Collatz convergence is equivalent to
+\begin{equation}\label{eq:sparse}
+ \forall\varepsilon>0\ \forall X_0\in\N\ \exists X\in\N:\quad
+ X\ge X_0,\quad X>0,\quad B(X)<\varepsilon X.
+\end{equation}
+\end{theorem}
+\begin{proof}
+Choose $a$ by Lemma~\ref{lem:bad}. Theorem~\ref{thm:main} and inclusion
+give $B(X)\ge P_a(X)\ge c_aX$ for all sufficiently large $X$.
+If every positive integer converges, $\mathcal B=\varnothing$ and
+\eqref{eq:sparse} holds with $X=\max\{X_0,1\}$.
+Conversely assume \eqref{eq:sparse}. If a counterexample existed, the
+first part would supply $c>0$ and a cutoff $X_0$ with $B(X)\ge cX$
+for all $X\ge X_0$. Taking $\varepsilon=c$ in \eqref{eq:sparse}
+would give $B(X)<cX$ at such a cutoff, a contradiction.
+\end{proof}
+No proof of the hypothesis \eqref{eq:sparse} is supplied. The theorem
+therefore gives a conditional criterion, not a proof of universal convergence.
+
+\begin{thebibliography}{9}
+\bibitem{mazur-density}
+L. Mazur, \emph{Explicit Positive-Density Collatz Convergence in
+Logarithmic Time}, manuscript v2.1, 6 September 2026, with accompanying
+formal source development. ProofAtlas.
+\url{https://www.proofatlas.ai/formalizations/positive-density-log-time-collatz/}.
+\bibitem{mazur-predecessors}
+L. Mazur, \emph{Positive Lower Density of Collatz Predecessors},
+manuscript v1.0, 6 September 2026. ProofAtlas.
+\url{https://www.proofatlas.ai/formalizations/positive-lower-density-collatz-predecessors/}.
+\end{thebibliography}
+
