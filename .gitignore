@@ -15,3 +15,6 @@ v*_tmp.lean
 MathlibAttack/.lake/
 __pycache__/
 scripts/scratch/
+
+# ProofAtlasAttack: vendored upstream checkouts (12GB+) must not be committed
+ProofAtlasAttack/vendor/
