@@ -2,6 +2,18 @@
 
 *What is now proven equivalent, and what each equivalence costs.*
 
+**Scope correction, 2026-09-08.** The historical labels "dead" and
+"closed" in this document must not be read as impossibility theorems
+beyond the hypotheses of the cited Lean statements. In particular,
+injectivity of a word encoding does not rule out useful new functions or
+estimates of that encoding. Also, `SinkStructure.no_descent_on_list`
+proves `hclosed → hdec → S = []`: this is a descent principle that can be
+used to prove emptiness, not a theorem that such an emptiness proof cannot
+be found. Examples for `3x+d` obstruct only arguments whose hypotheses
+also hold for those examples. A proposed argument using an unproved
+Collatz-specific inequality still has to prove that inequality, but is
+not refuted simply because its coordinates appear here.
+
 Rounds III–VIII repeatedly discovered that apparently different attacks were the
 same attack in different coordinates.  This file records the equivalences with their
 exact translations, so a future round can check membership before spending a cycle.
@@ -54,12 +66,16 @@ language is *defined* by the inequality equating the two weightings.  Only input
 (`SinkStructure.wC_inj`; zero collisions over all 524 286 words to length 18).
 Consequences:
 
-* any secondary measure is a function of `C`, hence redundant (`lex_collapses`);
-* no second operation admits a strictly decreasing measure (`no_descent_on_list`);
-* anything determined by `(L, a, C, G)` carries **zero** new information.
+* at fixed length and odd count, a lexicographic tie-breaker placed after
+  `C` cannot break a tie between distinct words (`lex_collapses`);
+* a closed, strictly decreasing operation on a finite set proves that
+  set empty (`no_descent_on_list`);
+* another word statistic is determined by this encoding, but may still
+  expose structure or admit an estimate that has not yet been proved.
 
-**Membership test for a proposed invariant**: is it determined by `(L,a,C,G)`?  If
-yes, it is in this class and is dead.
+**Membership test for a proposed invariant**: if it is determined by
+`(L,a,C,G)`, identify the actual new estimate or argument. Re-encoding
+alone is not an advance; injectivity alone is not an obstruction.
 
 ## Class 4 — the `d`-free class
 

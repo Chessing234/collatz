@@ -14441,3 +14441,1191 @@ sequence, and that the subtree restores balance at scale `M^(≈1.3)`.  The
 round-LXXVII note's `tree_digits.py` measurement (`k^(−0.6)`) is the truncated
 imbalance, not a structural one, and the present `meanosc ~ n^(−0.65)` is the
 same quantity for the Syracuse law.
+
+## 2026-09-07 — Uniform quantitative backward coverage
+
+**Proved:** for every positive root `a` prime to three, every residue modulo 9
+has an odd predecessor `n < 720*a` reaching `a` within 19 accelerated steps;
+modulo 27 the bounds are `n < 19419*a` and 22 steps. The quantifier over `a`
+is unbounded and no convergence assumption is used.
+
+The construction is a finite ternary decision tree. A path of `d` inverse odd
+steps consumes `d` ternary digits of root precision, while its size is less
+than `2^(sum valuations)/3^d` times the root. Lean proves both facts and the
+checker soundness, then checks 406 and 7222 certificate leaves respectively.
+This turns finite witnesses into statements about entire residue classes.
+
+**Scope:** new explicit certified bounds in this repository, not a claimed
+literature breakthrough. Qualitative inverse-tree coverage is classical.
+Polynomial coverage uniformly over all powers of three and the Collatz
+conjecture remain open here. Failed bounded searches are recorded without
+calling them counterexamples. No G6 counting exponent or G8 balance claim
+changes.
+
+Proof: `Collatz/Strategy/QuantitativeBackwardCover.lean`. Full explanation,
+prior art, exact limitations, and reproduction commands:
+[Devices/QuantitativeBackwardCover.md](Devices/QuantitativeBackwardCover.md).
+# 2026-09-07: multiscale Syracuse research checkpoint
+
+The user's stronger target remains open: no revolutionary result or proof of
+Collatz was obtained in this investigation. See
+`Devices/MultiscaleSyracuse.md` for the complete derivation and limitations.
+
+Investigated sums of Syracuse densities across residue levels. Their transfer
+telescopes exactly because the test vector is constant across the unresolved
+child lifts. A weighted block version gives a positive one-step test vector
+from an explicitly stated block bound. The elementary algebra is now checked
+in `BlockPotential.lean`; it does not prove the required Collatz block bound.
+
+The resulting all-level target concerns subexponential decay of minimum
+normalized atoms for biased geometric Syracuse laws near exponent 1.
+Experiments through level 14 are compatible with slow decay but prove no
+asymptotic estimate. An explicit non-Syracuse probability model shows that
+full support and even exponential L1 fine-scale mixing do not suffice to
+deduce the needed minimum-atom or cumulative-divergence bounds.
+
+Corrected older assertions in `TreeStochastic.lean` and `StochasticTree.md`
+that incorrectly presented finite numerical trends as limits, and removed
+the obsolete NEW tag from the Lean header. An August 2026 Nikpour–Rabbani
+preprint abstract already connects the transfer method to minimum Syracuse
+atoms; its full proof was not accessible or audited. No novelty is claimed
+for that connection here.
+
+Validation: the complete integrity script passed, including the three new
+theorems' axiom checks. Exact rational calculations independently reproduce
+minimum densities 1, 2/7, and 1598/9709 at levels 1–3. Direct transfer sums
+at level 4 check the multiscale identity numerically for α=1 and α=0.95.
+The probability experiments remain floating-point exploration, not Lean
+certificates. The missing uniform estimate is still a mathematical research
+problem, not a gap filled by an axiom or an unverified Lean placeholder.
+# 2026-09-07: reverse audit of the multiscale route
+
+Proved the reverse block/certificate implication in Lean, with explicit
+order-preservation, homogeneity, and comparison hypotheses. The four added
+lemmas in `BlockPotential.lean` pass the complete integrity and axiom checks.
+
+The written all-level consequence is now in `MultiscaleSyracuse.md`: for a
+fixed exponent α, let b_N be the minimum of L_α^N applied to the unit
+indicator. Supermultiplicativity gives a limiting root R, and the two block
+directions show R equals the supremum of all finite-cylinder certificate
+ratios. The exponential rate of minimum biased Syracuse densities is R/s_α.
+The real limiting argument is not formalized in Lean.
+
+This changes the research decision: minimum-atom asymptotics are another
+description of the same limiting transfer optimization, not an established
+independent improvement. A useful next advance must prove a new estimate
+from the affine recursion or use information outside this optimization.
+No new Collatz counting bound, convergence result, or novelty claim follows
+from this audit. The original goal remains unachieved.
+# 2026-09-07: falsifying an insufficient minimum-density induction
+
+Tested the proposed actual-law recurrence
+`1/m_(n+1) - 1/m_n ≤ 3` through level 15. The numerical data are consistent
+with it, but supply no proof. The script now reports reciprocal increments.
+
+Constructed an exact alternative density modulo 9 with the actual first-law
+projection, unit floor 2/7, normalization, and doubling identity. Its transfer
+at residue 25 modulo 27 equals 794/9709, below the proposed update 2/13.
+The finite arithmetic is checked in `SyracuseFloorObstruction.lean`, and the
+complete integrity suite passed. See `MultiscaleSyracuse.md` for the grouping
+of the infinite geometric weights into one modular period.
+
+This is a counterexample to the sufficiency of those four induction inputs,
+not to the actual-law recurrence and not to Collatz. The next mathematical
+requirement is control of further correlations from the affine recursion.
+No revolutionary result or new Collatz bound is claimed; the goal is open.
+# 2026-09-07: exact minimum-location and paired-child reduction
+
+Derived from the actual exponent-1 Syracuse recursion that some minimizing
+residue is 7 modulo 9, using doubling, projective consistency, and two
+applications of the first-even-valuation identity. Also derived the elementary
+bound m_(n+1)≥(2/7)m_n and an exact recurrence involving the correlated
+children a and 4a+1. The written proofs are in `MultiscaleSyracuse.md`;
+they are not new Lean theorems about the probability law.
+
+Independent numerical checks confirm the minimum-location reduction through
+level 12 and the paired-child recurrence through level 7. These checks
+support implementation consistency, not an asymptotic claim. The scalar
+bound is exponential and does not supply the missing polynomial bound.
+The next unresolved input is control of paired-child densities beyond their
+independent floors. No substantial Collatz advance is claimed.
+# 2026-09-07: actual-law pair inequality refuted
+
+The proposed sufficient condition
+`J_n ≥ 21*m_n/(4*(1+3*m_n))`, with
+`J_n = min_{a≡1 mod3}(f_n(a)+f_n(4a+1)/4)`, fails for the actual Syracuse
+law at level 14. The witness is a=1292371, b=386516 modulo 4782969.
+This removes a concrete candidate for the missing induction estimate.
+
+The new `syracuse_pair_check.py` verifies the failure using downward-rounded
+integer arrays and a proved uniform error budget for rounding and valuation
+truncation. Both precision/cutoff 60 and 56 give strict failure. Exact
+rational calculations at levels 1–3 verify the reported atom and minimum
+enclosures. The precision-60 output is stored as
+`Devices/SyracusePairCounterexample.json` and reproduced byte-for-byte.
+This computation is not Lean-verified; no claim of full formal certification
+of the actual probability law is made.
+
+The scalar logistic recurrence itself remains unrefuted. At the parent
+r=2035933 modulo 3^15 corresponding to this pair, a diagnostic floating-point
+calculation gives f_15(r)≈0.04452697 and f_15(64r)≈0.26166801, whereas
+m_15≈0.04411327. Thus replacing the latter recurrence term by its global
+minimum loses material information at this witness. Discard the sufficient
+pair-minimum bound and retain the full dependence if pursuing this route.
+No Collatz convergence proof or revolutionary result has been obtained.
+# 2026-09-07: all-depth short-word counting obstruction
+
+Investigated whether near-critical minimum Syracuse masses could instead be
+certified by individual high-probability valuation words. A counting argument
+rules this out even when allowing subexponentially many selected words per
+residue. Positive length-n words of total at most s number binomial(s,n).
+For 5s≤8n and n≥12 this is strictly smaller than the number of units modulo
+3^n; the fraction covered even tends to zero exponentially.
+
+The binomial arithmetic and strict bound are proved in `ShortWordCount.lean`
+for all n≥12, and the complete integrity suite passed. The composition
+bijection and probability application are written arguments in
+`MultiscaleSyracuse.md`, not Lean probability theorems. No novelty is claimed
+for this elementary counting obstruction.
+
+An uncovered residue has no word of probability as large as 2^(−8n/5), so
+obtaining mass 3^(−n)exp(−o(n)) there from selected words requires exponentially
+many contributions. This does not upper-bound the full atom mass. The next
+useful mechanism would have to control word families collectively; replacing
+the failed scalar bounds by a few clever inverse witnesses cannot suffice.
+The original substantial-result goal remains open.
+# 2026-09-07: collective fixed-total counts and new literature leads
+
+Added `syracuse_shell.py` to count whole valuation-word families of total
+2n, using exact integer dynamic programming. At n=12, 57370 of 354294 units
+are still absent. Residue 1 has only one word through the tested range, but
+the orbit of 159 supplies a second at n=18, sum 36; the script verifies it.
+These observations do not establish any eventual coverage or noncoverage.
+The integer-predecessor interpretation is recorded in
+`MultiscaleSyracuse.md`; no new probability theorem is formalized in Lean.
+
+Literature search found a July 2026 ProofAtlas natural-density/log-time
+release and a September 5 positive-density convergence release. The July
+headline source, selected adapters, and reported standard-axiom evidence
+were read, but not independently rebuilt. Only the September listing was
+read. These are attributed external claims, not our results. The next
+useful literature action is to audit the latter's exact theorem and proof
+mechanism before trying to improve a potentially superseded counting bound.
+The original goal remains unachieved.
+
+
+### 2026-09-07 — all-target density extension under verification
+
+The September ProofAtlas source has now been read and downloaded at corrected
+release commit `0aef8b0cfaaf6959500063472f2e328c60df8d54`. Every one of its
+1,485 manifest entries matches its recorded source hash. This is attributed
+external work, not a result of this repository. The full local rebuild is
+running under its pinned Lean 4.30.0-rc2 and pinned Mathlib revision.
+
+A candidate extension replaces convergence of the selected seed to 1 by
+nonperiodicity. This suffices for the source decoder's unique-hit-time proof.
+Every odd target prime to 3 has arbitrarily large nonperiodic immediate
+predecessors in every ternary residue class: affine transport of the known
+successful-root family provides two distinct children, at most one of which
+can be periodic. That arithmetic input and the even-target raw-orbit reduction
+have compiled in the separate `ProofAtlasAttack` package. Their axiom audits
+use only the standard classical foundations.
+
+The root-uniform analytic estimates appear to permit selecting this new seed
+in the same favorable finite class. Adaptations of terminal unmarking and the
+final counting assembly, including a literal all-target density endpoint, are
+written but NOT YET VERIFIED. See `Devices/AllTargetDensity.md` and
+`ProofAtlasAttack/README.md` for the exact statement, provenance, checked
+arithmetic, and remaining build/audit obligations. The user goal is still
+active; a written candidate is not a breakthrough or a proof of Collatz.
+
+
+### 2026-09-07 — all-target density theorem verified
+
+The full imported Mazur library and all extension modules have now compiled.
+The literal public theorem proves positive lower natural density of the
+ordinary predecessor set of every positive target precisely when 3 does not
+divide that target. The constant may depend on the target. This is a linear
+asymptotic theorem, not a finite certificate increase or a reformulation of
+Collatz. The connecting step selects nonperiodic inverse children in arbitrary
+ternary residue classes, allowing the source-count decoder to work without
+assuming convergence of the target. Mazur's substantial analytic foundation
+is attributed and retained unchanged.
+
+The sharp converse and counterexample-density dichotomy are also checked.
+The final axiom audit uses only propext, Classical.choice, and Quot.sound.
+Source hashes and pinned dependencies are recorded in
+ProofAtlasAttack/verification/local-report.json. The literal theorem and
+explanation are in ProofAtlasAttack/CollatzTargetDensity/Public.lean and
+Devices/AllTargetDensity.md.
+
+No proof of the full Collatz conjecture has been obtained. No uniform c/a
+bound or historical priority is claimed. The sources searched did not reveal
+an identical all-target linear density theorem; independent review remains
+appropriate. Earlier pending-verification checkpoints above are historical
+and superseded by this successful check.
+
+
+### 2026-09-08 — positive density in every mixed residue class
+
+Extended the previously checked all-target theorem: for every a>0, every
+modulus m=2^p*3^q, and every r<m, the positive starts n≡r mod m that
+eventually hit a have positive lower natural density if and only if 3∤a.
+The target and both exponents are unbounded; constants may depend on all
+fixed parameters. For ternary moduli the result also holds with odd starts.
+
+The argument uses classical sibling maps J_t(n)=4^t*n+(4^t-1)/3. Their
+first 3^q iterates cover every ternary class. Retaining t as a label gives
+an injective encoding and bounds collisions by 3^q; output size is below
+4^(3^q)*X for input n<X. The proof selects a deeper seed so that the
+zero-step hit of a nonperiodic target does not invalidate sibling closure.
+The fixed-parity affine identity then pulls ternary density back to every
+class modulo 2^p*3^q. Finite initial exceptions, decoding injectivity,
+positivity of starts, and arbitrary-cutoff rounding are all proved in Lean.
+
+One counterexample would consequently force positive lower density of
+counterexamples in every such class. Collatz is equivalent to sparsity
+along a subsequence in any one fixed mixed residue class. That sparse
+condition remains unproved. No proof of Collatz, equidistribution, uniform
+c/a bound, or historical novelty is claimed. The imported analytic work
+of Lech Mazur and the preceding all-target extension remain the inputs.
+
+Five new proof modules and a verification file are included in the package
+build and integrity verifier. The complete package check passed: 1,485
+upstream source hashes matched, pinned dependencies matched, all 18 listed
+old and new endpoints passed transitive axiom auditing, and the modulus-72
+positive and negative examples compiled. Only propext, Classical.choice,
+and Quot.sound occur in the audited footprints. See Devices/ResidueDensity.md,
+ProofAtlasAttack/CollatzTargetDensity/ResiduePublic.lean, and
+ProofAtlasAttack/verification/residue-axioms.log.
+
+### 2026-09-08 — literature correction and actual-law recurrence test
+
+The renewed literature search located Lech Mazur's September 6 manuscript
+Positive Lower Density of Collatz Predecessors at
+https://www.proofatlas.ai/formalizations/positive-lower-density-collatz-predecessors/.
+It states the same all-target density theorem and counterexample-density
+consequence already derived locally. This explicitly supersedes the earlier
+statement that an identical theorem had not been found. Local verification
+does not establish mathematical priority.
+
+The user requested a major advance, preferably the full conjecture. That
+objective remains unmet. The current analytic assembly cannot yield a
+uniform c/a estimate merely from its root-independent activation: the
+unmarking error still grows with the physical seed, and the conductor used
+to suppress that error carries an exponential cost.
+
+For the actual Syracuse laws, the cyclic recurrence
+μ_n(r/2)=(μ_n(r)+I(r))/2 enables a scan without a valuation-cutoff loop.
+Integer enclosures of width 2n/2^60 checked the proposed logistic minimum
+inequality through level 18, scanning all 258,280,326 unit residues at
+that last level. The earlier sufficient pair inequality fails again at
+level 14. No all-depth lower bound or new convergence theorem follows.
+
+The four general rounding and error-propagation lemmas compile in Lean.
+The probability recurrence, C++ execution, and large array minima are not
+kernel-verified. An independent full-period rational calculation checked
+1,089 atom enclosures at levels 1..5 and precisions 8/20/60; Python integers
+also rechecked every saved comparison. See Devices/SyracuseCycleScan.md.
+
+### 2026-09-08 — one-sided Syracuse comparison at all generations
+
+The previous goal turn made progress through exact finite tests and checked
+error bounds, but did not achieve the requested major advance. This turn
+replaced an attempted inference from mixing alone with a more specific
+comparison involving the actual imported filtered core.
+
+First, MixingFloorCountermodel.lean verifies a ternary density family with
+mean one, exact projectivity and fine-scale L1 oscillation at most 9^(-m),
+whose minimum is nevertheless exactly 3^(-n). It is explicitly not the
+Syracuse law. It rules out deriving the desired minimum estimate from
+those properties alone.
+
+SyracuseMinorant.lean then proves a one-sided version of the imported
+reference-tail estimate. A selected prefix-free family with full reference
+tails lies below the actual Syracuse density. Consequently the positive
+part of its error after truncating the tails costs C_A/k^A, with no
+rejected-probability term. The literal filtered kernels contract mean
+positive-part differences. All original word weights and conductor casts
+are retained.
+
+SyracuseCoreMinorant.lean iterates these facts: for every initial floor b,
+cap and width schedules, k>=1, and generation n, the mean positive part of
+the backward core mark minus the actual density at its ambient conductor
+is at most n*C_A/k^A. The constant is independent of the initial floor,
+schedules, and physical root. This is an actual all-generation theorem,
+not an extrapolation of a numerical range.
+
+A potential route from this comparison and the imported root-uniform
+variation bound to a uniform positive Syracuse density floor is recorded
+in Devices/SyracuseMinorantRoute.md. Its remaining obligations are a fixed
+positive cylinder, a fixed-cylinder projection argument with vanishing
+error, and propagation by the exact Syracuse recursion. The proposed
+uniform floor, Tao's smallest-atom exponential-rate conjecture, and the
+full Collatz conjecture are not proved here.
+
+The complete package integrity check passed with 32 audited endpoints,
+all 1,485 pinned upstream source hashes matching, and only propext,
+Classical.choice and Quot.sound in the transitive axiom footprints.
+The main new audit is verification/syracuse-minorant-axioms.log.
+
+### 2026-09-08 — uniform Syracuse atom lower bound proved in Lean
+
+The remaining obligations in the preceding entry are now discharged.
+The literal endpoint `SyracuseMinorant.syracuse_uniform_atom_lower_bound`
+proves ∃c>0, ∀n≥1, ∀r∈(Z/3^nZ)×, μ_n(r)≥c/3^n for the actual Syracuse
+PMF. The constant is independent of n and r. The complete package check
+passed with 38 audited endpoints and only propext, Classical.choice and
+Quot.sound; all 1,485 upstream source hashes still match.
+
+SyracusePositiveCylinder.lean makes the floor schedule independent of
+physical roots, then uses Mazur's positive probability product and
+root-uniform variation tail to freeze a positive cylinder at one finite
+generation. Its lower bound holds throughout every later finite quotient.
+
+SyracuseCylinderProjection.lean proves the error is at most C/N, using
+the elementary bound N≤2k_N. For each fixed test cylinder, projectivity
+transfers the positive core margin to the actual density as N grows.
+The test conductor is fixed first; the argument is not a moving-scale
+pointwise inference from L1 convergence.
+
+SyracuseCylinderSpread.lean sends every unit target into the fixed
+cylinder by one inverse Syracuse step with valuation at most 2·3^q+2.
+The exact PMF recursion propagates the floor with a fixed factor.
+Projection handles all smaller positive conductors. The public theorem
+then converts the imported normalization back to ordinary probabilities.
+
+Together with the elementary averaging upper bound on the smallest atom,
+this gives Θ(3^(-n)), stronger than the exponential rate conjectured in
+Tao's January 2020 note. The asymptotic interpretation is explained in
+Devices/SyracuseUniformFloor.md; the audited endpoint is the literal
+uniform inequality. The proof relies substantially on the imported work
+of Lech Mazur and Terence Tao. A located August 2026 Nikpour–Rabbani
+abstract reports β≤1.039979; its full proof was not reviewed. Historical
+priority and independent mathematical review remain unestablished.
+
+This is a substantial distributional result, not a proof of the full
+Collatz conjecture. It does not establish density-one convergence or
+eliminate all nontrivial cycles and divergent deterministic trajectories.
+
+### 2026-09-08 — exact Syracuse energy recurrence and unbounded second moment
+
+The renewed request was to prove Collatz and formalize the proof in Lean.
+That objective remains unmet. This pass tested whether the existing uniform
+Syracuse atom floor could support uniform upper-density or L2 estimates in
+an attempted passage from random valuations to deterministic orbits.
+
+Two new modules derive statements about the actual imported PMF. Repeated
+valuation one gives mu_n(-1)>=2^(-n), so the full-Haar density at that atom
+is at least (3/2)^n and its cubic moment is at least (9/8)^n.
+
+Separating valuation one from the geometric tail proves the exact recurrence
+mu_(n+1)(r/2)=(mu_(n+1)(r)+I_n(r))/2, where I_n is the injective pushforward
+of mu_n by y -> 3y+1. Consequently, for E_n=3^n sum_r mu_n(r)^2,
+
+    E_(n+1)=E_n+2*3^n sum_y mu_(n+1)(3y+1)*mu_n(y).
+
+The established absolute floor c/3^n bounds every increment below by 2c/3.
+Lean proves an unconditional endpoint: exists d>0, forall n, E_n>=1+d*n.
+This rules out a uniform L2 bound for these densities, while leaving methods
+with other estimates open. It does not show exactly linear growth, an
+upper energy bound, or convergence of any additional deterministic orbit.
+No historical novelty or independent review is claimed.
+
+The complete package verification passed: 50 audited endpoints (12 added
+in this pass), all 1,485 upstream source hashes unchanged, and only propext,
+Classical.choice and Quot.sound in the audited axiom footprints. The new
+modules contain 339 lines and no unfinished proofs or added axioms.
+See Devices/SyracuseEnergy.md and
+ProofAtlasAttack/verification/syracuse-energy-axioms.log.
+
+### 2026-09-08 — quantitative density with constants uniform over targets
+
+The full Collatz objective remains unmet. This pass made the earlier
+predecessor-density argument quantitative in the target, while retaining
+the exponential conductor loss instead of concealing it in a target-dependent
+constant.
+
+BoundedSeeds.lean fixes a ternary modulus and lower cutoff first, chooses
+two predecessors of one per residue under one finite bound, and transports
+them by x -> (3c+1)x+c with S(c)=a and c<=2a. The resulting nonperiodic
+seed M obeys M<=Ca with C independent of the odd target a. A separate
+lemma gives an odd fertile ordinary predecessor c<=9a for even targets.
+
+UniformActivation.lean combines this arithmetic with the fixed positive
+core cylinder. It proves that the same positive terminal marked margin
+works for every odd target prime to three; the onset generation may depend
+on the target. This is an unconditional theorem, not an assumed activation
+interface.
+
+QuantitativeTargets.lean then proves the literal ordinary count bound:
+for every integer A>=1 there exist K>=1 and d>0, independent of a,t, such
+that whenever a>0, 3 does not divide a, t>=1, and a<=t^A, eventually
+
+    countBelow a X >= d X / (a 3^(K t)).
+
+For singleton seed M the source potential is M. Choosing m=Kt pays the
+coarse unmarking error 44 M C_A/m^A with a common marked margin, leaving
+full terminal mass at least alpha/(4*3^m). The existing counting assembly
+divides by 32M. All factors and the odd-to-ordinary transport are checked.
+A target-only corollary uses t=Nat.sqrt a+1. More generally the mathematical
+interpretation takes t=ceil(a^(1/A)) for any fixed A>1.
+
+The constants depend on A with no controlled limit as A grows. This does
+not prove a uniform c/a lower bound, density-one convergence, or descent
+for every integer. The new statements remain compatible with a hypothetical
+positive-density counterexample basin. Historical novelty and independent
+review are not claimed; the analytic framework remains substantially
+dependent on the pinned Tao–Mazur sources.
+
+The complete package verification passed with 59 audited endpoints, nine
+added in this pass, all 1,485 upstream source hashes unchanged, and only
+propext, Classical.choice and Quot.sound in the audited axiom footprints.
+The current extension source hashes match the successful report. See
+Devices/QuantitativeTargetDensity.md and
+ProofAtlasAttack/verification/quantitative-targets-axioms.log.
+
+### 2026-09-08 — terminal comparison through the actual collision energy
+
+The preceding goal turn made verified progress by obtaining a target-uniform
+stretched-exponential density bound. Its source hashes and successful report
+were revalidated. Collatz itself remains unproved.
+
+This pass examined whether an upper energy estimate could replace the
+worst-case density bound used in unmarking. The exact energy recurrence
+supports a finite probe, but it does not by itself provide a polynomial
+upper bound. The probe through conductor 14 gives E_14 approximately
+7.74276829 and final increment approximately 0.47025433; five low-conductor
+values are cross-checked against full-period rational laws. Higher values
+remain floating-point exploration. A related primary repository by Nathan
+Humphrey explicitly leaves its proposed increment limit 7/15 and convergence
+rate open. No such conjecture or finite extrapolation is used here.
+
+EnergyUnmark.lean instead proves an unconditional comparison in terms of
+the exact finite energy E_m=3^m sum mu_m^2. Young's inequality
+f<=H+f^2/(4H), the nonperiodic weighted source census, and affine fan mean
+preservation give
+
+    marked_mass <= (4/3) H full_mass + (44/9) P E_m/H + 44 P epsilon.
+
+The unit-reference/full-Haar conversion factor 4/9 is proved explicitly.
+With marked margin alpha, mixing error at most alpha/2, and
+H=24 P E_m/alpha, the full mass is at least alpha^2/(256 P E_m).
+An elementary upper bound E_m<=2^m is also checked from the imported atom
+height bound; no polynomial upper bound on E_m is asserted.
+
+EnergyTargets.lean carries the comparison through the actual integer count:
+for every integer A>=1, constants K>=1,d>0 independent of a,t satisfy
+
+    countBelow a X >= d X / (a^2 E_(K t))
+
+eventually in X whenever a>0, 3 does not divide a, t>=1 and a<=t^A.
+This theorem has no energy-growth hypothesis. A separate checked implication
+shows that a uniform linear upper energy bound would yield cubic target
+density; its energy assumption is explicit and remains unproved. Neither
+the unconditional bound nor that conditional density conclusion eliminates
+all exceptional deterministic orbits. No historical novelty is claimed.
+
+The complete package verification passed with 69 audited endpoints, ten
+added in this pass, only propext, Classical.choice and Quot.sound in their
+transitive axiom footprints, and all 1,485 upstream hashes unchanged.
+The current extension hashes match the successful report. See
+Devices/EnergyTargetDensity.md, scripts/syracuse_energy_probe.py,
+Devices/SyracuseEnergyProbe.jsonl and
+ProofAtlasAttack/verification/energy-targets-axioms.log.
+
+### 2026-09-08 — exact obstructions to additive binary-pattern descent
+
+The preceding energy-comparison progress and its 69-endpoint report were
+revalidated. The full Collatz objective remains unmet. This pass returned
+to deterministic descent and tested a concrete family that reads every
+binary digit, rather than deriving another density consequence.
+
+For width k, pad the canonical binary string with k-1 end markers on each
+side. Assign arbitrary real weights to its length-k windows and sum over
+all occurrences. The counts are unbounded as bit length grows, and the
+markers distinguish boundary features. No positivity or lower-bound
+restriction is imposed on the weights.
+
+Finite linear programs were infeasible at each width from 1 through 7.
+Dual solutions were rationalized and retained only after exact integer
+histogram verification. Across the seven widths, 165 actual odd Syracuse
+edges, with positive integer multiplicities, give equal combined source
+and target pattern counts. Hence every possible weighting fails strict
+descent on at least one of the checked edges.
+
+BinaryPatternPotential.lean proves the certificate checker's soundness,
+including its connection to the actual Syracuse successor via exact parity
+and exponent equations. BinaryPatternCertificates.lean contains the integer
+data and ordinary `by decide` proofs. The endpoint no_width_le_seven covers
+all real weight functions for every width from 1 through 7. The solver is
+not part of the proof's trusted base.
+
+The width-one certificate is three copies of 3 -> 5, one of 5 -> 1, and
+one of 9 -> 7. Its digit-count changes satisfy
+3*(1,0)+(-1,-1)+(-2,1)=(0,0). Wider certificates include the boundary
+patterns and give the same exact cancellation principle.
+
+Two separate width-seven probes also balance after two and eight odd steps.
+Their iterated endpoints and histograms are checked in exact Python integer
+arithmetic, but are not included in the Lean theorem. A four-step solver
+result did not survive the attempted rational reconstruction and was not
+retained as a certificate. No obstruction for every checkpoint length is
+asserted.
+
+These results do not rule out larger widths, nonlinear functions of pattern
+counts, position-dependent weights, or variable stopping times. A balanced
+sum of feature vectors does not refute arbitrary nonlinear potentials.
+Binary encodings have extensive prior study; no historical novelty is
+claimed for this result. See Devices/BinaryPatternPotential.md and
+scripts/binary_pattern_potential.py for the argument and reproduction.
+
+The complete package verification passed with 79 audited endpoints, ten
+added in this pass, and only propext, Classical.choice and Quot.sound in
+their transitive axiom footprints. All 1,485 upstream source hashes remain
+unchanged, and all 35 current extension source hashes match the successful
+report. The exact Python recheck and git diff whitespace check also passed.
+See ProofAtlasAttack/verification/binary-pattern-axioms.log. The full Collatz
+goal remains active and unproved.
+
+### 2026-09-08 — nonlinear profile returns at run checkpoints
+
+The previous goal turn made verified progress by establishing exact
+additive-pattern obstructions. Its 79-endpoint report and current source
+hashes were revalidated. Collatz itself remains unproved.
+
+This pass tested whether adding an integer-size term, nonlinear dependence
+on binary-pattern counts, and an unbounded checkpoint time could overcome
+the one-step obstruction. The concrete checkpoint was R(n)=S^[v_2(n+1)](n),
+where S is the actual odd Syracuse map. Finite optimization first suggested
+obstructions to additive corrections; a direct orbit search then found the
+stronger evidence needed for arbitrary nonlinear profile functions.
+
+There are actual rising orbit segments with identical boundary-padded
+binary-pattern histograms: 11 -> 13 in one R-step at width 2, 521 -> 577
+in thirteen R-steps at width 4, and 186239 -> 191359 in eleven R-steps at
+each width from 1 through 5. These correspond to 2, 36 and 24 odd S-steps.
+The finite search checked odd starts below 2^18 and at most twenty R-steps
+for widths 1 through 8. It found no witness at widths 6 through 8 in that
+range; no universal inference is made from those search failures.
+
+BinaryProfileReturn.lean defines the actual histogram and checkpoint and
+proves soundness of a finite path checker. Each chunk is connected to the
+Syracuse map by ordinary edge equations and to the chosen checkpoint time
+by n+1=2^(path length)*q with q odd. BinaryProfileCertificates.lean gives
+three explicit paths and kernel-checked histogram returns.
+
+For V(n)=F(H_k(n),n), with arbitrary nonlinear F nondecreasing in its second
+argument at every fixed histogram, the endpoint no_strict_checkpoint_descent
+rules out strict descent at every R-step for every 1<=k<=5. If F is strictly
+increasing in size at fixed histogram, no_nonincreasing_checkpoint_potential
+also rules out weak nonincrease at every R-step. The proof compares the
+potential at the two ends of each actual profile return, avoiding the
+invalid extension of linear histogram cancellation to nonlinear functions.
+
+This result does not exclude other checkpoint rules, widths beyond five,
+or potentials that distinguish more of the digit ordering or behave
+nonmonotonically in size at fixed histogram. In particular it does not
+refute arbitrary variable stopping times. A full descent proof still needs
+an unconditional bound or well-founded decrease for every positive integer;
+defining a favorable stopping time does not provide that proof.
+
+The complete package audit passed with 91 endpoints, twelve added in this
+pass, and only propext, Classical.choice and Quot.sound in their transitive
+axiom footprints. All 1,485 upstream source hashes remain unchanged, and
+all 37 current extension hashes match the successful report. The finite
+search was reproduced and the saved paths rechecked in exact integers.
+No historical novelty is claimed. See Devices/BinaryProfileReturn.md,
+scripts/binary_profile_return.py and
+ProofAtlasAttack/verification/binary-profile-return-axioms.log.
+
+### 2026-09-08 — assembling the full least-counterexample lemma chain
+
+The previous goal turn made verified progress on nonlinear profile-return
+obstructions. Its 91-endpoint report and current extension source hashes
+were revalidated. The user's follow-up requested chaining the existing
+lemmas to prove Collatz. The full objective remains unmet.
+
+ProofChain.lean connects the strongest target-uniform energy estimate to
+a least-counterexample contradiction. If any positive counterexample
+exists, choose the least m. It is odd, and a=3m+1 is a positive target
+prime to three that also fails to reach one. Orbit invariance shows that
+every predecessor of a belongs to A_m, the set of positive n whose every
+ordinary iterate is at least m.
+
+Apply energy_target_density with A=1 and t=4m. Since a<=4m, monotonicity
+of counting gives, eventually in X,
+
+    count(A_m below X) >= d X / (16 m^2 E_(4 K m)).
+
+K>=1 and d>0 are independent of m. No energy-growth conjecture is assumed.
+Separately, an ordinary kernel-reduction check proves convergence through
+1024 within fuel 512. This supplies the finite base in the same package.
+
+The precise remaining premise EnergyTailGap K d asks that, for every fixed
+m>1024, the count of A_m be strictly below the displayed lower-density
+coefficient times X at arbitrarily large positive cutoffs. The closing
+lemma is a checked contradiction. The final endpoint also proves the
+converse, showing that for the supplied constants this premise is equivalent
+to the canonical full Collatz proposition. It does not prove the premise.
+
+The published fixed-threshold result in Tao's Theorem 3.1 has an inverse
+power of log(m) error in logarithmic density. This does not supply the
+required upper bound. Partial summation can transfer the natural lower bound
+to logarithmic density, but the rate mismatch survives. Replacing a function
+that tends to infinity with the fixed value m-1 is invalid, as is applying
+an averaged statement to an arbitrary individual orbit without transport
+control. See Devices/CollatzProofChain.md for the connected argument.
+
+An external-source recheck also found that Humphrey's main research
+repository withdraws its earlier 7/15 energy-increment target. The local
+energy note now records that update, with the later asymptotic argument
+explicitly not independently verified. No candidate limit or source from
+that repository is imported into the formal chain.
+
+The rate comparison was made explicit: energyProfile_le_square proves
+delta(m)<=d/(16m^2), and energyProfile_eventually_lt_log_bound proves that
+this coefficient is eventually smaller than C/(log m)^p for every fixed
+integer p>=0 and C>0. This demonstrates that the cited logarithmic-tail
+upper estimate is too large to supply the desired contradiction through
+this coefficient, even before addressing the density normalization. It
+does not imply a lower bound on the actual tail or disprove EnergyTailGap.
+
+The complete package build and audit passed with 106 named endpoints,
+including all 15 new chain endpoints. Only propext, Classical.choice and
+Quot.sound occur in their transitive axiom footprints. All 1,485 upstream
+source hashes remain unchanged, and all 38 current extension hashes were
+matched against the successful report. The printed canonical target is
+every positive integer having an ordinary iterate equal to one; the final
+equivalence retains EnergyTailGap explicitly. No proof of that premise or
+of the full conjecture was obtained. This turn made verified progress on
+the requested lemma connections; the original goal remains unmet.
+
+### 2026-09-08 — testing descent and threshold substitutions in the chain
+
+The previous goal turn made verified progress on the explicit conditional
+chain. Its 106-endpoint report and all 38 extension hashes were revalidated.
+The next attempted closure was to use least-counterexample conditioning to
+strengthen the upper tail. No such improvement was obtained.
+
+Two precise consequences are now formalized in DescentVsConvergence.lean.
+First, if n is a counterexample, 2n is also a counterexample while dropping
+immediately to n. The doubling injection proves
+
+    count(B below floor(X/2)) <= count(badFirstDrop below X).
+
+Combining this with the existing unconditional implication from one
+counterexample to positive lower density shows that, if any counterexample
+exists, a positive lower density of counterexamples would have stopping
+time one. The coefficient c/4 is valid beyond max(2X0,4), with c and X0
+from the predecessor-density theorem. The new equivalence
+first_drop_implies_convergence_iff_collatz checks that proving convergence
+for every immediate descender would already settle full Collatz: apply
+that premise to 2n. Neither theorem asserts that counterexamples exist.
+
+Second, if m is the least counterexample, the set A_h of starts whose every
+iterate is at least h equals the full counterexample set for every 1<h<=m.
+Lowering a threshold within that range therefore produces no smaller
+exceptional set. For h>m, the literal predecessor inclusion used by the
+energy chain fails at m itself. The latter result concerns set inclusion,
+not a positive density loss; controlling the lost subset remains open.
+
+The literature check revisited Tao's Section 1.1, which distinguishes
+almost-everywhere descent from convergence and warns about transporting
+averaged assertions through exceptional sets. A search of topological and
+invariant-set approaches did not provide the missing bound. No external
+proof claim, recurrence assumption, or new mathematical axiom was imported.
+The local doubling and minimality arguments carry no novelty claim. See
+Devices/DescentVsConvergence.md for their role and limits.
+
+The complete package build and axiom audit passed with 115 named endpoints,
+including all nine in the new file. Their transitive footprints use only
+propext, Classical.choice and Quot.sound. All 1,485 upstream source hashes
+remain unchanged, and all 39 current extension hashes match the successful
+report. The verification output prints both the conditional density claim
+and the canonical Collatz equivalence. The original objective remains
+unmet: these checks resolve two possible logical substitutions, but neither
+prove EnergyTailGap nor establish convergence for every positive integer.
+
+### 2026-09-08 — an unconditional improvement of the energy upper bound
+
+The preceding goal turn made verified progress on the descent/convergence
+distinction. Its 115-endpoint report and all 39 extension hashes were
+revalidated. Finite survivor-count drift was considered first, but the
+repository already contains that calculation and its limits. The next
+actual attack addressed the energy correlation term rather than adding
+another reformulation of the final convergence premise.
+
+The external R9 correlation report was read directly. Its off-diagonal
+section records finite measurements, not an all-depth boundedness theorem.
+No such bound was imported. A local floating-point check of affine-orbit
+correlations through depth 12 suggested bounded low-lag columns but does
+not prove their boundedness. It also found a unit-lag correlation above
+one at depth seven; that exploratory observation is not used in Lean.
+
+SyracuseEnergyUpper.lean instead exploits a literal algebraic relation:
+
+    mu_(n+1)(2(3y+1)) = 2 mu_(n+1)(3y+1).
+
+It follows from the existing geometric-memory recurrence because its
+boundary input is zero in class two modulo three. The two displayed
+families of residues are disjoint injective images. Consequently the
+full squared mass R is at least five times the squared mass L on the
+first image. If Q is the preceding level's squared mass and C the cross
+term, the existing energy identity is 3R=Q+2C and Cauchy-Schwarz is
+C^2<=LQ. Thus (3C-Q)(5C+Q)<=0, whence 3C<=Q and R<=5Q/9.
+
+The resulting unconditional endpoints are
+
+    collisionEnergy_step_le_five_thirds: E_(n+1) <= (5/3)E_n,
+    collisionEnergy_le_five_thirds_pow: E_n <= (5/3)^n.
+
+This improves the previous 2^n bound. The checked predecessor corollary
+five_thirds_target_density substitutes it into the existing energy count:
+for fixed A>=1, constants K>=1,d>0 independent of a,t give
+P_a(X)>=dX/[a^2(5/3)^(Kt)] whenever a>0, 3 does not divide a, t>=1,
+a<=t^A, and X is sufficiently large. The threshold can depend on a,t.
+The denominator is still exponential; neither linear energy growth nor
+the upper tail needed for full Collatz has been proved.
+
+The full package build and audit passed with 123 named endpoints,
+including all eight new endpoints. Their transitive footprints use only
+propext, Classical.choice and Quot.sound. All 1,485 upstream source hashes
+remain unchanged, and all 40 current extension hashes match the successful
+report. No historical novelty is claimed. See Devices/SyracuseEnergyUpper.md.
+
+Historical candidate at this stage, subsequently formalized in the following entry:
+let F(y)=4y+1 modulo 3^n, p(y)=mu_n(y), q(y)=mu_(n+1)(3y+1).
+Two uses of geometric memory should give 4q(y)=q(Fy)+p(Fy), and three
+iterations give
+
+    64q(y)=q(F^3 y)+16p(Fy)+4p(F^2 y)+p(F^3 y).
+
+F cycles the three residue classes and F^3 preserves each class. For n>=1,
+the input class norms should be (0,a,2a), by support on units and the
+proved factor-two relation. Applying the L2 triangle inequality separately
+on the three classes would give output q class norms at most
+(24a,33a,6a)/63. The cross term is then at most
+(33a^2+12a^2)/63 = (5/7)a^2, while Q=5a^2. Substitution in 3R=Q+2C
+would improve the step factor to 9/7 for n>=1. The coarse kernel arithmetic
+(weights (1,16,4)/63 on the three-cycle) was checked with exact Fractions,
+giving full next squared mass 5/21 from input squared mass 5/9.
+The all-depth fiber identities and norm argument still require verification;
+the current proved bound remains 5/3, and the original goal remains unmet.
+
+
+## Residue-class energy refinement: a checked 9/7 step bound (2026-09-08)
+
+The preceding candidate is now formalized in
+ProofAtlasAttack/CollatzTargetDensity/SyracuseEnergyClasses.lean. The actual
+Syracuse law satisfies, with F(y)=4y+1 modulo 3^n,
+
+    4 mu_(n+1)(3y+1) = mu_(n+1)(3F(y)+1) + mu_n(F(y)).
+
+The proof checks the modular lift identity and derives this equation from
+the geometric-memory recurrence. For n>=1, F permutes and cycles the three
+residue classes. The input class norms are (0,a,2a): zero support on the
+first class and the exact factor-two relation give both assertions.
+If b_i is the norm of q(y)=mu_(n+1)(3y+1) restricted to class i, one use of
+the triangle inequality per class gives
+
+    4b_0 <= b_1+a,   4b_1 <= b_2+2a,   4b_2 <= b_0.
+
+Thus 63b_1<=33a and 63b_2<=6a. Classwise Cauchy-Schwarz gives
+C=sum q p <= (33+12)a^2/63 = Q/7, where Q=sum p^2=5a^2.
+This argument needs only the one-step recurrence, rather than explicitly
+expanding three steps. A generic finite-dimensional three-class overlap
+lemma is proved first; all its hypotheses are then verified for the actual
+law. The resulting unconditional endpoints are
+
+    collisionEnergy_step_le_nine_sevenths:
+      E_(n+1) <= (9/7)E_n for n>=1;
+    collisionEnergy_succ_le_nine_sevenths_pow:
+      E_(n+1) <= (5/3)(9/7)^n for n>=0;
+    collisionEnergy_le_nine_sevenths_pow:
+      E_n <= (35/27)(9/7)^n for n>=0.
+
+The predecessor corollary nine_sevenths_target_density supplies constants
+K>=1,d>0 for each A>=1 and proves
+
+    P_a(X) >= d X/[a^2 (9/7)^(Kt)]
+
+for a>0, a not divisible by 3, t>=1, a<=t^A, and sufficiently large X.
+The constants are uniform in a,t; the cutoff is allowed to depend on them.
+The fixed energy prefactor is absorbed into d.
+
+The full rebuild and audit passed with 135 named endpoints, including 12
+from this module. All footprints use only propext, Classical.choice and
+Quot.sound. All 1,485 upstream source hashes remain unchanged, and all 41
+current extension hashes were independently matched against the successful
+report. No historical novelty is claimed. See Devices/SyracuseEnergyClasses.md.
+
+The bound still grows exponentially, and neither linear energy growth nor
+Collatz is proved. The existing least-counterexample chain still needs
+EnergyTailGap. The already checked comparison delta(m)<=d/(16m^2) shows why
+improving the energy upper bound alone does not close that chain with the
+cited inverse-logarithmic upper-tail estimate. Further work must establish
+a sufficient tail bound or a separate deterministic convergence argument;
+it cannot treat the stronger lower-density estimate as the missing upper
+bound. The persistent original goal remains unmet.
+
+
+## Finite cutoff extraction and a checked activation counterexample (2026-09-08)
+
+The previous turn was progress: the 9/7 energy step bound and its counting
+consequence were built and audited. This turn rechecked that report and
+all 41 extension hashes before investigating the actual remaining gap.
+The energy estimate does not establish the required upper tail.
+
+ProofAtlasAttack/CollatzTargetDensity/FiniteCutoff.lean now extracts an
+explicit arbitrary-target counting cutoff. Given an activation generation
+N satisfying the stated mass bound at every later generation, initial
+floor b, cap coefficient L and root bound M, define
+
+    H = 2^((2N+4)b 2^N + N(L(N+1)+1)) M,
+    Y0 = 32(H+1).
+
+Under the existing counting-state assumptions, for every Y>=Y0 the
+ordinary predecessor count is at least eta Y/(32 Pbar), where eta is the
+terminal mass lower bound and Pbar bounds the positive source potential.
+The synchronization requirement N>=10^9(e+L+3) remains explicit.
+This adapts the pinned finite interval-height bound and local source charge.
+No bound on N in terms of the target has been supplied.
+
+The exact formula satisfies Y0>M. Under a least bad value m, every positive
+seed M reaching 3m+1 is bad and therefore M>=m. Thus this particular cutoff
+is above m and does not license evaluation of the lower bound at Y=m.
+This locates the cutoff of this construction only; it does not rule out
+other finite-scale arguments.
+
+A stronger unconditional shortcut was tested and refuted. Lean verifies
+
+    Reaches 1027 1,
+    countBelow 3082 1027 = 0,
+    positive eventual lower density for predecessors of 3082,
+
+with 3082=3*1027+1. The range certificate verifies avoidance until hitting
+one within 512 ordinary steps for each positive start below 1027. Its
+soundness proof handles all later iterates via the cycle {1,2,4}. Therefore
+the zero count concerns full reachability, not truncated time. The theorem
+no_unconditional_activation_by_threshold rules out a positive predecessor
+lower bound activated by X0<=m for every odd m>1024. It does not refute a
+conditional least-bad argument: the test value 1027 is convergent.
+
+The full rebuild and audit passed with 146 named endpoints, including 11
+from this module. Only propext, Classical.choice and Quot.sound appear in
+the transitive footprints. All 1,485 pinned upstream source hashes remain
+unchanged, and all 42 current extension hashes were independently matched
+against the successful report. See Devices/FiniteCutoff.md. Collatz and
+the required EnergyTailGap remain unproved; the original goal stays active.
+
+Source check for a possible ergodic next step, NOT YET LEAN-FORMALIZED:
+[Assani, arXiv v3](https://arxiv.org/html/2208.11675v3), Theorem 1.2, requires
+a finite measure equivalent to counting measure, uniform power boundedness,
+and conservative part {1,2}. Those are not unconditional inputs. A problem
+with a separate printed claim needs checking before any import: Theorem 3.2
+claims asymptotic mean boundedness with M=1. For its shortcut map, take
+A={1,2}, Y={1,2,4}. Every positive iterate of each y in Y belongs to A, so
+the averaged counting integral is exactly 3 for every N>=1, whereas mu(A)=2.
+The printed L1-limit claim also conflicts with f=1_A: its time-average limit
+is one on every power of two and hence is not summable for counting measure.
+The [publisher abstract](https://www.impan.pl/en/publishing-house/journals-and-series/studia-mathematica/all/275/3/115387/collatz-map-as-a-non-singular-transformation)
+retains the L1-limit wording. This is a local mathematical check of the
+printed statements, not a rejection of the separate measure-equivalence
+criterion or of all ergodic approaches. Do not import the suspect mean-bound
+claim; formalize the elementary countercheck if pursuing this route.
+
+
+## Counting-measure countercheck and finite atomic weights (2026-09-08)
+
+The preceding source check is now formalized, using the imported shortcut
+map rather than a replacement dynamics. CountingMeasureCheck.lean proves
+S^k(2^k)=1 and that the time averages of 1_{1,2} tend to one on every power
+of two. It verifies the finite identity with A={1,2}, Y={1,2,4}, and proves
+that the limiting averaged count for Y_r={2^k:0<=k<=r} is r+1.
+Therefore no constant uniform in finite positive Y gives the printed
+counting-measure mean bound. The indicator is integrable for Measure.count,
+but no function giving all its positive-point time-average limits can be
+integrable for Measure.count. The separate pointwise convergence question
+is not refuted by this counterexample.
+
+AtomicRecurrence.lean checks a valid conditional argument independently.
+Positive summable weights w and one C>0 controlling the weight of every
+finite subset of every k-step preimage force w(T^k(x))>=w(x)/C. Summability
+then bounds each orbit, and a finite pigeonhole argument yields a periodic
+point. The endpoint collatz_of_atomic_power_bound_and_cycles concludes the
+canonical Collatz proposition only with an additional hypothesis that every
+positive periodic point reaches one. Neither the weights and uniform bound
+nor that cycle hypothesis has been constructed. The known cycle and its
+entering branch already force C>1, also checked in Lean. This is a restriction
+on C, not a rejection of all finite-measure approaches.
+
+The complete package rebuild and audit passed with 161 named endpoints,
+including ten from CountingMeasureCheck and five from AtomicRecurrence.
+Only propext, Classical.choice and Quot.sound appear in the footprints.
+All 1,485 upstream source hashes remain unchanged. All 44 extension source
+hashes were independently recomputed against the successful report with
+zero mismatches. See Devices/ErgodicChecks.md for source attribution,
+literal hypotheses, reproduction instructions, and the elementary proof.
+The persistent Collatz goal remains active and unmet.
+
+Follow-up exploration: the recent Tavares preprint explicitly leaves the
+fixed-cost generator condition (*3) open. Devices/FixedCostGenerators.md
+records the exact distinction from our marginal Syracuse floor. The new
+scripts/wirsching_generator_probe.py computes Wirsching's primary-source
+recursion through depth 12, checks totals against a separate polynomial
+identity, and checks all entries through depth 5 against an independent
+forward construction. At depth=cost=12, 68,228 of 354,294 unit residues have
+zero count, including residue 7. This is an experiment outside Lean, not
+a refutation of an eventual assertion with an unspecified onset. The note
+also derives the generating-function relation to the marginal Syracuse
+law; that derivation has not yet been formalized. No claim from the new
+preprint has been imported as an axiom or used in a Lean proof.
+
+
+## Exact fixed-cost generators and the remaining coefficient gap (2026-09-08)
+
+The previous goal turn was progress: it produced checked ergodic lemmas
+and finite generator evidence. At the beginning of this turn, the current
+161-endpoint report was verified against all 44 extension hashes before
+using it. The fixed-cost generating-function derivation was then formalized.
+
+CollatzTargetDensity/FixedCostGenerators.lean defines the generator over
+Polynomial Nat. polynomialBoundary_explicit proves that its finite residue
+sum is precisely the inverse-branch lookup. The cost coefficients therefore
+retain the intended integral path counts, not an unrelated surrogate law.
+
+For c_i=2*3^(i-1) and Z_n=product_{i=1}^n(1-2^(-c_i)), the actual imported
+Syracuse PMF satisfies
+
+    mu_n(a)=G_n(1/2,a)/(2^n Z_n).
+
+The proof unrolls the checked geometric memorylessness recurrence, keeping
+the boundary injection and final remainder, and closes the remainder with
+the exact residue period. No tail approximation is used. The normalizer
+satisfies 2/3<=Z_n<=1, and the full residue sum of G_n(1/2,a) is 2^n Z_n.
+The product lower bound follows by bounding its loss by sum_{i>=1}4^(-i).
+Combining with the existing uniform Syracuse atom theorem proves one d>0
+such that G_n(1/2,a)>=d(2/3)^n for every n>=1 and every unit a mod3^n.
+
+A cost-truncated inverse recursion is proved equal to the polynomial
+coefficient. Ordinary kernel decide then verifies g_12(12,7)=0 and
+g_12(12,1)>0. The weighted theorem also proves G_12(1/2,7)>0. Thus a positive
+marginal and a positive central-cost average coexist with a zero central
+coefficient. These selected coefficient claims are now Lean-checked; the
+probe's full counts of zero residues remain external experiments.
+
+The full rebuild completed 5,090 jobs. The successful audit contains 180
+named endpoints, including 19 from this module. The transitive footprints
+use only propext, Classical.choice and Quot.sound. All 1,485 pinned upstream
+source hashes remain unchanged; all 45 current extension hashes were
+independently recomputed against the report with zero mismatches. See
+Devices/FixedCostGenerators.md and Verification/fixed-cost-generators-axioms.log
+in the ProofAtlasAttack package.
+
+The uniform weighted estimate does not establish a lower bound on each
+coefficient at k near n. The finite zero at depth 12 does not refute an
+eventual statement with a later onset, or exclude further use of the exact
+recurrence. The fixed-cost estimate and a closing deterministic convergence
+argument remain unproved. No historical novelty is claimed. The full
+Collatz goal remains active and unmet.
+
+## Uniform harmonic predecessor chain (2026-09-08)
+
+This goal turn made progress. The preceding 180-endpoint audit and its
+45 extension hashes were checked before the new work. Six new Lean files
+now connect the generator law to actual integer predecessor sets and a
+uniform lower logarithmic density with target dependence of order 1/a.
+
+GeneratorCostTail.lean proves G_n(3/4,r)<=4^n and the weighted tail bound
+sum_{k>5n}g_n(k,r)2^(-k)<=(128/243)^n. The error divided by the existing
+uniform generator floor (2/3)^n decays as (64/81)^n. An absolute positive
+fraction of that floor therefore survives the window k<=5n, with an onset
+independent of the residue. GeneratorWindow.lean proves the exact
+truncated recursion; no central-coefficient lower bound is assumed.
+
+GeneratorPredecessors.lean realizes the inverse branches as finite sets
+of positive odd natural numbers. Each child satisfies the exact affine
+identity 2^(j+1)*a=3b+1 and has Syracuse image a. Branch sets at a fixed
+depth are disjoint by determinism and injectivity of the child exponent.
+The proved harmonic inequality is
+
+    harmonicMass(n,K,a) >= (3/2)^n shortValue(n,K,a)/a.
+
+All these sources lie below 2^(K+n)*a. At K=5n the exponential factors
+cancel, giving at least c/a at each n>=N. When the root is nonperiodic,
+different depths are disjoint by uniqueness of the hitting time.
+
+HarmonicTargets.lean uses the previously checked bounded seed supply to
+choose a fertile nonperiodic odd root M<=C*a reaching any ordinary target
+a prime to three. It transfers the selected sources to ordinary Collatz
+reachability. Summing depths N through N+L gives logarithmic count at
+least (L+1)*d0/a below 2^(6(N+L))*C*a.
+
+HarmonicDensity.lean interpolates these exponential cutoffs. Its final
+unconditional endpoint supplies absolute d>0 and a natural A>=1 with
+
+    a%3 != 0, X >= (A*a)^2
+      ==> Tao.logCountingRatio (rawReaches a) X >= d/a.
+
+The normalization is the actual harmonic mass H_X. This proves a uniform
+lower logarithmic density, not existence of the density limit or a
+natural-density lower bound of order 1/a. Numerical constants have not
+been extracted. No historical novelty is claimed.
+
+HarmonicProofGap.lean proves that a hypothetical least counterexample m
+would force logCountingRatio(avoidsBelow(m),X)>=d1/m at all X>=(B*m)^2,
+with absolute d1>0 and B>=1. It also proves d1/m<C/(log m)^p eventually
+for every fixed C>0 and integer p>=0. The needed contradictory upper
+estimate for the actual avoidance set remains unproved. This is not an
+impossibility result for stronger estimates or other approaches.
+
+The full rebuild completed 5,096 jobs. The audit now covers 210 named
+endpoints, including 30 from this chain. Only propext, Classical.choice
+and Quot.sound occur in their transitive axiom footprints. All 1,485
+pinned upstream source hashes are unchanged. All 51 extension source
+hashes were independently recomputed against the successful report with
+zero mismatches. See Devices/HarmonicPredecessors.md and the package's
+Verification/harmonic-targets-axioms.log and local-report.json.
+
+The main Collatz goal remains active and unmet. The next mathematical
+task is to obtain a compatible upper bound or another argument that
+excludes the surviving counterexample scenario; the predecessor lower
+bound alone does not establish universal convergence.
+
+## Orbit reciprocal packing and exact discrepancy (2026-09-08)
+
+The preceding goal turn was progress: it established the harmonic
+predecessor chain with a 210-endpoint audit. This turn began by checking
+the authoritative report and independently recomputing its 51 extension
+hashes; all matched. The new work asks what that uniform lower density
+forces on a hypothetical divergent forward orbit.
+
+SyracusePacking.lean derives a uniform logarithmic density lower bound
+for odd Syracuse predecessors of nonperiodic fertile roots. A finite
+family of disjoint such predecessor sets has logarithmic ratios summing
+to at most one. At a common activation cutoff this gives an absolute
+bound on the sum of reciprocals of the roots. The proof keeps the family
+finite and uses actual indicator sums; it takes no unjustified limit
+over an infinite family of densities.
+
+OrbitReciprocals.lean defines side(a)=16a+5 when a%3=2 and side(a)=4a+1
+otherwise. For positive a this is odd, prime to three, at most 21a,
+distinct from a, and has the same next Syracuse value. If a_i=S^i(n) is
+injective as a sequence, side(a_i) cannot occur anywhere on that orbit.
+The side roots are nonperiodic and pairwise incomparable under Syracuse
+reachability, so their odd predecessor sets are disjoint. Applying the
+packing bound to every finite selection proves an absolute C>0 with
+
+    sum_{i in F} 1/a_i <= C
+
+for every finite F and every positive injective Syracuse orbit. This
+also proves summability and the same bound for the infinite sum.
+Injectivity of the entire orbit is essential: merely requiring the
+starting point to be nonperiodic would still allow a later cycle.
+
+OrbitDiscrepancy.lean proves the exact logarithmic identity
+
+    log a_k = log n + D_k + E_k,
+    D_k = k log 3 - (sum_{i<k} v_2(3a_i+1)) log 2,
+    E_k = sum_{i<k} log(1+1/(3a_i)).
+
+The corrections are nonnegative and bounded by 1/(3a_i), so the
+correction series is summable and its partial sums have an absolute
+bound. Injectivity of a sequence of natural numbers implies that it
+tends to infinity. The exact identity therefore forces D_k to tend to
+positive infinity. This is additive escape, not a positive linear drift
+or a uniform gap in the limiting valuation average.
+
+A literature search located Garcia and Tal's 1999 paper, A note on the
+generalized 3n+1 problem, and a July 2026 MathOverflow question explicitly
+discussing reciprocal summability and discrepancy escape as consequences
+of its orbit estimates. Full-text retrieval of the original paper failed,
+so that external derivation has not been independently audited here.
+Our Lean chain is independent of the discussion and uses only previously
+checked density results plus elementary finite packing. No historical
+novelty is claimed; source links and precise scope are recorded in
+Devices/OrbitReciprocals.md.
+
+The full package rebuild completed 5,099 jobs. The successful audit now
+contains 230 named endpoints, including 20 from these three modules.
+The only transitive axioms are propext, Classical.choice and Quot.sound.
+All 1,485 upstream hashes remain unchanged. All 54 extension source hashes
+were independently recomputed against the successful report with zero
+mismatches. Verification/orbit-reciprocals-axioms.log records the new
+evidence. No unfinished proof or additional axiom was introduced.
+
+The actual Collatz goal remains active and unmet. The new conditions do
+not exclude a divergent orbit, and unknown cycles remain a separate
+possibility. A closing argument would have to use further deterministic
+arithmetic control; the typical geometric valuation law cannot simply
+be imposed on every individual orbit.
+
+## Exact inverse boundary in the real and 2-adic topologies (2026-09-08)
+
+The preceding goal turn was progress: it checked reciprocal summability
+and additive discrepancy escape. At the start of this turn the current
+230-endpoint audit was inspected and all 54 extension source hashes were
+independently recomputed with zero mismatches. The new investigation asks
+whether the resulting real control can be combined with the inverse
+2-adic formula to exclude a divergent positive orbit.
+
+InverseBoundary.lean sets w_k=2^V_k/3^k and R_k=w_k*a_k, where a_k is the
+actual Syracuse iterate and V_k is its cumulative valuation. It proves
+
+    R_(k+1)=R_k+w_k/3,
+    R_k=n+sum_{i<k}w_i/3,
+    R_k=n*exp(E_k).
+
+The last equality retains the exact accumulated nonlinear correction
+E_k from the preceding module. On an injective positive orbit, correction
+summability proves that R_k tends in R to
+
+    L(n)=n*exp(sum_i log(1+1/(3a_i))) > 0.
+
+The real inverse series is summable and has sum L(n)-n. An absolute
+constant bounds every R_k/n on such orbits. Even without injectivity,
+R_k>=n>0 proves that the real remainder cannot tend to zero.
+
+PadicInverseBoundary.lean proves the same finite identity over Q_2.
+For odd starts V_k>=k, and the norm of an integer is at most one, while
+three is a 2-adic unit. Therefore |R_k|_2<=2^(-k), so R_k tends to zero
+2-adically and the inverse partial sums tend to -n in Q_2. This conclusion
+does not require injectivity or convergence of the forward orbit. A
+single Rat-valued remainder is defined and its embeddings are proved
+equal to both versions, so the joint limit theorem really concerns the
+same rational sequence.
+
+These are compatible limits, not a contradiction. TwoTopologyExample.lean
+provides an unconditional check using
+
+    q_k=2^k*floor(3^k/2^k)/3^k.
+
+It proves 1-(2/3)^k<=q_k<=1 over R and |q_k|_2<=2^(-k), hence real limit
+one and 2-adic limit zero. This refutes only an unconditional transfer of
+zero limits between the completions. It is not a Collatz orbit and does
+not refute possible additional arithmetic restrictions on actual orbit
+valuation sequences.
+
+The literature search examined Siegel's January 2026 Hydra-map formalism,
+which explicitly distinguishes convergence in different completions and
+states a correspondence for certain integer values. No result from that
+paper was imported as an assumption, and no refutation of its
+correspondence is claimed. The gap identified here is in the attempted
+inference that a vanishing 2-adic boundary can be discarded in the real
+inverse identity. The checked positive real boundary prevents that step.
+
+The full rebuild completed 5,105 jobs. The successful audit contains 255
+named endpoints, including 25 from these three modules, with only
+propext, Classical.choice and Quot.sound in their transitive footprints.
+All 1,485 upstream source hashes are unchanged. All 57 extension source
+hashes were independently recomputed against the report with zero
+mismatches. See Devices/InverseBoundary.md and the package's
+Verification/inverse-boundary-axioms.log for the exact statements and
+evidence.
+
+The actual Collatz goal remains active and unmet. A further deterministic
+arithmetic argument is needed to exclude a positive integer realizing
+an injective valuation sequence with the established properties. The
+two-topology limit distinction alone cannot provide that exclusion,
+and the cycle case remains unresolved.

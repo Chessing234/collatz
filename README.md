@@ -1,5 +1,36 @@
 # collatz
 
+**Current extension status, 2026-09-08:** the Mathlib-based
+[package](ProofAtlasAttack/README.md) passes a 255-endpoint audit. The latest
+[inverse-boundary check](Devices/InverseBoundary.md) proves that the same
+rational remainder has a positive real limit on a hypothetical injective
+orbit and a zero 2-adic limit. An explicit rational example confirms that
+these limits are compatible. The arithmetic argument needed to exclude
+such an orbit, and unknown cycles, remains unproved.
+**This repository does not contain a proof of Collatz.** Counts and scope statements below
+include historical stages; the extension's current report is linked in its
+README.
+
+**New checked result, 2026-09-08:** the actual Syracuse probability satisfies
+`μ_n(r) ≥ c / 3^n` for one absolute `c>0`, every `n≥1`, and every unit residue
+`r mod 3^n`. See [the theorem, proof, and scope](Devices/SyracuseUniformFloor.md).
+The Mathlib-based extension passes a 38-endpoint axiom audit. This establishes
+the uniform atom bound; it does not prove Collatz or establish historical priority.
+
+A separate [all-target density package](ProofAtlasAttack/README.md) now proves
+in Lean that every positive target not divisible by 3 has a predecessor set
+of positive lower natural density, extending Mazur's analytic machinery.
+The converse and a counterexample-density consequence are also checked.
+This does not prove the Collatz conjecture; see the package for exact scope,
+attribution, and verification evidence.
+
+The [residue-class extension](Devices/ResidueDensity.md) strengthens this to
+every fixed class modulo `2^p * 3^q`, with arbitrary p and q. A hypothetical
+counterexample would force positive lower density of counterexamples in
+every such class. This still does not prove Collatz or establish historical
+novelty.
+
+
 A small lab for a wild conjecture.
 
 This repo tests the limits of AI.
@@ -38,12 +69,17 @@ Every proof must pass CI.
 
 ## Status
 
-5 884 theorem and lemma declarations across 376 modules, 104 228 lines.
+5 990 theorem and lemma declarations across 383 modules, 104 845 lines.
 
 Verified range: every positive `n < 3 998 720` reaches 1.  Cycle bound: no accelerated
 cycle through a non-reaching point has length below 14187.  **Both are finite results.**
 Neither half of the conjecture is proved — see the gap statement at the end of
 `RESEARCH.md`.
+
+Uniform inverse-tree coverage is now checked for moduli 9 and 27: for every
+positive root `a` not divisible by three, every class modulo 27 contains an odd
+`n < 19419*a` reaching `a` in at most 22 accelerated steps. The root is unbounded.
+See [the proof and its limits](Devices/QuantitativeBackwardCover.md).
 
 No `sorry`. No added axioms. No Mathlib.
 
