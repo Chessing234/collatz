@@ -167,20 +167,23 @@ three lifts of each class.
 | 14 | 0.8725 | 0.9249 | 1.05 | 1.79 | — | — |
 
 (`kl_spectrum.py K 24 300`; `ρ_12, ρ_13, ρ_14` with 200/160/160 iterations, `ρ_14` at `0.7 GB`.  A
-different answer — a ceiling — would show `k(1 − ρ_k)` growing linearly.)
+positive limiting gap would eventually make `k(1 − ρ_k)` grow linearly;
+these finite measurements cannot exclude that eventual behavior.)
 
 **Reading.**  `1 − ρ_k(1) ≈ 1.1/k`, flat over ten levels, slightly
-decreasing at the end.  The loss of the min-relaxation at exponent `1`
-decays like the reciprocal of the level: **polynomially, to zero**.  Hence
+decreasing at the end. The finite data fit a reciprocal-level loss. Neither
+convergence to zero nor a positive limiting gap has been established here.
+The earlier assertion that this proved exponents tending to `1` was incorrect.
+Both that assertion and the earlier proposed ceiling extrapolated beyond the
+available evidence.
 
-> the Krasikov–Lagarias exponents tend to `1`, not to a ceiling near `0.93`;
-> Round LXXVI.10's extrapolation from four increments was wrong, and K–L's
-> conjecture that the method reaches `x^(1−ε)` is supported by the mechanism.
-
-But the rate is the reciprocal of the level: `1 − α_k ≈ 1.8/k` at the
-current levels.  Level `14` gives `0.8725` (bisected to `5·10^(−5)`, `alpha14.txt`).  Exponent `0.90` needs level `≈ 20` (`3.5·10^9` classes),
-`0.95` needs level `≈ 40`.  The method reaches `1 − ε` in principle and
-`≈ 0.87` in practice.
+The second measured fit is `1 − α_k ≈ 1.8/k`. Level `14` gives `0.8725`
+(bisected to `5·10^(−5)`, `alpha14.txt`). Extrapolating this fit suggests levels
+around 20 and 40 for exponents 0.90 and 0.95, respectively, but supplies no
+guarantee. Reaching every `1 − ε` remains an open research target. Moreover,
+convergence of the growth rate at exponent 1 alone needs a separate argument
+before drawing a conclusion about the critical exponents; see
+`MultiscaleSyracuse.md`.
 
 Two other relaxations, measured and dead: the **max** over lifts has growth
 `1.50` at exponent `1` at every level (per-node best digits assemble a

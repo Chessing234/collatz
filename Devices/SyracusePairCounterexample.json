@@ -1,0 +1,19 @@
+{
+  "status": "exact integer interval calculation; not Lean-verified",
+  "levels": 14,
+  "precision": 60,
+  "cutoff": 60,
+  "modulus": 4782969,
+  "scale": 1152921504606846976,
+  "a": 1292371,
+  "b": 386516,
+  "minimum_atom_lower_numerator": 11309259873,
+  "a_atom_lower_numerator": 24144379077,
+  "b_atom_lower_numerator": 111370549614,
+  "uniform_atom_error_numerator": 854,
+  "pair_upper_numerator_before_normalization": 207948070192,
+  "comparison_left": 273492682805903731000545401104,
+  "comparison_right": 273812467084148982081292075008,
+  "strict_margin": 319784278245251080746673904,
+  "proposed_pair_bound_refuted": true
+}
