@@ -1,0 +1,17 @@
+import CollatzTargetDensity
+
+#print CollatzTargetDensity.step
+#print CollatzTargetDensity.reachesTarget
+#print CollatzTargetDensity.countBelow
+#check CollatzTargetDensity.positive_density
+#print axioms CollatzTargetDensity.nonperiodic_choice
+#print axioms CollatzTargetDensity.nonperiodic_hit_time_unique
+#print axioms CollatzTargetDensity.seed_supply
+#print axioms CollatzTargetDensity.positive_density_of_seed_supply
+#print axioms CollatzTargetDensity.positive_density_all_targets
+#print axioms CollatzTargetDensity.positive_density
+#check CollatzTargetDensity.positive_density_iff
+#print axioms CollatzTargetDensity.positive_density_iff
+#check CollatzTargetDensity.collatz_iff_sparse_bad_subsequence
+#print axioms CollatzTargetDensity.counterexamples_positive_density
+#print axioms CollatzTargetDensity.collatz_iff_sparse_bad_subsequence

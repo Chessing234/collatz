@@ -1,0 +1,53 @@
+def Erdos1135.collatzProp : Prop :=
+∀ n > 0, ∃ m, Erdos1135.collatzStep^[m] n = 1
+def CollatzTargetDensity.ProofChain.avoidsBelow : ℕ → Set ℕ :=
+fun B => {n | 0 < n ∧ ∀ (k : ℕ), B ≤ Erdos1135.collatzStep^[k] n}
+def CollatzTargetDensity.ProofChain.energyProfile : ℕ → ℝ → ℕ → ℝ :=
+fun K d m => d / (16 * ↑m ^ 2 * CollatzTargetDensity.SyracuseEnergy.collisionEnergy (4 * K * m))
+def CollatzTargetDensity.ProofChain.EnergyTailGap : ℕ → ℝ → Prop :=
+fun K d =>
+  ∀ (m : ℕ),
+    1024 < m →
+      ∀ (X₀ : ℕ),
+        ∃ X,
+          X₀ ≤ X ∧
+            0 < X ∧
+              ↑(Erdos1135.Terras.natCount (CollatzTargetDensity.ProofChain.avoidsBelow m) X) <
+                CollatzTargetDensity.ProofChain.energyProfile K d m * ↑X
+CollatzTargetDensity.ProofChain.least_bad_forces_energy_tail :
+  ∃ K,
+    1 ≤ K ∧
+      ∃ d,
+        0 < d ∧
+          ∀ (m : ℕ),
+            CollatzTargetDensity.ProofChain.LeastBad m →
+              ∃ X₀,
+                ∀ (X : ℕ),
+                  X₀ ≤ X →
+                    CollatzTargetDensity.ProofChain.energyProfile K d m * ↑X ≤
+                      ↑(Erdos1135.Terras.natCount (CollatzTargetDensity.ProofChain.avoidsBelow m) X)
+CollatzTargetDensity.ProofChain.exists_energy_tail_gap_equivalent_collatz :
+  ∃ K, 1 ≤ K ∧ ∃ d, 0 < d ∧ (CollatzTargetDensity.ProofChain.EnergyTailGap K d ↔ Erdos1135.collatzProp)
+'CollatzTargetDensity.ProofChain.exists_least_bad' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.ProofChain.least_bad_odd' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.ProofChain.bad_subset_avoids_of_least' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.ProofChain.successor_predecessors_avoid' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.ProofChain.energyProfile_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.ProofChain.energyProfile_le_square' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.ProofChain.energyProfile_eventually_lt_log_bound' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.ProofChain.least_bad_forces_energy_tail' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.ProofChain.hitsOneWithin_sound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.ProofChain.smallRange_1024_checked' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.ProofChain.reaches_one_up_to_1024' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.ProofChain.least_bad_above_1024' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.ProofChain.collatz_of_energy_tail_gap' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.ProofChain.energy_tail_gap_of_collatz' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.ProofChain.exists_energy_tail_gap_equivalent_collatz' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

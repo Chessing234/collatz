@@ -1,0 +1,15 @@
+import CollatzTargetDensity.SyracuseEnergyUpper
+
+#print CollatzTargetDensity.SyracuseEnergy.collisionEnergy
+#check CollatzTargetDensity.SyracuseEnergy.collisionEnergy_step_le_five_thirds
+#check CollatzTargetDensity.SyracuseEnergy.collisionEnergy_le_five_thirds_pow
+#check CollatzTargetDensity.five_thirds_target_density
+
+#print axioms CollatzTargetDensity.SyracuseEnergy.lift_ne_two_lift
+#print axioms CollatzTargetDensity.SyracuseEnergy.inputMass_two_lift
+#print axioms CollatzTargetDensity.SyracuseEnergy.pmf_two_lift
+#print axioms CollatzTargetDensity.SyracuseEnergy.unitClassEmbedding_injective
+#print axioms CollatzTargetDensity.SyracuseEnergy.five_mul_lift_square_sum_le
+#print axioms CollatzTargetDensity.SyracuseEnergy.collisionEnergy_step_le_five_thirds
+#print axioms CollatzTargetDensity.SyracuseEnergy.collisionEnergy_le_five_thirds_pow
+#print axioms CollatzTargetDensity.five_thirds_target_density

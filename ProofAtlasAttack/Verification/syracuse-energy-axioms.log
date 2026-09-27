@@ -1,0 +1,50 @@
+def CollatzTargetDensity.SyracuseEnergy.collisionEnergy : ℕ → ℝ :=
+fun n => 3 ^ n * ∑ y, ((Erdos1135.Tao.syracPMF n) y).toReal ^ 2
+CollatzTargetDensity.SyracuseEnergy.pmf_half_recurrence (n : ℕ) (r : ZMod (3 ^ (n + 1))) :
+  ((Erdos1135.Tao.syracPMF (n + 1)) (CollatzTargetDensity.SyracuseEnergy.half n r)).toReal =
+    (((Erdos1135.Tao.syracPMF (n + 1)) r).toReal + CollatzTargetDensity.SyracuseEnergy.inputMass n r) / 2
+CollatzTargetDensity.SyracuseEnergy.collisionEnergy_recurrence (n : ℕ) :
+  CollatzTargetDensity.SyracuseEnergy.collisionEnergy (n + 1) =
+    CollatzTargetDensity.SyracuseEnergy.collisionEnergy n +
+      2 * 3 ^ n *
+        ∑ y,
+          ((Erdos1135.Tao.syracPMF (n + 1)) (CollatzTargetDensity.SyracuseEnergy.lift n y)).toReal *
+            ((Erdos1135.Tao.syracPMF n) y).toReal
+CollatzTargetDensity.SyracuseEnergy.exists_linear_collisionEnergy_lower :
+  ∃ d, 0 < d ∧ ∀ (n : ℕ), 1 + d * ↑n ≤ CollatzTargetDensity.SyracuseEnergy.collisionEnergy n
+CollatzTargetDensity.SyracuseEnergy.no_uniform_collisionEnergy_upper :
+  ¬∃ C, ∀ (n : ℕ), CollatzTargetDensity.SyracuseEnergy.collisionEnergy n ≤ C
+'CollatzTargetDensity.SyracuseConcentration.syracStep_neg_one' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.SyracuseConcentration.neg_one_atom_lower' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.SyracuseConcentration.neg_one_density_lower' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.SyracuseConcentration.no_uniform_density_upper' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.SyracuseConcentration.cubicMoment_lower' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.SyracuseConcentration.no_uniform_cubicMoment_upper' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.SyracuseEnergy.pmf_half_recurrence' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.SyracuseEnergy.collisionEnergy_eq_haar_secondMoment' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.SyracuseEnergy.collisionEnergy_recurrence' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.SyracuseEnergy.collisionEnergy_gain_of_floor' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.SyracuseEnergy.exists_linear_collisionEnergy_lower' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.SyracuseEnergy.no_uniform_collisionEnergy_upper' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

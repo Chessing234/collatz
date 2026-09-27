@@ -1,0 +1,35 @@
+def CollatzTargetDensity.DescentVsConvergence.badFirstDrop : Set ℕ :=
+{n | n ∈ CollatzTargetDensity.rawBad ∧ Erdos1135.collatzStep n < n}
+CollatzTargetDensity.DescentVsConvergence.bad_first_drop_positive_density
+  (hbad : CollatzTargetDensity.rawBad.Nonempty) :
+  ∃ c,
+    0 < c ∧
+      ∃ X₀,
+        ∀ (X : ℕ),
+          X₀ ≤ X → c * ↑X ≤ ↑(Erdos1135.Terras.natCount CollatzTargetDensity.DescentVsConvergence.badFirstDrop X)
+CollatzTargetDensity.DescentVsConvergence.first_drop_implies_convergence_iff_collatz :
+  (∀ (n : ℕ), 0 < n → Erdos1135.collatzStep n < n → Erdos1135.Reaches n 1) ↔ Erdos1135.collatzProp
+CollatzTargetDensity.DescentVsConvergence.avoids_eq_bad_of_least {m B : ℕ}
+  (hm : CollatzTargetDensity.ProofChain.LeastBad m) (hB : 1 < B) (hBm : B ≤ m) :
+  CollatzTargetDensity.ProofChain.avoidsBelow B = CollatzTargetDensity.rawBad
+'CollatzTargetDensity.DescentVsConvergence.step_double' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.DescentVsConvergence.double_bad' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.DescentVsConvergence.double_bad_first_drop' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.DescentVsConvergence.count_bad_half_le_first_drop' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.DescentVsConvergence.bad_first_drop_positive_density' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.DescentVsConvergence.first_drop_implies_convergence_iff_collatz' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.DescentVsConvergence.avoids_subset_bad' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.DescentVsConvergence.avoids_eq_bad_of_least' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.DescentVsConvergence.successor_predecessors_not_subset_higher_tail' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

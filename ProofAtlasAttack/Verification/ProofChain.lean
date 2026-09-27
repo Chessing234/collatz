@@ -1,0 +1,24 @@
+import CollatzTargetDensity.ProofChain
+
+#print Erdos1135.collatzProp
+#print CollatzTargetDensity.ProofChain.avoidsBelow
+#print CollatzTargetDensity.ProofChain.energyProfile
+#print CollatzTargetDensity.ProofChain.EnergyTailGap
+#check CollatzTargetDensity.ProofChain.least_bad_forces_energy_tail
+#check CollatzTargetDensity.ProofChain.exists_energy_tail_gap_equivalent_collatz
+
+#print axioms CollatzTargetDensity.ProofChain.exists_least_bad
+#print axioms CollatzTargetDensity.ProofChain.least_bad_odd
+#print axioms CollatzTargetDensity.ProofChain.bad_subset_avoids_of_least
+#print axioms CollatzTargetDensity.ProofChain.successor_predecessors_avoid
+#print axioms CollatzTargetDensity.ProofChain.energyProfile_pos
+#print axioms CollatzTargetDensity.ProofChain.energyProfile_le_square
+#print axioms CollatzTargetDensity.ProofChain.energyProfile_eventually_lt_log_bound
+#print axioms CollatzTargetDensity.ProofChain.least_bad_forces_energy_tail
+#print axioms CollatzTargetDensity.ProofChain.hitsOneWithin_sound
+#print axioms CollatzTargetDensity.ProofChain.smallRange_1024_checked
+#print axioms CollatzTargetDensity.ProofChain.reaches_one_up_to_1024
+#print axioms CollatzTargetDensity.ProofChain.least_bad_above_1024
+#print axioms CollatzTargetDensity.ProofChain.collatz_of_energy_tail_gap
+#print axioms CollatzTargetDensity.ProofChain.energy_tail_gap_of_collatz
+#print axioms CollatzTargetDensity.ProofChain.exists_energy_tail_gap_equivalent_collatz

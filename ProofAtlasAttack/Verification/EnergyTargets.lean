@@ -1,0 +1,19 @@
+import CollatzTargetDensity.EnergyTargets
+
+#print CollatzTargetDensity.step
+#print CollatzTargetDensity.countBelow
+#print CollatzTargetDensity.SyracuseEnergy.collisionEnergy
+#check CollatzTargetDensity.energy_target_density
+-- Its unresolved energy hypothesis remains visible in the printed statement.
+#check CollatzTargetDensity.cubic_target_density_of_linear_energy
+
+#print axioms CollatzTargetDensity.SyracuseEnergy.collisionEnergy_pos
+#print axioms CollatzTargetDensity.SyracuseEnergy.collisionEnergy_le_two_pow
+#print axioms CollatzTargetDensity.SyracuseEnergy.unit_density_secondMoment
+#print axioms CollatzTargetDensity.SyracuseEnergy.energy_mass_lower
+#print axioms Erdos1135.ND.PositiveDensity.NDGeom2ShiftedWideSymmetricRootSideUniformFloorState.fullTerminal_fan_energy_bound_of_nonperiodic
+#print axioms Erdos1135.ND.PositiveDensity.NDGeom2ShiftedWideSymmetricRootSideUniformFloorState.forwardCoreTerminalUnitMass_le_energy_of_nonperiodic
+#print axioms Erdos1135.ND.PositiveDensity.NDGeom2ShiftedWideSymmetricRootSideUniformFloorState.forwardCoreTerminalUnitMass_le_native_energy_rate_of_nonperiodic
+#print axioms CollatzTargetDensity.energy_odd_target_density
+#print axioms CollatzTargetDensity.energy_target_density
+#print axioms CollatzTargetDensity.cubic_target_density_of_linear_energy

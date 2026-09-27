@@ -1,0 +1,57 @@
+def Erdos1135.ND.PositiveDensity.ndExplicitRootIntervalHeight : ℕ → ℕ → ℕ → ℕ → ℕ :=
+fun b L M N => 2 ^ ((2 * N + 4) * b * 2 ^ N + N * (L * (N + 1) + 1)) * M
+def Erdos1135.ND.PositiveDensity.ndExplicitRootPublicCutoff : ℕ → ℕ → ℕ → ℕ → ℕ :=
+fun b L M N => 32 * (Erdos1135.ND.PositiveDensity.ndExplicitRootIntervalHeight b L M N + 1)
+Erdos1135.ND.PositiveDensity.NDGeom2ShiftedWideSymmetricRootSideUniformFloorState.targetCount_from_bounded_roots_and_explicit_start
+  (U : Erdos1135.ND.PositiveDensity.NDGeom2ShiftedWideSymmetricRootSideUniformFloorState) (cap : ℕ → ℕ) {e L : ℕ}
+  (he : U.rootSpan e) (hcap : ∀ (n : ℕ), cap n ≤ L * (n + 1)) {eta Pbar : ℝ} (heta : 0 ≤ eta) (target : ℕ)
+  (hseed : ∀ (i : U.state.Label), CollatzTargetDensity.Nonperiodic Erdos1135.Tao.syracuse (U.state.root i))
+  (htarget : ∀ (i : U.state.Label), ∃ k, Erdos1135.Tao.syracuse^[k] (U.state.root i) = target)
+  (hP : 0 < U.parentSourcePotential) (hPbar : U.parentSourcePotential ≤ Pbar) (N M : ℕ)
+  (hN : 1000000000 * (e + L + 3) ≤ N) (hroot : ∀ (i : U.state.Label), U.state.root i ≤ M)
+  (hmass :
+    ∀ (n : ℕ),
+      N ≤ n →
+        let V := U.forwardIterate cap n;
+        ∀ (X : ℝ) (hX : 0 < X)
+          (hi :
+            ∀ (i : V.state.Label),
+              Erdos1135.ND.PositiveDensity.ndGeom2ShiftedWideSymmetricPhysicalIntervalMin V.floor (V.state.root i) < X ∧
+                X ≤
+                  Erdos1135.ND.PositiveDensity.ndGeom2ShiftedWideSymmetricPhysicalIntervalMax V.floor (V.state.root i)),
+          eta ≤ U.fullTerminalMass cap n (V.fullTerminalShift X hX hi) 1)
+  (Y : ℕ) :
+  Erdos1135.ND.PositiveDensity.ndExplicitRootPublicCutoff U.floor L M N ≤ Y →
+    eta / (32 * Pbar) * ↑Y ≤ ↑(CollatzTargetDensity.countBelow target Y)
+CollatzTargetDensity.FiniteCutoff.cutoff_above_least_bad {m M : ℕ} (hm : CollatzTargetDensity.ProofChain.LeastBad m)
+  (hM : 0 < M) (hreach : Erdos1135.Reaches M (3 * m + 1)) (b L N : ℕ) :
+  m < Erdos1135.ND.PositiveDensity.ndExplicitRootPublicCutoff b L M N
+CollatzTargetDensity.FiniteCutoff.positive_density_with_empty_initial_interval :
+  Erdos1135.Reaches 1027 1 ∧
+    CollatzTargetDensity.countBelow (3 * 1027 + 1) 1027 = 0 ∧
+      ∃ c, 0 < c ∧ ∃ X₀, ∀ (X : ℕ), X₀ ≤ X → c * ↑X ≤ ↑(CollatzTargetDensity.countBelow (3 * 1027 + 1) X)
+CollatzTargetDensity.FiniteCutoff.no_unconditional_activation_by_threshold :
+  ¬∀ (m : ℕ),
+      1024 < m →
+        Odd m → ∃ c, 0 < c ∧ ∃ X₀ ≤ m, ∀ (X : ℕ), X₀ ≤ X → c * ↑X ≤ ↑(CollatzTargetDensity.countBelow (3 * m + 1) X)
+'Erdos1135.ND.PositiveDensity.NDGeom2ShiftedWideSymmetricRootSideUniformFloorState.targetCount_from_explicit_start' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Erdos1135.ND.PositiveDensity.NDGeom2ShiftedWideSymmetricRootSideUniformFloorState.targetCount_from_bounded_roots_and_explicit_start' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.FiniteCutoff.explicit_cutoff_gt_root' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.FiniteCutoff.cutoff_above_least_bad' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.FiniteCutoff.avoidsAndHitsOne_sound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.FiniteCutoff.rangeAvoidCheck_sound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.FiniteCutoff.range_avoids_3082_checked' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.FiniteCutoff.no_predecessor_3082_below_1027' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.FiniteCutoff.reaches_one_1027' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.FiniteCutoff.positive_density_with_empty_initial_interval' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.FiniteCutoff.no_unconditional_activation_by_threshold' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

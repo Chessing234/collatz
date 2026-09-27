@@ -1,0 +1,6 @@
+import CollatzTargetDensity.SyracuseCycleError
+
+#print axioms CollatzTargetDensity.SyracuseCycleError.half_sum_enclosure
+#print axioms CollatzTargetDensity.SyracuseCycleError.error_after_steps
+#print axioms CollatzTargetDensity.SyracuseCycleError.burn_in
+#print axioms CollatzTargetDensity.SyracuseCycleError.after_burn_in

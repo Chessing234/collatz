@@ -1,0 +1,56 @@
+def CollatzTargetDensity.BinaryProfileReturn.histogram : ℕ → ℕ → CollatzTargetDensity.BinaryProfileReturn.Histogram :=
+fun k n =>
+  CollatzTargetDensity.BinaryPatternPotential.normalize
+    (List.map (fun p => (p, 1)) (CollatzTargetDensity.BinaryPatternPotential.patterns k n))
+def CollatzTargetDensity.BinaryProfileReturn.checkpoint : ℕ → ℕ :=
+fun n => Erdos1135.Tao.syracuse^[padicValNat 2 (n + 1)] n
+CollatzTargetDensity.BinaryProfileReturn.no_strict_checkpoint_descent (k : ℕ) (hk : 1 ≤ k) (hK : k ≤ 5)
+  (F : CollatzTargetDensity.BinaryProfileReturn.Histogram → ℕ → ℝ)
+  (hF : ∀ (p : CollatzTargetDensity.BinaryProfileReturn.Histogram), Monotone (F p)) :
+  ¬∀ (n : ℕ),
+      1 < n →
+        Odd n →
+          F
+              (CollatzTargetDensity.BinaryProfileReturn.histogram k
+                (CollatzTargetDensity.BinaryProfileReturn.checkpoint n))
+              (CollatzTargetDensity.BinaryProfileReturn.checkpoint n) <
+            F (CollatzTargetDensity.BinaryProfileReturn.histogram k n) n
+CollatzTargetDensity.BinaryProfileReturn.no_nonincreasing_checkpoint_potential (k : ℕ) (hk : 1 ≤ k) (hK : k ≤ 5)
+  (F : CollatzTargetDensity.BinaryProfileReturn.Histogram → ℕ → ℝ)
+  (hF : ∀ (p : CollatzTargetDensity.BinaryProfileReturn.Histogram), StrictMono (F p)) :
+  ¬∀ (n : ℕ),
+      1 < n →
+        Odd n →
+          F
+              (CollatzTargetDensity.BinaryProfileReturn.histogram k
+                (CollatzTargetDensity.BinaryProfileReturn.checkpoint n))
+              (CollatzTargetDensity.BinaryProfileReturn.checkpoint n) ≤
+            F (CollatzTargetDensity.BinaryProfileReturn.histogram k n) n
+'CollatzTargetDensity.BinaryProfileReturn.pathCheck_sound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.BinaryProfileReturn.Chunk.successor' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.BinaryProfileReturn.chain_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.BinaryProfileReturn.chain_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.BinaryProfileReturn.checked_return_not_strict' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.BinaryProfileReturn.checked_return_not_nonincreasing' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.BinaryProfileReturn.small_return_checked' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.BinaryProfileReturn.sparse_return_checked' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.BinaryProfileReturn.returns_up_to_five_checked' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.BinaryProfileReturn.return_checked_of_width' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.BinaryProfileReturn.no_strict_checkpoint_descent' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.BinaryProfileReturn.no_nonincreasing_checkpoint_potential' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

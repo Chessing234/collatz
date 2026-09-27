@@ -1,0 +1,28 @@
+def CollatzTargetDensity.residueCountBelow : ℕ → ℕ → ℕ → ℕ → ℕ :=
+fun target modulus residue X =>
+  Nat.count (fun n => CollatzTargetDensity.reachesTarget target n ∧ n % modulus = residue) X
+CollatzTargetDensity.positive_density_in_progression_iff (target p q r : ℕ) (hpos : 0 < target)
+  (hr : r < 2 ^ p * 3 ^ q) :
+  (∃ c,
+      0 < c ∧ ∃ X₀, ∀ (X : ℕ), X₀ ≤ X → c * ↑X ≤ ↑(CollatzTargetDensity.residueCountBelow target (2 ^ p * 3 ^ q) r X)) ↔
+    target % 3 ≠ 0
+CollatzTargetDensity.collatz_iff_sparse_bad_in_one_mixed_class (p q : ℕ) (r : Fin (2 ^ p * 3 ^ q)) :
+  (∀ (n : ℕ), 0 < n → Erdos1135.Reaches n 1) ↔ CollatzTargetDensity.SparseBadInMixedClass p q r
+'CollatzTargetDensity.positive_density_of_count_transport' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.positive_density_tail' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.sibling_syracuse' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.sibling_residue' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.ternary_count_transport' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.positive_density_odd_in_every_ternary_class' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.positive_density_ternary_class_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.positive_density_every_mixed_class' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.positive_density_mixed_class_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.positive_density_in_progression_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.counterexamples_positive_density_every_mixed_class' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.collatz_iff_sparse_bad_in_one_mixed_class' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

@@ -1,0 +1,4 @@
+'CollatzTargetDensity.SyracuseCycleError.half_sum_enclosure' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.SyracuseCycleError.error_after_steps' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.SyracuseCycleError.burn_in' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.SyracuseCycleError.after_burn_in' depends on axioms: [propext, Classical.choice, Quot.sound]

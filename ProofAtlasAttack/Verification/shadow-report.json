@@ -1,0 +1,224 @@
+{
+  "status": "verified",
+  "started_utc": "2026-09-12T06:50:57.086516+00:00",
+  "scope": "Full package build and all new boundary/shadow theorem endpoints; historical endpoint audits are not rerun.",
+  "upstream_sources_checked": 1485,
+  "dependency_revisions": {
+    "mathlib": "5450b53e5ddc75d46418fabb605edbf36bd0beb6",
+    "plausible": "86210d4ad1b08b086d0bd638637a75246523dbb8",
+    "LeanSearchClient": "c5d5b8fe6e5158def25cd28eb94e4141ad97c843",
+    "importGraph": "cdab3938ccabbdb044be6896e251b5814bec932e",
+    "proofwidgets": "2db6054a44326f8c0230ee0570e2ddb894816511",
+    "aesop": "f0c6e183ea26531e82773feb4b73ab6595ca17a5",
+    "Qq": "1cc7e819b9b9bc1e87c9edcccb62e0269e00a809",
+    "batteries": "5c57f3857ba81924a88b2cdf4f062e34ec04ff11",
+    "Cli": "13567aed1ac4f12aea9484178e07e51f8c9f7658"
+  },
+  "source_sha256": {
+    "CollatzTargetDensity/ValuationRecurrence.lean": "43bc770b6423886a0ad2f8f2c7f19eb1d106a0b52fc67c3a7de0bc3a7d1331f5",
+    "CollatzTargetDensity/BoundaryLinearization.lean": "245ef4cafcc36e9caa912fb185c9c4e9c012cfe3cbf0f22b638423feacdd3995",
+    "CollatzTargetDensity/ShadowOscillation.lean": "42ddfb15e2e931633a9d87cc546b558c740bb98a8156e34faef6ff2f122409f3",
+    "CollatzTargetDensity/ShadowGrowth.lean": "ab4331f1dd7d08b38170a0478ca1d8ceea8f2bd9073ca0c98c45d8985c0cce5a",
+    "CollatzTargetDensity/ShadowRigidity.lean": "0ad3840080ba00242b6d2f5299d3ededf48a3b2339f3be6fe4cd6988adb0f09d",
+    "CollatzTargetDensity/ShadowLattice.lean": "57788bf4334da93857c3dd3f6eb5a56e2ad427be837025487aa35f9c51a9a61f",
+    "Verification/ShadowRigidity.lean": "8239195251cb06de4c26c2a0789126bd4e72f48bb132dc47dbdc4b204f075c60",
+    "CollatzTargetDensity.lean": "40eb7a6e335ed4619421d9b38b9fa4e1d632d7072224bed6d7a1c27ffd2d077c",
+    "scripts/verify.py": "a583bfca968ce070c2a4e9dbde340ba6a64ae92adaa9ff1537f4ff4b04e8b842",
+    "scripts/verify_shadow.py": "4b5afe284ead505cf2995b9b6a772a9b1be8271819be34198762633ab33e1b1f"
+  },
+  "lean_toolchain": "leanprover/lean4:v4.30.0-rc2",
+  "theorem_count": 38,
+  "axioms": {
+    "CollatzTargetDensity.ValuationRecurrence.not_all_one": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ValuationRecurrence.iterate_odd": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ValuationRecurrence.large_valuation_after": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.BoundaryLinearization.orbit_shift": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.BoundaryLinearization.injective_shift": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.BoundaryLinearization.correction_shift": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.BoundaryLinearization.correction_split": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.BoundaryLinearization.boundary_transport": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.BoundaryLinearization.boundary_step": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.BoundaryLinearization.boundary_relative_tendsto_one": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.BoundaryLinearization.boundary_gt_start": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.BoundaryLinearization.boundary_absolute_gap": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.BoundaryLinearization.boundary_unique": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowOscillation.shadow_step": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowOscillation.shadow_ge_one": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowOscillation.shadow_drop": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowOscillation.arbitrarily_late_drop": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowOscillation.shadow_not_convergent": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowGrowth.tailBudget_eq": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowGrowth.tailBudget_succ": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowGrowth.scale_le_tailBudget": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowGrowth.tailBudget_geometric": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowGrowth.bounded_shadow_forces_growth": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowRigidity.same_valuations_implies_equal": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowRigidity.no_eventually_periodic_valuations": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowRigidity.coefficient_eq_of_close": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowRigidity.valuation_eq_of_shadow_close": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowRigidity.quantitative_shift_separation": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowRigidity.shadow_shift_not_tendsto_zero": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowRigidity.coefficient_bound_of_close_return": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowRigidity.unconditional_shift_separation": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowRigidity.no_asymptotic_shadow_period": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowLattice.integer_block_dvd": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowLattice.no_integer_multiplicative_orbit": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowLattice.integer_relation_of_approx": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowLattice.finite_grid_barrier": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowLattice.not_uniform_lattice_approximation": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowLattice.rational_lattice_separation": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  "finished_utc": "2026-09-12T06:53:50.499211+00:00"
+}

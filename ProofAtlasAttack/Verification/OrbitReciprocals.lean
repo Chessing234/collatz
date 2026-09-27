@@ -1,0 +1,29 @@
+import CollatzTargetDensity.OrbitDiscrepancy
+
+#print CollatzTargetDensity.OrbitReciprocals.side
+#print CollatzTargetDensity.OrbitReciprocals.orbit
+#print CollatzTargetDensity.OrbitReciprocals.valuationTotal
+#print CollatzTargetDensity.OrbitReciprocals.discrepancy
+#check CollatzTargetDensity.OrbitReciprocals.orbit_reciprocals_summable
+#check CollatzTargetDensity.OrbitReciprocals.discrepancy_tendsto_atTop
+
+#print axioms CollatzTargetDensity.SyracusePacking.sum_mass_le_odd_logCount
+#print axioms CollatzTargetDensity.SyracusePacking.uniform_odd_logRatio_lower
+#print axioms CollatzTargetDensity.SyracusePacking.sum_logRatios_le_one
+#print axioms CollatzTargetDensity.SyracusePacking.uniform_reciprocal_packing
+#print axioms CollatzTargetDensity.OrbitReciprocals.side_syracuse
+#print axioms CollatzTargetDensity.OrbitReciprocals.side_off_orbit
+#print axioms CollatzTargetDensity.OrbitReciprocals.iterate_side_succ
+#print axioms CollatzTargetDensity.OrbitReciprocals.side_nonperiodic
+#print axioms CollatzTargetDensity.OrbitReciprocals.side_hit_forces_same_index
+#print axioms CollatzTargetDensity.OrbitReciprocals.common_predecessor_comparable
+#print axioms CollatzTargetDensity.OrbitReciprocals.side_basins_disjoint
+#print axioms CollatzTargetDensity.OrbitReciprocals.uniform_orbit_reciprocal_bound
+#print axioms CollatzTargetDensity.OrbitReciprocals.orbit_reciprocals_summable
+#print axioms CollatzTargetDensity.OrbitReciprocals.orbit_reciprocals_uniform_tsum
+#print axioms CollatzTargetDensity.OrbitReciprocals.correction_le
+#print axioms CollatzTargetDensity.OrbitReciprocals.log_orbit_step
+#print axioms CollatzTargetDensity.OrbitReciprocals.log_orbit_identity
+#print axioms CollatzTargetDensity.OrbitReciprocals.uniform_correctionSum_bound
+#print axioms CollatzTargetDensity.OrbitReciprocals.corrections_summable
+#print axioms CollatzTargetDensity.OrbitReciprocals.discrepancy_tendsto_atTop

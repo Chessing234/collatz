@@ -1,0 +1,70 @@
+def Erdos1135.Terras.accelerated : ℕ → ℕ :=
+fun n => if Even n then n / 2 else (3 * n + 1) / 2
+def CollatzTargetDensity.CountingMeasureCheck.cycleIndicator : ℕ → ℝ :=
+fun x => if x = 1 ∨ x = 2 then 1 else 0
+def CollatzTargetDensity.CountingMeasureCheck.visitMean : ℕ → ℕ → ℝ :=
+fun N x =>
+  (∑ j ∈ Finset.range N,
+      CollatzTargetDensity.CountingMeasureCheck.cycleIndicator (Erdos1135.Terras.accelerated^[j + 1] x)) /
+    ↑N
+def CollatzTargetDensity.AtomicRecurrence.AtomicPowerBound : (ℕ → ℕ) → (ℕ → ℝ) → ℝ → Prop :=
+fun f w C => ∀ (k y : ℕ) (s : Finset ℕ), (∀ x ∈ s, 0 < x ∧ f^[k] x = y) → ∑ x ∈ s, w x ≤ C * w y
+CollatzTargetDensity.CountingMeasureCheck.no_uniform_counting_mean_bound :
+  ¬∃ C,
+      ∀ (Y : Finset ℕ),
+        (∀ x ∈ Y, 0 < x) → Filter.limsup (CollatzTargetDensity.CountingMeasureCheck.ensembleMean Y) Filter.atTop ≤ C * 2
+CollatzTargetDensity.CountingMeasureCheck.no_integrable_visitMean_limit :
+  ¬∃ g,
+      MeasureTheory.Integrable g MeasureTheory.Measure.count ∧
+        ∀ (x : ℕ),
+          0 < x →
+            Filter.Tendsto (fun N => CollatzTargetDensity.CountingMeasureCheck.visitMean N x) Filter.atTop (nhds (g x))
+CollatzTargetDensity.AtomicRecurrence.collatz_of_atomic_power_bound_and_cycles {w : ℕ → ℝ} {C : ℝ} (hw : Summable w)
+  (hwpos : ∀ (n : ℕ), 0 < n → 0 < w n) (hC : 0 < C)
+  (hbound : CollatzTargetDensity.AtomicRecurrence.AtomicPowerBound Erdos1135.collatzStep w C)
+  (hcycles : ∀ (n : ℕ), 0 < n → ∀ (p : ℕ), 0 < p → Erdos1135.collatzStep^[p] n = n → Erdos1135.Reaches n 1) :
+  Erdos1135.collatzProp
+CollatzTargetDensity.AtomicRecurrence.atomic_power_constant_gt_one {w : ℕ → ℝ} {C : ℝ}
+  (hwpos : ∀ (n : ℕ), 0 < n → 0 < w n)
+  (hbound : CollatzTargetDensity.AtomicRecurrence.AtomicPowerBound Erdos1135.collatzStep w C) : 1 < C
+'CollatzTargetDensity.CountingMeasureCheck.iterate_pow_two' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.CountingMeasureCheck.mean_tendsto_of_eventually_eq' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.CountingMeasureCheck.visitMean_pow_two_tendsto' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.CountingMeasureCheck.cycleIndicator_summable' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.CountingMeasureCheck.no_summable_visitMean_limit' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.CountingMeasureCheck.cycleIndicator_integrable_count' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.CountingMeasureCheck.no_integrable_visitMean_limit' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.CountingMeasureCheck.ensembleMean_powerSeeds_tendsto' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.CountingMeasureCheck.no_uniform_counting_mean_bound' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.CountingMeasureCheck.ensembleMean_three_seeds' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.AtomicRecurrence.orbit_atom_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.AtomicRecurrence.bounded_orbit_of_atomic_power_bound' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.AtomicRecurrence.periodic_hit_of_bounded_orbit' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.AtomicRecurrence.collatz_of_atomic_power_bound_and_cycles' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.AtomicRecurrence.atomic_power_constant_gt_one' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

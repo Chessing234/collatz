@@ -1,0 +1,95 @@
+def CollatzTargetDensity.GeneratorPredecessors.sources : ℕ → ℕ → ℕ → Finset ℕ :=
+fun x x_1 x_2 =>
+  Nat.brecOn (motive := fun x => ℕ → ℕ → Finset ℕ) x CollatzTargetDensity.GeneratorPredecessors.sources._f x_1 x_2
+def CollatzTargetDensity.GeneratorPredecessors.harmonicMass : ℕ → ℕ → ℕ → ℝ :=
+fun n K a => ∑ x ∈ CollatzTargetDensity.GeneratorPredecessors.sources n K a, 1 / ↑x
+CollatzTargetDensity.HarmonicTargets.uniform_raw_logCountingRatio_lower :
+  ∃ d,
+    0 < d ∧
+      ∃ A,
+        1 ≤ A ∧
+          ∀ (a : ℕ),
+            a % 3 ≠ 0 →
+              ∀ (X : ℕ), (A * a) ^ 2 ≤ X → d / ↑a ≤ Erdos1135.Tao.logCountingRatio (CollatzTargetDensity.rawReaches a) X
+CollatzTargetDensity.HarmonicTargets.least_bad_forces_harmonic_tail :
+  ∃ d,
+    0 < d ∧
+      ∃ B,
+        1 ≤ B ∧
+          ∀ (m : ℕ),
+            CollatzTargetDensity.ProofChain.LeastBad m →
+              ∀ (X : ℕ),
+                (B * m) ^ 2 ≤ X →
+                  d / ↑m ≤ Erdos1135.Tao.logCountingRatio (CollatzTargetDensity.ProofChain.avoidsBelow m) X
+'CollatzTargetDensity.GeneratorCostTail.evalAt_three_quarters_le' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.GeneratorCostTail.value_eq_short_add_tail' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.GeneratorCostTail.tailValue_le_tilted' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.GeneratorCostTail.tailValue_five_mul_le' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.GeneratorCostTail.eventually_shortValue_lower' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.GeneratorCostTail.shortValue_eq_cutoffValue' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.GeneratorCostTail.cutoffValue_X_pow_mul' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.GeneratorCostTail.shortValue_succ' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.GeneratorPredecessors.label' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.GeneratorPredecessors.child_affine' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.GeneratorPredecessors.child_residue' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.GeneratorPredecessors.child_syracuse' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.GeneratorPredecessors.sources_spec' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.GeneratorPredecessors.branches_disjoint' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.GeneratorPredecessors.harmonicMass_succ' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.GeneratorPredecessors.branch_weight_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.GeneratorPredecessors.harmonicMass_lower' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.GeneratorPredecessors.uniform_harmonicMass_lower' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.GeneratorPredecessors.depth_sources_disjoint' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.GeneratorPredecessors.sum_harmonicMass_le_prefix' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.GeneratorPredecessors.uniform_harmonicPrefix_lower' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.HarmonicTargets.logCount_eq_prefix' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.HarmonicTargets.finite_harmonic_le_logCount' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.HarmonicTargets.sum_harmonicMass_le_raw_logCount' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.HarmonicTargets.bounded_nonperiodic_raw_seed' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.HarmonicTargets.uniform_raw_logCount_lower' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.HarmonicTargets.ratio_lower_of_exponential_prefixes' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.HarmonicTargets.uniform_raw_logCountingRatio_lower' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.HarmonicTargets.least_bad_forces_harmonic_tail' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.HarmonicTargets.reciprocal_eventually_lt_log_bound' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

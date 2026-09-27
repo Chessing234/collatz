@@ -1,0 +1,20 @@
+import CollatzTargetDensity.QuantitativeTargets
+
+-- The count uses the literal ordinary map and existential reachability.
+#print CollatzTargetDensity.step
+#print CollatzTargetDensity.reachesTarget
+#print CollatzTargetDensity.countBelow
+#check CollatzTargetDensity.bounded_seed_supply
+#check CollatzTargetDensity.uniform_bounded_terminal_mark
+#check CollatzTargetDensity.quantitative_target_density
+#check CollatzTargetDensity.sqrt_target_density
+
+#print axioms CollatzTargetDensity.exists_odd_child_small
+#print axioms CollatzTargetDensity.bounded_one_children
+#print axioms CollatzTargetDensity.transportChild_syracuse
+#print axioms CollatzTargetDensity.bounded_seed_supply
+#print axioms CollatzTargetDensity.exists_fertile_raw_child_small
+#print axioms CollatzTargetDensity.uniform_bounded_terminal_mark
+#print axioms CollatzTargetDensity.quantitative_odd_target_density
+#print axioms CollatzTargetDensity.quantitative_target_density
+#print axioms CollatzTargetDensity.sqrt_target_density

@@ -1,0 +1,44 @@
+import CollatzTargetDensity.ShadowGrowth
+import CollatzTargetDensity.ShadowRigidity
+import CollatzTargetDensity.ShadowLattice
+
+/-! Transitive axiom audit for the boundary/shadow extension. -/
+
+#print axioms CollatzTargetDensity.ValuationRecurrence.not_all_one
+#print axioms CollatzTargetDensity.ValuationRecurrence.iterate_odd
+#print axioms CollatzTargetDensity.ValuationRecurrence.large_valuation_after
+#print axioms CollatzTargetDensity.BoundaryLinearization.orbit_shift
+#print axioms CollatzTargetDensity.BoundaryLinearization.injective_shift
+#print axioms CollatzTargetDensity.BoundaryLinearization.correction_shift
+#print axioms CollatzTargetDensity.BoundaryLinearization.correction_split
+#print axioms CollatzTargetDensity.BoundaryLinearization.boundary_transport
+#print axioms CollatzTargetDensity.BoundaryLinearization.boundary_step
+#print axioms CollatzTargetDensity.BoundaryLinearization.boundary_relative_tendsto_one
+#print axioms CollatzTargetDensity.BoundaryLinearization.boundary_gt_start
+#print axioms CollatzTargetDensity.BoundaryLinearization.boundary_absolute_gap
+#print axioms CollatzTargetDensity.BoundaryLinearization.boundary_unique
+#print axioms CollatzTargetDensity.ShadowOscillation.shadow_step
+#print axioms CollatzTargetDensity.ShadowOscillation.shadow_ge_one
+#print axioms CollatzTargetDensity.ShadowOscillation.shadow_drop
+#print axioms CollatzTargetDensity.ShadowOscillation.arbitrarily_late_drop
+#print axioms CollatzTargetDensity.ShadowOscillation.shadow_not_convergent
+#print axioms CollatzTargetDensity.ShadowGrowth.tailBudget_eq
+#print axioms CollatzTargetDensity.ShadowGrowth.tailBudget_succ
+#print axioms CollatzTargetDensity.ShadowGrowth.scale_le_tailBudget
+#print axioms CollatzTargetDensity.ShadowGrowth.tailBudget_geometric
+#print axioms CollatzTargetDensity.ShadowGrowth.bounded_shadow_forces_growth
+#print axioms CollatzTargetDensity.ShadowRigidity.same_valuations_implies_equal
+#print axioms CollatzTargetDensity.ShadowRigidity.no_eventually_periodic_valuations
+#print axioms CollatzTargetDensity.ShadowRigidity.coefficient_eq_of_close
+#print axioms CollatzTargetDensity.ShadowRigidity.valuation_eq_of_shadow_close
+#print axioms CollatzTargetDensity.ShadowRigidity.quantitative_shift_separation
+#print axioms CollatzTargetDensity.ShadowRigidity.shadow_shift_not_tendsto_zero
+#print axioms CollatzTargetDensity.ShadowRigidity.coefficient_bound_of_close_return
+#print axioms CollatzTargetDensity.ShadowRigidity.unconditional_shift_separation
+#print axioms CollatzTargetDensity.ShadowRigidity.no_asymptotic_shadow_period
+#print axioms CollatzTargetDensity.ShadowLattice.integer_block_dvd
+#print axioms CollatzTargetDensity.ShadowLattice.no_integer_multiplicative_orbit
+#print axioms CollatzTargetDensity.ShadowLattice.integer_relation_of_approx
+#print axioms CollatzTargetDensity.ShadowLattice.finite_grid_barrier
+#print axioms CollatzTargetDensity.ShadowLattice.not_uniform_lattice_approximation
+#print axioms CollatzTargetDensity.ShadowLattice.rational_lattice_separation

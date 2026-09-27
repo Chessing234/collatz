@@ -1,0 +1,52 @@
+def CollatzTargetDensity.OrbitReciprocals.side : ℕ → ℕ :=
+fun n => if n % 3 = 2 then 16 * n + 5 else 4 * n + 1
+def CollatzTargetDensity.OrbitReciprocals.orbit : ℕ → ℕ → ℕ :=
+fun n i => Erdos1135.Tao.syracuse^[i] n
+def CollatzTargetDensity.OrbitReciprocals.valuationTotal : ℕ → ℕ → ℕ :=
+fun n k => ∑ i ∈ Finset.range k, Erdos1135.Tao.syracuseExponent (CollatzTargetDensity.OrbitReciprocals.orbit n i)
+def CollatzTargetDensity.OrbitReciprocals.discrepancy : ℕ → ℕ → ℝ :=
+fun n k => ↑k * Real.log 3 - ↑(CollatzTargetDensity.OrbitReciprocals.valuationTotal n k) * Real.log 2
+CollatzTargetDensity.OrbitReciprocals.orbit_reciprocals_summable {n : ℕ} (hn : 0 < n)
+  (hi : Function.Injective (CollatzTargetDensity.OrbitReciprocals.orbit n)) :
+  Summable fun i => 1 / ↑(CollatzTargetDensity.OrbitReciprocals.orbit n i)
+CollatzTargetDensity.OrbitReciprocals.discrepancy_tendsto_atTop {n : ℕ} (hn : 0 < n)
+  (hi : Function.Injective (CollatzTargetDensity.OrbitReciprocals.orbit n)) :
+  Filter.Tendsto (CollatzTargetDensity.OrbitReciprocals.discrepancy n) Filter.atTop Filter.atTop
+'CollatzTargetDensity.SyracusePacking.sum_mass_le_odd_logCount' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.SyracusePacking.uniform_odd_logRatio_lower' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.SyracusePacking.sum_logRatios_le_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.SyracusePacking.uniform_reciprocal_packing' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.OrbitReciprocals.side_syracuse' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.OrbitReciprocals.side_off_orbit' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.OrbitReciprocals.iterate_side_succ' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.OrbitReciprocals.side_nonperiodic' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.OrbitReciprocals.side_hit_forces_same_index' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.OrbitReciprocals.common_predecessor_comparable' depends on axioms: [propext]
+'CollatzTargetDensity.OrbitReciprocals.side_basins_disjoint' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.OrbitReciprocals.uniform_orbit_reciprocal_bound' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.OrbitReciprocals.orbit_reciprocals_summable' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.OrbitReciprocals.orbit_reciprocals_uniform_tsum' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.OrbitReciprocals.correction_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.OrbitReciprocals.log_orbit_step' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.OrbitReciprocals.log_orbit_identity' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.OrbitReciprocals.uniform_correctionSum_bound' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.OrbitReciprocals.corrections_summable' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.OrbitReciprocals.discrepancy_tendsto_atTop' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

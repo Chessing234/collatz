@@ -1,0 +1,1788 @@
+⚠ [3391/3575] Replayed Erdos1135.Tao.Section6.ConductorProjectivity
+warning: Erdos1135/Tao/Section6/ConductorProjectivity.lean:147:2: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+ℹ [3400/3575] Replayed Erdos1135.Tao.Fourier.OscillationAlgebra
+info: Erdos1135/Tao/Fourier/OscillationAlgebra.lean:153:12: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+⚠ [3401/3575] Replayed Erdos1135.Tao.Section6.UniformLift
+warning: Erdos1135/Tao/Section6/UniformLift.lean:28:2: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: Erdos1135/Tao/Section6/UniformLift.lean:218:6: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+⚠ [3408/3575] Replayed Erdos1135.Tao.Probability.CountableMarkov
+warning: Erdos1135/Tao/Probability/CountableMarkov.lean:115:10: `mul_le_mul_left'` has been deprecated: Use `mul_le_mul_right` instead
+warning: Erdos1135/Tao/Probability/CountableMarkov.lean:133:10: `mul_le_mul_left'` has been deprecated: Use `mul_le_mul_right` instead
+⚠ [3409/3575] Replayed Erdos1135.Tao.Probability.Geom2CenteredMoment
+warning: Erdos1135/Tao/Probability/Geom2CenteredMoment.lean:170:2: 'push_cast' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Erdos1135/Tao/Probability/Geom2CenteredMoment.lean:362:6: 'push_cast' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Erdos1135/Tao/Probability/Geom2CenteredMoment.lean:416:8: 'push_cast' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Erdos1135/Tao/Probability/Geom2CenteredMoment.lean:480:8: 'push_cast' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+⚠ [3414/3575] Replayed Erdos1135.Tao.Probability.Geom2TerminalMoment
+warning: Erdos1135/Tao/Probability/Geom2TerminalMoment.lean:261:2: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: Erdos1135/Tao/Probability/Geom2TerminalMoment.lean:281:2: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+⚠ [3415/3575] Replayed Erdos1135.Tao.Probability.Geom2HighWeight
+warning: Erdos1135/Tao/Probability/Geom2HighWeight.lean:47:16: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [3416/3575] Replayed Erdos1135.Tao.Probability.AntitoneResidueSums
+warning: Erdos1135/Tao/Probability/AntitoneResidueSums.lean:237:59: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Erdos1135/Tao/Probability/AntitoneResidueSums.lean:241:63: 'decide' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Erdos1135/Tao/Probability/AntitoneResidueSums.lean:241:63: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: Erdos1135/Tao/Probability/AntitoneResidueSums.lean:245:63: 'decide' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Erdos1135/Tao/Probability/AntitoneResidueSums.lean:245:63: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+⚠ [3475/3575] Replayed Erdos1135.Tao.Section5.ReversePrefixScalar
+warning: Erdos1135/Tao/Section5/ReversePrefixScalar.lean:120:31: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Erdos1135/Tao/Section5/ReversePrefixScalar.lean:125:26: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [3482/3575] Replayed Erdos1135.Tao.Section5.EndpointValuationFiber
+warning: Erdos1135/Tao/Section5/EndpointValuationFiber.lean:350:4: Try `simp at hM` instead of `simpa using hM`
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: Erdos1135/Tao/Section5/EndpointValuationFiber.lean:376:4: Try `simp at hM` instead of `simpa using hM`
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: Erdos1135/Tao/Section5/EndpointValuationFiber.lean:491:4: Try `simp at hfalse` instead of `simpa using hfalse`
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: Erdos1135/Tao/Section5/EndpointValuationFiber.lean:493:4: Try `simp at hM` instead of `simpa using hM`
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+⚠ [3488/3575] Replayed Erdos1135.Tao.Section5.EndpointCoefficientBound
+warning: Erdos1135/Tao/Section5/EndpointCoefficientBound.lean:50:8: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+⚠ [3489/3575] Replayed Erdos1135.ND.PositiveDensity.CommonZPosteriorCoefficientTail
+warning: Erdos1135/ND/PositiveDensity/CommonZPosteriorCoefficientTail.lean:63:5: unused variable `hcoefficient0`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [3492/3575] Replayed Erdos1135.ND.PositiveDensity.Geom2ExactLandingTails
+warning: Erdos1135/ND/PositiveDensity/Geom2ExactLandingTails.lean:125:6: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: Erdos1135/ND/PositiveDensity/Geom2ExactLandingTails.lean:134:18: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: Erdos1135/ND/PositiveDensity/Geom2ExactLandingTails.lean:136:34: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: Erdos1135/ND/PositiveDensity/Geom2ExactLandingTails.lean:139:8: This simp argument is unused:
+  hj
+
+Hint: Omit it from the simp argument list.
+  simp ̵[̵h̵j̵]̵
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Erdos1135/ND/PositiveDensity/Geom2ExactLandingTails.lean:271:36: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: Erdos1135/ND/PositiveDensity/Geom2ExactLandingTails.lean:350:6: `push_neg` has been deprecated. Prefer using `push Not` instead.
+If you'd rather continue using `push_neg` in your project, you can implement it as follows:
+```
+open Lean.Parser.Tactic in
+macro "push_neg" cfg:optConfig loc:(location)? : tactic =>
+  `(tactic| push $cfg:optConfig Not $[$loc]?)
+```
+warning: Erdos1135/ND/PositiveDensity/Geom2ExactLandingTails.lean:366:6: 'push_cast' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+⚠ [3497/3575] Replayed Erdos1135.ND.PositiveDensity.CommonZPathTelescoping
+warning: Erdos1135/ND/PositiveDensity/CommonZPathTelescoping.lean:238:26: This simp argument is unused:
+  mul_comm
+
+Hint: Omit it from the simp argument list.
+  simp [Finset.sum_const,̵ ̵m̵u̵l̵_̵c̵o̵m̵m̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Erdos1135/ND/PositiveDensity/CommonZPathTelescoping.lean:336:6: 'push_cast' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+⚠ [3501/3575] Replayed Erdos1135.ND.PositiveDensity.CommonZTransportedWordCompatibility
+warning: Erdos1135/ND/PositiveDensity/CommonZTransportedWordCompatibility.lean:114:8: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+⚠ [3502/3575] Replayed Erdos1135.ND.PositiveDensity.CommonZPosteriorTiltCovariance
+warning: Erdos1135/ND/PositiveDensity/CommonZPosteriorTiltCovariance.lean:286:5: unused variable `hkappa`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [3521/3575] Replayed Erdos1135.Tao.Fourier.Section7PairExpansion
+warning: Erdos1135/Tao/Fourier/Section7PairExpansion.lean:325:24: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Erdos1135/Tao/Fourier/Section7PairExpansion.lean:358:62: This simp argument is unused:
+  hj
+
+Hint: Omit it from the simp argument list.
+  simp [taoSection7PairExpansionFrom, taoTupleWeight,̵ ̵h̵j̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Erdos1135/Tao/Fourier/Section7PairExpansion.lean:453:24: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [3522/3575] Replayed Erdos1135.Tao.Fourier.Section7PairExpectation
+warning: Erdos1135/Tao/Fourier/Section7PairExpectation.lean:220:17: This simp argument is unused:
+  Prod.fst
+
+Hint: Omit it from the simp argument list.
+  simp only [̵P̵r̵o̵d̵.̵f̵s̵t̵,̵ ̵P̵r̵o̵d̵.̵s̵n̵d̵]̵[̲P̲r̲o̲d̲.̲s̲n̲d̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Erdos1135/Tao/Fourier/Section7PairExpectation.lean:220:27: This simp argument is unused:
+  Prod.snd
+
+Hint: Omit it from the simp argument list.
+  simp only [Prod.fst,̵ ̵P̵r̵o̵d̵.̵s̵n̵d̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Erdos1135/Tao/Fourier/Section7PairExpectation.lean:344:17: This simp argument is unused:
+  Prod.fst
+
+Hint: Omit it from the simp argument list.
+  simp only [̵P̵r̵o̵d̵.̵f̵s̵t̵,̵ ̵P̵r̵o̵d̵.̵s̵n̵d̵]̵[̲P̲r̲o̲d̲.̲s̲n̲d̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Erdos1135/Tao/Fourier/Section7PairExpectation.lean:344:27: This simp argument is unused:
+  Prod.snd
+
+Hint: Omit it from the simp argument list.
+  simp only [Prod.fst,̵ ̵P̵r̵o̵d̵.̵s̵n̵d̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [3541/3575] Replayed Erdos1135.ND.Fourier.FiberConditioning
+warning: Erdos1135/ND/Fourier/FiberConditioning.lean:180:6: Try `simp at has` instead of `simpa using has`
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: Erdos1135/ND/Fourier/FiberConditioning.lean:183:6: Try `simp at has` instead of `simpa using has`
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: Erdos1135/ND/Fourier/FiberConditioning.lean:322:6: Try `simp at has` instead of `simpa using has`
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: Erdos1135/ND/Fourier/FiberConditioning.lean:325:6: Try `simp at has` instead of `simpa using has`
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+ℹ [3543/3575] Replayed Erdos1135.Tao.Section6.FiniteFourierConvolution
+info: Erdos1135/Tao/Section6/FiniteFourierConvolution.lean:74:12: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+ℹ [3552/3575] Replayed Erdos1135.Tao.Section6.FiniteFourierParseval
+info: Erdos1135/Tao/Section6/FiniteFourierParseval.lean:85:2: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+⚠ [3555/3575] Replayed Erdos1135.Tao.Section6.FiniteFourierCollision
+warning: Erdos1135/Tao/Section6/FiniteFourierCollision.lean:257:31: This simp argument is unused:
+  zmodThreePowMultiple
+
+Hint: Omit it from the simp argument list.
+  simp ̵[̵z̵m̵o̵d̵T̵h̵r̵e̵e̵P̵o̵w̵M̵u̵l̵t̵i̵p̵l̵e̵]̵
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [3563/3575] Replayed Erdos1135.ND.Fourier.FixedTotalBars
+warning: Erdos1135/ND/Fourier/FixedTotalBars.lean:75:8: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+⚠ [3565/3575] Replayed Erdos1135.ND.Fourier.FixedTotalReferenceRatio
+warning: Erdos1135/ND/Fourier/FixedTotalReferenceRatio.lean:211:10: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+⚠ [3571/3575] Replayed Erdos1135.ND.PositiveDensity.PayloadFreeCoefficientMartingale
+warning: Erdos1135/ND/PositiveDensity/PayloadFreeCoefficientMartingale.lean:123:4: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+⚠ [3581/3709] Replayed Erdos1135.Tao.Syracuse.TruncatedValuationGeom2
+warning: Erdos1135/Tao/Syracuse/TruncatedValuationGeom2.lean:93:10: This simp argument is unused:
+  geom2PNatListPMF
+
+Hint: Omit it from the simp argument list.
+  simp [̵g̵e̵o̵m̵2̵P̵N̵a̵t̵L̵i̵s̵t̵P̵M̵F̵,̵ ̵t̵r̵u̵n̵c̵a̵t̵e̵V̵a̵l̵u̵a̵t̵i̵o̵n̵L̵i̵s̵t̵,̵[̲t̲r̲u̲n̲c̲a̲t̲e̲V̲a̲l̲u̲a̲t̲i̲o̲n̲L̲i̲s̲t̲,̲ taoTupleWeight]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [3583/3709] Replayed Erdos1135.Tao.Syracuse.TruncatedValuationUniformOdd
+warning: Erdos1135/Tao/Syracuse/TruncatedValuationUniformOdd.lean:108:21: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+⚠ [3594/3709] Replayed Erdos1135.Tao.Section5.AffineAtomPointMass
+warning: Erdos1135/Tao/Section5/AffineAtomPointMass.lean:63:4: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+⚠ [3599/3709] Replayed Erdos1135.Tao.Section5.AffineAtomDenominatorComparison
+warning: Erdos1135/Tao/Section5/AffineAtomDenominatorComparison.lean:23:5: unused variable `hmass`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/Tao/Section5/AffineAtomDenominatorComparison.lean:72:5: unused variable `hmass`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [3608/3709] Replayed Erdos1135.Tao.Section5.Prop19Output
+warning: Erdos1135/Tao/Section5/Prop19Output.lean:76:29: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [3609/3709] Replayed Erdos1135.Tao.Section5.PassTypicalFailure
+info: Erdos1135/Tao/Section5/PassTypicalFailure.lean:150:14: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+warning: Erdos1135/Tao/Section5/PassTypicalFailure.lean:141:72: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Erdos1135/Tao/Section5/PassTypicalFailure.lean:162:64: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+info: Erdos1135/Tao/Section5/PassTypicalFailure.lean:257:41: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+info: Erdos1135/Tao/Section5/PassTypicalFailure.lean:336:12: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+warning: Erdos1135/Tao/Section5/PassTypicalFailure.lean:359:6: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: Erdos1135/Tao/Section5/PassTypicalFailure.lean:348:64: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [3615/3709] Replayed Erdos1135.Tao.Renewal.Lemma77PotentialCore
+warning: Erdos1135/Tao/Renewal/Lemma77PotentialCore.lean:361:4: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+⚠ [3624/3709] Replayed Erdos1135.ND.Band.A5Physical
+warning: Erdos1135/ND/Band/A5Physical.lean:1015:27: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Erdos1135/ND/Band/A5Physical.lean:1261:28: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Erdos1135/ND/Band/A5Physical.lean:1281:28: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [3626/3709] Replayed Erdos1135.ND.PositiveDensity.A5MacroRenewalSaturation
+warning: Erdos1135/ND/PositiveDensity/A5MacroRenewalSaturation.lean:57:13: unused variable `hL`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/ND/PositiveDensity/A5MacroRenewalSaturation.lean:307:13: unused variable `hL`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [3633/3709] Replayed Erdos1135.ND.Band.A5PhysicalPaddingRate
+warning: Erdos1135/ND/Band/A5PhysicalPaddingRate.lean:100:10: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Erdos1135/ND/Band/A5PhysicalPaddingRate.lean:100:10: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+⚠ [3634/3709] Replayed Erdos1135.ND.Band.A5PaddedBandDiameter
+warning: Erdos1135/ND/Band/A5PaddedBandDiameter.lean:102:4: 'push_cast at hfloor' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+ℹ [3771/3863] Replayed Erdos1135.ND.Fourier.FixedTotalMGF
+info: Erdos1135/ND/Fourier/FixedTotalMGF.lean:53:31: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+info: Erdos1135/ND/Fourier/FixedTotalMGF.lean:53:31: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+⚠ [3775/3863] Replayed Erdos1135.ND.Fourier.FixedTotalRatioNormalization
+warning: Erdos1135/ND/Fourier/FixedTotalRatioNormalization.lean:299:24: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [3815/3863] Replayed Erdos1135.Tao.Renewal.CanonicalFirstPassageLocalizedMass
+warning: Erdos1135/Tao/Renewal/CanonicalFirstPassageLocalizedMass.lean:204:4: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+⚠ [3836/3863] Replayed Erdos1135.Tao.Renewal.Prop78Case3BaseKcutScheduleExistence
+warning: Erdos1135/Tao/Renewal/Prop78Case3BaseKcutScheduleExistence.lean:129:4: 'push_cast' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+⚠ [3838/3863] Replayed Erdos1135.Tao.Renewal.Lemma79TailExpectationCore
+warning: Erdos1135/Tao/Renewal/Lemma79TailExpectationCore.lean:3008:34: This simp argument is unused:
+  and_left_comm
+
+Hint: Omit it from the simp argument list.
+  simp [lemma79KeyAtom, and_comm, a̵n̵d̵_̵l̵e̵f̵t̵_̵c̵o̵m̵m̵,̵ ̵and_assoc]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [3841/3863] Replayed Erdos1135.Tao.Renewal.PMFExpectationThreeRegion
+warning: Erdos1135/Tao/Renewal/PMFExpectationThreeRegion.lean:134:5: unused variable `hbadCap0`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/Tao/Renewal/PMFExpectationThreeRegion.lean:134:29: unused variable `hlowCap0`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/Tao/Renewal/PMFExpectationThreeRegion.lean:135:5: unused variable `hgoodCap0`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [3851/3863] Replayed Erdos1135.Tao.Renewal.Lemma79CutoffStatistic
+warning: Erdos1135/Tao/Renewal/Lemma79CutoffStatistic.lean:229:6: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+⚠ [3860/4100] Replayed Erdos1135.Tao.Renewal.Lemma79PostExitFreshTail
+warning: Erdos1135/Tao/Renewal/Lemma79PostExitFreshTail.lean:292:6: `mul_le_mul_left'` has been deprecated: Use `mul_le_mul_right` instead
+⚠ [3864/4100] Replayed Erdos1135.Tao.Renewal.Lemma79R2EndpointContraction
+warning: Erdos1135/Tao/Renewal/Lemma79R2EndpointContraction.lean:75:4: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+info: Erdos1135/Tao/Renewal/Lemma79R2EndpointContraction.lean:81:43: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+warning: Erdos1135/Tao/Renewal/Lemma79R2EndpointContraction.lean:75:58: 'norm_num' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Erdos1135/Tao/Renewal/Lemma79R2EndpointContraction.lean:75:58: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: Erdos1135/Tao/Renewal/Lemma79R2EndpointContraction.lean:81:39: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Erdos1135/Tao/Renewal/Lemma79R2EndpointContraction.lean:167:8: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: Erdos1135/Tao/Renewal/Lemma79R2EndpointContraction.lean:167:62: 'norm_num' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Erdos1135/Tao/Renewal/Lemma79R2EndpointContraction.lean:167:62: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+⚠ [3871/4100] Replayed Erdos1135.Tao.Renewal.Lemma79R2PositiveKeyBound
+warning: Erdos1135/Tao/Renewal/Lemma79R2PositiveKeyBound.lean:266:14: `mul_le_mul_left'` has been deprecated: Use `mul_le_mul_right` instead
+warning: Erdos1135/Tao/Renewal/Lemma79R2PositiveKeyBound.lean:336:10: `mul_le_mul_right'` has been deprecated: Use `mul_le_mul_left` instead
+warning: Erdos1135/Tao/Renewal/Lemma79R2PositiveKeyBound.lean:342:10: `mul_le_mul_left'` has been deprecated: Use `mul_le_mul_right` instead
+⚠ [3872/4100] Replayed Erdos1135.Tao.Renewal.Lemma79OneStepBound
+warning: Erdos1135/Tao/Renewal/Lemma79OneStepBound.lean:156:14: `mul_le_mul_left'` has been deprecated: Use `mul_le_mul_right` instead
+warning: Erdos1135/Tao/Renewal/Lemma79OneStepBound.lean:252:10: `mul_le_mul_right'` has been deprecated: Use `mul_le_mul_left` instead
+warning: Erdos1135/Tao/Renewal/Lemma79OneStepBound.lean:256:10: `mul_le_mul_right'` has been deprecated: Use `mul_le_mul_left` instead
+warning: Erdos1135/Tao/Renewal/Lemma79OneStepBound.lean:257:13: `mul_le_mul_left'` has been deprecated: Use `mul_le_mul_right` instead
+warning: Erdos1135/Tao/Renewal/Lemma79OneStepBound.lean:258:15: `mul_le_mul_left'` has been deprecated: Use `mul_le_mul_right` instead
+warning: Erdos1135/Tao/Renewal/Lemma79OneStepBound.lean:268:10: `mul_le_mul_left'` has been deprecated: Use `mul_le_mul_right` instead
+⚠ [3873/4100] Replayed Erdos1135.Tao.Renewal.Lemma79AllRBound
+warning: Erdos1135/Tao/Renewal/Lemma79AllRBound.lean:34:12: `mul_le_mul_left'` has been deprecated: Use `mul_le_mul_right` instead
+⚠ [3875/4100] Replayed Erdos1135.Tao.Renewal.Lemma79EndpointFreshLaw
+warning: Erdos1135/Tao/Renewal/Lemma79EndpointFreshLaw.lean:150:4: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+⚠ [3877/4100] Replayed Erdos1135.Tao.Renewal.QmHorizontalNormalization
+warning: Erdos1135/Tao/Renewal/QmHorizontalNormalization.lean:108:6: 'change
+  ((m : ℝ) ^ A)⁻¹ * taoSection7Case3Outer754HorizontalScalar A m (Jtot omega) *
+      taoSection7SourceActualQmAtCutoff n A (m - 1) xi epsilon =
+    ((m : ℝ) ^ A)⁻¹ * taoSection7SourceActualQmAtCutoff n A (m - 1) xi epsilon *
+      taoSection7Case3Outer754HorizontalScalar A m (Jtot omega)' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+⚠ [3888/4100] Replayed Erdos1135.Tao.Renewal.Lemma79NativeMarkov
+warning: Erdos1135/Tao/Renewal/Lemma79NativeMarkov.lean:39:10: `mul_le_mul_left'` has been deprecated: Use `mul_le_mul_right` instead
+warning: Erdos1135/Tao/Renewal/Lemma79NativeMarkov.lean:59:10: `mul_le_mul_left'` has been deprecated: Use `mul_le_mul_right` instead
+⚠ [3895/4100] Replayed Erdos1135.Tao.Renewal.QEndpointFreshMarginals
+warning: Erdos1135/Tao/Renewal/QEndpointFreshMarginals.lean:43:6: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+⚠ [3899/4100] Replayed Erdos1135.Tao.Renewal.HoldListHorizontalTail
+warning: Erdos1135/Tao/Renewal/HoldListHorizontalTail.lean:79:8: `mul_le_mul_right'` has been deprecated: Use `mul_le_mul_left` instead
+⚠ [3900/4100] Replayed Erdos1135.Tao.Renewal.QEndpointFreshOutsideEprimeNearSigma
+warning: Erdos1135/Tao/Renewal/QEndpointFreshOutsideEprimeNearSigma.lean:61:6: unused variable `c`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [3909/4100] Replayed Erdos1135.Tao.Renewal.CanonicalFirstPassageSigmaCenters
+warning: Erdos1135/Tao/Renewal/CanonicalFirstPassageSigmaCenters.lean:90:4: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+⚠ [3910/4100] Replayed Erdos1135.Tao.Renewal.QEndpointFreshOutsideEprimeWindow
+warning: Erdos1135/Tao/Renewal/QEndpointFreshOutsideEprimeWindow.lean:69:48: This simp argument is unused:
+  Set.mem_image
+
+Hint: Omit it from the simp argument list.
+  simp only [lemma79EndpointFreshNearSigmaHorizontalEvent, Set.mem_setOf_eq,
+  ̲  ̲ ̲ ̲ ̲ ̲s̵i̵g̵m̵a̵H̵o̵r̵i̵z̵o̵n̵t̵a̵l̵C̵e̵n̵t̵e̵r̵s̵,̵ ̵S̵e̵t̵.̵m̵e̵m̵_̵i̵m̵a̵g̵e̵]̵s̲i̲g̲m̲a̲H̲o̲r̲i̲z̲o̲n̲t̲a̲l̲C̲e̲n̲t̲e̲r̲s̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [3920/4100] Replayed Erdos1135.Tao.Renewal.QEndpointFreshOutsideEprimeSourceMargin
+warning: Erdos1135/Tao/Renewal/QEndpointFreshOutsideEprimeSourceMargin.lean:106:12: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Erdos1135/Tao/Renewal/QEndpointFreshOutsideEprimeSourceMargin.lean:106:12: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+⚠ [3922/4100] Replayed Erdos1135.Tao.Renewal.QEndpointFreshOutsideEprimeBudget
+warning: Erdos1135/Tao/Renewal/QEndpointFreshOutsideEprimeBudget.lean:148:8: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+ℹ [3924/4100] Replayed Erdos1135.Tao.Renewal.QEndpointFreshEStarFixedOffset
+info: Erdos1135/Tao/Renewal/QEndpointFreshEStarFixedOffset.lean:242:12: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+⚠ [3937/4100] Replayed Erdos1135.Tao.Renewal.Prop78Case3ActiveCoverStopping
+warning: Erdos1135/Tao/Renewal/Prop78Case3ActiveCoverStopping.lean:25:7: unused variable `J`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [3941/4100] Replayed Erdos1135.Tao.Renewal.Prop78CanonicalAssembly
+warning: Erdos1135/Tao/Renewal/Prop78CanonicalAssembly.lean:35:9: unused variable `hxi`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/Tao/Renewal/Prop78CanonicalAssembly.lean:93:9: unused variable `hxi`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [3942/4100] Replayed Erdos1135.Tao.Renewal.Prop78Pointwise737
+warning: Erdos1135/Tao/Renewal/Prop78Pointwise737.lean:107:9: unused variable `hxi`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/Tao/Renewal/Prop78Pointwise737.lean:131:9: unused variable `hxi`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [3961/4100] Replayed Erdos1135.Tao.Section6.Geom2IntervalConcentration
+warning: Erdos1135/Tao/Section6/Geom2IntervalConcentration.lean:263:4: `push_neg` has been deprecated. Prefer using `push Not` instead.
+If you'd rather continue using `push_neg` in your project, you can implement it as follows:
+```
+open Lean.Parser.Tactic in
+macro "push_neg" cfg:optConfig loc:(location)? : tactic =>
+  `(tactic| push $cfg:optConfig Not $[$loc]?)
+```
+⚠ [3987/4100] Replayed Erdos1135.ND.Probability.TrueAbsorption
+warning: Erdos1135/ND/Probability/TrueAbsorption.lean:87:29: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [3988/4100] Replayed Erdos1135.ND.Band.A5ReferenceFixedTimeAbsorption
+warning: Erdos1135/ND/Band/A5ReferenceFixedTimeAbsorption.lean:185:26: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Erdos1135/ND/Band/A5ReferenceFixedTimeAbsorption.lean:295:26: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [4007/4100] Replayed Erdos1135.ND.PositiveDensity.A5FixedTotalRawQ
+warning: Erdos1135/ND/PositiveDensity/A5FixedTotalRawQ.lean:134:13: unused variable `hL`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [4011/4100] Replayed Erdos1135.ND.PositiveDensity.A5IndexedNaturalTotalRows
+warning: Erdos1135/ND/PositiveDensity/A5IndexedNaturalTotalRows.lean:81:13: unused variable `hL`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [4012/4100] Replayed Erdos1135.ND.PositiveDensity.A5IndexedMacroEndpointSaturation
+warning: Erdos1135/ND/PositiveDensity/A5IndexedMacroEndpointSaturation.lean:57:50: This simp argument is unused:
+  Prod.snd
+
+Hint: Omit it from the simp argument list.
+  simp only [ndA5IndexedTwoCellSignedTotal, P̵r̵o̵d̵.̵s̵n̵d̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵Nat.cast_zero, add_zero, Prod.fst]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Erdos1135/ND/PositiveDensity/A5IndexedMacroEndpointSaturation.lean:58:35: This simp argument is unused:
+  Prod.fst
+
+Hint: Omit it from the simp argument list.
+  simp only [ndA5IndexedTwoCellSignedTotal, Prod.snd, Nat.cast_zero, a̵d̵d̵_̵z̵e̵r̵o̵,̵ ̵P̵r̵o̵d̵.̵f̵s̵t̵]̵a̲d̲d̲_̲z̲e̲r̲o̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Erdos1135/ND/PositiveDensity/A5IndexedMacroEndpointSaturation.lean:70:19: This simp argument is unused:
+  Prod.snd
+
+Hint: Omit it from the simp argument list.
+  simp only [P̵r̵o̵d̵.̵s̵n̵d̵,̵ ̵Nat.cast_one, Prod.fst]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Erdos1135/ND/PositiveDensity/A5IndexedMacroEndpointSaturation.lean:70:43: This simp argument is unused:
+  Prod.fst
+
+Hint: Omit it from the simp argument list.
+  simp only [Prod.snd, Nat.cast_one,̵ ̵P̵r̵o̵d̵.̵f̵s̵t̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [4022/4100] Replayed Erdos1135.ND.PositiveDensity.A5MacroCommonZOccupation
+warning: Erdos1135/ND/PositiveDensity/A5MacroCommonZOccupation.lean:232:25: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [4023/4100] Replayed Erdos1135.ND.PositiveDensity.CommonZProjectionCrossEnergy
+warning: Erdos1135/ND/PositiveDensity/CommonZProjectionCrossEnergy.lean:54:4: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: Erdos1135/ND/PositiveDensity/CommonZProjectionCrossEnergy.lean:201:42: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [4030/4100] Replayed Erdos1135.ND.PositiveDensity.A5MacroJointMarkedConductor
+warning: Erdos1135/ND/PositiveDensity/A5MacroJointMarkedConductor.lean:176:21: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [4031/4100] Replayed Erdos1135.ND.PositiveDensity.A5MacroJointPosteriorEnergy
+warning: Erdos1135/ND/PositiveDensity/A5MacroJointPosteriorEnergy.lean:356:12: This simp argument is unused:
+  z
+
+Hint: Omit it from the simp argument list.
+  simp [z̵,̵ ̵hz, s, hs]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Erdos1135/ND/PositiveDensity/A5MacroJointPosteriorEnergy.lean:356:15: This simp argument is unused:
+  hz
+
+Hint: Omit it from the simp argument list.
+  simp [z, h̵z̵,̵ ̵s, hs]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Erdos1135/ND/PositiveDensity/A5MacroJointPosteriorEnergy.lean:357:23: This simp argument is unused:
+  d
+
+Hint: Omit it from the simp argument list.
+  simp only [z, s, d̵,̵ ̵mul_eq_zero, hz, hs, or_self, if_false]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ℹ [4041/4100] Replayed Erdos1135.ND.PositiveDensity.PathDependentOccupationParaproduct
+info: Erdos1135/ND/PositiveDensity/PathDependentOccupationParaproduct.lean:366:6: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+⚠ [4053/4100] Replayed Erdos1135.ND.PositiveDensity.A5MacroFirstEntryCut
+warning: Erdos1135/ND/PositiveDensity/A5MacroFirstEntryCut.lean:83:2: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+⚠ [4075/4100] Replayed Erdos1135.ND.PositiveDensity.A5FixedDepthSourceEmission
+info: Erdos1135/ND/PositiveDensity/A5FixedDepthSourceEmission.lean:390:26: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+warning: Erdos1135/ND/PositiveDensity/A5FixedDepthSourceEmission.lean:390:22: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [4094/4304] Replayed Erdos1135.ND.PositiveDensity.A5TailFailurePosteriorFirstExit
+warning: Erdos1135/ND/PositiveDensity/A5TailFailurePosteriorFirstExit.lean:124:25: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: Erdos1135/ND/PositiveDensity/A5TailFailurePosteriorFirstExit.lean:128:25: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+⚠ [4098/4304] Replayed Erdos1135.ND.PositiveDensity.ReversedPrefixPredictableOneStep
+warning: Erdos1135/ND/PositiveDensity/ReversedPrefixPredictableOneStep.lean:95:4: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+⚠ [4103/4304] Replayed Erdos1135.ND.PositiveDensity.ReversedPrefixSiblingEndpointExpansion
+warning: Erdos1135/ND/PositiveDensity/ReversedPrefixSiblingEndpointExpansion.lean:53:16: This simp argument is unused:
+  h0
+
+Hint: Omit it from the simp argument list.
+  simp [h2, h0̵,̵ ̵h̵20]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Erdos1135/ND/PositiveDensity/ReversedPrefixSiblingEndpointExpansion.lean:56:12: This simp argument is unused:
+  h2
+
+Hint: Omit it from the simp argument list.
+  simp [h2̵,̵ ̵h̵0, h20, Ne.symm h20]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Erdos1135/ND/PositiveDensity/ReversedPrefixSiblingEndpointExpansion.lean:56:20: This simp argument is unused:
+  h20
+
+Hint: Omit it from the simp argument list.
+  simp [h2, h0, h̵2̵0̵,̵ ̵Ne.symm h20]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Erdos1135/ND/PositiveDensity/ReversedPrefixSiblingEndpointExpansion.lean:123:21: This simp argument is unused:
+  h0
+
+Hint: Omit it from the simp argument list.
+  simp only [h2, h0̵,̵ ̵h̵20, if_true, if_false]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Erdos1135/ND/PositiveDensity/ReversedPrefixSiblingEndpointExpansion.lean:128:17: This simp argument is unused:
+  h2
+
+Hint: Omit it from the simp argument list.
+  simp only [h2̵,̵ ̵h̵0, h20, Ne.symm h20, if_true, if_false]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Erdos1135/ND/PositiveDensity/ReversedPrefixSiblingEndpointExpansion.lean:128:25: This simp argument is unused:
+  h20
+
+Hint: Omit it from the simp argument list.
+  simp only [h2, h0, h̵2̵0̵,̵ ̵Ne.symm h20, if_true, if_false]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [4113/4304] Replayed Erdos1135.ND.PositiveDensity.ReversedPrefixPairedEndpointExpansion
+warning: Erdos1135/ND/PositiveDensity/ReversedPrefixPairedEndpointExpansion.lean:49:16: This simp argument is unused:
+  h2
+
+Hint: Omit it from the simp argument list.
+  simp [h1, h2̵,̵ ̵h̵12]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Erdos1135/ND/PositiveDensity/ReversedPrefixPairedEndpointExpansion.lean:52:12: This simp argument is unused:
+  h1
+
+Hint: Omit it from the simp argument list.
+  simp [h1̵,̵ ̵h̵2, h12, Ne.symm h12]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Erdos1135/ND/PositiveDensity/ReversedPrefixPairedEndpointExpansion.lean:52:20: This simp argument is unused:
+  h12
+
+Hint: Omit it from the simp argument list.
+  simp [h1, h2, h̵1̵2̵,̵ ̵Ne.symm h12]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Erdos1135/ND/PositiveDensity/ReversedPrefixPairedEndpointExpansion.lean:119:21: This simp argument is unused:
+  h2
+
+Hint: Omit it from the simp argument list.
+  simp only [h1, h2̵,̵ ̵h̵12, if_true, if_false]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Erdos1135/ND/PositiveDensity/ReversedPrefixPairedEndpointExpansion.lean:123:17: This simp argument is unused:
+  h1
+
+Hint: Omit it from the simp argument list.
+  simp only [h1̵,̵ ̵h̵2, h12, Ne.symm h12, if_true, if_false]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Erdos1135/ND/PositiveDensity/ReversedPrefixPairedEndpointExpansion.lean:123:25: This simp argument is unused:
+  h12
+
+Hint: Omit it from the simp argument list.
+  simp only [h1, h2, h̵1̵2̵,̵ ̵Ne.symm h12, if_true, if_false]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [4133/4304] Replayed Erdos1135.ND.Fourier.FixedTotalCoordinateRaiseAffine
+warning: Erdos1135/ND/Fourier/FixedTotalCoordinateRaiseAffine.lean:76:2: 'change
+  3 ^ right.length * (3 * Tao.taoOffsetNum left + 2 ^ Tao.taoTupleWeight left) +
+      2 ^ (Tao.taoTupleWeight left + ((a : ℕ) + 1)) * Tao.taoOffsetNum right =
+    (3 ^ right.length * (3 * Tao.taoOffsetNum left + 2 ^ Tao.taoTupleWeight left) +
+        2 ^ (Tao.taoTupleWeight left + (a : ℕ)) * Tao.taoOffsetNum right) +
+      2 ^ (Tao.taoTupleWeight left + (a : ℕ)) * Tao.taoOffsetNum right' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+⚠ [4148/4304] Replayed Erdos1135.ND.Band.A6StrictMultiplicity
+warning: Erdos1135/ND/Band/A6StrictMultiplicity.lean:414:16: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [4150/4304] Replayed Erdos1135.ND.PositiveDensity.A5PhaseShiftRelative
+warning: Erdos1135/ND/PositiveDensity/A5PhaseShiftRelative.lean:227:51: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Erdos1135/ND/PositiveDensity/A5PhaseShiftRelative.lean:228:20: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [4188/4304] Replayed Erdos1135.ND.PositiveDensity.HarmonicDyadicLocalization
+warning: Erdos1135/ND/PositiveDensity/HarmonicDyadicLocalization.lean:72:2: `push_neg` has been deprecated. Prefer using `push Not` instead.
+If you'd rather continue using `push_neg` in your project, you can implement it as follows:
+```
+open Lean.Parser.Tactic in
+macro "push_neg" cfg:optConfig loc:(location)? : tactic =>
+  `(tactic| push $cfg:optConfig Not $[$loc]?)
+```
+warning: Erdos1135/ND/PositiveDensity/HarmonicDyadicLocalization.lean:125:15: unused variable `hrho`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [4197/4304] Replayed Erdos1135.ND.PositiveDensity.A5ScheduledTerminalCommonZEmission
+warning: Erdos1135/ND/PositiveDensity/A5ScheduledTerminalCommonZEmission.lean:301:5: unused variable `hTransportNonneg`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [4218/4304] Replayed Erdos1135.ND.PositiveDensity.A5ScheduledLowerEndpointSquareRootEnergy
+warning: Erdos1135/ND/PositiveDensity/A5ScheduledLowerEndpointSquareRootEnergy.lean:47:10: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Erdos1135/ND/PositiveDensity/A5ScheduledLowerEndpointSquareRootEnergy.lean:47:10: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+⚠ [4224/4304] Replayed Erdos1135.ND.PositiveDensity.A5HighFixedDepthSourceEmission
+info: Erdos1135/ND/PositiveDensity/A5HighFixedDepthSourceEmission.lean:540:26: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+warning: Erdos1135/ND/PositiveDensity/A5HighFixedDepthSourceEmission.lean:540:22: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [4229/4304] Replayed Erdos1135.ND.PositiveDensity.A5MacroFixedDepthRecurrence
+warning: Erdos1135/ND/PositiveDensity/A5MacroFixedDepthRecurrence.lean:177:20: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Erdos1135/ND/PositiveDensity/A5MacroFixedDepthRecurrence.lean:257:20: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Erdos1135/ND/PositiveDensity/A5MacroFixedDepthRecurrence.lean:257:35: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [4249/4304] Replayed Erdos1135.ND.PositiveDensity.A5LongRangeKCapConductorDescent
+warning: Erdos1135/ND/PositiveDensity/A5LongRangeKCapConductorDescent.lean:76:5: unused variable `hCmix`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [4253/4304] Replayed Erdos1135.ND.PositiveDensity.A5LongRangeTransportedDirectAllPhaseProtectedCount
+warning: Erdos1135/ND/PositiveDensity/A5LongRangeTransportedDirectAllPhaseProtectedCount.lean:158:2: `push_neg` has been deprecated. Prefer using `push Not` instead.
+If you'd rather continue using `push_neg` in your project, you can implement it as follows:
+```
+open Lean.Parser.Tactic in
+macro "push_neg" cfg:optConfig loc:(location)? : tactic =>
+  `(tactic| push $cfg:optConfig Not $[$loc]?)
+```
+warning: Erdos1135/ND/PositiveDensity/A5LongRangeTransportedDirectAllPhaseProtectedCount.lean:186:2: Try this: intro j hj N hN
+⚠ [4257/4304] Replayed Erdos1135.ND.PositiveDensity.A5CriticalCenteredGeometry
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredGeometry.lean:303:2: 'congr 1' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredGeometry.lean:353:2: 'congr 1' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+⚠ [4261/4304] Replayed Erdos1135.ND.PositiveDensity.CommonZStrictPrefixForest
+warning: Erdos1135/ND/PositiveDensity/CommonZStrictPrefixForest.lean:40:8: automatically included section variable(s) unused in theorem `Erdos1135.ND.PositiveDensity.ndCommonZStrictPrefixForestEdge_source`:
+  [Fintype ι]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype ι] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+warning: Erdos1135/ND/PositiveDensity/CommonZStrictPrefixForest.lean:49:8: automatically included section variable(s) unused in theorem `Erdos1135.ND.PositiveDensity.ndCommonZStrictPrefixForestEdge_target`:
+  [Fintype ι]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype ι] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+⚠ [4264/4304] Replayed Erdos1135.ND.PositiveDensity.CommonZStrictPrefixTerminalPruning
+warning: Erdos1135/ND/PositiveDensity/CommonZStrictPrefixTerminalPruning.lean:35:8: automatically included section variable(s) unused in theorem `Erdos1135.ND.PositiveDensity.ndCommonZStrictPrefixForestFirstLabel_fst`:
+  [Fintype ι]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype ι] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+warning: Erdos1135/ND/PositiveDensity/CommonZStrictPrefixTerminalPruning.lean:40:8: automatically included section variable(s) unused in theorem `Erdos1135.ND.PositiveDensity.ndCommonZStrictPrefixForestFirstLabel_val`:
+  [Fintype ι]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype ι] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+warning: Erdos1135/ND/PositiveDensity/CommonZStrictPrefixTerminalPruning.lean:54:22: unused variable `hlength`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/ND/PositiveDensity/CommonZStrictPrefixTerminalPruning.lean:84:0: automatically included section variable(s) unused in theorem `Erdos1135.ND.PositiveDensity.ndCommonZStrictPrefixForestTerminalWeight_nonneg`:
+  [Fintype ι]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype ι] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+warning: Erdos1135/ND/PositiveDensity/CommonZStrictPrefixTerminalPruning.lean:99:8: automatically included section variable(s) unused in theorem `_private.Erdos1135.ND.PositiveDensity.CommonZStrictPrefixTerminalPruning.0.Erdos1135.ND.PositiveDensity.sum_fin_terminalWeight_mul_transport`:
+  [Fintype ι]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype ι] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+warning: Erdos1135/ND/PositiveDensity/CommonZStrictPrefixTerminalPruning.lean:143:8: automatically included section variable(s) unused in theorem `_private.Erdos1135.ND.PositiveDensity.CommonZStrictPrefixTerminalPruning.0.Erdos1135.ND.PositiveDensity.sum_fin_retainedSource_terminalWeight`:
+  [Fintype ι]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype ι] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+warning: Erdos1135/ND/PositiveDensity/CommonZStrictPrefixTerminalPruning.lean:268:8: automatically included section variable(s) unused in theorem `_private.Erdos1135.ND.PositiveDensity.CommonZStrictPrefixTerminalPruning.0.Erdos1135.ND.PositiveDensity.sum_fin_killed_terminalWeight`:
+  [Fintype ι]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype ι] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+⚠ [4274/4304] Replayed Erdos1135.ND.Band.A5HarmonicProp19
+warning: Erdos1135/ND/Band/A5HarmonicProp19.lean:41:29: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [4303/4489] Replayed Erdos1135.ND.LogTime.Count
+warning: Erdos1135/ND/LogTime/Count.lean:108:78: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Erdos1135/ND/LogTime/Count.lean:109:37: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Erdos1135/ND/LogTime/Count.lean:109:49: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [4328/4489] Replayed Erdos1135.ND.Band.A6Gaussian
+warning: Erdos1135/ND/Band/A6Gaussian.lean:566:6: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [4329/4489] Replayed Erdos1135.ND.Band.A6LocalLimit
+info: Erdos1135/ND/Band/A6LocalLimit.lean:275:20: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+info: Erdos1135/ND/Band/A6LocalLimit.lean:275:20: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+info: Erdos1135/ND/Band/A6LocalLimit.lean:284:47: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+info: Erdos1135/ND/Band/A6LocalLimit.lean:284:47: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+warning: Erdos1135/ND/Band/A6LocalLimit.lean:255:28: unused variable `hL`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [4334/4489] Replayed Erdos1135.ND.Band.A6PhysicalInterior
+warning: Erdos1135/ND/Band/A6PhysicalInterior.lean:134:48: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+ℹ [4342/4489] Replayed Erdos1135.ND.Discrepancy.Fejer
+info: Erdos1135/ND/Discrepancy/Fejer.lean:356:2: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+⚠ [4347/4489] Replayed Erdos1135.ND.Discrepancy.EmpiricalFourier
+warning: Erdos1135/ND/Discrepancy/EmpiricalFourier.lean:295:4: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: Erdos1135/ND/Discrepancy/EmpiricalFourier.lean:351:36: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Erdos1135/ND/Discrepancy/EmpiricalFourier.lean:457:40: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [4348/4489] Replayed Erdos1135.ND.Discrepancy.ErdosTuran
+info: Erdos1135/ND/Discrepancy/ErdosTuran.lean:81:10: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+info: Erdos1135/ND/Discrepancy/ErdosTuran.lean:90:38: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+info: Erdos1135/ND/Discrepancy/ErdosTuran.lean:90:38: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+info: Erdos1135/ND/Discrepancy/ErdosTuran.lean:188:12: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+info: Erdos1135/ND/Discrepancy/ErdosTuran.lean:388:34: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+info: Erdos1135/ND/Discrepancy/ErdosTuran.lean:388:34: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+info: Erdos1135/ND/Discrepancy/ErdosTuran.lean:403:79: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+warning: Erdos1135/ND/Discrepancy/ErdosTuran.lean:403:75: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+info: Erdos1135/ND/Discrepancy/ErdosTuran.lean:440:54: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+warning: Erdos1135/ND/Discrepancy/ErdosTuran.lean:440:50: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+info: Erdos1135/ND/Discrepancy/ErdosTuran.lean:645:8: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+info: Erdos1135/ND/Discrepancy/ErdosTuran.lean:696:8: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+ℹ [4356/4489] Replayed Erdos1135.ND.Discrepancy.A5TwoProfileReciprocal
+info: Erdos1135/ND/Discrepancy/A5TwoProfileReciprocal.lean:262:35: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+ℹ [4357/4489] Replayed Erdos1135.ND.Discrepancy.A5TwoProfileFlat
+info: Erdos1135/ND/Discrepancy/A5TwoProfileFlat.lean:361:42: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+⚠ [4358/4489] Replayed Erdos1135.ND.Discrepancy.A5TwoProfileA6
+warning: Erdos1135/ND/Discrepancy/A5TwoProfileA6.lean:42:8: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Erdos1135/ND/Discrepancy/A5TwoProfileA6.lean:42:8: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+⚠ [4364/4489] Replayed Erdos1135.ND.Discrepancy.A5ReferenceTerminalAggregateRate
+warning: Erdos1135/ND/Discrepancy/A5ReferenceTerminalAggregateRate.lean:33:5: unused variable `hK`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/ND/Discrepancy/A5ReferenceTerminalAggregateRate.lean:101:19: 'norm_num' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Erdos1135/ND/Discrepancy/A5ReferenceTerminalAggregateRate.lean:101:19: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: Erdos1135/ND/Discrepancy/A5ReferenceTerminalAggregateRate.lean:279:19: 'positivity' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Erdos1135/ND/Discrepancy/A5ReferenceTerminalAggregateRate.lean:279:19: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: Erdos1135/ND/Discrepancy/A5ReferenceTerminalAggregateRate.lean:381:21: unused variable `hd`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+ℹ [4370/4489] Replayed Erdos1135.ND.Discrepancy.A5ReferenceFullCenterRate
+info: Erdos1135/ND/Discrepancy/A5ReferenceFullCenterRate.lean:176:39: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+info: Erdos1135/ND/Discrepancy/A5ReferenceFullCenterRate.lean:272:54: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+ℹ [4380/4489] Replayed Erdos1135.ND.Band.A5HarmonicFullGoodRate
+info: Erdos1135/ND/Band/A5HarmonicFullGoodRate.lean:356:12: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+⚠ [4381/4489] Replayed Erdos1135.ND.Discrepancy.A5BandCoverageRate
+warning: Erdos1135/ND/Discrepancy/A5BandCoverageRate.lean:27:9: unused variable `descent`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/ND/Discrepancy/A5BandCoverageRate.lean:28:9: unused variable `time`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/ND/Discrepancy/A5BandCoverageRate.lean:29:9: unused variable `lost`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/ND/Discrepancy/A5BandCoverageRate.lean:30:9: unused variable `hbudget`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/ND/Discrepancy/A5BandCoverageRate.lean:31:9: unused variable `hlogB`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/ND/Discrepancy/A5BandCoverageRate.lean:32:9: unused variable `hpadding`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/ND/Discrepancy/A5BandCoverageRate.lean:34:9: unused variable `hWn0`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/ND/Discrepancy/A5BandCoverageRate.lean:36:9: unused variable `hWlarge`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/ND/Discrepancy/A5BandCoverageRate.lean:37:9: unused variable `hwidth`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/ND/Discrepancy/A5BandCoverageRate.lean:39:9: unused variable `hj`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/ND/Discrepancy/A5BandCoverageRate.lean:67:9: unused variable `descent`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/ND/Discrepancy/A5BandCoverageRate.lean:68:9: unused variable `time`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/ND/Discrepancy/A5BandCoverageRate.lean:69:9: unused variable `lost`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/ND/Discrepancy/A5BandCoverageRate.lean:70:9: unused variable `hbudget`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/ND/Discrepancy/A5BandCoverageRate.lean:71:9: unused variable `hlogB`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/ND/Discrepancy/A5BandCoverageRate.lean:72:9: unused variable `hpadding`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/ND/Discrepancy/A5BandCoverageRate.lean:74:9: unused variable `hWn0`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/ND/Discrepancy/A5BandCoverageRate.lean:76:9: unused variable `hWlarge`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/ND/Discrepancy/A5BandCoverageRate.lean:77:9: unused variable `hwidth`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/ND/Discrepancy/A5BandCoverageRate.lean:79:9: unused variable `hj`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [4382/4489] Replayed Erdos1135.ND.Discrepancy.A5ReferenceGenuineBandRate
+info: Erdos1135/ND/Discrepancy/A5ReferenceGenuineBandRate.lean:83:6: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+warning: Erdos1135/ND/Discrepancy/A5ReferenceGenuineBandRate.lean:38:5: unused variable `hK`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/ND/Discrepancy/A5ReferenceGenuineBandRate.lean:92:5: unused variable `hK`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+info: Erdos1135/ND/Discrepancy/A5ReferenceGenuineBandRate.lean:325:41: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+info: Erdos1135/ND/Discrepancy/A5ReferenceGenuineBandRate.lean:345:41: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+ℹ [4383/4489] Replayed Erdos1135.ND.Discrepancy.A5ReferenceGenuineSourceRate
+info: Erdos1135/ND/Discrepancy/A5ReferenceGenuineSourceRate.lean:209:49: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+info: Erdos1135/ND/Discrepancy/A5ReferenceGenuineSourceRate.lean:262:49: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+⚠ [4387/4489] Replayed Erdos1135.ND.Discrepancy.A5ReferenceRealLogBlock
+warning: Erdos1135/ND/Discrepancy/A5ReferenceRealLogBlock.lean:81:9: unused variable `hx`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [4396/4489] Replayed Erdos1135.NumberTheory.Rhin.LiteralSupport
+warning: Erdos1135/NumberTheory/Rhin/LiteralSupport.lean:273:28: This simp argument is unused:
+  Int.natAbs_pow
+
+Hint: Omit it from the simp argument list.
+  simp [Int.natAbs_mul,̵ ̵I̵n̵t̵.̵n̵a̵t̵A̵b̵s̵_̵p̵o̵w̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [4398/4489] Replayed Erdos1135.NumberTheory.Rhin.LiteralRemainder
+warning: Erdos1135/NumberTheory/Rhin/LiteralRemainder.lean:42:4: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: Erdos1135/NumberTheory/Rhin/LiteralRemainder.lean:42:4: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+⚠ [4402/4489] Replayed Erdos1135.NumberTheory.Rhin.LargeHeight
+warning: Erdos1135/NumberTheory/Rhin/LargeHeight.lean:237:23: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Erdos1135/NumberTheory/Rhin/LargeHeight.lean:237:47: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Erdos1135/NumberTheory/Rhin/LargeHeight.lean:263:23: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Erdos1135/NumberTheory/Rhin/LargeHeight.lean:263:47: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Erdos1135/NumberTheory/Rhin/LargeHeight.lean:307:24: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: Erdos1135/NumberTheory/Rhin/LargeHeight.lean:307:24: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Erdos1135/NumberTheory/Rhin/LargeHeight.lean:323:20: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Erdos1135/NumberTheory/Rhin/LargeHeight.lean:329:24: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: Erdos1135/NumberTheory/Rhin/LargeHeight.lean:329:24: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Erdos1135/NumberTheory/Rhin/LargeHeight.lean:335:24: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: Erdos1135/NumberTheory/Rhin/LargeHeight.lean:335:24: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Erdos1135/NumberTheory/Rhin/LargeHeight.lean:483:27: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Erdos1135/NumberTheory/Rhin/LargeHeight.lean:483:50: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Erdos1135/NumberTheory/Rhin/LargeHeight.lean:486:27: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [4404/4489] Replayed Erdos1135.NumberTheory.Rhin.LcmGrowth
+warning: Erdos1135/NumberTheory/Rhin/LcmGrowth.lean:176:35: This simp argument is unused:
+  a
+
+Hint: Omit it from the simp argument list.
+  simp only [sylvesterMultinomial, a̵,̵ ̵b, c, d]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Erdos1135/NumberTheory/Rhin/LcmGrowth.lean:176:38: This simp argument is unused:
+  b
+
+Hint: Omit it from the simp argument list.
+  simp only [sylvesterMultinomial, a, b̵,̵ ̵c, d]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Erdos1135/NumberTheory/Rhin/LcmGrowth.lean:176:41: This simp argument is unused:
+  c
+
+Hint: Omit it from the simp argument list.
+  simp only [sylvesterMultinomial, a, b, c̵,̵ ̵d]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Erdos1135/NumberTheory/Rhin/LcmGrowth.lean:176:44: This simp argument is unused:
+  d
+
+Hint: Omit it from the simp argument list.
+  simp only [sylvesterMultinomial, a, b, c,̵ ̵d̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Erdos1135/NumberTheory/Rhin/LcmGrowth.lean:272:26: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Erdos1135/NumberTheory/Rhin/LcmGrowth.lean:547:4: exponent 903 exceeds the threshold 256, exponentiation operation was not evaluated, use `set_option exponentiation.threshold <num>` to set a new threshold
+warning: Erdos1135/NumberTheory/Rhin/LcmGrowth.lean:669:4: exponent 1805 exceeds the threshold 256, exponentiation operation was not evaluated, use `set_option exponentiation.threshold <num>` to set a new threshold
+⚠ [4420/4489] Replayed Erdos1135.ND.Density.NatDilate
+warning: Erdos1135/ND/Density/NatDilate.lean:123:33: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Erdos1135/ND/Density/NatDilate.lean:123:33: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+⚠ [4428/4489] Replayed Erdos1135.ND.PositiveDensity.TargetCounting
+warning: Erdos1135/ND/PositiveDensity/TargetCounting.lean:29:16: unused variable `hCsyr`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [4448/4489] Replayed Erdos1135.ND.PositiveDensity.CommonZEndpointAdaptiveCanonicalTotal
+warning: Erdos1135/ND/PositiveDensity/CommonZEndpointAdaptiveCanonicalTotal.lean:226:17: unused variable `hL`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [4449/4489] Replayed Erdos1135.ND.PositiveDensity.A5LongRangeScheduledKCapGoodEndpointAdaptiveTargetShell
+warning: Erdos1135/ND/PositiveDensity/A5LongRangeScheduledKCapGoodEndpointAdaptiveTargetShell.lean:39:33: unused variable `L`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/ND/PositiveDensity/A5LongRangeScheduledKCapGoodEndpointAdaptiveTargetShell.lean:39:35: unused variable `X`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/ND/PositiveDensity/A5LongRangeScheduledKCapGoodEndpointAdaptiveTargetShell.lean:55:33: unused variable `L`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/ND/PositiveDensity/A5LongRangeScheduledKCapGoodEndpointAdaptiveTargetShell.lean:55:35: unused variable `X`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/ND/PositiveDensity/A5LongRangeScheduledKCapGoodEndpointAdaptiveTargetShell.lean:71:33: unused variable `L`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/ND/PositiveDensity/A5LongRangeScheduledKCapGoodEndpointAdaptiveTargetShell.lean:71:35: unused variable `X`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [4463/4489] Replayed Erdos1135.ND.PositiveDensity.CommonZBalancedChainFirstEntryEnergyNoRate
+warning: Erdos1135/ND/PositiveDensity/CommonZBalancedChainFirstEntryEnergyNoRate.lean:57:33: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Erdos1135/ND/PositiveDensity/CommonZBalancedChainFirstEntryEnergyNoRate.lean:93:63: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Erdos1135/ND/PositiveDensity/CommonZBalancedChainFirstEntryEnergyNoRate.lean:94:13: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Erdos1135/ND/PositiveDensity/CommonZBalancedChainFirstEntryEnergyNoRate.lean:207:28: unused variable `hlen`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/ND/PositiveDensity/CommonZBalancedChainFirstEntryEnergyNoRate.lean:247:15: unused variable `hM`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/ND/PositiveDensity/CommonZBalancedChainFirstEntryEnergyNoRate.lean:247:28: unused variable `hQ`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/ND/PositiveDensity/CommonZBalancedChainFirstEntryEnergyNoRate.lean:454:4: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: Erdos1135/ND/PositiveDensity/CommonZBalancedChainFirstEntryEnergyNoRate.lean:696:4: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: Erdos1135/ND/PositiveDensity/CommonZBalancedChainFirstEntryEnergyNoRate.lean:896:40: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: Erdos1135/ND/PositiveDensity/CommonZBalancedChainFirstEntryEnergyNoRate.lean:927:31: unused variable `hQ`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [4473/4489] Replayed Erdos1135.ND.PositiveDensity.A5CriticalCenteredIndexedSanity
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredIndexedSanity.lean:51:5: unused variable `hlogA0`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [4481/4740] Replayed Erdos1135.ND.PositiveDensity.A5CriticalCenteredIndexedErrorRate
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredIndexedErrorRate.lean:363:56: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredIndexedErrorRate.lean:419:58: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [4482/4740] Replayed Erdos1135.ND.PositiveDensity.A5CriticalCenteredIndexedStageBudget
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredIndexedStageBudget.lean:183:60: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [4483/4740] Replayed Erdos1135.ND.PositiveDensity.A5CriticalCenteredIndexedRelativeStage
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredIndexedRelativeStage.lean:590:5: unused variable `hentryRate`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [4484/4740] Replayed Erdos1135.ND.PositiveDensity.A5CriticalCenteredIndexedSignedProducer
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredIndexedSignedProducer.lean:492:5: unused variable `hentryRate`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [4485/4740] Replayed Erdos1135.ND.PositiveDensity.A5CriticalCenteredIndexedSignedProducerDecomposition
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredIndexedSignedProducerDecomposition.lean:202:7: unused variable `b`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [4489/4740] Replayed Erdos1135.ND.PositiveDensity.CommonZAdjacentFullReverseBridge
+warning: Erdos1135/ND/PositiveDensity/CommonZAdjacentFullReverseBridge.lean:268:5: unused variable `hweight_nonneg`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [4500/4740] Replayed Erdos1135.ND.PositiveDensity.A5CriticalCenteredIndexedFamilyRate
+info: Erdos1135/ND/PositiveDensity/A5CriticalCenteredIndexedFamilyRate.lean:290:32: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredIndexedFamilyRate.lean:290:28: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredIndexedFamilyRate.lean:358:16: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [4503/4740] Replayed Erdos1135.ND.PositiveDensity.A5CriticalCenteredIndexedRetainedFamilyCovarianceFrontier
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredIndexedRetainedFamilyCovarianceFrontier.lean:336:10: unused variable `hphase`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [4522/4740] Replayed Erdos1135.ND.PositiveDensity.A5CriticalCenteredIndexedPairwiseCoarseCredit
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredIndexedPairwiseCoarseCredit.lean:425:24: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [4525/4740] Replayed Erdos1135.ND.PositiveDensity.A5CriticalCenteredIndexedRetainedFamilyCompleteWindowPairwise
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredIndexedRetainedFamilyCompleteWindowPairwise.lean:129:26: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [4528/4740] Replayed Erdos1135.ND.PositiveDensity.A5CriticalCenteredIndexedSeedCompatibleStage
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredIndexedSeedCompatibleStage.lean:88:5: unused variable `hentryRate`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [4538/4740] Replayed Erdos1135.ND.PositiveDensity.A5CriticalCenteredIndexedRecurrence
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredIndexedRecurrence.lean:384:21: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredIndexedRecurrence.lean:494:29: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredIndexedRecurrence.lean:494:29: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+⚠ [4540/4740] Replayed Erdos1135.ND.PositiveDensity.A5IndexedScheduledTimeDirectFloorBudget
+warning: Erdos1135/ND/PositiveDensity/A5IndexedScheduledTimeDirectFloorBudget.lean:116:19: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Erdos1135/ND/PositiveDensity/A5IndexedScheduledTimeDirectFloorBudget.lean:116:19: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: Erdos1135/ND/PositiveDensity/A5IndexedScheduledTimeDirectFloorBudget.lean:115:75: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [4542/4740] Replayed Erdos1135.ND.PositiveDensity.A5IndexedScheduledTimeDirectAffineBudget
+warning: Erdos1135/ND/PositiveDensity/A5IndexedScheduledTimeDirectAffineBudget.lean:119:19: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Erdos1135/ND/PositiveDensity/A5IndexedScheduledTimeDirectAffineBudget.lean:119:19: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: Erdos1135/ND/PositiveDensity/A5IndexedScheduledTimeDirectAffineBudget.lean:118:75: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [4554/4740] Replayed Erdos1135.ND.PositiveDensity.CommonZTransportedPathConcatenation
+warning: Erdos1135/ND/PositiveDensity/CommonZTransportedPathConcatenation.lean:178:6: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+⚠ [4587/4740] Replayed Erdos1135.ND.PositiveDensity.CommonZTransportedMinDepthContinuation
+warning: Erdos1135/ND/PositiveDensity/CommonZTransportedMinDepthContinuation.lean:121:23: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [4598/4740] Replayed Erdos1135.ND.PositiveDensity.A5HistoricalAdjacentCylinderActiveOwnerRootSuccess
+warning: Erdos1135/ND/PositiveDensity/A5HistoricalAdjacentCylinderActiveOwnerRootSuccess.lean:474:4: 'change
+  ndA5HistoricalAdjacentCylinderStageDepth B N finalTotalDepth s +
+        Tao.taoSection5M0
+          (ndA5IndexedCriticalCenteredThreshold (ndA5HistoricalAdjacentCylinderStageBase B N finalTotalDepth s)
+            (ndA5HistoricalAdjacentCylinderStagePhase B N finalTotalDepth s)) +
+      ndA5IndexedCriticalCenteredTimeLadder B T r ≤
+    ndA5IndexedCriticalCenteredStagePrefixTime (ndA5IndexedCriticalCenteredBaseLadder B r) +
+      ndA5IndexedCriticalCenteredTimeLadder B T r' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+⚠ [4608/4740] Replayed Erdos1135.ND.PositiveDensity.A5CriticalCenteredIndexedRetainedFamilyCompleteWindowActualEntryCount
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredIndexedRetainedFamilyCompleteWindowActualEntryCount.lean:146:5: unused variable `hrhoEntryPos`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [4611/4740] Replayed Erdos1135.ND.PositiveDensity.A5CriticalCenteredIndexedRetainedFamilyCompleteWindowScalarReserve
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredIndexedRetainedFamilyCompleteWindowScalarReserve.lean:274:9: unused variable `facts`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [4613/4740] Replayed Erdos1135.ND.PositiveDensity.A5CriticalCenteredIndexedRetainedFamilyCompleteWindowFiniteLadder
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredIndexedRetainedFamilyCompleteWindowFiniteLadder.lean:23:7: unused variable `T`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [4619/4740] Replayed Erdos1135.ND.PositiveDensity.A5HistoricalAdjacentCylinderActiveOwnerClockSchedule
+warning: Erdos1135/ND/PositiveDensity/A5HistoricalAdjacentCylinderActiveOwnerClockSchedule.lean:472:25: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [4623/4740] Replayed Erdos1135.ND.PositiveDensity.A5HistoricalAdjacentCylinderActiveOwnerRangeCollision
+warning: Erdos1135/ND/PositiveDensity/A5HistoricalAdjacentCylinderActiveOwnerRangeCollision.lean:453:6: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Erdos1135/ND/PositiveDensity/A5HistoricalAdjacentCylinderActiveOwnerRangeCollision.lean:453:6: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+⚠ [4634/4740] Replayed Erdos1135.ND.PositiveDensity.A5CriticalCenteredIndexedOwnedConductorShiftTagMinDepthLoad
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredIndexedOwnedConductorShiftTagMinDepthLoad.lean:352:31: unused variable `hload`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredIndexedOwnedConductorShiftTagMinDepthLoad.lean:373:8: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredIndexedOwnedConductorShiftTagMinDepthLoad.lean:373:8: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+⚠ [4636/4740] Replayed Erdos1135.ND.PositiveDensity.A5CriticalCenteredIndexedBaseLadderHighSourceIncidence
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredIndexedBaseLadderHighSourceIncidence.lean:283:6: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+⚠ [4647/4740] Replayed Erdos1135.ND.PositiveDensity.A5HistoricalWindowUniformExtensionTerminalClockSchedule
+warning: Erdos1135/ND/PositiveDensity/A5HistoricalWindowUniformExtensionTerminalClockSchedule.lean:297:25: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [4660/4740] Replayed Erdos1135.ND.PositiveDensity.A5HistoricalAdjacentCylinderActiveOwnerFirstSupercriticalStart
+warning: Erdos1135/ND/PositiveDensity/A5HistoricalAdjacentCylinderActiveOwnerFirstSupercriticalStart.lean:194:10: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: Erdos1135/ND/PositiveDensity/A5HistoricalAdjacentCylinderActiveOwnerFirstSupercriticalStart.lean:696:24: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [4661/4740] Replayed Erdos1135.ND.PositiveDensity.A5HistoricalAdjacentCylinderActiveOwnerAdaptiveLinearLateMass
+warning: Erdos1135/ND/PositiveDensity/A5HistoricalAdjacentCylinderActiveOwnerAdaptiveLinearLateMass.lean:195:10: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+⚠ [4668/4740] Replayed Erdos1135.ND.PositiveDensity.A5HistoricalAdjacentCylinderPreviousQOneCountOrGeometricTail
+warning: Erdos1135/ND/PositiveDensity/A5HistoricalAdjacentCylinderPreviousQOneCountOrGeometricTail.lean:296:5: unused variable `hrho`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/ND/PositiveDensity/A5HistoricalAdjacentCylinderPreviousQOneCountOrGeometricTail.lean:392:5: unused variable `heta`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [4669/4740] Replayed Erdos1135.ND.PositiveDensity.A5HistoricalAdjacentCylinderPreviousQOneLevelZeroWholeSourceLimit
+warning: Erdos1135/ND/PositiveDensity/A5HistoricalAdjacentCylinderPreviousQOneLevelZeroWholeSourceLimit.lean:556:5: unused variable `hrho`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [4674/4740] Replayed Erdos1135.ND.PositiveDensity.A5HistoricalAdjacentCylinderPreviousQOneOneLawGaussianFirstHitRate
+warning: Erdos1135/ND/PositiveDensity/A5HistoricalAdjacentCylinderPreviousQOneOneLawGaussianFirstHitRate.lean:102:53: This simp argument is unused:
+  Finset.mem_univ
+
+Hint: Omit it from the simp argument list.
+  simp only [ndGeom2PredictableOuterDenominator, F̵i̵n̵s̵e̵t̵.̵m̵e̵m̵_̵u̵n̵i̵v̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵↓reduceIte,
+          ndA5HistoricalAdjacentCylinderQOneLevelZeroOneLawOuterWeight]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Erdos1135/ND/PositiveDensity/A5HistoricalAdjacentCylinderPreviousQOneOneLawGaussianFirstHitRate.lean:103:8: This simp argument is unused:
+  ↓reduceIte
+
+Hint: Omit it from the simp argument list.
+  simp only [ndGeom2PredictableOuterDenominator, Finset.mem_univ,
+          ↓̵r̵e̵d̵u̵c̵e̵I̵t̵e̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ndA5HistoricalAdjacentCylinderQOneLevelZeroOneLawOuterWeight]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [4676/4740] Replayed Erdos1135.ND.PositiveDensity.Geom2AffineOffsetFirstMoment
+warning: Erdos1135/ND/PositiveDensity/Geom2AffineOffsetFirstMoment.lean:391:26: unused variable `hcutoff`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [4711/4740] Replayed Erdos1135.ND.PositiveDensity.A5CoarseFactorization
+warning: Erdos1135/ND/PositiveDensity/A5CoarseFactorization.lean:129:5: unused variable `hepsilon`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [4713/4740] Replayed Erdos1135.ND.PositiveDensity.SyracuseConditionedTail
+info: Erdos1135/ND/PositiveDensity/SyracuseConditionedTail.lean:200:38: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+warning: Erdos1135/ND/PositiveDensity/SyracuseConditionedTail.lean:200:24: 'push_cast' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Erdos1135/ND/PositiveDensity/SyracuseConditionedTail.lean:200:20: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Erdos1135/ND/PositiveDensity/SyracuseConditionedTail.lean:200:34: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+info: Erdos1135/ND/PositiveDensity/SyracuseConditionedTail.lean:216:40: Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+warning: Erdos1135/ND/PositiveDensity/SyracuseConditionedTail.lean:216:26: 'push_cast' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Erdos1135/ND/PositiveDensity/SyracuseConditionedTail.lean:216:22: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Erdos1135/ND/PositiveDensity/SyracuseConditionedTail.lean:216:36: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Erdos1135/ND/PositiveDensity/SyracuseConditionedTail.lean:259:14: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [4714/4740] Replayed Erdos1135.ND.PositiveDensity.A5CoarseFactorizationTail
+warning: Erdos1135/ND/PositiveDensity/A5CoarseFactorizationTail.lean:67:5: unused variable `hmass`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Erdos1135/ND/PositiveDensity/A5CoarseFactorizationTail.lean:67:24: unused variable `hdelta`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [4719/4740] Replayed Erdos1135.ND.PositiveDensity.Geom2MarkedFirstHitUnitSupportEnergyFloor
+warning: Erdos1135/ND/PositiveDensity/Geom2MarkedFirstHitUnitSupportEnergyFloor.lean:48:67: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Erdos1135/ND/PositiveDensity/Geom2MarkedFirstHitUnitSupportEnergyFloor.lean:49:17: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [4732/4740] Replayed Erdos1135.ND.PositiveDensity.A5PairedFixedTotalFourier
+warning: Erdos1135/ND/PositiveDensity/A5PairedFixedTotalFourier.lean:261:8: unused variable `childOne`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [4747/4967] Replayed Erdos1135.ND.PositiveDensity.A5PairedFixedTotalNumerator
+warning: Erdos1135/ND/PositiveDensity/A5PairedFixedTotalNumerator.lean:48:32: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+⚠ [4749/4967] Replayed Erdos1135.ND.PositiveDensity.A5PairedConductorDescent
+warning: Erdos1135/ND/PositiveDensity/A5PairedConductorDescent.lean:55:6: Try `simp at has` instead of `simpa using has`
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: Erdos1135/ND/PositiveDensity/A5PairedConductorDescent.lean:58:6: Try `simp at has` instead of `simpa using has`
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+⚠ [4802/4967] Replayed Erdos1135.ND.PositiveDensity.Geom2CompensatedFirstBadStoppingAtoms
+warning: Erdos1135/ND/PositiveDensity/Geom2CompensatedFirstBadStoppingAtoms.lean:151:2: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+⚠ [4804/4967] Replayed Erdos1135.ND.PositiveDensity.CommonZLongRangeCompensatedFirstSpikeSourceEmission
+warning: Erdos1135/ND/PositiveDensity/CommonZLongRangeCompensatedFirstSpikeSourceEmission.lean:37:25: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: Erdos1135/ND/PositiveDensity/CommonZLongRangeCompensatedFirstSpikeSourceEmission.lean:40:25: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: Erdos1135/ND/PositiveDensity/CommonZLongRangeCompensatedFirstSpikeSourceEmission.lean:356:8: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: Erdos1135/ND/PositiveDensity/CommonZLongRangeCompensatedFirstSpikeSourceEmission.lean:368:10: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+⚠ [4821/4967] Replayed Erdos1135.ND.PositiveDensity.A5HistoricalAdjacentCylinderActiveOwnerCoordinateCapCompensatedFirstSpikeUniformClock
+warning: Erdos1135/ND/PositiveDensity/A5HistoricalAdjacentCylinderActiveOwnerCoordinateCapCompensatedFirstSpikeUniformClock.lean:357:25: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [4834/4967] Replayed Erdos1135.ND.PositiveDensity.A5HistoricalWindowAffineReserveStageLocatedCount
+warning: Erdos1135/ND/PositiveDensity/A5HistoricalWindowAffineReserveStageLocatedCount.lean:128:2: `push_neg` has been deprecated. Prefer using `push Not` instead.
+If you'd rather continue using `push_neg` in your project, you can implement it as follows:
+```
+open Lean.Parser.Tactic in
+macro "push_neg" cfg:optConfig loc:(location)? : tactic =>
+  `(tactic| push $cfg:optConfig Not $[$loc]?)
+```
+warning: Erdos1135/ND/PositiveDensity/A5HistoricalWindowAffineReserveStageLocatedCount.lean:165:8: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Erdos1135/ND/PositiveDensity/A5HistoricalWindowAffineReserveStageLocatedCount.lean:165:8: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: Erdos1135/ND/PositiveDensity/A5HistoricalWindowAffineReserveStageLocatedCount.lean:157:8: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Erdos1135/ND/PositiveDensity/A5HistoricalWindowAffineReserveStageLocatedCount.lean:282:6: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [4838/4967] Replayed Erdos1135.ND.PositiveDensity.CommonZOrbitEventCrossing
+warning: Erdos1135/ND/PositiveDensity/CommonZOrbitEventCrossing.lean:160:8: This simp argument is unused:
+  hsucc
+
+Hint: Omit it from the simp argument list.
+  simp [̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵n̵d̵C̵o̵m̵m̵o̵n̵Z̵O̵r̵b̵i̵t̵F̵i̵n̵s̵e̵t̵E̵v̵e̵n̵t̵A̵t̵o̵m̵,̵[̲n̲d̲C̲o̲m̲m̲o̲n̲Z̲O̲r̲b̲i̲t̲F̲i̲n̲s̲e̲t̲E̲v̲e̲n̲t̲A̲t̲o̲m̲,̲ ndCommonZOrbitFinsetEventDefect,
+        ndCommonZOrbitFinsetEventExit, ndCommonZOrbitFinsetEventEntry, h̵q̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵h̵s̵u̵c̵c̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵]̵h̲q̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Erdos1135/ND/PositiveDensity/CommonZOrbitEventCrossing.lean:168:8: This simp argument is unused:
+  hsucc
+
+Hint: Omit it from the simp argument list.
+  simp [̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵n̵d̵C̵o̵m̵m̵o̵n̵Z̵O̵r̵b̵i̵t̵F̵i̵n̵s̵e̵t̵E̵v̵e̵n̵t̵A̵t̵o̵m̵,̵[̲n̲d̲C̲o̲m̲m̲o̲n̲Z̲O̲r̲b̲i̲t̲F̲i̲n̲s̲e̲t̲E̲v̲e̲n̲t̲A̲t̲o̲m̲,̲ ndCommonZOrbitFinsetEventDefect,
+        ndCommonZOrbitFinsetEventExit, ndCommonZOrbitFinsetEventEntry, h̵q̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵h̵s̵u̵c̵c̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵]̵h̲q̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [4840/4967] Replayed Erdos1135.ND.PositiveDensity.A5CriticalCenteredIndexedPairwiseAffineReserveResidueLift
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredIndexedPairwiseAffineReserveResidueLift.lean:511:30: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredIndexedPairwiseAffineReserveResidueLift.lean:514:32: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [4843/4967] Replayed Erdos1135.ND.PositiveDensity.CommonZForcedHeadMassRecursion
+warning: Erdos1135/ND/PositiveDensity/CommonZForcedHeadMassRecursion.lean:368:10: This simp argument is unused:
+  and_assoc
+
+Hint: Omit it from the simp argument list.
+  simp [and_a̵s̵s̵o̵c̵,̵ ̵a̵n̵d̵_̵left_comm, and_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [4845/4967] Replayed Erdos1135.ND.PositiveDensity.CommonZBoundaryExponentTwoDescent
+warning: Erdos1135/ND/PositiveDensity/CommonZBoundaryExponentTwoDescent.lean:59:6: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: Erdos1135/ND/PositiveDensity/CommonZBoundaryExponentTwoDescent.lean:359:16: unused variable `hlo`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [4856/4967] Replayed Erdos1135.ND.PositiveDensity.A5CriticalCenteredIndexedPairwiseQOneMinimalPhysicalArm
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredIndexedPairwiseQOneMinimalPhysicalArm.lean:192:4: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredIndexedPairwiseQOneMinimalPhysicalArm.lean:402:30: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [4857/4967] Replayed Erdos1135.ND.PositiveDensity.Geom2OneLawSparseRenewalFirstHitRate
+warning: Erdos1135/ND/PositiveDensity/Geom2OneLawSparseRenewalFirstHitRate.lean:351:12: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Erdos1135/ND/PositiveDensity/Geom2OneLawSparseRenewalFirstHitRate.lean:351:12: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+⚠ [4859/4967] Replayed Erdos1135.ND.PositiveDensity.Geom2SparseFirstHitSyracuseFixedSchedule
+warning: Erdos1135/ND/PositiveDensity/Geom2SparseFirstHitSyracuseFixedSchedule.lean:281:12: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Erdos1135/ND/PositiveDensity/Geom2SparseFirstHitSyracuseFixedSchedule.lean:281:12: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+⚠ [4864/4967] Replayed Erdos1135.ND.PositiveDensity.A5HistoricalAdjacentCylinderPreviousQOneSparseRootReferenceDilutionNoRate
+warning: Erdos1135/ND/PositiveDensity/A5HistoricalAdjacentCylinderPreviousQOneSparseRootReferenceDilutionNoRate.lean:278:10: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Erdos1135/ND/PositiveDensity/A5HistoricalAdjacentCylinderPreviousQOneSparseRootReferenceDilutionNoRate.lean:278:10: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+⚠ [4870/4967] Replayed Erdos1135.ND.PositiveDensity.A5ScheduledMacroOccupationMixingRate
+warning: Erdos1135/ND/PositiveDensity/A5ScheduledMacroOccupationMixingRate.lean:361:22: This simp argument is unused:
+  Nat.cast_ofNat
+
+Hint: Omit it from the simp argument list.
+  simp only [Finset.sum_const, Finset.card_univ, Fintype.card_fin, n̵s̵m̵u̵l̵_̵e̵q̵_̵m̵u̵l̵,̵ ̵N̵a̵t̵.̵c̵a̵s̵t̵_̵o̵f̵N̵a̵t̵]̵n̲s̲m̲u̲l̲_̲e̲q̲_̲m̲u̲l̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [4874/4967] Replayed Erdos1135.ND.PositiveDensity.A5ScheduledKCapMacroLiveRecurrence
+warning: Erdos1135/ND/PositiveDensity/A5ScheduledKCapMacroLiveRecurrence.lean:332:40: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Erdos1135/ND/PositiveDensity/A5ScheduledKCapMacroLiveRecurrence.lean:332:40: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+⚠ [4875/4967] Replayed Erdos1135.ND.PositiveDensity.A5ScheduledKCapMacroProtectedRecurrence
+warning: Erdos1135/ND/PositiveDensity/A5ScheduledKCapMacroProtectedRecurrence.lean:528:29: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [4876/4967] Replayed Erdos1135.ND.PositiveDensity.A5ScheduledKCapMacroReentryRateObstruction
+warning: Erdos1135/ND/PositiveDensity/A5ScheduledKCapMacroReentryRateObstruction.lean:103:5: unused variable `hprobabilityNonneg`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [4880/4967] Replayed Erdos1135.ND.PositiveDensity.A5CriticalCenteredCoreFixedDepthTerminalWeightLoss
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredCoreFixedDepthTerminalWeightLoss.lean:129:30: This simp argument is unused:
+  not_le.mpr htube
+
+Hint: Omit it from the simp argument list.
+  simp [hinterior, htube,̵ ̵n̵o̵t̵_̵l̵e̵.̵m̵p̵r̵ ̵h̵t̵u̵b̵e̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredCoreFixedDepthTerminalWeightLoss.lean:130:30: This simp argument is unused:
+  le_of_not_gt htube
+
+Hint: Omit it from the simp argument list.
+  simp [hinterior, htube,̵ ̵l̵e̵_̵o̵f̵_̵n̵o̵t̵_̵g̵t̵ ̵h̵t̵u̵b̵e̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [4882/4967] Replayed Erdos1135.ND.PositiveDensity.A5CriticalCenteredCoreFixedDepthTerminalWeightTube
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredCoreFixedDepthTerminalWeightTube.lean:186:6: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [4893/4967] Replayed Erdos1135.ND.PositiveDensity.A5LongRangeEndpointAdaptiveCanonicalExactWidthSourceCrossing
+warning: Erdos1135/ND/PositiveDensity/A5LongRangeEndpointAdaptiveCanonicalExactWidthSourceCrossing.lean:575:6: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+⚠ [4894/4967] Replayed Erdos1135.ND.PositiveDensity.A5LongRangeEndpointAdaptiveCanonicalExactWidthSourceShellRate
+warning: Erdos1135/ND/PositiveDensity/A5LongRangeEndpointAdaptiveCanonicalExactWidthSourceShellRate.lean:135:6: 'push_cast' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+⚠ [4896/4967] Replayed Erdos1135.ND.PositiveDensity.A5LongRangeEndpointAdaptiveCanonicalLogBinScheduler
+warning: Erdos1135/ND/PositiveDensity/A5LongRangeEndpointAdaptiveCanonicalLogBinScheduler.lean:29:13: unused variable `hlog0`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [4903/4967] Replayed Erdos1135.ND.PositiveDensity.A5CriticalCenteredIndexedPairwiseQOneMarkedFirstHitPhysicalCensus
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredIndexedPairwiseQOneMarkedFirstHitPhysicalCensus.lean:462:6: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+⚠ [4904/4967] Replayed Erdos1135.ND.PositiveDensity.A5CriticalCenteredIndexedPairwiseQOneUnitConditionalMarkedFirstHitRate
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredIndexedPairwiseQOneUnitConditionalMarkedFirstHitRate.lean:75:73: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredIndexedPairwiseQOneUnitConditionalMarkedFirstHitRate.lean:76:23: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [4907/4967] Replayed Erdos1135.ND.PositiveDensity.Geom2ShiftedWideSymmetricRootSideKilledLiftSquareFunction
+warning: Erdos1135/ND/PositiveDensity/Geom2ShiftedWideSymmetricRootSideKilledLiftSquareFunction.lean:1033:25: unused variable `hC`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [4912/4967] Replayed Erdos1135.ND.PositiveDensity.A5CriticalCenteredIndexedPairwiseQOneMarkedFirstHitNoNearOne
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredIndexedPairwiseQOneMarkedFirstHitNoNearOne.lean:91:10: exponent 400 exceeds the threshold 256, exponentiation operation was not evaluated, use `set_option exponentiation.threshold <num>` to set a new threshold
+⚠ [4923/4967] Replayed Erdos1135.ND.PositiveDensity.Geom2ShiftedWideSymmetricRootSideIntervalFirstReachingRootTerminal
+warning: Erdos1135/ND/PositiveDensity/Geom2ShiftedWideSymmetricRootSideIntervalFirstReachingRootTerminal.lean:560:8: This simp argument is unused:
+  P₁
+
+Hint: Omit it from the simp argument list.
+  simp only [
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵NDGeom2ShiftedWideSymmetricRegenerativeState.rootSideForwardAncestor,
+          NDGeom2ShiftedWideSymmetricRegenerativeState.rootSideIntervalFirstReachingForwardAncestor,
+          NDGeom2ShiftedWideSymmetricRegenerativeState.rootSideIntervalFirstReachingForwardStructuralImage,
+          P̵₁̵,̵ ̵Q₁, f₁]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Erdos1135/ND/PositiveDensity/Geom2ShiftedWideSymmetricRootSideIntervalFirstReachingRootTerminal.lean:560:12: This simp argument is unused:
+  Q₁
+
+Hint: Omit it from the simp argument list.
+  simp only [
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵NDGeom2ShiftedWideSymmetricRegenerativeState.rootSideForwardAncestor,
+          NDGeom2ShiftedWideSymmetricRegenerativeState.rootSideIntervalFirstReachingForwardAncestor,
+          NDGeom2ShiftedWideSymmetricRegenerativeState.rootSideIntervalFirstReachingForwardStructuralImage,
+          P₁, Q̵₁̵,̵ ̵f₁]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Erdos1135/ND/PositiveDensity/Geom2ShiftedWideSymmetricRootSideIntervalFirstReachingRootTerminal.lean:560:16: This simp argument is unused:
+  f₁
+
+Hint: Omit it from the simp argument list.
+  simp only [
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵NDGeom2ShiftedWideSymmetricRegenerativeState.rootSideForwardAncestor,
+          NDGeom2ShiftedWideSymmetricRegenerativeState.rootSideIntervalFirstReachingForwardAncestor,
+          NDGeom2ShiftedWideSymmetricRegenerativeState.rootSideIntervalFirstReachingForwardStructuralImage,
+          P₁, Q₁,̵ ̵f̵₁̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [4924/4967] Replayed Erdos1135.ND.PositiveDensity.A5CriticalCenteredIndexedPairwiseQOnePaidEndpointCensus
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredIndexedPairwiseQOnePaidEndpointCensus.lean:640:28: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredIndexedPairwiseQOnePaidEndpointCensus.lean:640:52: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Erdos1135/ND/PositiveDensity/A5CriticalCenteredIndexedPairwiseQOnePaidEndpointCensus.lean:640:67: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [4939/4967] Replayed Erdos1135.ND.PositiveDensity.Geom2ShiftedWideSymmetricRootSideUniformFloorIntervalStoppedFluxRate
+warning: Erdos1135/ND/PositiveDensity/Geom2ShiftedWideSymmetricRootSideUniformFloorIntervalStoppedFluxRate.lean:600:13: This simp argument is unused:
+  U
+
+Hint: Omit it from the simp argument list.
+  simp only [U̵,̵ ̵cap, b0] at hflux hscaled ⊢
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [4946/4967] Replayed Erdos1135.ND.PositiveDensity.A5OddFullWindowEndpointDefectRate
+warning: Erdos1135/ND/PositiveDensity/A5OddFullWindowEndpointDefectRate.lean:499:19: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+✔ [4967/4967] Built CollatzTargetDensity.SyracuseCylinderProjection (26s)
+Build completed successfully (4967 jobs).

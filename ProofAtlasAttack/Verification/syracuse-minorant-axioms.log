@@ -1,0 +1,40 @@
+'CollatzTargetDensity.MixingFloorCountermodel.minimum_lower' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.MixingFloorCountermodel.minimum_attained' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.MixingFloorCountermodel.normalized' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.MixingFloorCountermodel.projective' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.MixingFloorCountermodel.fast_mixing' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.SyracuseMinorant.prefix_family_selected_le_density' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.SyracuseMinorant.prefix_family_positive_error_polynomial' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.SyracuseMinorant.filtered_kernel_positive_contraction' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.SyracuseMinorant.filtered_kernel_positive_error_polynomial' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.SyracuseMinorant.backward_mark_positive_error_polynomial' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.SyracuseMinorant.exists_fixed_positive_core_cylinder_finite' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.SyracuseMinorant.coreMark_positive_error_rate' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.SyracuseMinorant.exists_positive_syracuse_cylinder' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.SyracuseMinorant.bounded_inverse_into_cylinder' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.SyracuseMinorant.exists_uniform_positive_syracuse_density' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.SyracuseMinorant.syracuse_uniform_atom_lower_bound' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

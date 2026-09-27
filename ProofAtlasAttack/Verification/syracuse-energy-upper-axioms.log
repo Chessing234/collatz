@@ -1,0 +1,37 @@
+def CollatzTargetDensity.SyracuseEnergy.collisionEnergy : ℕ → ℝ :=
+fun n => 3 ^ n * ∑ y, ((Erdos1135.Tao.syracPMF n) y).toReal ^ 2
+CollatzTargetDensity.SyracuseEnergy.collisionEnergy_step_le_five_thirds (n : ℕ) :
+  CollatzTargetDensity.SyracuseEnergy.collisionEnergy (n + 1) ≤
+    5 / 3 * CollatzTargetDensity.SyracuseEnergy.collisionEnergy n
+CollatzTargetDensity.SyracuseEnergy.collisionEnergy_le_five_thirds_pow (n : ℕ) :
+  CollatzTargetDensity.SyracuseEnergy.collisionEnergy n ≤ (5 / 3) ^ n
+CollatzTargetDensity.five_thirds_target_density (A : ℕ) (hA : 1 ≤ A) :
+  ∃ K,
+    1 ≤ K ∧
+      ∃ d,
+        0 < d ∧
+          ∀ (a : ℕ),
+            0 < a →
+              a % 3 ≠ 0 →
+                ∀ (t : ℕ),
+                  1 ≤ t →
+                    a ≤ t ^ A →
+                      ∃ X₀,
+                        ∀ (X : ℕ),
+                          X₀ ≤ X → d / (↑a ^ 2 * (5 / 3) ^ (K * t)) * ↑X ≤ ↑(CollatzTargetDensity.countBelow a X)
+'CollatzTargetDensity.SyracuseEnergy.lift_ne_two_lift' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.SyracuseEnergy.inputMass_two_lift' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.SyracuseEnergy.pmf_two_lift' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.SyracuseEnergy.unitClassEmbedding_injective' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.SyracuseEnergy.five_mul_lift_square_sum_le' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.SyracuseEnergy.collisionEnergy_step_le_five_thirds' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.SyracuseEnergy.collisionEnergy_le_five_thirds_pow' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.five_thirds_target_density' depends on axioms: [propext, Classical.choice, Quot.sound]

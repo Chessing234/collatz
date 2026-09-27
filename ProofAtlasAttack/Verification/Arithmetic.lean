@@ -1,0 +1,17 @@
+import CollatzTargetDensity.ArithmeticSeeds
+import CollatzTargetDensity.RawBridge
+import CollatzTargetDensity.OrbitInvariance
+import CollatzTargetDensity.ThreeDivisible
+
+#check CollatzTargetDensity.SeedSupply
+#check CollatzTargetDensity.seed_supply
+#print axioms CollatzTargetDensity.nonperiodic_choice
+#print axioms CollatzTargetDensity.nonperiodic_hit_time_unique
+#print axioms CollatzTargetDensity.large_child_in_residue
+#print axioms CollatzTargetDensity.seed_supply
+#print axioms CollatzTargetDensity.exists_fertile_raw_child
+#print axioms CollatzTargetDensity.oddReaches_subset_rawReaches
+#print axioms CollatzTargetDensity.reaches_one_forward
+#print axioms CollatzTargetDensity.reaches_three_unit
+#print axioms CollatzTargetDensity.three_divisible_count_at_dyadic_cutoff
+#print axioms CollatzTargetDensity.no_positive_lower_density_three_divisible

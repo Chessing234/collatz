@@ -1,0 +1,70 @@
+def CollatzTargetDensity.InverseBoundary.rationalRemainder : ℕ → ℕ → ℚ :=
+fun n k =>
+  2 ^ CollatzTargetDensity.OrbitReciprocals.valuationTotal n k / 3 ^ k *
+    ↑(CollatzTargetDensity.OrbitReciprocals.orbit n k)
+def CollatzTargetDensity.InverseBoundary.realBoundary : ℕ → ℝ :=
+fun n => ↑n * Real.exp (∑' (i : ℕ), CollatzTargetDensity.OrbitReciprocals.correction n i)
+def CollatzTargetDensity.TwoTopologyExample.q : ℕ → ℚ :=
+fun k => 2 ^ k * ↑(3 ^ k / 2 ^ k) / 3 ^ k
+CollatzTargetDensity.InverseBoundary.same_rational_remainders_two_limits {n : ℕ} (hn : Odd n)
+  (hi : Function.Injective (CollatzTargetDensity.OrbitReciprocals.orbit n)) :
+  0 < CollatzTargetDensity.InverseBoundary.realBoundary n ∧
+    Filter.Tendsto (fun k => ↑(CollatzTargetDensity.InverseBoundary.rationalRemainder n k)) Filter.atTop
+        (nhds (CollatzTargetDensity.InverseBoundary.realBoundary n)) ∧
+      Filter.Tendsto (fun k => ↑(CollatzTargetDensity.InverseBoundary.rationalRemainder n k)) Filter.atTop (nhds 0)
+CollatzTargetDensity.InverseBoundary.inverse_real_tsum {n : ℕ} (hn : 0 < n)
+  (hi : Function.Injective (CollatzTargetDensity.OrbitReciprocals.orbit n)) :
+  ∑' (k : ℕ), CollatzTargetDensity.InverseBoundary.scale n k / 3 =
+    CollatzTargetDensity.InverseBoundary.realBoundary n - ↑n
+CollatzTargetDensity.TwoTopologyExample.explicit_distinct_limits :
+  Filter.Tendsto (fun k => ↑(CollatzTargetDensity.TwoTopologyExample.q k)) Filter.atTop (nhds 1) ∧
+    Filter.Tendsto (fun k => ↑(CollatzTargetDensity.TwoTopologyExample.q k)) Filter.atTop (nhds 0)
+'CollatzTargetDensity.InverseBoundary.scale_succ' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.InverseBoundary.remainder_succ' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.InverseBoundary.remainder_eq_start_add_inverseSum' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.InverseBoundary.log_scale' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.InverseBoundary.remainder_eq_exp_correction' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.InverseBoundary.remainder_tendsto_realBoundary' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.InverseBoundary.uniform_remainder_bound' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.InverseBoundary.inverse_terms_summable' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.InverseBoundary.inverseSum_tendsto' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.InverseBoundary.inverse_real_tsum' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.InverseBoundary.remainder_not_tendsto_zero' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.InverseBoundary.scale2_succ' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.InverseBoundary.remainder2_succ' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.InverseBoundary.remainder2_eq_start_add_inverseSum' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.InverseBoundary.valuationTotal_ge_steps' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.InverseBoundary.norm_remainder2_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.InverseBoundary.remainder2_tendsto_zero' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.InverseBoundary.inverseSum2_tendsto' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.InverseBoundary.rationalRemainder_real' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.InverseBoundary.rationalRemainder_padic' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.InverseBoundary.same_rational_remainders_two_limits' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.TwoTopologyExample.real_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.TwoTopologyExample.norm_two_adic_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.TwoTopologyExample.explicit_distinct_limits' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.TwoTopologyExample.no_unconditional_transfer_of_zero_limit' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

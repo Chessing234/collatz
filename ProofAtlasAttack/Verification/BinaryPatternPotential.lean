@@ -1,0 +1,19 @@
+import CollatzTargetDensity.BinaryPatternCertificates
+
+-- Print the actual feature map and the precise finite-width scope.
+#print CollatzTargetDensity.BinaryPatternPotential.paddedBits
+#print CollatzTargetDensity.BinaryPatternPotential.patterns
+#print CollatzTargetDensity.BinaryPatternPotential.potential
+#print CollatzTargetDensity.BinaryPatternPotential.StrictDescent
+#check CollatzTargetDensity.BinaryPatternPotential.no_width_le_seven
+
+#print axioms CollatzTargetDensity.BinaryPatternPotential.check_sound
+#print axioms CollatzTargetDensity.BinaryPatternPotential.check_not_descent
+#print axioms CollatzTargetDensity.BinaryPatternPotential.certificate1_checked
+#print axioms CollatzTargetDensity.BinaryPatternPotential.certificate2_checked
+#print axioms CollatzTargetDensity.BinaryPatternPotential.certificate3_checked
+#print axioms CollatzTargetDensity.BinaryPatternPotential.certificate4_checked
+#print axioms CollatzTargetDensity.BinaryPatternPotential.certificate5_checked
+#print axioms CollatzTargetDensity.BinaryPatternPotential.certificate6_checked
+#print axioms CollatzTargetDensity.BinaryPatternPotential.certificate7_checked
+#print axioms CollatzTargetDensity.BinaryPatternPotential.no_width_le_seven

@@ -1,0 +1,78 @@
+'CollatzTargetDensity.ValuationRecurrence.not_all_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.ValuationRecurrence.iterate_odd' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.ValuationRecurrence.large_valuation_after' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.BoundaryLinearization.orbit_shift' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.BoundaryLinearization.injective_shift' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.BoundaryLinearization.correction_shift' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.BoundaryLinearization.correction_split' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.BoundaryLinearization.boundary_transport' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.BoundaryLinearization.boundary_step' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.BoundaryLinearization.boundary_relative_tendsto_one' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.BoundaryLinearization.boundary_gt_start' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.BoundaryLinearization.boundary_absolute_gap' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.BoundaryLinearization.boundary_unique' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.ShadowOscillation.shadow_step' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.ShadowOscillation.shadow_ge_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.ShadowOscillation.shadow_drop' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.ShadowOscillation.arbitrarily_late_drop' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.ShadowOscillation.shadow_not_convergent' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.ShadowGrowth.tailBudget_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.ShadowGrowth.tailBudget_succ' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.ShadowGrowth.scale_le_tailBudget' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.ShadowGrowth.tailBudget_geometric' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.ShadowGrowth.bounded_shadow_forces_growth' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.ShadowRigidity.same_valuations_implies_equal' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.ShadowRigidity.no_eventually_periodic_valuations' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.ShadowRigidity.coefficient_eq_of_close' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.ShadowRigidity.valuation_eq_of_shadow_close' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.ShadowRigidity.quantitative_shift_separation' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.ShadowRigidity.shadow_shift_not_tendsto_zero' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.ShadowRigidity.coefficient_bound_of_close_return' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.ShadowRigidity.unconditional_shift_separation' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.ShadowRigidity.no_asymptotic_shadow_period' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.ShadowLattice.integer_block_dvd' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.ShadowLattice.no_integer_multiplicative_orbit' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.ShadowLattice.integer_relation_of_approx' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.ShadowLattice.finite_grid_barrier' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.ShadowLattice.not_uniform_lattice_approximation' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.ShadowLattice.rational_lattice_separation' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

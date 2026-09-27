@@ -1,0 +1,25 @@
+import CollatzTargetDensity.SyracuseEnergy
+
+-- Literal definitions and endpoints, followed by transitive axiom audits.
+#print CollatzTargetDensity.SyracuseEnergy.collisionEnergy
+#check CollatzTargetDensity.SyracuseEnergy.pmf_half_recurrence
+#check CollatzTargetDensity.SyracuseEnergy.collisionEnergy_recurrence
+#check CollatzTargetDensity.SyracuseEnergy.exists_linear_collisionEnergy_lower
+#check CollatzTargetDensity.SyracuseEnergy.no_uniform_collisionEnergy_upper
+
+#print axioms CollatzTargetDensity.SyracuseConcentration.syracStep_neg_one
+#print axioms CollatzTargetDensity.SyracuseConcentration.neg_one_atom_lower
+#print axioms CollatzTargetDensity.SyracuseConcentration.neg_one_density_lower
+#print axioms CollatzTargetDensity.SyracuseConcentration.no_uniform_density_upper
+#print axioms CollatzTargetDensity.SyracuseConcentration.cubicMoment_lower
+#print axioms CollatzTargetDensity.SyracuseConcentration.no_uniform_cubicMoment_upper
+#print axioms CollatzTargetDensity.SyracuseEnergy.pmf_half_recurrence
+#print axioms CollatzTargetDensity.SyracuseEnergy.collisionEnergy_eq_haar_secondMoment
+#print axioms CollatzTargetDensity.SyracuseEnergy.collisionEnergy_recurrence
+#print axioms CollatzTargetDensity.SyracuseEnergy.collisionEnergy_gain_of_floor
+#print axioms CollatzTargetDensity.SyracuseEnergy.exists_linear_collisionEnergy_lower
+#print axioms CollatzTargetDensity.SyracuseEnergy.no_uniform_collisionEnergy_upper
+
+-- Check the initial normalization independently of the asymptotic argument.
+example : CollatzTargetDensity.SyracuseEnergy.collisionEnergy 0 = 1 :=
+  CollatzTargetDensity.SyracuseEnergy.collisionEnergy_zero

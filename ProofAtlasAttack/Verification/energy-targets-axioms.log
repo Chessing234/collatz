@@ -1,0 +1,49 @@
+def CollatzTargetDensity.step : ℕ → ℕ :=
+fun n => if Even n then n / 2 else 3 * n + 1
+def CollatzTargetDensity.countBelow : ℕ → ℕ → ℕ :=
+fun target X => Nat.count (CollatzTargetDensity.reachesTarget target) X
+def CollatzTargetDensity.SyracuseEnergy.collisionEnergy : ℕ → ℝ :=
+fun n => 3 ^ n * ∑ y, ((Erdos1135.Tao.syracPMF n) y).toReal ^ 2
+CollatzTargetDensity.energy_target_density (A : ℕ) (hA : 0 < A) :
+  ∃ K,
+    1 ≤ K ∧
+      ∃ d,
+        0 < d ∧
+          ∀ (target : ℕ),
+            0 < target →
+              target % 3 ≠ 0 →
+                ∀ (t : ℕ),
+                  1 ≤ t →
+                    target ≤ t ^ A →
+                      ∃ X₀,
+                        ∀ (X : ℕ),
+                          X₀ ≤ X →
+                            d / (↑target ^ 2 * CollatzTargetDensity.SyracuseEnergy.collisionEnergy (K * t)) * ↑X ≤
+                              ↑(CollatzTargetDensity.countBelow target X)
+CollatzTargetDensity.cubic_target_density_of_linear_energy
+  (henergy : ∃ B, 0 < B ∧ ∀ (n : ℕ), 1 ≤ n → CollatzTargetDensity.SyracuseEnergy.collisionEnergy n ≤ B * ↑n) :
+  ∃ d,
+    0 < d ∧
+      ∀ (target : ℕ),
+        0 < target →
+          target % 3 ≠ 0 → ∃ X₀, ∀ (X : ℕ), X₀ ≤ X → d / ↑target ^ 3 * ↑X ≤ ↑(CollatzTargetDensity.countBelow target X)
+'CollatzTargetDensity.SyracuseEnergy.collisionEnergy_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.SyracuseEnergy.collisionEnergy_le_two_pow' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.SyracuseEnergy.unit_density_secondMoment' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.SyracuseEnergy.energy_mass_lower' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Erdos1135.ND.PositiveDensity.NDGeom2ShiftedWideSymmetricRootSideUniformFloorState.fullTerminal_fan_energy_bound_of_nonperiodic' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Erdos1135.ND.PositiveDensity.NDGeom2ShiftedWideSymmetricRootSideUniformFloorState.forwardCoreTerminalUnitMass_le_energy_of_nonperiodic' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Erdos1135.ND.PositiveDensity.NDGeom2ShiftedWideSymmetricRootSideUniformFloorState.forwardCoreTerminalUnitMass_le_native_energy_rate_of_nonperiodic' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.energy_odd_target_density' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.energy_target_density' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.cubic_target_density_of_linear_energy' depends on axioms: [propext, Classical.choice, Quot.sound]

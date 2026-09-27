@@ -1,0 +1,62 @@
+def CollatzTargetDensity.SyracuseEnergy.collisionEnergy : ℕ → ℝ :=
+fun n => 3 ^ n * ∑ y, ((Erdos1135.Tao.syracPMF n) y).toReal ^ 2
+CollatzTargetDensity.SyracuseEnergy.FiniteL2.three_class_overlap.{u_1} {X : Type u_1} [Fintype X] (c : X → ZMod 3)
+  (e : X ≃ X) (he : ∀ (x : X), c (e x) = c x + 1) (p q : X → ℝ) (hrec : ∀ (x : X), 4 * q x = q (e x) + p (e x))
+  (hz : ∀ (x : X), c x = 0 → p x = 0)
+  (htwo :
+    CollatzTargetDensity.SyracuseEnergy.FiniteL2.size (CollatzTargetDensity.SyracuseEnergy.FiniteL2.part c 2 p) =
+      2 * CollatzTargetDensity.SyracuseEnergy.FiniteL2.size (CollatzTargetDensity.SyracuseEnergy.FiniteL2.part c 1 p)) :
+  7 * ∑ x, q x * p x ≤ ∑ x, p x ^ 2
+CollatzTargetDensity.SyracuseEnergy.syrac_overlap_le_seventh (n : ℕ) :
+  7 *
+      ∑ y,
+        ((Erdos1135.Tao.syracPMF (n + 1 + 1)) (CollatzTargetDensity.SyracuseEnergy.lift (n + 1) y)).toReal *
+          ((Erdos1135.Tao.syracPMF (n + 1)) y).toReal ≤
+    ∑ y, ((Erdos1135.Tao.syracPMF (n + 1)) y).toReal ^ 2
+CollatzTargetDensity.SyracuseEnergy.collisionEnergy_step_le_nine_sevenths (n : ℕ) (hn : 1 ≤ n) :
+  CollatzTargetDensity.SyracuseEnergy.collisionEnergy (n + 1) ≤
+    9 / 7 * CollatzTargetDensity.SyracuseEnergy.collisionEnergy n
+CollatzTargetDensity.SyracuseEnergy.collisionEnergy_succ_le_nine_sevenths_pow (n : ℕ) :
+  CollatzTargetDensity.SyracuseEnergy.collisionEnergy (n + 1) ≤ 5 / 3 * (9 / 7) ^ n
+CollatzTargetDensity.SyracuseEnergy.collisionEnergy_le_nine_sevenths_pow (n : ℕ) :
+  CollatzTargetDensity.SyracuseEnergy.collisionEnergy n ≤ 35 / 27 * (9 / 7) ^ n
+CollatzTargetDensity.nine_sevenths_target_density (A : ℕ) (hA : 1 ≤ A) :
+  ∃ K,
+    1 ≤ K ∧
+      ∃ d,
+        0 < d ∧
+          ∀ (a : ℕ),
+            0 < a →
+              a % 3 ≠ 0 →
+                ∀ (t : ℕ),
+                  1 ≤ t →
+                    a ≤ t ^ A →
+                      ∃ X₀,
+                        ∀ (X : ℕ),
+                          X₀ ≤ X → d / (↑a ^ 2 * (9 / 7) ^ (K * t)) * ↑X ≤ ↑(CollatzTargetDensity.countBelow a X)
+'CollatzTargetDensity.SyracuseEnergy.FiniteL2.three_class_overlap' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.SyracuseEnergy.lift_covers_class_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.SyracuseEnergy.lift_affine_four' depends on axioms: [propext, Quot.sound]
+'CollatzTargetDensity.SyracuseEnergy.pmf_affine_four_recurrence' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.SyracuseEnergy.residueThree_affine_four' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.SyracuseEnergy.syracPMF_zero_class' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.SyracuseEnergy.syracPMF_class_two_norm' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.SyracuseEnergy.syrac_overlap_le_seventh' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.SyracuseEnergy.collisionEnergy_step_le_nine_sevenths' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.SyracuseEnergy.collisionEnergy_succ_le_nine_sevenths_pow' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.SyracuseEnergy.collisionEnergy_le_nine_sevenths_pow' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.nine_sevenths_target_density' depends on axioms: [propext, Classical.choice, Quot.sound]

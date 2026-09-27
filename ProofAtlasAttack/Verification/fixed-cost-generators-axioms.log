@@ -1,0 +1,67 @@
+def CollatzTargetDensity.FixedCostGenerators.generator : (n : ℕ) → ZMod (3 ^ n) → Polynomial ℕ :=
+fun x x_1 =>
+  Nat.brecOn (motive := fun x => ZMod (3 ^ x) → Polynomial ℕ) x CollatzTargetDensity.FixedCostGenerators.generator._f
+    x_1
+def CollatzTargetDensity.FixedCostGenerators.geometricProduct : ℕ → ℝ :=
+fun n => ∏ i ∈ Finset.range n, (1 - (1 / 2) ^ CollatzTargetDensity.FixedCostGenerators.period i)
+def CollatzTargetDensity.FixedCostGenerators.count : (n : ℕ) → ℕ → ZMod (3 ^ n) → ℕ :=
+fun n k r => (CollatzTargetDensity.FixedCostGenerators.generator n r).coeff k
+CollatzTargetDensity.FixedCostGenerators.pmf_eq_generator_value (n : ℕ) (r : ZMod (3 ^ n)) :
+  ((Erdos1135.Tao.syracPMF n) r).toReal =
+    Polynomial.eval₂ (Nat.castRingHom ℝ) (1 / 2) (CollatzTargetDensity.FixedCostGenerators.generator n r) /
+      (2 ^ n * CollatzTargetDensity.FixedCostGenerators.geometricProduct n)
+CollatzTargetDensity.FixedCostGenerators.uniform_generator_value_lower :
+  ∃ c,
+    0 < c ∧
+      ∀ (n : ℕ),
+        1 ≤ n → ∀ (r : ZMod (3 ^ n)), IsUnit r → c * (2 / 3) ^ n ≤ CollatzTargetDensity.FixedCostGenerators.value n r
+CollatzTargetDensity.FixedCostGenerators.central_zero_with_positive_value :
+  CollatzTargetDensity.FixedCostGenerators.count 12 12 7 = 0 ∧
+    0 < CollatzTargetDensity.FixedCostGenerators.count 12 12 1 ∧ 0 < CollatzTargetDensity.FixedCostGenerators.value 12 7
+'CollatzTargetDensity.FixedCostGenerators.two_pow_period' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.FixedCostGenerators.polynomialBoundary_explicit' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.FixedCostGenerators.value_succ' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.FixedCostGenerators.pmf_unroll' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.FixedCostGenerators.pmf_period_equation' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.FixedCostGenerators.geometricProduct_pos' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.FixedCostGenerators.geometricProduct_le_one' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.FixedCostGenerators.geometricProduct_ge_two_thirds' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.FixedCostGenerators.normalizer_mul_pmf_eq_value' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.FixedCostGenerators.pmf_eq_generator_value' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.FixedCostGenerators.sum_value_eq_normalizer' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.FixedCostGenerators.uniform_generator_value_lower' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.FixedCostGenerators.count_succ' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.FixedCostGenerators.count_succ_explicit' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.FixedCostGenerators.recursiveCount_eq_count' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.FixedCostGenerators.count_two_two_four' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.FixedCostGenerators.count_twelve_twelve_seven' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.FixedCostGenerators.count_twelve_twelve_one_pos' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.FixedCostGenerators.central_zero_with_positive_value' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

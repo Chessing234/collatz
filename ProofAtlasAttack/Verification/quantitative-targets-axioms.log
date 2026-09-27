@@ -1,0 +1,83 @@
+def CollatzTargetDensity.step : ℕ → ℕ :=
+fun n => if Even n then n / 2 else 3 * n + 1
+def CollatzTargetDensity.reachesTarget : ℕ → ℕ → Prop :=
+fun target n => 0 < n ∧ ∃ k, CollatzTargetDensity.step^[k] n = target
+def CollatzTargetDensity.countBelow : ℕ → ℕ → ℕ :=
+fun target X => Nat.count (CollatzTargetDensity.reachesTarget target) X
+CollatzTargetDensity.bounded_seed_supply (q X : ℕ) :
+  ∃ C,
+    1 ≤ C ∧
+      ∀ (target : ℕ),
+        Odd target →
+          target % 3 ≠ 0 →
+            ∀ (r : Fin (3 ^ q)),
+              ∃ M,
+                Odd M ∧
+                  X < M ∧
+                    M ≤ C * target ∧
+                      Erdos1135.Tao.syracuse M = target ∧
+                        M % 3 ^ q = ↑r ∧ CollatzTargetDensity.Nonperiodic Erdos1135.Tao.syracuse M
+CollatzTargetDensity.uniform_bounded_terminal_mark :
+  ∃ C,
+    1 ≤ C ∧
+      ∃ a,
+        0 < a ∧
+          ∀ (target : ℕ),
+            Odd target →
+              target % 3 ≠ 0 →
+                ∃ M,
+                  ∃ (hM : Odd M) (hl : 16 ^ 32 ^ 5 ≤ M),
+                    M ≤ C * target ∧
+                      Erdos1135.Tao.syracuse M = target ∧
+                        CollatzTargetDensity.Nonperiodic Erdos1135.Tao.syracuse M ∧
+                          ∀ᶠ (n : ℕ) in Filter.atTop,
+                            have U := Erdos1135.ND.PositiveDensity.ndRootCoreSingletonState (32 ^ 5) M ⋯ hM hl;
+                            have cap := fun j => j / 100;
+                            let V := U.forwardIterate cap n;
+                            ∀ (X : ℝ) (hX : 0 < X)
+                              (hi :
+                                ∀ (i : V.state.Label),
+                                  Erdos1135.ND.PositiveDensity.ndGeom2ShiftedWideSymmetricPhysicalIntervalMin V.floor
+                                        (V.state.root i) <
+                                      X ∧
+                                    X ≤
+                                      Erdos1135.ND.PositiveDensity.ndGeom2ShiftedWideSymmetricPhysicalIntervalMax
+                                        V.floor (V.state.root i)),
+                              a ≤
+                                U.forwardCoreTerminalUnitMass cap Erdos1135.ND.PositiveDensity.ndRootCoreWidth n (cap n)
+                                  (V.floor / 4) X hX hi
+CollatzTargetDensity.quantitative_target_density (A : ℕ) (hA : 0 < A) :
+  ∃ K,
+    1 ≤ K ∧
+      ∃ d,
+        0 < d ∧
+          ∀ (target : ℕ),
+            0 < target →
+              target % 3 ≠ 0 →
+                ∀ (t : ℕ),
+                  1 ≤ t →
+                    target ≤ t ^ A →
+                      ∃ X₀,
+                        ∀ (X : ℕ),
+                          X₀ ≤ X → d / (↑target * 3 ^ (K * t)) * ↑X ≤ ↑(CollatzTargetDensity.countBelow target X)
+CollatzTargetDensity.sqrt_target_density :
+  ∃ K,
+    1 ≤ K ∧
+      ∃ d,
+        0 < d ∧
+          ∀ (target : ℕ),
+            0 < target →
+              target % 3 ≠ 0 →
+                ∃ X₀,
+                  ∀ (X : ℕ),
+                    X₀ ≤ X →
+                      d / (↑target * 3 ^ (K * (target.sqrt + 1))) * ↑X ≤ ↑(CollatzTargetDensity.countBelow target X)
+'CollatzTargetDensity.exists_odd_child_small' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.bounded_one_children' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.transportChild_syracuse' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.bounded_seed_supply' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.exists_fertile_raw_child_small' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.uniform_bounded_terminal_mark' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.quantitative_odd_target_density' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.quantitative_target_density' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.sqrt_target_density' depends on axioms: [propext, Classical.choice, Quot.sound]

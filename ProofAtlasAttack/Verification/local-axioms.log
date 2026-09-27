@@ -1,0 +1,21 @@
+def CollatzTargetDensity.step : ℕ → ℕ :=
+fun n => if Even n then n / 2 else 3 * n + 1
+def CollatzTargetDensity.reachesTarget : ℕ → ℕ → Prop :=
+fun target n => 0 < n ∧ ∃ k, CollatzTargetDensity.step^[k] n = target
+def CollatzTargetDensity.countBelow : ℕ → ℕ → ℕ :=
+fun target X => Nat.count (CollatzTargetDensity.reachesTarget target) X
+CollatzTargetDensity.positive_density (target : ℕ) (_hpos : 0 < target) (hthree : target % 3 ≠ 0) :
+  ∃ c, 0 < c ∧ ∃ X₀, ∀ (X : ℕ), X₀ ≤ X → c * ↑X ≤ ↑(CollatzTargetDensity.countBelow target X)
+'CollatzTargetDensity.nonperiodic_choice' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.nonperiodic_hit_time_unique' depends on axioms: [propext, Quot.sound]
+'CollatzTargetDensity.seed_supply' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.positive_density_of_seed_supply' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.positive_density_all_targets' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.positive_density' depends on axioms: [propext, Classical.choice, Quot.sound]
+CollatzTargetDensity.positive_density_iff (target : ℕ) (hpos : 0 < target) :
+  (∃ c, 0 < c ∧ ∃ X₀, ∀ (X : ℕ), X₀ ≤ X → c * ↑X ≤ ↑(CollatzTargetDensity.countBelow target X)) ↔ target % 3 ≠ 0
+'CollatzTargetDensity.positive_density_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+CollatzTargetDensity.collatz_iff_sparse_bad_subsequence :
+  (∀ (n : ℕ), 0 < n → Erdos1135.Reaches n 1) ↔ CollatzTargetDensity.SparseBadSubsequence
+'CollatzTargetDensity.counterexamples_positive_density' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.collatz_iff_sparse_bad_subsequence' depends on axioms: [propext, Classical.choice, Quot.sound]

@@ -1,0 +1,44 @@
+def CollatzTargetDensity.BinaryPatternPotential.paddedBits : ℕ → ℕ → List ℕ :=
+fun k n => List.replicate (k - 1) 2 ++ (Nat.digits 2 n).reverse ++ List.replicate (k - 1) 2
+def CollatzTargetDensity.BinaryPatternPotential.patterns : ℕ → ℕ → List ℕ :=
+fun k n =>
+  CollatzTargetDensity.BinaryPatternPotential.windows k (CollatzTargetDensity.BinaryPatternPotential.paddedBits k n)
+def CollatzTargetDensity.BinaryPatternPotential.potential : ℕ → (ℕ → ℝ) → ℕ → ℝ :=
+fun k w n => (List.map w (CollatzTargetDensity.BinaryPatternPotential.patterns k n)).sum
+def CollatzTargetDensity.BinaryPatternPotential.StrictDescent : ℕ → (ℕ → ℝ) → Prop :=
+fun k w =>
+  ∀ (n : ℕ),
+    1 < n →
+      Odd n →
+        CollatzTargetDensity.BinaryPatternPotential.potential k w (Erdos1135.Tao.syracuse n) <
+          CollatzTargetDensity.BinaryPatternPotential.potential k w n
+CollatzTargetDensity.BinaryPatternPotential.no_width_le_seven (k : ℕ) (hk : 1 ≤ k) (hK : k ≤ 7) (w : ℕ → ℝ) :
+  ¬CollatzTargetDensity.BinaryPatternPotential.StrictDescent k w
+'CollatzTargetDensity.BinaryPatternPotential.check_sound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.BinaryPatternPotential.check_not_descent' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.BinaryPatternPotential.certificate1_checked' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.BinaryPatternPotential.certificate2_checked' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.BinaryPatternPotential.certificate3_checked' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.BinaryPatternPotential.certificate4_checked' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.BinaryPatternPotential.certificate5_checked' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.BinaryPatternPotential.certificate6_checked' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.BinaryPatternPotential.certificate7_checked' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.BinaryPatternPotential.no_width_le_seven' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
