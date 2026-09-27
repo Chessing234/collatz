@@ -114,8 +114,32 @@ import Collatz
 #print axioms Collatz.TreeBalance9.expand
 #print axioms Collatz.TreeBalance9.cert
 #print axioms Collatz.TreeBalance9.count_balance9
+#print axioms Collatz.InverseCover.follow_congr
+#print axioms Collatz.InverseCover.check_sound
+#print axioms Collatz.QuantitativeBackwardCover.cover_mod9
+#print axioms Collatz.QuantitativeBackwardCover.cover_mod27
+#print axioms Collatz.QuantitativeBackwardCover.cover_mod27_cube
+#print axioms Collatz.QuantitativeBackwardCover.nonconvergent_in_every_class
+#print axioms Collatz.QuantitativeBackwardCover.reachesOne_of_class_verified
+#print axioms Collatz.BlockPotential.telescope
+#print axioms Collatz.BlockPotential.one_step_of_block
+#print axioms Collatz.BlockPotential.potential_pos
+#print axioms Collatz.BlockPotential.block_of_certificate
+#print axioms Collatz.SyracuseFloorObstruction.normalized
+#print axioms Collatz.SyracuseFloorObstruction.positive_floor
+#print axioms Collatz.SyracuseFloorObstruction.projects_to_first
+#print axioms Collatz.SyracuseFloorObstruction.doubling
+#print axioms Collatz.SyracuseFloorObstruction.valuation_period
+#print axioms Collatz.SyracuseFloorObstruction.transfer_exact
+#print axioms Collatz.SyracuseFloorObstruction.logistic_floor_fails
+#print axioms Collatz.ShortWordCount.weighted_bound
+#print axioms Collatz.ShortWordCount.short_count_power_bound
+#print axioms Collatz.ShortWordCount.fewer_than_units
 LEAN
 axout="$(lake env lean /tmp/collatz_axcheck.lean)"
+# Lean may wrap a long declaration's axiom list after commas. Join those
+# continuations before applying the same strict axiom-name allowlist below.
+axout="$(printf '%s\n' "$axout" | python3 -c 'import re, sys; print(re.sub(r",\n[ \t]+", ", ", sys.stdin.read()).rstrip())')"
 printf '%s\n' "$axout"
 if printf '%s' "$axout" | grep -vE "does not depend on any axioms$|depends on axioms: \[(propext|Classical\.choice|Quot\.sound)(, (propext|Classical\.choice|Quot\.sound))*\]$" | grep -q .; then
   printf 'integrity failed: unexpected axiom\n' >&2
