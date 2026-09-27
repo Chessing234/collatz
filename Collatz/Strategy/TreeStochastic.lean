@@ -4,13 +4,11 @@ import Collatz.Strategy.ClassChild
 /-!
 # The inverse tree is critical at exponent `1`, at every class level
 
-**Novelty tag: NEW (structural; Round LXXVII).**  Searched: Krasikov–Lagarias
-2003 §2–3 (the linear programs `L_k^{NT}`), Applegate–Lagarias 1995 II; neither
-identifies the averaged system below or its stochasticity.  Repository:
-`grep -rniE "stochastic|column.sum|Haar|stationary" RESEARCH.md CLOSURE.md
-Devices/` finds only the 2-adic Haar remark of `Devices/FutureCone.md` and an
-early heuristic ("counting saturates at exponent exactly 1", Round I) with no
-theorem behind it.
+**Status: formalized finite identities; no established novelty claim.**
+The original NEW label was withdrawn in `Devices/StochasticTree.md`, Round
+LXXIX. The stochastic interpretation has predecessors in inverse-tree and
+Syracuse random-variable work. The finite identities below are kernel-checked;
+the asymptotic spectral claims are not.
 
 ## The two systems
 
@@ -39,7 +37,8 @@ published `0.84` / this repository's `0.852` and `1` is the min-over-lifts
 relaxation** — that is, the 3-adic non-equidistribution of the inverse tree
 across lifts, and nothing else.  Measured (`scripts/kl_spectrum.py`): the
 min-system's growth at exponent `1` is `1 − ρ_k ≈ 1.1 / k` for `k = 3 … 12`,
-so the K–L exponents tend to `1` polynomially, not to a ceiling.
+which suggests a reciprocal-level loss over the measured range. This does
+not prove that the loss tends to zero or that K–L exponents tend to `1`.
 
 ## What is kernel-checked here
 

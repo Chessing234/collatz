@@ -1,2 +1,3 @@
 import MathlibAttack.Basic
 import MathlibAttack.SyracusePadic
+import MathlibAttack.Papers
