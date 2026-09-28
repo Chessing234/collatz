@@ -1,0 +1,296 @@
+{
+  "method": "edge deletion plus multigraph bridges",
+  "moduli_checked": 51,
+  "failures": 0,
+  "results": [
+    {
+      "modulus": 3,
+      "cuts": []
+    },
+    {
+      "modulus": 9,
+      "cuts": [
+        [
+          3,
+          6
+        ]
+      ]
+    },
+    {
+      "modulus": 15,
+      "cuts": []
+    },
+    {
+      "modulus": 21,
+      "cuts": []
+    },
+    {
+      "modulus": 27,
+      "cuts": [
+        [
+          9,
+          18
+        ]
+      ]
+    },
+    {
+      "modulus": 33,
+      "cuts": []
+    },
+    {
+      "modulus": 39,
+      "cuts": []
+    },
+    {
+      "modulus": 45,
+      "cuts": [
+        [
+          15,
+          30
+        ]
+      ]
+    },
+    {
+      "modulus": 51,
+      "cuts": []
+    },
+    {
+      "modulus": 57,
+      "cuts": []
+    },
+    {
+      "modulus": 63,
+      "cuts": [
+        [
+          21,
+          42
+        ]
+      ]
+    },
+    {
+      "modulus": 69,
+      "cuts": []
+    },
+    {
+      "modulus": 75,
+      "cuts": []
+    },
+    {
+      "modulus": 81,
+      "cuts": [
+        [
+          27,
+          54
+        ]
+      ]
+    },
+    {
+      "modulus": 87,
+      "cuts": []
+    },
+    {
+      "modulus": 93,
+      "cuts": []
+    },
+    {
+      "modulus": 99,
+      "cuts": [
+        [
+          33,
+          66
+        ]
+      ]
+    },
+    {
+      "modulus": 105,
+      "cuts": []
+    },
+    {
+      "modulus": 111,
+      "cuts": []
+    },
+    {
+      "modulus": 117,
+      "cuts": [
+        [
+          39,
+          78
+        ]
+      ]
+    },
+    {
+      "modulus": 123,
+      "cuts": []
+    },
+    {
+      "modulus": 129,
+      "cuts": []
+    },
+    {
+      "modulus": 135,
+      "cuts": [
+        [
+          45,
+          90
+        ]
+      ]
+    },
+    {
+      "modulus": 141,
+      "cuts": []
+    },
+    {
+      "modulus": 147,
+      "cuts": []
+    },
+    {
+      "modulus": 153,
+      "cuts": [
+        [
+          51,
+          102
+        ]
+      ]
+    },
+    {
+      "modulus": 159,
+      "cuts": []
+    },
+    {
+      "modulus": 165,
+      "cuts": []
+    },
+    {
+      "modulus": 171,
+      "cuts": [
+        [
+          57,
+          114
+        ]
+      ]
+    },
+    {
+      "modulus": 177,
+      "cuts": []
+    },
+    {
+      "modulus": 183,
+      "cuts": []
+    },
+    {
+      "modulus": 189,
+      "cuts": [
+        [
+          63,
+          126
+        ]
+      ]
+    },
+    {
+      "modulus": 195,
+      "cuts": []
+    },
+    {
+      "modulus": 201,
+      "cuts": []
+    },
+    {
+      "modulus": 207,
+      "cuts": [
+        [
+          69,
+          138
+        ]
+      ]
+    },
+    {
+      "modulus": 213,
+      "cuts": []
+    },
+    {
+      "modulus": 219,
+      "cuts": []
+    },
+    {
+      "modulus": 225,
+      "cuts": [
+        [
+          75,
+          150
+        ]
+      ]
+    },
+    {
+      "modulus": 231,
+      "cuts": []
+    },
+    {
+      "modulus": 237,
+      "cuts": []
+    },
+    {
+      "modulus": 243,
+      "cuts": [
+        [
+          81,
+          162
+        ]
+      ]
+    },
+    {
+      "modulus": 249,
+      "cuts": []
+    },
+    {
+      "modulus": 255,
+      "cuts": []
+    },
+    {
+      "modulus": 261,
+      "cuts": [
+        [
+          87,
+          174
+        ]
+      ]
+    },
+    {
+      "modulus": 267,
+      "cuts": []
+    },
+    {
+      "modulus": 273,
+      "cuts": []
+    },
+    {
+      "modulus": 279,
+      "cuts": [
+        [
+          93,
+          186
+        ]
+      ]
+    },
+    {
+      "modulus": 285,
+      "cuts": []
+    },
+    {
+      "modulus": 291,
+      "cuts": []
+    },
+    {
+      "modulus": 297,
+      "cuts": [
+        [
+          99,
+          198
+        ]
+      ]
+    },
+    {
+      "modulus": 303,
+      "cuts": []
+    }
+  ]
+}
