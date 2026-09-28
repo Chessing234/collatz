@@ -1,0 +1,6 @@
+'Collatz.SixthPowerDrift.single_factor' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.SixthPowerDrift.staircase_envelope' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.SixthPowerDrift.bound_of_staircase' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.SixthPowerDrift.never_drop_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.SixthPowerDrift.envelope_allows_heavy' depends on axioms: [propext, Quot.sound]
+'Collatz.SixthPowerDrift.descent_of_gap' depends on axioms: [propext, Classical.choice, Quot.sound]
