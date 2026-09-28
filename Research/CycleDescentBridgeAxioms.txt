@@ -1,0 +1,6 @@
+'Collatz.CycleDescentBridge.returns_to_base' depends on axioms: [propext, Quot.sound]
+'Collatz.CycleDescentBridge.higher_cycle_member_descends' depends on axioms: [propext, Quot.sound]
+'Collatz.CycleDescentBridge.cycle_minimum_never_descends' depends on axioms: [propext, Quot.sound]
+'Collatz.CycleDescentBridge.collatz_of_universal_descent' depends on axioms: [propext, Quot.sound]
+'Collatz.CycleDescentBridge.universal_descent_iff_collatz' depends on axioms: [propext, Quot.sound]
+'Collatz.CycleDescentBridge.cycle_minimum_eq_one_of_descent' depends on axioms: [propext, Quot.sound]
