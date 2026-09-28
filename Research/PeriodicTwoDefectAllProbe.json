@@ -1,0 +1,1822 @@
+{
+  "moduli_checked": 101,
+  "max_modulus": 303,
+  "method": "edge deletion and multigraph bridges; all Boolean labels through 18",
+  "brute_force_moduli": [
+    3,
+    6,
+    9,
+    12,
+    15,
+    18
+  ],
+  "failures": 0,
+  "results": [
+    {
+      "modulus": 3,
+      "two_defect_cuts": [],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        4
+      ]
+    },
+    {
+      "modulus": 6,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            3
+          ],
+          "defective_inputs": [
+            3,
+            9
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        7
+      ]
+    },
+    {
+      "modulus": 9,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            3,
+            6
+          ],
+          "defective_inputs": [
+            3,
+            15
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        10
+      ]
+    },
+    {
+      "modulus": 12,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            6
+          ],
+          "defective_inputs": [
+            6,
+            18
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        13
+      ]
+    },
+    {
+      "modulus": 15,
+      "two_defect_cuts": [],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        16
+      ]
+    },
+    {
+      "modulus": 18,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            9
+          ],
+          "defective_inputs": [
+            9,
+            27
+          ]
+        },
+        {
+          "exceptional_residues": [
+            6,
+            12
+          ],
+          "defective_inputs": [
+            6,
+            30
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        19
+      ]
+    },
+    {
+      "modulus": 21,
+      "two_defect_cuts": [],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        22
+      ]
+    },
+    {
+      "modulus": 24,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            12
+          ],
+          "defective_inputs": [
+            12,
+            36
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        25
+      ]
+    },
+    {
+      "modulus": 27,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            9,
+            18
+          ],
+          "defective_inputs": [
+            9,
+            45
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        28
+      ]
+    },
+    {
+      "modulus": 30,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            15
+          ],
+          "defective_inputs": [
+            15,
+            45
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        31
+      ]
+    },
+    {
+      "modulus": 33,
+      "two_defect_cuts": [],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        34
+      ]
+    },
+    {
+      "modulus": 36,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            18
+          ],
+          "defective_inputs": [
+            18,
+            54
+          ]
+        },
+        {
+          "exceptional_residues": [
+            12,
+            24
+          ],
+          "defective_inputs": [
+            12,
+            60
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        37
+      ]
+    },
+    {
+      "modulus": 39,
+      "two_defect_cuts": [],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        40
+      ]
+    },
+    {
+      "modulus": 42,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            21
+          ],
+          "defective_inputs": [
+            21,
+            63
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        43
+      ]
+    },
+    {
+      "modulus": 45,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            15,
+            30
+          ],
+          "defective_inputs": [
+            15,
+            75
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        46
+      ]
+    },
+    {
+      "modulus": 48,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            24
+          ],
+          "defective_inputs": [
+            24,
+            72
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        49
+      ]
+    },
+    {
+      "modulus": 51,
+      "two_defect_cuts": [],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        52
+      ]
+    },
+    {
+      "modulus": 54,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            27
+          ],
+          "defective_inputs": [
+            27,
+            81
+          ]
+        },
+        {
+          "exceptional_residues": [
+            18,
+            36
+          ],
+          "defective_inputs": [
+            18,
+            90
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        55
+      ]
+    },
+    {
+      "modulus": 57,
+      "two_defect_cuts": [],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        58
+      ]
+    },
+    {
+      "modulus": 60,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            30
+          ],
+          "defective_inputs": [
+            30,
+            90
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        61
+      ]
+    },
+    {
+      "modulus": 63,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            21,
+            42
+          ],
+          "defective_inputs": [
+            21,
+            105
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        64
+      ]
+    },
+    {
+      "modulus": 66,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            33
+          ],
+          "defective_inputs": [
+            33,
+            99
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        67
+      ]
+    },
+    {
+      "modulus": 69,
+      "two_defect_cuts": [],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        70
+      ]
+    },
+    {
+      "modulus": 72,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            36
+          ],
+          "defective_inputs": [
+            36,
+            108
+          ]
+        },
+        {
+          "exceptional_residues": [
+            24,
+            48
+          ],
+          "defective_inputs": [
+            24,
+            120
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        73
+      ]
+    },
+    {
+      "modulus": 75,
+      "two_defect_cuts": [],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        76
+      ]
+    },
+    {
+      "modulus": 78,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            39
+          ],
+          "defective_inputs": [
+            39,
+            117
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        79
+      ]
+    },
+    {
+      "modulus": 81,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            27,
+            54
+          ],
+          "defective_inputs": [
+            27,
+            135
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        82
+      ]
+    },
+    {
+      "modulus": 84,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            42
+          ],
+          "defective_inputs": [
+            42,
+            126
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        85
+      ]
+    },
+    {
+      "modulus": 87,
+      "two_defect_cuts": [],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        88
+      ]
+    },
+    {
+      "modulus": 90,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            45
+          ],
+          "defective_inputs": [
+            45,
+            135
+          ]
+        },
+        {
+          "exceptional_residues": [
+            30,
+            60
+          ],
+          "defective_inputs": [
+            30,
+            150
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        91
+      ]
+    },
+    {
+      "modulus": 93,
+      "two_defect_cuts": [],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        94
+      ]
+    },
+    {
+      "modulus": 96,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            48
+          ],
+          "defective_inputs": [
+            48,
+            144
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        97
+      ]
+    },
+    {
+      "modulus": 99,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            33,
+            66
+          ],
+          "defective_inputs": [
+            33,
+            165
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        100
+      ]
+    },
+    {
+      "modulus": 102,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            51
+          ],
+          "defective_inputs": [
+            51,
+            153
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        103
+      ]
+    },
+    {
+      "modulus": 105,
+      "two_defect_cuts": [],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        106
+      ]
+    },
+    {
+      "modulus": 108,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            54
+          ],
+          "defective_inputs": [
+            54,
+            162
+          ]
+        },
+        {
+          "exceptional_residues": [
+            36,
+            72
+          ],
+          "defective_inputs": [
+            36,
+            180
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        109
+      ]
+    },
+    {
+      "modulus": 111,
+      "two_defect_cuts": [],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        112
+      ]
+    },
+    {
+      "modulus": 114,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            57
+          ],
+          "defective_inputs": [
+            57,
+            171
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        115
+      ]
+    },
+    {
+      "modulus": 117,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            39,
+            78
+          ],
+          "defective_inputs": [
+            39,
+            195
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        118
+      ]
+    },
+    {
+      "modulus": 120,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            60
+          ],
+          "defective_inputs": [
+            60,
+            180
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        121
+      ]
+    },
+    {
+      "modulus": 123,
+      "two_defect_cuts": [],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        124
+      ]
+    },
+    {
+      "modulus": 126,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            63
+          ],
+          "defective_inputs": [
+            63,
+            189
+          ]
+        },
+        {
+          "exceptional_residues": [
+            42,
+            84
+          ],
+          "defective_inputs": [
+            42,
+            210
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        127
+      ]
+    },
+    {
+      "modulus": 129,
+      "two_defect_cuts": [],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        130
+      ]
+    },
+    {
+      "modulus": 132,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            66
+          ],
+          "defective_inputs": [
+            66,
+            198
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        133
+      ]
+    },
+    {
+      "modulus": 135,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            45,
+            90
+          ],
+          "defective_inputs": [
+            45,
+            225
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        136
+      ]
+    },
+    {
+      "modulus": 138,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            69
+          ],
+          "defective_inputs": [
+            69,
+            207
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        139
+      ]
+    },
+    {
+      "modulus": 141,
+      "two_defect_cuts": [],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        142
+      ]
+    },
+    {
+      "modulus": 144,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            72
+          ],
+          "defective_inputs": [
+            72,
+            216
+          ]
+        },
+        {
+          "exceptional_residues": [
+            48,
+            96
+          ],
+          "defective_inputs": [
+            48,
+            240
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        145
+      ]
+    },
+    {
+      "modulus": 147,
+      "two_defect_cuts": [],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        148
+      ]
+    },
+    {
+      "modulus": 150,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            75
+          ],
+          "defective_inputs": [
+            75,
+            225
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        151
+      ]
+    },
+    {
+      "modulus": 153,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            51,
+            102
+          ],
+          "defective_inputs": [
+            51,
+            255
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        154
+      ]
+    },
+    {
+      "modulus": 156,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            78
+          ],
+          "defective_inputs": [
+            78,
+            234
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        157
+      ]
+    },
+    {
+      "modulus": 159,
+      "two_defect_cuts": [],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        160
+      ]
+    },
+    {
+      "modulus": 162,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            81
+          ],
+          "defective_inputs": [
+            81,
+            243
+          ]
+        },
+        {
+          "exceptional_residues": [
+            54,
+            108
+          ],
+          "defective_inputs": [
+            54,
+            270
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        163
+      ]
+    },
+    {
+      "modulus": 165,
+      "two_defect_cuts": [],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        166
+      ]
+    },
+    {
+      "modulus": 168,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            84
+          ],
+          "defective_inputs": [
+            84,
+            252
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        169
+      ]
+    },
+    {
+      "modulus": 171,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            57,
+            114
+          ],
+          "defective_inputs": [
+            57,
+            285
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        172
+      ]
+    },
+    {
+      "modulus": 174,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            87
+          ],
+          "defective_inputs": [
+            87,
+            261
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        175
+      ]
+    },
+    {
+      "modulus": 177,
+      "two_defect_cuts": [],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        178
+      ]
+    },
+    {
+      "modulus": 180,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            90
+          ],
+          "defective_inputs": [
+            90,
+            270
+          ]
+        },
+        {
+          "exceptional_residues": [
+            60,
+            120
+          ],
+          "defective_inputs": [
+            60,
+            300
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        181
+      ]
+    },
+    {
+      "modulus": 183,
+      "two_defect_cuts": [],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        184
+      ]
+    },
+    {
+      "modulus": 186,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            93
+          ],
+          "defective_inputs": [
+            93,
+            279
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        187
+      ]
+    },
+    {
+      "modulus": 189,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            63,
+            126
+          ],
+          "defective_inputs": [
+            63,
+            315
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        190
+      ]
+    },
+    {
+      "modulus": 192,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            96
+          ],
+          "defective_inputs": [
+            96,
+            288
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        193
+      ]
+    },
+    {
+      "modulus": 195,
+      "two_defect_cuts": [],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        196
+      ]
+    },
+    {
+      "modulus": 198,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            99
+          ],
+          "defective_inputs": [
+            99,
+            297
+          ]
+        },
+        {
+          "exceptional_residues": [
+            66,
+            132
+          ],
+          "defective_inputs": [
+            66,
+            330
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        199
+      ]
+    },
+    {
+      "modulus": 201,
+      "two_defect_cuts": [],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        202
+      ]
+    },
+    {
+      "modulus": 204,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            102
+          ],
+          "defective_inputs": [
+            102,
+            306
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        205
+      ]
+    },
+    {
+      "modulus": 207,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            69,
+            138
+          ],
+          "defective_inputs": [
+            69,
+            345
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        208
+      ]
+    },
+    {
+      "modulus": 210,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            105
+          ],
+          "defective_inputs": [
+            105,
+            315
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        211
+      ]
+    },
+    {
+      "modulus": 213,
+      "two_defect_cuts": [],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        214
+      ]
+    },
+    {
+      "modulus": 216,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            108
+          ],
+          "defective_inputs": [
+            108,
+            324
+          ]
+        },
+        {
+          "exceptional_residues": [
+            72,
+            144
+          ],
+          "defective_inputs": [
+            72,
+            360
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        217
+      ]
+    },
+    {
+      "modulus": 219,
+      "two_defect_cuts": [],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        220
+      ]
+    },
+    {
+      "modulus": 222,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            111
+          ],
+          "defective_inputs": [
+            111,
+            333
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        223
+      ]
+    },
+    {
+      "modulus": 225,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            75,
+            150
+          ],
+          "defective_inputs": [
+            75,
+            375
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        226
+      ]
+    },
+    {
+      "modulus": 228,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            114
+          ],
+          "defective_inputs": [
+            114,
+            342
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        229
+      ]
+    },
+    {
+      "modulus": 231,
+      "two_defect_cuts": [],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        232
+      ]
+    },
+    {
+      "modulus": 234,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            117
+          ],
+          "defective_inputs": [
+            117,
+            351
+          ]
+        },
+        {
+          "exceptional_residues": [
+            78,
+            156
+          ],
+          "defective_inputs": [
+            78,
+            390
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        235
+      ]
+    },
+    {
+      "modulus": 237,
+      "two_defect_cuts": [],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        238
+      ]
+    },
+    {
+      "modulus": 240,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            120
+          ],
+          "defective_inputs": [
+            120,
+            360
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        241
+      ]
+    },
+    {
+      "modulus": 243,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            81,
+            162
+          ],
+          "defective_inputs": [
+            81,
+            405
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        244
+      ]
+    },
+    {
+      "modulus": 246,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            123
+          ],
+          "defective_inputs": [
+            123,
+            369
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        247
+      ]
+    },
+    {
+      "modulus": 249,
+      "two_defect_cuts": [],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        250
+      ]
+    },
+    {
+      "modulus": 252,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            126
+          ],
+          "defective_inputs": [
+            126,
+            378
+          ]
+        },
+        {
+          "exceptional_residues": [
+            84,
+            168
+          ],
+          "defective_inputs": [
+            84,
+            420
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        253
+      ]
+    },
+    {
+      "modulus": 255,
+      "two_defect_cuts": [],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        256
+      ]
+    },
+    {
+      "modulus": 258,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            129
+          ],
+          "defective_inputs": [
+            129,
+            387
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        259
+      ]
+    },
+    {
+      "modulus": 261,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            87,
+            174
+          ],
+          "defective_inputs": [
+            87,
+            435
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        262
+      ]
+    },
+    {
+      "modulus": 264,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            132
+          ],
+          "defective_inputs": [
+            132,
+            396
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        265
+      ]
+    },
+    {
+      "modulus": 267,
+      "two_defect_cuts": [],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        268
+      ]
+    },
+    {
+      "modulus": 270,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            135
+          ],
+          "defective_inputs": [
+            135,
+            405
+          ]
+        },
+        {
+          "exceptional_residues": [
+            90,
+            180
+          ],
+          "defective_inputs": [
+            90,
+            450
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        271
+      ]
+    },
+    {
+      "modulus": 273,
+      "two_defect_cuts": [],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        274
+      ]
+    },
+    {
+      "modulus": 276,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            138
+          ],
+          "defective_inputs": [
+            138,
+            414
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        277
+      ]
+    },
+    {
+      "modulus": 279,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            93,
+            186
+          ],
+          "defective_inputs": [
+            93,
+            465
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        280
+      ]
+    },
+    {
+      "modulus": 282,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            141
+          ],
+          "defective_inputs": [
+            141,
+            423
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        283
+      ]
+    },
+    {
+      "modulus": 285,
+      "two_defect_cuts": [],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        286
+      ]
+    },
+    {
+      "modulus": 288,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            144
+          ],
+          "defective_inputs": [
+            144,
+            432
+          ]
+        },
+        {
+          "exceptional_residues": [
+            96,
+            192
+          ],
+          "defective_inputs": [
+            96,
+            480
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        289
+      ]
+    },
+    {
+      "modulus": 291,
+      "two_defect_cuts": [],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        292
+      ]
+    },
+    {
+      "modulus": 294,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            147
+          ],
+          "defective_inputs": [
+            147,
+            441
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        295
+      ]
+    },
+    {
+      "modulus": 297,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            99,
+            198
+          ],
+          "defective_inputs": [
+            99,
+            495
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        298
+      ]
+    },
+    {
+      "modulus": 300,
+      "two_defect_cuts": [
+        {
+          "exceptional_residues": [
+            0,
+            150
+          ],
+          "defective_inputs": [
+            150,
+            450
+          ]
+        }
+      ],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        301
+      ]
+    },
+    {
+      "modulus": 303,
+      "two_defect_cuts": [],
+      "sharp_three_defect_witness": [
+        1,
+        2,
+        304
+      ]
+    }
+  ]
+}
