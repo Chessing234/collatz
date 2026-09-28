@@ -1,0 +1,18 @@
+{
+  "scope": "Non-exhaustive deterministic perturbations of a published seed",
+  "candidate_count": 31435,
+  "step_cap": 10000,
+  "maximum_ratio": {
+    "seed": 1008932249296231,
+    "steps": 886,
+    "log2_floor": 49
+  },
+  "violations_of_19": [],
+  "unresolved_at_cap": [],
+  "published_seed": {
+    "seed": 1008932249296231,
+    "steps": 886,
+    "first_lower_value": 1004771328803533
+  },
+  "universal_bound_proved": false
+}

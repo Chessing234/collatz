@@ -11,6 +11,15 @@ import Collatz.Strategy.ValuationDensity
 /-!
 # Which descent schemas survive the repository's kills
 
+**2026-09-28 correction:** the historical claims below that constant 17 is
+still viable are superseded by `Collatz.Strategy.LogBlockRecord`.
+A kernel-checked published witness refutes every constant through 18.
+The conditional reductions in this file remain valid, but their constant-17
+tail hypothesis is false. The cited arXiv:2107.11160v2 paper is by Eliahou and
+Simonetto, not Rozier. Its variable-length jumps are related to, but are not
+identical to, this file's initial-logarithm bound. See
+`Research/LogBlockRecordAttempt.md` for the precise correction.
+
 `PROGRAM_STATUS` records, as prose, that "the repo already refutes the
 pointwise/block Lyapunov family", so any new drift inequality "must be genuinely
 new".  That is a warning without a boundary.  This file draws the boundary.

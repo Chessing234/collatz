@@ -1,0 +1,6 @@
+'Collatz.LogBlockRecord.staysAbove_sound' depends on axioms: [propext, Quot.sound]
+'Collatz.LogBlockRecord.no_drop_certificate' does not depend on any axioms
+'Collatz.LogBlockRecord.exact_stopping_time' depends on axioms: [propext, Quot.sound]
+'Collatz.LogBlockRecord.seed_log2' does not depend on any axioms
+'Collatz.LogBlockRecord.not_log_bound' depends on axioms: [propext, Quot.sound]
+'Collatz.LogBlockRecord.not_tail_bound' depends on axioms: [propext, Quot.sound]

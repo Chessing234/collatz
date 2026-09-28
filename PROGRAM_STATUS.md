@@ -1,5 +1,24 @@
 # PROGRAM_STATUS
 
+## Correction — 2026-09-28: constants 17 and 18 are refuted
+
+This correction supersedes the historical “17 is live” claims below.
+`Collatz.Strategy.LogBlockRecord` kernel-checks the published seed
+`n = 1008932249296231`: its first accelerated descent occurs at step 886,
+while `Nat.log2 n = 49` and `18 * 49 = 882`. Thus every integer constant
+`C ≤ 18` in `LogBlockDescentWithin C` is false. The proposed tail hypothesis
+above 3998720 is also false for those constants; its conditional implication
+to Collatz remains logically valid. No bound with constant 19 is proved here.
+
+The seed and stopping time are prior art: Eliahou and Simonetto,
+[arXiv:2107.11160v2, Table 3](https://arxiv.org/html/2107.11160v2#S2.SS1),
+and Roosendaal's glide table. The earlier attribution below to O. Rozier is
+incorrect for this paper. Their jump lengths are recomputed at each jump;
+their falling-time bound is related to, but not definitionally identical to,
+a fixed multiple of the initial binary logarithm.
+
+See [the attempt report](Research/LogBlockRecordAttempt.md) for scope and checks.
+
 Ledger for the seven-program brief.  `open | refuted | partial | closed`.
 
 Repo facts that constrain every entry, checked this session:
