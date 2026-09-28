@@ -1,0 +1,12 @@
+{
+  "horizon": 128,
+  "small_start_count": 1184,
+  "largest_exception_bound": 1185,
+  "worst_bound_pair": {
+    "k": 65,
+    "a": 41
+  },
+  "maximum_first_crossing_among_small_starts": 81,
+  "failures": 0,
+  "universal_collatz_proof": false
+}

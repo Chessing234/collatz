@@ -1,0 +1,7 @@
+'Collatz.FirstLightDescent.first_light_accumulator' depends on axioms: [propext, Quot.sound]
+'Collatz.FirstLightDescent.failure_bound' depends on axioms: [propext, Quot.sound]
+'Collatz.FirstLightDescent.gap_table' does not depend on any axioms
+'Collatz.FirstLightDescent.small_starts' depends on axioms: [propext, Quot.sound]
+'Collatz.FirstLightDescent.first_light_unique' depends on axioms: [propext, Quot.sound]
+'Collatz.FirstLightDescent.descent_at_first_light_le_128' depends on axioms: [propext, Quot.sound]
+'Collatz.FirstLightDescent.no_crossing_128_witness' does not depend on any axioms
