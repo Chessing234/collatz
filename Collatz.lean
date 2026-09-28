@@ -1,9 +1,15 @@
+import Collatz.Strategy.FirstLightDescent
+import Collatz.Strategy.CycleDescentBridge
+import Collatz.Strategy.SixthPowerDrift
+import Collatz.Strategy.LogBlockRecord
 import Collatz.Basic
 import Collatz.Strategy.PeriodicRigidity
 import Collatz.Strategy.PeriodicDefectMinimum
 import Collatz.Strategy.PeriodicSingleDefect
 import Collatz.Strategy.PeriodicSingleDefectAll
 import Collatz.Strategy.PeriodicVariationStability
+import Collatz.Strategy.PeriodicTwoDefectOdd
+import Collatz.Strategy.PeriodicTwoDefectAll
 import Collatz.Accelerated
 import Collatz.Core.Arith
 import Collatz.Core.Minimum
