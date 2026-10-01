@@ -37,6 +37,11 @@ not establish its hypothesis.
 
 ### Main development
 
+- **Almost-all finite stopping time:** the set of starts whose accelerated
+  orbit eventually drops below its starting value has natural density one.
+  This formalizes the classical Terras/Everett conclusion; it does not assert
+  convergence to 1 or remove every possible exception.
+  See [the proof and explicit cutoff](Research/StoppingNaturalDensity.md).
 - **Finite convergence:** every positive `n < 3,998,720` reaches `1`.
   See [the verified range](Collatz/Search/VerifiedRung14187.lean).
 - **Cycle-length bound:** an accelerated cycle through a positive point that

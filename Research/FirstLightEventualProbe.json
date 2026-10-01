@@ -1,0 +1,10 @@
+{
+  "status": "passed",
+  "horizons": [
+    0,
+    64
+  ],
+  "paired_representatives": 4160,
+  "bound": "n > H * 3**H",
+  "scope": "Regression evidence; universal statements are Lean theorems."
+}

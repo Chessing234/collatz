@@ -1,5 +1,6 @@
 import Collatz.Basic
 import Collatz.Accelerated
+import Collatz.Structure.StoppingNaturalDensity
 
 /-! Lean notes for Riho Terras,
 "A stopping time problem on the positive integers",
@@ -12,7 +13,9 @@ defined the *stopping time* `σ(n)` as the least `k ≥ 1` with `T^k(n) < n`.
 His celebrated result is that the set of positive integers with a finite
 stopping time has natural density `1`.
 
-The density theorem is recorded below as a proposition, not as a theorem.
+The natural-density theorem is proved below through the core stopping-density
+module. The older diagonal bounded-horizon formulation is kept separately
+as an unproved proposition; no equivalence between the two is asserted here.
 The shared accelerated-orbit definitions in `Collatz.Accelerated` provide the
 stopping-time predicate, checked finite stopping-time instances, and the
 affine parity-vector identity.  This file keeps the bibliographic wrapper
@@ -35,10 +38,16 @@ abbrev acceleratedOrbit : Nat → Nat → Nat := Collatz.acceleratedOrbit
 /-- Re-export Terras's stopping-time predicate. -/
 abbrev hasFiniteStoppingTime : Nat → Prop := Collatz.hasFiniteStoppingTime
 
-/-- Terras (1976), main result (recorded, not proved): the set of positive
-    integers with a finite stopping time has natural density `1`.  The count
-    uses the bounded approximation `hasStoppingTimeBy n N`. -/
-def terrasDensityOne : Prop :=
+/-- Natural density one of finite stopping time, with integer precision. -/
+def terrasDensityOne : Prop := NaturalDensity.DensityOne hasFiniteStoppingTime
+
+/-- The classical density-one conclusion, reconstructed from the residue estimates. -/
+theorem terrasDensityOne_proved : terrasDensityOne :=
+  StoppingNaturalDensity.finite_stopping_time_density_one
+
+/-- Historical diagonal bounded-horizon formulation, retained as a separate
+unproved statement. The density theorem above counts the actual stopping set. -/
+def diagonalDensityOne : Prop :=
   ∀ eps : Rat, 0 < eps →
     ∃ N0 : Nat, ∀ N : Nat, N0 ≤ N → 0 < N →
       ((1 : Rat) - eps) * (N : Rat) ≤ (Collatz.countUpTo (fun n => Collatz.hasStoppingTimeBy n N = true) N : Rat)

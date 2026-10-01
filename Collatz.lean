@@ -2041,3 +2041,4 @@ import Collatz.Strategy.FirstLightPeriodicity
 import Collatz.Structure.PeriodicCounting
 import Collatz.Strategy.FirstLightCounting
 import Collatz.Papers.PowerBoundCriteria
+import Collatz.Structure.StoppingNaturalDensity

@@ -1,0 +1,37 @@
+'Collatz.FirstLightCounting.survival_period_count' depends on axioms: [propext, Quot.sound]
+'Collatz.FirstLightCounting.survival_count_le_heavy' depends on axioms: [propext, Quot.sound]
+'Collatz.FirstLightCounting.survival_count_pow_five' depends on axioms: [propext, Quot.sound]
+'Collatz.FirstLightCounting.survival_count_pow_five_ratio' depends on axioms: [propext, Quot.sound]
+'Collatz.FirstLightCounting.survival_count_cutoff_bound' depends on axioms: [propext, Quot.sound]
+'Collatz.FirstLightCounting.survival_count_mono' depends on axioms: [propext, Quot.sound]
+'Collatz.FirstLightEventual.descent_above_threshold' depends on axioms: [propext, Quot.sound]
+'Collatz.FirstLightEventual.descent_by_light_above_threshold' depends on axioms: [propext, Quot.sound]
+'Collatz.FirstLightEventual.no_descent_iff_heavy_above_threshold' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Collatz.FirstLightEventual.first_descent_iff_first_light_above_threshold' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Collatz.FirstLightEventual.first_descent_congr_above_threshold' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Collatz.FirstLightEventual.actual_iff_periodic_eventually' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.FirstLightEventual.actual_count_upper' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.FirstLightEventual.periodic_count_upper' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.FirstLightEventual.actual_count_heavy_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.NaturalDensity.predicateCount_bool' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.NaturalDensity.predicateCount_complement' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.DensityPrecision.block_gain' does not depend on any axioms
+'Collatz.DensityPrecision.iterated_gain' depends on axioms: [propext]
+'Collatz.DensityPrecision.heavy_precision' depends on axioms: [propext, Quot.sound]
+'Collatz.StoppingNaturalDensity.noDrop_count_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.StoppingNaturalDensity.eventuallyDrops_of_not_noDrop' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Collatz.StoppingNaturalDensity.noDrop_precision' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.StoppingNaturalDensity.eventuallyDrops_density_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.StoppingNaturalDensity.eventuallyDrops_iff_hasFiniteStoppingTime' depends on axioms: [propext, Quot.sound]
+'Collatz.StoppingNaturalDensity.finite_stopping_time_density_one' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Collatz.Papers.Terras1976.terrasDensityOne_proved' depends on axioms: [propext, Classical.choice, Quot.sound]
