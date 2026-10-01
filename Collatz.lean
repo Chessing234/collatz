@@ -2063,3 +2063,4 @@ import Collatz.Strategy.FiniteOrbitCertificates
 import Collatz.Strategy.VerifiedOrbitCorridor
 import Collatz.Strategy.LocalOrbitCorridor
 import Collatz.Structure.CycleInverseSpread
+import Collatz.Structure.InverseSpreadBoundary

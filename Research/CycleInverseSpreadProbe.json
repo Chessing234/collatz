@@ -29,6 +29,8 @@
       "minima_tested": 1111
     }
   },
+  "endpoint_boundary_checks": 68203,
+  "large_integer_boundary_checks": 1536,
   "constructs_nontrivial_cycles": false,
   "claims_globally_optimal_spread_bounds": false
 }

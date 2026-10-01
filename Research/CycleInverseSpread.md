@@ -66,6 +66,27 @@ The compact `spreadFactor` definition records the table. Its periodicity
 modulo nine and the final `residue_spread` inequality are both proved.
 No cycle-length computation or new numerical convergence sweep is used.
 
+## The exact limit of these two local filters
+
+The endpoint obstruction is now proved for every m not divisible by three,
+rather than just observed in finite examples. Put v = spreadFactor(m)·m.
+Lean proves that v is even and is either 2 or 8 modulo nine. Its two
+predecessors are exactly
+
+    2v and p = (2v−1)/3.
+
+Both are at least m and neither is divisible by three. The second is odd,
+satisfies 3p+1=2v, and is strictly below 2v. Therefore minimality and exclusion
+of multiples of three cannot force the next inverse step to double.
+`endpoint_not_forced` states that failure of the proposed local implication
+explicitly, while `endpoint_predecessors` gives the complete two-branch list.
+
+For example, a proposed minimum of 17 forces the chain up to 272, where
+both 544 and 181 pass the filters and map to 272. This is a branch in the
+inverse graph, not a cycle construction. Additional orbit information may
+exclude one branch or yield stronger spread bounds; the result only shows
+that the two filters used here have stopped forcing a unique predecessor.
+
 ## Independent arithmetic tests
 
 The Python probe checks the inverse-branch formula on all 100,000 source
@@ -84,21 +105,32 @@ or that stronger global arguments cannot improve it.
 These tests concern necessary inverse arithmetic. They do not construct
 hypothetical cycles from the candidate minima or establish convergence.
 
+The extended probe checks the endpoint characterization on 68,203 inputs,
+including 1,536 large-integer cases of the form 9·2^k+r for k≤256 and the six
+nonzero residue classes modulo three. These checks supplement the unbounded
+Lean proof of the boundary.
+
 ## Verification
 
-All 12 theorem endpoints are included in the dedicated axiom audit. The
+All 12 spread theorem endpoints and all eight boundary theorem endpoints
+are included in their dedicated axiom audits. The
 main-library integrity check includes forced doubling, the factor-eight
-and factor-sixteen attainment results, and the combined spread inequality.
+and factor-sixteen attainment results, the combined spread inequality,
+and the exact endpoint-branch characterization.
 
 ```sh
 lake build Collatz.Structure.CycleInverseSpread
 lake env lean scripts/audit_cycle_inverse_spread.lean
+lake build Collatz.Structure.InverseSpreadBoundary
+lake env lean scripts/audit_inverse_spread_boundary.lean
 python3 scripts/probe_cycle_inverse_spread.py
 bash scripts/check_integrity.sh
 ```
 
 [Lean proof](../Collatz/Structure/CycleInverseSpread.lean),
 [axiom audit](CycleInverseSpreadAxioms.txt),
+[boundary proof](../Collatz/Structure/InverseSpreadBoundary.lean),
+[boundary audit](InverseSpreadBoundaryAxioms.txt),
 [probe](CycleInverseSpreadProbe.json),
 [existing cycle extrema](../Collatz/Structure/CycleExtremes.lean),
 [exclusion of multiples of three](../Collatz/Structure/CycleModThree.lean).

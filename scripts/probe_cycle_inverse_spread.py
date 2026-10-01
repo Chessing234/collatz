@@ -45,6 +45,21 @@ def main():
         assert len(allowed) == 2
         assert allowed[1] % 2 == 1 and allowed[1] < 2 * v
         rows[m % 9]["minima_tested"] += 1
+    boundary_checks = 0
+    large_boundary_checks = 0
+    inputs = [(m, False) for m in range(1, 100001) if m % 3]
+    inputs += [(9 * 2 ** k + r, True) for k in range(1, 257)
+               for r in [1, 2, 4, 5, 7, 8]]
+    for m, large in inputs:
+        v = factor(m) * m
+        odd = (2 * v - 1) // 3
+        assert v % 2 == 0 and v % 9 in [2, 8]
+        assert predecessors(v) == [2 * v, odd]
+        assert m <= odd < 2 * v and odd % 2 == 1 and odd % 3 != 0
+        assert 3 * odd + 1 == 2 * v
+        assert m <= 2 * v and (2 * v) % 3 != 0
+        boundary_checks += 1
+        large_boundary_checks += large
     assert step(9) == 14 and 14 % 9 == 5 and 9 != 2 * 14
     result = {
         "all_checks_passed": True,
@@ -52,6 +67,8 @@ def main():
         "forced_double_checks": forward_checks,
         "forced_inverse_steps": forced_steps,
         "residue_table": rows,
+        "endpoint_boundary_checks": boundary_checks,
+        "large_integer_boundary_checks": large_boundary_checks,
         "constructs_nontrivial_cycles": False,
         "claims_globally_optimal_spread_bounds": False,
     }
