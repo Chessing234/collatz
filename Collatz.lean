@@ -2052,3 +2052,4 @@ import Collatz.Strategy.BoundedHeightWitness
 import Collatz.Structure.ParityMoments
 import Collatz.Papers.KorecFourFifths
 import Collatz.Papers.KorecCertified
+import Collatz.Structure.PowerCertificateBarrier

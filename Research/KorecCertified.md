@@ -92,3 +92,8 @@ bash scripts/check_integrity.sh
 [balanced moment gap](../Collatz/Structure/BalancedMomentGap.lean),
 [scale selection](../Collatz/Structure/GeneralPowerScaleSelection.lean),
 [axiom audit](KorecCertifiedAxioms.txt), [probe](KorecCertifiedProbe.json).
+
+The [certificate-boundary theorem](PowerCertificateBarrier.md) proves the
+converse as well: this certificate format exists exactly in the recorded
+exponent range. Searching different weights within the same format cannot
+prove a smaller exponent.

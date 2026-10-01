@@ -1,0 +1,9 @@
+import Collatz.Structure.PowerCertificateBarrier
+
+#print axioms Collatz.PowerCertificateBarrier.four_mul_le_square
+#print axioms Collatz.PowerCertificateBarrier.low_weight_square
+#print axioms Collatz.PowerCertificateBarrier.no_moment_gap_at_half
+#print axioms Collatz.PowerCertificateBarrier.threshold_above_half
+#print axioms Collatz.PowerCertificateBarrier.exponent_condition
+#print axioms Collatz.PowerCertificateBarrier.certificate_iff_exponent_condition
+#print axioms Collatz.PowerCertificateBarrier.no_three_quarters_certificate
