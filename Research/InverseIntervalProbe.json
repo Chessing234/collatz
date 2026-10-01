@@ -1,0 +1,178 @@
+{
+  "all_checks_passed": true,
+  "recursive_vs_graph_checks": 17199,
+  "stable_graph_on_1_through_100": [
+    1,
+    2
+  ],
+  "graph_pruning_rounds": 20,
+  "bounded_candidate_rejections": [
+    {
+      "candidate_minimum": 5,
+      "upper_bound": 20,
+      "first_rejected_depth": 4
+    },
+    {
+      "candidate_minimum": 7,
+      "upper_bound": 56,
+      "first_rejected_depth": 5
+    },
+    {
+      "candidate_minimum": 11,
+      "upper_bound": 44,
+      "first_rejected_depth": 7
+    },
+    {
+      "candidate_minimum": 13,
+      "upper_bound": 26,
+      "first_rejected_depth": 3
+    },
+    {
+      "candidate_minimum": 17,
+      "upper_bound": 272,
+      "first_rejected_depth": 6
+    },
+    {
+      "candidate_minimum": 19,
+      "upper_bound": 38,
+      "first_rejected_depth": 3
+    },
+    {
+      "candidate_minimum": 23,
+      "upper_bound": 92,
+      "first_rejected_depth": 4
+    },
+    {
+      "candidate_minimum": 25,
+      "upper_bound": 200,
+      "first_rejected_depth": 5
+    },
+    {
+      "candidate_minimum": 29,
+      "upper_bound": 116,
+      "first_rejected_depth": 4
+    },
+    {
+      "candidate_minimum": 31,
+      "upper_bound": 62,
+      "first_rejected_depth": 3
+    },
+    {
+      "candidate_minimum": 35,
+      "upper_bound": 560,
+      "first_rejected_depth": 6
+    },
+    {
+      "candidate_minimum": 37,
+      "upper_bound": 74,
+      "first_rejected_depth": 3
+    },
+    {
+      "candidate_minimum": 41,
+      "upper_bound": 164,
+      "first_rejected_depth": 4
+    },
+    {
+      "candidate_minimum": 43,
+      "upper_bound": 344,
+      "first_rejected_depth": 5
+    },
+    {
+      "candidate_minimum": 47,
+      "upper_bound": 188,
+      "first_rejected_depth": 10
+    },
+    {
+      "candidate_minimum": 49,
+      "upper_bound": 98,
+      "first_rejected_depth": 3
+    },
+    {
+      "candidate_minimum": 53,
+      "upper_bound": 848,
+      "first_rejected_depth": 6
+    },
+    {
+      "candidate_minimum": 55,
+      "upper_bound": 110,
+      "first_rejected_depth": 3
+    },
+    {
+      "candidate_minimum": 59,
+      "upper_bound": 236,
+      "first_rejected_depth": 4
+    },
+    {
+      "candidate_minimum": 61,
+      "upper_bound": 488,
+      "first_rejected_depth": 5
+    },
+    {
+      "candidate_minimum": 65,
+      "upper_bound": 260,
+      "first_rejected_depth": 6
+    },
+    {
+      "candidate_minimum": 67,
+      "upper_bound": 134,
+      "first_rejected_depth": 3
+    },
+    {
+      "candidate_minimum": 71,
+      "upper_bound": 1136,
+      "first_rejected_depth": 6
+    },
+    {
+      "candidate_minimum": 73,
+      "upper_bound": 146,
+      "first_rejected_depth": 3
+    },
+    {
+      "candidate_minimum": 77,
+      "upper_bound": 308,
+      "first_rejected_depth": 4
+    },
+    {
+      "candidate_minimum": 79,
+      "upper_bound": 632,
+      "first_rejected_depth": 5
+    },
+    {
+      "candidate_minimum": 83,
+      "upper_bound": 332,
+      "first_rejected_depth": 4
+    },
+    {
+      "candidate_minimum": 85,
+      "upper_bound": 170,
+      "first_rejected_depth": 3
+    },
+    {
+      "candidate_minimum": 89,
+      "upper_bound": 1424,
+      "first_rejected_depth": 6
+    },
+    {
+      "candidate_minimum": 91,
+      "upper_bound": 182,
+      "first_rejected_depth": 3
+    },
+    {
+      "candidate_minimum": 95,
+      "upper_bound": 380,
+      "first_rejected_depth": 4
+    },
+    {
+      "candidate_minimum": 97,
+      "upper_bound": 776,
+      "first_rejected_depth": 5
+    },
+    {
+      "candidate_minimum": 101,
+      "upper_bound": 404,
+      "first_rejected_depth": 7
+    }
+  ],
+  "finite_survival_proves_cycle": false,
+  "rules_out_unbounded_orbits": false
+}

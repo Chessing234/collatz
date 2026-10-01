@@ -87,6 +87,11 @@ inverse graph, not a cycle construction. Additional orbit information may
 exclude one branch or yield stronger spread bounds; the result only shows
 that the two filters used here have stopped forcing a unique predecessor.
 
+The [certified inverse-interval search](InverseInterval.md) continues past
+these branch points by exploring both predecessors. Its finite rejection
+theorem excludes cycles confined to a proposed interval, without claiming
+that a surviving finite path is a cycle.
+
 ## Independent arithmetic tests
 
 The Python probe checks the inverse-branch formula on all 100,000 source

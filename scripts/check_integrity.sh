@@ -138,6 +138,10 @@ import Collatz
 #print axioms Collatz.NaturalDensity.densityOne_rat_bound
 #print axioms Collatz.Papers.Terras1976.diagonalDensityOne_proved
 #print axioms Collatz.DensityCountermodel.PowerComparison.density_quantifiers_do_not_commute
+#print axioms Collatz.InverseInterval.step_predecessors
+#print axioms Collatz.InverseInterval.survives_iff
+#print axioms Collatz.InverseInterval.cycle_survives
+#print axioms Collatz.InverseInterval.rejection_excludes_cycle
 #print axioms Collatz.InverseSpreadBoundary.endpoint_has_admissible_odd
 #print axioms Collatz.InverseSpreadBoundary.endpoint_not_forced
 #print axioms Collatz.InverseSpreadBoundary.endpoint_predecessors
