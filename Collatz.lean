@@ -2069,3 +2069,4 @@ import Collatz.Search.InverseIntervalComplete
 import Collatz.Search.InverseIntervalLayers
 import Collatz.Search.InverseIntervalEarlyStop
 import Collatz.Strategy.StoppingCorrectionBounds
+import Collatz.Strategy.ProductDescentCheck

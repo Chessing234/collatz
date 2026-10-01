@@ -1,0 +1,36 @@
+{
+  "all_checks_passed": true,
+  "prefixes_checked": 402000,
+  "successful_product_checks": 379821,
+  "light_prefixes": 380099,
+  "successful_checks_with_endpoint_not_below_start": 340,
+  "first_descents_missed_count": 4,
+  "first_missed_examples": [
+    {
+      "start": 27,
+      "first_drop": 59,
+      "odd_steps": 37
+    },
+    {
+      "start": 31,
+      "first_drop": 56,
+      "odd_steps": 35
+    },
+    {
+      "start": 47,
+      "first_drop": 54,
+      "odd_steps": 34
+    },
+    {
+      "start": 63,
+      "first_drop": 54,
+      "odd_steps": 34
+    }
+  ],
+  "start_27": {
+    "first_descent": 59,
+    "first_product_certificate": 65
+  },
+  "proves_universal_product_success": false,
+  "proves_universal_convergence": false
+}

@@ -101,6 +101,8 @@ establish historical priority or independent mathematical review.
 - [Stopping-time correction bounds](Research/StoppingCorrectionBounds.md):
   proved two-sided integer estimates distinguish general bounds from
   the tighter behavior observed in finite samples.
+  A [finite product check](Research/ProductDescentCheck.md) certifies descent
+  by a horizon, with no fixed horizon limit and no claim of universal success.
 - [Bounded-descent obstructions](Research/ResidueMonotoneObstruction.md):
   residue-wise nondecreasing heights cannot guarantee a drop within a fixed
   number of steps. A separate argument excludes

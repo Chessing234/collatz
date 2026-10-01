@@ -88,3 +88,7 @@ bash scripts/check_integrity.sh
 [corrected earlier note](../Collatz/Strategy/TotalStoppingLower.lean),
 [axiom audit](StoppingCorrectionAxioms.txt),
 [probe](StoppingCorrectionProbe.json).
+
+The [finite product descent certificate](ProductDescentCheck.md) applies the
+prefix bound under a no-descent assumption. It yields a sufficient test for
+descent by any finite horizon, together with explicit examples of its limits.

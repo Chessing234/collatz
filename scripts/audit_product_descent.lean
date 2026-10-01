@@ -1,0 +1,12 @@
+import Collatz.Strategy.ProductDescentCheck
+
+#print axioms Collatz.ProductDescentCheck.no_drop_product_bound
+#print axioms Collatz.ProductDescentCheck.descent_of_product_gap
+#print axioms Collatz.ProductDescentCheck.productCheck_iff
+#print axioms Collatz.ProductDescentCheck.productCheck_sound
+#print axioms Collatz.ProductDescentCheck.productCheck_implies_light
+#print axioms Collatz.ProductDescentCheck.finite_stopping_of_check
+#print axioms Collatz.ProductDescentCheck.convergence_of_universal_checks
+#print axioms Collatz.ProductDescentCheck.endpoint_need_not_drop
+#print axioms Collatz.ProductDescentCheck.first_descent_can_be_missed
+#print axioms Collatz.ProductDescentCheck.no_zero_step_certificate
