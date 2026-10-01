@@ -98,6 +98,9 @@ establish historical priority or independent mathematical review.
 
 ## Current research additions
 
+- [Stopping-time correction bounds](Research/StoppingCorrectionBounds.md):
+  proved two-sided integer estimates distinguish general bounds from
+  the tighter behavior observed in finite samples.
 - [Bounded-descent obstructions](Research/ResidueMonotoneObstruction.md):
   residue-wise nondecreasing heights cannot guarantee a drop within a fixed
   number of steps. A separate argument excludes

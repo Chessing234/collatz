@@ -1,0 +1,6 @@
+'Collatz.StoppingCorrectionBounds.odd_step_scaled_upper' depends on axioms: [propext, Quot.sound]
+'Collatz.StoppingCorrectionBounds.prefix_scaled_upper' depends on axioms: [propext, Quot.sound]
+'Collatz.StoppingCorrectionBounds.odd_states_ge_three' depends on axioms: [propext, Quot.sound]
+'Collatz.StoppingCorrectionBounds.total_stopping_scaled_upper' depends on axioms: [propext, Quot.sound]
+'Collatz.StoppingCorrectionBounds.total_stopping_two_sided' depends on axioms: [propext, Quot.sound]
+'Collatz.StoppingCorrectionBounds.later_return_needs_hypothesis' does not depend on any axioms
