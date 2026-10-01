@@ -2055,3 +2055,4 @@ import Collatz.Papers.KorecCertified
 import Collatz.Structure.PowerCertificateBarrier
 import Collatz.Strategy.StoppingQuantifierBoundary
 import Collatz.Strategy.FirstDescentDensityTransport
+import Collatz.Strategy.PowerStoppingTimeBarrier

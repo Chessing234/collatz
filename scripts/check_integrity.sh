@@ -138,6 +138,8 @@ import Collatz
 #print axioms Collatz.NaturalDensity.densityOne_rat_bound
 #print axioms Collatz.Papers.Terras1976.diagonalDensityOne_proved
 #print axioms Collatz.DensityCountermodel.PowerComparison.density_quantifiers_do_not_commute
+#print axioms Collatz.PowerStoppingTimeBarrier.success_sparse_of_tight
+#print axioms Collatz.PowerStoppingTimeBarrier.powerTime_not_tight
 #print axioms Collatz.StoppingRuleDensity.density_one_tight_rule
 #print axioms Collatz.FirstDescentDensityTransport.density_one_descentMap
 #print axioms Collatz.FirstDescentDensityTransport.not_four_fifths_at_first_descent

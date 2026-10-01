@@ -1,0 +1,70 @@
+{
+  "all_checks_passed": true,
+  "halving_lower_bounds_checked": 153000,
+  "successful_power_hits_checked": 339865,
+  "forbidden_window_checks": 4500,
+  "first_hit_samples": [
+    {
+      "numerator": 1,
+      "denominator": 2,
+      "inputs_checked": 9998,
+      "maximum_first_hit_time": 123,
+      "first_hit_tail_counts": {
+        "1": 9997,
+        "2": 9994,
+        "4": 9971,
+        "8": 9550,
+        "16": 7306,
+        "32": 3713,
+        "64": 1218
+      }
+    },
+    {
+      "numerator": 3,
+      "denominator": 4,
+      "inputs_checked": 9998,
+      "maximum_first_hit_time": 111,
+      "first_hit_tail_counts": {
+        "1": 9991,
+        "2": 9931,
+        "4": 8942,
+        "8": 6152,
+        "16": 3181,
+        "32": 1059,
+        "64": 214
+      }
+    },
+    {
+      "numerator": 4,
+      "denominator": 5,
+      "inputs_checked": 9998,
+      "maximum_first_hit_time": 111,
+      "first_hit_tail_counts": {
+        "1": 9983,
+        "2": 9735,
+        "4": 7854,
+        "8": 5275,
+        "16": 2582,
+        "32": 792,
+        "64": 164
+      }
+    },
+    {
+      "numerator": 23,
+      "denominator": 29,
+      "inputs_checked": 9998,
+      "maximum_first_hit_time": 111,
+      "first_hit_tail_counts": {
+        "1": 9984,
+        "2": 9788,
+        "4": 8068,
+        "8": 5364,
+        "16": 2686,
+        "32": 832,
+        "64": 171
+      }
+    }
+  ],
+  "first_hit_samples_do_not_evaluate_classical_choice": true,
+  "proves_universal_convergence": false
+}

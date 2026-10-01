@@ -86,3 +86,8 @@ bash scripts/check_integrity.sh
 [Stopping-rule framework](../Collatz/Structure/StoppingRuleDensity.lean),
 [first-descent proofs](../Collatz/Strategy/FirstDescentDensityTransport.lean),
 [audit](FirstDescentTransportAxioms.txt), [probe](FirstDescentTransportProbe.json).
+
+The [power-time barrier](PowerStoppingTimeBarrier.md) shows why the same tail
+condition cannot hold for a rule that reaches a strict sublinear power target
+at density one. It separates a justified first-descent transport from an
+unjustified direct reuse at a power-hitting time.
