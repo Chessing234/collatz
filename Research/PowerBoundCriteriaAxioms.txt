@@ -1,0 +1,16 @@
+'Collatz.NaturalDensity.predicateCount_eventual_lower' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.NaturalDensity.cofinite_precision' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.NaturalDensity.densityOne_of_eventually' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.NaturalDensity.densityOne_tail' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.NaturalDensity.densityOne_not_universal' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.NaturalDensity.predicateCount_eventual_mono' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.NaturalDensity.densityOne_eventual_mono' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.NaturalDensity.densityOne_iff_eventually_equal' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.Papers.Korec1994.below_power_of_reaches_one' depends on axioms: [propext, Quot.sound]
+'Collatz.Papers.Korec1994.reaches_one_iff_all_reciprocal_powers' depends on axioms: [propext, Quot.sound]
+'Collatz.Papers.Korec1994.density_below_power_of_universal_convergence' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Collatz.Papers.Korec1994.rational_statement_of_universal_convergence' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

@@ -126,6 +126,9 @@ import Collatz
 #print axioms Collatz.NaturalDensity.not_densityOne_empty
 #print axioms Collatz.Papers.Korec1994.four_fifths_of_statement
 #print axioms Collatz.Papers.Korec1994.one_not_below_power
+#print axioms Collatz.NaturalDensity.densityOne_iff_eventually_equal
+#print axioms Collatz.Papers.Korec1994.reaches_one_iff_all_reciprocal_powers
+#print axioms Collatz.Papers.Korec1994.rational_statement_of_universal_convergence
 LEAN
 axout="$(lake env lean /tmp/collatz_axcheck.lean)"
 # Lean may wrap a long declaration's axiom list after commas. Join those

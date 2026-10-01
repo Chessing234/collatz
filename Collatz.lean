@@ -2040,3 +2040,4 @@ import Collatz.Strategy.FirstLightConsequences
 import Collatz.Strategy.FirstLightPeriodicity
 import Collatz.Structure.PeriodicCounting
 import Collatz.Strategy.FirstLightCounting
+import Collatz.Papers.PowerBoundCriteria
