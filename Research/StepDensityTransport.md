@@ -81,3 +81,7 @@ bash scripts/check_integrity.sh
 [Transport proofs](../Collatz/Structure/StepDensityTransport.lean),
 [stopping-window proofs](../Collatz/Strategy/StoppingQuantifierBoundary.lean),
 [axiom audit](StepDensityTransportAxioms.txt), [probe](StepDensityTransportProbe.json).
+
+The [first-descent extension](FirstDescentTransport.md) supplies a sufficient
+uniform tail condition for input-dependent times and proves that the first
+actual descent time satisfies it.

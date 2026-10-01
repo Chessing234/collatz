@@ -1,0 +1,20 @@
+'Collatz.StoppingRuleDensity.density_one_bounded_rule' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.StoppingRuleDensity.selected_failure_count' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.StoppingRuleDensity.density_one_tight_rule' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.StoppingRuleDensity.tight_of_bounded' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.FirstDescentDensityTransport.first_descent_exists' depends on axioms: [propext, Quot.sound]
+'Collatz.FirstDescentDensityTransport.first_exists' depends on axioms: [propext, Quot.sound]
+'Collatz.FirstDescentDensityTransport.firstTime_spec' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.FirstDescentDensityTransport.firstTime_le_of_drop' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.FirstDescentDensityTransport.long_time_no_drop' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.FirstDescentDensityTransport.firstTime_density_tight' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Collatz.FirstDescentDensityTransport.density_one_descentMap' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.FirstDescentDensityTransport.descentMap_lt_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.FirstDescentDensityTransport.input_le_twice_step' depends on axioms: [propext, Quot.sound]
+'Collatz.FirstDescentDensityTransport.first_descent_half_bound' depends on axioms: [propext, Quot.sound]
+'Collatz.FirstDescentDensityTransport.descentMap_half_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.FirstDescentDensityTransport.not_four_fifths_at_first_descent' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
