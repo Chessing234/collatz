@@ -87,8 +87,8 @@ establish historical priority or independent mathematical review.
 - [Bounded-descent obstruction](Research/ResidueMonotoneObstruction.md):
   residue-wise nondecreasing heights cannot guarantee a drop within a fixed
   number of steps, even beyond an arbitrary starting-value cutoff.
-- [First-crossing certificates](Research/FirstLightCertificates.md) and
-  [exact counting](Research/FirstLightCounting.md): the certified 256-step
+- [First-crossing certificates](Research/FirstLight1024.md) and
+  [exact counting](Research/FirstLightCounting.md): the certified 1,024-step
   horizon identifies first coefficient crossings with first actual descents.
   The horizon is a hypothesis; it is not a universal stopping-time bound.
 - [Density statement audit](Research/TaoStatementRepair.md): meaningful

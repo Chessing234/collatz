@@ -1,0 +1,5 @@
+'Collatz.FirstLightGapCheck.gap_1024' does not depend on any axioms
+'Collatz.FirstLight1024Chunks.prefix_99730' depends on axioms: [propext, Quot.sound]
+'Collatz.FirstLight1024.small_starts_99730' depends on axioms: [propext, Quot.sound]
+'Collatz.FirstLight1024.descent_at_first_light_le_1024' depends on axioms: [propext, Quot.sound]
+'Collatz.FirstLightConsequences.exactThrough_1024' depends on axioms: [propext, Quot.sound]

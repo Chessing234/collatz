@@ -1,0 +1,15 @@
+{
+  "horizon": 1024,
+  "exception_threshold": 99730,
+  "small_starts_checked": 99728,
+  "worst_gap_pair": {
+    "k": 485,
+    "odd_count": 306
+  },
+  "maximum_first_crossing": {
+    "k": 135,
+    "start": 35655
+  },
+  "failures": 0,
+  "universal_descent_proved": false
+}

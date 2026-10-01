@@ -46,7 +46,9 @@ maximum first-crossing index is 81, attained at n=703.
 
 A separate H=512 probe passes with N=99730 and limiting pair (485,306).
 It checks 99,728 starts; the maximum first crossing is 135 at n=35655.
-**The 512 horizon is experimental here, not an exported Lean theorem.**
+The later [1,024-step kernel certificate](FirstLight1024.md) also covers this
+512-step case. It uses the same threshold 99,730, with all exceptional starts
+checked by step 135.
 
 The gap and small-start certificates for H=256 use kernel `decide`, not native
 execution. The small-start certificate uses a stateful scanner carrying the
