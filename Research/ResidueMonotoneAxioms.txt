@@ -1,0 +1,7 @@
+'Collatz.ResidueMonotoneObstruction.orbit_mul_pow_pred' depends on axioms: [propext, Quot.sound]
+'Collatz.ResidueMonotoneObstruction.mul_pred_mod' depends on axioms: [propext, Quot.sound]
+'Collatz.ResidueMonotoneObstruction.same_residue_rising_run' depends on axioms: [propext, Quot.sound]
+'Collatz.ResidueMonotoneObstruction.arbitrarily_large_rising_run' depends on axioms: [propext, Quot.sound]
+'Collatz.ResidueMonotoneObstruction.no_bounded_height_descent' depends on axioms: [propext, Quot.sound]
+'Collatz.ResidueMonotoneObstruction.affine_height_residue_monotone' does not depend on any axioms
+'Collatz.ResidueMonotoneObstruction.no_finite_menu_descent' depends on axioms: [propext, Quot.sound]

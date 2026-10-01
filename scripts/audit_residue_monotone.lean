@@ -1,0 +1,9 @@
+import Collatz.Strategy.ResidueMonotoneObstruction
+
+#print axioms Collatz.ResidueMonotoneObstruction.orbit_mul_pow_pred
+#print axioms Collatz.ResidueMonotoneObstruction.mul_pred_mod
+#print axioms Collatz.ResidueMonotoneObstruction.same_residue_rising_run
+#print axioms Collatz.ResidueMonotoneObstruction.arbitrarily_large_rising_run
+#print axioms Collatz.ResidueMonotoneObstruction.no_bounded_height_descent
+#print axioms Collatz.ResidueMonotoneObstruction.affine_height_residue_monotone
+#print axioms Collatz.ResidueMonotoneObstruction.no_finite_menu_descent
