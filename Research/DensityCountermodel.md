@@ -59,3 +59,8 @@ The probe follows complete model trajectories and counts visited targets for
 every cutoff through 10,000 and every target through 32. It checks the same
 strict inequality using enumeration rather than the dyadic-block formula.
 Finite checks validate conventions; the universal theorem is the Lean proof.
+
+The [density compatibility extension](DensityCompatibilityModel.md) proves that
+this same map also has natural-density-one finite stopping time and a
+logarithmic-density-one almost-bounded conclusion, while failure to reach 1
+has an explicit positive lower density.

@@ -16,3 +16,4 @@
 'Collatz.DensityCountermodel.Compatibility.descent_density_with_positive_failure_density' depends on axioms: [propext,
  Classical.choice,
  Quot.sound]
+'Collatz.DensityCountermodel.Compatibility.dropping_ancestor_of_never_dropper' depends on axioms: [propext, Quot.sound]

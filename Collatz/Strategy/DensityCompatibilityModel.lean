@@ -99,11 +99,12 @@ theorem descent_density_with_positive_failure_density :
   ⟨finite_stopping_density_one, failure_count_lower⟩
 
 /-- Never-dropping is not preserved on taking predecessors: 6 drops to the
-nontrivial fixed point 3. This is the smallest comparison-map witness. -/
+nontrivial fixed point 3. This is a concrete comparison-map witness. -/
 theorem dropping_ancestor_of_never_dropper :
     ModelFiniteStoppingTime 6 ∧ orbit 1 6=3 ∧ ∀ k, 3≤orbit k 3 := by
   refine ⟨finite_stopping_above_three (by decide), by decide, ?_⟩
   intro k
   rw [orbit_three]
+  exact Nat.le_refl 3
 
 end Collatz.DensityCountermodel.Compatibility
