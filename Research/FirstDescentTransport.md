@@ -91,3 +91,8 @@ The [power-time barrier](PowerStoppingTimeBarrier.md) shows why the same tail
 condition cannot hold for a rule that reaches a strict sublinear power target
 at density one. It separates a justified first-descent transport from an
 unjustified direct reuse at a power-hitting time.
+
+The [repeated-descent development](DescentRounds.md) iterates this transport
+for each fixed number of rounds and identifies the eventual endpoint with
+the minimum of the original orbit. It also formalizes why the fixed-round
+density conclusions do not permit input-dependent diagonal substitution.

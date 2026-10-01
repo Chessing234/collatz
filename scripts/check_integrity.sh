@@ -138,6 +138,10 @@ import Collatz
 #print axioms Collatz.NaturalDensity.densityOne_rat_bound
 #print axioms Collatz.Papers.Terras1976.diagonalDensityOne_proved
 #print axioms Collatz.DensityCountermodel.PowerComparison.density_quantifiers_do_not_commute
+#print axioms Collatz.DescentRounds.fixed_rounds_vs_diagonal
+#print axioms Collatz.DescentRounds.density_one_dropsThrough
+#print axioms Collatz.DescentRounds.orbitMinimum_le
+#print axioms Collatz.DescentRounds.orbitMinimum_eq_one_iff
 #print axioms Collatz.Papers.Korec1994.logarithmic_power_density
 #print axioms Collatz.Papers.Korec1994.logPowerCheck_density_one
 #print axioms Collatz.Papers.Korec1994.density_one_power_time_window

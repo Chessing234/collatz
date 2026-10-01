@@ -107,6 +107,10 @@ establish historical priority or independent mathematical review.
   every fixed number of Collatz steps and every finite window. An actual
   stopping-time example shows why the intersection over all windows can
   nevertheless be empty.
+- [Repeated first descent](Research/DescentRounds.md): every fixed number of
+  descent rounds succeeds at density one, while each individual chain
+  stabilizes at its orbit minimum. Proving that minimum is 1 remains the
+  convergence problem.
 - [First-crossing certificates](Research/FirstLight1024.md) and
   [exact counting](Research/FirstLightCounting.md): the certified 1,024-step
   horizon identifies first coefficient crossings with first actual descents.
