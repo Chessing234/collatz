@@ -41,3 +41,12 @@ Source: [Tao, *Almost all orbits of the Collatz map attain almost bounded
 values*, Forum Math. Pi 10 (2022), e12](https://arxiv.org/abs/1909.03562).
 The paper gives logarithmic-density-one control for any bound tending to
 infinity; this is neither universal convergence nor a fixed bound for all starts.
+
+The follow-up [`TaoDensityChecks.lean`](../Collatz/Papers/TaoDensityChecks.lean)
+proves nine further semantic checks. In particular, `not_logDensityOne_empty`
+refutes density one for the empty set; full harmonic mass is strictly positive
+at every positive cutoff. Set inclusion preserves harmonic mass inequalities
+and logarithmic density one, and increasing the allowed orbit bound preserves
+the almost-everywhere conclusion. These tests guard the statement's meaning,
+not the validity of Tao's full argument. All fifteen checked helper endpoints
+use only the standard Lean axioms listed in the audit.
