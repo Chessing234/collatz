@@ -139,6 +139,10 @@ import Collatz
 #print axioms Collatz.ResidueMonotoneObstruction.no_finite_menu_descent
 #print axioms Collatz.Papers.Tao2022.not_logDensityOne_empty
 #print axioms Collatz.Papers.Tao2022.almostBelow_mono
+#print axioms Collatz.Papers.Tao2022.harmonic_eventually_large_rat
+#print axioms Collatz.Papers.Tao2022.logDensityOne_of_cofinite
+#print axioms Collatz.Papers.Tao2022.taoAlmostBoundedOrbits_of_collatz
+#print axioms Collatz.Papers.Tao2022.density_one_not_universal
 LEAN
 axout="$(lake env lean /tmp/collatz_axcheck.lean)"
 # Lean may wrap a long declaration's axiom list after commas. Join those
