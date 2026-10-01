@@ -47,7 +47,9 @@ not establish its hypothesis.
   m with m^q<n^p. This formalizes the rational-exponent cases of Korec's
   classical theorem, including m⁵<n⁴. Real-valued exponentiation is not part
   of the formal interface.
-  See [the proof and verification](Research/KorecCertified.md).
+  The witness can be found by floor(log₂ n) on a density-one set of starts.
+  See [the proof and verification](Research/KorecCertified.md) and the
+  [finite search with proved semantics](Research/KorecLogWindow.md).
 - **Finite convergence:** every positive `n < 3,998,720` reaches `1`.
   See [the verified range](Collatz/Search/VerifiedRung14187.lean).
 - **Cycle-length bound:** an accelerated cycle through a positive point that

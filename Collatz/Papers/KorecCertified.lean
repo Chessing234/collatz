@@ -39,51 +39,90 @@ theorem certified_multiplier_precision {p q : Nat} (c : Certificate p q) (L s : 
 
 /-- A certified parity threshold guarantees the actual strict power target
 throughout a sufficiently large multiplicative scale interval. -/
-theorem certified_power_on_scale {p q n L s : Nat} (c : Certificate p q)
+theorem certified_endpoint_power {p q n L s : Nat} (c : Certificate p q)
     (hs : (L+1)^q*3^(q*c.threshold)≤s)
     (hnlo : 2^(c.block*s)≤n) (hnhi : n≤L*2^(c.block*s))
-    (ha : oddCount n (c.block*s)≤c.threshold*s) : OrbitBelowPower p q n := by
+    (ha : oddCount n (c.block*s)≤c.threshold*s) :
+    (acceleratedOrbit (c.block*s) n)^q<n^p := by
   have hu := PowerOrbitScale.orbit_upper hnhi
   have hp := Nat.mul_le_mul_left (L+1)
     (Nat.pow_le_pow_right (by decide : 1≤(3:Nat)) ha)
   have hsmall := Nat.pow_le_pow_left (Nat.le_trans hu hp) q
   have hlarge := Nat.pow_le_pow_left hnlo p
-  exact ⟨c.block*s, Nat.lt_of_le_of_lt hsmall
-    (Nat.lt_of_lt_of_le (certified_multiplier_precision c L s hs) hlarge)⟩
+  exact Nat.lt_of_le_of_lt hsmall
+    (Nat.lt_of_lt_of_le (certified_multiplier_precision c L s hs) hlarge)
+
+/-- The certified endpoint also supplies the unbounded existential predicate. -/
+theorem certified_power_on_scale {p q n L s : Nat} (c : Certificate p q)
+    (hs : (L+1)^q*3^(q*c.threshold)≤s)
+    (hnlo : 2^(c.block*s)≤n) (hnhi : n≤L*2^(c.block*s))
+    (ha : oddCount n (c.block*s)≤c.threshold*s) : OrbitBelowPower p q n :=
+  ⟨c.block*s, certified_endpoint_power c hs hnlo hnhi ha⟩
+
+/-- Transfer any property supplied on the light part of the selected scale,
+retaining the same prefix and periodic-tail bounds. -/
+theorem certified_property_failure_count {p q : Nat} (c : Certificate p q)
+    (P : Nat → Prop) (L s N : Nat) (hN : N≤L*2^(c.block*s))
+    (hcover : ∀ n, 2^(c.block*s)≤n → n≤L*2^(c.block*s) →
+      oddCount n (c.block*s)≤c.threshold*s → P n) :
+    predicateCount (fun n => ¬P n) N ≤
+      2^(c.block*s)+(N/2^(c.block*s)+1)*tailCount (c.block*s) (c.threshold*s) := by
+  have hi := predicateCount_local_mono (fun n => ¬P n)
+    (fun n => c.threshold*s≤oddCount n (c.block*s)) (2^(c.block*s)) N (by
+      intro n hn hlo hf
+      by_cases ha : oddCount n (c.block*s)≤c.threshold*s
+      · exact False.elim (hf (hcover n hn (by omega) ha))
+      · omega)
+  exact Nat.le_trans hi (Nat.add_le_add_left
+    (PowerTailCounting.tail_count_upper (c.block*s) (c.threshold*s) N) _)
 
 /-- Count actual power failures by a prefix and a periodic parity tail. -/
 theorem certified_failure_count {p q : Nat} (c : Certificate p q) (L s N : Nat)
     (hs : (L+1)^q*3^(q*c.threshold)≤s) (hN : N≤L*2^(c.block*s)) :
     predicateCount (fun n => ¬OrbitBelowPower p q n) N ≤
-      2^(c.block*s)+(N/2^(c.block*s)+1)*tailCount (c.block*s) (c.threshold*s) := by
-  have hi := predicateCount_local_mono (fun n => ¬OrbitBelowPower p q n)
-    (fun n => c.threshold*s≤oddCount n (c.block*s)) (2^(c.block*s)) N (by
-      intro n hn hlo hf
-      by_cases ha : oddCount n (c.block*s)≤c.threshold*s
-      · exact False.elim (hf (certified_power_on_scale c hs hn (by omega) ha))
-      · omega)
-  exact Nat.le_trans hi (Nat.add_le_add_left
-    (PowerTailCounting.tail_count_upper (c.block*s) (c.threshold*s) N) _)
+      2^(c.block*s)+(N/2^(c.block*s)+1)*tailCount (c.block*s) (c.threshold*s) :=
+  certified_property_failure_count c (OrbitBelowPower p q) L s N hN
+    (fun _ hlo hhi ha => certified_power_on_scale c hs hlo hhi ha)
 
-/-- Every certificate gives explicit all-cutoff upper bounds on power failures. -/
-theorem certified_failure_precision {p q : Nat} (c : Certificate p q)
+/-- Uniform precision for any property eventually supplied by the certified
+light scales. This exposes the common counting argument for refinements. -/
+theorem certified_property_failure_precision {p q : Nat} (c : Certificate p q)
+    (P : Nat → Prop)
+    (hcover : ∀ L, ∃ S, ∀ s, S≤s → ∀ n, 2^(c.block*s)≤n → n≤L*2^(c.block*s) →
+      oddCount n (c.block*s)≤c.threshold*s → P n)
     (r : Nat) (hr : 0<r) :
-    ∃ N0, ∀ N, N0≤N → r*predicateCount (fun n => ¬OrbitBelowPower p q n) N≤N := by
+    ∃ N0, ∀ N, N0≤N → r*predicateCount (fun n => ¬P n) N≤N := by
   let D := 2*r
   let L := D*2^c.block
-  let S := max ((4*r)*(c.oddWeight+c.evenWeight)^c.block)
-    ((L+1)^q*3^(q*c.threshold))
+  obtain ⟨SP, hSP⟩ := hcover L
+  let S := max ((4*r)*(c.oddWeight+c.evenWeight)^c.block) SP
   refine ⟨D*2^(c.block*S), ?_⟩
   intro N hN
   obtain ⟨s, hs, hprefix, hscale⟩ := GeneralPowerScaleSelection.scale_exists
     c.block D S N c.block_pos (by dsimp [D]; omega) hN
   have htail := Nat.le_of_lt (certified_tail_precision c (4*r) s
     (Nat.le_trans (Nat.le_max_left _ _) hs))
-  have hcount := certified_failure_count c L s N
-    (Nat.le_trans (Nat.le_max_right _ _) hs) (Nat.le_of_lt hscale)
+  have hcount := certified_property_failure_count c P L s N (Nat.le_of_lt hscale)
+    (hSP s (Nat.le_trans (Nat.le_max_right _ _) hs))
   exact prefix_and_period_precision r (2^(c.block*s)) N
     (tailCount (c.block*s) (c.threshold*s))
-    (predicateCount (fun n => ¬OrbitBelowPower p q n) N) hr hprefix htail hcount
+    (predicateCount (fun n => ¬P n) N) hr hprefix htail hcount
+
+/-- Abstract density conclusion for a property of the certified light scales. -/
+theorem density_one_of_scale_property {p q : Nat} (c : Certificate p q)
+    (P : Nat → Prop)
+    (hcover : ∀ L, ∃ S, ∀ s, S≤s → ∀ n, 2^(c.block*s)≤n → n≤L*2^(c.block*s) →
+      oddCount n (c.block*s)≤c.threshold*s → P n) : DensityOne P :=
+  densityOne_of_complement_precision (certified_property_failure_precision c P hcover)
+
+/-- Every certificate gives explicit all-cutoff upper bounds on power failures. -/
+theorem certified_failure_precision {p q : Nat} (c : Certificate p q)
+    (r : Nat) (hr : 0<r) :
+    ∃ N0, ∀ N, N0≤N → r*predicateCount (fun n => ¬OrbitBelowPower p q n) N≤N := by
+  apply certified_property_failure_precision c (OrbitBelowPower p q) _ r hr
+  intro L
+  exact ⟨(L+1)^q*3^(q*c.threshold), fun _ hs _ hlo hhi ha =>
+    certified_power_on_scale c hs hlo hhi ha⟩
 
 /-- Density one follows from the integer certificate, without any assumption
 of universal convergence or of the published theorem. -/

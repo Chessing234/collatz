@@ -2056,3 +2056,4 @@ import Collatz.Structure.PowerCertificateBarrier
 import Collatz.Strategy.StoppingQuantifierBoundary
 import Collatz.Strategy.FirstDescentDensityTransport
 import Collatz.Strategy.PowerStoppingTimeBarrier
+import Collatz.Papers.KorecLogWindow

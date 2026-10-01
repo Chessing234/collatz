@@ -97,3 +97,7 @@ The [certificate-boundary theorem](PowerCertificateBarrier.md) proves the
 converse as well: this certificate format exists exactly in the recorded
 exponent range. Searching different weights within the same format cannot
 prove a smaller exponent.
+
+The [logarithmic-window refinement](KorecLogWindow.md) preserves the witnessing
+time: almost every start reaches the power target by floor(log₂ n). It also
+provides an executable finite scan with proved exact semantics.
