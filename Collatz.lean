@@ -2036,3 +2036,7 @@ import Collatz.Strategy.FirstLightCertificates
 import Collatz.Strategy.FirstLightScanComplete
 import Collatz.Strategy.FirstLightGapCheck
 import Collatz.Strategy.FirstLightIntervals
+import Collatz.Strategy.FirstLightConsequences
+import Collatz.Strategy.FirstLightPeriodicity
+import Collatz.Structure.PeriodicCounting
+import Collatz.Strategy.FirstLightCounting

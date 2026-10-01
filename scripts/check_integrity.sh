@@ -151,6 +151,10 @@ import Collatz
 #print axioms Collatz.FirstLightGapCheck.check_sound
 #print axioms Collatz.FirstLightGapCheck.gap_1024
 #print axioms Collatz.FirstLightScan.checkInterval_append
+#print axioms Collatz.FirstLightConsequences.first_descent_iff_first_light
+#print axioms Collatz.FirstLightPeriodicity.noDescent_256_congr
+#print axioms Collatz.PeriodicCounting.periodic_density_precision
+#print axioms Collatz.FirstLightCounting.survival_count_div_mod
 LEAN
 axout="$(lake env lean /tmp/collatz_axcheck.lean)"
 # Lean may wrap a long declaration's axiom list after commas. Join those
