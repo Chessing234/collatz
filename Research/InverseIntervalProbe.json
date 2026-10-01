@@ -1,6 +1,9 @@
 {
   "all_checks_passed": true,
   "recursive_vs_graph_checks": 17199,
+  "decision_depth_vs_forward_cycle_checks": 5022,
+  "positive_periodic_point_acceptances": 116,
+  "deeper_searches_agree": true,
   "stable_graph_on_1_through_100": [
     1,
     2
@@ -173,6 +176,6 @@
       "first_rejected_depth": 7
     }
   ],
-  "finite_survival_proves_cycle": false,
+  "arbitrary_short_survival_proves_cycle": false,
   "rules_out_unbounded_orbits": false
 }

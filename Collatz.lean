@@ -2065,3 +2065,4 @@ import Collatz.Strategy.LocalOrbitCorridor
 import Collatz.Structure.CycleInverseSpread
 import Collatz.Structure.InverseSpreadBoundary
 import Collatz.Search.InverseInterval
+import Collatz.Search.InverseIntervalComplete

@@ -27,6 +27,15 @@ def prune(nodes, current):
     return nodes.intersection(step(p) for p in current)
 
 
+def on_cycle_inside(nodes, start):
+    current = start
+    seen = set()
+    while current in nodes and current not in seen:
+        seen.add(current)
+        current = step(current)
+    return current == start and start in seen
+
+
 def main():
     checks = 0
     for lo in range(9):
@@ -40,6 +49,23 @@ def main():
                 nxt = prune(nodes, current)
                 assert nxt <= current
                 current = nxt
+    decision_checks = 0
+    periodic_points = 0
+    for lo in range(9):
+        for hi in range(31):
+            nodes = allowed(lo, hi)
+            depth = max(hi - lo, 0) + 1
+            for v in range(hi + 3):
+                expected = on_cycle_inside(nodes, v)
+                result = survives(lo, hi, depth, v)
+                assert result == expected, (lo, hi, depth, v)
+                assert survives(lo, hi, depth + 3, v) == result
+                decision_checks += 1
+                periodic_points += expected
+            survives.cache_clear()
+    # Entering the trivial cycle does not make 4 a periodic point.
+    assert step(4) == 2 and step(2) == 1
+    assert not survives(1, 100, 100, 4)
     assert survives(7, 56, 4, 7) and not survives(7, 56, 5, 7)
     for depth in range(100):
         assert survives(1, 2, depth, 1) and survives(1, 2, depth, 2)
@@ -72,10 +98,13 @@ def main():
     result = {
         "all_checks_passed": True,
         "recursive_vs_graph_checks": checks,
+        "decision_depth_vs_forward_cycle_checks": decision_checks,
+        "positive_periodic_point_acceptances": periodic_points,
+        "deeper_searches_agree": True,
         "stable_graph_on_1_through_100": sorted(survivors),
         "graph_pruning_rounds": rounds,
         "bounded_candidate_rejections": rejections,
-        "finite_survival_proves_cycle": False,
+        "arbitrary_short_survival_proves_cycle": False,
         "rules_out_unbounded_orbits": False,
     }
     root = Path(__file__).resolve().parents[1]

@@ -60,7 +60,8 @@ not establish its hypothesis.
   the maximum to be at least 2, 4, 8, or 16 times the minimum, depending on
   the minimum modulo nine.
   A [certified inverse search](Research/InverseInterval.md) explores both
-  branches and can exclude cycles confined to a proposed interval.
+  branches and decides positive cycle membership within a finite interval
+  at a proved sufficient depth.
 - **Descent reduction:** Collatz is equivalent to `1` being the only positive
   integer whose accelerated orbit never falls below its starting value.
   See [NeverDrops](Collatz/Strategy/NeverDrops.lean).
