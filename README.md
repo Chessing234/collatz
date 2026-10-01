@@ -56,6 +56,9 @@ not establish its hypothesis.
   does not reach `1` has length at least `14,187`.
   See [the theorem](Collatz/Strategy/Frontier14187.lean).
   Here the accelerated map is `T(n) = n/2` for even `n` and `(3n+1)/2` for odd `n`.
+  [Inverse residue constraints](Research/CycleInverseSpread.md) also force
+  the maximum to be at least 2, 4, 8, or 16 times the minimum, depending on
+  the minimum modulo nine.
 - **Descent reduction:** Collatz is equivalent to `1` being the only positive
   integer whose accelerated orbit never falls below its starting value.
   See [NeverDrops](Collatz/Strategy/NeverDrops.lean).

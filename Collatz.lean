@@ -2062,3 +2062,4 @@ import Collatz.Strategy.MinimumTransportBarrier
 import Collatz.Strategy.FiniteOrbitCertificates
 import Collatz.Strategy.VerifiedOrbitCorridor
 import Collatz.Strategy.LocalOrbitCorridor
+import Collatz.Structure.CycleInverseSpread
