@@ -2031,3 +2031,4 @@ import Collatz.Papers.Journal_10_5281_zenodo_19701708
 import Collatz.Strategy.ResidueMonotoneObstruction
 import Collatz.Papers.TaoDensityChecks
 import Collatz.Papers.CofiniteLogDensity
+import Collatz.Strategy.DensityCountermodel

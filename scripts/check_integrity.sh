@@ -143,6 +143,9 @@ import Collatz
 #print axioms Collatz.Papers.Tao2022.logDensityOne_of_cofinite
 #print axioms Collatz.Papers.Tao2022.taoAlmostBoundedOrbits_of_collatz
 #print axioms Collatz.Papers.Tao2022.density_one_not_universal
+#print axioms Collatz.DensityCountermodel.all_targets_positive_lower_density
+#print axioms Collatz.DensityCountermodel.three_never_reaches_one
+#print axioms Collatz.DensityCountermodel.reaches_one_or_three
 LEAN
 axout="$(lake env lean /tmp/collatz_axcheck.lean)"
 # Lean may wrap a long declaration's axiom list after commas. Join those
