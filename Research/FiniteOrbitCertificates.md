@@ -103,3 +103,7 @@ bash scripts/check_integrity.sh
 [Lean checks and proofs](../Collatz/Strategy/FiniteOrbitCertificates.lean),
 [axiom audit](FiniteOrbitCertificatesAxioms.txt),
 [probe results](FiniteOrbitCertificatesProbe.json).
+
+The [verified-corridor extension](VerifiedOrbitCorridor.md) connects these
+certificates to the existing numerical cycle and convergence bounds. It also
+gives a sufficient finite convergence test based on staying within a corridor.

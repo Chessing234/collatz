@@ -118,6 +118,9 @@ establish historical priority or independent mathematical review.
   checks distinguish a hit on 1, an exit from a specified interval, and a
   repeated prefix proving bounded nonconvergence. An interval exit alone
   does not establish divergence.
+  Combining verified range and cycle bounds gives a
+  [finite corridor convergence test](Research/VerifiedOrbitCorridor.md):
+  a positive orbit staying below 4,012,906 through time 14,186 converges.
 - [First-crossing certificates](Research/FirstLight1024.md) and
   [exact counting](Research/FirstLightCounting.md): the certified 1,024-step
   horizon identifies first coefficient crossings with first actual descents.
