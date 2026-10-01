@@ -84,9 +84,15 @@ establish historical priority or independent mathematical review.
 
 ## Current research additions
 
-- [Bounded-descent obstruction](Research/ResidueMonotoneObstruction.md):
+- [Bounded-descent obstructions](Research/ResidueMonotoneObstruction.md):
   residue-wise nondecreasing heights cannot guarantee a drop within a fixed
-  number of steps, even beyond an arbitrary starting-value cutoff.
+  number of steps. A separate argument excludes
+  [arbitrarily oscillating heights comparable to size](Research/ComparableHeightObstruction.md).
+  Both permit a finite exceptional starting range.
+- [Density countermodels](Research/DensityPowerCountermodel.md): checked
+  comparison maps show why almost-all descent and even a density-one power
+  bound at every fixed exponent do not, by themselves, imply convergence.
+  These maps are explicitly separate from Collatz.
 - [First-crossing certificates](Research/FirstLight1024.md) and
   [exact counting](Research/FirstLightCounting.md): the certified 1,024-step
   horizon identifies first coefficient crossings with first actual descents.

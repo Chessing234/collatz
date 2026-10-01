@@ -137,6 +137,7 @@ import Collatz
 #print axioms Collatz.FirstLightConsequences.exactThrough_1024
 #print axioms Collatz.NaturalDensity.densityOne_rat_bound
 #print axioms Collatz.Papers.Terras1976.diagonalDensityOne_proved
+#print axioms Collatz.DensityCountermodel.PowerComparison.density_quantifiers_do_not_commute
 #print axioms Collatz.ComparableHeightObstruction.no_bounded_two_sided_comparable_height
 #print axioms Collatz.DensityCountermodel.Compatibility.descent_density_with_positive_failure_density
 #print axioms Collatz.DensityCountermodel.Compatibility.almost_bounded_comparison

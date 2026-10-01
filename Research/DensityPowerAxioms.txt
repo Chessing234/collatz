@@ -1,0 +1,21 @@
+'Collatz.NaturalDensity.complement_precision' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.NaturalDensity.not_densityOne_of_complement_lower' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.NaturalDensity.exists_common_of_positive_lower' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.DensityCountermodel.PowerComparison.below_power_eventually' depends on axioms: [propext, Quot.sound]
+'Collatz.DensityCountermodel.PowerComparison.below_power_density_one' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Collatz.DensityCountermodel.PowerComparison.orbit_positive' depends on axioms: [propext, Quot.sound]
+'Collatz.DensityCountermodel.PowerComparison.reaches_one_iff_all_powers' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Collatz.DensityCountermodel.PowerComparison.not_density_one_reaches_one' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Collatz.DensityCountermodel.PowerComparison.all_powers_requires_large_start' depends on axioms: [propext, Quot.sound]
+'Collatz.DensityCountermodel.PowerComparison.not_density_one_all_powers' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Collatz.DensityCountermodel.PowerComparison.density_quantifiers_do_not_commute' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

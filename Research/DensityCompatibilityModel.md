@@ -40,3 +40,7 @@ python3 scripts/probe_density_compatibility.py
 
 [Source](../Collatz/Strategy/DensityCompatibilityModel.lean),
 [audit](DensityCompatibilityAxioms.txt), [probe](DensityCompatibilityProbe.json).
+
+The [power-threshold extension](DensityPowerCountermodel.md) strengthens this
+logical stress test: every fixed positive power target holds cofinitely, but
+the intersection over all reciprocal exponents is not density one.
