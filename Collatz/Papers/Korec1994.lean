@@ -10,7 +10,8 @@ The paper uses the accelerated map and proves density one for orbit values
 below n^c when c>log₄3. We record its positive rational-exponent subfamily:
 c=p/q, with 3^q<4^p encoding the strict threshold. Integer powers express the
 orbit inequality without real exponentiation. This proposition is not proved
-here; the checked lemmas only verify its supporting definitions and examples.
+here. The separate KorecFourFifths module proves the 4/5 specialization and
+all larger positive rational exponents; the full recorded range remains open.
 -/
 namespace Collatz.Papers.Korec1994
 open NaturalDensity

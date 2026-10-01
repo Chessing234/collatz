@@ -39,18 +39,12 @@ second inequality matches the desired power comparison: five times 63 is
 0.600064 per block. Both numerical ratios are descriptive approximations;
 the formal certificates use exact integers.
 
-This establishes the counting ingredient, not the full 4/5 density theorem.
-The remaining proof must control the affine remainder, select an iteration
-length depending on the counting cutoff, and transfer complete-period counts
-to arbitrary initial intervals. The existing `AffineExact.affineC_le` bound
-and the periodic-counting library supply relevant ingredients, but their
-combination has not yet been proved here. The recorded Korec theorem remains
-statement-only until an actual density proof is connected to its predicate.
-
-A prospective transfer can discard a small initial interval, choose a period
-2^(125s) below a fixed small fraction of the counting cutoff, and estimate the
-remaining bad inputs using the periodic tail. This avoids assuming that an
-almost-all assertion at fixed horizon remains uniform when the horizon varies.
+The counting ingredient is now connected to the affine remainder and arbitrary
+counting cutoffs in the [proved 4/5 specialization](KorecFourFifths.md). Its
+scale selection discards a small prefix, chooses a parity period from the
+counting cutoff, and controls the final incomplete period explicitly. The full
+recorded range above log₄(3) remains unproved; this moment module by itself
+asserts only the identities and count bounds displayed above.
 
 ## Verification
 

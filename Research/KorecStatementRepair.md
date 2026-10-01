@@ -28,3 +28,7 @@ python3 scripts/probe_korec_power_bounds.py
 [Statement](../Collatz/Papers/Korec1994.lean),
 [density definition](../Collatz/Structure/NaturalDensity.lean),
 [axiom audit](KorecStatementAxioms.txt), [probe](KorecPowerProbe.json).
+
+The subsequent [4/5 density proof](KorecFourFifths.md) now establishes a genuine
+specialization and every larger positive rational exponent. The full recorded
+range above log₄(3) remains unproved.
