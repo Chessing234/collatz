@@ -91,6 +91,37 @@ itself periodic, so its full-depth inverse search in [1,100] rejects it.
 The argument is an elementary finite-state consequence of determinism, not
 a claimed new historical Collatz result.
 
+## A bounded-list implementation
+
+`intervalStates lo hi` enumerates only the proposed interval width and
+filters out multiples of three. `advanceLayer` maps each retained entry
+forward once and discards images outside the allowed set. Starting with
+`intervalStates`, the recursive `layers` function repeats this operation.
+
+Lean proves that membership in the kth layer is exactly the same predicate
+as the original recursive inverse search. At the decision depth, the layer
+contains exactly the positive periodic points whose cycles fit in the
+interval. `layerCheck` supplies Boolean membership for this result. For
+multiple queries, the completed layer can be computed once and reused.
+
+Each round maps and filters an existing list, so the list never grows.
+`layer_length_le` bounds every layer by hi−lo+1 entries. This avoids
+re-exploring an inverse tree separately for every endpoint. The bound is on
+list entries, not bytes or arithmetic bit costs; the complete number of
+rounds can still be large.
+
+Duplicates are deliberately retained. For example, the completed layer for
+[1,4] is `[1,2,1]`, which represents two periodic values, not three. In the
+[1,100] probe, the completed list has 48 entries but only values 1 and 2.
+Its length must not be used as a count of periodic points. Set membership
+stabilizes past the decision depth even when list order or multiplicity
+changes.
+
+`decision_layer_empty_iff` also provides a batch certificate: the completed
+list is empty exactly when no positive cycle is confined to the interval.
+This is stronger than excluding a cycle through one selected input, while
+remaining explicitly limited to the finite interval.
+
 ## Independent graph tests
 
 The Python probe compares the recursive search with a separate finite-graph
@@ -117,23 +148,28 @@ that interval. The JSON artifact records the bounds and first rejection
 depths. These observations do not improve the already verified convergence
 range; they validate the branching mechanism on finite examples.
 
-The Lean search is a simple recursive reference implementation and can
-repeat work on shared subproblems. The independent Python probe memoizes
-those subproblems and also checks the graph formulation. The decision-depth
-proof is general, but no runtime-efficiency claim is made: the finite bound
-and recursive branching may still be impractical for large intervals.
+The original recursive Lean search remains as a specification and can repeat
+work on shared subproblems. The list implementation computes all endpoints
+together with a proved length bound. The extended Python probe compares
+list layers to set-based graph pruning on 1,323 cases, checks the length
+bound at every round, and records duplicates explicitly. All comparisons
+passed. Neither implementation makes arbitrary large intervals practical
+merely by having a finite completeness theorem.
 
 ## Verification
 
-All nine search theorem endpoints and all eight completeness endpoints are
-included in their dedicated axiom audits. The principal interfaces, including
-complete decision and eventual stability, are in the main-library integrity check.
+All nine search endpoints, eight completeness endpoints, and 15 list-layer
+endpoints are included in their dedicated axiom audits. The principal
+interfaces, including complete decision, eventual stability, the list length
+bound, and the empty-layer certificate, are in the main-library integrity check.
 
 ```sh
 lake build Collatz.Search.InverseInterval
 lake env lean scripts/audit_inverse_interval.lean
 lake build Collatz.Search.InverseIntervalComplete
 lake env lean scripts/audit_inverse_interval_complete.lean
+lake build Collatz.Search.InverseIntervalLayers
+lake env lean scripts/audit_inverse_interval_layers.lean
 python3 scripts/probe_inverse_interval.py
 bash scripts/check_integrity.sh
 ```
@@ -142,5 +178,7 @@ bash scripts/check_integrity.sh
 [axiom audit](InverseIntervalAxioms.txt),
 [completeness proof](../Collatz/Search/InverseIntervalComplete.lean),
 [completeness audit](InverseIntervalCompleteAxioms.txt),
+[list implementation](../Collatz/Search/InverseIntervalLayers.lean),
+[list-layer audit](InverseIntervalLayersAxioms.txt),
 [probe](InverseIntervalProbe.json),
 [residue-spread bounds and their local limitation](CycleInverseSpread.md).

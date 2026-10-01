@@ -38,14 +38,22 @@ def on_cycle_inside(nodes, start):
 
 def main():
     checks = 0
+    list_membership_checks = 0
+    maximum_duplicate_entries = 0
     for lo in range(9):
         for hi in range(21):
             nodes = allowed(lo, hi)
             current = nodes
+            layer = sorted(nodes)
             for fuel in range(7):
                 for v in range(hi + 3):
                     assert survives(lo, hi, fuel, v) == (v in current)
                     checks += 1
+                assert set(layer) == current
+                assert len(layer) <= max(hi - lo, 0) + 1
+                list_membership_checks += 1
+                maximum_duplicate_entries = max(maximum_duplicate_entries, len(layer) - len(set(layer)))
+                layer = [step(p) for p in layer if step(p) in nodes]
                 nxt = prune(nodes, current)
                 assert nxt <= current
                 current = nxt
@@ -95,9 +103,24 @@ def main():
             current = prune(nodes, current)
         else:
             raise AssertionError(("unexpected surviving candidate", m))
+    # Compute the complete layer once for all membership queries.
+    lo, hi = 1, 100
+    nodes = allowed(lo, hi)
+    layer = sorted(nodes)
+    for _ in range(hi - lo + 1):
+        layer = [step(p) for p in layer if step(p) in nodes]
+    assert set(layer) == {1, 2}
+    completed_list_length = len(layer)
+    layer = [1, 2, 4]
+    for _ in range(4):
+        layer = [step(p) for p in layer if 1 <= step(p) <= 4 and step(p) % 3 != 0]
+    assert layer == [1, 2, 1]
     result = {
         "all_checks_passed": True,
         "recursive_vs_graph_checks": checks,
+        "list_layer_membership_checks": list_membership_checks,
+        "maximum_duplicate_entries_in_small_tests": maximum_duplicate_entries,
+        "completed_list_length_on_1_through_100": completed_list_length,
         "decision_depth_vs_forward_cycle_checks": decision_checks,
         "positive_periodic_point_acceptances": periodic_points,
         "deeper_searches_agree": True,

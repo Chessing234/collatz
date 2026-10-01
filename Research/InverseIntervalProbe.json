@@ -1,6 +1,9 @@
 {
   "all_checks_passed": true,
   "recursive_vs_graph_checks": 17199,
+  "list_layer_membership_checks": 1323,
+  "maximum_duplicate_entries_in_small_tests": 7,
+  "completed_list_length_on_1_through_100": 48,
   "decision_depth_vs_forward_cycle_checks": 5022,
   "positive_periodic_point_acceptances": 116,
   "deeper_searches_agree": true,

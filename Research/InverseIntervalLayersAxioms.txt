@@ -1,0 +1,15 @@
+'Collatz.InverseInterval.mem_intervalStates' depends on axioms: [propext, Quot.sound]
+'Collatz.InverseInterval.mem_advanceLayer' depends on axioms: [propext, Quot.sound]
+'Collatz.InverseInterval.mem_layers_iff' depends on axioms: [propext, Quot.sound]
+'Collatz.InverseInterval.layer_membership_iff_survives' depends on axioms: [propext, Quot.sound]
+'Collatz.InverseInterval.decision_layer_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.InverseInterval.advance_length_le' depends on axioms: [propext]
+'Collatz.InverseInterval.layer_length_le' depends on axioms: [propext]
+'Collatz.InverseInterval.layer_subset_previous' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.InverseInterval.layer_membership_stable' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.InverseInterval.layerCheck_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.InverseInterval.decision_layer_empty_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.InverseInterval.duplicate_entries_example' does not depend on any axioms
+'Collatz.InverseInterval.seven_layer_empty' does not depend on any axioms
+'Collatz.InverseInterval.transient_four_rejected' does not depend on any axioms
+'Collatz.InverseInterval.trivial_points_retained' does not depend on any axioms
