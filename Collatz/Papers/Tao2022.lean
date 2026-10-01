@@ -68,17 +68,72 @@ theorem colMinUpTo_le_first_iterate (K : Nat) (n : Nat) :
   · omega
   · omega
 
-/-- Tao (2022), main theorem (recorded, not proved): for every function
-`f : ℕ⁺ → ℚ` tending to `+∞`, `Col_min(n) ≤ f(n)` for almost all `n` in the
-sense of logarithmic density. -/
+/-- Harmonic weight of a set of positive integers up to N. This is a
+mathematical definition using classical membership, not an orbit-search
+algorithm with a time cutoff. -/
+noncomputable def harmonicMass (P : Nat → Prop) (N : Nat) : Rat := by
+  classical
+  exact ((List.range N).map fun k =>
+    if P (k+1) then (1 : Rat) / ((k+1 : Nat) : Rat) else 0).sum
+
+/-- Logarithmic density one, normalized by the full harmonic sum.
+Only positive integers are counted, so division by zero is absent. -/
+def LogDensityOne (P : Nat → Prop) : Prop :=
+  ∀ eps : Rat, 0 < eps → ∃ N0 : Nat, ∀ N : Nat, N0 ≤ N → 0 < N →
+    (1-eps) * harmonicMass (fun _ => True) N ≤ harmonicMass P N
+
+/-- The orbit has an iterate below a rational bound. The quantifier is
+unbounded: replacing it by a search to depth N would be a different statement. -/
+def OrbitBelow (n : Nat) (bound : Rat) : Prop :=
+  ∃ k : Nat, (ColIter k n : Rat) ≤ bound
+
+/-- Tao's almost-bounded conclusion restricted to rational-valued growth
+functions, recorded as a proposition, NOT proved here. The density is
+logarithmic, not natural, and the bound must tend to infinity.
+
+Earlier versions ended in True and therefore did not encode the claimed
+conclusion. This definition uses the actual orbit predicate and harmonic
+weights. No theorem in this module asserts this proposition. -/
 def taoAlmostBoundedOrbits : Prop :=
   ∀ f : Nat → Rat,
     (∀ N : Nat, ∃ M : Nat, ∀ n : Nat, M ≤ n → f n ≥ (N : Rat)) →
-      ∀ eps : Rat, 0 < eps →
-        ∃ N0 : Nat, ∀ N : Nat, N0 ≤ N → 0 < N →
-          -- the set { n ∈ [1,N] : Col_min(n) ≤ f(n) } has lower logarithmic
-          -- density at least 1 - eps
-          True
+      LogDensityOne (fun n => OrbitBelow n (f n))
+
+/-- Empty cutoffs have zero mass. -/
+theorem harmonicMass_zero (P : Nat → Prop) : harmonicMass P 0 = 0 := by
+  simp [harmonicMass]
+
+/-- The empty set has zero mass for every cutoff. -/
+theorem harmonicMass_empty (N : Nat) : harmonicMass (fun _ => False) N = 0 := by
+  induction N with
+  | zero => simp [harmonicMass]
+  | succ N ih =>
+    simpa [harmonicMass, List.range_succ, List.map_append, List.sum_append, Rat.add_zero] using ih
+
+/-- Singleton cutoff tests the actual set membership at the positive input 1. -/
+theorem harmonicMass_one (P : Nat → Prop) [Decidable (P 1)] :
+    harmonicMass P 1 = (if P 1 then 1 else 0) := by
+  classical
+  simp [harmonicMass, List.range_succ, Rat.add_zero, Rat.zero_add, show (1 : Rat) / 1 = 1 by exact Rat.mul_inv_cancel 1 (by decide)]
+
+/-- Reaching one supplies an orbit-bound witness whenever the bound is at least one. -/
+theorem orbitBelow_of_reaches_one {n : Nat} {bound : Rat}
+    (h : ∃ k : Nat, Collatz.orbit k n = 1) (hb : 1 ≤ bound) : OrbitBelow n bound := by
+  obtain ⟨k, hk⟩ := h
+  refine ⟨k, ?_⟩
+  simpa [ColIter, hk] using hb
+
+/-- An orbit-bound witness above the starting value needs no iteration. -/
+theorem orbitBelow_of_start_le {n : Nat} {bound : Rat} (h : (n : Rat) ≤ bound) :
+    OrbitBelow n bound := ⟨0, h⟩
+
+/-- The orbit predicate has content: no positive orbit reaches a value at most zero. -/
+theorem not_orbitBelow_zero {n : Nat} (hn : 0 < n) : ¬ OrbitBelow n 0 := by
+  intro ⟨k, hk⟩
+  have hp : 0 < ColIter k n := Collatz.orbit_positive hn k
+  have hc : (ColIter k n : Rat) ≤ (0 : Nat) := hk
+  have hz := Rat.natCast_le_natCast.mp hc
+  omega
 
 /-- If the orbit reaches `1`, then `Col_min(n) ≤ 1`. -/
 theorem colMinLe_one_of_reaches_one {n : Nat} (h : ∃ k : Nat, Collatz.orbit k n = 1) :
