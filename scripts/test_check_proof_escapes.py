@@ -42,6 +42,10 @@ class EscapeScreenTests(unittest.TestCase):
         self.assertEqual(len(code_only(text)), len(text))
         self.assertEqual(violations(text), [(5, 'sorry')])
 
+    def test_declaration_location_after_blank_lines(self):
+        self.assertEqual(violations('/- ignored -/\n\nprivate\nopaque bad : Nat'),
+                         [(4, 'opaque')])
+
     def test_declarations_and_attributes(self):
         for value in ('axiom bad : False', 'private unsafe def bad := 1',
                       '@[extern "native"] def bad := 1', 'opaque bad : Nat'):

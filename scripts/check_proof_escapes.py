@@ -74,8 +74,9 @@ def code_only(text):
 
 
 def violations(text):
-    return [(text.count('\n', 0, m.start())+1, m.group(0).strip())
-            for m in FORBIDDEN.finditer(code_only(text))]
+    return [(number, match.group(0).strip())
+            for number, line in enumerate(code_only(text).splitlines(), 1)
+            for match in FORBIDDEN.finditer(line)]
 
 
 def main():
