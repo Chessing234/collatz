@@ -1,6 +1,9 @@
 {
   "all_checks_passed": true,
   "recursive_vs_graph_checks": 17199,
+  "early_stop_arbitrary_list_checks": 19656,
+  "early_stop_rounds_on_1_through_100": 21,
+  "full_budget_on_1_through_100": 100,
   "list_layer_membership_checks": 1323,
   "maximum_duplicate_entries_in_small_tests": 7,
   "completed_list_length_on_1_through_100": 48,

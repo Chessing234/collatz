@@ -138,6 +138,9 @@ import Collatz
 #print axioms Collatz.NaturalDensity.densityOne_rat_bound
 #print axioms Collatz.Papers.Terras1976.diagonalDensityOne_proved
 #print axioms Collatz.DensityCountermodel.PowerComparison.density_quantifiers_do_not_commute
+#print axioms Collatz.InverseInterval.pruneStable_correct
+#print axioms Collatz.InverseInterval.earlyDecision_iff
+#print axioms Collatz.InverseInterval.earlyDecision_resources
 #print axioms Collatz.InverseInterval.layer_membership_iff_survives
 #print axioms Collatz.InverseInterval.layer_length_le
 #print axioms Collatz.InverseInterval.layerCheck_iff

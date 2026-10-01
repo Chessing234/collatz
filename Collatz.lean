@@ -2067,3 +2067,4 @@ import Collatz.Structure.InverseSpreadBoundary
 import Collatz.Search.InverseInterval
 import Collatz.Search.InverseIntervalComplete
 import Collatz.Search.InverseIntervalLayers
+import Collatz.Search.InverseIntervalEarlyStop

@@ -1,5 +1,6 @@
 """Compare recursive inverse search with independent finite-graph pruning."""
 from functools import lru_cache
+from itertools import product
 import json
 from pathlib import Path
 
@@ -36,6 +37,23 @@ def on_cycle_inside(nodes, start):
     return current == start and start in seen
 
 
+def same_members(xs, ys):
+    return all(x in ys for x in xs) and all(y in xs for y in ys)
+
+
+def advance_list(lo, hi, xs):
+    return [step(p) for p in xs if lo <= step(p) <= hi and step(p) % 3 != 0]
+
+
+def early_run(lo, hi, fuel, xs):
+    for rounds in range(1, fuel + 1):
+        nxt = advance_list(lo, hi, xs)
+        if same_members(nxt, xs):
+            return nxt, rounds
+        xs = nxt
+    return xs, fuel
+
+
 def main():
     checks = 0
     list_membership_checks = 0
@@ -63,10 +81,13 @@ def main():
         for hi in range(31):
             nodes = allowed(lo, hi)
             depth = max(hi - lo, 0) + 1
+            early, rounds_used = early_run(lo, hi, depth, sorted(nodes))
+            assert rounds_used <= depth and len(early) <= depth
             for v in range(hi + 3):
                 expected = on_cycle_inside(nodes, v)
                 result = survives(lo, hi, depth, v)
                 assert result == expected, (lo, hi, depth, v)
+                assert (v in early) == expected
                 assert survives(lo, hi, depth + 3, v) == result
                 decision_checks += 1
                 periodic_points += expected
@@ -115,9 +136,29 @@ def main():
     for _ in range(4):
         layer = [step(p) for p in layer if 1 <= step(p) <= 4 and step(p) % 3 != 0]
     assert layer == [1, 2, 1]
+    arbitrary_list_checks = 0
+    for lo in range(3):
+        for hi in range(6):
+            for length in range(4):
+                for values in product(range(5), repeat=length):
+                    for fuel in range(7):
+                        xs = list(values)
+                        full = xs
+                        for _ in range(fuel):
+                            full = advance_list(lo, hi, full)
+                        short, used = early_run(lo, hi, fuel, xs)
+                        assert set(short) == set(full)
+                        assert used <= fuel and len(short) <= len(xs)
+                        arbitrary_list_checks += 1
+    early_100, rounds_100 = early_run(1, 100, 100, sorted(allowed(1, 100)))
+    assert set(early_100) == {1, 2}
+    assert early_run(1, 2, 2, [1, 2]) == ([2, 1], 1)
     result = {
         "all_checks_passed": True,
         "recursive_vs_graph_checks": checks,
+        "early_stop_arbitrary_list_checks": arbitrary_list_checks,
+        "early_stop_rounds_on_1_through_100": rounds_100,
+        "full_budget_on_1_through_100": 100,
         "list_layer_membership_checks": list_membership_checks,
         "maximum_duplicate_entries_in_small_tests": maximum_duplicate_entries,
         "completed_list_length_on_1_through_100": completed_list_length,

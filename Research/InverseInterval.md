@@ -122,6 +122,37 @@ list is empty exactly when no positive cycle is confined to the interval.
 This is stronger than excluding a cycle through one selected input, while
 remaining explicitly limited to the finite interval.
 
+## Proven early stopping
+
+`sameMembersCheck` compares both membership directions between two lists,
+ignoring order and duplicates. Lean proves that advancing a layer respects
+this relation. Thus if one round leaves membership unchanged, every later
+round has the same members.
+
+`pruneStable` returns the next list when this fixed point is detected, or
+continues until its fuel is exhausted. Its result records both the retained
+states and the number of rounds actually evaluated. `pruneStable_correct`
+proves equality of membership with the full-budget computation from any
+initial list. Separate theorems bound the reported rounds by the fuel and
+the result length by the initial length.
+
+`earlyDecision` starts from the allowed interval and supplies the complete
+interval-width budget. It therefore has the same exact positive-cycle
+semantics as the complete layer, with both resource bounds expressed in
+terms of the interval width. An arbitrary call to the lower-level runner
+with less fuel should not be treated as a complete decision merely because
+it returned a finite result.
+
+The kernel-checked two-cycle example stops after one round:
+`[1,2]` advances to `[2,1]`. Literal list equality would miss that fixed
+membership set. The [1,100] probe evaluates 21 rounds instead of its full
+budget of 100: 20 rounds change membership, and one more detects stability.
+
+The membership comparison currently uses list containment checks. Fewer
+rounds do not by themselves imply less wall-clock time: comparisons have a
+cost, which can be quadratic in list length. No benchmarked speedup or
+arithmetic bit-complexity bound is claimed here.
+
 ## Independent graph tests
 
 The Python probe compares the recursive search with a separate finite-graph
@@ -153,13 +184,18 @@ work on shared subproblems. The list implementation computes all endpoints
 together with a proved length bound. The extended Python probe compares
 list layers to set-based graph pruning on 1,323 cases, checks the length
 bound at every round, and records duplicates explicitly. All comparisons
-passed. Neither implementation makes arbitrary large intervals practical
-merely by having a finite completeness theorem.
+passed. The early-stop extension also passed 19,656 comparisons from
+arbitrary small lists, including duplicates, initially disallowed entries,
+empty lists, and zero fuel. Its completed interval answers agree with the
+independent forward-cycle detector on all 5,022 cases. None of these methods
+makes arbitrary large intervals practical merely by having a finite
+completeness theorem.
 
 ## Verification
 
-All nine search endpoints, eight completeness endpoints, and 15 list-layer
-endpoints are included in their dedicated axiom audits. The principal
+All nine search endpoints, eight completeness endpoints, 15 list-layer
+endpoints, and 12 early-stop endpoints are included in their dedicated axiom
+audits. The principal
 interfaces, including complete decision, eventual stability, the list length
 bound, and the empty-layer certificate, are in the main-library integrity check.
 
@@ -170,6 +206,8 @@ lake build Collatz.Search.InverseIntervalComplete
 lake env lean scripts/audit_inverse_interval_complete.lean
 lake build Collatz.Search.InverseIntervalLayers
 lake env lean scripts/audit_inverse_interval_layers.lean
+lake build Collatz.Search.InverseIntervalEarlyStop
+lake env lean scripts/audit_inverse_interval_early_stop.lean
 python3 scripts/probe_inverse_interval.py
 bash scripts/check_integrity.sh
 ```
@@ -180,5 +218,7 @@ bash scripts/check_integrity.sh
 [completeness audit](InverseIntervalCompleteAxioms.txt),
 [list implementation](../Collatz/Search/InverseIntervalLayers.lean),
 [list-layer audit](InverseIntervalLayersAxioms.txt),
+[early-stop implementation](../Collatz/Search/InverseIntervalEarlyStop.lean),
+[early-stop audit](InverseIntervalEarlyStopAxioms.txt),
 [probe](InverseIntervalProbe.json),
 [residue-spread bounds and their local limitation](CycleInverseSpread.md).
