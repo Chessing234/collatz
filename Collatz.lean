@@ -2034,3 +2034,5 @@ import Collatz.Papers.CofiniteLogDensity
 import Collatz.Strategy.DensityCountermodel
 import Collatz.Strategy.FirstLightCertificates
 import Collatz.Strategy.FirstLightScanComplete
+import Collatz.Strategy.FirstLightGapCheck
+import Collatz.Strategy.FirstLightIntervals
