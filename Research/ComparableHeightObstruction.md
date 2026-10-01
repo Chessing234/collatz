@@ -62,3 +62,6 @@ python3 scripts/probe_comparable_height.py
 The [logarithmic-height extension](LogarithmicHeightObstruction.md) applies
 this result after exponentiation, excluding bounded additive corrections to
 floor(log₂(n+1)) as a source of uniformly bounded descent.
+
+The [finite witness refinement](BoundedHeightWitness.md) bounds the size of a
+failing input and supplies a Boolean search with checked semantics.

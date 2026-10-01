@@ -1,0 +1,10 @@
+'Collatz.BoundedHeightWitness.concatenate_local' depends on axioms: [propext, Quot.sound]
+'Collatz.BoundedHeightWitness.odd_run_upper' depends on axioms: [propext, Quot.sound]
+'Collatz.BoundedHeightWitness.failure_on_odd_run' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.BoundedHeightWitness.bounded_failure_witness' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.BoundedHeightWitness.failureCheck_iff' depends on axioms: [propext, Quot.sound]
+'Collatz.BoundedHeightWitness.runFailureCheck_iff' depends on axioms: [propext, Quot.sound]
+'Collatz.BoundedHeightWitness.runFailureCheck_complete' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.BoundedHeightWitness.size_example' does not depend on any axioms
+'Collatz.BoundedHeightWitness.residue_example' does not depend on any axioms
+'Collatz.BoundedHeightWitness.residue_run_example' does not depend on any axioms
