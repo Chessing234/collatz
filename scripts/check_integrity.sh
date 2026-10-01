@@ -123,6 +123,9 @@ import Collatz
 #print axioms Collatz.FirstLightPeriodicity.noDescent_256_congr
 #print axioms Collatz.PeriodicCounting.periodic_density_precision
 #print axioms Collatz.FirstLightCounting.survival_count_div_mod
+#print axioms Collatz.NaturalDensity.not_densityOne_empty
+#print axioms Collatz.Papers.Korec1994.four_fifths_of_statement
+#print axioms Collatz.Papers.Korec1994.one_not_below_power
 LEAN
 axout="$(lake env lean /tmp/collatz_axcheck.lean)"
 # Lean may wrap a long declaration's axiom list after commas. Join those
