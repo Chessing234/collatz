@@ -1,0 +1,15 @@
+import Collatz.Strategy.LocalOrbitCorridor
+
+#print axioms Collatz.LocalOrbitCorridor.no_three_in_band
+#print axioms Collatz.LocalOrbitCorridor.local_escape
+#print axioms Collatz.LocalOrbitCorridor.every_local_window
+#print axioms Collatz.LocalOrbitCorridor.local_check_has_small_hit
+#print axioms Collatz.LocalOrbitCorridor.twoStepVerified_iff
+#print axioms Collatz.LocalOrbitCorridor.twoStepVerified_sound
+#print axioms Collatz.LocalOrbitCorridor.local_implies_hit
+#print axioms Collatz.LocalOrbitCorridor.local_check_sound
+#print axioms Collatz.LocalOrbitCorridor.current_local_check
+#print axioms Collatz.LocalOrbitCorridor.long_check_implies_local
+#print axioms Collatz.LocalOrbitCorridor.local_strictly_improves
+#print axioms Collatz.LocalOrbitCorridor.local_failure_can_converge
+#print axioms Collatz.LocalOrbitCorridor.hit_strictly_improves

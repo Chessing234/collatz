@@ -138,6 +138,12 @@ import Collatz
 #print axioms Collatz.NaturalDensity.densityOne_rat_bound
 #print axioms Collatz.Papers.Terras1976.diagonalDensityOne_proved
 #print axioms Collatz.DensityCountermodel.PowerComparison.density_quantifiers_do_not_commute
+#print axioms Collatz.LocalOrbitCorridor.no_three_in_band
+#print axioms Collatz.LocalOrbitCorridor.every_local_window
+#print axioms Collatz.LocalOrbitCorridor.twoStepVerified_sound
+#print axioms Collatz.LocalOrbitCorridor.local_check_sound
+#print axioms Collatz.LocalOrbitCorridor.long_check_implies_local
+#print axioms Collatz.LocalOrbitCorridor.hit_strictly_improves
 #print axioms Collatz.VerifiedOrbitCorridor.corridor_escape
 #print axioms Collatz.VerifiedOrbitCorridor.every_window_exit
 #print axioms Collatz.VerifiedOrbitCorridor.repeat_certificate_constraints

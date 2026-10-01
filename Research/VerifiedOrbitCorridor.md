@@ -1,5 +1,10 @@
 # A finite convergence test from a verified range and a cycle bound
 
+**A stronger local test is now proved.** [Local parity rules](LocalOrbitCorridor.md)
+replace this long scan with two transitions below a wider threshold, and a
+direct verified-range entry check improves that test further. The general
+pigeonhole theorem below remains valid, but its numerical test is dominated.
+
 The library already proves two independent facts:
 
 - Every positive start below V = 3,998,720 reaches 1.

@@ -2061,3 +2061,4 @@ import Collatz.Strategy.DescentRounds
 import Collatz.Strategy.MinimumTransportBarrier
 import Collatz.Strategy.FiniteOrbitCertificates
 import Collatz.Strategy.VerifiedOrbitCorridor
+import Collatz.Strategy.LocalOrbitCorridor
