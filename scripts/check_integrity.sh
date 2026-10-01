@@ -138,6 +138,9 @@ import Collatz
 #print axioms Collatz.NaturalDensity.densityOne_rat_bound
 #print axioms Collatz.Papers.Terras1976.diagonalDensityOne_proved
 #print axioms Collatz.DensityCountermodel.PowerComparison.density_quantifiers_do_not_commute
+#print axioms Collatz.ParityMoments.moment_eq
+#print axioms Collatz.ParityMoments.tail_moment_bound
+#print axioms Collatz.ParityMoments.four_fifths_tail_bound
 #print axioms Collatz.BoundedHeightWitness.bounded_failure_witness
 #print axioms Collatz.BoundedHeightWitness.runFailureCheck_complete
 #print axioms Collatz.LogarithmicHeightObstruction.no_bounded_log_height_nonincrease

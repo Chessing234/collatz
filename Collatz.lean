@@ -2049,3 +2049,4 @@ import Collatz.Strategy.ComparableHeightObstruction
 import Collatz.Strategy.DensityPowerCountermodel
 import Collatz.Strategy.LogarithmicHeightObstruction
 import Collatz.Strategy.BoundedHeightWitness
+import Collatz.Structure.ParityMoments
