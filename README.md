@@ -111,6 +111,9 @@ establish historical priority or independent mathematical review.
   descent rounds succeeds at density one, while each individual chain
   stabilizes at its orbit minimum. Proving that minimum is 1 remains the
   convergence problem.
+  The [orbit-minimum map fails to preserve density one](Research/MinimumTransportBarrier.md),
+  and times reaching non-descending points have density-one tails beyond
+  every fixed horizon.
 - [First-crossing certificates](Research/FirstLight1024.md) and
   [exact counting](Research/FirstLightCounting.md): the certified 1,024-step
   horizon identifies first coefficient crossings with first actual descents.

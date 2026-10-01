@@ -98,3 +98,8 @@ bash scripts/check_integrity.sh
 [Lean development](../Collatz/Strategy/DescentRounds.lean),
 [axiom audit](DescentRoundsAxioms.txt),
 [finite probe](DescentRoundsProbe.json).
+
+The [minimum-transport obstruction](MinimumTransportBarrier.md) proves that
+the stabilized endpoint does not preserve density one, although every fixed
+round does. Its range is exactly the density-zero set of non-descending
+starts, and terminal hitting times cannot have density-tight tails.

@@ -138,6 +138,11 @@ import Collatz
 #print axioms Collatz.NaturalDensity.densityOne_rat_bound
 #print axioms Collatz.Papers.Terras1976.diagonalDensityOne_proved
 #print axioms Collatz.DensityCountermodel.PowerComparison.density_quantifiers_do_not_commute
+#print axioms Collatz.MinimumTransportBarrier.minimum_destroys_density
+#print axioms Collatz.MinimumTransportBarrier.minimum_image_iff
+#print axioms Collatz.MinimumTransportBarrier.minimum_image_sparse
+#print axioms Collatz.MinimumTransportBarrier.terminal_time_not_tight
+#print axioms Collatz.MinimumTransportBarrier.terminalRound_not_tight
 #print axioms Collatz.DescentRounds.fixed_rounds_vs_diagonal
 #print axioms Collatz.DescentRounds.density_one_dropsThrough
 #print axioms Collatz.DescentRounds.orbitMinimum_le
