@@ -1,0 +1,13 @@
+import Collatz.Strategy.DensityCompatibilityModel
+
+#print axioms Collatz.DensityCountermodel.Compatibility.orbit_add
+#print axioms Collatz.DensityCountermodel.Compatibility.orbit_one
+#print axioms Collatz.DensityCountermodel.Compatibility.orbit_zero_start
+#print axioms Collatz.DensityCountermodel.Compatibility.reaches_three_excludes_one
+#print axioms Collatz.DensityCountermodel.Compatibility.finite_stopping_above_three
+#print axioms Collatz.DensityCountermodel.Compatibility.finite_stopping_density_one
+#print axioms Collatz.DensityCountermodel.Compatibility.failure_count_lower
+#print axioms Collatz.DensityCountermodel.Compatibility.orbit_below_three
+#print axioms Collatz.DensityCountermodel.Compatibility.almost_bounded_comparison
+#print axioms Collatz.DensityCountermodel.Compatibility.descent_density_with_positive_failure_density
+#print axioms Collatz.DensityCountermodel.Compatibility.dropping_ancestor_of_never_dropper

@@ -1,0 +1,7 @@
+{
+  "comparison_map_not_collatz": true,
+  "cutoff": 10000,
+  "finite_stopping_count": 9997,
+  "positive_nonconvergent_count": 4095,
+  "assertions": "passed"
+}
