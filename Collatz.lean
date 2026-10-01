@@ -2043,3 +2043,4 @@ import Collatz.Strategy.FirstLightCounting
 import Collatz.Papers.PowerBoundCriteria
 import Collatz.Structure.StoppingNaturalDensity
 import Collatz.Strategy.FirstLight1024Interface
+import Collatz.Papers.TerrasDiagonal

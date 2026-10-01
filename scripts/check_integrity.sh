@@ -135,6 +135,8 @@ import Collatz
 #print axioms Collatz.Papers.Terras1976.terrasDensityOne_proved
 #print axioms Collatz.FirstLight1024.descent_at_first_light_le_1024
 #print axioms Collatz.FirstLightConsequences.exactThrough_1024
+#print axioms Collatz.NaturalDensity.densityOne_rat_bound
+#print axioms Collatz.Papers.Terras1976.diagonalDensityOne_proved
 LEAN
 axout="$(lake env lean /tmp/collatz_axcheck.lean)"
 # Lean may wrap a long declaration's axiom list after commas. Join those

@@ -69,8 +69,9 @@ finite horizons and all cutoffs. No statistical sampling is used as proof.
 
 The paper wrapper now exports `terrasDensityOne_proved`. Its older diagonal
 bounded-horizon, rational-epsilon formulation is retained under
-`diagonalDensityOne` as a separate unproved statement. No equivalence proof
-between that historical formulation and the checked definition is claimed.
+`diagonalDensityOne` as a separate statement. It is now proved by
+[the diagonal-count bridge](TerrasDiagonal.md), using the actual finite-window
+estimate rather than assuming equivalence of the formulations.
 
 ```sh
 lake build Collatz.Papers.Terras1976

@@ -15,7 +15,8 @@ stopping time has natural density `1`.
 
 The natural-density theorem is proved below through the core stopping-density
 module. The older diagonal bounded-horizon formulation is kept separately
-as an unproved proposition; no equivalence between the two is asserted here.
+as a distinct proposition; `TerrasDiagonal` proves it using the explicit
+finite-window estimate and a rational-precision conversion.
 The shared accelerated-orbit definitions in `Collatz.Accelerated` provide the
 stopping-time predicate, checked finite stopping-time instances, and the
 affine parity-vector identity.  This file keeps the bibliographic wrapper
@@ -46,7 +47,7 @@ theorem terrasDensityOne_proved : terrasDensityOne :=
   StoppingNaturalDensity.finite_stopping_time_density_one
 
 /-- Historical diagonal bounded-horizon formulation, retained as a separate
-unproved statement. The density theorem above counts the actual stopping set. -/
+statement, proved in `TerrasDiagonal`. The theorem above counts the actual stopping set. -/
 def diagonalDensityOne : Prop :=
   ∀ eps : Rat, 0 < eps →
     ∃ N0 : Nat, ∀ N : Nat, N0 ≤ N → 0 < N →
