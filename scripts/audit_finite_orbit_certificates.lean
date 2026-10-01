@@ -1,0 +1,20 @@
+import Collatz.Strategy.FiniteOrbitCertificates
+
+#print axioms Collatz.FiniteOrbitCertificates.orbit_mod_period
+#print axioms Collatz.FiniteOrbitCertificates.repeat_reduces
+#print axioms Collatz.FiniteOrbitCertificates.le_prefixMax
+#print axioms Collatz.FiniteOrbitCertificates.bounded_of_repeat
+#print axioms Collatz.FiniteOrbitCertificates.never_one_of_repeat
+#print axioms Collatz.FiniteOrbitCertificates.avoidsOne_iff
+#print axioms Collatz.FiniteOrbitCertificates.repeatCheck_iff
+#print axioms Collatz.FiniteOrbitCertificates.repeatCheck_sound
+#print axioms Collatz.FiniteOrbitCertificates.repeat_certificate_iff
+#print axioms Collatz.FiniteOrbitCertificates.repeatSearch_iff
+#print axioms Collatz.FiniteOrbitCertificates.oneSearch_iff
+#print axioms Collatz.FiniteOrbitCertificates.exitSearch_iff
+#print axioms Collatz.FiniteOrbitCertificates.finite_search_complete
+#print axioms Collatz.FiniteOrbitCertificates.repeatSearch_sound
+#print axioms Collatz.FiniteOrbitCertificates.all_exits_iff_divergent
+#print axioms Collatz.FiniteOrbitCertificates.zero_repeat
+#print axioms Collatz.FiniteOrbitCertificates.exit_is_not_nonconvergence
+#print axioms Collatz.FiniteOrbitCertificates.trivial_repeat_rejected

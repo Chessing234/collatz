@@ -114,6 +114,10 @@ establish historical priority or independent mathematical review.
   The [orbit-minimum map fails to preserve density one](Research/MinimumTransportBarrier.md),
   and times reaching non-descending points have density-one tails beyond
   every fixed horizon.
+- [Finite orbit certificates](Research/FiniteOrbitCertificates.md): executable
+  checks distinguish a hit on 1, an exit from a specified interval, and a
+  repeated prefix proving bounded nonconvergence. An interval exit alone
+  does not establish divergence.
 - [First-crossing certificates](Research/FirstLight1024.md) and
   [exact counting](Research/FirstLightCounting.md): the certified 1,024-step
   horizon identifies first coefficient crossings with first actual descents.

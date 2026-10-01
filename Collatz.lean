@@ -2059,3 +2059,4 @@ import Collatz.Strategy.PowerStoppingTimeBarrier
 import Collatz.Papers.KorecLogWindow
 import Collatz.Strategy.DescentRounds
 import Collatz.Strategy.MinimumTransportBarrier
+import Collatz.Strategy.FiniteOrbitCertificates
