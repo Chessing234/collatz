@@ -1,6 +1,6 @@
 # Residue-monotone heights: a bounded-horizon obstruction
 
-2026-10-01. The seven endpoints in
+2026-10-01. The eight endpoints in
 [`ResidueMonotoneObstruction.lean`](../Collatz/Strategy/ResidueMonotoneObstruction.lean)
 compile in Lean 4.33.0-rc1. This is an obstruction to a specified proof strategy,
 not a proof or disproof of Collatz. No historical novelty is claimed.
@@ -32,10 +32,16 @@ natural offsets b_r, even with completely unrelated slopes between classes.
 
 ## What this adds, and what it leaves open
 
-The repository already has the Mersenne witness for failure of uniformly
-bounded size descent in `DensitySaturation`. The extension here preserves
-an arbitrary modulus throughout the rising run. This permits different
-height formulas in different classes and still defeats every bounded horizon.
+The repository already has the Mersenne witness in `DensitySaturation` and,
+more directly, the same-modulus returning witness in
+[`AnyModulusRanking`](../Collatz/Strategy/AnyModulusRanking.lean). The latter
+rules out class-constant ranks at a fixed positive time, in arbitrary codomains.
+The contribution here is the simultaneous whole-run statement, witnesses above
+any cutoff, and natural-valued heights increasing within classes rather than
+constant there. A further theorem permits weak nondecrease only above the
+cutoff, unifying class-constant and increasing heights for bounded schedules.
+The elementary orbit identity is reproved using only `Collatz.Accelerated` to
+keep this check independent of the large finite-verification dependency chain.
 It does not exclude unbounded stopping times, heights that decrease along
 some residue classes, dynamically changing moduli, or arbitrary ranking
 functions. The Lean height theorem currently has natural-valued codomain.
@@ -50,7 +56,7 @@ lake env lean scripts/audit_residue_monotone.lean
 python3 scripts/probe_residue_monotone.py
 ```
 
-The [axiom audit](ResidueMonotoneAxioms.txt) contains seven endpoints, with
+The [axiom audit](ResidueMonotoneAxioms.txt) contains eight endpoints, with
 only `propext` and `Quot.sound` (the affine-height lemma uses no axioms).
 The independent [integer probe](ResidueMonotoneProbe.json) checks 5,280
 starting values and 84,480 positive-time instances, including modulus one

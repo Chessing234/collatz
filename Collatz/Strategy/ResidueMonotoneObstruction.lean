@@ -9,8 +9,9 @@ as the start, and are strictly larger than the start at every positive time.
 The witness is M*q*2^(B+1)-1. Consequently a height increasing within each
 residue class cannot furnish a universally bounded descent schedule.
 
-This extends the usual Mersenne obstruction from the magnitude itself to
-heights with unrelated formulas on different residue classes. It does not
+The same-modulus returning family already appears in AnyModulusRanking.
+Here it is strengthened to a whole rising run, arbitrary cutoffs, and heights
+that need not be constant on residue classes. It does not
 exclude unbounded stopping schedules or heights that decrease within a class.
 No historical novelty is asserted.
 -/
@@ -151,5 +152,20 @@ theorem no_finite_menu_descent (M cutoff : Nat) (hM : 0 < M)
     · omega
     · have := ih hm
       omega
+
+/-- Only eventual nondecrease within residue classes is needed. This includes
+class-constant ranks as well as increasing ranks, and permits arbitrary
+behavior on the finite exceptional range up to the cutoff. -/
+theorem no_eventual_nondecreasing_height_descent (M B cutoff : Nat) (hM : 0 < M)
+    (height : Nat → Nat)
+    (hheight : ∀ x y, cutoff < x → x ≤ y → x%M = y%M → height x ≤ height y) :
+    ¬ (∀ n, cutoff < n → 1 < n → ∃ i, 0 < i ∧ i ≤ B ∧
+      height (acceleratedOrbit i n) < height n) := by
+  intro h
+  obtain ⟨n, hcut, hn, hrun⟩ := arbitrarily_large_rising_run M B cutoff hM
+  obtain ⟨i, hi, hiB, hd⟩ := h n hcut hn
+  obtain ⟨hg, hr⟩ := hrun i hi hiB
+  have := hheight n (acceleratedOrbit i n) hcut (Nat.le_of_lt hg) hr.symm
+  omega
 
 end Collatz.ResidueMonotoneObstruction

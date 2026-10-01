@@ -7,3 +7,5 @@ import Collatz.Strategy.ResidueMonotoneObstruction
 #print axioms Collatz.ResidueMonotoneObstruction.no_bounded_height_descent
 #print axioms Collatz.ResidueMonotoneObstruction.affine_height_residue_monotone
 #print axioms Collatz.ResidueMonotoneObstruction.no_finite_menu_descent
+
+#print axioms Collatz.ResidueMonotoneObstruction.no_eventual_nondecreasing_height_descent
