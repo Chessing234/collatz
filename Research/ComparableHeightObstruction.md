@@ -58,3 +58,7 @@ python3 scripts/probe_comparable_height.py
 
 [Lean source](../Collatz/Strategy/ComparableHeightObstruction.lean),
 [axiom audit](ComparableHeightAxioms.txt), [test results](ComparableHeightProbe.json).
+
+The [logarithmic-height extension](LogarithmicHeightObstruction.md) applies
+this result after exponentiation, excluding bounded additive corrections to
+floor(log₂(n+1)) as a source of uniformly bounded descent.

@@ -2047,3 +2047,4 @@ import Collatz.Papers.TerrasDiagonal
 import Collatz.Strategy.DensityCompatibilityModel
 import Collatz.Strategy.ComparableHeightObstruction
 import Collatz.Strategy.DensityPowerCountermodel
+import Collatz.Strategy.LogarithmicHeightObstruction

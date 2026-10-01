@@ -88,7 +88,9 @@ establish historical priority or independent mathematical review.
   residue-wise nondecreasing heights cannot guarantee a drop within a fixed
   number of steps. A separate argument excludes
   [arbitrarily oscillating heights comparable to size](Research/ComparableHeightObstruction.md).
-  Both permit a finite exceptional starting range.
+  An [exponentiation argument](Research/LogarithmicHeightObstruction.md) also
+  excludes bounded additive corrections to binary-logarithmic height. These
+  results permit a finite exceptional starting range.
 - [Density countermodels](Research/DensityPowerCountermodel.md): checked
   comparison maps show why almost-all descent and even a density-one power
   bound at every fixed exponent do not, by themselves, imply convergence.
