@@ -138,6 +138,8 @@ import Collatz
 #print axioms Collatz.NaturalDensity.densityOne_rat_bound
 #print axioms Collatz.Papers.Terras1976.diagonalDensityOne_proved
 #print axioms Collatz.DensityCountermodel.PowerComparison.density_quantifiers_do_not_commute
+#print axioms Collatz.StepDensityTransport.density_one_orbit
+#print axioms Collatz.StoppingQuantifierBoundary.density_one_windows_with_empty_intersection
 #print axioms Collatz.PowerCertificateBarrier.certificate_iff_exponent_condition
 #print axioms Collatz.Papers.Korec1994.rationalExponentStatement_proved
 #print axioms Collatz.Papers.Journal_1994_Korec_a_density_estimate_for_the_3x.mainStatement_proved

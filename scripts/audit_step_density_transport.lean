@@ -1,0 +1,20 @@
+import Collatz.Strategy.StoppingQuantifierBoundary
+
+#print axioms Collatz.StepDensityTransport.count_even_odd
+#print axioms Collatz.StepDensityTransport.count_stride_le
+#print axioms Collatz.StepDensityTransport.step_even
+#print axioms Collatz.StepDensityTransport.step_odd
+#print axioms Collatz.StepDensityTransport.step_count_even_interval
+#print axioms Collatz.StepDensityTransport.step_count_upper
+#print axioms Collatz.StepDensityTransport.step_predicate_count_upper
+#print axioms Collatz.StepDensityTransport.density_one_step
+#print axioms Collatz.StepDensityTransport.density_one_orbit
+#print axioms Collatz.StepDensityTransport.complement_and_count
+#print axioms Collatz.StepDensityTransport.density_one_and
+#print axioms Collatz.StepDensityTransport.density_one_allThrough
+#print axioms Collatz.StoppingQuantifierBoundary.density_one_stopping_windows
+#print axioms Collatz.StoppingQuantifierBoundary.not_all_states_stop
+#print axioms Collatz.StoppingQuantifierBoundary.visits_never_dropper
+#print axioms Collatz.StoppingQuantifierBoundary.stopping_windows_intersection_empty
+#print axioms Collatz.StoppingQuantifierBoundary.density_one_windows_with_empty_intersection
+#print axioms Collatz.StepDensityTransport.orbit_predicate_count_upper

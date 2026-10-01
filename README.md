@@ -101,6 +101,10 @@ establish historical priority or independent mathematical review.
   comparison maps show why almost-all descent and even a density-one power
   bound at every fixed exponent do not, by themselves, imply convergence.
   These maps are explicitly separate from Collatz.
+- [Fixed orbit windows](Research/StepDensityTransport.md): density one survives
+  every fixed number of Collatz steps and every finite window. An actual
+  stopping-time example shows why the intersection over all windows can
+  nevertheless be empty.
 - [First-crossing certificates](Research/FirstLight1024.md) and
   [exact counting](Research/FirstLightCounting.md): the certified 1,024-step
   horizon identifies first coefficient crossings with first actual descents.
