@@ -12,6 +12,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Test proof-escape scanner
+        run: python3 scripts/test_check_proof_escapes.py
+
       - name: Build and setup Lean
         id: lean-action
         uses: leanprover/lean-action@v1

@@ -8,40 +8,8 @@ printf 'checking Lean build\n'
 lake build Collatz
 
 printf 'checking forbidden proof escapes\n'
-# Strip Lean comments before grepping.  The prose grep used to fire on the word
-# "axiom" inside a docstring, which forced one agent to write "postulate" throughout
-# a file to appease it.  A false positive that distorts what people can write is a
-# real defect, so the scan now sees code only.  Uses the same nesting-aware stripper
-# as scripts/index.py.
-python3 - <<'STRIP' > /tmp/collatz_stripped.txt
-import os, sys
-def strip(text):
-    out, i, depth = [], 0, 0
-    while i < len(text):
-        if text.startswith('/-', i): depth += 1; i += 2; continue
-        if text.startswith('-/', i): depth = max(0, depth - 1); i += 2; continue
-        if depth == 0 and text.startswith('--', i):
-            j = text.find('\n', i); i = len(text) if j < 0 else j; continue
-        if depth == 0: out.append(text[i])
-        elif text[i] == '\n': out.append('\n')
-        i += 1
-    return ''.join(out)
-for root, _, fs in os.walk('Collatz'):
-    for f in sorted(fs):
-        if f.endswith('.lean'):
-            p = os.path.join(root, f)
-            for k, line in enumerate(strip(open(p).read()).split('\n'), 1):
-                print(f"{p}:{k}:{line}")
-for line_no, line in enumerate(strip(open('Collatz.lean').read()).split('\n'), 1):
-    print(f"Collatz.lean:{line_no}:{line}")
-STRIP
-# Every way a Lean proof can leave the kernel, not just the three obvious ones.
-# `sorryAx` does not match \bsorry\b, and `native_decide` compiles to a trusted
-# axiom -- both were live in this repo and passed the old grep.
-if grep -RInE '\b(sorry|sorryAx|axiom|native_decide|ofReduceBool|skipKernelTC|byAsSorry|addDecl|addAndCompile|mkProj|ofReduceNat|evalConst|Lean\.Elab\.Command\.liftCoreM)\b|^[^:]*:[0-9]+:[[:space:]]*((private|protected|noncomputable|scoped)[[:space:]]+)*(admit|unsafe|partial|opaque)([[:space:]]|$)|@\[(implemented_by|extern)' /tmp/collatz_stripped.txt; then
-  printf 'integrity failed: proof escape found\n' >&2
-  exit 1
-fi
+# The lexical screen ignores inert prose but retains potential interpolation code.
+python3 scripts/check_proof_escapes.py
 
 printf 'checking axiom footprint of the frontier\n'
 cat > /tmp/collatz_axcheck.lean <<'LEAN'
