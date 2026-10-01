@@ -2032,3 +2032,5 @@ import Collatz.Strategy.ResidueMonotoneObstruction
 import Collatz.Papers.TaoDensityChecks
 import Collatz.Papers.CofiniteLogDensity
 import Collatz.Strategy.DensityCountermodel
+import Collatz.Strategy.FirstLightCertificates
+import Collatz.Strategy.FirstLightScanComplete

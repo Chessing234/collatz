@@ -146,6 +146,8 @@ import Collatz
 #print axioms Collatz.DensityCountermodel.all_targets_positive_lower_density
 #print axioms Collatz.DensityCountermodel.three_never_reaches_one
 #print axioms Collatz.DensityCountermodel.reaches_one_or_three
+#print axioms Collatz.FirstLightScan.check_iff
+#print axioms Collatz.FirstLightCertificates.descent_at_first_light_le_256
 LEAN
 axout="$(lake env lean /tmp/collatz_axcheck.lean)"
 # Lean may wrap a long declaration's axiom list after commas. Join those
