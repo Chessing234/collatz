@@ -10,8 +10,9 @@ integer-power comparison proves density one for every positive rational
 exponent p/q≥4/5. This is a formal reconstruction of a specialization of
 [Korec's classical theorem, Theorem 1](https://www.dml.cz/handle/10338.dmlcz/133225),
 not a new mathematical result. Korec's published range is c>log₄(3). The small
-interval between log₄(3) and 4/5 remains outside this proof, so the full recorded
-`rationalExponentStatement` is still not proved.
+interval between log₄(3) and 4/5 is outside this specialization. The subsequent
+[general certificate proof](KorecCertified.md) now proves the full recorded
+`rationalExponentStatement`, while retaining this independent specialization.
 
 Density one allows exceptional starting values. This theorem does not prove
 universal convergence, exclude nontrivial cycles, or justify interchanging

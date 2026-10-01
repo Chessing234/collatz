@@ -4,8 +4,9 @@ The previous wrapper proved an inequality with no orbit or set count. It has
 been replaced by a counted natural-density statement for rational exponents.
 The published source is [Korec, Theorem 1](https://www.dml.cz/handle/10338.dmlcz/133225).
 For p/q above the threshold, encoded as 3^q<4^p with q>0, the recorded predicate
-asks whether some accelerated iterate satisfies T^k(n)^q<n^p. The full theorem
-is not proved here; the real-exponent formulation is not formalized.
+asks whether some accelerated iterate satisfies T^k(n)^q<n^p. The repair initially supplied a statement record. The subsequent
+[certificate proof](KorecCertified.md) now proves every recorded rational case;
+the real-exponent formulation is not formalized.
 
 The density definition uses integer precision: for every positive q,
 eventually (q−1)N≤q·count(N). Lean checks the universal upper count bound,
@@ -30,5 +31,5 @@ python3 scripts/probe_korec_power_bounds.py
 [axiom audit](KorecStatementAxioms.txt), [probe](KorecPowerProbe.json).
 
 The subsequent [4/5 density proof](KorecFourFifths.md) now establishes a genuine
-specialization and every larger positive rational exponent. The full recorded
-range above log₄(3) remains unproved.
+specialization and every larger positive rational exponent. The later [general certificate proof](KorecCertified.md) covers the entire
+recorded rational range above log₄(3).

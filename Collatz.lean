@@ -2051,3 +2051,4 @@ import Collatz.Strategy.LogarithmicHeightObstruction
 import Collatz.Strategy.BoundedHeightWitness
 import Collatz.Structure.ParityMoments
 import Collatz.Papers.KorecFourFifths
+import Collatz.Papers.KorecCertified

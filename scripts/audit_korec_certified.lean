@@ -1,0 +1,17 @@
+import Collatz.Papers.Journal_1994_Korec_a_density_estimate_for_the_3x
+
+#print axioms Collatz.BalancedMomentGap.successor_power_bound
+#print axioms Collatz.BalancedMomentGap.coefficient_gap
+#print axioms Collatz.BalancedMomentGap.balanced_power_gap
+#print axioms Collatz.BalancedMomentGap.moment_gap
+#print axioms Collatz.PowerDensityParameters.multiplier_gap_exists
+#print axioms Collatz.PowerDensityParameters.certificate_exists
+#print axioms Collatz.GeneralPowerScaleSelection.scale_exists
+#print axioms Collatz.Papers.Korec1994.certified_tail_precision
+#print axioms Collatz.Papers.Korec1994.certified_multiplier_precision
+#print axioms Collatz.Papers.Korec1994.certified_power_on_scale
+#print axioms Collatz.Papers.Korec1994.certified_failure_count
+#print axioms Collatz.Papers.Korec1994.certified_failure_precision
+#print axioms Collatz.Papers.Korec1994.density_one_of_certificate
+#print axioms Collatz.Papers.Korec1994.rationalExponentStatement_proved
+#print axioms Collatz.Papers.Journal_1994_Korec_a_density_estimate_for_the_3x.mainStatement_proved

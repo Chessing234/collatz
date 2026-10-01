@@ -1,11 +1,12 @@
-import Collatz.Papers.Korec1994
+import Collatz.Papers.KorecCertified
 
 /-!
-# Korec (1994): source-backed statement record
+# Korec (1994): rational-exponent theorem
 
 The former placeholder inequality did not mention an orbit or count any set.
-The statement now records the rational-exponent cases of Theorem 1. It is a
-proposition, not an axiom or a claimed Lean proof of Korec's theorem.
+The statement records the rational-exponent cases of Theorem 1. The separate
+certificate development now proves this proposition, and the result is linked
+below. Real-valued exponentiation is not part of this core-only interface.
 
 Source: https://www.dml.cz/handle/10338.dmlcz/133225
 -/
@@ -22,5 +23,8 @@ def mainStatement : Prop := Korec1994.rationalExponentStatement
 theorem four_fifths_of_mainStatement (h : mainStatement) :
     NaturalDensity.DensityOne (Korec1994.OrbitBelowPower 4 5) :=
   Korec1994.four_fifths_of_statement h
+
+/-- The recorded rational-exponent subfamily is now a checked theorem. -/
+theorem mainStatement_proved : mainStatement := Korec1994.rationalExponentStatement_proved
 
 end Collatz.Papers.Journal_1994_Korec_a_density_estimate_for_the_3x

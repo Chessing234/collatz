@@ -42,11 +42,12 @@ not establish its hypothesis.
   This formalizes the classical Terras/Everett conclusion; it does not assert
   convergence to 1 or remove every possible exception.
   See [the proof and explicit cutoff](Research/StoppingNaturalDensity.md).
-- **Almost-all power descent:** a natural-density-one set of starts has an
-  actual accelerated iterate m with m⁵<n⁴. The proof also covers every rational
-  exponent at least 4/5. This formalizes part of Korec's classical result;
-  the full range above log₄(3) remains unproved here.
-  See [the proof and verification](Research/KorecFourFifths.md).
+- **Almost-all power descent:** for every positive rational exponent p/q with
+  3^q<4^p, a natural-density-one set of starts has an actual accelerated iterate
+  m with m^q<n^p. This formalizes the rational-exponent cases of Korec's
+  classical theorem, including m⁵<n⁴. Real-valued exponentiation is not part
+  of the formal interface.
+  See [the proof and verification](Research/KorecCertified.md).
 - **Finite convergence:** every positive `n < 3,998,720` reaches `1`.
   See [the verified range](Collatz/Search/VerifiedRung14187.lean).
 - **Cycle-length bound:** an accelerated cycle through a positive point that

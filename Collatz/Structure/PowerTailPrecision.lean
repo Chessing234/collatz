@@ -2,7 +2,7 @@ import Collatz.Structure.ParityMoments
 import Collatz.Structure.GeometricPrecision
 
 /-! The 125-step parity tail tends to zero with explicit integer precision.
-This is the residue-count component of a prospective 4/5 power-density proof. -/
+This is the residue-count component of the 4/5 power-density proof. -/
 namespace Collatz.PowerTailPrecision
 open ParityMoments
 

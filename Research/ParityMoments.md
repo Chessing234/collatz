@@ -42,9 +42,9 @@ the formal certificates use exact integers.
 The counting ingredient is now connected to the affine remainder and arbitrary
 counting cutoffs in the [proved 4/5 specialization](KorecFourFifths.md). Its
 scale selection discards a small prefix, chooses a parity period from the
-counting cutoff, and controls the final incomplete period explicitly. The full
-recorded range above log₄(3) remains unproved; this moment module by itself
-asserts only the identities and count bounds displayed above.
+counting cutoff, and controls the final incomplete period explicitly. The [general certificate proof](KorecCertified.md) now covers the full recorded
+rational range above log₄(3). This moment module by itself asserts only the
+identities and count bounds displayed above.
 
 ## Verification
 
