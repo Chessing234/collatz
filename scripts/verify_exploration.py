@@ -111,6 +111,7 @@ def main() -> None:
     run(["python3", "scripts/probe_residue_potential.py"])
     run(["python3", "scripts/probe_dyadic_convergent_classes.py"])
     run(["python3", "scripts/probe_inverse_class_rays.py"])
+    run(["python3", "scripts/probe_contracting_classes.py"])
     print(json.dumps({
         "status": "passed",
         "modules": len(modules),
