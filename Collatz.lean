@@ -1,3 +1,4 @@
+import Collatz.Strategy.FirstDescentClass
 import Collatz.Strategy.FirstDescentShortCount
 import Collatz.Strategy.FirstDescentShort
 import Collatz.Strategy.FirstDescentContraction
