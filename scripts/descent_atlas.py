@@ -79,7 +79,7 @@ open Collatz.Research.DescentAtlas
         path.write_text(header + ''.join(certificate(*v) for v in chosen[i*8:(i+1)*8])
                         + f'end Collatz.Research.DescentAtlas.Batch{i+1:03}\n')
         files.append(path)
-    (BASE/'All.lean').write_text(''.join(
+    (BASE/'All.lean').write_text('import Collatz.Research.DescentAtlas.Obstructions\n' + ''.join(
         f'import Collatz.Research.DescentAtlas.Batch{i+1:03}\n' for i in range(BATCHES)))
     return chosen, files
 
