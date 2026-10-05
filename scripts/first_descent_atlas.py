@@ -76,7 +76,8 @@ theorem descent_{tag} (m : Nat) :
         paths=[str(path.relative_to(ROOT))]
         if i==0: paths.append('scripts/first_descent_atlas.py')
         run(['git','add','--',*paths])
-        run(['git','commit','--only','-m',f'proof: verify primitive first-descent cylinders {i+1:03}', '--',*paths])
+        if run(['git','diff','HEAD','--',*paths]):
+            run(['git','commit','--only','-m',f'proof: verify primitive first-descent cylinders {i+1:03}', '--',*paths])
         if (i+1)%10==0: print(f'Checked and committed {i+1}/300 batches',flush=True)
     (BASE/'All.lean').write_text(''.join(f'import Collatz.Research.FirstDescent.Batch{i+1:03}\n' for i in range(300)))
     report=dict(certificates=len(chosen),batches=300,lean_lines=sum(len(p.read_text().splitlines()) for p in files),independent_tests=tests,census=census,method='lake env lean; kernel decide; each batch checked before committing',hashes={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in files})
