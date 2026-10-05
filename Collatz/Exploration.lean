@@ -1,3 +1,4 @@
+import Collatz.Exploration.ContractingClass
 import Collatz.Exploration.RayEnumeration
 import Collatz.Exploration.RayGrowth
 import Collatz.Exploration.InverseClassRay
