@@ -79,6 +79,12 @@ def construct(horizon: int, residue: int, index_bound: int, mode: str) -> tuple[
         current = standard(current)
         standard_steps += 1
     assert current == 1
+    bits = max(1, threshold.bit_length())
+    assert standard_steps == horizon + odd_count + exponent
+    if mode == "binary_jump":
+        assert standard_steps < 2 * horizon + bits + 2 * period
+        assert (1 << exponent) <= (1 << (2 * period)) * 2 * (threshold + 1)
+        assert initial <= modulus * ((1 << (2 * period)) * 2 * (threshold + 1)) + residue
     return exponent, standard_steps
 
 
