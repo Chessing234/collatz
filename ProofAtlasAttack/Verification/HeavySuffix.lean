@@ -1,0 +1,7 @@
+import CollatzTargetDensity.HeavySuffix
+
+#print axioms CollatzTargetDensity.HeavySuffix.valuationTotal_shift
+#print axioms CollatzTargetDensity.HeavySuffix.scale_shift
+#print axioms CollatzTargetDensity.HeavySuffix.inverse_scale_tail
+#print axioms CollatzTargetDensity.HeavySuffix.injective_has_heavy_suffix
+#print axioms CollatzTargetDensity.HeavySuffix.not_injective_of_universal_crossing

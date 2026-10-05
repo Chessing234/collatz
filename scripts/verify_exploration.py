@@ -22,6 +22,7 @@ DECLARATION = re.compile(
     re.MULTILINE,
 )
 AUDITS = {
+    "SharpClassThreshold": "audit_sharp_class_threshold.lean",
     "ContractingClass": "audit_contracting_class.lean",
     "RayEnumeration": "audit_ray_enumeration.lean",
     "RayGrowth": "audit_ray_growth.lean",

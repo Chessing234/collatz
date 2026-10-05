@@ -1,10 +1,16 @@
+import Collatz.Strategy.PrimeBoundary
 import Collatz.Strategy.FirstLightDescent
+import Collatz.Strategy.BeattyBlockPotential
+import Collatz.Strategy.BeattyDescentBound
 import Collatz.Strategy.CycleDescentBridge
 import Collatz.Strategy.SixthPowerDrift
 import Collatz.Strategy.LogBlockRecord
 import Collatz.Basic
 import Collatz.Strategy.PeriodicRigidity
 import Collatz.Strategy.PeriodicDefectMinimum
+import Collatz.Strategy.PeriodicDefectTransport
+import Collatz.Strategy.PeriodicDefectAmplification
+import Collatz.Strategy.PeriodicBranchEmbedding
 import Collatz.Strategy.PeriodicSingleDefect
 import Collatz.Strategy.PeriodicSingleDefectAll
 import Collatz.Strategy.PeriodicVariationStability
@@ -207,6 +213,7 @@ import Collatz.Strategy.MachineModel
 import Collatz.Strategy.DigitAutomaton
 import Collatz.Strategy.PhantomMediant
 import Collatz.Strategy.ResidualComposition
+import Collatz.Strategy.RepeatedBlockCancellation
 import Collatz.Strategy.ResidualReversal
 import Collatz.Strategy.Coupling
 import Collatz.Strategy.Linearizing
@@ -255,6 +262,9 @@ import Collatz.Strategy.RealizableBound
 import Collatz.Strategy.AccumulatorSharp
 import Collatz.Strategy.AccumulatorLocal
 import Collatz.Strategy.AccumulatorCap
+import Collatz.Strategy.ShadowDecoder
+import Collatz.Strategy.ShadowTerminal
+import Collatz.Strategy.CoefficientSuffix
 import Collatz.Strategy.WordInjective
 import Collatz.Strategy.DensitySharper
 import Collatz.Strategy.ClassCap

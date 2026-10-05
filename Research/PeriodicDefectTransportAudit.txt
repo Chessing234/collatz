@@ -1,0 +1,27 @@
+'Collatz.PeriodicDefectTransport.mass_pull' depends on axioms: [propext, Quot.sound]
+'Collatz.PeriodicDefectTransport.two_step_growth' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.PeriodicDefectTransport.labelPulls_orbit' does not depend on any axioms
+'Collatz.PeriodicDefectTransport.error_pulls' depends on axioms: [Quot.sound]
+'Collatz.PeriodicDefectTransport.defectTower_eq_massTower' depends on axioms: [propext, Quot.sound]
+'Collatz.PeriodicDefectTransport.defect_one_step' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.PeriodicDefectTransport.defect_linear_growth' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.PeriodicDefectTransport.defect_plateau_iff_bounded' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.PeriodicDefectTransport.defect_bounded_iff_core_invariant' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Collatz.PeriodicDefectTransport.defect_plateau_forever' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.PeriodicDefectAmplification.weighted_pull' depends on axioms: [propext, Quot.sound]
+'Collatz.PeriodicDefectAmplification.weighted_iterate' depends on axioms: [propext, Quot.sound]
+'Collatz.PeriodicDefectAmplification.bound_of_table' depends on axioms: [propext, Quot.sound]
+'Collatz.PeriodicDefectAmplification.four_certificate' does not depend on any axioms
+'Collatz.PeriodicDefectAmplification.four_coefficient_optimal' depends on axioms: [propext]
+'Collatz.PeriodicDefectAmplification.three_coefficient_le_one' depends on axioms: [propext]
+'Collatz.PeriodicDefectAmplification.growth_of_certificate' depends on axioms: [propext, Quot.sound]
+'Collatz.PeriodicDefectAmplification.finite_certificate_amplifies' depends on axioms: [propext, Quot.sound]
+'Collatz.PeriodicDefectAmplification.defect_growth_of_table' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.PeriodicDefectAmplification.defect_exponential_growth' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Collatz.PeriodicDefectAmplification.defect_dichotomy' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.PeriodicDefectAmplification.defect_exact_doubling' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.PeriodicDefectAmplification.defect_dichotomy_all' depends on axioms: [propext, Classical.choice, Quot.sound]

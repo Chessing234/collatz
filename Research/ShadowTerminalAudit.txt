@@ -1,0 +1,7 @@
+'Collatz.ShadowTerminal.backward_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.ShadowTerminal.terminal_difference' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.ShadowTerminal.endpoint_identity' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.ShadowTerminal.all_two_encoder' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.ShadowTerminal.all_two_not_realizable' depends on axioms: [propext, Quot.sound]
+'Collatz.ShadowTerminal.constant_multiplier' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.ShadowTerminal.fixed_one_encoder' depends on axioms: [propext, Classical.choice, Quot.sound]

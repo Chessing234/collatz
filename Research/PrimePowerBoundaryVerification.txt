@@ -1,0 +1,17 @@
+2026-09-28 verification
+
+PASS: lake env lean Collatz/Strategy/PrimePowerBoundary.lean
+PASS: lake build Collatz.Strategy.PrimePowerBoundary (6 jobs)
+PASS: lake env lean scripts/audit_prime_power_boundary.lean
+Seven audited endpoints use only propext, Classical.choice, Quot.sound.
+PASS: new source and audit contain no sorry, sorryAx, added axiom declarations,
+      native_decide, unsafe, or Mathlib imports.
+PASS: git diff --check
+
+The repository-wide scripts/check_integrity.sh was started, but its full build
+was stopped after detecting another concurrent full build compiling the same
+unrelated targets. Only this task's process tree was stopped. No repository-wide
+integrity success is claimed. The targeted module build and axiom audit above
+completed successfully before this interruption.
+
+No Collatz convergence claim or historical-priority claim is established.

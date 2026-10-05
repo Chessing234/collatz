@@ -1,0 +1,16 @@
+import Collatz.Strategy.RepeatedBlockCancellation
+
+#print axioms Collatz.RepeatedBlockCancellation.defect_padded
+#print axioms Collatz.RepeatedBlockCancellation.cancellation_dvd_defect
+#print axioms Collatz.RepeatedBlockCancellation.denominator_lower_bound
+#print axioms Collatz.RepeatedBlockCancellation.exact_cancellation
+#print axioms Collatz.RepeatedBlockCancellation.tail_exclusion
+#print axioms Collatz.RepeatedBlockCancellation.follows_affine
+#print axioms Collatz.RepeatedBlockCancellation.actual_cycle_exclusion
+#print axioms Collatz.RepeatedBlockCancellation.example_no_actual_cycle
+#print axioms Collatz.RepeatedBlockCancellation.coprime_hypothesis_needed
+#print axioms Collatz.RepeatedBlockCancellation.power_coefficients
+#print axioms Collatz.RepeatedBlockCancellation.cancellation_rotation
+#print axioms Collatz.RepeatedBlockCancellation.two_block_cancellation
+#print axioms Collatz.RepeatedBlockCancellation.two_block_coprime_bound
+#print axioms Collatz.RepeatedBlockCancellation.two_block_actual_cycle_constraint

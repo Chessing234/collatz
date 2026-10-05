@@ -1,0 +1,12 @@
+'Collatz.PeriodicBranchEmbedding.branch0' depends on axioms: [propext, Quot.sound]
+'Collatz.PeriodicBranchEmbedding.choose_branch' depends on axioms: [propext, Quot.sound]
+'Collatz.PeriodicBranchEmbedding.four_preimages' depends on axioms: [propext, Quot.sound]
+'Collatz.PeriodicBranchEmbedding.weighted_fibers' depends on axioms: [propext, Quot.sound]
+'Collatz.PeriodicBranchEmbedding.core_fourfold' depends on axioms: [propext, Quot.sound]
+'Collatz.PeriodicBranchEmbedding.core_exponential' depends on axioms: [propext, Quot.sound]
+'Collatz.PeriodicBranchEmbedding.defect_exponential' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.PeriodicBranchEmbedding.defect_dichotomy' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.PeriodicBranchEmbedding.two_step_test' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.PeriodicBranchEmbedding.transfer_sharp' does not depend on any axioms
+'Collatz.PeriodicBranchEmbedding.fourfold_optimal' depends on axioms: [propext]
+'Collatz.PeriodicBranchEmbedding.three_steps_insufficient' depends on axioms: [propext]

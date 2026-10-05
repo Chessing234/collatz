@@ -1,0 +1,24 @@
+{
+  "date": "2026-09-28",
+  "target_build": "passed, 64 jobs, final source",
+  "axiom_audit": "passed",
+  "audited_endpoints": 20,
+  "allowed_axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+  ],
+  "generator_reproduction": "passed",
+  "independent_exact_probe": "passed",
+  "internal_mathematical_review": "passed; not external peer review",
+  "full_repository_integrity": "incomplete; broad build stopped during unrelated certificate rebuilds",
+  "historical_novelty": "No equivalent result found in inspected sources; priority not established",
+  "sha256": {
+    "Collatz/Strategy/BeattyBlockPotential.lean": "7b227a95130b251ff08704821416fcd018596a7954b0392df45065e76d5f484e",
+    "Collatz/Strategy/BeattyDescentBound.lean": "27197cb0ebf7d96a3a0f123d795c700fd4685eeadd141a405c3877ec08834520",
+    "scripts/generate_beatty_phase_certificate.py": "a73091936d491e7d171e9dbc3ecee40b26da418e5c64095a64c4d9cd6788be4d",
+    "scripts/probe_beatty_block_potential.py": "3c4ba602e7d0d1daa4d9a857b6f46e1faa215a02febec372bf46325c342445ba",
+    "scripts/audit_beatty_block_potential.lean": "65e70e2347f7588c42f42971b840e840735e1b1f0f08621db8fbe65cde9bc923",
+    "Research/BeattyBlockPotential.md": "38c94fccaf47fcb89fd074c30ccc820cef6050eb2dc5a78cf3ed67efe2e80072"
+  }
+}

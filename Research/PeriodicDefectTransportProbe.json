@@ -1,0 +1,82 @@
+{
+  "status": "passed",
+  "boolean_periods_exhausted": [
+    3,
+    6,
+    9,
+    12
+  ],
+  "boolean_labels_checked": 4680,
+  "scales_checked_per_label": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "constant_towers_checked": 60,
+  "independent_transfer_columns_checked": 243,
+  "exact_doubling_periods_exhausted": [
+    1,
+    2,
+    4,
+    5,
+    7,
+    8,
+    10
+  ],
+  "exact_doubling_labels_checked": 1462,
+  "four_step_sharpness": {
+    "period": 243,
+    "support_residue": 4,
+    "initial_core_mass": 1,
+    "four_step_core_mass": 4
+  },
+  "computed_weight_minima_not_all_formalized": [
+    {
+      "steps": 0,
+      "minimum": 1,
+      "witness": 1
+    },
+    {
+      "steps": 1,
+      "minimum": 1,
+      "witness": 1
+    },
+    {
+      "steps": 2,
+      "minimum": 1,
+      "witness": 5
+    },
+    {
+      "steps": 3,
+      "minimum": 1,
+      "witness": 7
+    },
+    {
+      "steps": 4,
+      "minimum": 4,
+      "witness": 4
+    },
+    {
+      "steps": 5,
+      "minimum": 4,
+      "witness": 7
+    },
+    {
+      "steps": 6,
+      "minimum": 7,
+      "witness": 25
+    },
+    {
+      "steps": 7,
+      "minimum": 16,
+      "witness": 7
+    }
+  ],
+  "scope": "Finite regression only; Lean supplies the universal proof. No novelty claim."
+}

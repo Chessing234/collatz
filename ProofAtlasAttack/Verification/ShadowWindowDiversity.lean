@@ -1,0 +1,22 @@
+import CollatzTargetDensity.ShadowQuantization
+
+/-! Transitive axiom audit of every theorem in this finite device. -/
+
+#print axioms CollatzTargetDensity.ShadowGridCore.integer_block_dvd
+#print axioms CollatzTargetDensity.ShadowGridCore.no_integer_multiplicative_orbit
+#print axioms CollatzTargetDensity.ShadowGridCore.integer_relation_of_approx
+#print axioms CollatzTargetDensity.ShadowGridCore.finite_grid_barrier
+#print axioms CollatzTargetDensity.ShadowReturnArithmetic.blockProduct_pos
+#print axioms CollatzTargetDensity.ShadowReturnArithmetic.blockProduct_le
+#print axioms CollatzTargetDensity.ShadowReturnArithmetic.blockOffset_pos
+#print axioms CollatzTargetDensity.ShadowReturnArithmetic.block_identity
+#print axioms CollatzTargetDensity.ShadowReturnArithmetic.near_return_integer_anchor
+#print axioms CollatzTargetDensity.ShadowWindowDiversity.gridDenominator_pos
+#print axioms CollatzTargetDensity.ShadowWindowDiversity.tolerance_bounds
+#print axioms CollatzTargetDensity.ShadowWindowDiversity.lift_anchor_to_grid
+#print axioms CollatzTargetDensity.ShadowWindowDiversity.window_collapse_barrier
+#print axioms CollatzTargetDensity.ShadowWindowDiversity.finite_separated_window
+#print axioms CollatzTargetDensity.ShadowQuantization.finite_dictionary_barrier
+#print axioms CollatzTargetDensity.ShadowQuantization.arbitrarily_late_separated_windows
+#print axioms CollatzTargetDensity.ShadowQuantization.finite_alphabet_exclusion
+#print axioms CollatzTargetDensity.ShadowQuantization.finite_alphabet_escape

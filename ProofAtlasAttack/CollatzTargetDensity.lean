@@ -33,3 +33,4 @@ import CollatzTargetDensity.TwoTopologyExample
 import CollatzTargetDensity.ShadowGrowth
 import CollatzTargetDensity.ShadowRigidity
 import CollatzTargetDensity.ShadowLattice
+import CollatzTargetDensity.ShadowQuantization

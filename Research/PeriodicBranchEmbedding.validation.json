@@ -1,0 +1,16 @@
+{
+  "files": {
+    "Collatz/Strategy/PeriodicBranchEmbedding.lean": "f84e003aae8156c34a78b859b2651015ab8230c66b94efe1f8f3082dff314c5f",
+    "scripts/audit_periodic_branch_embedding.lean": "5808510db757f9fe7cc24e1928ee7710c92c787e619b87978fade2201756b1ec",
+    "scripts/probe_periodic_branch_embedding.py": "3d57335cfcfe9f37b3174719f65290199465f84074bcfb269e056f64521e1b25",
+    "Research/PeriodicBranchEmbedding.md": "f060370d9272a0b98382dc782eef55f7eb7ca81c740df127ae16f2e53907a86d"
+  },
+  "target_build": "passed; 71 jobs",
+  "target_axiom_audit": "passed; standard Lean axioms only",
+  "existing_periodic_audits": "passed",
+  "finite_probe": "passed",
+  "full_repository_build": "not completed or verified in this pass",
+  "source_integrity": "existing bibliography string false positive at Journal_10_5281_zenodo_18928635.lean:23",
+  "historical_novelty": "not established; close classical four-step branching prior art",
+  "collatz_convergence": "not proved"
+}

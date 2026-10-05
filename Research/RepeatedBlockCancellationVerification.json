@@ -1,0 +1,24 @@
+{
+  "lean_version": "leanprover/lean4:v4.33.0-rc1",
+  "target_build": "passed",
+  "axiom_audit": "14 endpoints passed; only propext and Quot.sound",
+  "target_proof_escape_scan": "passed",
+  "whitespace_check": "passed",
+  "finite_regression": {
+    "one_block": 841756,
+    "two_block": 184512,
+    "status": "passed"
+  },
+  "repository_wide_integrity": "incomplete: terminated during expensive unrelated baseline rebuilds after approximately 9 minutes",
+  "novelty": "historical priority not established; known affine and commutator algebra; inspected primary sources listed in report",
+  "files": {
+    "Collatz/Strategy/RepeatedBlockCancellation.lean": "ec103b716acedd5910df04caf85ebfdbfa02c8d68a5f69a342a3fa418f993a95",
+    "Devices/RepeatedBlockCancellation.md": "c196643aaf021dcd10dda5209c246786fafa64e6265037bddb59c571e94749e0",
+    "scripts/audit_repeated_block_cancellation.lean": "fdc4a4477042985efc8aeb33646686610769d73a0a263adfee397750c492e3de",
+    "scripts/probe_repeated_block_cancellation.py": "3d8bd6311703f2ec51381ec47c4dce0a3d4bb242a7e7f31f02e16cb1034a6463",
+    "Research/RepeatedBlockCancellationBuild.txt": "dc81883db5f52de3da7f00b2f7bfaa25205dd5074f6b1c3b213da9aca7290c98",
+    "Research/RepeatedBlockCancellationProbe.json": "968c0d8321f173bc99baf1cd5025a64db0dda405df828118c899807343453d64",
+    "Research/RepeatedBlockCancellationAxioms.txt": "8406deb438dfb64d8002ab48ca8a73c65088f7760e6978509875f5ad80effb23",
+    "Research/RepeatedBlockCancellationIntegrity.txt": "ace878b3092f9a6572177bba8e3d83f870e07b1ed4129bd7a98065d6b855d203"
+  }
+}

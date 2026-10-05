@@ -1,0 +1,35 @@
+{
+  "explicit_branch_cases": 7650,
+  "four_step_periods_checked": 100,
+  "boolean_labels_checked": 584,
+  "sharp_weight_mod_9_at_7": {
+    "0": 1,
+    "3": 1,
+    "4": 4
+  },
+  "defect_count_examples_depth_0_to_8": {
+    "stable_mod_3": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "growing_mod_3": [
+      3,
+      6,
+      15,
+      30,
+      63,
+      126,
+      255,
+      510,
+      1023
+    ]
+  },
+  "status": "all finite checks passed; universal claims require Lean"
+}

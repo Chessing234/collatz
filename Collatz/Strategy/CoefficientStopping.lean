@@ -60,11 +60,12 @@ The hard half of the conjecture.  `σ(n) = κ(n)` was checked here for all odd
 `n ≤ 10^9` (499 999 999 values, no exception); that is evidence and is not used
 as a hypothesis anywhere except where explicitly assumed.
 
-Note also that the conjecture does **not** imply Collatz: an orbit that dips
-below its start and only later diverges is untouched, and at the least element of
-a divergent orbit both `σ` and `κ` are infinite consistently with
-`2^{S_m} ≤ 3^m` for all `m`.  So `no_cycle_of_cstHard` is a genuine partial
-result about cycles, not a restatement of the conjecture.
+This file does **not derive Collatz** from the coefficient stopping-time
+conjecture. Equality of the two stopping times permits both to be infinite;
+the displayed inequalities do not alone exclude that case. No divergent
+integer orbit or logical independence result is constructed here, so this
+observation must not be described as a proof of non-implication or strict
+logical weakness. `no_cycle_of_cstHard` is a conditional result about cycles.
 
 Lean 4.33.0-rc1.  No Mathlib, no `sorry`.
 -/
@@ -193,9 +194,9 @@ cycle, so that `n₀ ≤ n_j` for every `j`.  `cycle_coeff_gt` says the coeffici
 exceeds by step `ℓ`, and `CSTHard` then produces a `j` with `n_j < n₀`,
 contradicting minimality.
 
-This is strictly weaker than the Collatz conjecture: it says nothing about
-divergent orbits, at whose least element both stopping times are infinite
-without contradiction. -/
+This theorem does not address divergent orbits. In particular, its proof
+does not exclude the case in which both stopping times are infinite; no
+strict logical comparison with the Collatz conjecture is proved here. -/
 theorem no_cycle_of_cstHard (n k S b : Nat → Nat)
     (hS0 : S 0 = 0) (hSs : ∀ m, S (m + 1) = S m + k m)
     (hb0 : b 0 = 0) (hbs : ∀ m, b (m + 1) = 3 * b m + 2 ^ (S m))

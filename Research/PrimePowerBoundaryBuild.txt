@@ -1,0 +1,2 @@
+✔ [6/6] Built Collatz.Strategy.PrimePowerBoundary (1.0s)
+Build completed successfully (6 jobs).

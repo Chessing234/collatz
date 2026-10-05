@@ -1,0 +1,119 @@
+{
+  "status": "verified",
+  "started_utc": "2026-09-28T12:29:44.182147+00:00",
+  "scope": "Four standalone Mathlib modules and all their theorem endpoints; historical Collatz boundary development not rebuilt.",
+  "source_sha256": {
+    "ProofAtlasAttack/CollatzTargetDensity/ShadowGridCore.lean": "df15c752d87c5cb462e3d145d8bcb3ff0c201236d6e335b54ce788c5d5070ade",
+    "ProofAtlasAttack/CollatzTargetDensity/ShadowReturnArithmetic.lean": "0a031d7ad7a18671e5044ac9704e04e01c30fbc26cdd590de2c6c1c26e18134c",
+    "ProofAtlasAttack/CollatzTargetDensity/ShadowWindowDiversity.lean": "2db338b35e4a836dfe945d6e3e150b8a9153d91ad631fb688e1e18578550dd83",
+    "ProofAtlasAttack/CollatzTargetDensity/ShadowQuantization.lean": "20e53602b0f1a2bb743b25bf3ff480cf49a90502d01f5700fe2c89624a28a2f7",
+    "ProofAtlasAttack/Verification/ShadowWindowDiversity.lean": "7e574bdf7bd621f453f86208272aa31a4e273f6cf5a2181b51525df39cc11e5a",
+    "ProofAtlasAttack/scripts/verify_shadow_window.py": "8c615bf428fb55da4ffa1f6f1a628575e1d7aba4f6d5e0e1da6ae68accec419a",
+    "scripts/shadow_window_probe.py": "53c0677c1b7cb9def26f7bdd716ed2f131fcc91c05cc881542b4e31cd2c9a1fb"
+  },
+  "dependency_revisions": {
+    "mathlib": "5450b53e5ddc75d46418fabb605edbf36bd0beb6",
+    "plausible": "86210d4ad1b08b086d0bd638637a75246523dbb8",
+    "LeanSearchClient": "c5d5b8fe6e5158def25cd28eb94e4141ad97c843",
+    "importGraph": "cdab3938ccabbdb044be6896e251b5814bec932e",
+    "proofwidgets": "2db6054a44326f8c0230ee0570e2ddb894816511",
+    "aesop": "f0c6e183ea26531e82773feb4b73ab6595ca17a5",
+    "Qq": "1cc7e819b9b9bc1e87c9edcccb62e0269e00a809",
+    "batteries": "5c57f3857ba81924a88b2cdf4f062e34ec04ff11",
+    "Cli": "13567aed1ac4f12aea9484178e07e51f8c9f7658"
+  },
+  "lean_toolchain": "leanprover/lean4:v4.30.0-rc2",
+  "theorem_count": 18,
+  "reused_grid_theorems": 4,
+  "new_development_endpoints": 14,
+  "axioms": {
+    "CollatzTargetDensity.ShadowGridCore.integer_block_dvd": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowGridCore.no_integer_multiplicative_orbit": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowGridCore.integer_relation_of_approx": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowGridCore.finite_grid_barrier": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowReturnArithmetic.blockProduct_pos": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowReturnArithmetic.blockProduct_le": [
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowReturnArithmetic.blockOffset_pos": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowReturnArithmetic.block_identity": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowReturnArithmetic.near_return_integer_anchor": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowWindowDiversity.gridDenominator_pos": [
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowWindowDiversity.tolerance_bounds": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowWindowDiversity.lift_anchor_to_grid": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowWindowDiversity.window_collapse_barrier": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowWindowDiversity.finite_separated_window": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowQuantization.finite_dictionary_barrier": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowQuantization.arbitrarily_late_separated_windows": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowQuantization.finite_alphabet_exclusion": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "CollatzTargetDensity.ShadowQuantization.finite_alphabet_escape": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  "finished_utc": "2026-09-28T12:30:02.582915+00:00"
+}

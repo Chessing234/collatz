@@ -1,0 +1,28 @@
+import Collatz.Strategy.BeattyDescentBound
+
+#print axioms Collatz.BeattyBlockPotential.phaseRun_linear
+#print axioms Collatz.BeattyBlockPotential.phaseRun_bcap
+#print axioms Collatz.BeattyBlockPotential.phase_twelve_bound
+#print axioms Collatz.BeattyBlockPotential.phaseY_range
+#print axioms Collatz.BeattyBlockPotential.phaseRun_add
+#print axioms Collatz.BeattyBlockPotential.phase_initial_bound
+#print axioms Collatz.BeattyBlockPotential.phase_global_bound
+#print axioms Collatz.BeattyBlockPotential.bcap_window_bound
+#print axioms Collatz.BeattyBlockPotential.bcap_block_strict
+#print axioms Collatz.BeattyBlockPotential.bcap_linear_bound
+#print axioms Collatz.BeattyBlockPotential.bcap_linear_strict
+#print axioms Collatz.BeattyBlockPotential.bcap_linear_eq_iff
+#print axioms Collatz.BeattyBlockPotential.bcap_three_sharp
+#print axioms Collatz.BeattyBlockPotential.intercept_optimal
+#print axioms Collatz.BeattyDescentBound.accumulator_le_bcap
+#print axioms Collatz.BeattyDescentBound.accumulator_bound
+#print axioms Collatz.BeattyDescentBound.first_light_failure_bound
+#print axioms Collatz.BeattyDescentBound.descent_of_gap
+#print axioms Collatz.BeattyDescentBound.sharp_orbit
+#print axioms Collatz.BeattyDescentBound.orbit_intercept_optimal
+
+#check Collatz.BeattyBlockPotential.bcap_linear_bound
+#check Collatz.BeattyBlockPotential.phase_global_bound
+#check Collatz.BeattyBlockPotential.bcap_window_bound
+#check Collatz.BeattyDescentBound.accumulator_bound
+#check Collatz.BeattyDescentBound.descent_of_gap

@@ -1,0 +1,15 @@
+{
+  "status": "passed",
+  "scope": "all nonempty binary u of length <=7; all binary v of length <=7; 0<=k<=12",
+  "counts": {
+    "instances": 841756,
+    "exact_formula_instances": 716865,
+    "nonzero_defect_instances": 834002,
+    "direct_word_checks": 1036,
+    "missing_coprime_failures": 114550
+  },
+  "proof_status": "finite regression only; see Lean for all k",
+  "two_block_scope": "nonempty u,v of length <=5; 0<=k,l<=6; k+l>0",
+  "two_block_checks": 184512,
+  "coprime_sum_checks": 121484
+}

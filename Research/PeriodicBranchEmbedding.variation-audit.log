@@ -1,0 +1,8 @@
+'Collatz.PeriodicVariationStability.cut_cost' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.PeriodicVariationStability.variation_stability' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.PeriodicVariationStability.equality_rigidity' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.PeriodicVariationStability.spike_variation' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.PeriodicVariationStability.optimal_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.PeriodicVariationStability.near_optimal_uniform' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.PeriodicVariationStability.stability_sharp' depends on axioms: [propext, Quot.sound]
+'Collatz.PeriodicVariationStability.nested_spikes_variation' depends on axioms: [propext, Classical.choice, Quot.sound]
