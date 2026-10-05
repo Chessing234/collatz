@@ -33,6 +33,14 @@ AUDITS = {
     "BlockRanking": "audit_block_ranking.lean",
     "DensityBoundary": "audit_density_boundary.lean",
     "TraceCertificate": "audit_trace_certificate.lean",
+    "ThreePowerLift": "audit_three_power_lift.lean",
+    "ThreeUnitLift": "audit_three_unit_lift.lean",
+    "ThreePowerUnits": "audit_three_power_units.lean",
+    "AffinePowerMatch": "audit_affine_power_match.lean",
+    "DyadicConvergentClasses": "audit_dyadic_convergent_classes.lean",
+    "ExponentSearch": "audit_exponent_search.lean",
+    "ExponentRaise": "audit_exponent_raise.lean",
+    "ComputedClassWitness": "audit_computed_class_witness.lean",
 }
 
 
@@ -92,6 +100,7 @@ def main() -> None:
     if missing:
         raise RuntimeError(f"Lean did not return an axiom report for: {missing}")
     run(["python3", "scripts/probe_residue_potential.py"])
+    run(["python3", "scripts/probe_dyadic_convergent_classes.py"])
     print(json.dumps({
         "status": "passed",
         "modules": len(modules),
