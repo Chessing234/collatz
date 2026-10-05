@@ -1,0 +1,320 @@
+{
+  "population": {
+    "complete_periods": [
+      {
+        "depth": 0,
+        "input_period": 3,
+        "counts": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "depth": 1,
+        "input_period": 6,
+        "counts": [
+          1,
+          1,
+          4
+        ]
+      },
+      {
+        "depth": 2,
+        "input_period": 12,
+        "counts": [
+          1,
+          4,
+          7
+        ]
+      },
+      {
+        "depth": 3,
+        "input_period": 24,
+        "counts": [
+          1,
+          7,
+          16
+        ]
+      },
+      {
+        "depth": 4,
+        "input_period": 48,
+        "counts": [
+          1,
+          16,
+          31
+        ]
+      },
+      {
+        "depth": 5,
+        "input_period": 96,
+        "counts": [
+          1,
+          31,
+          64
+        ]
+      },
+      {
+        "depth": 6,
+        "input_period": 192,
+        "counts": [
+          1,
+          64,
+          127
+        ]
+      },
+      {
+        "depth": 7,
+        "input_period": 384,
+        "counts": [
+          1,
+          127,
+          256
+        ]
+      },
+      {
+        "depth": 8,
+        "input_period": 768,
+        "counts": [
+          1,
+          256,
+          511
+        ]
+      },
+      {
+        "depth": 9,
+        "input_period": 1536,
+        "counts": [
+          1,
+          511,
+          1024
+        ]
+      },
+      {
+        "depth": 10,
+        "input_period": 3072,
+        "counts": [
+          1,
+          1024,
+          2047
+        ]
+      },
+      {
+        "depth": 11,
+        "input_period": 6144,
+        "counts": [
+          1,
+          2047,
+          4096
+        ]
+      },
+      {
+        "depth": 12,
+        "input_period": 12288,
+        "counts": [
+          1,
+          4096,
+          8191
+        ]
+      },
+      {
+        "depth": 13,
+        "input_period": 24576,
+        "counts": [
+          1,
+          8191,
+          16384
+        ]
+      },
+      {
+        "depth": 14,
+        "input_period": 49152,
+        "counts": [
+          1,
+          16384,
+          32767
+        ]
+      }
+    ],
+    "input_orbit_checks": 98301,
+    "large_integer_period_checks": 4134,
+    "window_checks": 189
+  },
+  "first_descent": {
+    "input_interval_inclusive": [
+      2,
+      200000
+    ],
+    "fuel": 1000,
+    "orbit_steps": 696245,
+    "landing_residue_counts": [
+      33333,
+      101076,
+      65590
+    ],
+    "source_to_landing_counts": {
+      "0": [
+        33333,
+        22587,
+        10746
+      ],
+      "1": [
+        0,
+        22540,
+        44126
+      ],
+      "2": [
+        0,
+        55949,
+        10718
+      ]
+    },
+    "stopping_time_counts": {
+      "1": 100000,
+      "2": 49999,
+      "4": 12500,
+      "5": 12500,
+      "7": 4689,
+      "8": 5468,
+      "10": 2341,
+      "12": 1466,
+      "13": 2072,
+      "15": 1060,
+      "16": 1450,
+      "18": 734,
+      "20": 541,
+      "21": 774,
+      "23": 415,
+      "24": 600,
+      "26": 327,
+      "27": 449,
+      "29": 237,
+      "31": 164,
+      "32": 272,
+      "34": 172,
+      "35": 253,
+      "37": 121,
+      "39": 99,
+      "40": 166,
+      "42": 86,
+      "43": 138,
+      "45": 65,
+      "46": 102,
+      "48": 52,
+      "50": 39,
+      "51": 64,
+      "53": 44,
+      "54": 63,
+      "56": 33,
+      "58": 30,
+      "59": 48,
+      "61": 19,
+      "62": 36,
+      "64": 24,
+      "65": 29,
+      "67": 25,
+      "69": 20,
+      "70": 32,
+      "72": 18,
+      "73": 21,
+      "75": 11,
+      "77": 8,
+      "78": 11,
+      "80": 8,
+      "81": 12,
+      "83": 3,
+      "85": 3,
+      "86": 11,
+      "88": 5,
+      "89": 8,
+      "91": 6,
+      "92": 7,
+      "94": 4,
+      "96": 1,
+      "97": 3,
+      "99": 2,
+      "100": 7,
+      "104": 3,
+      "105": 8,
+      "108": 4,
+      "110": 2,
+      "111": 1,
+      "113": 2,
+      "116": 3,
+      "119": 1,
+      "121": 1,
+      "123": 1,
+      "124": 2,
+      "126": 1,
+      "127": 1,
+      "129": 1,
+      "135": 1
+    },
+    "unresolved_inputs": [],
+    "weakest_observed_drop": {
+      "input": 4591,
+      "landing": 4541,
+      "stopping_time": 65,
+      "ratio_exact": [
+        4541,
+        4591
+      ]
+    }
+  },
+  "complete_classes": {
+    "depth_inclusive": 11,
+    "certified_classes": 25,
+    "rejected_classes_with_explicit_failure_witness": 4069,
+    "ray_checks": 32808,
+    "interval_convexity_checks": 4094,
+    "census": [
+      {
+        "depth": 1,
+        "certified_complete_classes": 0
+      },
+      {
+        "depth": 2,
+        "certified_complete_classes": 0
+      },
+      {
+        "depth": 3,
+        "certified_complete_classes": 0
+      },
+      {
+        "depth": 4,
+        "certified_complete_classes": 1
+      },
+      {
+        "depth": 5,
+        "certified_complete_classes": 2
+      },
+      {
+        "depth": 6,
+        "certified_complete_classes": 0
+      },
+      {
+        "depth": 7,
+        "certified_complete_classes": 3
+      },
+      {
+        "depth": 8,
+        "certified_complete_classes": 7
+      },
+      {
+        "depth": 9,
+        "certified_complete_classes": 0
+      },
+      {
+        "depth": 10,
+        "certified_complete_classes": 12
+      },
+      {
+        "depth": 11,
+        "certified_complete_classes": 0
+      }
+    ]
+  },
+  "status": "passed",
+  "scope": "finite regression, not universal descent"
+}
