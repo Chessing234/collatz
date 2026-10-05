@@ -20,6 +20,11 @@ Both its coefficient and its constant term are non-descending, so its
 entire prefix is non-descending. This proves the exact first-descent time
 for every member of an infinite class, not just the representative.
 
+`CrossingGaps.lean` also proves that no power of three lies in the relevant
+binary crossing intervals at times 3, 6, 9, 11, 14, 17, and 19. This explains
+several empty census levels without enumerating residue representatives. It
+excludes coefficient first crossings at these times, not later descent.
+
 `first_descent_unique` proves that different exact first-descent times
 cannot describe the same start. At equal depths distinct residues are
 disjoint by modular arithmetic. The Python probe additionally checks
@@ -32,6 +37,7 @@ arithmetic. No historical novelty or solution of an open problem is claimed.
 
 - 300 batches, 2,400 distinct cylinders, 60,000 generated Lean lines.
 - Each batch is kernel checked with `lake env lean` before its own commit.
+- 12,012 theorem axiom footprints audited, including 4,800 axiom-free proofs.
 - `Exact.lean` upgrades every cylinder to an exact first-descent theorem.
 - 14,400 independent affine/descent substitutions, including class indices
   as large as `10^12`, passed.
