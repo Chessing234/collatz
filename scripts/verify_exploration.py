@@ -22,6 +22,7 @@ DECLARATION = re.compile(
     re.MULTILINE,
 )
 AUDITS = {
+    "HalvingBlocks": "audit_halving_blocks.lean",
     "OrbitFloor": "audit_orbit_floor.lean",
     "TimeChange": "audit_time_change.lean",
     "FirstDescent": "audit_first_descent.lean",
