@@ -1,3 +1,4 @@
+import Collatz.Strategy.FirstDescentWeakRay
 import Collatz.Strategy.FirstDescentClassExamples
 import Collatz.Strategy.FirstDescentClassComplete
 import Collatz.Strategy.FirstDescentClass
