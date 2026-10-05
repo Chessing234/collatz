@@ -1,3 +1,4 @@
+import Collatz.Strategy.FirstDescentResidue
 import Collatz.Strategy.ThreeAdicPopulationPeriod
 import Collatz.Strategy.ThreeAdicPopulationWindows
 import Collatz.Strategy.ThreeAdicPopulationClosed
