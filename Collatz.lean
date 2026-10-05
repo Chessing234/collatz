@@ -1,3 +1,4 @@
+import Collatz.Strategy.FirstDescentZeroCount
 import Collatz.Strategy.FirstDescentScale
 import Collatz.Strategy.ThreeAdicPopulationBias
 import Collatz.Strategy.FirstDescentResidue
