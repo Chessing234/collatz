@@ -1,3 +1,4 @@
+import Collatz.Strategy.ThreeAdicEscape
 import Collatz.Strategy.PrimeBoundary
 import Collatz.Strategy.FirstLightDescent
 import Collatz.Strategy.BeattyBlockPotential
