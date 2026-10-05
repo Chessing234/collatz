@@ -143,7 +143,8 @@ def main():
                      f'proof: certify sharp residue refinements {i+1:03}', '--', *paths])
         if (i+1) % 10 == 0:
             print(f'Checked {i+1}/300 batches', flush=True)
-    (BASE/'All.lean').write_text('import Collatz.Research.RefinementAtlas.AdaptiveObstruction\n' +
+    (BASE/'All.lean').write_text('import Collatz.Research.RefinementAtlas.Histogram\n' +
+        'import Collatz.Research.RefinementAtlas.AdaptiveObstruction\n' +
         ''.join(f'import Collatz.Research.RefinementAtlas.Batch{i+1:03}\n' for i in range(300)))
     report = dict(cylinders=900, refined_cylinders=1800, batch_theorems=6300,
                   batches=300, lean_lines=sum(len(p.read_text().splitlines()) for p in files),
