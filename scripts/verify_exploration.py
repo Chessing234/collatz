@@ -107,6 +107,7 @@ def main() -> None:
         raise RuntimeError(f"Lean did not return an axiom report for: {missing}")
     run(["python3", "scripts/probe_residue_potential.py"])
     run(["python3", "scripts/probe_dyadic_convergent_classes.py"])
+    run(["python3", "scripts/probe_inverse_class_rays.py"])
     print(json.dumps({
         "status": "passed",
         "modules": len(modules),
