@@ -1,3 +1,4 @@
+import Collatz.Exploration.ClassWitnessCost
 import Collatz.Exploration.HalvingBlocks
 import Collatz.Exploration.AdaptiveResidueObstruction
 import Collatz.Exploration.AffinePowerMatch
