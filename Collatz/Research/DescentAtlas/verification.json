@@ -1,0 +1,6 @@
+{
+  "checked_batches": 300,
+  "checked_certificates": 2400,
+  "method": "lake env lean; kernel decide; no native_decide",
+  "toolchain": "leanprover/lean4:v4.33.0-rc1"
+}
