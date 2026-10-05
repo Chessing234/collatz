@@ -1,3 +1,4 @@
+import Collatz.Exploration.RayGrowth
 import Collatz.Exploration.InverseClassRay
 import Collatz.Exploration.PeriodQuotient
 import Collatz.Exploration.AffineRay

@@ -22,6 +22,7 @@ DECLARATION = re.compile(
     re.MULTILINE,
 )
 AUDITS = {
+    "RayGrowth": "audit_ray_growth.lean",
     "InverseClassRay": "audit_inverse_class_ray.lean",
     "PeriodQuotient": "audit_period_quotient.lean",
     "AffineRay": "audit_affine_ray.lean",
