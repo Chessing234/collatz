@@ -1,3 +1,4 @@
+import Collatz.Strategy.ThreeAdicPopulation
 import Collatz.Strategy.ThreeAdicEscapeTime
 import Collatz.Strategy.ThreeAdicEscapeCount
 import Collatz.Strategy.ThreeAdicEscape
