@@ -40,6 +40,20 @@ def check_witness(modulus: int, horizon: int) -> None:
     assert nonlinear_potential(initial) < nonlinear_potential(endpoint)
 
 
+def check_adaptive_witness(modulus: int, horizon: int) -> None:
+    assert modulus > 0 and horizon >= 0
+    initial = (2 ** (horizon + 2)) * modulus - 1
+    assert initial > 1
+    current = initial
+    for index in range(horizon + 1):
+        expected = (3 ** index) * (2 ** (horizon + 2 - index)) * modulus - 1
+        assert current == expected, (modulus, horizon, index)
+        assert current >= initial
+        assert current % modulus == initial % modulus
+        assert current % 2 == 1
+        current = accelerated_step(current)
+
+
 def main() -> None:
     moduli = list(range(1, 65)) + [97, 255, 256, 257, 1024, 65537]
     horizons = list(range(1, 41)) + [59, 100, 200, 500]
@@ -48,7 +62,13 @@ def main() -> None:
         for horizon in horizons:
             check_witness(modulus, horizon)
             checked += 1
+    adaptive_checked = 0
+    for modulus in moduli:
+        for horizon in [0, *horizons]:
+            check_adaptive_witness(modulus, horizon)
+            adaptive_checked += 1
     print(f"Passed {checked} growing same-residue witnesses; horizons up to 500.")
+    print(f"Passed {adaptive_checked} adaptive-prefix witnesses, including horizon zero.")
     print("No numerical result is promoted to universal convergence.")
 
 
