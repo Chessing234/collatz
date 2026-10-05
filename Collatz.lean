@@ -1,3 +1,4 @@
+import Collatz.Strategy.ThreeAdicEscapeCount
 import Collatz.Strategy.ThreeAdicEscape
 import Collatz.Strategy.PrimeBoundary
 import Collatz.Strategy.FirstLightDescent
