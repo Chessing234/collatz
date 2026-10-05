@@ -102,6 +102,43 @@ theorem survivorCount_bounds (k N : Nat) :
   exact multipleCount_bounds _ _
     (Nat.mul_pos (by decide) (Nat.pow_pos (by decide)))
 
+/-- An incomplete block contributes only its left endpoint when nonempty. -/
+theorem multiple_partial_block (d q r : Nat) (_hd : 0 < d) (hr : r ≤ d) :
+    sumRange r (fun i => if (d * q + i) % d = 0 then 1 else 0) =
+      (if r = 0 then 0 else 1) := by
+  by_cases hz : r = 0
+  · subst r
+    simp
+  · rw [if_neg hz]
+    calc
+      _ = sumRange r (fun i => if i = 0 then 1 else 0) := by
+        apply sumRange_congr
+        intro i hi
+        have hid : i < d := by omega
+        have he : (d * q + i) % d = i := by
+          simp [Nat.add_mod, Nat.mod_eq_of_lt hid]
+        rw [he]
+      _ = 1 := sum_origin_indicator r (by omega)
+
+/-- Exact arbitrary-cutoff count: one input per full block and one if needed. -/
+theorem multipleCount_exact (d N : Nat) (hd : 0 < d) :
+    multipleCount d N = N / d + (if N % d = 0 then 0 else 1) := by
+  have hsplit := Nat.div_add_mod N d
+  unfold multipleCount
+  rw [← hsplit, sumRange_split]
+  change multipleCount d (d * (N / d)) + _ = _
+  rw [multipleCount_aligned d (N / d) hd]
+  rw [multiple_partial_block d (N / d) (N % d) hd (Nat.le_of_lt (Nat.mod_lt N hd))]
+  rw [hsplit]
+
+/-- Exact count of the three-adic survivors for every finite cutoff. -/
+theorem survivorCount_exact (k N : Nat) :
+    survivorCount k N = N / (3 * 2 ^ k) +
+      (if N % (3 * 2 ^ k) = 0 then 0 else 1) := by
+  rw [survivorCount_eq_multipleCount]
+  exact multipleCount_exact _ _
+    (Nat.mul_pos (by decide) (Nat.pow_pos (by decide)))
+
 /-- At every fixed depth, the surviving set is infinite. -/
 theorem survivors_above (k B : Nat) :
     ∃ n : Nat, B < n ∧ 3 ∣ acceleratedOrbit k n := by
