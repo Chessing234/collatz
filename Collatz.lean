@@ -1,3 +1,4 @@
+import Collatz.Strategy.FirstDescentContraction
 import Collatz.Search.FirstDescentCertificate
 import Collatz.Strategy.FirstDescentZeroCount
 import Collatz.Strategy.FirstDescentScale
