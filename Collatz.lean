@@ -1,3 +1,4 @@
+import Collatz.Search.FirstDescentCertificate
 import Collatz.Strategy.FirstDescentZeroCount
 import Collatz.Strategy.FirstDescentScale
 import Collatz.Strategy.ThreeAdicPopulationBias
