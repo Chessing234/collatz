@@ -28,6 +28,10 @@ own verification instructions.
 
 ## Research entry points
 
+- [First passage through 2,592 steps](Research/PassageAtlas/README.md) —
+  a stronger conditional descent theorem, an exact residual condition
+  equivalent to Collatz, and 32,768 new depth-fifteen class certificates.
+
 - [Stopping atlas and first crossing through 1,538 steps](Research/StoppingAtlas/README.md) —
   15,360 infinite-class certificates, finite counting conservation, a tighter
   discrepancy bound, and explicit remaining universal-descent obligations.

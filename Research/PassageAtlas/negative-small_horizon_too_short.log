@@ -1,0 +1,3 @@
+<temporary-directory>/Rejected.lean:6:55: error: Tactic `decide` proved that the proposition
+  FirstLightScan.check 163 270271 = true
+is false

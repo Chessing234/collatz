@@ -1,0 +1,3 @@
+<temporary-directory>/Rejected.lean:6:41: error: Tactic `decide` proved that the proposition
+  acceleratedOrbit 2 1 < 1
+is false

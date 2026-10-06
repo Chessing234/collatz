@@ -1,0 +1,14 @@
+{
+  "status": "passed",
+  "baseline": "c96b95946b896306b1252b553781ef270bb3f32d",
+  "batch_commits": 1000,
+  "new_commits_at_check": 1000,
+  "head_at_check": "715e117812169bbb8b38ddff26eaa73dbcbd5929",
+  "checks": [
+    "baseline is ancestor",
+    "distinct commits",
+    "each commit changes only its own batch",
+    "historical source matches certified manifest",
+    "all batch commits reachable from HEAD"
+  ]
+}

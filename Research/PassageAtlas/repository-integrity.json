@@ -1,0 +1,13 @@
+{
+  "status": "passed",
+  "target": "Collatz",
+  "build_jobs": 4524,
+  "log_sha256": "80b960c09c53edae7131cf696a366b545011ede65405f1ab7dba0d7db059341c",
+  "checks": [
+    "full library build",
+    "repository proof-escape screen",
+    "historical endpoint axiom allowlist",
+    "paper index presence"
+  ],
+  "limitation": "Separate Mathlib extension is not part of this target."
+}

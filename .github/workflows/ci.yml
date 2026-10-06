@@ -43,3 +43,6 @@ jobs:
 
       - name: Check stopping atlas and horizon extension
         run: python3 scripts/audit_stopping_atlas.py
+
+      - name: Check depth-fifteen passage atlas and horizon 2592
+        run: python3 scripts/audit_passage_atlas.py

@@ -2103,3 +2103,5 @@ import Collatz.Search.InverseIntervalEarlyStop
 import Collatz.Strategy.StoppingCorrectionBounds
 import Collatz.Strategy.ProductDescentCheck
 import Collatz.Research.StoppingAtlas.All
+
+import Collatz.Research.PassageAtlas.All

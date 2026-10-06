@@ -1,0 +1,3 @@
+<temporary-directory>/Rejected.lean:6:77: error: Tactic `decide` proved that the proposition
+  (Research.DescentIntervals.exactInterval 15 27).upper = none
+is false
