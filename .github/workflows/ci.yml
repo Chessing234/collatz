@@ -25,6 +25,8 @@ jobs:
           # The project has no Lake test target, so keep testing disabled.
           auto-config: false
           build: true
+          # Build the library before lean-action saves the Lake cache.
+          build-args: Collatz
           test: false
           # lean-action caches the .lake directory by default; make it explicit.
           use-github-cache: true
