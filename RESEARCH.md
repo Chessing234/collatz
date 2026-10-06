@@ -5,6 +5,18 @@ Persistent checkpoint. Update at every synthesis round. Status codes:
 **CONJ** = conjectural. **REFUTED** = killed, with counterexample. **CLOSED** = provably
 unreachable by the stated method.
 
+## Stopping atlas extension, 2026-10-06 (PROVED)
+
+The [stopping atlas report](Research/StoppingAtlas/README.md) records a new
+conditional first-coefficient-crossing horizon of **1538** for all inputs
+`n > 1`, up from 1024. It also proves interval-shape transfer for any certified
+horizon, finite first-event conservation, the periodic discrepancy bound
+`A*(M-A)`, and a power-band obstruction explaining exact stopping time 11.
+The complete depth 10–13 census contributes 15,360 infinite-class certificates
+in 1000 individually checked batches. The generated proof volume is not a
+measure of conceptual novelty. Crossing existence and unrestricted crossing
+descent remain open obligations; this is not a proof of Collatz.
+
 ## The reduction (PROVED)
 
 `NeverDrops x := ∀ j, x ≤ T^j(x)` where `T(n) = n/2` (even), `(3n+1)/2` (odd).
