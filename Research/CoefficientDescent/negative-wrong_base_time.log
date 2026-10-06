@@ -1,0 +1,3 @@
+<temporary-directory>/Rejected.lean:4:65: error: Tactic `decide` proved that the proposition
+  FirstDescentClass.classCertificateB 58 27 = true
+is false

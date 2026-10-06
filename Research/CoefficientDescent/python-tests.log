@@ -1,0 +1,13 @@
+test_all_small_inputs (__main__.CoefficientDescentTests.test_all_small_inputs) ... ok
+test_boundaries_and_invalid_inputs (__main__.CoefficientDescentTests.test_boundaries_and_invalid_inputs) ... ok
+test_effective_transfer (__main__.CoefficientDescentTests.test_effective_transfer) ... ok
+test_gap_bound_and_minimality (__main__.CoefficientDescentTests.test_gap_bound_and_minimality) ... ok
+test_infinite_ray_samples (__main__.CoefficientDescentTests.test_infinite_ray_samples) ... ok
+test_interval_upward_closure (__main__.CoefficientDescentTests.test_interval_upward_closure) ... ok
+test_manifest_partition (__main__.CoefficientDescentTests.test_manifest_partition) ... ok
+test_no_uniform_horizon (__main__.CoefficientDescentTests.test_no_uniform_horizon) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.451s
+
+OK

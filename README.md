@@ -12,6 +12,7 @@ to proposed proof strategies.
 ## Start here
 
 - [Research frontier](RESEARCH.md): proved results, open hypotheses, and failed approaches.
+- [Coefficient crossing and interval shape](Research/CoefficientDescent/README.md): a checked 256-step crossing horizon for unbounded inputs, effective transfer, and the precise remaining obligations.
 - [Exact first-descent intervals](Research/DescentIntervals/README.md): complete interval classifier, refinement conservation, cycle candidates, and the remaining universal coverage obligation.
 - [Concept index](INDEX.md): a map of the main Lean development.
 - [Mathlib-based extension](ProofAtlasAttack/README.md): predecessor-density and Syracuse-distribution results, attribution, and verification reports.
@@ -38,6 +39,7 @@ not establish its hypothesis.
 
 ### Main development
 
+- **Coefficient/actual stopping agreement through 256:** for every `n > 1`, an exact first coefficient crossing at `k ≤ 256` is an actual first descent, and conversely. This does not assert a crossing by 256 for every input. See [the checked theorem and interval consequences](Research/CoefficientDescent/README.md).
 - **Finite convergence:** every positive `n < 3,998,720` reaches `1`.
   See [the verified range](Collatz/Search/VerifiedRung14187.lean).
 - **Cycle-length bound:** an accelerated cycle through a positive point that

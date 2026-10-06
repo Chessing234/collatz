@@ -31,3 +31,6 @@ jobs:
           python3 scripts/descent_intervals.py --check
           python3 scripts/test_descent_intervals.py
           python3 scripts/audit_descent_intervals.py
+
+      - name: Check coefficient crossing and interval transfer
+        run: python3 scripts/audit_coefficient_descent.py

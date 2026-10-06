@@ -133,4 +133,41 @@ theorem finite_interval_of_discrepancy {k r m : Nat}
   exact ⟨⟨transferCutoff k r, bounded_of_not_firstLight hr⟩,
     ⟨m, (exactInterval_spec k r m).mpr hs⟩⟩
 
+/-- A finite interval produces an earlier coefficient crossing where actual descent fails. -/
+theorem finite_interval_crossing_failure {k r : Nat}
+    (hb : ∃ B, ∀ m, (exactInterval k r).Contains m → m < B)
+    (hne : ∃ m, (exactInterval k r).Contains m) :
+    ∃ n j, 1 < n ∧ j < k ∧ FirstLight n j ∧ n ≤ acceleratedOrbit j n := by
+  obtain ⟨n, hn, hs, hf⟩ := finite_interval_witness hb hne
+  obtain ⟨j, hjk, hj⟩ := exists_firstLight_of_drop hs.2.1
+  have hne : j ≠ k := by
+    intro he
+    subst j
+    exact hf hj
+  have hjlt : j < k := by omega
+  exact ⟨n, j, hn, hjlt, hj, FirstDescentResidue.before_first_descent hs j hjlt⟩
+
+/-- Exclude finite nonempty exact-time sets at every depth. -/
+def NoFiniteIntervals : Prop := ∀ k r,
+  (∃ m, (exactInterval k r).Contains m) →
+    ∀ M, ∃ m, M ≤ m ∧ (exactInterval k r).Contains m
+
+/-- Agreement is asserted only for inputs with an actual finite first descent. -/
+def FiniteTimeAgreement : Prop := ∀ n k, stoppingTime n k → FirstLight n k
+
+/-- The unrestricted interval-shape question is exactly finite-stopping-time agreement.
+This equivalence makes no assertion about inputs with no actual descent. -/
+theorem noFiniteIntervals_iff_finiteTimeAgreement : NoFiniteIntervals ↔ FiniteTimeAgreement := by
+  constructor
+  · intro h n k hs
+    have hm : (exactInterval k n).Contains 0 := by
+      rw [exactInterval_spec]
+      simpa using hs
+    exact (unbounded_iff_firstLight k n).mp (h k n ⟨0, hm⟩)
+  · intro h k r hne
+    obtain ⟨m, hm⟩ := hne
+    have hs := (exactInterval_spec k r m).mp hm
+    have hf := (firstLight_class k r m).mp (h _ _ hs)
+    exact (unbounded_iff_firstLight k r).mpr hf
+
 end Collatz.Research.CoefficientDescent

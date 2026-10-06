@@ -1,0 +1,216 @@
+import Collatz.Research.CoefficientDescent.Batch001
+import Collatz.Research.CoefficientDescent.Batch002
+import Collatz.Research.CoefficientDescent.Batch003
+import Collatz.Research.CoefficientDescent.Batch004
+import Collatz.Research.CoefficientDescent.Batch005
+import Collatz.Research.CoefficientDescent.Batch006
+import Collatz.Research.CoefficientDescent.Batch007
+import Collatz.Research.CoefficientDescent.Batch008
+import Collatz.Research.CoefficientDescent.Batch009
+import Collatz.Research.CoefficientDescent.Batch010
+import Collatz.Research.CoefficientDescent.Batch011
+import Collatz.Research.CoefficientDescent.Batch012
+import Collatz.Research.CoefficientDescent.Batch013
+import Collatz.Research.CoefficientDescent.Batch014
+import Collatz.Research.CoefficientDescent.Batch015
+import Collatz.Research.CoefficientDescent.Batch016
+import Collatz.Research.CoefficientDescent.Batch017
+import Collatz.Research.CoefficientDescent.Batch018
+import Collatz.Research.CoefficientDescent.Batch019
+import Collatz.Research.CoefficientDescent.Batch020
+import Collatz.Research.CoefficientDescent.Batch021
+import Collatz.Research.CoefficientDescent.Batch022
+import Collatz.Research.CoefficientDescent.Batch023
+import Collatz.Research.CoefficientDescent.Batch024
+import Collatz.Research.CoefficientDescent.Batch025
+import Collatz.Research.CoefficientDescent.Batch026
+import Collatz.Research.CoefficientDescent.Batch027
+import Collatz.Research.CoefficientDescent.Batch028
+import Collatz.Research.CoefficientDescent.Batch029
+import Collatz.Research.CoefficientDescent.Batch030
+import Collatz.Research.CoefficientDescent.Batch031
+import Collatz.Research.CoefficientDescent.Batch032
+import Collatz.Research.CoefficientDescent.Batch033
+import Collatz.Research.CoefficientDescent.Batch034
+import Collatz.Research.CoefficientDescent.Batch035
+import Collatz.Research.CoefficientDescent.Batch036
+import Collatz.Research.CoefficientDescent.Batch037
+import Collatz.Research.CoefficientDescent.Batch038
+import Collatz.Research.CoefficientDescent.Batch039
+import Collatz.Research.CoefficientDescent.Batch040
+import Collatz.Research.CoefficientDescent.Batch041
+import Collatz.Research.CoefficientDescent.Batch042
+import Collatz.Research.CoefficientDescent.Batch043
+import Collatz.Research.CoefficientDescent.Batch044
+import Collatz.Research.CoefficientDescent.Batch045
+import Collatz.Research.CoefficientDescent.Batch046
+import Collatz.Research.CoefficientDescent.Batch047
+import Collatz.Research.CoefficientDescent.Batch048
+import Collatz.Research.CoefficientDescent.Batch049
+import Collatz.Research.CoefficientDescent.Batch050
+import Collatz.Research.CoefficientDescent.Batch051
+import Collatz.Research.CoefficientDescent.Batch052
+import Collatz.Research.CoefficientDescent.Batch053
+import Collatz.Research.CoefficientDescent.Batch054
+import Collatz.Research.CoefficientDescent.Batch055
+import Collatz.Research.CoefficientDescent.Batch056
+import Collatz.Research.CoefficientDescent.Batch057
+import Collatz.Research.CoefficientDescent.Batch058
+import Collatz.Research.CoefficientDescent.Batch059
+import Collatz.Research.CoefficientDescent.Batch060
+import Collatz.Research.CoefficientDescent.Batch061
+import Collatz.Research.CoefficientDescent.Batch062
+import Collatz.Research.CoefficientDescent.Batch063
+import Collatz.Research.CoefficientDescent.Batch064
+import Collatz.Research.CoefficientDescent.Batch065
+import Collatz.Research.CoefficientDescent.Batch066
+import Collatz.Research.CoefficientDescent.Batch067
+import Collatz.Research.CoefficientDescent.Batch068
+import Collatz.Research.CoefficientDescent.Batch069
+import Collatz.Research.CoefficientDescent.Batch070
+import Collatz.Research.CoefficientDescent.Batch071
+import Collatz.Research.CoefficientDescent.Batch072
+import Collatz.Research.CoefficientDescent.Batch073
+import Collatz.Research.CoefficientDescent.Batch074
+import Collatz.Research.CoefficientDescent.Batch075
+import Collatz.Research.CoefficientDescent.Batch076
+import Collatz.Research.CoefficientDescent.Batch077
+import Collatz.Research.CoefficientDescent.Batch078
+import Collatz.Research.CoefficientDescent.Batch079
+import Collatz.Research.CoefficientDescent.Batch080
+import Collatz.Research.CoefficientDescent.Batch081
+import Collatz.Research.CoefficientDescent.Batch082
+import Collatz.Research.CoefficientDescent.Batch083
+import Collatz.Research.CoefficientDescent.Batch084
+import Collatz.Research.CoefficientDescent.Batch085
+import Collatz.Research.CoefficientDescent.Batch086
+import Collatz.Research.CoefficientDescent.Batch087
+import Collatz.Research.CoefficientDescent.Batch088
+import Collatz.Research.CoefficientDescent.Batch089
+import Collatz.Research.CoefficientDescent.Batch090
+import Collatz.Research.CoefficientDescent.Batch091
+import Collatz.Research.CoefficientDescent.Batch092
+import Collatz.Research.CoefficientDescent.Batch093
+import Collatz.Research.CoefficientDescent.Batch094
+import Collatz.Research.CoefficientDescent.Batch095
+import Collatz.Research.CoefficientDescent.Batch096
+import Collatz.Research.CoefficientDescent.Batch097
+import Collatz.Research.CoefficientDescent.Batch098
+import Collatz.Research.CoefficientDescent.Batch099
+import Collatz.Research.CoefficientDescent.Batch100
+
+namespace Collatz.Research.CoefficientDescent
+
+open FirstLightDescent
+
+/-- All odd starts that can evade the uniform large-input inequality. -/
+theorem small_odd : CertifiedRange 3 6701 :=
+  Batch001.coverage.append (
+    Batch002.coverage.append (
+    Batch003.coverage.append (
+    Batch004.coverage.append (
+    Batch005.coverage.append (
+    Batch006.coverage.append (
+    Batch007.coverage.append (
+    Batch008.coverage.append (
+    Batch009.coverage.append (
+    Batch010.coverage.append (
+    Batch011.coverage.append (
+    Batch012.coverage.append (
+    Batch013.coverage.append (
+    Batch014.coverage.append (
+    Batch015.coverage.append (
+    Batch016.coverage.append (
+    Batch017.coverage.append (
+    Batch018.coverage.append (
+    Batch019.coverage.append (
+    Batch020.coverage.append (
+    Batch021.coverage.append (
+    Batch022.coverage.append (
+    Batch023.coverage.append (
+    Batch024.coverage.append (
+    Batch025.coverage.append (
+    Batch026.coverage.append (
+    Batch027.coverage.append (
+    Batch028.coverage.append (
+    Batch029.coverage.append (
+    Batch030.coverage.append (
+    Batch031.coverage.append (
+    Batch032.coverage.append (
+    Batch033.coverage.append (
+    Batch034.coverage.append (
+    Batch035.coverage.append (
+    Batch036.coverage.append (
+    Batch037.coverage.append (
+    Batch038.coverage.append (
+    Batch039.coverage.append (
+    Batch040.coverage.append (
+    Batch041.coverage.append (
+    Batch042.coverage.append (
+    Batch043.coverage.append (
+    Batch044.coverage.append (
+    Batch045.coverage.append (
+    Batch046.coverage.append (
+    Batch047.coverage.append (
+    Batch048.coverage.append (
+    Batch049.coverage.append (
+    Batch050.coverage.append (
+    Batch051.coverage.append (
+    Batch052.coverage.append (
+    Batch053.coverage.append (
+    Batch054.coverage.append (
+    Batch055.coverage.append (
+    Batch056.coverage.append (
+    Batch057.coverage.append (
+    Batch058.coverage.append (
+    Batch059.coverage.append (
+    Batch060.coverage.append (
+    Batch061.coverage.append (
+    Batch062.coverage.append (
+    Batch063.coverage.append (
+    Batch064.coverage.append (
+    Batch065.coverage.append (
+    Batch066.coverage.append (
+    Batch067.coverage.append (
+    Batch068.coverage.append (
+    Batch069.coverage.append (
+    Batch070.coverage.append (
+    Batch071.coverage.append (
+    Batch072.coverage.append (
+    Batch073.coverage.append (
+    Batch074.coverage.append (
+    Batch075.coverage.append (
+    Batch076.coverage.append (
+    Batch077.coverage.append (
+    Batch078.coverage.append (
+    Batch079.coverage.append (
+    Batch080.coverage.append (
+    Batch081.coverage.append (
+    Batch082.coverage.append (
+    Batch083.coverage.append (
+    Batch084.coverage.append (
+    Batch085.coverage.append (
+    Batch086.coverage.append (
+    Batch087.coverage.append (
+    Batch088.coverage.append (
+    Batch089.coverage.append (
+    Batch090.coverage.append (
+    Batch091.coverage.append (
+    Batch092.coverage.append (
+    Batch093.coverage.append (
+    Batch094.coverage.append (
+    Batch095.coverage.append (
+    Batch096.coverage.append (
+    Batch097.coverage.append (
+    Batch098.coverage.append (
+    Batch099.coverage.append (
+    Batch100.coverage)))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+
+/-- Even inputs are discharged symbolically; every remaining small input has a witness. -/
+theorem small_inputs (n : Nat) (hn : 1 < n) (hb : n < 6701) :
+    ∃ k, FirstLight n k ∧ acceleratedOrbit k n < n := by
+  rcases Arith.mod_two_eq_zero_or_one n with he | ho
+  · exact ⟨1, even_witness (by omega) he⟩
+  · exact small_odd n (by omega) hb ho
+
+end Collatz.Research.CoefficientDescent

@@ -2058,3 +2058,4 @@ import Collatz.Papers.Journal_10_5281_zenodo_18272290
 import Collatz.Papers.Journal_10_5281_zenodo_21671922
 import Collatz.Papers.Journal_10_5281_zenodo_21169718
 import Collatz.Papers.Journal_10_5281_zenodo_19701708
+import Collatz.Research.CoefficientDescent.All

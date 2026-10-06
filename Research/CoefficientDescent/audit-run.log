@@ -1,0 +1,69 @@
+Checked 3349 witnesses in 100 batches
+{
+  "status": "passed",
+  "baseline": "0b0fa49f1dab57e4bc8790b0c09121b7162ce28c",
+  "target": "Collatz.Research.CoefficientDescent.All",
+  "horizon": 256,
+  "failure_bound": 6701,
+  "odd_witnesses": 3349,
+  "batch_count": 100,
+  "lean_lines": 35823,
+  "lean_code_lines": 21672,
+  "generated_lean_code_lines": 21094,
+  "handwritten_lean_code_lines": 369,
+  "axiom_audit": {
+    "theorems_checked": 6846,
+    "without_axioms": 3357,
+    "allowed": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "observed": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  "negative_controls": [
+    {
+      "case": "missing_small_input_exception",
+      "status": "rejected_false_certificate"
+    },
+    {
+      "case": "wrong_base_time",
+      "status": "rejected_false_certificate"
+    },
+    {
+      "case": "insufficient_gap_bound",
+      "status": "rejected_false_certificate"
+    },
+    {
+      "case": "late_descent_is_not_first",
+      "status": "rejected_false_certificate"
+    }
+  ],
+  "python_tests": {
+    "status": "passed",
+    "test_methods": 8,
+    "checks": {
+      "small_input_oracles": 6699,
+      "transfer_cases": 3189,
+      "gap_pairs": 33153,
+      "ray_samples": 13396,
+      "random_intervals": 2500,
+      "mersenne_prefixes": 257
+    },
+    "counted_checks": 59194,
+    "failures": 0,
+    "errors": 0,
+    "scope": "Exact-integer experiments; the general statements are proved separately in Lean."
+  },
+  "scope": [
+    "Build covers the addition and all its dependencies.",
+    "Does not rebuild every historical repository target or the separate Mathlib extension.",
+    "Standard kernel checking: no added axioms, sorry, or native_decide.",
+    "Finite certificate count is not a count of independent mathematical discoveries.",
+    "No universal existence of coefficient crossings or proof of Collatz."
+  ]
+}

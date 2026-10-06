@@ -1,0 +1,16 @@
+{
+  "status": "passed",
+  "test_methods": 8,
+  "checks": {
+    "small_input_oracles": 6699,
+    "transfer_cases": 3189,
+    "gap_pairs": 33153,
+    "ray_samples": 13396,
+    "random_intervals": 2500,
+    "mersenne_prefixes": 257
+  },
+  "counted_checks": 59194,
+  "failures": 0,
+  "errors": 0,
+  "scope": "Exact-integer experiments; the general statements are proved separately in Lean."
+}
