@@ -1,0 +1,15 @@
+Checked 15360 distinct cylinders in 1000 batches
+{
+  "status": "passed",
+  "baseline": "a4bb6ce3d4163f091e7951d976d7073086c94ef1",
+  "batch_commits": 1000,
+  "new_commits_at_check": 1000,
+  "head_at_check": "a99424ee3ee81c379c89fa17755f98b8380826ac",
+  "checks": [
+    "baseline is ancestor",
+    "distinct commits",
+    "each commit changes only its own batch",
+    "historical source matches certified manifest",
+    "all batch commits reachable from HEAD"
+  ]
+}

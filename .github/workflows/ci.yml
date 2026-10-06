@@ -40,3 +40,6 @@ jobs:
 
       - name: Check coefficient crossing and interval transfer
         run: python3 scripts/audit_coefficient_descent.py
+
+      - name: Check stopping atlas and horizon extension
+        run: python3 scripts/audit_stopping_atlas.py

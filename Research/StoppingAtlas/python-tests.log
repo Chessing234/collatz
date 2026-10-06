@@ -1,0 +1,39 @@
+Checked 15360 distinct cylinders in 1000 batches
+{
+  "status": "passed",
+  "checks": {
+    "class_samples": 76800,
+    "exceptional_starts": 99728,
+    "gap_pairs": 747468,
+    "boundary_failure": 1,
+    "conservation_cutoffs": 189,
+    "period_discrepancies": 57348
+  },
+  "total_checks": 981534,
+  "census": {
+    "10": {
+      "empty": 1012,
+      "tail": 12
+    },
+    "11": {
+      "empty": 2048
+    },
+    "12": {
+      "empty": 4066,
+      "tail": 30
+    },
+    "13": {
+      "empty": 8107,
+      "tail": 85
+    }
+  },
+  "exceptional_max_crossing": 135,
+  "gap_max_required": 99730,
+  "gap_worst_pair": [
+    485,
+    306
+  ],
+  "next_threshold": 330588,
+  "randomness": "none; deterministic exhaustive bounded checks",
+  "limitation": "Sampled class indices supplement, but do not replace, universally quantified Lean proofs."
+}

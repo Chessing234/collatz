@@ -28,6 +28,10 @@ own verification instructions.
 
 ## Research entry points
 
+- [Stopping atlas and first crossing through 1,538 steps](Research/StoppingAtlas/README.md) —
+  15,360 infinite-class certificates, finite counting conservation, a tighter
+  discrepancy bound, and explicit remaining universal-descent obligations.
+
 - [Research status](RESEARCH.md) — results, open questions, and limitations.
 - [Proof index](INDEX.md) — guide to the Lean library.
 - [First coefficient crossing through 1,024 steps](Research/FirstLight1024.md) —
