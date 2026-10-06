@@ -1,0 +1,148 @@
+{
+  "scope": "Exact finite experiments, not an infinite-boundary computation or proof oracle.",
+  "periodic_and_perturbed_anchor_checks": 321,
+  "nonzero_error_anchor_checks": 210,
+  "random_trials": 5000,
+  "random_trials_meeting_anchor_hypotheses": 23,
+  "genuine_integer_steps_checked": 466,
+  "finite_examples": [
+    {
+      "word": [
+        1
+      ],
+      "repetitions": 1,
+      "seed": "3",
+      "levels": 1,
+      "bound_holds": true
+    },
+    {
+      "word": [
+        1
+      ],
+      "repetitions": 3,
+      "seed": "15",
+      "levels": 1,
+      "bound_holds": true
+    },
+    {
+      "word": [
+        1
+      ],
+      "repetitions": 8,
+      "seed": "511",
+      "levels": 1,
+      "bound_holds": true
+    },
+    {
+      "word": [
+        1,
+        2
+      ],
+      "repetitions": 1,
+      "seed": "11",
+      "levels": 2,
+      "bound_holds": true
+    },
+    {
+      "word": [
+        1,
+        2
+      ],
+      "repetitions": 3,
+      "seed": "1019",
+      "levels": 2,
+      "bound_holds": true
+    },
+    {
+      "word": [
+        1,
+        2
+      ],
+      "repetitions": 8,
+      "seed": "33554427",
+      "levels": 2,
+      "bound_holds": true
+    },
+    {
+      "word": [
+        1,
+        1,
+        2
+      ],
+      "repetitions": 1,
+      "seed": "7",
+      "levels": 3,
+      "bound_holds": true
+    },
+    {
+      "word": [
+        1,
+        1,
+        2
+      ],
+      "repetitions": 3,
+      "seed": "743",
+      "levels": 3,
+      "bound_holds": true
+    },
+    {
+      "word": [
+        1,
+        1,
+        2
+      ],
+      "repetitions": 8,
+      "seed": "780903143",
+      "levels": 3,
+      "bound_holds": true
+    },
+    {
+      "word": [
+        1,
+        1,
+        1,
+        1,
+        2
+      ],
+      "repetitions": 1,
+      "seed": "31",
+      "levels": 5,
+      "bound_holds": true
+    },
+    {
+      "word": [
+        1,
+        1,
+        1,
+        1,
+        2
+      ],
+      "repetitions": 3,
+      "seed": "143519",
+      "levels": 5,
+      "bound_holds": true
+    },
+    {
+      "word": [
+        1,
+        1,
+        1,
+        1,
+        2
+      ],
+      "repetitions": 8,
+      "seed": "317642152489119",
+      "levels": 5,
+      "bound_holds": true
+    }
+  ],
+  "nonvacuous_separated_window": {
+    "orbit": "x_i = 1",
+    "L": 80,
+    "r": 2,
+    "M": 35156561936,
+    "first_separated_window": 0,
+    "length_hypothesis_verified": true
+  },
+  "positive_real_countermodel_without_integrality": true
+}

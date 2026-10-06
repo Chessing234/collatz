@@ -1,0 +1,14 @@
+{
+  "theorems_audited": 6323,
+  "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+  ],
+  "batch_lines": 43200,
+  "batch_commits": 300,
+  "hashes_checked": 300,
+  "full_build": "passed",
+  "source_integrity": "passed",
+  "axiom_audit": "passed"
+}

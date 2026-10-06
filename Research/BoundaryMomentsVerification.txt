@@ -1,0 +1,32 @@
+Boundary-moment verification — 2026-09-28
+
+PASS: lake build Collatz.Strategy.PrimeBoundary (5 jobs; final run has no warnings).
+PASS: lake env lean scripts/audit_boundary_moments.lean.
+      Fifteen named endpoints report only propext, Classical.choice, Quot.sound.
+      Kernel computations verify p=5 and p=7 exceptions, p=11 sharpness,
+      and a characteristic-19 countermodel to the cubic moment relaxation.
+PASS: focused comment-stripped proof-escape scan of the three modules and audit.
+PASS: independent original-graph probe: 83 moduli, 52 primes,
+      665760 exhaustive small-subset checks, zero failures.
+PASS: git diff --check.
+
+INCOMPLETE: LEAN_NUM_THREADS=2 bash scripts/check_integrity.sh.
+The full repository build was stopped after approximately five minutes while
+rebuilding unrelated VerifiedRung7863 and TreeCertificate3 modules. A separate
+integrity build was already active. Only this turn's run and its descendants
+were stopped. No full repository build or global integrity success is claimed.
+
+Unrelated concurrent changes (PeriodicDefectTransport, PeriodicDefectAmplification,
+PeriodicBranchEmbedding and their reports/audits) were preserved. This work adds
+only the PrimeBoundary import to the shared root in addition to its new files.
+
+Novelty status: bounded primary-literature comparison found no exact antecedent.
+Historical priority and external expert review remain unverified.
+
+SHA256 of audited sources and independent probe output:
+481699f7e4046f917fc4af29b6d478762c1427b0581f97b89b8f87f92ec3e172  Collatz/Strategy/BoundaryMoments.lean
+b3385ee77fdde7729dc07a7a86303e95e0be8b168ad47ac3697ca4346e22693b  Collatz/Strategy/BoundaryCuts.lean
+86bd0edadf01664f567b2a9d55bccb003f4d68684cd3dbe2d2f79285cea60942  Collatz/Strategy/PrimeBoundary.lean
+ac30988757e2d6d375365f757808ca788f393f597c2db663d0f4dc4507ca12e8  scripts/audit_boundary_moments.lean
+e77c8325b1546167879aaea6a9df604b5a5455c81c040c52c75e2f5921621d75  scripts/boundary_moments_probe.py
+ebcf4351700e9b679f05d4db7cd6e8c6b976ec0a24d5a3295b1e49d7f39c6757  Research/BoundaryMomentsProbe.json

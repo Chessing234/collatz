@@ -1,0 +1,1138 @@
+checking Lean build
+⚠ [59/292] Replayed Collatz.Strategy.GapBarriers
+warning: Collatz/Strategy/GapBarriers.lean:1208:7: Variable name `n0` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _n0
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Collatz/Strategy/GapBarriers.lean:1208:10: Variable name `n0'` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _n0'
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Collatz/Strategy/GapBarriers.lean:1473:66: Variable name `hN` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hN
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Collatz/Strategy/GapBarriers.lean:2165:52: Variable name `hL` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hL
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Collatz/Strategy/GapBarriers.lean:2166:45: Variable name `hpos` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hpos
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Collatz/Strategy/GapBarriers.lean:2792:28: Variable name `hj` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hj
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [64/292] Replayed Collatz.Strategy.DensitySaturation
+warning: Collatz/Strategy/DensitySaturation.lean:77:35: This simp argument is unused:
+  Nat.mul_left_comm
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_comm, Nat.mul_assoc]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Collatz/Strategy/DensitySaturation.lean:79:64: This simp argument is unused:
+  Nat.mul_assoc
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_comm, Nat.mul_left_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Collatz/Strategy/DensitySaturation.lean:103:33: This simp argument is unused:
+  Nat.mul_left_comm
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_comm, Nat.mul_assoc]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ℹ [66/292] Replayed Collatz.Strategy.Escape
+info: Collatz/Strategy/Escape.lean:311:0: 'Collatz.Escape.bounded_of_eventuallyPeriodic' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/Escape.lean:312:0: 'Collatz.Escape.orbit_inj_of_divergent' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/Escape.lean:313:0: 'Collatz.Escape.divergent_window' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/Escape.lean:314:0: 'Collatz.Escape.divergent_escapes' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/Escape.lean:315:0: 'Collatz.Escape.escape_or_cycle' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/Escape.lean:316:0: 'Collatz.Escape.divergent_tail' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/Escape.lean:317:0: 'Collatz.Escape.divergent_avoids_verified' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [85/292] Replayed Collatz.Strategy.OrderAutomaton
+info: Collatz/Strategy/OrderAutomaton.lean:482:0: 'Collatz.OrderAutomaton.disc_append' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/OrderAutomaton.lean:483:0: 'Collatz.OrderAutomaton.disc_not_prefix_determined' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/OrderAutomaton.lean:484:0: 'Collatz.OrderAutomaton.Adm_append' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/OrderAutomaton.lean:485:0: 'Collatz.OrderAutomaton.blocks_adm' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/OrderAutomaton.lean:486:0: 'Collatz.OrderAutomaton.blocks_inj' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/OrderAutomaton.lean:487:0: 'Collatz.OrderAutomaton.spike_heavy' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/OrderAutomaton.lean:488:0: 'Collatz.OrderAutomaton.spike_exceeds_bucket' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/OrderAutomaton.lean:489:0: 'Collatz.OrderAutomaton.adm_never_terminates' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [93/292] Replayed Collatz.Strategy.DeviceSemigroup
+info: Collatz/Strategy/DeviceSemigroup.lean:315:0: 'Collatz.DeviceSemigroup.middle_commutator' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DeviceSemigroup.lean:316:0: 'Collatz.DeviceSemigroup.tau_conj_even' depends on axioms: [propext]
+info: Collatz/Strategy/DeviceSemigroup.lean:317:0: 'Collatz.DeviceSemigroup.tau_conj_even_fails_expStep' does not depend on any axioms
+info: Collatz/Strategy/DeviceSemigroup.lean:318:0: 'Collatz.DeviceSemigroup.dynamical_step_not_module' depends on axioms: [propext]
+ℹ [95/292] Replayed Collatz.Strategy.OctaveWord
+info: Collatz/Strategy/OctaveWord.lean:263:0: 'Collatz.Octave.octave_even' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/OctaveWord.lean:264:0: 'Collatz.Octave.octave_odd' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/OctaveWord.lean:265:0: 'Collatz.Octave.octave_alphabet' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/OctaveWord.lean:266:0: 'Collatz.Octave.sojourn_low' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/OctaveWord.lean:267:0: 'Collatz.Octave.sojourn_high' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/OctaveWord.lean:268:0: 'Collatz.Octave.no_three_in_octave' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/OctaveWord.lean:269:0: 'Collatz.Octave.highPos_halve' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/OctaveWord.lean:270:0: 'Collatz.Octave.highPos_run' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/OctaveWord.lean:271:0: 'Collatz.Octave.inOctave_run' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/OctaveWord.lean:272:0: 'Collatz.Octave.O0_forces_O1' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/OctaveWord.lean:273:0: 'Collatz.Octave.no_O0_after_O0' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/OctaveWord.lean:274:0: 'Collatz.Octave.sharp_even_exit' does not depend on any axioms
+info: Collatz/Strategy/OctaveWord.lean:275:0: 'Collatz.Octave.sharp_odd_exit' does not depend on any axioms
+⚠ [111/602] Replayed Collatz.Strategy.CycleProduct
+warning: Collatz/Strategy/CycleProduct.lean:72:26: This simp argument is unused:
+  Nat.mul_assoc
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_comm, Nat.mul_left_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Collatz/Strategy/CycleProduct.lean:78:54: This simp argument is unused:
+  Nat.mul_assoc
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.add_mul, Nat.mul_add, Nat.mul_comm, Nat.mul_left_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Collatz/Strategy/CycleProduct.lean:81:54: This simp argument is unused:
+  Nat.mul_assoc
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.add_mul, Nat.mul_add, Nat.mul_comm, Nat.mul_left_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Collatz/Strategy/CycleProduct.lean:86:28: This simp argument is unused:
+  Nat.mul_assoc
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_comm, Nat.mul_left_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Collatz/Strategy/CycleProduct.lean:158:28: This simp argument is unused:
+  Nat.mul_assoc
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_comm, Nat.mul_left_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Collatz/Strategy/CycleProduct.lean:197:24: This simp argument is unused:
+  Nat.mul_assoc
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_comm, Nat.mul_left_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Collatz/Strategy/CycleProduct.lean:286:24: This simp argument is unused:
+  Nat.mul_assoc
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_comm, Nat.mul_left_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [112/602] Replayed Collatz.Strategy.AffineExact
+warning: Collatz/Strategy/AffineExact.lean:127:41: Variable name `hm` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hm
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [115/602] Replayed Collatz.Strategy.ProductCeiling
+warning: Collatz/Strategy/ProductCeiling.lean:122:43: This simp argument is unused:
+  Nat.mul_assoc
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_comm, Nat.mul_left_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [116/602] Replayed Collatz.Strategy.HorizonSharp
+warning: Collatz/Strategy/HorizonSharp.lean:86:45: This simp argument is unused:
+  Nat.mul_assoc
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_comm, Nat.mul_left_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [120/602] Replayed Collatz.Search.BarinaRange
+warning: Collatz/Search/BarinaRange.lean:118:44: Variable name `hc` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hc
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [138/602] Replayed Collatz.Strategy.FloorSchedule
+warning: Collatz/Strategy/FloorSchedule.lean:204:28: This simp argument is unused:
+  Nat.mul_assoc
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_comm, Nat.mul_left_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ℹ [140/602] Replayed Collatz.Strategy.CoupledCycle
+info: Collatz/Strategy/CoupledCycle.lean:184:0: 'Collatz.CoupledCycle.prefix_gap' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/CoupledCycle.lean:185:0: 'Collatz.CoupledCycle.prefix_gap_of_heavy' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/CoupledCycle.lean:186:0: 'Collatz.CoupledCycle.prefix_gap_at_L' depends on axioms: [propext]
+info: Collatz/Strategy/CoupledCycle.lean:187:0: 'Collatz.CoupledCycle.expStep_no_ledge' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/CoupledCycle.lean:188:0: 'Collatz.CoupledCycle.oddCount_lt_of_ledge' depends on axioms: [propext, Quot.sound]
+⚠ [145/602] Replayed Collatz.Strategy.ValuationTransition
+warning: Collatz/Strategy/ValuationTransition.lean:306:18: This simp argument is unused:
+  Nat.mul_add
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.add_mul, Nat.mul_assoc, Nat.mul_comm, Nat.mul_left_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Collatz/Strategy/ValuationTransition.lean:306:73: This simp argument is unused:
+  Nat.mul_left_comm
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_add, Nat.add_mul, Nat.mul_assoc, Nat.mul_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Collatz/Strategy/ValuationTransition.lean:333:73: Variable name `hn` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hn
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Collatz/Strategy/ValuationTransition.lean:561:42: This simp argument is unused:
+  Nat.mul_comm
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_assoc, Nat.mul_left_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Collatz/Strategy/ValuationTransition.lean:597:36: This simp argument is unused:
+  Nat.mul_comm
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_assoc, Nat.mul_left_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+info: Collatz/Strategy/ValuationTransition.lean:746:0: 'Collatz.ValuationTransition.word_realizable' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ValuationTransition.lean:747:0: 'Collatz.ValuationTransition.path_congr' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ValuationTransition.lean:748:0: 'Collatz.ValuationTransition.drop_necessary' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ValuationTransition.lean:749:0: 'Collatz.ValuationTransition.certificate_rejects_expStep' depends on axioms: [propext, Quot.sound]
+⚠ [148/602] Replayed Collatz.Strategy.LiftExponent
+warning: Collatz/Strategy/LiftExponent.lean:81:5: Variable name `hm` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hm
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Collatz/Strategy/LiftExponent.lean:81:22: Variable name `hm'` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hm'
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Collatz/Strategy/LiftExponent.lean:266:25: This simp argument is unused:
+  Nat.mul_comm
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_assoc, Nat.mul_left_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ℹ [150/602] Replayed Collatz.Strategy.ExcursionMap
+info: Collatz/Strategy/ExcursionMap.lean:792:0: 'Collatz.ExcursionMap.exists_excursion' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionMap.lean:793:0: 'Collatz.ExcursionMap.drop_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionMap.lean:794:0: 'Collatz.ExcursionMap.drop_of_v_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionMap.lean:795:0: 'Collatz.ExcursionMap.drop_of_v_two' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionMap.lean:796:0: 'Collatz.ExcursionMap.v_eq_two_iff' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionMap.lean:797:0: 'Collatz.ExcursionMap.v_two_W_ge_two_iff' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionMap.lean:798:0: 'Collatz.ExcursionMap.drop_of_three_mod_sixteen' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionMap.lean:799:0: 'Collatz.ExcursionMap.v_two_W_one_iff' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionMap.lean:800:0: 'Collatz.ExcursionMap.lemmaX_of_eleven_mod_thirtytwo' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionMap.lean:801:0: 'Collatz.ExcursionMap.collatz_of_lemmaX' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionMap.lean:802:0: 'Collatz.ExcursionMap.collatz_of_lemmaX_three_mod_four' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionMap.lean:803:0: 'Collatz.ExcursionMap.collatz_of_seven_eleven_fifteen_mod_sixteen' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+info: Collatz/Strategy/ExcursionMap.lean:804:0: 'Collatz.ExcursionMap.collatz_of_lemmaX_seven_eleven_fifteen_mod_sixteen' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+info: Collatz/Strategy/ExcursionMap.lean:805:0: 'Collatz.ExcursionMap.collatz_of_lemmaX_remaining' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionMap.lean:806:0: 'Collatz.ExcursionMap.collatz_of_remaining' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [151/602] Replayed Collatz.Strategy.ExcursionMod8
+info: Collatz/Strategy/ExcursionMod8.lean:569:0: 'Collatz.ExcursionMod8.v_eq_three_iff' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionMod8.lean:570:0: 'Collatz.ExcursionMod8.drop_of_twenty_three_mod_thirty_two' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionMod8.lean:571:0: 'Collatz.ExcursionMod8.drop_of_fifteen_mod_one_twenty_eight' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionMod8.lean:572:0: 'Collatz.ExcursionMod8.lemmaX_of_seven_mod_one_twenty_eight' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionMod8.lean:573:0: 'Collatz.ExcursionMod8.collatz_of_lemmaX_remaining' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionMod8.lean:574:0: 'Collatz.ExcursionMod8.collatz_of_open_classes' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [152/602] Replayed Collatz.Strategy.ExcursionMod32
+info: Collatz/Strategy/ExcursionMod32.lean:462:0: 'Collatz.ExcursionMod32.lemmaX_of_fifty_nine_mod_one_twenty_eight' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionMod32.lean:463:0: 'Collatz.ExcursionMod32.lemmaX_of_two_nineteen_mod_two_fifty_six' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionMod32.lean:464:0: 'Collatz.ExcursionMod32.lemmaX_of_one_twenty_three_mod_two_fifty_six' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionMod32.lean:465:0: 'Collatz.ExcursionMod32.collatz_of_open_classes' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionMod32.lean:466:0: 'Collatz.ExcursionMod32.twenty_seven_survives_three' depends on axioms: [propext, Quot.sound]
+ℹ [153/602] Replayed Collatz.Strategy.ExcursionSevenMod32
+info: Collatz/Strategy/ExcursionSevenMod32.lean:773:0: 'Collatz.ExcursionSevenMod32.lemmaX_of_thirty_nine_mod_two_fifty_six' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionSevenMod32.lean:774:0: 'Collatz.ExcursionSevenMod32.lemmaX_of_nine_ninety_nine_mod_ten_twenty_four' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionSevenMod32.lean:775:0: 'Collatz.ExcursionSevenMod32.lemmaX_of_one_ninety_nine_mod_two_fifty_six' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionSevenMod32.lean:776:0: 'Collatz.ExcursionSevenMod32.lemmaX_of_four_twenty_three_mod_ten_twenty_four' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionSevenMod32.lean:777:0: 'Collatz.ExcursionSevenMod32.lemmaX_of_five_eighty_three_mod_ten_twenty_four' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionSevenMod32.lean:778:0: 'Collatz.ExcursionSevenMod32.second_ge_of_seventy_one_mod_one_twenty_eight' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionSevenMod32.lean:779:0: 'Collatz.ExcursionSevenMod32.collatz_of_open_classes' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [154/602] Replayed Collatz.Strategy.ExcursionMod16
+info: Collatz/Strategy/ExcursionMod16.lean:989:0: 'Collatz.ExcursionMod16.drop_of_ninety_five_mod_two_fifty_six' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+info: Collatz/Strategy/ExcursionMod16.lean:990:0: 'Collatz.ExcursionMod16.drop_of_five_seventy_five_mod_1024' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionMod16.lean:991:0: 'Collatz.ExcursionMod16.lemmaX_of_seventy_nine_mod_two_fifty_six' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionMod16.lean:992:0: 'Collatz.ExcursionMod16.lemmaX_of_one_seventy_five_mod_two_fifty_six' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionMod16.lean:993:0: 'Collatz.ExcursionMod16.lemmaX_of_two_eighty_seven_mod_1024' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionMod16.lean:994:0: 'Collatz.ExcursionMod16.lemmaX_of_seven_thirty_five_mod_1024' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionMod16.lean:995:0: 'Collatz.ExcursionMod16.lemmaX_of_three_sixty_seven_mod_1024' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionMod16.lean:996:0: 'Collatz.ExcursionMod16.lemmaX_of_nine_seventy_five_mod_1024' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionMod16.lean:997:0: 'Collatz.ExcursionMod16.collatz_of_open_classes' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionMod16.lean:998:0: 'Collatz.ExcursionMod16.thirty_one_survives_three' depends on axioms: [propext, Quot.sound]
+ℹ [155/602] Replayed Collatz.Strategy.ExcursionAdversary
+info: Collatz/Strategy/ExcursionAdversary.lean:230:0: 'Collatz.ExcursionAdversary.landing_div' depends on axioms: [propext]
+info: Collatz/Strategy/ExcursionAdversary.lean:231:0: 'Collatz.ExcursionAdversary.expStep_on_peak' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionAdversary.lean:232:0: 'Collatz.ExcursionAdversary.drop_impossible_without_W' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionAdversary.lean:233:0: 'Collatz.ExcursionAdversary.W_ge_one_does_not_kill_cycles' does not depend on any axioms
+info: Collatz/Strategy/ExcursionAdversary.lean:234:0: 'Collatz.ExcursionAdversary.first_excursion_census' depends on axioms: [propext, Quot.sound]
+ℹ [156/602] Replayed Collatz.Strategy.ExcursionBlock
+info: Collatz/Strategy/ExcursionBlock.lean:193:0: 'Collatz.ExcursionBlock.landing_u_of_v_two_W_one' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionBlock.lean:194:0: 'Collatz.ExcursionBlock.landing_n_of_v_two_W_one' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionBlock.lean:195:0: 'Collatz.ExcursionBlock.two_light_u' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionBlock.lean:196:0: 'Collatz.ExcursionBlock.two_light_n' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionBlock.lean:197:0: 'Collatz.ExcursionBlock.two_light_grows' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionBlock.lean:198:0: 'Collatz.ExcursionBlock.two_light_not_force_v_one' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionBlock.lean:199:0: 'Collatz.ExcursionBlock.two_light_not_force_later_drop' depends on axioms: [propext, Quot.sound]
+ℹ [157/602] Replayed Collatz.Strategy.ExcursionReverse
+info: Collatz/Strategy/ExcursionReverse.lean:200:0: 'Collatz.ExcursionReverse.even_parent' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionReverse.lean:201:0: 'Collatz.ExcursionReverse.of_reverse' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionReverse.lean:202:0: 'Collatz.ExcursionReverse.of_reverse_div' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionReverse.lean:203:0: 'Collatz.ExcursionReverse.next_odd_iff' does not depend on any axioms
+info: Collatz/Strategy/ExcursionReverse.lean:204:0: 'Collatz.ExcursionReverse.climb_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionReverse.lean:205:0: 'Collatz.ExcursionReverse.parent_le_of_light' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionReverse.lean:206:0: 'Collatz.ExcursionReverse.never_drops_landing_ge' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionReverse.lean:207:0: 'Collatz.ExcursionReverse.chain_above_not_never' depends on axioms: [propext, Quot.sound]
+ℹ [159/602] Replayed Collatz.Strategy.ExcursionLTE
+info: Collatz/Strategy/ExcursionLTE.lean:322:0: 'Collatz.ExcursionLTE.peak_split' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionLTE.lean:323:0: 'Collatz.ExcursionLTE.W_eq_of_u_pred_lt' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionLTE.lean:324:0: 'Collatz.ExcursionLTE.W_eq_of_lte_lt' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionLTE.lean:325:0: 'Collatz.ExcursionLTE.W_gt_of_eq' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionLTE.lean:326:0: 'Collatz.ExcursionLTE.drop_of_W_ge' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionLTE.lean:327:0: 'Collatz.ExcursionLTE.W_eq_one_of_odd_v_u_one_mod_four' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionLTE.lean:328:0: 'Collatz.ExcursionLTE.W_ge_two_of_odd_v_u_three_mod_four' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionLTE.lean:329:0: 'Collatz.ExcursionLTE.no_first_drop_of_odd_v_u_one_mod_four' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionLTE.lean:330:0: 'Collatz.ExcursionLTE.drop_of_v_three_u_three_mod_four' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionLTE.lean:331:0: 'Collatz.ExcursionLTE.drop_of_v_two_of_val2' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [160/602] Replayed Collatz.Strategy.ExcursionOddLight
+info: Collatz/Strategy/ExcursionOddLight.lean:178:0: 'Collatz.ExcursionOddLight.landing_u_of_v_three_W_one' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionOddLight.lean:179:0: 'Collatz.ExcursionOddLight.landing_n_of_v_three_W_one' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionOddLight.lean:180:0: 'Collatz.ExcursionOddLight.no_nat_clock' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionOddLight.lean:181:0: 'Collatz.ExcursionOddLight.seven_no_clock' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionOddLight.lean:182:0: 'Collatz.ExcursionOddLight.two_adic_clock' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionOddLight.lean:183:0: 'Collatz.ExcursionOddLight.landing_of_u_one_mod_four' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionOddLight.lean:184:0: 'Collatz.ExcursionOddLight.thirty_nine_not_v_one' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionOddLight.lean:185:0: 'Collatz.ExcursionOddLight.seventy_one_two_step_grows' depends on axioms: [propext, Quot.sound]
+ℹ [161/602] Replayed Collatz.Strategy.ExcursionExit
+info: Collatz/Strategy/ExcursionExit.lean:287:0: 'Collatz.ExcursionExit.eight_clock' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionExit.lean:288:0: 'Collatz.ExcursionExit.val2_plus_five_shift' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionExit.lean:289:0: 'Collatz.ExcursionExit.val2_n_plus_five' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionExit.lean:290:0: 'Collatz.ExcursionExit.e_seven_mod_eight' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionExit.lean:291:0: 'Collatz.ExcursionExit.next_v_ge_three' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionExit.lean:292:0: 'Collatz.ExcursionExit.e_succ_of_k' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionExit.lean:293:0: 'Collatz.ExcursionExit.next_v_identity' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionExit.lean:294:0: 'Collatz.ExcursionExit.nine_k_eq' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionExit.lean:295:0: 'Collatz.ExcursionExit.val2_nine_k' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionExit.lean:296:0: 'Collatz.ExcursionExit.next_W_identity' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionExit.lean:297:0: 'Collatz.ExcursionExit.two_step_identity' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionExit.lean:298:0: 'Collatz.ExcursionExit.twenty_seven_next_grows' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionExit.lean:299:0: 'Collatz.ExcursionExit.next_not_force_drop' depends on axioms: [propext, Quot.sound]
+ℹ [162/602] Replayed Collatz.Strategy.ExcursionNineK
+info: Collatz/Strategy/ExcursionNineK.lean:236:0: 'Collatz.ExcursionNineK.nine_k_split' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionNineK.lean:237:0: 'Collatz.ExcursionNineK.val2_eight_k' depends on axioms: [propext]
+info: Collatz/Strategy/ExcursionNineK.lean:238:0: 'Collatz.ExcursionNineK.val2_k_pred_pos' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionNineK.lean:239:0: 'Collatz.ExcursionNineK.val2_nine_k_of_pred_lt' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionNineK.lean:240:0: 'Collatz.ExcursionNineK.val2_nine_k_of_pred_gt' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionNineK.lean:241:0: 'Collatz.ExcursionNineK.val2_nine_k_of_pred_eq' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionNineK.lean:242:0: 'Collatz.ExcursionNineK.exists_val2_nine_k_of_pred_eq' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionNineK.lean:243:0: 'Collatz.ExcursionNineK.val2_nine_one' does not depend on any axioms
+info: Collatz/Strategy/ExcursionNineK.lean:244:0: 'Collatz.ExcursionNineK.next_v_eq_add' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionNineK.lean:245:0: 'Collatz.ExcursionNineK.next_v_of_pred_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionNineK.lean:246:0: 'Collatz.ExcursionNineK.next_v_of_pred_gt' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionNineK.lean:247:0: 'Collatz.ExcursionNineK.next_v_of_pred_eq' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionNineK.lean:248:0: 'Collatz.ExcursionNineK.next_v_of_k_one' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionNineK.lean:249:0: 'Collatz.ExcursionNineK.next_v_formula' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionNineK.lean:250:0: 'Collatz.ExcursionNineK.twenty_seven_is_k_one' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionNineK.lean:251:0: 'Collatz.ExcursionNineK.next_not_force_drop' depends on axioms: [propext, Quot.sound]
+ℹ [163/602] Replayed Collatz.Strategy.ExcursionClock
+info: Collatz/Strategy/ExcursionClock.lean:174:0: 'Collatz.ExcursionClock.light_iff_dvd' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionClock.lean:175:0: 'Collatz.ExcursionClock.val2_ge_four' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionClock.lean:176:0: 'Collatz.ExcursionClock.val2_landing' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionClock.lean:177:0: 'Collatz.ExcursionClock.not_second_light' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionClock.lean:178:0: 'Collatz.ExcursionClock.two_light_fuel' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionClock.lean:179:0: 'Collatz.ExcursionClock.exit_one_mod_four' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionClock.lean:180:0: 'Collatz.ExcursionClock.exit_three_mod_sixteen' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionClock.lean:181:0: 'Collatz.ExcursionClock.exit_seven_mod_eight' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionClock.lean:182:0: 'Collatz.ExcursionClock.exit_one_drops_landing' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionClock.lean:183:0: 'Collatz.ExcursionClock.exit_three_drops_landing' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [164/602] Replayed Collatz.Strategy.ExcursionPlusFive
+info: Collatz/Strategy/ExcursionPlusFive.lean:224:0: 'Collatz.ExcursionPlusFive.val2_of_v_one' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionPlusFive.lean:225:0: 'Collatz.ExcursionPlusFive.val2_of_v_ge_three' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionPlusFive.lean:226:0: 'Collatz.ExcursionPlusFive.val2_of_v_two' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionPlusFive.lean:227:0: 'Collatz.ExcursionPlusFive.val2_eq_one_iff' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionPlusFive.lean:228:0: 'Collatz.ExcursionPlusFive.val2_eq_two_iff' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionPlusFive.lean:229:0: 'Collatz.ExcursionPlusFive.val2_eq_three_iff' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionPlusFive.lean:230:0: 'Collatz.ExcursionPlusFive.val2_ge_four_iff' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionPlusFive.lean:231:0: 'Collatz.ExcursionPlusFive.lemmaX_of_val2_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionPlusFive.lean:232:0: 'Collatz.ExcursionPlusFive.lemmaX_of_val2_three' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionPlusFive.lean:233:0: 'Collatz.ExcursionPlusFive.collatz_of_lemmaX_plus_five' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [165/602] Replayed Collatz.Strategy.ExcursionLandTwo
+info: Collatz/Strategy/ExcursionLandTwo.lean:195:0: 'Collatz.ExcursionLandTwo.two_light_then_three_fuel' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionLandTwo.lean:196:0: 'Collatz.ExcursionLandTwo.e2_three_mod_sixteen' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionLandTwo.lean:197:0: 'Collatz.ExcursionLandTwo.landing_upper_of_v_two_W_ge_two' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionLandTwo.lean:198:0: 'Collatz.ExcursionLandTwo.two_light_clock' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionLandTwo.lean:199:0: 'Collatz.ExcursionLandTwo.compose_W_two_bound' depends on axioms: [propext]
+info: Collatz/Strategy/ExcursionLandTwo.lean:200:0: 'Collatz.ExcursionLandTwo.lemmaX_of_two_light_then_three' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [166/602] Replayed Collatz.Strategy.ExcursionLand
+info: Collatz/Strategy/ExcursionLand.lean:159:0: 'Collatz.ExcursionLand.land_three_mod_sixteen' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionLand.lean:160:0: 'Collatz.ExcursionLand.four_e'_le' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionLand.lean:161:0: 'Collatz.ExcursionLand.lemmaX_of_v_three_land_three' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [167/602] Replayed Collatz.Strategy.ExcursionRemTwo
+info: Collatz/Strategy/ExcursionRemTwo.lean:201:0: 'Collatz.ExcursionRemTwo.next_v_eq_four_of_pred_two' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionRemTwo.lean:202:0: 'Collatz.ExcursionRemTwo.eleven_le_of_v_two_W_one' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionRemTwo.lean:203:0: 'Collatz.ExcursionRemTwo.two_step_v_four' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionRemTwo.lean:204:0: 'Collatz.ExcursionRemTwo.landing_upper_of_v_four_W_ge_three' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionRemTwo.lean:205:0: 'Collatz.ExcursionRemTwo.lemmaX_of_rem_two_v_four' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionRemTwo.lean:206:0: 'Collatz.ExcursionRemTwo.lemmaX_of_pred_two' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionRemTwo.lean:207:0: 'Collatz.ExcursionRemTwo.nineteen_forty_seven_v_four_W_three' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionRemTwo.lean:208:0: 'Collatz.ExcursionRemTwo.twenty_seven_v_five' depends on axioms: [propext, Quot.sound]
+ℹ [168/602] Replayed Collatz.Strategy.ExcursionLandOne
+info: Collatz/Strategy/ExcursionLandOne.lean:200:0: 'Collatz.ExcursionLandOne.land_one_mod_four' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionLandOne.lean:201:0: 'Collatz.ExcursionLandOne.four_u'_of_v_one' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionLandOne.lean:202:0: 'Collatz.ExcursionLandOne.lemmaX_of_v_three_land_one_heavy' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionLandOne.lean:203:0: 'Collatz.ExcursionLandOne.grows_of_v_three_land_one_light' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionLandOne.lean:204:0: 'Collatz.ExcursionLandOne.dichotomy_land_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [169/602] Replayed Collatz.Strategy.ExcursionLandVal2
+info: Collatz/Strategy/ExcursionLandVal2.lean:314:0: 'Collatz.ExcursionLandVal2.land_two_mod_eight' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionLandVal2.lean:315:0: 'Collatz.ExcursionLandVal2.lemmaX_of_land_two_v_three' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionLandVal2.lean:316:0: 'Collatz.ExcursionLandVal2.grows_of_land_two_v_three_light' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionLandVal2.lean:317:0: 'Collatz.ExcursionLandVal2.dichotomy_land_two_v_three' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionLandVal2.lean:318:0: 'Collatz.ExcursionLandVal2.lemmaX_of_land_two_v_four' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionLandVal2.lean:319:0: 'Collatz.ExcursionLandVal2.grows_of_land_two_v_four_light' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionLandVal2.lean:320:0: 'Collatz.ExcursionLandVal2.dichotomy_land_two_v_four' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [170/602] Replayed Collatz.Strategy.ExcursionRemTwoLeft
+info: Collatz/Strategy/ExcursionRemTwoLeft.lean:320:0: 'Collatz.ExcursionRemTwoLeft.lemmaX_of_rem_two_v_three' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionRemTwoLeft.lean:321:0: 'Collatz.ExcursionRemTwoLeft.grows_of_rem_two_v_three_light' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionRemTwoLeft.lean:322:0: 'Collatz.ExcursionRemTwoLeft.dichotomy_rem_two_v_three' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionRemTwoLeft.lean:323:0: 'Collatz.ExcursionRemTwoLeft.lemmaX_of_rem_two_v_five' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionRemTwoLeft.lean:324:0: 'Collatz.ExcursionRemTwoLeft.grows_of_rem_two_v_five_light' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionRemTwoLeft.lean:325:0: 'Collatz.ExcursionRemTwoLeft.dichotomy_rem_two_v_five' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [171/602] Replayed Collatz.Strategy.ExcursionEleven
+info: Collatz/Strategy/ExcursionEleven.lean:262:0: 'Collatz.ExcursionEleven.thirty_two_dvd' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionEleven.lean:263:0: 'Collatz.ExcursionEleven.val2_ge_five' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionEleven.lean:264:0: 'Collatz.ExcursionEleven.val2_eleven_shift' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionEleven.lean:265:0: 'Collatz.ExcursionEleven.val2_landing' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionEleven.lean:266:0: 'Collatz.ExcursionEleven.not_second_light' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionEleven.lean:267:0: 'Collatz.ExcursionEleven.two_light_fuel' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionEleven.lean:268:0: 'Collatz.ExcursionEleven.exit_one_mod_four' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionEleven.lean:269:0: 'Collatz.ExcursionEleven.exit_one_is_v_one' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionEleven.lean:270:0: 'Collatz.ExcursionEleven.exit_three_mod_eight' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionEleven.lean:271:0: 'Collatz.ExcursionEleven.exit_two_is_v_two' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionEleven.lean:272:0: 'Collatz.ExcursionEleven.exit_fifteen_mod_sixteen' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionEleven.lean:273:0: 'Collatz.ExcursionEleven.exit_three_v_ge_four' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionEleven.lean:274:0: 'Collatz.ExcursionEleven.exit_twenty_three_mod_thirty_two' depends on axioms: [propext, Quot.sound]
+ℹ [172/602] Replayed Collatz.Strategy.ExcursionFourLight
+info: Collatz/Strategy/ExcursionFourLight.lean:810:0: 'Collatz.ExcursionFourLight.landing_u_of_v_four_W_one' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionFourLight.lean:811:0: 'Collatz.ExcursionFourLight.landing_n_of_v_four_W_one' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionFourLight.lean:812:0: 'Collatz.ExcursionFourLight.no_nat_clock' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionFourLight.lean:813:0: 'Collatz.ExcursionFourLight.two_adic_clock' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionFourLight.lean:814:0: 'Collatz.ExcursionFourLight.val2_ge_six' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionFourLight.lean:815:0: 'Collatz.ExcursionFourLight.val2_landing' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionFourLight.lean:816:0: 'Collatz.ExcursionFourLight.not_second_light' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionFourLight.lean:817:0: 'Collatz.ExcursionFourLight.two_light_fuel' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionFourLight.lean:818:0: 'Collatz.ExcursionFourLight.exit_one_mod_four' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionFourLight.lean:819:0: 'Collatz.ExcursionFourLight.exit_one_is_v_one' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionFourLight.lean:820:0: 'Collatz.ExcursionFourLight.exit_three_mod_eight' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionFourLight.lean:821:0: 'Collatz.ExcursionFourLight.exit_two_is_v_two' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionFourLight.lean:822:0: 'Collatz.ExcursionFourLight.exit_seven_mod_sixteen' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionFourLight.lean:823:0: 'Collatz.ExcursionFourLight.exit_three_is_v_three' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionFourLight.lean:824:0: 'Collatz.ExcursionFourLight.exit_thirty_one_mod_thirty_two' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionFourLight.lean:825:0: 'Collatz.ExcursionFourLight.lemmaX_of_v_four_land_one_heavy' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionFourLight.lean:826:0: 'Collatz.ExcursionFourLight.grows_of_v_four_land_one_light' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionFourLight.lean:827:0: 'Collatz.ExcursionFourLight.two_adic_clock_even_v' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionFourLight.lean:828:0: 'Collatz.ExcursionFourLight.no_nat_clock_even_v' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionFourLight.lean:829:0: 'Collatz.ExcursionFourLight.W_eq_one_of_even_v_u_three_mod_four' depends on axioms: [propext, Quot.sound]
+ℹ [173/602] Replayed Collatz.Strategy.ExcursionLightK
+info: Collatz/Strategy/ExcursionLightK.lean:923:0: 'Collatz.ExcursionLightK.two_light_then_one_fuel' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionLightK.lean:924:0: 'Collatz.ExcursionLightK.three_light_then_one_fuel' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionLightK.lean:925:0: 'Collatz.ExcursionLightK.three_light_then_three_fuel' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionLightK.lean:926:0: 'Collatz.ExcursionLightK.four_light_then_three_fuel' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionLightK.lean:927:0: 'Collatz.ExcursionLightK.five_light_then_three_fuel' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionLightK.lean:928:0: 'Collatz.ExcursionLightK.one_light_clock' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionLightK.lean:929:0: 'Collatz.ExcursionLightK.two_light_clock' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionLightK.lean:930:0: 'Collatz.ExcursionLightK.three_light_clock' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionLightK.lean:931:0: 'Collatz.ExcursionLightK.four_light_clock' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionLightK.lean:932:0: 'Collatz.ExcursionLightK.five_light_clock' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionLightK.lean:933:0: 'Collatz.ExcursionLightK.lemmaX_of_two_light_then_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionLightK.lean:934:0: 'Collatz.ExcursionLightK.lemmaX_of_three_light_then_one_heavy' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+info: Collatz/Strategy/ExcursionLightK.lean:935:0: 'Collatz.ExcursionLightK.grows_of_three_light_then_one_W_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionLightK.lean:936:0: 'Collatz.ExcursionLightK.dichotomy_three_light_then_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionLightK.lean:937:0: 'Collatz.ExcursionLightK.lemmaX_of_three_light_then_three' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionLightK.lean:938:0: 'Collatz.ExcursionLightK.lemmaX_of_four_light_then_three' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionLightK.lean:939:0: 'Collatz.ExcursionLightK.lemmaX_of_five_light_then_three_heavy' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+info: Collatz/Strategy/ExcursionLightK.lean:940:0: 'Collatz.ExcursionLightK.grows_of_five_light_then_three_W_two' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+info: Collatz/Strategy/ExcursionLightK.lean:941:0: 'Collatz.ExcursionLightK.dichotomy_five_light_then_three' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [174/602] Replayed Collatz.Strategy.ExcursionLandOneNext
+info: Collatz/Strategy/ExcursionLandOneNext.lean:610:0: 'Collatz.ExcursionLandOneNext.eight_e'_of_two_light' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionLandOneNext.lean:611:0: 'Collatz.ExcursionLandOneNext.u_nine_mod_sixteen' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionLandOneNext.lean:612:0: 'Collatz.ExcursionLandOneNext.two_pow_u''_of_third' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionLandOneNext.lean:613:0: 'Collatz.ExcursionLandOneNext.v_one_of_fuel_five' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionLandOneNext.lean:614:0: 'Collatz.ExcursionLandOneNext.lemmaX_of_two_light_v_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionLandOneNext.lean:615:0: 'Collatz.ExcursionLandOneNext.lemmaX_of_two_light_v_two' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionLandOneNext.lean:616:0: 'Collatz.ExcursionLandOneNext.grows_of_two_light_v_two_W_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionLandOneNext.lean:617:0: 'Collatz.ExcursionLandOneNext.dichotomy_two_light_v_two' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionLandOneNext.lean:618:0: 'Collatz.ExcursionLandOneNext.lemmaX_of_two_light_v_three' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionLandOneNext.lean:619:0: 'Collatz.ExcursionLandOneNext.grows_of_two_light_v_three_light' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+info: Collatz/Strategy/ExcursionLandOneNext.lean:620:0: 'Collatz.ExcursionLandOneNext.dichotomy_two_light_v_three' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionLandOneNext.lean:621:0: 'Collatz.ExcursionLandOneNext.seventy_one_three_step_grows' depends on axioms: [propext, Quot.sound]
+ℹ [175/602] Replayed Collatz.Strategy.ExcursionLyapunov
+info: Collatz/Strategy/ExcursionLyapunov.lean:447:0: 'Collatz.ExcursionLyapunov.lemmaX_of_strict_ranking' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionLyapunov.lean:448:0: 'Collatz.ExcursionLyapunov.not_joint_fuel' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionLyapunov.lean:449:0: 'Collatz.ExcursionLyapunov.not_plus_five_mixed' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionLyapunov.lean:450:0: 'Collatz.ExcursionLyapunov.not_plus_five_of_one_oh_three' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionLyapunov.lean:451:0: 'Collatz.ExcursionLyapunov.not_eleven_of_twenty_seven' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionLyapunov.lean:452:0: 'Collatz.ExcursionLyapunov.not_succ_of_twenty_seven' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionLyapunov.lean:453:0: 'Collatz.ExcursionLyapunov.not_three_n_one_of_seventy_one' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionLyapunov.lean:454:0: 'Collatz.ExcursionLyapunov.no_common_integer_clock' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionLyapunov.lean:455:0: 'Collatz.ExcursionLyapunov.not_u_succ_ranking' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionLyapunov.lean:456:0: 'Collatz.ExcursionLyapunov.not_gap_ranking' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionLyapunov.lean:457:0: 'Collatz.ExcursionLyapunov.lemmaX_still_open' depends on axioms: [propext, Quot.sound]
+ℹ [176/602] Replayed Collatz.Strategy.ExcursionTelescope
+info: Collatz/Strategy/ExcursionTelescope.lean:801:0: 'Collatz.ExcursionTelescope.two_step_landing' depends on axioms: [propext]
+info: Collatz/Strategy/ExcursionTelescope.lean:802:0: 'Collatz.ExcursionTelescope.drop_iff_two' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionTelescope.lean:803:0: 'Collatz.ExcursionTelescope.drop_iff_two_expanded' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionTelescope.lean:804:0: 'Collatz.ExcursionTelescope.three_step_landing' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionTelescope.lean:805:0: 'Collatz.ExcursionTelescope.drop_iff_three' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionTelescope.lean:806:0: 'Collatz.ExcursionTelescope.drop_iff_three_expanded' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionTelescope.lean:807:0: 'Collatz.ExcursionTelescope.drop_of_three_one_then_v_one_heavy' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+info: Collatz/Strategy/ExcursionTelescope.lean:808:0: 'Collatz.ExcursionTelescope.grows_of_three_one_then_one_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionTelescope.lean:809:0: 'Collatz.ExcursionTelescope.drop_of_three_one_one_one_then_v_one' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+info: Collatz/Strategy/ExcursionTelescope.lean:810:0: 'Collatz.ExcursionTelescope.drop_iff_two_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionTelescope.lean:811:0: 'Collatz.ExcursionTelescope.drop_of_two_one_then_v_four' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionTelescope.lean:812:0: 'Collatz.ExcursionTelescope.lemmaX_of_two_one_then_v_six' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionTelescope.lean:813:0: 'Collatz.ExcursionTelescope.drop_of_four_one_then_v_one_heavy' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+info: Collatz/Strategy/ExcursionTelescope.lean:814:0: 'Collatz.ExcursionTelescope.grows_of_four_one_then_one_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [177/602] Replayed Collatz.Strategy.ExcursionChain
+info: Collatz/Strategy/ExcursionChain.lean:515:0: 'Collatz.ExcursionChain.OpenRemainder' does not depend on any axioms
+info: Collatz/Strategy/ExcursionChain.lean:516:0: 'Collatz.ExcursionChain.lemmaX_of_eleven_fuel_five_heavy' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionChain.lean:517:0: 'Collatz.ExcursionChain.lemmaX_of_one_light_then_three' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionChain.lean:518:0: 'Collatz.ExcursionChain.collatz_of_open_remainder' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/ExcursionChain.lean:519:0: 'Collatz.ExcursionChain.open_remainder_in_plus_five' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExcursionChain.lean:520:0: 'Collatz.ExcursionChain.eleven_not_open' depends on axioms: [propext, Quot.sound]
+ℹ [178/602] Replayed Collatz.Strategy.DeviceCollision
+info: Collatz/Strategy/DeviceCollision.lean:481:0: 'Collatz.DeviceCollision.odd_succ_step' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DeviceCollision.lean:482:0: 'Collatz.DeviceCollision.expStep_succ_of_odd' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DeviceCollision.lean:483:0: 'Collatz.DeviceCollision.expStep_ne_odd_succ_step' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DeviceCollision.lean:484:0: 'Collatz.DeviceCollision.two_step_one_mod_four' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DeviceCollision.lean:485:0: 'Collatz.DeviceCollision.two_step_three_mod_four' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DeviceCollision.lean:486:0: 'Collatz.DeviceCollision.affine_pair' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DeviceCollision.lean:487:0: 'Collatz.DeviceCollision.partner_is_cofactor' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DeviceCollision.lean:488:0: 'Collatz.DeviceCollision.peak_vs_partner' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DeviceCollision.lean:489:0: 'Collatz.DeviceCollision.exp_pair_stays_shift' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DeviceCollision.lean:490:0: 'Collatz.DeviceCollision.no_landing_collision_of_light' depends on axioms: [propext, Quot.sound]
+ℹ [182/602] Replayed Collatz.Strategy.DeviceCocycle
+info: Collatz/Strategy/DeviceCocycle.lean:323:0: 'Collatz.DeviceCocycle.injCount_add' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DeviceCocycle.lean:324:0: 'Collatz.DeviceCocycle.injCount_eq_zero_of_low_window' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/DeviceCocycle.lean:325:0: 'Collatz.DeviceCocycle.inj_not_class_potential' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DeviceCocycle.lean:326:0: 'Collatz.DeviceCocycle.injCount_one' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DeviceCocycle.lean:327:0: 'Collatz.DeviceCocycle.expStep_even_not_three_dvd_succ' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DeviceCocycle.lean:328:0: 'Collatz.DeviceCocycle.odd_step_mod_three' depends on axioms: [propext, Quot.sound]
+⚠ [183/602] Replayed Collatz.Strategy.DeviceReservoir
+warning: Collatz/Strategy/DeviceReservoir.lean:369:10: This simp argument is unused:
+  Nat.mul_assoc
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_comm, Nat.mul_left_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+info: Collatz/Strategy/DeviceReservoir.lean:489:0: 'Collatz.DeviceReservoir.exists_reservoir' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DeviceReservoir.lean:490:0: 'Collatz.DeviceReservoir.reservoir_even' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DeviceReservoir.lean:491:0: 'Collatz.DeviceReservoir.reservoir_of_excursion' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DeviceReservoir.lean:492:0: 'Collatz.DeviceReservoir.next_v_of_reservoir_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/DeviceReservoir.lean:493:0: 'Collatz.DeviceReservoir.next_v_of_lte_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/DeviceReservoir.lean:494:0: 'Collatz.DeviceReservoir.next_v_ge_of_collision' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/DeviceReservoir.lean:495:0: 'Collatz.DeviceReservoir.reservoir_odd_continue' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DeviceReservoir.lean:496:0: 'Collatz.DeviceReservoir.same_word_different_reservoir' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DeviceReservoir.lean:497:0: 'Collatz.DeviceReservoir.expStep_breaks_reservoir' depends on axioms: [propext, Quot.sound]
+ℹ [184/602] Replayed Collatz.Strategy.DevicePrimeFlow
+info: Collatz/Strategy/DevicePrimeFlow.lean:523:0: 'Collatz.DevicePrimeFlow.flow_minus' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DevicePrimeFlow.lean:524:0: 'Collatz.DevicePrimeFlow.flow_plus' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DevicePrimeFlow.lean:525:0: 'Collatz.DevicePrimeFlow.thirteen_flow_of_v_three' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DevicePrimeFlow.lean:526:0: 'Collatz.DevicePrimeFlow.five_drop_of_v_four' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DevicePrimeFlow.lean:527:0: 'Collatz.DevicePrimeFlow.thirteen_drop_of_v_three' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DevicePrimeFlow.lean:528:0: 'Collatz.DevicePrimeFlow.gcd_n_three_n_succ' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DevicePrimeFlow.lean:529:0: 'Collatz.DevicePrimeFlow.collatz_kills_odd_prime' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DevicePrimeFlow.lean:530:0: 'Collatz.DevicePrimeFlow.five_mixed_under_three_n_succ' depends on axioms: [propext]
+ℹ [185/602] Replayed Collatz.Strategy.DeviceFutureCone
+info: Collatz/Strategy/DeviceFutureCone.lean:503:0: 'Collatz.DeviceFutureCone.WLift_nested' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DeviceFutureCone.lean:504:0: 'Collatz.DeviceFutureCone.WLift_not_singleton' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DeviceFutureCone.lean:505:0: 'Collatz.DeviceFutureCone.WLift_ge_of_le' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DeviceFutureCone.lean:506:0: 'Collatz.DeviceFutureCone.WLift_unique_of_gt' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DeviceFutureCone.lean:507:0: 'Collatz.DeviceFutureCone.five_blocks_one_one' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DeviceFutureCone.lean:508:0: 'Collatz.DeviceFutureCone.thirteen_rank_eq_three' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DeviceFutureCone.lean:509:0: 'Collatz.DeviceFutureCone.no_letter_of_three_dvd' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DeviceFutureCone.lean:510:0: 'Collatz.DeviceFutureCone.Q_constrains_future' depends on axioms: [propext, Quot.sound]
+⚠ [187/602] Replayed Collatz.Strategy.AffineDeficit
+warning: Collatz/Strategy/AffineDeficit.lean:200:42: Variable name `hm` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hm
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Collatz/Strategy/AffineDeficit.lean:216:48: Variable name `hm` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hm
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [189/602] Replayed Collatz.Strategy.DeviceSwap
+warning: Collatz/Strategy/DeviceSwap.lean:309:29: Variable name `hw` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hw
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Collatz/Strategy/DeviceSwap.lean:333:54: Variable name `hpos` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hpos
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [198/602] Replayed Collatz.Strategy.BranchingDuality
+warning: Collatz/Strategy/BranchingDuality.lean:98:43: This simp argument is unused:
+  Nat.mul_assoc
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_comm, Nat.mul_left_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [200/602] Replayed Collatz.Strategy.SwapForm
+warning: Collatz/Strategy/SwapForm.lean:140:43: Variable name `ha` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _ha
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [204/602] Replayed Collatz.Strategy.HarvestSplit
+warning: Collatz/Strategy/HarvestSplit.lean:84:50: Variable name `h1` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _h1
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Collatz/Strategy/HarvestSplit.lean:91:54: Variable name `h1` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _h1
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [205/602] Replayed Collatz.Strategy.SizePerturbation
+warning: Collatz/Strategy/SizePerturbation.lean:103:26: This simp argument is unused:
+  Nat.mul_left_comm
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_comm, Nat.mul_assoc]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Collatz/Strategy/SizePerturbation.lean:113:45: This simp argument is unused:
+  Nat.mul_assoc
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_comm, Nat.mul_left_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Collatz/Strategy/SizePerturbation.lean:126:22: This simp argument is unused:
+  Nat.mul_left_comm
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_comm, Nat.mul_assoc]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [206/602] Replayed Collatz.Strategy.CouplingDead
+warning: Collatz/Strategy/CouplingDead.lean:93:22: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+⚠ [207/602] Replayed Collatz.Strategy.GhostHeight
+warning: Collatz/Strategy/GhostHeight.lean:75:47: Variable name `hG` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hG
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [208/602] Replayed Collatz.Strategy.ProductMax
+warning: Collatz/Strategy/ProductMax.lean:128:49: This simp argument is unused:
+  Nat.mul_assoc
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_comm, Nat.mul_left_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Collatz/Strategy/ProductMax.lean:140:53: This simp argument is unused:
+  Nat.mul_assoc
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_comm, Nat.mul_left_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ℹ [212/602] Replayed Collatz.Strategy.EscapeSchema
+info: Collatz/Strategy/EscapeSchema.lean:140:0: 'Collatz.EscapeSchema.no_escape' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/EscapeSchema.lean:141:0: 'Collatz.EscapeSchema.escapeSchema_iff_conjecture' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [213/602] Replayed Collatz.Strategy.LiteratureGaps
+info: Collatz/Strategy/LiteratureGaps.lean:293:0: 'Collatz.LiteratureGaps.treeCoversAll_iff_conjecture' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/LiteratureGaps.lean:294:0: 'Collatz.LiteratureGaps.stoppingTime_iff_conjecture' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/LiteratureGaps.lean:295:0: 'Collatz.LiteratureGaps.three_n_minus_one_has_cycle' does not depend on any axioms
+info: Collatz/Strategy/LiteratureGaps.lean:296:0: 'Collatz.LiteratureGaps.three_n_minus_one_tree_misses_five' does not depend on any axioms
+ℹ [214/602] Replayed Collatz.Strategy.PeriodicValuations
+info: Collatz/Strategy/PeriodicValuations.lean:330:0: 'Collatz.PeriodicValuations.geom_run_bound' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/PeriodicValuations.lean:331:0: 'Collatz.PeriodicValuations.affine_const' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/PeriodicValuations.lean:332:0: 'Collatz.PeriodicValuations.one_cycle_test' does not depend on any axioms
+info: Collatz/Strategy/PeriodicValuations.lean:333:0: 'Collatz.PeriodicValuations.run_end_valuation_exactly_one' depends on axioms: [propext, Quot.sound]
+ℹ [215/602] Replayed Collatz.Strategy.CoefficientStopping
+info: Collatz/Strategy/CoefficientStopping.lean:213:0: 'Collatz.CoefficientStopping.orbit_identity' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/CoefficientStopping.lean:214:0: 'Collatz.CoefficientStopping.no_drop_of_coeff_le' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/CoefficientStopping.lean:215:0: 'Collatz.CoefficientStopping.cycle_coeff_gt' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/CoefficientStopping.lean:216:0: 'Collatz.CoefficientStopping.no_cycle_of_cstHard' depends on axioms: [propext, Classical.choice, Quot.sound]
+⚠ [223/602] Replayed Collatz.Papers.MathlibCopied
+warning: Collatz/Papers/MathlibCopied.lean:45:4: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: Collatz/Papers/MathlibCopied.lean:64:53: This simp argument is unused:
+  zero_mul
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Rat.neg_add_cancel]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [423/649] Replayed Collatz.Strategy.AccumulatorArith
+warning: Collatz/Strategy/AccumulatorArith.lean:129:24: This simp argument is unused:
+  Nat.mul_assoc
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_comm, Nat.mul_left_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [426/649] Replayed Collatz.Strategy.StairBound
+warning: Collatz/Strategy/StairBound.lean:182:12: This simp argument is unused:
+  Nat.mul_comm
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_left_comm, Nat.mul_assoc]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [427/649] Replayed Collatz.Strategy.StairThree
+warning: Collatz/Strategy/StairThree.lean:108:12: This simp argument is unused:
+  Nat.mul_comm
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_left_comm, Nat.mul_assoc]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [428/649] Replayed Collatz.Strategy.HalbeisenHungerbuhler
+warning: Collatz/Strategy/HalbeisenHungerbuhler.lean:201:5: Variable name `hgap` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hgap
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [431/649] Replayed Collatz.Strategy.OrbitProduct
+warning: Collatz/Strategy/OrbitProduct.lean:204:24: This simp argument is unused:
+  Nat.mul_left_comm
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_comm, Nat.mul_assoc]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Collatz/Strategy/OrbitProduct.lean:214:24: This simp argument is unused:
+  Nat.mul_left_comm
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_comm, Nat.mul_assoc]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [432/649] Replayed Collatz.Strategy.SortedStair
+warning: Collatz/Strategy/SortedStair.lean:64:43: This simp argument is unused:
+  Nat.mul_assoc
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_comm, Nat.mul_left_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Collatz/Strategy/SortedStair.lean:77:43: This simp argument is unused:
+  Nat.mul_assoc
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_comm, Nat.mul_left_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [434/649] Replayed Collatz.Strategy.NoFiniteRanking
+warning: Collatz/Strategy/NoFiniteRanking.lean:91:46: Variable name `hs` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hs
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Collatz/Strategy/NoFiniteRanking.lean:103:35: This simp argument is unused:
+  Nat.mul_assoc
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_comm, Nat.mul_left_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [439/649] Replayed Collatz.Strategy.Paradoxical
+warning: Collatz/Strategy/Paradoxical.lean:408:47: Variable name `hq` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hq
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+ℹ [464/649] Replayed Collatz.Strategy.OrderBox
+info: Collatz/Strategy/OrderBox.lean:146:0: 'Collatz.OrderBox.Cw_id' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/OrderBox.lean:147:0: 'Collatz.OrderBox.Cw_id_le' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/OrderBox.lean:148:0: 'Collatz.OrderBox.Cw_sandwich' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/OrderBox.lean:149:0: 'Collatz.OrderBox.Cw_eq_bottom_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [467/649] Replayed Collatz.Strategy.EscapeCertificate
+info: Collatz/Strategy/EscapeCertificate.lean:714:0: 'Collatz.EscapeCertificate.rank_target_collapses' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/EscapeCertificate.lean:715:0: 'Collatz.EscapeCertificate.rank_iff_halting' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/EscapeCertificate.lean:716:0: 'Collatz.EscapeCertificate.collatz_iff_rank' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/EscapeCertificate.lean:717:0: 'Collatz.EscapeCertificate.no_wqo_divergence_filter' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/EscapeCertificate.lean:718:0: 'Collatz.EscapeCertificate.mixed_block_self_loop' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/EscapeCertificate.lean:719:0: 'Collatz.EscapeCertificate.no_mixed_sct' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/EscapeCertificate.lean:720:0: 'Collatz.EscapeCertificate.no_antitone_certificate_on_divergent' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+info: Collatz/Strategy/EscapeCertificate.lean:721:0: 'Collatz.EscapeCertificate.barrier_complete' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/EscapeCertificate.lean:722:0: 'Collatz.EscapeCertificate.divergent_record_steps_odd' depends on axioms: [propext, Quot.sound]
+ℹ [468/649] Replayed Collatz.Strategy.BottomUnreachable
+info: Collatz/Strategy/BottomUnreachable.lean:123:0: 'Collatz.BottomUnreachable.bottom_unreachable' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/BottomUnreachable.lean:124:0: 'Collatz.BottomUnreachable.no_visit_below_1000' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/BottomUnreachable.lean:125:0: 'Collatz.BottomUnreachable.reaches_of_bottom_visit' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [470/649] Replayed Collatz.Strategy.BcapSharp
+info: Collatz/Strategy/BcapSharp.lean:452:0: 'Collatz.BcapSharp.heavy_of_box' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/BcapSharp.lean:453:0: 'Collatz.BcapSharp.corner_heavy' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/BcapSharp.lean:454:0: 'Collatz.BcapSharp.tSub_strictInc' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/BcapSharp.lean:455:0: 'Collatz.BcapSharp.tSub_heavy' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/BcapSharp.lean:456:0: 'Collatz.BcapSharp.Cw_tSub_add_loss' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/BcapSharp.lean:457:0: 'Collatz.BcapSharp.Bcap_lower' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/BcapSharp.lean:458:0: 'Collatz.BcapSharp.loss_upper' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/BcapSharp.lean:459:0: 'Collatz.BcapSharp.loss_le' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/BcapSharp.lean:460:0: 'Collatz.BcapSharp.sharp' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/BcapSharp.lean:461:0: 'Collatz.BcapSharp.tSub_injective' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/BcapSharp.lean:462:0: 'Collatz.BcapSharp.S2_adm' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/BcapSharp.lean:463:0: 'Collatz.BcapSharp.S2_sharp' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/BcapSharp.lean:464:0: 'Collatz.BcapSharp.minPhase_of_heavy' does not depend on any axioms
+info: Collatz/Strategy/BcapSharp.lean:465:0: 'Collatz.BcapSharp.step_odd_mod_three' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/BcapSharp.lean:466:0: 'Collatz.BcapSharp.leaf_vacuous' depends on axioms: [propext, Quot.sound]
+⚠ [478/649] Replayed Collatz.Strategy.ExclusionRatio
+warning: Collatz/Strategy/ExclusionRatio.lean:142:42: Variable name `hdev` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hdev
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [519/918] Replayed Collatz.Strategy.SortStair
+warning: Collatz/Strategy/SortStair.lean:81:12: This simp argument is unused:
+  Nat.mul_comm
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_left_comm, Nat.mul_assoc]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Collatz/Strategy/SortStair.lean:81:45: This simp argument is unused:
+  Nat.mul_assoc
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_comm, Nat.mul_left_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Collatz/Strategy/SortStair.lean:94:45: This simp argument is unused:
+  Nat.mul_assoc
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_comm, Nat.mul_left_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Collatz/Strategy/SortStair.lean:254:10: This simp argument is unused:
+  Nat.mul_comm
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_left_comm, Nat.mul_assoc]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [523/918] Replayed Collatz.Strategy.FrontierParametric
+warning: Collatz/Strategy/FrontierParametric.lean:87:40: exponent 6808 exceeds the threshold 256, exponentiation operation was not evaluated, use `set_option exponentiation.threshold <num>` to set a new threshold
+warning: Collatz/Strategy/FrontierParametric.lean:103:27: exponent 7862 exceeds the threshold 256, exponentiation operation was not evaluated, use `set_option exponentiation.threshold <num>` to set a new threshold
+warning: Collatz/Strategy/FrontierParametric.lean:111:27: exponent 8916 exceeds the threshold 256, exponentiation operation was not evaluated, use `set_option exponentiation.threshold <num>` to set a new threshold
+warning: Collatz/Strategy/FrontierParametric.lean:119:27: exponent 9970 exceeds the threshold 256, exponentiation operation was not evaluated, use `set_option exponentiation.threshold <num>` to set a new threshold
+warning: Collatz/Strategy/FrontierParametric.lean:127:27: exponent 11024 exceeds the threshold 256, exponentiation operation was not evaluated, use `set_option exponentiation.threshold <num>` to set a new threshold
+warning: Collatz/Strategy/FrontierParametric.lean:135:27: exponent 12078 exceeds the threshold 256, exponentiation operation was not evaluated, use `set_option exponentiation.threshold <num>` to set a new threshold
+warning: Collatz/Strategy/FrontierParametric.lean:143:27: exponent 13132 exceeds the threshold 256, exponentiation operation was not evaluated, use `set_option exponentiation.threshold <num>` to set a new threshold
+warning: Collatz/Strategy/FrontierParametric.lean:154:27: exponent 14186 exceeds the threshold 256, exponentiation operation was not evaluated, use `set_option exponentiation.threshold <num>` to set a new threshold
+ℹ [525/918] Replayed Collatz.Strategy.Discrepancy
+info: Collatz/Strategy/Discrepancy.lean:704:0: 'Collatz.Discrepancy.bridge_two_sided' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/Discrepancy.lean:705:0: 'Collatz.Discrepancy.disc_forces_order_any' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/Discrepancy.lean:706:0: 'Collatz.Discrepancy.dwidth_lt_disc_argmax' depends on axioms: [propext, Classical.choice, Quot.sound]
+⚠ [526/918] Replayed Collatz.Strategy.MersenneLower
+warning: Collatz/Strategy/MersenneLower.lean:238:83: exponent 1054 exceeds the threshold 256, exponentiation operation was not evaluated, use `set_option exponentiation.threshold <num>` to set a new threshold
+ℹ [531/918] Replayed Collatz.Strategy.CouplingNormal
+info: Collatz/Strategy/CouplingNormal.lean:152:0: 'Collatz.CouplingNormal.one_add_coupling' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/CouplingNormal.lean:153:0: 'Collatz.CouplingNormal.coupling_multiplicative' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/CouplingNormal.lean:154:0: 'Collatz.CouplingNormal.cycle_total_coupling' depends on axioms: [propext, Quot.sound]
+ℹ [532/918] Replayed Collatz.Strategy.CouplingDecay
+info: Collatz/Strategy/CouplingDecay.lean:435:0: 'Collatz.CouplingDecay.step_odd' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/CouplingDecay.lean:436:0: 'Collatz.CouplingDecay.orbit_floor' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/CouplingDecay.lean:437:0: 'Collatz.CouplingDecay.window_bound' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/CouplingDecay.lean:438:0: 'Collatz.CouplingDecay.cycle_coupling_period' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/CouplingDecay.lean:439:0: 'Collatz.CouplingDecay.trivial_cycle_coupling' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/CouplingDecay.lean:440:0: 'Collatz.CouplingDecay.octave_sojourn' depends on axioms: [propext, Quot.sound]
+ℹ [535/918] Replayed Collatz.Strategy.GapVector
+info: Collatz/Strategy/GapVector.lean:247:0: 'Collatz.GapVector.fexp_step' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/GapVector.lean:248:0: 'Collatz.GapVector.gapC_le_Bcap' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/GapVector.lean:249:0: 'Collatz.GapVector.gapC_beatty' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/GapVector.lean:250:0: 'Collatz.GapVector.beattyGap_le_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/GapVector.lean:251:0: 'Collatz.GapVector.three_Bcap_le' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/GapVector.lean:252:0: 'Collatz.GapVector.Bcap_pinned' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/GapVector.lean:253:0: 'Collatz.GapVector.ban_zeros_le' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/GapVector.lean:254:0: 'Collatz.GapVector.ban_length' depends on axioms: [propext, Quot.sound]
+⚠ [646/1090] Replayed Collatz.Strategy.AccumulatorSharp
+warning: Collatz/Strategy/AccumulatorSharp.lean:71:14: This simp argument is unused:
+  Nat.mul_comm
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_left_comm, Nat.mul_assoc]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ℹ [651/1090] Replayed Collatz.Strategy.Coupling
+info: Collatz/Strategy/Coupling.lean:196:0: 'Collatz.Coupling.coupling_collapses' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/Coupling.lean:197:0: 'Collatz.Coupling.collapse_iff_cycle' does not depend on any axioms
+info: Collatz/Strategy/Coupling.lean:198:0: 'Collatz.Coupling.point_determined' depends on axioms: [propext, Quot.sound]
+⚠ [888/1483] Replayed Collatz.Strategy.StairGap
+warning: Collatz/Strategy/StairGap.lean:116:2: exponent 665 exceeds the threshold 256, exponentiation operation was not evaluated, use `set_option exponentiation.threshold <num>` to set a new threshold
+warning: Collatz/Strategy/StairGap.lean:166:21: exponent 665 exceeds the threshold 256, exponentiation operation was not evaluated, use `set_option exponentiation.threshold <num>` to set a new threshold
+warning: Collatz/Strategy/StairGap.lean:200:23: exponent 665 exceeds the threshold 256, exponentiation operation was not evaluated, use `set_option exponentiation.threshold <num>` to set a new threshold
+warning: Collatz/Strategy/StairGap.lean:220:49: Variable name `hW` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hW
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Collatz/Strategy/StairGap.lean:365:26: exponent 1054 exceeds the threshold 256, exponentiation operation was not evaluated, use `set_option exponentiation.threshold <num>` to set a new threshold
+warning: Collatz/Strategy/StairGap.lean:379:28: exponent 1054 exceeds the threshold 256, exponentiation operation was not evaluated, use `set_option exponentiation.threshold <num>` to set a new threshold
+warning: Collatz/Strategy/StairGap.lean:403:32: exponent 1054 exceeds the threshold 256, exponentiation operation was not evaluated, use `set_option exponentiation.threshold <num>` to set a new threshold
+warning: Collatz/Strategy/StairGap.lean:424:2: exponent 1054 exceeds the threshold 256, exponentiation operation was not evaluated, use `set_option exponentiation.threshold <num>` to set a new threshold
+warning: Collatz/Strategy/StairGap.lean:488:29: exponent 1054 exceeds the threshold 256, exponentiation operation was not evaluated, use `set_option exponentiation.threshold <num>` to set a new threshold
+⚠ [891/1483] Replayed Collatz.Strategy.ArchimedeanCeiling
+warning: Collatz/Strategy/ArchimedeanCeiling.lean:137:38: Variable name `hN` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hN
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [892/1483] Replayed Collatz.Strategy.RepetitionDescent
+warning: Collatz/Strategy/RepetitionDescent.lean:220:52: This simp argument is unused:
+  Nat.mul_left_comm
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_add, Nat.add_mul, Nat.mul_comm, Nat.mul_assoc, Nat.add_comm, Nat.add_left_comm, Nat.add_assoc]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Collatz/Strategy/RepetitionDescent.lean:221:23: This simp argument is unused:
+  Nat.add_comm
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_add, Nat.add_mul, Nat.mul_comm, Nat.mul_left_comm, Nat.mul_assoc, Nat.add_left_comm,
+    Nat.add_assoc]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Collatz/Strategy/RepetitionDescent.lean:221:37: This simp argument is unused:
+  Nat.add_left_comm
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_add, Nat.add_mul, Nat.mul_comm, Nat.mul_left_comm, Nat.mul_assoc, Nat.add_comm, Nat.add_assoc]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Collatz/Strategy/RepetitionDescent.lean:227:12: This simp argument is unused:
+  Nat.mul_add
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.add_mul, Nat.mul_comm, Nat.mul_left_comm, Nat.mul_assoc, Nat.add_comm, Nat.add_left_comm,
+    Nat.add_assoc]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Collatz/Strategy/RepetitionDescent.lean:227:52: This simp argument is unused:
+  Nat.mul_left_comm
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_add, Nat.add_mul, Nat.mul_comm, Nat.mul_assoc, Nat.add_comm, Nat.add_left_comm, Nat.add_assoc]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Collatz/Strategy/RepetitionDescent.lean:228:23: This simp argument is unused:
+  Nat.add_comm
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_add, Nat.add_mul, Nat.mul_comm, Nat.mul_left_comm, Nat.mul_assoc, Nat.add_left_comm,
+    Nat.add_assoc]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Collatz/Strategy/RepetitionDescent.lean:228:37: This simp argument is unused:
+  Nat.add_left_comm
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_add, Nat.add_mul, Nat.mul_comm, Nat.mul_left_comm, Nat.mul_assoc, Nat.add_comm, Nat.add_assoc]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Collatz/Strategy/RepetitionDescent.lean:228:56: This simp argument is unused:
+  Nat.add_assoc
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_add, Nat.add_mul, Nat.mul_comm, Nat.mul_left_comm, Nat.mul_assoc, Nat.add_comm,
+    Nat.add_left_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Collatz/Strategy/RepetitionDescent.lean:277:21: This simp argument is unused:
+  Nat.add_mul
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_add, Nat.mul_comm, Nat.mul_left_comm, Nat.mul_assoc, Nat.add_comm, Nat.add_left_comm,
+    Nat.add_assoc]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Collatz/Strategy/RepetitionDescent.lean:277:67: This simp argument is unused:
+  Nat.mul_assoc
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_add, Nat.add_mul, Nat.mul_comm, Nat.mul_left_comm, Nat.add_comm, Nat.add_left_comm,
+    Nat.add_assoc]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ℹ [893/1483] Replayed Collatz.Strategy.Linearizing
+info: Collatz/Strategy/Linearizing.lean:120:0: 'Collatz.Linearizing.factorisation' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/Linearizing.lean:121:0: 'Collatz.Linearizing.coupling_monotone' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/Linearizing.lean:122:0: 'Collatz.Linearizing.coupling_odd' depends on axioms: [propext, Quot.sound]
+ℹ [894/1483] Replayed Collatz.Strategy.CutGame
+info: Collatz/Strategy/CutGame.lean:387:0: 'Collatz.CutGame.pwins_iff_neverDrops' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/CutGame.lean:388:0: 'Collatz.CutGame.collatz_iff_no_pwins' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/CutGame.lean:389:0: 'Collatz.CutGame.awins_not_pwins' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/CutGame.lean:390:0: 'Collatz.CutGame.collatz_of_frontier' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/CutGame.lean:391:0: 'Collatz.CutGame.escape_cost' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/CutGame.lean:392:0: 'Collatz.CutGame.finMem_ultimately_periodic' depends on axioms: [propext, Quot.sound]
+ℹ [895/1483] Replayed Collatz.Strategy.TropicalDefect
+info: Collatz/Strategy/TropicalDefect.lean:458:0: 'Collatz.TropicalDefect.trop_sandwich' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/TropicalDefect.lean:459:0: 'Collatz.TropicalDefect.trop_error_is_min' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/TropicalDefect.lean:460:0: 'Collatz.TropicalDefect.trop_within_one_bit_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/TropicalDefect.lean:461:0: 'Collatz.TropicalDefect.trop_scaling' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/TropicalDefect.lean:462:0: 'Collatz.TropicalDefect.word_determines' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/TropicalDefect.lean:463:0: 'Collatz.TropicalDefect.coupling_determined_by_scale' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/TropicalDefect.lean:464:0: 'Collatz.TropicalDefect.coupling_d_blind' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/TropicalDefect.lean:465:0: 'Collatz.TropicalDefect.genU_cap' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/TropicalDefect.lean:466:0: 'Collatz.TropicalDefect.normal_form' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/TropicalDefect.lean:467:0: 'Collatz.TropicalDefect.light_bounds_start' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/TropicalDefect.lean:468:0: 'Collatz.TropicalDefect.no_light_scale_generalised' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/TropicalDefect.lean:469:0: 'Collatz.TropicalDefect.light_forces_thirty_three' depends on axioms: [propext, Quot.sound]
+ℹ [896/1483] Replayed Collatz.Strategy.SegmentMonoid
+info: Collatz/Strategy/SegmentMonoid.lean:275:0: 'Collatz.SegmentMonoid.segment_compose' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/SegmentMonoid.lean:276:0: 'Collatz.SegmentMonoid.rank_compose' depends on axioms: [propext]
+info: Collatz/Strategy/SegmentMonoid.lean:277:0: 'Collatz.SegmentMonoid.block_ratio_window' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/SegmentMonoid.lean:278:0: 'Collatz.SegmentMonoid.floor_coupling' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/SegmentMonoid.lean:279:0: 'Collatz.SegmentMonoid.cycle_frontier' depends on axioms: [propext, Quot.sound]
+ℹ [897/1483] Replayed Collatz.Strategy.DeviceHybrid
+info: Collatz/Strategy/DeviceHybrid.lean:249:0: 'Collatz.DeviceHybrid.corona_highPart' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DeviceHybrid.lean:250:0: 'Collatz.DeviceHybrid.corona_orbit' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DeviceHybrid.lean:251:0: 'Collatz.DeviceHybrid.expansion_localizes' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DeviceHybrid.lean:252:0: 'Collatz.DeviceHybrid.stronglyLight_of_mantissa' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DeviceHybrid.lean:253:0: 'Collatz.DeviceHybrid.light_window_drops' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/DeviceHybrid.lean:254:0: 'Collatz.DeviceHybrid.light_corona_drops' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/DeviceHybrid.lean:255:0: 'Collatz.DeviceHybrid.light_pinch_drops' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/DeviceHybrid.lean:256:0: 'Collatz.DeviceHybrid.expStep_fails_corona_drop' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [1314/2025] Replayed Collatz.Strategy.ExtensionClass
+info: Collatz/Strategy/ExtensionClass.lean:347:0: 'Collatz.ExtensionClass.transfer_eq' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExtensionClass.lean:348:0: 'Collatz.ExtensionClass.splits_iff_dvd' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ExtensionClass.lean:349:0: 'Collatz.ExtensionClass.class_scales' depends on axioms: [propext]
+info: Collatz/Strategy/ExtensionClass.lean:350:0: 'Collatz.ExtensionClass.bounded_tower' depends on axioms: [propext]
+info: Collatz/Strategy/ExtensionClass.lean:351:0: 'Collatz.ExtensionClass.tower_global_section' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [1315/2025] Replayed Collatz.Strategy.DigitAutomaton
+info: Collatz/Strategy/DigitAutomaton.lean:203:0: 'Collatz.DigitAutomaton.low_digits_iff_word' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DigitAutomaton.lean:204:0: 'Collatz.DigitAutomaton.word_eq_iff_mod' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/DigitAutomaton.lean:205:0: 'Collatz.DigitAutomaton.stopping_two_pow' depends on axioms: [propext, Quot.sound]
+ℹ [1317/2025] Replayed Collatz.Strategy.ScaleFibre
+info: Collatz/Strategy/ScaleFibre.lean:254:0: 'Collatz.ScaleFibre.fibre_affine' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ScaleFibre.lean:255:0: 'Collatz.ScaleFibre.residual_injective' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ScaleFibre.lean:256:0: 'Collatz.ScaleFibre.order_word_determined' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/ScaleFibre.lean:257:0: 'Collatz.ScaleFibre.drop_of_scale' depends on axioms: [propext, Quot.sound]
+ℹ [1318/2025] Replayed Collatz.Strategy.HighScaleWord
+info: Collatz/Strategy/HighScaleWord.lean:343:0: 'Collatz.HighScaleWord.counterexample_word_budget' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/HighScaleWord.lean:344:0: 'Collatz.HighScaleWord.budget_admits_4701' does not depend on any axioms
+info: Collatz/Strategy/HighScaleWord.lean:345:0: 'Collatz.HighScaleWord.budget_excludes_3647' does not depend on any axioms
+info: Collatz/Strategy/HighScaleWord.lean:346:0: 'Collatz.HighScaleWord.budget_cleared' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/HighScaleWord.lean:347:0: 'Collatz.HighScaleWord.budget_iff_ladder_at_2n' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Collatz/Strategy/HighScaleWord.lean:348:0: 'Collatz.HighScaleWord.budget_slack' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/HighScaleWord.lean:349:0: 'Collatz.HighScaleWord.budget_vacuous_at_2172928' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/HighScaleWord.lean:350:0: 'Collatz.HighScaleWord.excluded_of_short' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/HighScaleWord.lean:351:0: 'Collatz.HighScaleWord.octave_representative' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/HighScaleWord.lean:352:0: 'Collatz.HighScaleWord.octave_word_free' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/HighScaleWord.lean:353:0: 'Collatz.HighScaleWord.word_free_above_verified' depends on axioms: [propext, Quot.sound]
+ℹ [1912/2027] Replayed Collatz.Strategy.CyclicOrder
+info: Collatz/Strategy/CyclicOrder.lean:458:0: 'Collatz.CyclicOrder.walk_shift' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/CyclicOrder.lean:459:0: 'Collatz.CyclicOrder.walk_period' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/CyclicOrder.lean:460:0: 'Collatz.CyclicOrder.walk_range' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/CyclicOrder.lean:461:0: 'Collatz.CyclicOrder.walk_range'' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/CyclicOrder.lean:462:0: 'Collatz.CyclicOrder.walk_amplitude_invariant' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/CyclicOrder.lean:463:0: 'Collatz.CyclicOrder.heavy_walk_pos' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/CyclicOrder.lean:464:0: 'Collatz.CyclicOrder.light_walk_lt' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/CyclicOrder.lean:465:0: 'Collatz.CyclicOrder.neverDrops_walk_gt' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/CyclicOrder.lean:466:0: 'Collatz.CyclicOrder.heavy_unique' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/CyclicOrder.lean:467:0: 'Collatz.CyclicOrder.walk_eq_dvd' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/CyclicOrder.lean:468:0: 'Collatz.CyclicOrder.walk_injective' depends on axioms: [propext, Quot.sound]
+info: Collatz/Strategy/CyclicOrder.lean:469:0: 'Collatz.CyclicOrder.walk_ge_of_dvd' depends on axioms: [propext]
+⚠ [1994/2027] Replayed Collatz.Strategy.AffineCocycle
+warning: Collatz/Strategy/AffineCocycle.lean:103:24: This simp argument is unused:
+  Nat.mul_left_comm
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_comm, Nat.mul_assoc]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [1995/2027] Replayed Collatz.Strategy.DepthThreshold
+warning: Collatz/Strategy/DepthThreshold.lean:96:45: This simp argument is unused:
+  Nat.mul_assoc
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_comm, Nat.mul_left_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+
+Task status: broad rebuild terminated after approximately 9 minutes; incomplete, not passed. Target module and axiom audit checked separately.

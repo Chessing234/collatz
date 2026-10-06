@@ -1,0 +1,40 @@
+'CollatzTargetDensity.ShadowGridCore.integer_block_dvd' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.ShadowGridCore.no_integer_multiplicative_orbit' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.ShadowGridCore.integer_relation_of_approx' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.ShadowGridCore.finite_grid_barrier' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.ShadowReturnArithmetic.blockProduct_pos' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.ShadowReturnArithmetic.blockProduct_le' depends on axioms: [propext, Quot.sound]
+'CollatzTargetDensity.ShadowReturnArithmetic.blockOffset_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.ShadowReturnArithmetic.block_identity' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.ShadowReturnArithmetic.near_return_integer_anchor' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.ShadowWindowDiversity.gridDenominator_pos' depends on axioms: [propext]
+'CollatzTargetDensity.ShadowWindowDiversity.tolerance_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzTargetDensity.ShadowWindowDiversity.lift_anchor_to_grid' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.ShadowWindowDiversity.window_collapse_barrier' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.ShadowWindowDiversity.finite_separated_window' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.ShadowQuantization.finite_dictionary_barrier' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.ShadowQuantization.arbitrarily_late_separated_windows' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.ShadowQuantization.finite_alphabet_exclusion' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzTargetDensity.ShadowQuantization.finite_alphabet_escape' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

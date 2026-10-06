@@ -1,0 +1,19 @@
+{
+  "status": "passed",
+  "test_methods": 16,
+  "case_counts": {
+    "affine_cases": 20736,
+    "canonical_cases": 3000,
+    "cycle_cases": 8176,
+    "cylinder_dynamics_cases": 57330,
+    "finite_cardinality_cases": 5400,
+    "intersection_cases": 3000,
+    "large_affine_cases": 3919,
+    "long_ray_cases": 24,
+    "noncanonical_cases": 2000,
+    "obstruction_cases": 5049,
+    "refinement_cases": 10000,
+    "trace_cases": 1000
+  },
+  "scope": "Python experiment, not a substitute for Lean kernel checking"
+}

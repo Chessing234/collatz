@@ -1,0 +1,181 @@
+{
+  "seed": 20261005,
+  "arithmetic_tests": 100000,
+  "histogram_tests": 10000,
+  "simultaneous_return_tests": 33792,
+  "canonical_census": [
+    {
+      "depth": 1,
+      "contracting": 0,
+      "exceptional": 0,
+      "max_cutoff": 0,
+      "exceptional_representatives": []
+    },
+    {
+      "depth": 2,
+      "contracting": 2,
+      "exceptional": 2,
+      "max_cutoff": 1,
+      "exceptional_representatives": [
+        1,
+        2
+      ]
+    },
+    {
+      "depth": 3,
+      "contracting": 3,
+      "exceptional": 0,
+      "max_cutoff": 0,
+      "exceptional_representatives": []
+    },
+    {
+      "depth": 4,
+      "contracting": 10,
+      "exceptional": 2,
+      "max_cutoff": 1,
+      "exceptional_representatives": [
+        1,
+        2
+      ]
+    },
+    {
+      "depth": 5,
+      "contracting": 25,
+      "exceptional": 1,
+      "max_cutoff": 1,
+      "exceptional_representatives": [
+        1
+      ]
+    },
+    {
+      "depth": 6,
+      "contracting": 41,
+      "exceptional": 2,
+      "max_cutoff": 1,
+      "exceptional_representatives": [
+        1,
+        2
+      ]
+    },
+    {
+      "depth": 7,
+      "contracting": 98,
+      "exceptional": 1,
+      "max_cutoff": 1,
+      "exceptional_representatives": [
+        1
+      ]
+    },
+    {
+      "depth": 8,
+      "contracting": 218,
+      "exceptional": 7,
+      "max_cutoff": 1,
+      "exceptional_representatives": [
+        1,
+        2,
+        7,
+        9,
+        18,
+        19,
+        25
+      ]
+    },
+    {
+      "depth": 9,
+      "contracting": 381,
+      "exceptional": 1,
+      "max_cutoff": 1,
+      "exceptional_representatives": [
+        1
+      ]
+    },
+    {
+      "depth": 10,
+      "contracting": 847,
+      "exceptional": 2,
+      "max_cutoff": 1,
+      "exceptional_representatives": [
+        1,
+        2
+      ]
+    },
+    {
+      "depth": 11,
+      "contracting": 1485,
+      "exceptional": 1,
+      "max_cutoff": 1,
+      "exceptional_representatives": [
+        1
+      ]
+    },
+    {
+      "depth": 12,
+      "contracting": 3301,
+      "exceptional": 2,
+      "max_cutoff": 1,
+      "exceptional_representatives": [
+        1,
+        2
+      ]
+    },
+    {
+      "depth": 13,
+      "contracting": 7098,
+      "exceptional": 1,
+      "max_cutoff": 1,
+      "exceptional_representatives": [
+        1
+      ]
+    },
+    {
+      "depth": 14,
+      "contracting": 12910,
+      "exceptional": 2,
+      "max_cutoff": 1,
+      "exceptional_representatives": [
+        1,
+        2
+      ]
+    },
+    {
+      "depth": 15,
+      "contracting": 27823,
+      "exceptional": 1,
+      "max_cutoff": 1,
+      "exceptional_representatives": [
+        1
+      ]
+    },
+    {
+      "depth": 16,
+      "contracting": 58650,
+      "exceptional": 2,
+      "max_cutoff": 1,
+      "exceptional_representatives": [
+        1,
+        2
+      ]
+    },
+    {
+      "depth": 17,
+      "contracting": 109293,
+      "exceptional": 1,
+      "max_cutoff": 1,
+      "exceptional_representatives": [
+        1
+      ]
+    },
+    {
+      "depth": 18,
+      "contracting": 230963,
+      "exceptional": 2,
+      "max_cutoff": 1,
+      "exceptional_representatives": [
+        1,
+        2
+      ]
+    }
+  ],
+  "status": "experimental; these tests are not used as Lean hypotheses"
+}

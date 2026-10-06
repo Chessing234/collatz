@@ -1,0 +1,31 @@
+'Collatz.BeattyBlockPotential.phaseRun_linear' depends on axioms: [propext, Quot.sound]
+'Collatz.BeattyBlockPotential.phaseRun_bcap' depends on axioms: [propext, Quot.sound]
+'Collatz.BeattyBlockPotential.phase_twelve_bound' depends on axioms: [propext, Quot.sound]
+'Collatz.BeattyBlockPotential.phaseY_range' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.BeattyBlockPotential.phaseRun_add' depends on axioms: [propext, Quot.sound]
+'Collatz.BeattyBlockPotential.phase_initial_bound' depends on axioms: [propext, Quot.sound]
+'Collatz.BeattyBlockPotential.phase_global_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.BeattyBlockPotential.bcap_window_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.BeattyBlockPotential.bcap_block_strict' depends on axioms: [propext, Quot.sound]
+'Collatz.BeattyBlockPotential.bcap_linear_bound' depends on axioms: [propext, Quot.sound]
+'Collatz.BeattyBlockPotential.bcap_linear_strict' depends on axioms: [propext, Quot.sound]
+'Collatz.BeattyBlockPotential.bcap_linear_eq_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.BeattyBlockPotential.bcap_three_sharp' does not depend on any axioms
+'Collatz.BeattyBlockPotential.intercept_optimal' depends on axioms: [propext, Quot.sound]
+'Collatz.BeattyDescentBound.accumulator_le_bcap' depends on axioms: [propext, Quot.sound]
+'Collatz.BeattyDescentBound.accumulator_bound' depends on axioms: [propext, Quot.sound]
+'Collatz.BeattyDescentBound.first_light_failure_bound' depends on axioms: [propext, Quot.sound]
+'Collatz.BeattyDescentBound.descent_of_gap' depends on axioms: [propext, Quot.sound]
+'Collatz.BeattyDescentBound.sharp_orbit' does not depend on any axioms
+'Collatz.BeattyDescentBound.orbit_intercept_optimal' depends on axioms: [propext, Quot.sound]
+Collatz.BeattyBlockPotential.bcap_linear_bound (a : Nat) : 108 * Collatz.RealizableBound.Bcap a ≤ (27 * a + 11) * 3 ^ a
+Collatz.BeattyBlockPotential.phase_global_bound (k x y : Nat) (hlo : x < 2 * y) (hhi : y ≤ x) :
+  108 * Collatz.BeattyBlockPotential.phaseRun k x y 0 ≤ (27 * k + 11) * 3 ^ k * x
+Collatz.BeattyBlockPotential.bcap_window_bound (a k : Nat) :
+  108 * Collatz.RealizableBound.Bcap (a + k) ≤
+    108 * (3 ^ k * Collatz.RealizableBound.Bcap a) + (27 * k + 11) * 3 ^ (a + k)
+Collatz.BeattyDescentBound.accumulator_bound (n k : Nat) (h : ∀ (i : Nat), i < k → 2 ^ i ≤ 3 ^ Collatz.oddCount n i) :
+  108 * Collatz.AffineExact.affineC k n ≤ (27 * Collatz.oddCount n k + 11) * 3 ^ Collatz.oddCount n k
+Collatz.BeattyDescentBound.descent_of_gap {n k : Nat} (h : Collatz.FirstLightDescent.FirstLight n k)
+  (hg : (27 * Collatz.oddCount n k + 11) * 3 ^ Collatz.oddCount n k < 108 * (2 ^ k - 3 ^ Collatz.oddCount n k) * n) :
+  Collatz.acceleratedOrbit k n < n

@@ -1,0 +1,180 @@
+import Collatz.Search.FirstDescentCertificate
+import Collatz.Strategy.FirstDescentClass
+import Collatz.Strategy.FirstDescentClassComplete
+import Collatz.Strategy.FirstDescentClassExamples
+import Collatz.Strategy.FirstDescentClassInterval
+import Collatz.Strategy.FirstDescentContraction
+import Collatz.Strategy.FirstDescentResidue
+import Collatz.Strategy.FirstDescentScale
+import Collatz.Strategy.FirstDescentShort
+import Collatz.Strategy.FirstDescentShortCount
+import Collatz.Strategy.FirstDescentWeakRay
+import Collatz.Strategy.FirstDescentZeroCount
+import Collatz.Strategy.ThreeAdicPopulation
+import Collatz.Strategy.ThreeAdicPopulationBias
+import Collatz.Strategy.ThreeAdicPopulationClosed
+import Collatz.Strategy.ThreeAdicPopulationPeriod
+import Collatz.Strategy.ThreeAdicPopulationWindows
+
+#print axioms Collatz.Search.firstDescentB_true_iff
+#print axioms Collatz.Search.firstDescentB_spec
+#print axioms Collatz.Search.stoppingTime_of_firstDescentB
+#print axioms Collatz.Search.firstDescentB_zero
+#print axioms Collatz.Search.firstDescentB_three
+#print axioms Collatz.Search.later_endpoint_not_first
+#print axioms Collatz.FirstDescentClass.prefixHeavyB_spec
+#print axioms Collatz.FirstDescentClass.classCertificateB_spec
+#print axioms Collatz.FirstDescentClass.split_modulus
+#print axioms Collatz.FirstDescentClass.prefix_orbit
+#print axioms Collatz.FirstDescentClass.scaled_multiplier_ge
+#print axioms Collatz.FirstDescentClass.class_prefix_no_drop
+#print axioms Collatz.FirstDescentClass.class_endpoint_drop
+#print axioms Collatz.FirstDescentClass.stoppingTime_of_classCertificate
+#print axioms Collatz.FirstDescentClass.finiteStoppingTime_of_classCertificate
+#print axioms Collatz.FirstDescentClass.slope_ge_of_all_ge
+#print axioms Collatz.FirstDescentClass.slope_le_of_all_lt
+#print axioms Collatz.FirstDescentClass.base_of_universal
+#print axioms Collatz.FirstDescentClass.endpoint_slope_le_of_universal
+#print axioms Collatz.FirstDescentClass.endpoint_slope_ne
+#print axioms Collatz.FirstDescentClass.endpoint_contracts_of_universal
+#print axioms Collatz.FirstDescentClass.prefix_heavy_of_universal
+#print axioms Collatz.FirstDescentClass.classCertificate_of_universal
+#print axioms Collatz.FirstDescentClass.classCertificate_iff_universal
+#print axioms Collatz.FirstDescentClass.not_universal_of_certificate_failure
+#print axioms Collatz.FirstDescentClass.even_class_certificate
+#print axioms Collatz.FirstDescentClass.one_mod_four_certificate
+#print axioms Collatz.FirstDescentClass.three_mod_sixteen_certificate
+#print axioms Collatz.FirstDescentClass.eleven_mod_thirty_two_certificate
+#print axioms Collatz.FirstDescentClass.twenty_three_mod_thirty_two_certificate
+#print axioms Collatz.FirstDescentClass.seven_mod_128_certificate
+#print axioms Collatz.FirstDescentClass.fifteen_mod_128_certificate
+#print axioms Collatz.FirstDescentClass.fifty_nine_mod_128_certificate
+#print axioms Collatz.FirstDescentClass.even_class_stoppingTime
+#print axioms Collatz.FirstDescentClass.one_mod_four_stoppingTime
+#print axioms Collatz.FirstDescentClass.three_mod_sixteen_stoppingTime
+#print axioms Collatz.FirstDescentClass.eleven_mod_thirty_two_stoppingTime
+#print axioms Collatz.FirstDescentClass.twenty_three_mod_thirty_two_stoppingTime
+#print axioms Collatz.FirstDescentClass.trivial_one_not_a_class_certificate
+#print axioms Collatz.FirstDescentClass.later_time_rejected
+#print axioms Collatz.FirstDescentClass.affine_le_between
+#print axioms Collatz.FirstDescentClass.affine_lt_between
+#print axioms Collatz.FirstDescentClass.stoppingTime_between
+#print axioms Collatz.FirstDescentClass.firstDescentB_between
+#print axioms Collatz.FirstDescentClass.failure_excludes_two_endpoints
+#print axioms Collatz.FirstDescentClass.stoppingTime_interval_of_certificates
+#print axioms Collatz.FirstDescentResidue.first_descent_4591_certificate
+#print axioms Collatz.FirstDescentResidue.first_descent_4591
+#print axioms Collatz.FirstDescentResidue.landing_4591
+#print axioms Collatz.FirstDescentResidue.contraction_refuted_by_4591
+#print axioms Collatz.FirstDescentResidue.no_uniform_two_percent_first_drop
+#print axioms Collatz.FirstDescentResidue.no_early_drop_4591
+#print axioms Collatz.FirstDescentResidue.exact_drop_4591
+#print axioms Collatz.FirstDescentResidue.weak_drop_witness
+#print axioms Collatz.FirstDescentResidue.stoppingTime_of_even
+#print axioms Collatz.FirstDescentResidue.stoppingTime_unique
+#print axioms Collatz.FirstDescentResidue.odd_step_increases
+#print axioms Collatz.FirstDescentResidue.even_of_stoppingTime_one
+#print axioms Collatz.FirstDescentResidue.stoppingTime_one_iff_even
+#print axioms Collatz.FirstDescentResidue.zero_landing_forces_one
+#print axioms Collatz.FirstDescentResidue.zero_landing_iff_six
+#print axioms Collatz.FirstDescentResidue.exists_zero_landing_iff
+#print axioms Collatz.FirstDescentResidue.delayed_landing_nonzero
+#print axioms Collatz.FirstDescentResidue.last_state_even
+#print axioms Collatz.FirstDescentResidue.before_first_descent
+#print axioms Collatz.FirstDescentResidue.landing_scale
+#print axioms Collatz.FirstDescentResidue.landing_scale_general
+#print axioms Collatz.FirstDescentResidue.odd_landing_above_half
+#print axioms Collatz.FirstDescentResidue.even_landing_exact_half
+#print axioms Collatz.FirstDescentResidue.landing_at_half_iff_even
+#print axioms Collatz.FirstDescentResidue.landing_positive
+#print axioms Collatz.FirstDescentResidue.no_landing_below_half_target
+#print axioms Collatz.FirstDescentResidue.target_crossing_requires_later_steps
+#print axioms Collatz.FirstDescentResidue.input_gt_one_of_stoppingTime
+#print axioms Collatz.FirstDescentResidue.two_step_mod_four_one
+#print axioms Collatz.FirstDescentResidue.two_step_mod_four_three
+#print axioms Collatz.FirstDescentResidue.stoppingTime_two_of_mod_four_one
+#print axioms Collatz.FirstDescentResidue.mod_four_one_of_stoppingTime_two
+#print axioms Collatz.FirstDescentResidue.stoppingTime_two_iff
+#print axioms Collatz.FirstDescentResidue.three_step_mod_four_three
+#print axioms Collatz.FirstDescentResidue.no_stoppingTime_three
+#print axioms Collatz.FirstDescentResidue.firstDescentB_one_iff
+#print axioms Collatz.FirstDescentResidue.firstDescentB_two_iff
+#print axioms Collatz.FirstDescentResidue.exactTimeCount_one
+#print axioms Collatz.FirstDescentResidue.exactTimeCount_two
+#print axioms Collatz.FirstDescentResidue.exactTimeCount_three
+#print axioms Collatz.FirstDescentResidue.firstDescentB_disjoint
+#print axioms Collatz.FirstDescentResidue.withinTwoCount_eq
+#print axioms Collatz.FirstDescentResidue.withinTwoCount_exact
+#print axioms Collatz.FirstDescentResidue.withinTwoCount_aligned
+#print axioms Collatz.FirstDescentResidue.withinTwoCount_forty_one
+#print axioms Collatz.FirstDescentClass.weak_ray_certificate
+#print axioms Collatz.FirstDescentClass.weak_ray_odd_count
+#print axioms Collatz.FirstDescentClass.weak_ray_stoppingTime
+#print axioms Collatz.FirstDescentClass.weak_ray_endpoint
+#print axioms Collatz.FirstDescentClass.weak_ray_drops
+#print axioms Collatz.FirstDescentClass.weak_ray_retains_98_percent
+#print axioms Collatz.FirstDescentClass.weak_drop_above_every_threshold
+#print axioms Collatz.FirstDescentClass.no_eventual_two_percent_contraction
+#print axioms Collatz.FirstDescentResidue.step_three_iff_six
+#print axioms Collatz.FirstDescentResidue.zeroLandingB_true_iff
+#print axioms Collatz.FirstDescentResidue.zeroLandingB_spec
+#print axioms Collatz.FirstDescentResidue.zeroLandingCount_as_multiples
+#print axioms Collatz.FirstDescentResidue.zeroLandingCount_exact
+#print axioms Collatz.FirstDescentResidue.zeroLandingCount_aligned
+#print axioms Collatz.FirstDescentResidue.zeroLandingCount_sixfold_bound
+#print axioms Collatz.FirstDescentResidue.zeroLandingCount_remainder
+#print axioms Collatz.FirstDescentResidue.zeroLandingB_zero
+#print axioms Collatz.FirstDescentResidue.zeroLandingCount_sixty
+#print axioms Collatz.ThreeAdicPopulation.period_succ
+#print axioms Collatz.ThreeAdicPopulation.even_image_mod_three
+#print axioms Collatz.ThreeAdicPopulation.residue_pair
+#print axioms Collatz.ThreeAdicPopulation.orbit_period_shift
+#print axioms Collatz.ThreeAdicPopulation.paired_outputs_mod_three
+#print axioms Collatz.ThreeAdicPopulation.paired_outputs_opposite_parity
+#print axioms Collatz.ThreeAdicPopulation.orbit_residue_pair
+#print axioms Collatz.ThreeAdicPopulation.mapped_residue_iff
+#print axioms Collatz.ThreeAdicPopulation.population_succ
+#print axioms Collatz.ThreeAdicPopulation.population_zero_succ
+#print axioms Collatz.ThreeAdicPopulation.population_one_succ
+#print axioms Collatz.ThreeAdicPopulation.population_two_succ
+#print axioms Collatz.ThreeAdicPopulation.population_initial
+#print axioms Collatz.ThreeAdicPopulation.one_limiting_mass_error
+#print axioms Collatz.ThreeAdicPopulation.two_limiting_mass_error
+#print axioms Collatz.ThreeAdicPopulation.zero_uniform_deficit
+#print axioms Collatz.ThreeAdicPopulation.population_not_uniform
+#print axioms Collatz.ThreeAdicPopulation.two_population_strictly_larger
+#print axioms Collatz.ThreeAdicPopulation.one_error_attained_at_odd
+#print axioms Collatz.ThreeAdicPopulation.two_error_attained_at_even
+#print axioms Collatz.ThreeAdicPopulation.even_bias_exact
+#print axioms Collatz.ThreeAdicPopulation.odd_bias_exact
+#print axioms Collatz.ThreeAdicPopulation.population_zero
+#print axioms Collatz.ThreeAdicPopulation.population_one_two_steps
+#print axioms Collatz.ThreeAdicPopulation.population_two_two_steps
+#print axioms Collatz.ThreeAdicPopulation.population_even
+#print axioms Collatz.ThreeAdicPopulation.population_odd
+#print axioms Collatz.ThreeAdicPopulation.depth_even_or_odd
+#print axioms Collatz.ThreeAdicPopulation.population_one_bounds
+#print axioms Collatz.ThreeAdicPopulation.population_two_bounds
+#print axioms Collatz.ThreeAdicPopulation.population_total
+#print axioms Collatz.ThreeAdicPopulation.population_bias_error
+#print axioms Collatz.ThreeAdicPopulation.population_depth_one
+#print axioms Collatz.ThreeAdicPopulation.population_depth_six
+#print axioms Collatz.ThreeAdicPopulation.orbit_zero_state
+#print axioms Collatz.ThreeAdicPopulation.period_dvd_of_isResiduePeriod
+#print axioms Collatz.ThreeAdicPopulation.isResiduePeriod_of_period_dvd
+#print axioms Collatz.ThreeAdicPopulation.isResiduePeriod_iff
+#print axioms Collatz.ThreeAdicPopulation.period_minimal
+#print axioms Collatz.ThreeAdicPopulation.no_smaller_period
+#print axioms Collatz.ThreeAdicPopulation.zero_distinguishes_nonperiod
+#print axioms Collatz.ThreeAdicPopulation.no_depth_uniform_period
+#print axioms Collatz.ThreeAdicPopulation.period_positive
+#print axioms Collatz.ThreeAdicPopulation.orbit_mod_three_periodic
+#print axioms Collatz.ThreeAdicPopulation.shifted_window_count
+#print axioms Collatz.ThreeAdicPopulation.populationRange_aligned
+#print axioms Collatz.ThreeAdicPopulation.populationRange_blocks_remainder
+#print axioms Collatz.ThreeAdicPopulation.populationRange_exact
+#print axioms Collatz.ThreeAdicPopulation.populationRange_mono
+#print axioms Collatz.ThreeAdicPopulation.populationRange_le_length
+#print axioms Collatz.ThreeAdicPopulation.remainder_population_le
+#print axioms Collatz.ThreeAdicPopulation.populationRange_bounds
+#print axioms Collatz.ThreeAdicPopulation.populationRange_zero_eq_survivor

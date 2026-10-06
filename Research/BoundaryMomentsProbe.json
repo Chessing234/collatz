@@ -1,0 +1,1018 @@
+{
+  "method": "original Collatz multigraph; all two-edge cuts by bridge enumeration",
+  "max_modulus": 251,
+  "moduli_checked": 83,
+  "exhaustive_small_subset_checks": 665760,
+  "failures": 0,
+  "results": [
+    {
+      "modulus": 5,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          4
+        ]
+      ]
+    },
+    {
+      "modulus": 7,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          3,
+          5,
+          6
+        ],
+        [
+          6
+        ]
+      ]
+    },
+    {
+      "modulus": 11,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          10
+        ]
+      ]
+    },
+    {
+      "modulus": 13,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          12
+        ]
+      ]
+    },
+    {
+      "modulus": 17,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          16
+        ]
+      ]
+    },
+    {
+      "modulus": 19,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          18
+        ]
+      ]
+    },
+    {
+      "modulus": 23,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          22
+        ]
+      ]
+    },
+    {
+      "modulus": 25,
+      "prime": false,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          24
+        ]
+      ]
+    },
+    {
+      "modulus": 29,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          28
+        ]
+      ]
+    },
+    {
+      "modulus": 31,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          30
+        ]
+      ]
+    },
+    {
+      "modulus": 35,
+      "prime": false,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          34
+        ]
+      ]
+    },
+    {
+      "modulus": 37,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          36
+        ]
+      ]
+    },
+    {
+      "modulus": 41,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          40
+        ]
+      ]
+    },
+    {
+      "modulus": 43,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          42
+        ]
+      ]
+    },
+    {
+      "modulus": 47,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          46
+        ]
+      ]
+    },
+    {
+      "modulus": 49,
+      "prime": false,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          48
+        ]
+      ]
+    },
+    {
+      "modulus": 53,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          52
+        ]
+      ]
+    },
+    {
+      "modulus": 55,
+      "prime": false,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          54
+        ]
+      ]
+    },
+    {
+      "modulus": 59,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          58
+        ]
+      ]
+    },
+    {
+      "modulus": 61,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          60
+        ]
+      ]
+    },
+    {
+      "modulus": 65,
+      "prime": false,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          64
+        ]
+      ]
+    },
+    {
+      "modulus": 67,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          66
+        ]
+      ]
+    },
+    {
+      "modulus": 71,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          70
+        ]
+      ]
+    },
+    {
+      "modulus": 73,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          72
+        ]
+      ]
+    },
+    {
+      "modulus": 77,
+      "prime": false,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          76
+        ]
+      ]
+    },
+    {
+      "modulus": 79,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          78
+        ]
+      ]
+    },
+    {
+      "modulus": 83,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          82
+        ]
+      ]
+    },
+    {
+      "modulus": 85,
+      "prime": false,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          84
+        ]
+      ]
+    },
+    {
+      "modulus": 89,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          88
+        ]
+      ]
+    },
+    {
+      "modulus": 91,
+      "prime": false,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          90
+        ]
+      ]
+    },
+    {
+      "modulus": 95,
+      "prime": false,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          94
+        ]
+      ]
+    },
+    {
+      "modulus": 97,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          96
+        ]
+      ]
+    },
+    {
+      "modulus": 101,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          100
+        ]
+      ]
+    },
+    {
+      "modulus": 103,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          102
+        ]
+      ]
+    },
+    {
+      "modulus": 107,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          106
+        ]
+      ]
+    },
+    {
+      "modulus": 109,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          108
+        ]
+      ]
+    },
+    {
+      "modulus": 113,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          112
+        ]
+      ]
+    },
+    {
+      "modulus": 115,
+      "prime": false,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          114
+        ]
+      ]
+    },
+    {
+      "modulus": 119,
+      "prime": false,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          118
+        ]
+      ]
+    },
+    {
+      "modulus": 121,
+      "prime": false,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          120
+        ]
+      ]
+    },
+    {
+      "modulus": 125,
+      "prime": false,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          124
+        ]
+      ]
+    },
+    {
+      "modulus": 127,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          126
+        ]
+      ]
+    },
+    {
+      "modulus": 131,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          130
+        ]
+      ]
+    },
+    {
+      "modulus": 133,
+      "prime": false,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          132
+        ]
+      ]
+    },
+    {
+      "modulus": 137,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          136
+        ]
+      ]
+    },
+    {
+      "modulus": 139,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          138
+        ]
+      ]
+    },
+    {
+      "modulus": 143,
+      "prime": false,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          142
+        ]
+      ]
+    },
+    {
+      "modulus": 145,
+      "prime": false,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          144
+        ]
+      ]
+    },
+    {
+      "modulus": 149,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          148
+        ]
+      ]
+    },
+    {
+      "modulus": 151,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          150
+        ]
+      ]
+    },
+    {
+      "modulus": 155,
+      "prime": false,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          154
+        ]
+      ]
+    },
+    {
+      "modulus": 157,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          156
+        ]
+      ]
+    },
+    {
+      "modulus": 161,
+      "prime": false,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          160
+        ]
+      ]
+    },
+    {
+      "modulus": 163,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          162
+        ]
+      ]
+    },
+    {
+      "modulus": 167,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          166
+        ]
+      ]
+    },
+    {
+      "modulus": 169,
+      "prime": false,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          168
+        ]
+      ]
+    },
+    {
+      "modulus": 173,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          172
+        ]
+      ]
+    },
+    {
+      "modulus": 175,
+      "prime": false,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          174
+        ]
+      ]
+    },
+    {
+      "modulus": 179,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          178
+        ]
+      ]
+    },
+    {
+      "modulus": 181,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          180
+        ]
+      ]
+    },
+    {
+      "modulus": 185,
+      "prime": false,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          184
+        ]
+      ]
+    },
+    {
+      "modulus": 187,
+      "prime": false,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          186
+        ]
+      ]
+    },
+    {
+      "modulus": 191,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          190
+        ]
+      ]
+    },
+    {
+      "modulus": 193,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          192
+        ]
+      ]
+    },
+    {
+      "modulus": 197,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          196
+        ]
+      ]
+    },
+    {
+      "modulus": 199,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          198
+        ]
+      ]
+    },
+    {
+      "modulus": 203,
+      "prime": false,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          202
+        ]
+      ]
+    },
+    {
+      "modulus": 205,
+      "prime": false,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          204
+        ]
+      ]
+    },
+    {
+      "modulus": 209,
+      "prime": false,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          208
+        ]
+      ]
+    },
+    {
+      "modulus": 211,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          210
+        ]
+      ]
+    },
+    {
+      "modulus": 215,
+      "prime": false,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          214
+        ]
+      ]
+    },
+    {
+      "modulus": 217,
+      "prime": false,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          216
+        ]
+      ]
+    },
+    {
+      "modulus": 221,
+      "prime": false,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          220
+        ]
+      ]
+    },
+    {
+      "modulus": 223,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          222
+        ]
+      ]
+    },
+    {
+      "modulus": 227,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          226
+        ]
+      ]
+    },
+    {
+      "modulus": 229,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          228
+        ]
+      ]
+    },
+    {
+      "modulus": 233,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          232
+        ]
+      ]
+    },
+    {
+      "modulus": 235,
+      "prime": false,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          234
+        ]
+      ]
+    },
+    {
+      "modulus": 239,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          238
+        ]
+      ]
+    },
+    {
+      "modulus": 241,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          240
+        ]
+      ]
+    },
+    {
+      "modulus": 245,
+      "prime": false,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          244
+        ]
+      ]
+    },
+    {
+      "modulus": 247,
+      "prime": false,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          246
+        ]
+      ]
+    },
+    {
+      "modulus": 251,
+      "prime": true,
+      "two_edge_cut_smaller_sides": [
+        [
+          0
+        ],
+        [
+          250
+        ]
+      ]
+    }
+  ]
+}

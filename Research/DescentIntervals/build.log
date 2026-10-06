@@ -1,0 +1,17 @@
+⚠ [124/130] Replayed Collatz.Research.RefinementAtlas.AdaptiveObstruction
+warning: Collatz/Research/RefinementAtlas/AdaptiveObstruction.lean:81:39: This simp argument is unused:
+  Nat.mul_left_comm
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_comm, Nat.mul_assoc]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Collatz/Research/RefinementAtlas/AdaptiveObstruction.lean:86:39: This simp argument is unused:
+  Nat.mul_left_comm
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Nat.mul_comm, Nat.mul_assoc]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+✔ [130/130] Built Collatz.Research.DescentIntervals.All (1.2s)
+Build completed successfully (130 jobs).

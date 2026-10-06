@@ -1,0 +1,323 @@
+{
+  "arithmetic": "exact rational and integer",
+  "twelve_step_supremum": "2349463/262144",
+  "maximizing_phase": "177147/262144",
+  "margin_below_nine": "9833/262144",
+  "twelve_phase_intervals": [
+    {
+      "left_open": "1/2",
+      "right_closed": "2187/4096",
+      "sum_slope": "2960239/177147",
+      "certified_branches": [
+        "low",
+        "low",
+        "high",
+        "low",
+        "high",
+        "low",
+        "low",
+        "high",
+        "low",
+        "high",
+        "low"
+      ],
+      "maximum": "2960239/331776"
+    },
+    {
+      "left_open": "2187/4096",
+      "right_closed": "9/16",
+      "sum_slope": "2794351/177147",
+      "certified_branches": [
+        "low",
+        "low",
+        "high",
+        "low",
+        "high",
+        "low",
+        "high",
+        "low",
+        "low",
+        "high",
+        "low"
+      ],
+      "maximum": "2794351/314928"
+    },
+    {
+      "left_open": "9/16",
+      "right_closed": "19683/32768",
+      "sum_slope": "2636887/177147",
+      "certified_branches": [
+        "low",
+        "high",
+        "low",
+        "low",
+        "high",
+        "low",
+        "high",
+        "low",
+        "low",
+        "high",
+        "low"
+      ],
+      "maximum": "2636887/294912"
+    },
+    {
+      "left_open": "19683/32768",
+      "right_closed": "81/128",
+      "sum_slope": "2489431/177147",
+      "certified_branches": [
+        "low",
+        "high",
+        "low",
+        "low",
+        "high",
+        "low",
+        "high",
+        "low",
+        "high",
+        "low",
+        "low"
+      ],
+      "maximum": "2489431/279936"
+    },
+    {
+      "left_open": "81/128",
+      "right_closed": "177147/262144",
+      "sum_slope": "2349463/177147",
+      "certified_branches": [
+        "low",
+        "high",
+        "low",
+        "high",
+        "low",
+        "low",
+        "high",
+        "low",
+        "high",
+        "low",
+        "low"
+      ],
+      "maximum": "2349463/262144"
+    },
+    {
+      "left_open": "177147/262144",
+      "right_closed": "729/1024",
+      "sum_slope": "2218391/177147",
+      "certified_branches": [
+        "low",
+        "high",
+        "low",
+        "high",
+        "low",
+        "low",
+        "high",
+        "low",
+        "high",
+        "low",
+        "high"
+      ],
+      "maximum": "2218391/248832"
+    },
+    {
+      "left_open": "729/1024",
+      "right_closed": "3/4",
+      "sum_slope": "2093975/177147",
+      "certified_branches": [
+        "low",
+        "high",
+        "low",
+        "high",
+        "low",
+        "high",
+        "low",
+        "low",
+        "high",
+        "low",
+        "high"
+      ],
+      "maximum": "2093975/236196"
+    },
+    {
+      "left_open": "3/4",
+      "right_closed": "6561/8192",
+      "sum_slope": "1975877/177147",
+      "certified_branches": [
+        "high",
+        "low",
+        "low",
+        "high",
+        "low",
+        "high",
+        "low",
+        "low",
+        "high",
+        "low",
+        "high"
+      ],
+      "maximum": "1975877/221184"
+    },
+    {
+      "left_open": "6561/8192",
+      "right_closed": "27/32",
+      "sum_slope": "1865285/177147",
+      "certified_branches": [
+        "high",
+        "low",
+        "low",
+        "high",
+        "low",
+        "high",
+        "low",
+        "high",
+        "low",
+        "low",
+        "high"
+      ],
+      "maximum": "1865285/209952"
+    },
+    {
+      "left_open": "27/32",
+      "right_closed": "59049/65536",
+      "sum_slope": "1760309/177147",
+      "certified_branches": [
+        "high",
+        "low",
+        "high",
+        "low",
+        "low",
+        "high",
+        "low",
+        "high",
+        "low",
+        "low",
+        "high"
+      ],
+      "maximum": "1760309/196608"
+    },
+    {
+      "left_open": "59049/65536",
+      "right_closed": "243/256",
+      "sum_slope": "1662005/177147",
+      "certified_branches": [
+        "high",
+        "low",
+        "high",
+        "low",
+        "low",
+        "high",
+        "low",
+        "high",
+        "low",
+        "high",
+        "low"
+      ],
+      "maximum": "1662005/186624"
+    },
+    {
+      "left_open": "243/256",
+      "right_closed": "1",
+      "sum_slope": "1568693/177147",
+      "certified_branches": [
+        "high",
+        "low",
+        "high",
+        "low",
+        "high",
+        "low",
+        "low",
+        "high",
+        "low",
+        "high",
+        "low"
+      ],
+      "maximum": "1568693/177147"
+    }
+  ],
+  "shorter_block_obstructions": [
+    {
+      "length": 1,
+      "maximum": "1",
+      "phase": "1",
+      "excess_above_three_quarters": "1/4"
+    },
+    {
+      "length": 2,
+      "maximum": "7/4",
+      "phase": "3/4",
+      "excess_above_three_quarters": "1/4"
+    },
+    {
+      "length": 3,
+      "maximum": "23/9",
+      "phase": "1",
+      "excess_above_three_quarters": "11/36"
+    },
+    {
+      "length": 4,
+      "maximum": "119/36",
+      "phase": "3/4",
+      "excess_above_three_quarters": "11/36"
+    },
+    {
+      "length": 5,
+      "maximum": "319/81",
+      "phase": "1",
+      "excess_above_three_quarters": "61/324"
+    },
+    {
+      "length": 6,
+      "maximum": "1213/256",
+      "phase": "243/256",
+      "excess_above_three_quarters": "61/256"
+    },
+    {
+      "length": 7,
+      "maximum": "5581/1024",
+      "phase": "729/1024",
+      "excess_above_three_quarters": "205/1024"
+    },
+    {
+      "length": 8,
+      "maximum": "14501/2304",
+      "phase": "243/256",
+      "excess_above_three_quarters": "677/2304"
+    },
+    {
+      "length": 9,
+      "maximum": "64565/9216",
+      "phase": "729/1024",
+      "excess_above_three_quarters": "2357/9216"
+    },
+    {
+      "length": 10,
+      "maximum": "159181/20736",
+      "phase": "243/256",
+      "excess_above_three_quarters": "3661/20736"
+    },
+    {
+      "length": 11,
+      "maximum": "695773/82944",
+      "phase": "729/1024",
+      "excess_above_three_quarters": "11485/82944"
+    }
+  ],
+  "initial_remainder_excess": [
+    "0",
+    "1/4",
+    "1/6",
+    "11/36",
+    "4/27",
+    "61/324",
+    "-17/486",
+    "-241/2916",
+    "227/2187",
+    "-575/26244",
+    "2381/39366",
+    "-31789/236196"
+  ],
+  "bcap_check_through": 1000,
+  "equality_indices_in_check": [
+    3
+  ],
+  "scope": "Independent checks; universal proof is in Lean."
+}

@@ -1,281 +1,122 @@
-# collatz
-
-**Current extension status, 2026-09-08:** the Mathlib-based
-[package](ProofAtlasAttack/README.md) passes a 255-endpoint audit. The latest
-[inverse-boundary check](Devices/InverseBoundary.md) proves that the same
-rational remainder has a positive real limit on a hypothetical injective
-orbit and a zero 2-adic limit. An explicit rational example confirms that
-these limits are compatible. The arithmetic argument needed to exclude
-such an orbit, and unknown cycles, remains unproved.
-**This repository does not contain a proof of Collatz.** Counts and scope statements below
-include historical stages; the extension's current report is linked in its
-README.
-
-**New checked result, 2026-09-08:** the actual Syracuse probability satisfies
-`μ_n(r) ≥ c / 3^n` for one absolute `c>0`, every `n≥1`, and every unit residue
-`r mod 3^n`. See [the theorem, proof, and scope](Devices/SyracuseUniformFloor.md).
-The Mathlib-based extension passes a 38-endpoint axiom audit. This establishes
-the uniform atom bound; it does not prove Collatz or establish historical priority.
-
-A separate [all-target density package](ProofAtlasAttack/README.md) now proves
-in Lean that every positive target not divisible by 3 has a predecessor set
-of positive lower natural density, extending Mazur's analytic machinery.
-The converse and a counterexample-density consequence are also checked.
-This does not prove the Collatz conjecture; see the package for exact scope,
-attribution, and verification evidence.
-
-The [residue-class extension](Devices/ResidueDensity.md) strengthens this to
-every fixed class modulo `2^p * 3^q`, with arbitrary p and q. A hypothetical
-counterexample would force positive lower density of counterexamples in
-every such class. This still does not prove Collatz or establish historical
-novelty.
-
-
-A small lab for a wild conjecture.
-
-This repo tests the limits of AI.
-
-AI can suggest odd new lemmas.
-
-AI still fails at the whole proof.
-
-The bet is simple.
-
-Collect enough useful lemmas.
-
-Check each one in Lean.
-
-Chain them with care.
-
-Maybe a path appears.
-
-The Collatz conjecture is the beast.
-
-No one has tamed it yet.
-
-This repo does not claim a proof.
-
-It records statements.
-
-It proves what it can.
-
-It rejects loose words.
-
-Every paper gets a file.
-
-Every lemma gets a name.
-
-Every proof must pass CI.
-
-## Status
-
-5 990 theorem and lemma declarations across 383 modules, 104 845 lines.
-
-Verified range: every positive `n < 3 998 720` reaches 1.  Cycle bound: no accelerated
-cycle through a non-reaching point has length below 14187.  **Both are finite results.**
-Neither half of the conjecture is proved — see the gap statement at the end of
-`RESEARCH.md`.
-
-Uniform inverse-tree coverage is now checked for moduli 9 and 27: for every
-positive root `a` not divisible by three, every class modulo 27 contains an odd
-`n < 19419*a` reaching `a` in at most 22 accelerated steps. The root is unbounded.
-See [the proof and its limits](Devices/QuantitativeBackwardCover.md).
-
-No `sorry`. No added axioms. No Mathlib.
-
-Everything is proved from the Lean core `Nat` API.
-
-The conjecture itself is open, and this repo does not change that.
-
-## What is proved
-
-Collatz is equivalent to: no orbit diverges, and every cycle is trivial.
-
-Any cycle meeting the basin of `1` is the trivial cycle.
-
-Any nontrivial cycle has minimal period at least four.
-
-An accelerated cycle of length `L` with `a` odd steps needs `3^a < 2^L`.
-
-Its least element is odd.
-
-A number takes `j` consecutive odd steps exactly when it is `-1` modulo `2^j`.
-
-Along such a run, `x + 1` is multiplied by exactly `(3/2)^j`.
-
-So the least point of a cycle climbs to at least `9/4` of itself, improving `M >= 2m`.
-
-Two halvings can never follow the minimum's opening run.
-
-Hence the orbit minimum of a counterexample is never `3` modulo `16`.
-
-That is exactly what the residue sieve computes at level four, here derived algebraically.
-
-The 2-adic valuation of a number is `v` exactly when it is `2^v` modulo `2^(v+1)`.
-
-Three has order two modulo eight, so `v(3^a - 1)` is `v(a) + 2` for even `a`, and `1` for odd.
-
-Hence three has order `2^(L-2)` modulo `2^L`, and `3^a mod 2^L` repeats with that period.
-
-A cycle has `a <= L`, and `L < 2^(L-2)`, so that constraint is empty on every cycle shape.
-
-The gap `2^L - 3^a` is odd, so `v(C) = v(n)` in the affine law of a cycle.
-
-
-Say a number never drops when its own orbit never goes below it.
-
-Collatz is exactly the statement that `1` is the only number that never drops.
-
-Every structural theorem here specialises to that one predicate.
-
-An excursion is a run of odd steps followed by the halvings after it.
-
-It satisfies the exact identity `2^(v+W) x' + 2^v = 3^v (x+1)`.
-
-Substituting `x' >= x` gives obstructions; substituting the other way proves descent.
-
-Of three consecutive odd preimages of a node prime to `3`, exactly two are again prime to `3`, each below `22` times the node.
-
-Charging every fertile child its own size, at least `N^(3/8)/131` integers up to `N` reach `1`.
-
-With residue classes modulo `81` and a generated integer certificate, at least `√N / 4.5·10^10` of them do.
-
-Inducting on the absolute bound instead of the scale index, at least `N^(2/3) / 7.4·10^9` do, and at classes modulo `729` at least `N^(7/10) / 8·10^9`; the literature's exponent is `0.84`.
-
-Outside the kernel, the same scheme at classes modulo `3^12` (4.25 million integer inequalities, `scripts/kl_certify.py`) certifies exponent `0.8439`, and at classes modulo `3^13` (12.75 million inequalities) exponent `0.852`, both above the **published** `0.84` (Krasikov–Lagarias 2003, still the refereed record) and each verified by two independent checkers.  Not above the frontier of the method: unrefereed 2026 preprints (Mazur / ProofAtlas, Lean-formalised) report `0.88` at level `15` and `0.90` at level `18` from the same linear program.  This repository has not verified those; they are recorded so the `0.852` is read as "clears the published record", not "clears the field".  Positive density stays open.
-
-The literature's exponent is `0.84`; positive density is open, and counting alone cannot reach it.
-
-The lift-averaged Krasikov–Lagarias system is column-stochastic at every level (`Strategy/TreeStochastic`), so the method's limit is exponent `1`, approached like `1/k`; the whole loss is the 3-adic lift-distribution of the inverse tree (`Devices/StochasticTree.md`).
-
-If the integers reaching `1` are balanced modulo `36` within their classes modulo `3` (to `1/64`), at least `N^0.89/c` of them lie below `N` (`Strategy/TreeBalance.count_balance`, kernel-checked); a thin tree of `1` is an unbalanced one.
-
-With only the balance modulo `9` (to `1/100`), at least `N^0.84/c` of them lie below `N` (`Strategy/TreeBalance9.count_balance9`, kernel-checked): the advanced terms of Krasikov–Lagarias are expanded to depth ten inside the certificate.
-
-Every light parity word with an odd step is the cycle word of some `3x+d` with `d = 1` modulo any power of `6`.
-
-So a proof that `3x+1` has no cycle must use the integer `1` through its size, never through a congruence at `2` or `3`.
-
-For `x >= 2^(v+W)`, the first excursion descends if and only if `3^v < 2^(v+W)`.
-
-One excursion is not enough: `102411` has no contracting first excursion.
-
-The sieve's survivor count rises while its density falls: 3, 8, 19, 64 at levels 4, 6, 8, 10.
-
-So the surviving classes are proliferating, not dwindling to a few stubborn ones.
-
-The sieve is nested, and its survivors form one coherent tower under reduction.
-
-That tower specifies a single 2-adic integer, `-1`, which survives every level at once.
-
-The density rate is sharpened from `3/5 = 0.600` to `17/27 = 0.62963`, against a true threshold of `0.63093`.
-
-The heavy fraction then decays like `0.9695^k` instead of `0.98965^k`.
-
-The rate argument is stated once for any `p/q` with `3^p < 2^q`, and the old rates become instances.
-
-No rate beats `0.96863^k`, so the method is within 0.1 percent of its own ceiling.
-
-The verified range is `307200`, three times what the development is stated against.
-
-So a nontrivial cycle has least point above `307200` and greatest point above `691199`.
-
-Running the map backwards gives infinite descent on the minimal counterexample.
-
-The least number that never drops is not `2` mod `3`, and not `4` mod `9`.
-
-A multiple of three has exactly one preimage, its double, so backward descent provably cannot reach `3 | m`.
-
-Descent works from any point of the orbit, not just from `m`, so no orbit point `= 2` mod `3` lies below `(3m+1)/2`.
-
-That window ends exactly at `T(m)`, so the bound is sharp.
-
-The inverse odd step is a generator: if `3n+1 = 2^j m` and `m` reaches 1, so does `n`.
-
-It yields the family `1, 5, 21, 85, 341, ...`, unbounded, each reaching 1 by an argument not a search.
-
-`T^k` is affine on each residue class mod `2^k`, with multiplier fixed by the residue.
-
-A minimal counterexample survives a residue sieve: only 64 of 1024 classes mod 1024.
-
-The sieve can never clear, because `-1 mod 2^K` always escapes it.
-
-Terras' density theorem, from scratch: the residues obstructing `k`-step descent
-number at most `(243/256)^{k/5}` of all `2^k` classes.
-
-And the matching negative: that obstruction set is unbounded, so no fixed level
-of the analysis reaches every integer.
-
-Collatz follows from the drop property for just three classes mod `16`.
-
-No nontrivial accelerated cycle has length `26` or less.
-
-No point of an accelerated cycle is divisible by three.
-
-The greatest point of a cycle is even, and at least twice the least.
-
-Every `n` below `102400` reaches `1`, verified inside the kernel by checking
-only the sixty-four residue classes the sieve leaves open.
-
-No point of an accelerated cycle is divisible by a large power of two unless it
-is correspondingly large; in particular no cycle contains a power of two.
-
-The least point of a cycle is odd, `3` mod `4`, not a multiple of three, hence
-`7` or `11` mod `12`, and is followed by a second odd step.
-
-A cycle takes at least two odd steps, and either at least eleven or has length
-at most `33`.
-
-The orbit minimum of any counterexample is odd, `3` mod `4`, above `102400`,
-never drops, and is heavy at every scale below itself.
-
-That last fact covers the divergence half too, which the cycle lemmas cannot
-reach.
-
-Nearly two hundred chains of hypotheses, each with a proved implication to
-Collatz.
-
-Thirty-six of those hypotheses are refuted outright.
-
-## Structure
-
-`Collatz/Core/` arithmetic, reachability, pigeonhole, least element.
-
-`Collatz/Search/` kernel-checked verification and stopping times.
-
-`Collatz/Structure/` cycles, divergence, congruences, the sieve, the obstruction.
-
-`Collatz/Strategy/` reductions, and the list of what is left.
-
-`Collatz/Chains/` thirty decompositions, classified in `Index.lean`.
-
-`Papers/` tracks sources.
-
-`Blueprint/` explains the route.
-
-`scripts/` checks integrity.
-
-`.github/workflows/` runs CI.
-
-## Loop
-
-Find a paper.
-
-Extract a lemma.
-
-Write the Lean statement.
-
-Prove it or mark it open.
-
-Link it to its source.
-
-Run the checks.
-
-Push the smallest useful step.
-
-## Build
-
-    lake build Collatz
-    bash scripts/check_integrity.sh
-
-The hunt continues.
+# Collatz
+
+A research lab for AI-assisted exploration of the Collatz conjecture, with
+formal proofs in Lean, computational experiments, and a literature archive.
+The aim is to turn useful ideas into precise statements, check their proofs,
+and record exactly where each approach stops.
+
+**This repository does not contain a proof of the Collatz conjecture.**
+It contains partial results, conditional reductions, and documented obstructions
+to proposed proof strategies.
+
+## Start here
+
+- [Research frontier](RESEARCH.md): proved results, open hypotheses, and failed approaches.
+- [Exact first-descent intervals](Research/DescentIntervals/README.md): complete interval classifier, refinement conservation, cycle candidates, and the remaining universal coverage obligation.
+- [Concept index](INDEX.md): a map of the main Lean development.
+- [Mathlib-based extension](ProofAtlasAttack/README.md): predecessor-density and Syracuse-distribution results, attribution, and verification reports.
+- [Research notes](Devices/): explanations of individual arguments and their limits.
+- [Literature index](Papers/index.md): tracked sources.
+
+## Two Lean developments
+
+| Development | Scope | Dependencies and verification |
+| --- | --- | --- |
+| [`Collatz/`](Collatz/) | Arithmetic, reachability, finite verification, cycle bounds, and reductions of the conjecture. | Uses Lean core without Mathlib. The integrity script builds the library, scans for proof escapes, and audits selected theorem axiom footprints. |
+| [`ProofAtlasAttack/`](ProofAtlasAttack/) | Analytic predecessor-density and Syracuse-distribution arguments. | Uses Mathlib and imported work by Tao and Mazur / ProofAtlas. Has separate build instructions and endpoint audits. |
+
+The main development's integrity checks reject `sorry`, added axioms, and
+`native_decide`. Its audited footprints allow only the standard Lean axioms
+`propext`, `Classical.choice`, and `Quot.sound`. See the extension's README
+for its own verification scope and upstream attribution.
+
+Computational experiments outside Lean are identified separately from
+kernel-checked results. A conditional theorem proves an implication; it does
+not establish its hypothesis.
+
+## Selected results
+
+### Main development
+
+- **Finite convergence:** every positive `n < 3,998,720` reaches `1`.
+  See [the verified range](Collatz/Search/VerifiedRung14187.lean).
+- **Cycle-length bound:** an accelerated cycle through a positive point that
+  does not reach `1` has length at least `14,187`.
+  See [the theorem](Collatz/Strategy/Frontier14187.lean).
+  Here the accelerated map is `T(n) = n/2` for even `n` and `(3n+1)/2` for odd `n`.
+- **Descent reduction:** Collatz is equivalent to `1` being the only positive
+  integer whose accelerated orbit never falls below its starting value.
+  See [NeverDrops](Collatz/Strategy/NeverDrops.lean).
+- **Uniform inverse-tree coverage:** for every positive target `a` not divisible
+  by `3`, every class modulo `27` contains an odd `n < 19419*a` reaching `a`
+  in at most `22` accelerated steps.
+  See [the statement and limits](Devices/QuantitativeBackwardCover.md).
+
+The library also develops parity-word identities, residue sieves, inverse-tree
+counting bounds, and obstructions to local descent arguments. The
+[research frontier](RESEARCH.md) records the details and remaining gaps.
+The finite convergence and cycle bounds do not settle all positive integers
+or exclude all nontrivial cycles.
+
+### Mathlib-based extension
+
+- **Predecessor density:** every positive target not divisible by `3` has a
+  predecessor set of positive lower natural density. The
+  [residue-class extension](Devices/ResidueDensity.md) establishes positive
+  lower density in every fixed class modulo `2^p * 3^q`.
+- **Uniform Syracuse atom bound:** for the actual Syracuse probability law,
+  there is an absolute `c > 0` such that `μ_n(r) ≥ c / 3^n` for every `n ≥ 1`
+  and every unit residue `r` modulo `3^n`.
+  See [the theorem, proof, and attribution](Devices/SyracuseUniformFloor.md).
+- **Inverse-boundary analysis:** a hypothetical injective positive odd orbit
+  gives a rational remainder with a positive real limit and a zero 2-adic
+  limit. These limits are compatible, so they do not yield a contradiction.
+  See [the boundary check](Devices/InverseBoundary.md).
+
+These results do not exclude divergent orbits or unknown cycles. Verification
+reports and historical audit counts are maintained in the
+[extension README](ProofAtlasAttack/README.md); local verification does not
+establish historical priority or independent mathematical review.
+
+## Build and check
+
+With Lean and Lake available through `elan`, run from the repository root.
+The required Lean version is pinned in [`lean-toolchain`](lean-toolchain).
+The integrity script also requires Python 3 and Bash.
+
+```sh
+lake build Collatz
+```
+
+For the full main-library integrity check, which includes the build:
+
+```sh
+bash scripts/check_integrity.sh
+```
+
+[CI](.github/workflows/ci.yml) runs the main build and integrity check on pushes
+and pull requests. The Mathlib-based extension is checked separately; follow
+its [build and verification instructions](ProofAtlasAttack/README.md#extension).
+
+## Repository layout
+
+| Path | Contents |
+| --- | --- |
+| [`Collatz/Core/`](Collatz/Core/) | Basic arithmetic and reachability. |
+| [`Collatz/Search/`](Collatz/Search/) | Kernel-checked finite verification and stopping times. |
+| [`Collatz/Structure/`](Collatz/Structure/) | Cycles, divergence, congruences, and residue sieves. |
+| [`Collatz/Strategy/`](Collatz/Strategy/) | Proof strategies, reductions, and obstructions. |
+| [`Collatz/Chains/`](Collatz/Chains/) | Decompositions of the conjecture into hypotheses. |
+| [`ProofAtlasAttack/`](ProofAtlasAttack/) | Separate Mathlib-based extension and verification evidence. |
+| [`Devices/`](Devices/) and [`Research/`](Research/) | Argument summaries, investigations, and research artifacts. |
+| [`Blueprint/`](Blueprint/) | Expository notes on the development. |
+| [`Papers/`](Papers/) | Literature records and source tracking. |
+| [`scripts/`](scripts/) | Integrity checks, certificate generators, and computational probes. |
+
+## Research workflow
+
+1. Find a source or formulate a candidate lemma.
+2. State it precisely in Lean and record its assumptions.
+3. Prove it, leave it explicitly open, or document a counterexample.
+4. Link the result to its source and explain its scope.
+5. Run the relevant build and verification checks before submitting the change.

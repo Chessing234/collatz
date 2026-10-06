@@ -1,0 +1,7 @@
+'Collatz.PrimePowerBoundary.power_divides_one_of_three' depends on axioms: [propext, Quot.sound]
+'Collatz.PrimePowerBoundary.obstruction_cardinality' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.PrimePowerBoundary.two_boundary_cardinality' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.PrimePowerBoundary.zero_boundary_impossible' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.PrimePowerBoundary.four_le_boundary' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.PrimePowerBoundary.pair_boundary_sharp' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.PrimePowerBoundary.prime_power_sharp' depends on axioms: [propext, Classical.choice, Quot.sound]

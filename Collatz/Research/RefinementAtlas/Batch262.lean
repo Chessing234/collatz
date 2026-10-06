@@ -1,0 +1,144 @@
+import Collatz.Research.RefinementAtlas.Core
+
+/-! Sharp refined-cylinder certificates, batch 262. -/
+namespace Collatz.Research.RefinementAtlas.Batch262
+open Collatz
+open Collatz.Research.DescentAtlas
+open Collatz.Research.RefinementAtlas
+
+/-- Kernel-evaluated parity count and endpoint for (10, 3). -/
+theorem data_10_3 : oddCount 3 10 = 5 ∧
+    acceleratedOrbit 10 3 = 2 := by
+  decide
+
+/-- The coefficient deficit is strictly positive. -/
+theorem gap_10_3 : gap 10 3 = 781 ∧ 243 < 1024 := by
+  decide
+
+/-- The original residue cylinder has exactly this least successful index. -/
+theorem cutoff_10_3 : threshold 10 3 = 0 := by
+  decide
+
+/-- Exact endpoint in the zero refinement digit, for every natural index. -/
+theorem even_endpoint_10_3 (m : Nat) :
+    acceleratedOrbit 10 (1024 * (2 * m) + 3) = 243 * (2 * m) + 2 := by
+  have h := Congruence.accOrbit_pow_two_mul_add 10 (2 * m) 3
+  rw [data_10_3.1, data_10_3.2] at h
+  exact h
+
+/-- Exact endpoint in the nonzero refinement digit. -/
+theorem odd_endpoint_10_3 (m : Nat) :
+    acceleratedOrbit 10 (1024 * (2 * m + 1) + 3) = 243 * (2 * m + 1) + 2 := by
+  have h := Congruence.accOrbit_pow_two_mul_add 10 (2 * m + 1) 3
+  rw [data_10_3.1, data_10_3.2] at h
+  exact h
+
+/-- The zero refinement digit retains the sharp original cutoff. -/
+theorem even_cutoff_10_3 (m : Nat) :
+    acceleratedOrbit 10 (1024 * (2 * m) + 3) < 1024 * (2 * m) + 3 ↔ 0 ≤ m := by
+  have hc : 3 ^ oddCount 3 10 < 2 ^ 10 := by decide
+  have h := refined_descent_iff (s := 2) (q := 0) (m := m) hc
+  rw [cutoff_10_3] at h
+  simp only [Nat.add_zero] at h
+  change acceleratedOrbit 10 (1024 * (2 * m) + 3) < 1024 * (2 * m) + 3 ↔ 0 ≤ 2 * m at h
+  rw [h]
+  omega
+
+/-- The nonzero refinement digit has no exceptional indices. -/
+theorem odd_cleared_10_3 (m : Nat) :
+    acceleratedOrbit 10 (1024 * (2 * m + 1) + 3) < 1024 * (2 * m + 1) + 3 := by
+  apply refinement_cleared (k := 10) (r := 3) (s := 2) (q := 1)
+  · decide
+  · rw [cutoff_10_3]; decide
+
+/-- Kernel-evaluated parity count and endpoint for (10, 4). -/
+theorem data_10_4 : oddCount 4 10 = 4 ∧
+    acceleratedOrbit 10 4 = 1 := by
+  decide
+
+/-- The coefficient deficit is strictly positive. -/
+theorem gap_10_4 : gap 10 4 = 943 ∧ 81 < 1024 := by
+  decide
+
+/-- The original residue cylinder has exactly this least successful index. -/
+theorem cutoff_10_4 : threshold 10 4 = 0 := by
+  decide
+
+/-- Exact endpoint in the zero refinement digit, for every natural index. -/
+theorem even_endpoint_10_4 (m : Nat) :
+    acceleratedOrbit 10 (1024 * (2 * m) + 4) = 81 * (2 * m) + 1 := by
+  have h := Congruence.accOrbit_pow_two_mul_add 10 (2 * m) 4
+  rw [data_10_4.1, data_10_4.2] at h
+  exact h
+
+/-- Exact endpoint in the nonzero refinement digit. -/
+theorem odd_endpoint_10_4 (m : Nat) :
+    acceleratedOrbit 10 (1024 * (2 * m + 1) + 4) = 81 * (2 * m + 1) + 1 := by
+  have h := Congruence.accOrbit_pow_two_mul_add 10 (2 * m + 1) 4
+  rw [data_10_4.1, data_10_4.2] at h
+  exact h
+
+/-- The zero refinement digit retains the sharp original cutoff. -/
+theorem even_cutoff_10_4 (m : Nat) :
+    acceleratedOrbit 10 (1024 * (2 * m) + 4) < 1024 * (2 * m) + 4 ↔ 0 ≤ m := by
+  have hc : 3 ^ oddCount 4 10 < 2 ^ 10 := by decide
+  have h := refined_descent_iff (s := 2) (q := 0) (m := m) hc
+  rw [cutoff_10_4] at h
+  simp only [Nat.add_zero] at h
+  change acceleratedOrbit 10 (1024 * (2 * m) + 4) < 1024 * (2 * m) + 4 ↔ 0 ≤ 2 * m at h
+  rw [h]
+  omega
+
+/-- The nonzero refinement digit has no exceptional indices. -/
+theorem odd_cleared_10_4 (m : Nat) :
+    acceleratedOrbit 10 (1024 * (2 * m + 1) + 4) < 1024 * (2 * m + 1) + 4 := by
+  apply refinement_cleared (k := 10) (r := 4) (s := 2) (q := 1)
+  · decide
+  · rw [cutoff_10_4]; decide
+
+/-- Kernel-evaluated parity count and endpoint for (10, 5). -/
+theorem data_10_5 : oddCount 5 10 = 4 ∧
+    acceleratedOrbit 10 5 = 1 := by
+  decide
+
+/-- The coefficient deficit is strictly positive. -/
+theorem gap_10_5 : gap 10 5 = 943 ∧ 81 < 1024 := by
+  decide
+
+/-- The original residue cylinder has exactly this least successful index. -/
+theorem cutoff_10_5 : threshold 10 5 = 0 := by
+  decide
+
+/-- Exact endpoint in the zero refinement digit, for every natural index. -/
+theorem even_endpoint_10_5 (m : Nat) :
+    acceleratedOrbit 10 (1024 * (2 * m) + 5) = 81 * (2 * m) + 1 := by
+  have h := Congruence.accOrbit_pow_two_mul_add 10 (2 * m) 5
+  rw [data_10_5.1, data_10_5.2] at h
+  exact h
+
+/-- Exact endpoint in the nonzero refinement digit. -/
+theorem odd_endpoint_10_5 (m : Nat) :
+    acceleratedOrbit 10 (1024 * (2 * m + 1) + 5) = 81 * (2 * m + 1) + 1 := by
+  have h := Congruence.accOrbit_pow_two_mul_add 10 (2 * m + 1) 5
+  rw [data_10_5.1, data_10_5.2] at h
+  exact h
+
+/-- The zero refinement digit retains the sharp original cutoff. -/
+theorem even_cutoff_10_5 (m : Nat) :
+    acceleratedOrbit 10 (1024 * (2 * m) + 5) < 1024 * (2 * m) + 5 ↔ 0 ≤ m := by
+  have hc : 3 ^ oddCount 5 10 < 2 ^ 10 := by decide
+  have h := refined_descent_iff (s := 2) (q := 0) (m := m) hc
+  rw [cutoff_10_5] at h
+  simp only [Nat.add_zero] at h
+  change acceleratedOrbit 10 (1024 * (2 * m) + 5) < 1024 * (2 * m) + 5 ↔ 0 ≤ 2 * m at h
+  rw [h]
+  omega
+
+/-- The nonzero refinement digit has no exceptional indices. -/
+theorem odd_cleared_10_5 (m : Nat) :
+    acceleratedOrbit 10 (1024 * (2 * m + 1) + 5) < 1024 * (2 * m + 1) + 5 := by
+  apply refinement_cleared (k := 10) (r := 5) (s := 2) (q := 1)
+  · decide
+  · rw [cutoff_10_5]; decide
+
+end Collatz.Research.RefinementAtlas.Batch262

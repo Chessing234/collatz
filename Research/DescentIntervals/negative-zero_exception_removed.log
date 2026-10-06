@@ -1,0 +1,3 @@
+<temporary-directory>/Rejected.lean:4:46: error: Tactic `decide` proved that the proposition
+  exactInterval 1 0 = { lower := 0, upper := none }
+is false

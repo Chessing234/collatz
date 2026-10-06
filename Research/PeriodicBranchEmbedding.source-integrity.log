@@ -1,0 +1,5 @@
+Source-only portion of scripts/check_integrity.sh; full package build is separate.
+checking forbidden proof escapes
+/tmp/collatz_stripped.txt:41129:Collatz/Papers/Journal_10_5281_zenodo_18928635.lean:23:  "Novgorodtsev, Aleksei, \"CollatzLayerA v8.1 Formal Verification of the Collatz Conjecture in Lean 4 + Mathlib (2636 lines, 215 theorems, 2 axioms, 0 sorry)\", Zenodo, DOI:10.5281/zenodo.18928635 [2026]."
+integrity failed: proof escape found
+Exit status: 1

@@ -1,0 +1,6 @@
+'Collatz.CoefficientSuffix.prefix_maximum' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.CoefficientSuffix.global_maximum_of_tail_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.CoefficientSuffix.multiplier_shift' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.CoefficientSuffix.multiplier_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.CoefficientSuffix.no_crossing_suffix' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.CoefficientSuffix.crossings_force_late_growth' depends on axioms: [propext, Classical.choice, Quot.sound]

@@ -1,0 +1,2 @@
+# Per-batch local diagnostics are consolidated in kernel-batches.log.
+Batch*.build.log

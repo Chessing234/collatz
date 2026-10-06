@@ -1,0 +1,77 @@
+{
+  "new_module_count": 17,
+  "named_theorems_audited": 162,
+  "allowed_axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+  ],
+  "axiom_audit": "passed",
+  "targeted_module_builds": "passed",
+  "full_repository_build": "interrupted at user request; not a passing check",
+  "finite_probe": "passed",
+  "complete_period_input_checks": 98301,
+  "large_integer_period_checks": 4134,
+  "arbitrary_window_checks": 189,
+  "first_descent_input_interval": [
+    2,
+    200000
+  ],
+  "first_descent_orbit_steps": 696245,
+  "complete_class_checks": {
+    "depth_inclusive": 11,
+    "certified_classes": 25,
+    "rejected_classes_with_explicit_failure_witness": 4069,
+    "ray_checks": 32808,
+    "interval_convexity_checks": 4094,
+    "census": [
+      {
+        "depth": 1,
+        "certified_complete_classes": 0
+      },
+      {
+        "depth": 2,
+        "certified_complete_classes": 0
+      },
+      {
+        "depth": 3,
+        "certified_complete_classes": 0
+      },
+      {
+        "depth": 4,
+        "certified_complete_classes": 1
+      },
+      {
+        "depth": 5,
+        "certified_complete_classes": 2
+      },
+      {
+        "depth": 6,
+        "certified_complete_classes": 0
+      },
+      {
+        "depth": 7,
+        "certified_complete_classes": 3
+      },
+      {
+        "depth": 8,
+        "certified_complete_classes": 7
+      },
+      {
+        "depth": 9,
+        "certified_complete_classes": 0
+      },
+      {
+        "depth": 10,
+        "certified_complete_classes": 12
+      },
+      {
+        "depth": 11,
+        "certified_complete_classes": 0
+      }
+    ]
+  },
+  "universal_descent": "not proved",
+  "historical_novelty": "not asserted",
+  "research_status": "paused at user request"
+}
