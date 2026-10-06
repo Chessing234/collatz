@@ -25,6 +25,8 @@ jobs:
           # The project has no Lake test target, so keep testing disabled.
           auto-config: false
           build: true
+          # Build the library before lean-action saves the Lake cache.
+          build-args: Collatz
           test: false
           # lean-action caches the .lake directory by default; make it explicit.
           use-github-cache: true
@@ -43,3 +45,6 @@ jobs:
 
       - name: Check stopping atlas and horizon extension
         run: python3 scripts/audit_stopping_atlas.py
+
+      - name: Check depth-fifteen passage atlas and horizon 2592
+        run: python3 scripts/audit_passage_atlas.py

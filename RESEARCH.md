@@ -15641,3 +15641,60 @@ arithmetic argument is needed to exclude a positive integer realizing
 an injective valuation sequence with the established properties. The
 two-topology limit distinction alone cannot provide that exclusion,
 and the cycle case remains unresolved.
+
+## Certified first-passage progress and the residual solution target (2026-10-06)
+
+The objective of this investigation is progress toward solving Collatz. The
+new PassageAtlas development strengthens the universally quantified
+crossing-to-descent bridge: for every n>1, a first coefficient crossing by
+step 2592 forces actual descent. Crossing existence by this deadline is
+not asserted. Kernel-checked exceptional intervals cover 2<=n<330588 at
+scan horizon 164; 270271 attains that horizon. The next gap record at
+(k,a)=(2593,1636) requires threshold 583015 in the inherited bound.
+
+FeasibleTimes.lean provides an unbounded structural result rather than
+another finite table. A coefficient first-crossing time k+1 is possible
+exactly when [2^k,2^(k+1)) contains a power of three. An occupied band
+admits a parity word consisting of initial ones followed by zeros, and
+binary residue lifting realizes that word at arbitrarily large positive
+inputs. The odd count is unique at a crossing time; the crossing time
+is unique for an odd count. Actual stopping has the same complete time
+classification through the certified horizon. The theorem concerns
+existence at each possible time, not a crossing for every input.
+
+SolutionBridge.lean proves ResidualCoverage equivalent to the original
+Collatz conjecture. Its remaining universal assertion asks for a later,
+input-dependent descent for every n>1 with no crossing by 2592. The
+stronger ResidualGapCoverage condition would solve Collatz through an
+explicit strict integer-gap estimate without a fixed time bound. These
+are definitions of open research targets; neither proposition is claimed
+to hold. A hypothetical failure yields a concrete never-descending input
+surviving the certified window. Every certified finite window leaves an
+input uncovered, so an unbounded argument remains necessary.
+
+The complete depth-fifteen atlas contains 32768 new infinite-class
+certificates: 173 classes stop first at fifteen and 32595 do not. A
+separate counting computation certifies the 173/32768 numerator. The
+finite discrepancy bound is 5638935, and arbitrarily fine integer
+precision gives the corresponding rational natural-density theorem.
+The count does not cover all inputs or imply universal convergence.
+
+The requested scale is supplied by 1000 distinct new certificate commits
+after baseline c96b95946b896306b1252b553781ef270bb3f32d. Every batch was
+built before its commit; batches partition distinct residue classes.
+The source volume is predominantly generated proof-carrying data, not
+1000 independent mathematical discoveries. Verification records and
+primary-source literature qualifications are in Research/PassageAtlas.
+The investigation connects affine arithmetic, parity construction,
+first passage, exact counting, induction and the existing alternate
+research routes. It does not claim to exhaust all possible techniques.
+No historical novelty is claimed. The conjecture remains unproved.
+
+The completed audit records 370311 new Lean code lines (comments, blank
+lines and the audit driver excluded), 131850 checked named theorems,
+2651669 independent integer/combinatorial checks, and six rejected false
+certificates. The observed axiom footprint contains only propext,
+Classical.choice and Quot.sound. The full library build completed 4524
+jobs and repository integrity passed. Historical source hashes match
+all 1000 separate certificate commits. These verify the partial results
+and their provenance; they do not discharge ResidualCoverage.
