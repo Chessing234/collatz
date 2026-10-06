@@ -1,0 +1,18 @@
+import Collatz.Strategy.FirstDescentDensityTransport
+
+#print axioms Collatz.StoppingRuleDensity.density_one_bounded_rule
+#print axioms Collatz.StoppingRuleDensity.selected_failure_count
+#print axioms Collatz.StoppingRuleDensity.density_one_tight_rule
+#print axioms Collatz.StoppingRuleDensity.tight_of_bounded
+#print axioms Collatz.FirstDescentDensityTransport.first_descent_exists
+#print axioms Collatz.FirstDescentDensityTransport.first_exists
+#print axioms Collatz.FirstDescentDensityTransport.firstTime_spec
+#print axioms Collatz.FirstDescentDensityTransport.firstTime_le_of_drop
+#print axioms Collatz.FirstDescentDensityTransport.long_time_no_drop
+#print axioms Collatz.FirstDescentDensityTransport.firstTime_density_tight
+#print axioms Collatz.FirstDescentDensityTransport.density_one_descentMap
+#print axioms Collatz.FirstDescentDensityTransport.descentMap_lt_iff
+#print axioms Collatz.FirstDescentDensityTransport.input_le_twice_step
+#print axioms Collatz.FirstDescentDensityTransport.first_descent_half_bound
+#print axioms Collatz.FirstDescentDensityTransport.descentMap_half_bound
+#print axioms Collatz.FirstDescentDensityTransport.not_four_fifths_at_first_descent

@@ -1,0 +1,13 @@
+'Collatz.LocalOrbitCorridor.no_three_in_band' depends on axioms: [propext, Quot.sound]
+'Collatz.LocalOrbitCorridor.local_escape' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.LocalOrbitCorridor.every_local_window' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.LocalOrbitCorridor.local_check_has_small_hit' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.LocalOrbitCorridor.twoStepVerified_iff' depends on axioms: [propext, Quot.sound]
+'Collatz.LocalOrbitCorridor.twoStepVerified_sound' depends on axioms: [propext, Quot.sound]
+'Collatz.LocalOrbitCorridor.local_implies_hit' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.LocalOrbitCorridor.local_check_sound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.LocalOrbitCorridor.current_local_check' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.LocalOrbitCorridor.long_check_implies_local' depends on axioms: [propext, Quot.sound]
+'Collatz.LocalOrbitCorridor.local_strictly_improves' does not depend on any axioms
+'Collatz.LocalOrbitCorridor.local_failure_can_converge' depends on axioms: [propext, Quot.sound]
+'Collatz.LocalOrbitCorridor.hit_strictly_improves' does not depend on any axioms

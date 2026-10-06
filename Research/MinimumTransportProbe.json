@@ -1,0 +1,82 @@
+{
+  "all_checks_passed": true,
+  "samples": [
+    {
+      "positive_starts_through": 1000,
+      "minimum_image": [
+        1
+      ],
+      "minimum_preimage_with_finite_stopping": 0,
+      "first_minimum_step_time_exceeds": {
+        "0": 999,
+        "1": 998,
+        "4": 994,
+        "16": 828,
+        "32": 461,
+        "64": 248,
+        "128": 0
+      },
+      "first_terminal_round_exceeds": {
+        "0": 999,
+        "1": 998,
+        "4": 989,
+        "16": 1,
+        "32": 0,
+        "64": 0,
+        "128": 0
+      }
+    },
+    {
+      "positive_starts_through": 10000,
+      "minimum_image": [
+        1
+      ],
+      "minimum_preimage_with_finite_stopping": 0,
+      "first_minimum_step_time_exceeds": {
+        "0": 9999,
+        "1": 9998,
+        "4": 9994,
+        "16": 9742,
+        "32": 7472,
+        "64": 3846,
+        "128": 45
+      },
+      "first_terminal_round_exceeds": {
+        "0": 9999,
+        "1": 9998,
+        "4": 9989,
+        "16": 4861,
+        "32": 0,
+        "64": 0,
+        "128": 0
+      }
+    },
+    {
+      "positive_starts_through": 100000,
+      "minimum_image": [
+        1
+      ],
+      "minimum_preimage_with_finite_stopping": 0,
+      "first_minimum_step_time_exceeds": {
+        "0": 99999,
+        "1": 99998,
+        "4": 99994,
+        "16": 99726,
+        "32": 91934,
+        "64": 52415,
+        "128": 4320
+      },
+      "first_terminal_round_exceeds": {
+        "0": 99999,
+        "1": 99998,
+        "4": 99989,
+        "16": 94057,
+        "32": 0,
+        "64": 0,
+        "128": 0
+      }
+    }
+  ],
+  "evaluates_classical_lean_choices": false,
+  "proves_universal_convergence": false
+}

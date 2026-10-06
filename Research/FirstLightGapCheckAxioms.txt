@@ -1,0 +1,9 @@
+'Collatz.FirstLightGapCheck.gap_of_upper_count' depends on axioms: [propext, Quot.sound]
+'Collatz.FirstLightGapCheck.run_sound' depends on axioms: [propext, Quot.sound]
+'Collatz.FirstLightGapCheck.check_sound' depends on axioms: [propext, Quot.sound]
+'Collatz.FirstLightGapCheck.gap_256' does not depend on any axioms
+'Collatz.FirstLightGapCheck.gap_1024' does not depend on any axioms
+'Collatz.FirstLightScan.checkInterval_sound' depends on axioms: [propext, Quot.sound]
+'Collatz.FirstLightScan.checkInterval_complete' depends on axioms: [propext, Quot.sound]
+'Collatz.FirstLightScan.checkInterval_append' depends on axioms: [propext, Quot.sound]
+'Collatz.FirstLightScan.checkInterval_mono_horizon' depends on axioms: [propext, Quot.sound]

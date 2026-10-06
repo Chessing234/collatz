@@ -1,0 +1,10 @@
+'Collatz.LogarithmicHeightObstruction.exponentiated_comparison' depends on axioms: [propext, Quot.sound]
+'Collatz.LogarithmicHeightObstruction.no_bounded_log_height_nonincrease' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Collatz.LogarithmicHeightObstruction.no_bounded_log_height_descent' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Collatz.LogarithmicHeightObstruction.no_bounded_log_correction_descent' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

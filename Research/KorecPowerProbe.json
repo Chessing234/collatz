@@ -1,0 +1,32 @@
+{
+  "cutoff": 10000,
+  "rows": [
+    {
+      "numerator": 4,
+      "denominator": 5,
+      "inside_published_exponent_range": true,
+      "counts_below_cutoff": {
+        "0": 0,
+        "4": 2144,
+        "16": 7416,
+        "64": 9834,
+        "256": 9998
+      },
+      "maximum_found_index": 111
+    },
+    {
+      "numerator": 3,
+      "denominator": 4,
+      "inside_published_exponent_range": false,
+      "counts_below_cutoff": {
+        "0": 0,
+        "4": 1056,
+        "16": 6817,
+        "64": 9784,
+        "256": 9998
+      },
+      "maximum_found_index": 111
+    }
+  ],
+  "scope": "Finite evidence only; not a density theorem."
+}

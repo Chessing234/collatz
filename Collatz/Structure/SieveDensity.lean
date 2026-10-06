@@ -1,42 +1,33 @@
 import Collatz.Structure.Obstruction
 
 /-!
-# How the sieve fails, quantitatively
+# Finite sieve counts and a persistent obstruction
 
-`Obstruction.sieve_never_clears` says the residue sieve retains at least one
-class at every level — the class `2 ^ K − 1`.  That is a qualitative statement,
-and it leaves open a hopeful reading: perhaps the surviving set is *thin*, a
-handful of stubborn classes that some sharper criterion could pick off.
+`Obstruction.sieve_never_clears` proves that at every level k the residue
+`2^k−1` survives. This file gives kernel-checked counts at selected levels:
 
-It is not thin.  Counting the survivors shows the opposite of what the
-qualitative theorem might suggest:
+| level k | survivors | total classes |
+|---|---|---|
+| 4 | 3 | 16 |
+| 6 | 8 | 64 |
+| 8 | 19 | 256 |
+| 10 | 64 | 1024 |
 
-| level `k` | survivors | out of | density |
-|---|---|---|---|
-| 4 | 3 | 16 | 18.7% |
-| 6 | 8 | 64 | 12.5% |
-| 8 | 19 | 256 | 7.4% |
-| 10 | 64 | 1024 | 6.2% |
-| 12 | 226 | 4096 | 5.5% |
-| 14 | 734 | 16384 | 4.5% |
-| 16 | 2114 | 65536 | 3.2% |
-| 18 | 7495 | 262144 | 2.9% |
-| 20 | 27328 | 1048576 | 2.6% |
+The survivor count increases and the proportion decreases across these four
+selected levels. Those finite comparisons do not prove strict monotonicity at
+every level, an unbounded survivor count, or a limiting density. In particular,
+the separate geometric heavy-residue bound in `Density` should not be confused
+with the finite comparisons below.
 
-The counts through level `10` are proved below by kernel evaluation; the rest
-were measured the same way but are omitted from the build, since deciding level
-`14` alone costs minutes.
+The coherent obstruction tower proves that no finite level empties this sieve.
+It does not exhibit a positive integer which fails Collatz: the residues
+`2^k−1` describe the 2-adic integer −1, and the positive representative changes
+with k. A finite sieve's persistent obstruction does not rule out an argument
+using additional orbit information or an unbounded, input-dependent horizon.
 
-**The density falls and the count rises.**  Each refinement removes a larger
-fraction, and each refinement leaves more classes standing than the last.  So
-the sieve is not converging on a finite obstruction that a better criterion
-might clear — the surviving set grows without bound, and `sieve_never_clears`
-identifies only the easiest of its members.
-
-This is the honest reason deepening the sieve cannot settle the conjecture, and
-it is a sharper reason than the qualitative theorem gives.  A method that
-eliminates a fixed proportion per level never finishes, however many levels are
-computed: the work grows like `2 ^ k` and the residue left over grows too.
+Independent counts through level 16 are recorded in
+`Research/FirstLightPeriodicityProbe.json` for the coefficient-prefix test.
+Identifying predicates requires a proof; matching counts alone is not one.
 -/
 
 namespace Collatz
@@ -134,8 +125,7 @@ theorem tower_reduces (k : Nat) :
 
 /-! ## The two trends -/
 
-/-- **The count rises.**  Each refinement of the sieve leaves strictly more
-classes standing than the previous one. -/
+/-- The count rises across the four explicitly checked levels. -/
 theorem survivorCount_increasing :
     survivorCount 4 < survivorCount 6 ∧
     survivorCount 6 < survivorCount 8 ∧
@@ -143,8 +133,8 @@ theorem survivorCount_increasing :
   rw [survivorCount_four, survivorCount_six, survivorCount_eight, survivorCount_ten]
   omega
 
-/-- **The density falls.**  Comparing `survivorCount k / 2 ^ k` across levels by
-cross-multiplication, each level is a strictly smaller fraction than the last. -/
+/-- The proportion falls across the four explicitly checked levels,
+expressed by integer cross multiplication. -/
 theorem density_decreasing :
     survivorCount 6 * 2 ^ 4 < survivorCount 4 * 2 ^ 6 ∧
     survivorCount 8 * 2 ^ 6 < survivorCount 6 * 2 ^ 8 ∧
@@ -152,14 +142,9 @@ theorem density_decreasing :
   rw [survivorCount_four, survivorCount_six, survivorCount_eight, survivorCount_ten]
   decide
 
-/-- **The sieve refines forever without emptying.**  The two trends together:
-the surviving fraction shrinks at every level, and yet the surviving set is
-never empty and is strictly larger at each level than at the one before.
-
-So no amount of deepening clears the sieve, and the reason is not that the
-remaining classes are few and stubborn — there are more of them at every level.
-`Obstruction.sieve_never_clears` exhibits one survivor; this says the survivors
-are proliferating. -/
+/-- Every level has at least one survivor, together with the proved finite
+count comparisons at levels 4, 6, 8, and 10. The name is historical: the
+statement does not assert unbounded growth or monotonicity at all levels. -/
 theorem sieve_proliferates :
     (∀ k : Nat, 1 ≤ survivorCount k) ∧
     survivorCount 4 < survivorCount 6 ∧

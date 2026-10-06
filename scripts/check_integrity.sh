@@ -8,40 +8,8 @@ printf 'checking Lean build\n'
 lake build Collatz
 
 printf 'checking forbidden proof escapes\n'
-# Strip Lean comments before grepping.  The prose grep used to fire on the word
-# "axiom" inside a docstring, which forced one agent to write "postulate" throughout
-# a file to appease it.  A false positive that distorts what people can write is a
-# real defect, so the scan now sees code only.  Uses the same nesting-aware stripper
-# as scripts/index.py.
-python3 - <<'STRIP' > /tmp/collatz_stripped.txt
-import os, sys
-def strip(text):
-    out, i, depth = [], 0, 0
-    while i < len(text):
-        if text.startswith('/-', i): depth += 1; i += 2; continue
-        if text.startswith('-/', i): depth = max(0, depth - 1); i += 2; continue
-        if depth == 0 and text.startswith('--', i):
-            j = text.find('\n', i); i = len(text) if j < 0 else j; continue
-        if depth == 0: out.append(text[i])
-        elif text[i] == '\n': out.append('\n')
-        i += 1
-    return ''.join(out)
-for root, _, fs in os.walk('Collatz'):
-    for f in sorted(fs):
-        if f.endswith('.lean'):
-            p = os.path.join(root, f)
-            for k, line in enumerate(strip(open(p).read()).split('\n'), 1):
-                print(f"{p}:{k}:{line}")
-for line_no, line in enumerate(strip(open('Collatz.lean').read()).split('\n'), 1):
-    print(f"Collatz.lean:{line_no}:{line}")
-STRIP
-# Every way a Lean proof can leave the kernel, not just the three obvious ones.
-# `sorryAx` does not match \bsorry\b, and `native_decide` compiles to a trusted
-# axiom -- both were live in this repo and passed the old grep.
-if grep -RInE '\b(sorry|sorryAx|axiom|native_decide|ofReduceBool|skipKernelTC|byAsSorry|addDecl|addAndCompile|mkProj|ofReduceNat|evalConst|Lean\.Elab\.Command\.liftCoreM)\b|^[^:]*:[0-9]+:[[:space:]]*((private|protected|noncomputable|scoped)[[:space:]]+)*(admit|unsafe|partial|opaque)([[:space:]]|$)|@\[(implemented_by|extern)' /tmp/collatz_stripped.txt; then
-  printf 'integrity failed: proof escape found\n' >&2
-  exit 1
-fi
+# The lexical screen ignores inert prose but retains potential interpolation code.
+python3 scripts/check_proof_escapes.py
 
 printf 'checking axiom footprint of the frontier\n'
 cat > /tmp/collatz_axcheck.lean <<'LEAN'
@@ -135,6 +103,116 @@ import Collatz
 #print axioms Collatz.ShortWordCount.weighted_bound
 #print axioms Collatz.ShortWordCount.short_count_power_bound
 #print axioms Collatz.ShortWordCount.fewer_than_units
+#print axioms Collatz.ResidueMonotoneObstruction.no_bounded_height_descent
+#print axioms Collatz.ResidueMonotoneObstruction.no_finite_menu_descent
+#print axioms Collatz.Papers.Tao2022.not_logDensityOne_empty
+#print axioms Collatz.Papers.Tao2022.almostBelow_mono
+#print axioms Collatz.Papers.Tao2022.harmonic_eventually_large_rat
+#print axioms Collatz.Papers.Tao2022.logDensityOne_of_cofinite
+#print axioms Collatz.Papers.Tao2022.taoAlmostBoundedOrbits_of_collatz
+#print axioms Collatz.Papers.Tao2022.density_one_not_universal
+#print axioms Collatz.DensityCountermodel.all_targets_positive_lower_density
+#print axioms Collatz.DensityCountermodel.three_never_reaches_one
+#print axioms Collatz.DensityCountermodel.reaches_one_or_three
+#print axioms Collatz.FirstLightScan.check_iff
+#print axioms Collatz.FirstLightCertificates.descent_at_first_light_le_256
+#print axioms Collatz.FirstLightGapCheck.check_sound
+#print axioms Collatz.FirstLightGapCheck.gap_1024
+#print axioms Collatz.FirstLightScan.checkInterval_append
+#print axioms Collatz.FirstLightConsequences.first_descent_iff_first_light
+#print axioms Collatz.FirstLightPeriodicity.noDescent_256_congr
+#print axioms Collatz.PeriodicCounting.periodic_density_precision
+#print axioms Collatz.FirstLightCounting.survival_count_div_mod
+#print axioms Collatz.NaturalDensity.not_densityOne_empty
+#print axioms Collatz.Papers.Korec1994.four_fifths_of_statement
+#print axioms Collatz.Papers.Korec1994.one_not_below_power
+#print axioms Collatz.NaturalDensity.densityOne_iff_eventually_equal
+#print axioms Collatz.Papers.Korec1994.reaches_one_iff_all_reciprocal_powers
+#print axioms Collatz.Papers.Korec1994.rational_statement_of_universal_convergence
+#print axioms Collatz.FirstLightEventual.descent_above_threshold
+#print axioms Collatz.DensityPrecision.heavy_precision
+#print axioms Collatz.StoppingNaturalDensity.finite_stopping_time_density_one
+#print axioms Collatz.Papers.Terras1976.terrasDensityOne_proved
+#print axioms Collatz.FirstLight1024.descent_at_first_light_le_1024
+#print axioms Collatz.FirstLightConsequences.exactThrough_1024
+#print axioms Collatz.NaturalDensity.densityOne_rat_bound
+#print axioms Collatz.Papers.Terras1976.diagonalDensityOne_proved
+#print axioms Collatz.DensityCountermodel.PowerComparison.density_quantifiers_do_not_commute
+#print axioms Collatz.ProductDescentCheck.productCheck_sound
+#print axioms Collatz.ProductDescentCheck.productCheck_implies_light
+#print axioms Collatz.ProductDescentCheck.convergence_of_universal_checks
+#print axioms Collatz.ProductDescentCheck.first_descent_can_be_missed
+#print axioms Collatz.StoppingCorrectionBounds.prefix_scaled_upper
+#print axioms Collatz.StoppingCorrectionBounds.total_stopping_two_sided
+#print axioms Collatz.StoppingCorrectionBounds.later_return_needs_hypothesis
+#print axioms Collatz.InverseInterval.pruneStable_correct
+#print axioms Collatz.InverseInterval.earlyDecision_iff
+#print axioms Collatz.InverseInterval.earlyDecision_resources
+#print axioms Collatz.InverseInterval.layer_membership_iff_survives
+#print axioms Collatz.InverseInterval.layer_length_le
+#print axioms Collatz.InverseInterval.layerCheck_iff
+#print axioms Collatz.InverseInterval.decision_layer_empty_iff
+#print axioms Collatz.InverseInterval.cycle_of_long_path
+#print axioms Collatz.InverseInterval.survives_decision_positive_iff
+#print axioms Collatz.InverseInterval.survives_stable
+#print axioms Collatz.InverseInterval.step_predecessors
+#print axioms Collatz.InverseInterval.survives_iff
+#print axioms Collatz.InverseInterval.cycle_survives
+#print axioms Collatz.InverseInterval.rejection_excludes_cycle
+#print axioms Collatz.InverseSpreadBoundary.endpoint_has_admissible_odd
+#print axioms Collatz.InverseSpreadBoundary.endpoint_not_forced
+#print axioms Collatz.InverseSpreadBoundary.endpoint_predecessors
+#print axioms Collatz.CycleInverseSpread.forced_double
+#print axioms Collatz.CycleInverseSpread.eight_min_attained
+#print axioms Collatz.CycleInverseSpread.sixteen_min_attained
+#print axioms Collatz.CycleInverseSpread.residue_spread
+#print axioms Collatz.LocalOrbitCorridor.no_three_in_band
+#print axioms Collatz.LocalOrbitCorridor.every_local_window
+#print axioms Collatz.LocalOrbitCorridor.twoStepVerified_sound
+#print axioms Collatz.LocalOrbitCorridor.local_check_sound
+#print axioms Collatz.LocalOrbitCorridor.long_check_implies_local
+#print axioms Collatz.LocalOrbitCorridor.hit_strictly_improves
+#print axioms Collatz.VerifiedOrbitCorridor.corridor_escape
+#print axioms Collatz.VerifiedOrbitCorridor.every_window_exit
+#print axioms Collatz.VerifiedOrbitCorridor.repeat_certificate_constraints
+#print axioms Collatz.VerifiedOrbitCorridor.corridor_check_sound
+#print axioms Collatz.FiniteOrbitCertificates.repeat_certificate_iff
+#print axioms Collatz.FiniteOrbitCertificates.finite_search_complete
+#print axioms Collatz.FiniteOrbitCertificates.repeatSearch_sound
+#print axioms Collatz.FiniteOrbitCertificates.all_exits_iff_divergent
+#print axioms Collatz.MinimumTransportBarrier.minimum_destroys_density
+#print axioms Collatz.MinimumTransportBarrier.minimum_image_iff
+#print axioms Collatz.MinimumTransportBarrier.minimum_image_sparse
+#print axioms Collatz.MinimumTransportBarrier.terminal_time_not_tight
+#print axioms Collatz.MinimumTransportBarrier.terminalRound_not_tight
+#print axioms Collatz.DescentRounds.fixed_rounds_vs_diagonal
+#print axioms Collatz.DescentRounds.density_one_dropsThrough
+#print axioms Collatz.DescentRounds.orbitMinimum_le
+#print axioms Collatz.DescentRounds.orbitMinimum_eq_one_iff
+#print axioms Collatz.Papers.Korec1994.logarithmic_power_density
+#print axioms Collatz.Papers.Korec1994.logPowerCheck_density_one
+#print axioms Collatz.Papers.Korec1994.density_one_power_time_window
+#print axioms Collatz.PowerStoppingTimeBarrier.success_sparse_of_tight
+#print axioms Collatz.PowerStoppingTimeBarrier.powerTime_not_tight
+#print axioms Collatz.StoppingRuleDensity.density_one_tight_rule
+#print axioms Collatz.FirstDescentDensityTransport.density_one_descentMap
+#print axioms Collatz.FirstDescentDensityTransport.not_four_fifths_at_first_descent
+#print axioms Collatz.StepDensityTransport.density_one_orbit
+#print axioms Collatz.StoppingQuantifierBoundary.density_one_windows_with_empty_intersection
+#print axioms Collatz.PowerCertificateBarrier.certificate_iff_exponent_condition
+#print axioms Collatz.Papers.Korec1994.rationalExponentStatement_proved
+#print axioms Collatz.Papers.Journal_1994_Korec_a_density_estimate_for_the_3x.mainStatement_proved
+#print axioms Collatz.Papers.Korec1994.four_fifths_density_one
+#print axioms Collatz.Papers.Korec1994.density_one_exponent_ge_four_fifths
+#print axioms Collatz.ParityMoments.moment_eq
+#print axioms Collatz.ParityMoments.tail_moment_bound
+#print axioms Collatz.ParityMoments.four_fifths_tail_bound
+#print axioms Collatz.BoundedHeightWitness.bounded_failure_witness
+#print axioms Collatz.BoundedHeightWitness.runFailureCheck_complete
+#print axioms Collatz.LogarithmicHeightObstruction.no_bounded_log_height_nonincrease
+#print axioms Collatz.ComparableHeightObstruction.no_bounded_two_sided_comparable_height
+#print axioms Collatz.DensityCountermodel.Compatibility.descent_density_with_positive_failure_density
+#print axioms Collatz.DensityCountermodel.Compatibility.almost_bounded_comparison
 LEAN
 axout="$(lake env lean /tmp/collatz_axcheck.lean)"
 # Lean may wrap a long declaration's axiom list after commas. Join those

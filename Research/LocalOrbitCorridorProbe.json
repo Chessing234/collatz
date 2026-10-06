@@ -1,0 +1,16 @@
+{
+  "all_checks_passed": true,
+  "local_band_checks": 500500,
+  "comparison_starts": 1402,
+  "accepted_counts": {
+    "long_corridor": 1029,
+    "local_corridor": 1201,
+    "direct_verified_hit": 1227
+  },
+  "strict_improvement_examples": {
+    "local_but_not_long": 4012806,
+    "direct_but_not_local": 7997440
+  },
+  "all_sampled_starts_observed_to_converge": true,
+  "proves_universal_convergence": false
+}

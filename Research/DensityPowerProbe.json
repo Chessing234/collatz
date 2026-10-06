@@ -1,0 +1,49 @@
+{
+  "comparison_map_not_collatz": true,
+  "limit_exclusive": 10000,
+  "power_thresholds": [
+    {
+      "reciprocal_denominator": 1,
+      "cofinite_cutoff": 4,
+      "successful_starts_below_10000": 9997
+    },
+    {
+      "reciprocal_denominator": 2,
+      "cofinite_cutoff": 10,
+      "successful_starts_below_10000": 9995
+    },
+    {
+      "reciprocal_denominator": 3,
+      "cofinite_cutoff": 28,
+      "successful_starts_below_10000": 9987
+    },
+    {
+      "reciprocal_denominator": 4,
+      "cofinite_cutoff": 82,
+      "successful_starts_below_10000": 9967
+    },
+    {
+      "reciprocal_denominator": 5,
+      "cofinite_cutoff": 244,
+      "successful_starts_below_10000": 9883
+    },
+    {
+      "reciprocal_denominator": 6,
+      "cofinite_cutoff": 730,
+      "successful_starts_below_10000": 9743
+    },
+    {
+      "reciprocal_denominator": 7,
+      "cofinite_cutoff": 2188,
+      "successful_starts_below_10000": 8975
+    },
+    {
+      "reciprocal_denominator": 8,
+      "cofinite_cutoff": 6562,
+      "successful_starts_below_10000": 7533
+    }
+  ],
+  "pointwise_equivalence_checks": 9998,
+  "positive_nonconvergent_starts": 4095,
+  "all_checks_passed": true
+}

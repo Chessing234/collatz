@@ -1,0 +1,19 @@
+'Collatz.DensityCountermodel.Compatibility.orbit_add' depends on axioms: [propext]
+'Collatz.DensityCountermodel.Compatibility.orbit_one' does not depend on any axioms
+'Collatz.DensityCountermodel.Compatibility.orbit_zero_start' does not depend on any axioms
+'Collatz.DensityCountermodel.Compatibility.reaches_three_excludes_one' depends on axioms: [propext, Quot.sound]
+'Collatz.DensityCountermodel.Compatibility.finite_stopping_above_three' depends on axioms: [propext, Quot.sound]
+'Collatz.DensityCountermodel.Compatibility.finite_stopping_density_one' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Collatz.DensityCountermodel.Compatibility.failure_count_lower' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Collatz.DensityCountermodel.Compatibility.orbit_below_three' depends on axioms: [propext, Quot.sound]
+'Collatz.DensityCountermodel.Compatibility.almost_bounded_comparison' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Collatz.DensityCountermodel.Compatibility.descent_density_with_positive_failure_density' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Collatz.DensityCountermodel.Compatibility.dropping_ancestor_of_never_dropper' depends on axioms: [propext, Quot.sound]

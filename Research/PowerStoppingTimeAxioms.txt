@@ -1,0 +1,12 @@
+'Collatz.PowerStoppingTimeBarrier.orbit_halving_lower' depends on axioms: [propext, Quot.sound]
+'Collatz.PowerStoppingTimeBarrier.power_gap_bound_of_hit' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.PowerStoppingTimeBarrier.input_bound_of_power_hit' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.PowerStoppingTimeBarrier.no_power_hit_through' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.PowerStoppingTimeBarrier.success_sparse_of_tight' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.PowerStoppingTimeBarrier.not_tight_of_power_success' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.PowerStoppingTimeBarrier.power_success_forces_large_times' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Collatz.PowerStoppingTimeBarrier.powerTime_spec' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.PowerStoppingTimeBarrier.powerTime_success_density' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.PowerStoppingTimeBarrier.powerTime_not_tight' depends on axioms: [propext, Classical.choice, Quot.sound]

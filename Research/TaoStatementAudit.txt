@@ -1,0 +1,31 @@
+def Collatz.Papers.Tao2022.taoAlmostBoundedOrbits : Prop :=
+∀ (f : Nat → Rat),
+  (∀ (N : Nat), ∃ M, ∀ (n : Nat), M ≤ n → f n ≥ ↑N) →
+    Collatz.Papers.Tao2022.LogDensityOne fun n => Collatz.Papers.Tao2022.OrbitBelow n (f n)
+def Collatz.Papers.Tao2022.LogDensityOne : (Nat → Prop) → Prop :=
+fun P =>
+  ∀ (eps : Rat),
+    0 < eps →
+      ∃ N0,
+        ∀ (N : Nat),
+          N0 ≤ N →
+            0 < N →
+              (1 - eps) * Collatz.Papers.Tao2022.harmonicMass (fun x => True) N ≤
+                Collatz.Papers.Tao2022.harmonicMass P N
+def Collatz.Papers.Tao2022.OrbitBelow : Nat → Rat → Prop :=
+fun n bound => ∃ k, ↑(Collatz.Papers.Tao2022.ColIter k n) ≤ bound
+'Collatz.Papers.Tao2022.harmonicMass_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.Papers.Tao2022.harmonicMass_empty' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.Papers.Tao2022.harmonicMass_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.Papers.Tao2022.orbitBelow_of_reaches_one' depends on axioms: [propext, Quot.sound]
+'Collatz.Papers.Tao2022.orbitBelow_of_start_le' depends on axioms: [propext, Quot.sound]
+'Collatz.Papers.Tao2022.not_orbitBelow_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.Papers.Tao2022.harmonicMass_succ' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.Papers.Tao2022.reciprocal_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.Papers.Tao2022.harmonicMass_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.Papers.Tao2022.harmonicMass_full_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.Papers.Tao2022.not_logDensityOne_empty' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.Papers.Tao2022.harmonicMass_mono' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.Papers.Tao2022.logDensityOne_mono' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.Papers.Tao2022.orbitBelow_mono' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.Papers.Tao2022.almostBelow_mono' depends on axioms: [propext, Classical.choice, Quot.sound]

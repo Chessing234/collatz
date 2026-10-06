@@ -1,0 +1,25 @@
+'Collatz.Papers.Korec1994.certified_tail_precision' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.Papers.Korec1994.certified_multiplier_precision' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.Papers.Korec1994.certified_endpoint_power' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.Papers.Korec1994.certified_power_on_scale' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.Papers.Korec1994.certified_property_failure_count' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.Papers.Korec1994.certified_failure_count' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.Papers.Korec1994.certified_property_failure_precision' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Collatz.Papers.Korec1994.density_one_of_scale_property' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.Papers.Korec1994.certified_failure_precision' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.Papers.Korec1994.density_one_of_certificate' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.Papers.Korec1994.rationalExponentStatement_proved' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.Papers.Korec1994.certified_log_window' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.Papers.Korec1994.logarithmic_power_density' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.Papers.Korec1994.powerScan_iff' depends on axioms: [propext, Quot.sound]
+'Collatz.Papers.Korec1994.logPowerCheck_iff' depends on axioms: [propext, Quot.sound]
+'Collatz.Papers.Korec1994.logPowerCheck_density_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.Papers.Korec1994.density_one_power_time_window' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.Papers.Korec1994.log_search_two' does not depend on any axioms
+'Collatz.Papers.Korec1994.log_search_one' does not depend on any axioms
+'Collatz.Papers.Korec1994.log_failure_can_hit_later' does not depend on any axioms
+'Collatz.Papers.Journal_1994_Korec_a_density_estimate_for_the_3x.mainStatement_proved' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

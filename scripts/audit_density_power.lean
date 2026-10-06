@@ -1,0 +1,14 @@
+import Collatz.Structure.DensitySeparation
+import Collatz.Strategy.DensityPowerCountermodel
+
+#print axioms Collatz.NaturalDensity.complement_precision
+#print axioms Collatz.NaturalDensity.not_densityOne_of_complement_lower
+#print axioms Collatz.NaturalDensity.exists_common_of_positive_lower
+#print axioms Collatz.DensityCountermodel.PowerComparison.below_power_eventually
+#print axioms Collatz.DensityCountermodel.PowerComparison.below_power_density_one
+#print axioms Collatz.DensityCountermodel.PowerComparison.orbit_positive
+#print axioms Collatz.DensityCountermodel.PowerComparison.reaches_one_iff_all_powers
+#print axioms Collatz.DensityCountermodel.PowerComparison.not_density_one_reaches_one
+#print axioms Collatz.DensityCountermodel.PowerComparison.all_powers_requires_large_start
+#print axioms Collatz.DensityCountermodel.PowerComparison.not_density_one_all_powers
+#print axioms Collatz.DensityCountermodel.PowerComparison.density_quantifiers_do_not_commute

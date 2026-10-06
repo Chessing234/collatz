@@ -1,0 +1,16 @@
+import Collatz.Structure.RationalDensityPrecision
+import Collatz.Structure.PositiveCounting
+import Collatz.Structure.BoundedStoppingCounting
+import Collatz.Papers.TerrasDiagonal
+
+#print axioms Collatz.NaturalDensity.exists_precision_for_rat
+#print axioms Collatz.NaturalDensity.rat_bound_of_integer_precision
+#print axioms Collatz.NaturalDensity.densityOne_rat_bound
+#print axioms Collatz.NaturalDensity.predicateCount_eq_decidable
+#print axioms Collatz.NaturalDensity.countUpTo_eq_shift
+#print axioms Collatz.NaturalDensity.predicateCount_le_countUpTo
+#print axioms Collatz.StoppingNaturalDensity.hasStoppingTimeBy_iff_bounded
+#print axioms Collatz.StoppingNaturalDensity.bounded_iff_not_noDrop
+#print axioms Collatz.StoppingNaturalDensity.zero_not_bounded
+#print axioms Collatz.StoppingNaturalDensity.diagonal_integer_precision
+#print axioms Collatz.Papers.Terras1976.diagonalDensityOne_proved

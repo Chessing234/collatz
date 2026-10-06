@@ -358,6 +358,9 @@ theorem no_cycle_of_excludedLength {x c L : Nat} (hx : 0 < x) (hcpos : 0 < c)
   · exact h hlt
   · omega
 
+-- Elaborate the large kernel certificates serially to limit peak memory.
+set_option Elab.async false
+
 set_option maxHeartbeats 40000000 in
 set_option exponentiation.threshold 3000 in
 set_option maxRecDepth 400000 in

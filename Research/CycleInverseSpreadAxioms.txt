@@ -1,0 +1,12 @@
+'Collatz.CycleInverseSpread.forced_double' depends on axioms: [propext, Quot.sound]
+'Collatz.CycleInverseSpread.cycle_predecessor' depends on axioms: [propext, Quot.sound]
+'Collatz.CycleInverseSpread.twice_min_attained' depends on axioms: [propext, Quot.sound]
+'Collatz.CycleInverseSpread.double_attained' depends on axioms: [propext, Quot.sound]
+'Collatz.CycleInverseSpread.four_min_attained' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.CycleInverseSpread.eight_min_attained' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.CycleInverseSpread.sixteen_min_attained' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.CycleInverseSpread.attained_le_max' depends on axioms: [propext, Quot.sound]
+'Collatz.CycleInverseSpread.residue_spread' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.CycleInverseSpread.spreadFactor_mod_nine' depends on axioms: [propext, Quot.sound]
+'Collatz.CycleInverseSpread.factor_table' does not depend on any axioms
+'Collatz.CycleInverseSpread.forbidden_branch_example' does not depend on any axioms

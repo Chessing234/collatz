@@ -1,0 +1,12 @@
+import Collatz.Strategy.BoundedHeightWitness
+
+#print axioms Collatz.BoundedHeightWitness.concatenate_local
+#print axioms Collatz.BoundedHeightWitness.odd_run_upper
+#print axioms Collatz.BoundedHeightWitness.failure_on_odd_run
+#print axioms Collatz.BoundedHeightWitness.bounded_failure_witness
+#print axioms Collatz.BoundedHeightWitness.failureCheck_iff
+#print axioms Collatz.BoundedHeightWitness.runFailureCheck_iff
+#print axioms Collatz.BoundedHeightWitness.runFailureCheck_complete
+#print axioms Collatz.BoundedHeightWitness.size_example
+#print axioms Collatz.BoundedHeightWitness.residue_example
+#print axioms Collatz.BoundedHeightWitness.residue_run_example

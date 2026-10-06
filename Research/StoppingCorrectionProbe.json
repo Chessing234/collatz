@@ -1,0 +1,16 @@
+{
+  "all_checks_passed": true,
+  "scaled_prefix_checks": 68244,
+  "first_arrivals_checked": 100000,
+  "observed_one_bit_slack_cases": 100000,
+  "maximum_observed_ratio": {
+    "start": 993,
+    "time": 61,
+    "odd_steps": 32,
+    "numerator": 2305843009213693952,
+    "denominator": 1840049047529878113,
+    "approximation": 1.253142144395068
+  },
+  "proves_uniform_one_bit_slack": false,
+  "proves_universal_convergence": false
+}

@@ -1,0 +1,90 @@
+{
+  "status": "passed",
+  "rows": [
+    {
+      "horizon": 0,
+      "period": 1,
+      "surviving_classes": 1
+    },
+    {
+      "horizon": 1,
+      "period": 2,
+      "surviving_classes": 1
+    },
+    {
+      "horizon": 2,
+      "period": 4,
+      "surviving_classes": 1
+    },
+    {
+      "horizon": 3,
+      "period": 8,
+      "surviving_classes": 2
+    },
+    {
+      "horizon": 4,
+      "period": 16,
+      "surviving_classes": 3
+    },
+    {
+      "horizon": 5,
+      "period": 32,
+      "surviving_classes": 4
+    },
+    {
+      "horizon": 6,
+      "period": 64,
+      "surviving_classes": 8
+    },
+    {
+      "horizon": 7,
+      "period": 128,
+      "surviving_classes": 13
+    },
+    {
+      "horizon": 8,
+      "period": 256,
+      "surviving_classes": 19
+    },
+    {
+      "horizon": 9,
+      "period": 512,
+      "surviving_classes": 38
+    },
+    {
+      "horizon": 10,
+      "period": 1024,
+      "surviving_classes": 64
+    },
+    {
+      "horizon": 11,
+      "period": 2048,
+      "surviving_classes": 128
+    },
+    {
+      "horizon": 12,
+      "period": 4096,
+      "surviving_classes": 226
+    },
+    {
+      "horizon": 13,
+      "period": 8192,
+      "surviving_classes": 367
+    },
+    {
+      "horizon": 14,
+      "period": 16384,
+      "surviving_classes": 734
+    },
+    {
+      "horizon": 15,
+      "period": 32768,
+      "surviving_classes": 1295
+    },
+    {
+      "horizon": 16,
+      "period": 65536,
+      "surviving_classes": 2114
+    }
+  ]
+}

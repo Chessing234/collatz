@@ -1,0 +1,11 @@
+'Collatz.DensityCountermodel.three_never_reaches_one' depends on axioms: [propext, Quot.sound]
+'Collatz.DensityCountermodel.step_dyadic' depends on axioms: [propext, Quot.sound]
+'Collatz.DensityCountermodel.dyadic_predecessor' depends on axioms: [propext, Quot.sound]
+'Collatz.DensityCountermodel.one_dyadic_predecessor' depends on axioms: [propext, Quot.sound]
+'Collatz.DensityCountermodel.block_count_lower' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.DensityCountermodel.predecessor_count_linear' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.DensityCountermodel.all_targets_positive_lower_density' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Collatz.DensityCountermodel.step_positive' depends on axioms: [propext, Quot.sound]
+'Collatz.DensityCountermodel.reaches_one_or_three' depends on axioms: [propext, Quot.sound]

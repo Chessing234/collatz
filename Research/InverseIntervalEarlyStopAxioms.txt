@@ -1,0 +1,12 @@
+'Collatz.InverseInterval.sameMembersCheck_iff' depends on axioms: [propext, Quot.sound]
+'Collatz.InverseInterval.advance_sameMembers' depends on axioms: [propext, Quot.sound]
+'Collatz.InverseInterval.evolve_succ_last' does not depend on any axioms
+'Collatz.InverseInterval.evolve_intervalStates' does not depend on any axioms
+'Collatz.InverseInterval.evolve_fixed_members' depends on axioms: [propext, Quot.sound]
+'Collatz.InverseInterval.pruneStable_correct' depends on axioms: [propext, Quot.sound]
+'Collatz.InverseInterval.pruneStable_rounds_le' depends on axioms: [propext, Quot.sound]
+'Collatz.InverseInterval.pruneStable_length_le' depends on axioms: [propext]
+'Collatz.InverseInterval.earlyDecision_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.InverseInterval.earlyDecision_resources' depends on axioms: [propext, Quot.sound]
+'Collatz.InverseInterval.trivial_early_stop' does not depend on any axioms
+'Collatz.InverseInterval.duplicate_membership_check' does not depend on any axioms

@@ -1,0 +1,36 @@
+{
+  "all_checks_passed": true,
+  "predecessor_completeness_checks": 100000,
+  "forced_double_checks": 22222,
+  "forced_inverse_steps": 14444,
+  "residue_table": {
+    "1": {
+      "factor": 2,
+      "minima_tested": 1112
+    },
+    "2": {
+      "factor": 4,
+      "minima_tested": 1111
+    },
+    "4": {
+      "factor": 2,
+      "minima_tested": 1111
+    },
+    "5": {
+      "factor": 4,
+      "minima_tested": 1111
+    },
+    "7": {
+      "factor": 8,
+      "minima_tested": 1111
+    },
+    "8": {
+      "factor": 16,
+      "minima_tested": 1111
+    }
+  },
+  "endpoint_boundary_checks": 68203,
+  "large_integer_boundary_checks": 1536,
+  "constructs_nontrivial_cycles": false,
+  "claims_globally_optimal_spread_bounds": false
+}

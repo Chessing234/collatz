@@ -1,0 +1,23 @@
+{
+  "all_checks_passed": true,
+  "positive_starts_checked": 10000,
+  "first_descent_segments_checked": 161802,
+  "largest_round_depth": {
+    "rounds": 23,
+    "start": 9591
+  },
+  "largest_accelerated_time": {
+    "steps": 165,
+    "start": 6171
+  },
+  "starts_with_at_least_k_descents": {
+    "1": 9999,
+    "2": 9998,
+    "4": 9993,
+    "8": 9946,
+    "16": 6623,
+    "32": 0
+  },
+  "universal_convergence_proved": false,
+  "noncomputable_lean_map_evaluated": false
+}

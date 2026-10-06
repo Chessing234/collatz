@@ -1,0 +1,17 @@
+import Collatz.Strategy.MinimumTransportBarrier
+
+#print axioms Collatz.MinimumTransportBarrier.minimum_no_drop
+#print axioms Collatz.MinimumTransportBarrier.minimum_destroys_density
+#print axioms Collatz.MinimumTransportBarrier.no_minimum_transport
+#print axioms Collatz.MinimumTransportBarrier.minimum_eq_self_of_no_drop
+#print axioms Collatz.MinimumTransportBarrier.minimum_image_iff
+#print axioms Collatz.MinimumTransportBarrier.minimum_image_sparse
+#print axioms Collatz.MinimumTransportBarrier.not_tight_of_dense_tails
+#print axioms Collatz.MinimumTransportBarrier.terminal_time_dense_tails
+#print axioms Collatz.MinimumTransportBarrier.terminal_time_not_tight
+#print axioms Collatz.MinimumTransportBarrier.minimumTime_spec
+#print axioms Collatz.MinimumTransportBarrier.minimumTime_dense_tails
+#print axioms Collatz.MinimumTransportBarrier.minimumTime_not_tight
+#print axioms Collatz.MinimumTransportBarrier.terminalRound_spec
+#print axioms Collatz.MinimumTransportBarrier.terminalRound_dense_tails
+#print axioms Collatz.MinimumTransportBarrier.terminalRound_not_tight

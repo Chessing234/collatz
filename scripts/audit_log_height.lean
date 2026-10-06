@@ -1,0 +1,6 @@
+import Collatz.Strategy.LogarithmicHeightObstruction
+
+#print axioms Collatz.LogarithmicHeightObstruction.exponentiated_comparison
+#print axioms Collatz.LogarithmicHeightObstruction.no_bounded_log_height_nonincrease
+#print axioms Collatz.LogarithmicHeightObstruction.no_bounded_log_height_descent
+#print axioms Collatz.LogarithmicHeightObstruction.no_bounded_log_correction_descent

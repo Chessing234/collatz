@@ -1,0 +1,10 @@
+import Collatz.Structure.InverseSpreadBoundary
+
+#print axioms Collatz.InverseSpreadBoundary.admissible_odd_inverse
+#print axioms Collatz.InverseSpreadBoundary.endpoint_residue
+#print axioms Collatz.InverseSpreadBoundary.factor_ge_two
+#print axioms Collatz.InverseSpreadBoundary.endpoint_has_admissible_odd
+#print axioms Collatz.InverseSpreadBoundary.endpoint_not_forced
+#print axioms Collatz.InverseSpreadBoundary.endpoint_even_admissible
+#print axioms Collatz.InverseSpreadBoundary.endpoint_predecessors
+#print axioms Collatz.InverseSpreadBoundary.endpoint_example

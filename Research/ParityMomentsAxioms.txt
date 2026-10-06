@@ -1,0 +1,9 @@
+'Collatz.ParityMoments.weight_split' depends on axioms: [propext, Quot.sound]
+'Collatz.ParityMoments.weight_pair' depends on axioms: [propext, Quot.sound]
+'Collatz.ParityMoments.moment_eq' depends on axioms: [propext, Quot.sound]
+'Collatz.ParityMoments.weight_mono' depends on axioms: [propext, Quot.sound]
+'Collatz.ParityMoments.tail_moment_bound' depends on axioms: [propext, Quot.sound]
+'Collatz.ParityMoments.near_one_example' does not depend on any axioms
+'Collatz.ParityMoments.four_fifths_moment_gap' does not depend on any axioms
+'Collatz.ParityMoments.four_fifths_multiplier_gap' does not depend on any axioms
+'Collatz.ParityMoments.four_fifths_tail_bound' depends on axioms: [propext, Quot.sound]

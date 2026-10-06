@@ -1,0 +1,11 @@
+{
+  "all_checks_passed": true,
+  "scan_semantics_checks": 10332,
+  "full_horizon_starts_tested": 1201,
+  "accepted_converging_starts": 1029,
+  "rejected_but_converging_starts": 172,
+  "cutoff_exclusive": 4012906,
+  "last_time_inclusive": 14186,
+  "abstract_cycle_calibrations": 150,
+  "proves_universal_convergence": false
+}

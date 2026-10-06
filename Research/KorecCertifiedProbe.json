@@ -1,0 +1,30 @@
+{
+  "all_checks_passed": true,
+  "balanced_gap_checks": 201,
+  "admissible_exponent_certificates_checked": 971,
+  "pairs_excluded_by_strict_threshold": 629,
+  "closed_form_construction_checks": 26,
+  "general_scale_selections_checked": 480,
+  "largest_searched_block": 2548,
+  "sample_certificates": [
+    {
+      "numerator": 1,
+      "denominator": 1,
+      "t": 2,
+      "block": 8
+    },
+    {
+      "numerator": 4,
+      "denominator": 5,
+      "t": 104,
+      "block": 212
+    },
+    {
+      "numerator": 23,
+      "denominator": 29,
+      "t": 1272,
+      "block": 2548
+    }
+  ],
+  "proves_universal_convergence": false
+}

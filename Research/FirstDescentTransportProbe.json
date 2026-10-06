@@ -1,0 +1,109 @@
+{
+  "all_checks_passed": true,
+  "first_descent_inputs_checked": 10000,
+  "selected_time_count_covers_checked": 22545,
+  "maximum_first_descent_time": 81,
+  "first_time_tail_distributions": [
+    {
+      "cutoff_exclusive": 1000,
+      "records": [
+        {
+          "horizon": 0,
+          "time_tail": 998,
+          "no_drop_count": 1000
+        },
+        {
+          "horizon": 1,
+          "time_tail": 499,
+          "no_drop_count": 501
+        },
+        {
+          "horizon": 2,
+          "time_tail": 250,
+          "no_drop_count": 252
+        },
+        {
+          "horizon": 4,
+          "time_tail": 187,
+          "no_drop_count": 189
+        },
+        {
+          "horizon": 8,
+          "time_tail": 73,
+          "no_drop_count": 75
+        },
+        {
+          "horizon": 16,
+          "time_tail": 34,
+          "no_drop_count": 36
+        },
+        {
+          "horizon": 32,
+          "time_tail": 13,
+          "no_drop_count": 15
+        },
+        {
+          "horizon": 64,
+          "time_tail": 1,
+          "no_drop_count": 3
+        },
+        {
+          "horizon": 128,
+          "time_tail": 0,
+          "no_drop_count": 2
+        }
+      ]
+    },
+    {
+      "cutoff_exclusive": 10000,
+      "records": [
+        {
+          "horizon": 0,
+          "time_tail": 9998,
+          "no_drop_count": 10000
+        },
+        {
+          "horizon": 1,
+          "time_tail": 4999,
+          "no_drop_count": 5001
+        },
+        {
+          "horizon": 2,
+          "time_tail": 2500,
+          "no_drop_count": 2502
+        },
+        {
+          "horizon": 4,
+          "time_tail": 1875,
+          "no_drop_count": 1877
+        },
+        {
+          "horizon": 8,
+          "time_tail": 741,
+          "no_drop_count": 743
+        },
+        {
+          "horizon": 16,
+          "time_tail": 322,
+          "no_drop_count": 324
+        },
+        {
+          "horizon": 32,
+          "time_tail": 97,
+          "no_drop_count": 99
+        },
+        {
+          "horizon": 64,
+          "time_tail": 12,
+          "no_drop_count": 14
+        },
+        {
+          "horizon": 128,
+          "time_tail": 0,
+          "no_drop_count": 2
+        }
+      ]
+    }
+  ],
+  "proves_universal_convergence": false
+}

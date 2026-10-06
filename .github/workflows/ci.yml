@@ -12,6 +12,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Test proof-escape scanner
+        run: python3 scripts/test_check_proof_escapes.py
+
+      - name: Check generated first-crossing certificates
+        run: python3 scripts/generate_first_light_1024.py --check
+
       - name: Build and setup Lean
         id: lean-action
         uses: leanprover/lean-action@v1
@@ -31,3 +37,6 @@ jobs:
           python3 scripts/descent_intervals.py --check
           python3 scripts/test_descent_intervals.py
           python3 scripts/audit_descent_intervals.py
+
+      - name: Check coefficient crossing and interval transfer
+        run: python3 scripts/audit_coefficient_descent.py

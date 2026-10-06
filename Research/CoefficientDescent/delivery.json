@@ -1,0 +1,716 @@
+{
+  "status": "published",
+  "date": "2026-10-06",
+  "baseline": "0b0fa49f1dab57e4bc8790b0c09121b7162ce28c",
+  "verified_source_revision": "d332c8b16a56b1f32626015267268ce3671c279c",
+  "new_commits_through_verified_source": 102,
+  "distinct_certificate_commits": 100,
+  "new_lean_code_lines_excluding_blank_comments_and_audit_commands": 21672,
+  "source_hashes_match_verification_report": true,
+  "github_branch": "https://github.com/Chessing234/collatz/tree/codex/coefficient-descent-256-20261006",
+  "draft_pull_request": "https://github.com/Chessing234/collatz/pull/2",
+  "remote_source_revision_verified_by_git_ls_remote": "d332c8b16a56b1f32626015267268ce3671c279c",
+  "note": "This publication receipt is committed after the verified source revision and is additional to the commit count above. Local targeted checks passed; GitHub CI status is separate.",
+  "certificate_commits": [
+    {
+      "module": "Batch001",
+      "commit": "c3358b2cef69226c066efb02a018c00b701efec0",
+      "lo": 3,
+      "hi": 69,
+      "source_sha256": "e28b263b40fb8a29f9d0399d6e27f2c1d146528718010ff275606e1862f4fc69"
+    },
+    {
+      "module": "Batch002",
+      "commit": "82440785bbd219cdbecb3eb51d996e72b79e8c78",
+      "lo": 69,
+      "hi": 135,
+      "source_sha256": "996472a3662e7d72cdbdf215b623756e57b736cdd1e8e843ebde4b644653e1b9"
+    },
+    {
+      "module": "Batch003",
+      "commit": "e0acb77c2768ec5370ce680497b649d2d8d8df43",
+      "lo": 135,
+      "hi": 203,
+      "source_sha256": "fb72a961bff36a01487d449983b2f0a899c7210bf6812884d373ce0ac9e9d719"
+    },
+    {
+      "module": "Batch004",
+      "commit": "be32acb496780ff24044cfa158afdcb8919fca43",
+      "lo": 203,
+      "hi": 269,
+      "source_sha256": "2c1af34e972f38907567537efe1c8e248d554c85d4131ebdbf89a30261ab1235"
+    },
+    {
+      "module": "Batch005",
+      "commit": "25b16d10b5eb9727b552a294c971cda8268006c2",
+      "lo": 269,
+      "hi": 337,
+      "source_sha256": "01d288e01154faf7f2bcfb7cf5700770098c3dac278e1e525f1069766675516a"
+    },
+    {
+      "module": "Batch006",
+      "commit": "bc820351faf49fae3277cd977c3a067f9bc475aa",
+      "lo": 337,
+      "hi": 403,
+      "source_sha256": "706c07533ddccf9ba5053041bdb2cdb8626a4bfba2cf670f240b43d8f6132c75"
+    },
+    {
+      "module": "Batch007",
+      "commit": "f8bb7dd83dd181d808502720343a4c2decb62df8",
+      "lo": 403,
+      "hi": 471,
+      "source_sha256": "2a161656fd93342e3f62e51b9bfc32aa6967ee095366101bdf7a8fcfd5fb2a48"
+    },
+    {
+      "module": "Batch008",
+      "commit": "db6980d37471b1af1eda8ff2f8eb40532ffeaf44",
+      "lo": 471,
+      "hi": 537,
+      "source_sha256": "0e52de4f6e32a83d84bf6a8201d3caf491cba9220539e3223618ab9e06536e9f"
+    },
+    {
+      "module": "Batch009",
+      "commit": "d258aa71cfc2010c2c03c030b484fb100254f21b",
+      "lo": 537,
+      "hi": 605,
+      "source_sha256": "5a31900effa4b5bce81e271fe101e5a67db7f0c35e273c70855ecdd3052e0998"
+    },
+    {
+      "module": "Batch010",
+      "commit": "886542be94c825aaa14b7e10c8416a8a5106bc67",
+      "lo": 605,
+      "hi": 671,
+      "source_sha256": "020898495e979ae36be2500225a0f4a4d2bf2bdf6491fcfacb2ef61bd96d41cf"
+    },
+    {
+      "module": "Batch011",
+      "commit": "1cde89a226d11933425f979926333f61578e2e13",
+      "lo": 671,
+      "hi": 739,
+      "source_sha256": "bca114d8bd4350cb036dd9dd8515c07e196c073515b6d606fdc5f07080144600"
+    },
+    {
+      "module": "Batch012",
+      "commit": "61c71d1dc32db3e8ab5e0805e98f34866a1babbb",
+      "lo": 739,
+      "hi": 805,
+      "source_sha256": "288ca2e9fea8fd9685356c6b8e23f749bb2aed7bd0360cd774bafc41e5378bc5"
+    },
+    {
+      "module": "Batch013",
+      "commit": "b3cd3175767197a395355393606b0c743e2a424c",
+      "lo": 805,
+      "hi": 873,
+      "source_sha256": "bfb2ef81160e48726444f59dd72977a15e30ecc50d85a332c95636ac1adc0447"
+    },
+    {
+      "module": "Batch014",
+      "commit": "9fb63399d17b017c848f94130b949b6355a87aec",
+      "lo": 873,
+      "hi": 939,
+      "source_sha256": "f1d4673e900d439741f0a4fd9e8b369abd754f3695210e17944ced5ada61b6b2"
+    },
+    {
+      "module": "Batch015",
+      "commit": "2e6547303ff59b37679359ffeff5e9e663aee52e",
+      "lo": 939,
+      "hi": 1007,
+      "source_sha256": "287660981fce63be96912c49447c6d0610e6cf760dd04e9273c194e8387c1ca6"
+    },
+    {
+      "module": "Batch016",
+      "commit": "9b1f06d53f2360691f878f739e64a55cf6cb223a",
+      "lo": 1007,
+      "hi": 1073,
+      "source_sha256": "d008d68eeeda5c0447ba3e5a60bab5bddb46f30252ba2f916f71b77a5a4a1efc"
+    },
+    {
+      "module": "Batch017",
+      "commit": "6955909eac968d231c4178e045a10e86681e5c4f",
+      "lo": 1073,
+      "hi": 1141,
+      "source_sha256": "ff487340ef03be63c7fbe7be330d9167f3eb4d721fbdf99d20f16d0813a3d68b"
+    },
+    {
+      "module": "Batch018",
+      "commit": "e37a3c218bc924d5d0e2a03528724951a1700b11",
+      "lo": 1141,
+      "hi": 1207,
+      "source_sha256": "32acf1aa2580d17c671894633be2038fecc2ab4ade3eb53f65959ce87dc40dfa"
+    },
+    {
+      "module": "Batch019",
+      "commit": "97c6bc2f8f202fe6838c63ca18f67b600d35a648",
+      "lo": 1207,
+      "hi": 1275,
+      "source_sha256": "ab0252bbe182187aebbc9a06a7b33dbecb3d5ab7031184995119142924a4155d"
+    },
+    {
+      "module": "Batch020",
+      "commit": "dbb7f5e2fad75818a03662bbcc319ed55381111c",
+      "lo": 1275,
+      "hi": 1341,
+      "source_sha256": "6066e931058818258426eb782ffb1e313a5cab1161e6c7915667b79a241d76ca"
+    },
+    {
+      "module": "Batch021",
+      "commit": "dc6a2f9355d6c694917b9f46ba1e94d9a00f90df",
+      "lo": 1341,
+      "hi": 1409,
+      "source_sha256": "2c2461d44361f66e2802db86ae100d0776b76a88ed977bbe819698e54008b27f"
+    },
+    {
+      "module": "Batch022",
+      "commit": "65bd8c501236d49322df6d0b660626b95b26b6bd",
+      "lo": 1409,
+      "hi": 1475,
+      "source_sha256": "e7b58a3238f2d5ecf20e2a15b41b82bca518e2ea08a2a069e8521fb56bf63c87"
+    },
+    {
+      "module": "Batch023",
+      "commit": "c2967079bfe63f66e477fc369f942508297f94dd",
+      "lo": 1475,
+      "hi": 1543,
+      "source_sha256": "340b44c8dfe8c792d280e7dadab31bc3287fe07bd9836f6eeb06dfdab6135d3d"
+    },
+    {
+      "module": "Batch024",
+      "commit": "4152df9911a0434f098495bdcbaf9b78f42cafc1",
+      "lo": 1543,
+      "hi": 1609,
+      "source_sha256": "3a9439f80ee1d2bec04912141b64b03a6b80aa46a4ec9f08cea4d7ba40908a60"
+    },
+    {
+      "module": "Batch025",
+      "commit": "9bc71fa88872cb767348f910baeecb2a7373a4a5",
+      "lo": 1609,
+      "hi": 1677,
+      "source_sha256": "8377d721083b81080bd4de89b562031eb2bf8851b1146d607c98166f75164cbb"
+    },
+    {
+      "module": "Batch026",
+      "commit": "5f5bf6b62278d17a1940117859b8b19a23e8d60f",
+      "lo": 1677,
+      "hi": 1743,
+      "source_sha256": "c5d8bc05869a4038c0a48f6ceb304a7c77d2ea97a3597bb874e82fa300bb5820"
+    },
+    {
+      "module": "Batch027",
+      "commit": "39b7f22f47d37ba4b21a91404fdb204895ad6187",
+      "lo": 1743,
+      "hi": 1811,
+      "source_sha256": "ed46c7ae84f1645b77a2f652200d79c3c27dc81474a91dfbd68523df82ec9fec"
+    },
+    {
+      "module": "Batch028",
+      "commit": "00e6ee5c81bd4b147287abafa6a1b0ec446c6519",
+      "lo": 1811,
+      "hi": 1877,
+      "source_sha256": "f41bdc72381ceec27cf4be13f07135ed335a03ac2ecf9dbe352becf57726fc52"
+    },
+    {
+      "module": "Batch029",
+      "commit": "50a99177ef0323cf861a681662be9fabcc135bed",
+      "lo": 1877,
+      "hi": 1945,
+      "source_sha256": "6c5af1cf759fd46a2386eeadbf297ee312e44c4cda85198724714e25220502e8"
+    },
+    {
+      "module": "Batch030",
+      "commit": "54fb0d8f0c78eb7a141e1a4b567c023262fe34f6",
+      "lo": 1945,
+      "hi": 2011,
+      "source_sha256": "e4db3ed4d80f4a6995448247082a921ce09515dd57e41320278a9b3a674a78e2"
+    },
+    {
+      "module": "Batch031",
+      "commit": "6ad2f71bbb06d99e7c4d53fd66471f4a5656b04b",
+      "lo": 2011,
+      "hi": 2079,
+      "source_sha256": "adf4a2989c638c0b9073538ed6a1f8941b129380448e8928c4489a5502ea64fd"
+    },
+    {
+      "module": "Batch032",
+      "commit": "317b1f63f45a64051428b7f1d12fdcde250f3537",
+      "lo": 2079,
+      "hi": 2145,
+      "source_sha256": "15918b32ccf1f7edd7c2b6487026312b902c48b5231a12b6905e00d1fc311e6e"
+    },
+    {
+      "module": "Batch033",
+      "commit": "692141be1db8ac8648d1db3f3c14729c09ef98ac",
+      "lo": 2145,
+      "hi": 2213,
+      "source_sha256": "b97874f5328b638fd21c950ad0f587e7b49e0ccb68f921a03531a92cbb3c9391"
+    },
+    {
+      "module": "Batch034",
+      "commit": "f67941af4309d975abf41fb18c220fccd76a4b27",
+      "lo": 2213,
+      "hi": 2279,
+      "source_sha256": "83a0d75b1bd9da58d2f34dee0a697722f385456e900ff54877858bbbb7bca1d6"
+    },
+    {
+      "module": "Batch035",
+      "commit": "7e3f76977f82e03126781d4e1174e73c88b38233",
+      "lo": 2279,
+      "hi": 2347,
+      "source_sha256": "7119f5752537a8a6bf7595003de7716665a67018f8c0e5f2d32b9beb5b34afd3"
+    },
+    {
+      "module": "Batch036",
+      "commit": "6e87ce54cbac10906fc7ae989055f8735affaa7b",
+      "lo": 2347,
+      "hi": 2413,
+      "source_sha256": "9fabc7cb61b5e60f3e8e6c9647ede11ba87385b944f38aa2374e7d4a004da857"
+    },
+    {
+      "module": "Batch037",
+      "commit": "cf0ebe8ce993126638e9257533b90b66eb73f7a1",
+      "lo": 2413,
+      "hi": 2481,
+      "source_sha256": "f81f3f53b62bc7cb3fddb615e3ab863872a74b02fec34cba11bf374bebbf56b5"
+    },
+    {
+      "module": "Batch038",
+      "commit": "e925e2cba1d6816fac9de87150e8746dff141125",
+      "lo": 2481,
+      "hi": 2547,
+      "source_sha256": "008e0607419e65711933ad9d9446eb9409b06393e1b4d87dfb273fbfb8f5d69c"
+    },
+    {
+      "module": "Batch039",
+      "commit": "d972814ad16f6770787f2ab281c1499c350a7ac6",
+      "lo": 2547,
+      "hi": 2615,
+      "source_sha256": "937775b2391d2579d5cbe753723aa14699949fce73d79f90c17538bab301170c"
+    },
+    {
+      "module": "Batch040",
+      "commit": "531222735b916d6af6bfa3d77148abc3dde22ff7",
+      "lo": 2615,
+      "hi": 2681,
+      "source_sha256": "9574e451905a6142b6e2f4df663a1f887941f17519f3edfeb79a69695ac89a6f"
+    },
+    {
+      "module": "Batch041",
+      "commit": "3e1d3839e2fa9bac15a4a7ffab8e2d111ae23af1",
+      "lo": 2681,
+      "hi": 2749,
+      "source_sha256": "d269ce16fc6ba47c6b3d87fd6fdb322cb202371ba6a9f49e43d2b7cbd7516d65"
+    },
+    {
+      "module": "Batch042",
+      "commit": "f44c19d88e6f53a08095b0621fc8962aff66bf50",
+      "lo": 2749,
+      "hi": 2815,
+      "source_sha256": "a85ea2363d1b3b9b7d21d7b0df7131beda6ea79cc2cf30c24c505a0cce7e6e41"
+    },
+    {
+      "module": "Batch043",
+      "commit": "6a081671cf0dd28ce7cf8c0d890159ce9722db32",
+      "lo": 2815,
+      "hi": 2883,
+      "source_sha256": "203aa91c49fd3236d75ed1fc3fc44f5a781bf7959d453aa84d79ac812740b483"
+    },
+    {
+      "module": "Batch044",
+      "commit": "0ba1869d0c47a42b1239c501db231bb93013842c",
+      "lo": 2883,
+      "hi": 2949,
+      "source_sha256": "cee71fa1b738a41efb1d7913824a62ef9898a49c0f0741baaf1eb224f4299d2b"
+    },
+    {
+      "module": "Batch045",
+      "commit": "0a1e9c9596d6f71650ca771e22cb73c55aa15f2a",
+      "lo": 2949,
+      "hi": 3017,
+      "source_sha256": "b0a4ad92cbeb6c4560b693d78104fce65476d4197314fdf8b098bb1c3b65e6bd"
+    },
+    {
+      "module": "Batch046",
+      "commit": "c6a157de2c6a6a25f0dc7fd08cdb58350af28e47",
+      "lo": 3017,
+      "hi": 3083,
+      "source_sha256": "aa214122e09e5adc6174e0284bb3aa666d827f256b989f1a7ab6439d0f5de9ea"
+    },
+    {
+      "module": "Batch047",
+      "commit": "64c426c0691c01a883ba6e59643eebab2eb9423d",
+      "lo": 3083,
+      "hi": 3151,
+      "source_sha256": "dd24a699c691dd4c7e87bcd6dda1f42c27039fc0f3808110b85990b8ed2c6ae7"
+    },
+    {
+      "module": "Batch048",
+      "commit": "48509644f72f9738dbdf69afbb9372c9c2a0003b",
+      "lo": 3151,
+      "hi": 3217,
+      "source_sha256": "5ce98e3ebcda3817d9868d76505ae139b958611fac6cd7a8927b83ee04913680"
+    },
+    {
+      "module": "Batch049",
+      "commit": "bc0836ffcaccbf9d9beaba07e995b2d952b35567",
+      "lo": 3217,
+      "hi": 3285,
+      "source_sha256": "e5e0fdeb6b3938cd9612827aa5e18accce64d7f93a2fbfd745e19f8c39e70f6f"
+    },
+    {
+      "module": "Batch050",
+      "commit": "28945d7b29bb977f907c2fdcb32c63038afb3d1b",
+      "lo": 3285,
+      "hi": 3351,
+      "source_sha256": "5f8e4d24cc2ff2e317d9816de92e220d02d6b763fccfaef39d42b115274494c1"
+    },
+    {
+      "module": "Batch051",
+      "commit": "6db296ac51d0ced478769d4ef938fffc03c1e942",
+      "lo": 3351,
+      "hi": 3417,
+      "source_sha256": "77180419fc15a6e6297a215d2e4580fbe27a7b943be9ac2f9a858dc079d357bb"
+    },
+    {
+      "module": "Batch052",
+      "commit": "386329a69899e92aa4a6066bb434630be5c9126f",
+      "lo": 3417,
+      "hi": 3485,
+      "source_sha256": "5cf816acfd62719247c6b727061f47e2b50f8f429de10405333776f5236188f5"
+    },
+    {
+      "module": "Batch053",
+      "commit": "5aba8e79ca55e6dbb9a79f5def5e5ac9ac368f26",
+      "lo": 3485,
+      "hi": 3551,
+      "source_sha256": "7cde22f6d16c46ae8dafe5368d600cfc03314cbdcbea7458e057a40e43a65e0d"
+    },
+    {
+      "module": "Batch054",
+      "commit": "baeaf2f09c24afdb59c1763f99ba4b2f4f9e8874",
+      "lo": 3551,
+      "hi": 3619,
+      "source_sha256": "64d21276f457ddd4cbd888fed8262933c5637f24ac3a0cb2934ff357037d9244"
+    },
+    {
+      "module": "Batch055",
+      "commit": "924fb7cfca8a155925e127b1f4f0e2718c3b61cf",
+      "lo": 3619,
+      "hi": 3685,
+      "source_sha256": "91516e8182685b26e4033c61c2b10fd0a3c0c5ea3911806c9afa1ece256c22e0"
+    },
+    {
+      "module": "Batch056",
+      "commit": "268ea704c5d2354539e2f3315b2d36021ba37f9a",
+      "lo": 3685,
+      "hi": 3753,
+      "source_sha256": "e5ae196ca40ff45daea11db3dd1f178a56f35dd9cc0ef8be26e90e92dc11febb"
+    },
+    {
+      "module": "Batch057",
+      "commit": "12cad0e95f98886b1f403ae0987312154d95d3e0",
+      "lo": 3753,
+      "hi": 3819,
+      "source_sha256": "59c0c50f43334f8de82cc5ce1200affddb0b9c8bc5ffb92fb59978e96b682465"
+    },
+    {
+      "module": "Batch058",
+      "commit": "c3b19dd71936275f219820e9e100ade05cc73247",
+      "lo": 3819,
+      "hi": 3887,
+      "source_sha256": "5001b4f599502abea983bfcefb447d6a9df2e3ae893cdd5388c956fafd309b3f"
+    },
+    {
+      "module": "Batch059",
+      "commit": "0436bb052989319393dc0931a3c6891e5e659850",
+      "lo": 3887,
+      "hi": 3953,
+      "source_sha256": "0cfb22c1671d78da0607264e5a7151fd8d33209aacdbea9abb10b6026cb16df7"
+    },
+    {
+      "module": "Batch060",
+      "commit": "cd34874de95c7106b7efba76288fd8c3d39cb262",
+      "lo": 3953,
+      "hi": 4021,
+      "source_sha256": "c4a554407c6c30b40fd40139e644413e4367b13337ff8bfdd0b7b75aadac0f83"
+    },
+    {
+      "module": "Batch061",
+      "commit": "cb5620993a583775d047bab3520302440276b9af",
+      "lo": 4021,
+      "hi": 4087,
+      "source_sha256": "12163aaf84445ce5bdbe85c14ec67a1e87328f22a97ce9c2c4f10d91c5b40160"
+    },
+    {
+      "module": "Batch062",
+      "commit": "d070c2819b5da712b9d5fa61b8c8a153c1129547",
+      "lo": 4087,
+      "hi": 4155,
+      "source_sha256": "4e15fa94bc9762aac17ad141b5c34b99b751f433c8673306f60a3cb5b3b10cb6"
+    },
+    {
+      "module": "Batch063",
+      "commit": "2bda8e1624cf26da0f5cab3c9da67ceadf7671dd",
+      "lo": 4155,
+      "hi": 4221,
+      "source_sha256": "761ec3e21ee43cc23f8350f7370103bc7069cd79bf40f8d4b265e5a3da7247fd"
+    },
+    {
+      "module": "Batch064",
+      "commit": "62a592b7d1bba8151ddc0b33093f010c7ef34c00",
+      "lo": 4221,
+      "hi": 4289,
+      "source_sha256": "c5bfd8c59f8f0dae9cde528b83eaa7447d0be5e1f5e6340db7236b932a3a3069"
+    },
+    {
+      "module": "Batch065",
+      "commit": "a67f97206991052e1537fdb2b7f6e03f3970e4cf",
+      "lo": 4289,
+      "hi": 4355,
+      "source_sha256": "4982ea611a680be66997840e1e2f40c7049ad37d3206a1056984c293e41d21c4"
+    },
+    {
+      "module": "Batch066",
+      "commit": "41c39ba2c4f57e9ced990c812af3523709134012",
+      "lo": 4355,
+      "hi": 4423,
+      "source_sha256": "3094b9e25d98bb1d2db3247eef251c4f7f5998fccd0c13f372edbdc70eb22f30"
+    },
+    {
+      "module": "Batch067",
+      "commit": "af5649c94aa6fb31cc8ea7724f066e3f79923bd9",
+      "lo": 4423,
+      "hi": 4489,
+      "source_sha256": "0987bf77b3c3e85bb629b65366cd872dc73294cc638f92aee81a6356d51da9fc"
+    },
+    {
+      "module": "Batch068",
+      "commit": "df6e0bca5f9453cb729bd6d300263a343bb80aed",
+      "lo": 4489,
+      "hi": 4557,
+      "source_sha256": "0c275450a2b50ead291ea9909369144410987ae6c8a18b879ba4ce5860d1a36e"
+    },
+    {
+      "module": "Batch069",
+      "commit": "c20097b454efb8289e7f761fa8835fb8b1660fe2",
+      "lo": 4557,
+      "hi": 4623,
+      "source_sha256": "e97afa0badb7d2a542623ead7f1b1ca53834a7167b799ea06367aef37af5e5eb"
+    },
+    {
+      "module": "Batch070",
+      "commit": "86399bbdb44a31c3645075c11b70905482e864f4",
+      "lo": 4623,
+      "hi": 4691,
+      "source_sha256": "4f05c953f7cdbe68a48859c730372d365847a530db901bce7c488ccafd4188fe"
+    },
+    {
+      "module": "Batch071",
+      "commit": "071ecbd158abad33a37433d3147924d0f29e5843",
+      "lo": 4691,
+      "hi": 4757,
+      "source_sha256": "10167b32f0fff6d06d4fe0d595afb0589e5f98db57effca09839a6fb9cbdea2a"
+    },
+    {
+      "module": "Batch072",
+      "commit": "13eb468498eab53e205d5aa4a162ffb3cca8d95c",
+      "lo": 4757,
+      "hi": 4825,
+      "source_sha256": "1a8107a4aa64a234fdee5533d3422751ffe3d1ecfe2ee4a7dc7e6cfba84d8e3d"
+    },
+    {
+      "module": "Batch073",
+      "commit": "65338a21db5b5a67aad4c9016a74e3cc8e0a216d",
+      "lo": 4825,
+      "hi": 4891,
+      "source_sha256": "264211b0eb1c17eb867f2a1dc3d2660f24419fe01ed7bd1133b9d2cdf2f8c9b5"
+    },
+    {
+      "module": "Batch074",
+      "commit": "5329bc939a5cb8c2a4a106f31ef758be6225a0e9",
+      "lo": 4891,
+      "hi": 4959,
+      "source_sha256": "99dba16bf963f21f7f0e0654ab2530394e12adb5ec28e4a257cd1ab323c66fd0"
+    },
+    {
+      "module": "Batch075",
+      "commit": "23c08859c84269b089cb42b11d0c752823c473a3",
+      "lo": 4959,
+      "hi": 5025,
+      "source_sha256": "5d8b3fd6e0d7561b58472f44a9213c8ba6d198dfa8926ebe721b1ff26185bcc2"
+    },
+    {
+      "module": "Batch076",
+      "commit": "3aea7c8f13b31ce9543995d017a54404d51e4bb3",
+      "lo": 5025,
+      "hi": 5093,
+      "source_sha256": "a18da5e926db9ddf990dbaa0d68cb191cc7c957248c2936b8a905183df0edf2d"
+    },
+    {
+      "module": "Batch077",
+      "commit": "6827dc6e5027fd1cc0ea0a8676513053a420def6",
+      "lo": 5093,
+      "hi": 5159,
+      "source_sha256": "813b83837a0a700dfb799332352767707c27de7dbfbba5af98ea4dd5a04b74a2"
+    },
+    {
+      "module": "Batch078",
+      "commit": "27edf08558a9807e843a338483f6c974eef50b16",
+      "lo": 5159,
+      "hi": 5227,
+      "source_sha256": "90c5fc736af538c6203a52f4a2702ef5201292fd921ad6cc363b174467204e22"
+    },
+    {
+      "module": "Batch079",
+      "commit": "16a8254524837bf5c9cb318ac151211736e51221",
+      "lo": 5227,
+      "hi": 5293,
+      "source_sha256": "240d3b005a6497b54185da3ca904d033f32489e407e1b988ea22db42daf04a1b"
+    },
+    {
+      "module": "Batch080",
+      "commit": "090aae98fa464b493a78ce5ede7309f551bfe4cc",
+      "lo": 5293,
+      "hi": 5361,
+      "source_sha256": "10993adff12f215a9f4dd281c9096d5bcc9fda11facc6af6efd14c4c3c08980e"
+    },
+    {
+      "module": "Batch081",
+      "commit": "633351d7bc1768c0256d0d77dd8c4f9e4a0251bb",
+      "lo": 5361,
+      "hi": 5427,
+      "source_sha256": "7ea68e82b59a04668e816fa938714e9dd6038b9b5c210e4c7d20d6ffb4e9a0e7"
+    },
+    {
+      "module": "Batch082",
+      "commit": "48de84fa4d3d6a024bcef136617371c6036861c4",
+      "lo": 5427,
+      "hi": 5495,
+      "source_sha256": "2da6f824b9321d7e3655d27f346de43e0f4e22572a231dde385068ccb7a7e972"
+    },
+    {
+      "module": "Batch083",
+      "commit": "fb8c5812d02bdde690d47b4051736707deafc305",
+      "lo": 5495,
+      "hi": 5561,
+      "source_sha256": "f9dbf7b1bc920f9f13637683e672fc5959813abb2f8633603ccae00a50f7854f"
+    },
+    {
+      "module": "Batch084",
+      "commit": "fea10ce1d5776a574bb7f4b8e9a80607f5737e19",
+      "lo": 5561,
+      "hi": 5629,
+      "source_sha256": "0040748f6c869affe37ff9a5bc8fbba143130549d3817b67e7263c6572788d41"
+    },
+    {
+      "module": "Batch085",
+      "commit": "3c2a1554cdcb53f97276934a227062f195dcd75a",
+      "lo": 5629,
+      "hi": 5695,
+      "source_sha256": "ab9afe4b9c5899fb086680eed7e9906ab53020dfe714df16031fb0dccf29333d"
+    },
+    {
+      "module": "Batch086",
+      "commit": "4e6fdfd5f18010ed38b8d967dbfd0838da212cc4",
+      "lo": 5695,
+      "hi": 5763,
+      "source_sha256": "f8ddc3a1ec8458a8a03ab849cbbd912e1d65cbe9558291d8838554026f8ad66d"
+    },
+    {
+      "module": "Batch087",
+      "commit": "e365382ae15dbb47210b5fc67b7ab112656e7cd9",
+      "lo": 5763,
+      "hi": 5829,
+      "source_sha256": "27597c19c93f9416f5467ac8939c7a800bc1e063fdd7958211c3d765ce9913f6"
+    },
+    {
+      "module": "Batch088",
+      "commit": "6220d088a5a166003d3242253ab6bd4cd7edac24",
+      "lo": 5829,
+      "hi": 5897,
+      "source_sha256": "e1f9bb914dc49ae2b969dba84c9c1b9eafb05c52b0ce29670257996fb4312d0b"
+    },
+    {
+      "module": "Batch089",
+      "commit": "d4f4125c367620d946fbb8105b63916ffd7e73d4",
+      "lo": 5897,
+      "hi": 5963,
+      "source_sha256": "2a0d7892db9347c4a5caedde56f2de1754d1386fc5a8801fdd1994baa5278b78"
+    },
+    {
+      "module": "Batch090",
+      "commit": "a27da2420df2d9b008d6e2c279171498f2a8b612",
+      "lo": 5963,
+      "hi": 6031,
+      "source_sha256": "16ce643e8c83ec8b95d7a2e263af0b18886dff878c8f7d8f5c380d267da4db57"
+    },
+    {
+      "module": "Batch091",
+      "commit": "41bce913b4afa0628ba088f093b611afb65c0b6d",
+      "lo": 6031,
+      "hi": 6097,
+      "source_sha256": "6f75f079d4620c45d60652f41c72c1c0ce055bdc18bf77f9a6dd4d389d4ab843"
+    },
+    {
+      "module": "Batch092",
+      "commit": "e1237ee91434d5308ab49b4906e2f5103d7e9039",
+      "lo": 6097,
+      "hi": 6165,
+      "source_sha256": "f4c5651956a3a2361c67008efda87771a2346cfc764db6c5e10dad721e06469a"
+    },
+    {
+      "module": "Batch093",
+      "commit": "72f7199420f0dae43310568db103acc90b1a47ed",
+      "lo": 6165,
+      "hi": 6231,
+      "source_sha256": "cffb66cad10045a02d62f00d9e49bdaed57a1e742fb773f21d2789c25470f56b"
+    },
+    {
+      "module": "Batch094",
+      "commit": "8511f91cef51316d86ae44b94c61f1cf65045374",
+      "lo": 6231,
+      "hi": 6299,
+      "source_sha256": "f9aeda6f3efa37079b40d7f98cd70e3a5e35663f1195e05db04b7fcbf89d850e"
+    },
+    {
+      "module": "Batch095",
+      "commit": "e238216b81a080e99a6a425e7968f93414e8746a",
+      "lo": 6299,
+      "hi": 6365,
+      "source_sha256": "409a442d563a371f917f6df4b10a76d2cbd76d518574b95e538591d92e2b5cbf"
+    },
+    {
+      "module": "Batch096",
+      "commit": "7cd8675bb9c7495f3dc66282c200f7d9f439d0eb",
+      "lo": 6365,
+      "hi": 6433,
+      "source_sha256": "1f75f2d4c3c2b320004ea662b86180ea9c30d11080395ef2d6015829281ff82a"
+    },
+    {
+      "module": "Batch097",
+      "commit": "d16059e3aea6c05b98233d33505fd2faaec81b47",
+      "lo": 6433,
+      "hi": 6499,
+      "source_sha256": "e056e8ad262e4a7f6711b15360bfe6d8ec7b2f05ed86dcdd9b65f51c35351237"
+    },
+    {
+      "module": "Batch098",
+      "commit": "9eaa59be8a62fe1bf5cda50be84bc925dd7179e5",
+      "lo": 6499,
+      "hi": 6567,
+      "source_sha256": "bc73cb694ed94c4ec671abd96523cb91b4210aea0e1745834c5bda321dc428fd"
+    },
+    {
+      "module": "Batch099",
+      "commit": "c6bd4a53f41e80cb8ae43d0fda9f91ba86577779",
+      "lo": 6567,
+      "hi": 6633,
+      "source_sha256": "174cc46769710f7b58b8ad16ab96fc62235dae905e1bea090dc3dd0e9e6411c0"
+    },
+    {
+      "module": "Batch100",
+      "commit": "bca91e407eaa9aaeb58aa23a8bca92aa7440bd92",
+      "lo": 6633,
+      "hi": 6701,
+      "source_sha256": "2dab9621b49e8f14425739b8e19a275cc4e75b0cdcbd0297e2372f899190a1c7"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+import Collatz.Strategy.DensityCountermodel
+
+#print axioms Collatz.DensityCountermodel.three_never_reaches_one
+#print axioms Collatz.DensityCountermodel.step_dyadic
+#print axioms Collatz.DensityCountermodel.dyadic_predecessor
+#print axioms Collatz.DensityCountermodel.one_dyadic_predecessor
+#print axioms Collatz.DensityCountermodel.block_count_lower
+#print axioms Collatz.DensityCountermodel.predecessor_count_linear
+#print axioms Collatz.DensityCountermodel.all_targets_positive_lower_density
+#print axioms Collatz.DensityCountermodel.step_positive
+#print axioms Collatz.DensityCountermodel.reaches_one_or_three

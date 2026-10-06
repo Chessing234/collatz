@@ -1,0 +1,833 @@
+{
+  "status": "passed",
+  "baseline": "0b0fa49f1dab57e4bc8790b0c09121b7162ce28c",
+  "target": "Collatz.Research.CoefficientDescent.All",
+  "horizon": 256,
+  "failure_bound": 6701,
+  "odd_witnesses": 3349,
+  "batch_count": 100,
+  "lean_lines": 35823,
+  "lean_code_lines": 21672,
+  "generated_lean_code_lines": 21094,
+  "handwritten_lean_code_lines": 369,
+  "axiom_audit": {
+    "theorems_checked": 6846,
+    "without_axioms": 3357,
+    "allowed": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "observed": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  "negative_controls": [
+    {
+      "case": "missing_small_input_exception",
+      "status": "rejected_false_certificate"
+    },
+    {
+      "case": "wrong_base_time",
+      "status": "rejected_false_certificate"
+    },
+    {
+      "case": "insufficient_gap_bound",
+      "status": "rejected_false_certificate"
+    },
+    {
+      "case": "late_descent_is_not_first",
+      "status": "rejected_false_certificate"
+    }
+  ],
+  "python_tests": {
+    "status": "passed",
+    "test_methods": 8,
+    "checks": {
+      "small_input_oracles": 6699,
+      "transfer_cases": 3189,
+      "gap_pairs": 33153,
+      "ray_samples": 13396,
+      "random_intervals": 2500,
+      "mersenne_prefixes": 257
+    },
+    "counted_checks": 59194,
+    "failures": 0,
+    "errors": 0,
+    "scope": "Exact-integer experiments; the general statements are proved separately in Lean."
+  },
+  "files": [
+    {
+      "path": "Collatz/Research/CoefficientDescent/All.lean",
+      "sha256": "14cd95e70b82b6de9852c9ff3def9e0d197fe8a014ce35d7b679223247ea8612",
+      "lines": 5,
+      "code_lines": 5,
+      "theorems": 0
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Basic.lean",
+      "sha256": "c4da329fcdbb1f06c94518862e2ddb139079fa91d42a025051b316ab2ec11259",
+      "lines": 126,
+      "code_lines": 94,
+      "theorems": 9
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch001.lean",
+      "sha256": "e28b263b40fb8a29f9d0399d6e27f2c1d146528718010ff275606e1862f4fc69",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch002.lean",
+      "sha256": "996472a3662e7d72cdbdf215b623756e57b736cdd1e8e843ebde4b644653e1b9",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch003.lean",
+      "sha256": "fb72a961bff36a01487d449983b2f0a899c7210bf6812884d373ce0ac9e9d719",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch004.lean",
+      "sha256": "2c1af34e972f38907567537efe1c8e248d554c85d4131ebdbf89a30261ab1235",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch005.lean",
+      "sha256": "01d288e01154faf7f2bcfb7cf5700770098c3dac278e1e525f1069766675516a",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch006.lean",
+      "sha256": "706c07533ddccf9ba5053041bdb2cdb8626a4bfba2cf670f240b43d8f6132c75",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch007.lean",
+      "sha256": "2a161656fd93342e3f62e51b9bfc32aa6967ee095366101bdf7a8fcfd5fb2a48",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch008.lean",
+      "sha256": "0e52de4f6e32a83d84bf6a8201d3caf491cba9220539e3223618ab9e06536e9f",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch009.lean",
+      "sha256": "5a31900effa4b5bce81e271fe101e5a67db7f0c35e273c70855ecdd3052e0998",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch010.lean",
+      "sha256": "020898495e979ae36be2500225a0f4a4d2bf2bdf6491fcfacb2ef61bd96d41cf",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch011.lean",
+      "sha256": "bca114d8bd4350cb036dd9dd8515c07e196c073515b6d606fdc5f07080144600",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch012.lean",
+      "sha256": "288ca2e9fea8fd9685356c6b8e23f749bb2aed7bd0360cd774bafc41e5378bc5",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch013.lean",
+      "sha256": "bfb2ef81160e48726444f59dd72977a15e30ecc50d85a332c95636ac1adc0447",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch014.lean",
+      "sha256": "f1d4673e900d439741f0a4fd9e8b369abd754f3695210e17944ced5ada61b6b2",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch015.lean",
+      "sha256": "287660981fce63be96912c49447c6d0610e6cf760dd04e9273c194e8387c1ca6",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch016.lean",
+      "sha256": "d008d68eeeda5c0447ba3e5a60bab5bddb46f30252ba2f916f71b77a5a4a1efc",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch017.lean",
+      "sha256": "ff487340ef03be63c7fbe7be330d9167f3eb4d721fbdf99d20f16d0813a3d68b",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch018.lean",
+      "sha256": "32acf1aa2580d17c671894633be2038fecc2ab4ade3eb53f65959ce87dc40dfa",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch019.lean",
+      "sha256": "ab0252bbe182187aebbc9a06a7b33dbecb3d5ab7031184995119142924a4155d",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch020.lean",
+      "sha256": "6066e931058818258426eb782ffb1e313a5cab1161e6c7915667b79a241d76ca",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch021.lean",
+      "sha256": "2c2461d44361f66e2802db86ae100d0776b76a88ed977bbe819698e54008b27f",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch022.lean",
+      "sha256": "e7b58a3238f2d5ecf20e2a15b41b82bca518e2ea08a2a069e8521fb56bf63c87",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch023.lean",
+      "sha256": "340b44c8dfe8c792d280e7dadab31bc3287fe07bd9836f6eeb06dfdab6135d3d",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch024.lean",
+      "sha256": "3a9439f80ee1d2bec04912141b64b03a6b80aa46a4ec9f08cea4d7ba40908a60",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch025.lean",
+      "sha256": "8377d721083b81080bd4de89b562031eb2bf8851b1146d607c98166f75164cbb",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch026.lean",
+      "sha256": "c5d8bc05869a4038c0a48f6ceb304a7c77d2ea97a3597bb874e82fa300bb5820",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch027.lean",
+      "sha256": "ed46c7ae84f1645b77a2f652200d79c3c27dc81474a91dfbd68523df82ec9fec",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch028.lean",
+      "sha256": "f41bdc72381ceec27cf4be13f07135ed335a03ac2ecf9dbe352becf57726fc52",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch029.lean",
+      "sha256": "6c5af1cf759fd46a2386eeadbf297ee312e44c4cda85198724714e25220502e8",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch030.lean",
+      "sha256": "e4db3ed4d80f4a6995448247082a921ce09515dd57e41320278a9b3a674a78e2",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch031.lean",
+      "sha256": "adf4a2989c638c0b9073538ed6a1f8941b129380448e8928c4489a5502ea64fd",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch032.lean",
+      "sha256": "15918b32ccf1f7edd7c2b6487026312b902c48b5231a12b6905e00d1fc311e6e",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch033.lean",
+      "sha256": "b97874f5328b638fd21c950ad0f587e7b49e0ccb68f921a03531a92cbb3c9391",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch034.lean",
+      "sha256": "83a0d75b1bd9da58d2f34dee0a697722f385456e900ff54877858bbbb7bca1d6",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch035.lean",
+      "sha256": "7119f5752537a8a6bf7595003de7716665a67018f8c0e5f2d32b9beb5b34afd3",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch036.lean",
+      "sha256": "9fabc7cb61b5e60f3e8e6c9647ede11ba87385b944f38aa2374e7d4a004da857",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch037.lean",
+      "sha256": "f81f3f53b62bc7cb3fddb615e3ab863872a74b02fec34cba11bf374bebbf56b5",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch038.lean",
+      "sha256": "008e0607419e65711933ad9d9446eb9409b06393e1b4d87dfb273fbfb8f5d69c",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch039.lean",
+      "sha256": "937775b2391d2579d5cbe753723aa14699949fce73d79f90c17538bab301170c",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch040.lean",
+      "sha256": "9574e451905a6142b6e2f4df663a1f887941f17519f3edfeb79a69695ac89a6f",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch041.lean",
+      "sha256": "d269ce16fc6ba47c6b3d87fd6fdb322cb202371ba6a9f49e43d2b7cbd7516d65",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch042.lean",
+      "sha256": "a85ea2363d1b3b9b7d21d7b0df7131beda6ea79cc2cf30c24c505a0cce7e6e41",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch043.lean",
+      "sha256": "203aa91c49fd3236d75ed1fc3fc44f5a781bf7959d453aa84d79ac812740b483",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch044.lean",
+      "sha256": "cee71fa1b738a41efb1d7913824a62ef9898a49c0f0741baaf1eb224f4299d2b",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch045.lean",
+      "sha256": "b0a4ad92cbeb6c4560b693d78104fce65476d4197314fdf8b098bb1c3b65e6bd",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch046.lean",
+      "sha256": "aa214122e09e5adc6174e0284bb3aa666d827f256b989f1a7ab6439d0f5de9ea",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch047.lean",
+      "sha256": "dd24a699c691dd4c7e87bcd6dda1f42c27039fc0f3808110b85990b8ed2c6ae7",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch048.lean",
+      "sha256": "5ce98e3ebcda3817d9868d76505ae139b958611fac6cd7a8927b83ee04913680",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch049.lean",
+      "sha256": "e5e0fdeb6b3938cd9612827aa5e18accce64d7f93a2fbfd745e19f8c39e70f6f",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch050.lean",
+      "sha256": "5f8e4d24cc2ff2e317d9816de92e220d02d6b763fccfaef39d42b115274494c1",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch051.lean",
+      "sha256": "77180419fc15a6e6297a215d2e4580fbe27a7b943be9ac2f9a858dc079d357bb",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch052.lean",
+      "sha256": "5cf816acfd62719247c6b727061f47e2b50f8f429de10405333776f5236188f5",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch053.lean",
+      "sha256": "7cde22f6d16c46ae8dafe5368d600cfc03314cbdcbea7458e057a40e43a65e0d",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch054.lean",
+      "sha256": "64d21276f457ddd4cbd888fed8262933c5637f24ac3a0cb2934ff357037d9244",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch055.lean",
+      "sha256": "91516e8182685b26e4033c61c2b10fd0a3c0c5ea3911806c9afa1ece256c22e0",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch056.lean",
+      "sha256": "e5ae196ca40ff45daea11db3dd1f178a56f35dd9cc0ef8be26e90e92dc11febb",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch057.lean",
+      "sha256": "59c0c50f43334f8de82cc5ce1200affddb0b9c8bc5ffb92fb59978e96b682465",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch058.lean",
+      "sha256": "5001b4f599502abea983bfcefb447d6a9df2e3ae893cdd5388c956fafd309b3f",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch059.lean",
+      "sha256": "0cfb22c1671d78da0607264e5a7151fd8d33209aacdbea9abb10b6026cb16df7",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch060.lean",
+      "sha256": "c4a554407c6c30b40fd40139e644413e4367b13337ff8bfdd0b7b75aadac0f83",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch061.lean",
+      "sha256": "12163aaf84445ce5bdbe85c14ec67a1e87328f22a97ce9c2c4f10d91c5b40160",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch062.lean",
+      "sha256": "4e15fa94bc9762aac17ad141b5c34b99b751f433c8673306f60a3cb5b3b10cb6",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch063.lean",
+      "sha256": "761ec3e21ee43cc23f8350f7370103bc7069cd79bf40f8d4b265e5a3da7247fd",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch064.lean",
+      "sha256": "c5bfd8c59f8f0dae9cde528b83eaa7447d0be5e1f5e6340db7236b932a3a3069",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch065.lean",
+      "sha256": "4982ea611a680be66997840e1e2f40c7049ad37d3206a1056984c293e41d21c4",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch066.lean",
+      "sha256": "3094b9e25d98bb1d2db3247eef251c4f7f5998fccd0c13f372edbdc70eb22f30",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch067.lean",
+      "sha256": "0987bf77b3c3e85bb629b65366cd872dc73294cc638f92aee81a6356d51da9fc",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch068.lean",
+      "sha256": "0c275450a2b50ead291ea9909369144410987ae6c8a18b879ba4ce5860d1a36e",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch069.lean",
+      "sha256": "e97afa0badb7d2a542623ead7f1b1ca53834a7167b799ea06367aef37af5e5eb",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch070.lean",
+      "sha256": "4f05c953f7cdbe68a48859c730372d365847a530db901bce7c488ccafd4188fe",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch071.lean",
+      "sha256": "10167b32f0fff6d06d4fe0d595afb0589e5f98db57effca09839a6fb9cbdea2a",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch072.lean",
+      "sha256": "1a8107a4aa64a234fdee5533d3422751ffe3d1ecfe2ee4a7dc7e6cfba84d8e3d",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch073.lean",
+      "sha256": "264211b0eb1c17eb867f2a1dc3d2660f24419fe01ed7bd1133b9d2cdf2f8c9b5",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch074.lean",
+      "sha256": "99dba16bf963f21f7f0e0654ab2530394e12adb5ec28e4a257cd1ab323c66fd0",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch075.lean",
+      "sha256": "5d8b3fd6e0d7561b58472f44a9213c8ba6d198dfa8926ebe721b1ff26185bcc2",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch076.lean",
+      "sha256": "a18da5e926db9ddf990dbaa0d68cb191cc7c957248c2936b8a905183df0edf2d",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch077.lean",
+      "sha256": "813b83837a0a700dfb799332352767707c27de7dbfbba5af98ea4dd5a04b74a2",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch078.lean",
+      "sha256": "90c5fc736af538c6203a52f4a2702ef5201292fd921ad6cc363b174467204e22",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch079.lean",
+      "sha256": "240d3b005a6497b54185da3ca904d033f32489e407e1b988ea22db42daf04a1b",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch080.lean",
+      "sha256": "10993adff12f215a9f4dd281c9096d5bcc9fda11facc6af6efd14c4c3c08980e",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch081.lean",
+      "sha256": "7ea68e82b59a04668e816fa938714e9dd6038b9b5c210e4c7d20d6ffb4e9a0e7",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch082.lean",
+      "sha256": "2da6f824b9321d7e3655d27f346de43e0f4e22572a231dde385068ccb7a7e972",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch083.lean",
+      "sha256": "f9dbf7b1bc920f9f13637683e672fc5959813abb2f8633603ccae00a50f7854f",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch084.lean",
+      "sha256": "0040748f6c869affe37ff9a5bc8fbba143130549d3817b67e7263c6572788d41",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch085.lean",
+      "sha256": "ab9afe4b9c5899fb086680eed7e9906ab53020dfe714df16031fb0dccf29333d",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch086.lean",
+      "sha256": "f8ddc3a1ec8458a8a03ab849cbbd912e1d65cbe9558291d8838554026f8ad66d",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch087.lean",
+      "sha256": "27597c19c93f9416f5467ac8939c7a800bc1e063fdd7958211c3d765ce9913f6",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch088.lean",
+      "sha256": "e1f9bb914dc49ae2b969dba84c9c1b9eafb05c52b0ce29670257996fb4312d0b",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch089.lean",
+      "sha256": "2a0d7892db9347c4a5caedde56f2de1754d1386fc5a8801fdd1994baa5278b78",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch090.lean",
+      "sha256": "16ce643e8c83ec8b95d7a2e263af0b18886dff878c8f7d8f5c380d267da4db57",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch091.lean",
+      "sha256": "6f75f079d4620c45d60652f41c72c1c0ce055bdc18bf77f9a6dd4d389d4ab843",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch092.lean",
+      "sha256": "f4c5651956a3a2361c67008efda87771a2346cfc764db6c5e10dad721e06469a",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch093.lean",
+      "sha256": "cffb66cad10045a02d62f00d9e49bdaed57a1e742fb773f21d2789c25470f56b",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch094.lean",
+      "sha256": "f9aeda6f3efa37079b40d7f98cd70e3a5e35663f1195e05db04b7fcbf89d850e",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch095.lean",
+      "sha256": "409a442d563a371f917f6df4b10a76d2cbd76d518574b95e538591d92e2b5cbf",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch096.lean",
+      "sha256": "1f75f2d4c3c2b320004ea662b86180ea9c30d11080395ef2d6015829281ff82a",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch097.lean",
+      "sha256": "e056e8ad262e4a7f6711b15360bfe6d8ec7b2f05ed86dcdd9b65f51c35351237",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch098.lean",
+      "sha256": "bc73cb694ed94c4ec671abd96523cb91b4210aea0e1745834c5bda321dc428fd",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch099.lean",
+      "sha256": "174cc46769710f7b58b8ad16ab96fc62235dae905e1bea090dc3dd0e9e6411c0",
+      "lines": 346,
+      "code_lines": 208,
+      "theorems": 67
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Batch100.lean",
+      "sha256": "2dab9621b49e8f14425739b8e19a275cc4e75b0cdcbd0297e2372f899190a1c7",
+      "lines": 356,
+      "code_lines": 214,
+      "theorems": 69
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Examples.lean",
+      "sha256": "721a81a359013c55229003828a37a5c1aa440c210cc7eeca7dff9b397d3bfb3d",
+      "lines": 39,
+      "code_lines": 21,
+      "theorems": 7
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Gap.lean",
+      "sha256": "656bca2f869edddae0eb20a1d15fcd2660e4b0b3abb5f9099195ed90a0291184",
+      "lines": 25,
+      "code_lines": 17,
+      "theorems": 3
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Horizon.lean",
+      "sha256": "8fd62dabd020703194b448c2eb559c0e2c2d41a73a28c2173b0ca1a4c01900f6",
+      "lines": 35,
+      "code_lines": 23,
+      "theorems": 4
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Intervals.lean",
+      "sha256": "e43ef7efbfb274e9cf3fdb605887fe9aa5d0885d3b2df7f646aa2e5821949535",
+      "lines": 61,
+      "code_lines": 46,
+      "theorems": 5
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/SmallInputs.lean",
+      "sha256": "af13f7b30e65f2458f85aa972007b426ff72d2f75a859096b914b21ddf12bd91",
+      "lines": 216,
+      "code_lines": 209,
+      "theorems": 2
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Transfer.lean",
+      "sha256": "7cea9d2edd1c9ef0c957dfaf7fd4fd4be9f6c1e1440158d8a89f4f8898e5bbb0",
+      "lines": 173,
+      "code_lines": 128,
+      "theorems": 13
+    },
+    {
+      "path": "Collatz/Research/CoefficientDescent/Universal.lean",
+      "sha256": "4ad4a1559eb04c1980ad9f102d374ed7be9cf0a37489fafe733c906057c21ac5",
+      "lines": 53,
+      "code_lines": 35,
+      "theorems": 5
+    }
+  ],
+  "scope": [
+    "Build covers the addition and all its dependencies.",
+    "Does not rebuild every historical repository target or the separate Mathlib extension.",
+    "Standard kernel checking: no added axioms, sorry, or native_decide.",
+    "Finite certificate count is not a count of independent mathematical discoveries.",
+    "No universal existence of coefficient crossings or proof of Collatz."
+  ]
+}

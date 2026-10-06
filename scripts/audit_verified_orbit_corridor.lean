@@ -1,0 +1,12 @@
+import Collatz.Strategy.VerifiedOrbitCorridor
+
+#print axioms Collatz.VerifiedOrbitCorridor.repeat_gap_ge
+#print axioms Collatz.VerifiedOrbitCorridor.corridor_escape
+#print axioms Collatz.VerifiedOrbitCorridor.current_corridor_escape
+#print axioms Collatz.VerifiedOrbitCorridor.every_window_exit
+#print axioms Collatz.VerifiedOrbitCorridor.repeat_certificate_constraints
+#print axioms Collatz.VerifiedOrbitCorridor.reject_short_repeat
+#print axioms Collatz.VerifiedOrbitCorridor.staysBelow_iff
+#print axioms Collatz.VerifiedOrbitCorridor.corridor_check_sound
+#print axioms Collatz.VerifiedOrbitCorridor.corridor_check_twenty_seven
+#print axioms Collatz.VerifiedOrbitCorridor.corridor_failure_can_converge

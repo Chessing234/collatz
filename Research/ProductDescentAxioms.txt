@@ -1,0 +1,10 @@
+'Collatz.ProductDescentCheck.no_drop_product_bound' depends on axioms: [propext, Quot.sound]
+'Collatz.ProductDescentCheck.descent_of_product_gap' depends on axioms: [propext, Quot.sound]
+'Collatz.ProductDescentCheck.productCheck_iff' depends on axioms: [propext]
+'Collatz.ProductDescentCheck.productCheck_sound' depends on axioms: [propext, Quot.sound]
+'Collatz.ProductDescentCheck.productCheck_implies_light' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.ProductDescentCheck.finite_stopping_of_check' depends on axioms: [propext, Quot.sound]
+'Collatz.ProductDescentCheck.convergence_of_universal_checks' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.ProductDescentCheck.endpoint_need_not_drop' does not depend on any axioms
+'Collatz.ProductDescentCheck.first_descent_can_be_missed' does not depend on any axioms
+'Collatz.ProductDescentCheck.no_zero_step_certificate' depends on axioms: [propext]
