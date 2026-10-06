@@ -152,6 +152,7 @@ def generated_files() -> tuple[dict[Path, str], dict]:
     imports = "".join(f"import Collatz.Research.DescentIntervals.{b['module']}\n" for b in batches)
     files[LEAN / "All.lean"] = (imports + "import Collatz.Research.DescentIntervals.Refinement\n"
                                 "import Collatz.Research.DescentIntervals.Universal\n"
+                                "import Collatz.Research.DescentIntervals.Mass\n"
                                 "import Collatz.Research.DescentIntervals.Cycles\n"
                                 "import Collatz.Research.DescentIntervals.Examples\n")
     manifest = {"baseline": BASELINE, "census_depth": CENSUS_DEPTH,

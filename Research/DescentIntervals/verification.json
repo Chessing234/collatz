@@ -1,0 +1,801 @@
+{
+  "status": "passed",
+  "baseline": "ca585a9b42633d89aaee7ba93be2c7cb105feb4b",
+  "build_target": "Collatz.Research.DescentIntervals.All",
+  "cylinder_count": 1022,
+  "batch_count": 100,
+  "axiom_audit": {
+    "theorems_checked": 4153,
+    "without_axioms": 2053,
+    "allowed_logical_axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "observed_axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  "negative_controls": [
+    {
+      "case": "zero_exception_removed",
+      "status": "rejected_false_certificate"
+    },
+    {
+      "case": "late_descent_promoted_to_first",
+      "status": "rejected_false_certificate"
+    },
+    {
+      "case": "wrong_long_endpoint",
+      "status": "rejected_false_certificate"
+    }
+  ],
+  "lean_lines": 20676,
+  "lean_code_lines_excluding_comments_and_blank": 12101,
+  "files": [
+    {
+      "path": "Collatz/Research/DescentIntervals/All.lean",
+      "sha256": "4569c0a049f0a07086ff2bd56ff68f684da6f61e6cf2a7fbf09b01ea468281e5",
+      "lines": 105,
+      "code_lines": 105,
+      "public_theorems": 0
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Arithmetic.lean",
+      "sha256": "bb7edefd0ae2c3583d8914b7802706aeb3df70d96a8693ff6e7d9a82f0273040",
+      "lines": 128,
+      "code_lines": 96,
+      "public_theorems": 8
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch001.lean",
+      "sha256": "e1f4c3407d415758a693c69d496ec650f14ed565fae63a015f25e05f8662aef1",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch002.lean",
+      "sha256": "0f19dbc9ae1355855e4190c7b2128e163a590ff5a9ec8012f4eaa7cb31debb2d",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch003.lean",
+      "sha256": "8560c52d5177dd446d7e01d72333ba8b8cffb17ae448e59a4bfd78fc9c844ca0",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch004.lean",
+      "sha256": "71d7ce40758ae79df4ddbf040459d0ec01413a8a8ac0123f40b7ef76287ac8ca",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch005.lean",
+      "sha256": "3577429f4dbf5ee69f5a2b80e73b119e0dbaa44c493cc84588dcad8ceb6ca39c",
+      "lines": 214,
+      "code_lines": 124,
+      "public_theorems": 44
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch006.lean",
+      "sha256": "3c6887f870ad2700d93af7593a330c31979fd2fe0491bfa42f2643027e84d91d",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch007.lean",
+      "sha256": "82431923dc70844fb6ee6999a18bb37f1d0b9d082fed3df55bb2d54211a094f4",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch008.lean",
+      "sha256": "aafc301d75819d6258498a6bab072fe7a03e6cf7486d762ae178dc271e17ecfd",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch009.lean",
+      "sha256": "1f775d2d33f3c5b5a24caeea73eb7a91d76146a7a9920012249d65a1b3765346",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch010.lean",
+      "sha256": "376b767e0365099e62f1a4f0141fda47989703466a91a646b0f23603ab04bf1e",
+      "lines": 214,
+      "code_lines": 124,
+      "public_theorems": 44
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch011.lean",
+      "sha256": "d286d662b0cdeb6f4246d99ef33f229ee3b6459227b3f9e93b00ca6f77d8828c",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch012.lean",
+      "sha256": "f12ead6ed39301cc46354f3f32505be83bfd4994e9363f81ce99033acc78633f",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch013.lean",
+      "sha256": "15e405cf443457f1345a929a8ef61a0dd3c7d3123900694a381fab13387517ba",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch014.lean",
+      "sha256": "4c3f6e70ad6b762f5c30b8aea43353669339e185f3c37b9f748b20e1b4bb190e",
+      "lines": 214,
+      "code_lines": 124,
+      "public_theorems": 44
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch015.lean",
+      "sha256": "dd7c970e4ec37f436bb40f746576a030432516b5ca5f7a6568e6a44238f6b2f2",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch016.lean",
+      "sha256": "081b474876f1778ee2aae79784a663cdbad131ced76fe789a9fcfe1c13bba802",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch017.lean",
+      "sha256": "6ebf64a0bf936e9a5a2cf0155fdab14ee0ed3277a928cd430afb1fec097a254d",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch018.lean",
+      "sha256": "a88342c1b71f6e3e4829d85a41727c3798cd97cbd1653d6ff567e23652c2fd40",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch019.lean",
+      "sha256": "e90d9d77a05a1235669437e1875bd39af90e1d853e04f3d02fe77694c3bde762",
+      "lines": 214,
+      "code_lines": 124,
+      "public_theorems": 44
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch020.lean",
+      "sha256": "8b14386e3e232b88a246af9e60ad22f65941f8d36979aeb04baebd62c8a0b8d3",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch021.lean",
+      "sha256": "82c11a52cef0ae2629f522dfceb020ea5923aa2648687bd31244c93fcf31b9f5",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch022.lean",
+      "sha256": "49079f8ad32395cfc15ec59f6948f617dbe6cd9c95d3b14b67248ce054455d61",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch023.lean",
+      "sha256": "429549d9d7ca14e67f5d720681f98f1a3e8aad3468ba7c8f51b5c3fcc7781a48",
+      "lines": 214,
+      "code_lines": 124,
+      "public_theorems": 44
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch024.lean",
+      "sha256": "a8c8e7756940bace7e2ad64dcf7c54e287895651c94ea7d574d3980fc3944551",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch025.lean",
+      "sha256": "cf336f50eefae5406ce4bfce6adc5da30a48ab961b438b5f95534ad7b0ba7727",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch026.lean",
+      "sha256": "c0a502c76d42fbe879ed89bab249dd7bc5a26d5c158bb8a0df4eabc0f8c01e7a",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch027.lean",
+      "sha256": "56047b1c883b0c1b2d1eef799a3c9169a4bad82e553799bdf10952852c535b2e",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch028.lean",
+      "sha256": "85d7ffd4c1fe1f119930119fc644955f919c591360b7359734ef9436801f9e5f",
+      "lines": 214,
+      "code_lines": 124,
+      "public_theorems": 44
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch029.lean",
+      "sha256": "f1f40501896f9bdf87141752503fa27cdcf5510d47333894ae6310d63b7a2e93",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch030.lean",
+      "sha256": "77e1acd04e2f77da4713a7bdd500c10d6d1b279c669971206c8675f3f4013ff8",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch031.lean",
+      "sha256": "fd7aa675b9dc3fbf291737463ba2dec63c454442bb0104e61676bbb66fc334d8",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch032.lean",
+      "sha256": "4dbcd091be76d2eccf25f390675b8b5c3ace6c594dfef14b4beabf03889cbd4f",
+      "lines": 214,
+      "code_lines": 124,
+      "public_theorems": 44
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch033.lean",
+      "sha256": "3dcb807b79c4b2f943fd3eedaf16504b3036fd9e9589ac33f3e65113aa206aa5",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch034.lean",
+      "sha256": "47e0cd5e921813771ce71ed9012542c8eaa6f9240b7974179ed5cebd017d8ef0",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch035.lean",
+      "sha256": "505a6361eeb1fb29f4660251c6ae67155e0f72e796de074acd934a1bd348fe3e",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch036.lean",
+      "sha256": "bf14e4b9d62192155e45b8f72b14b442a2792af137c8d884e22bd41fd1f0a7bf",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch037.lean",
+      "sha256": "b25e64165beab879e38351090b7468e8008f741b0d70c78977ac0f14b5f18186",
+      "lines": 214,
+      "code_lines": 124,
+      "public_theorems": 44
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch038.lean",
+      "sha256": "400df78cd336ddb7ab2ebbbe2a9d9ce9960d306241ec5f59969f2abd15d05de5",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch039.lean",
+      "sha256": "2a05288ad3e6ba2ad124f066d18c7bb45044d4ca89272348730162878cd62bfe",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch040.lean",
+      "sha256": "ef49a7b19872af0fd5b9e04b12914bf10ea00bcd80dab0008a49891772a81a62",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch041.lean",
+      "sha256": "2b5c767076e259ec38e0a3502c8aeb850a7c0aec8e9e2daec0b3e27e664f03a6",
+      "lines": 214,
+      "code_lines": 124,
+      "public_theorems": 44
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch042.lean",
+      "sha256": "b08ef49ed315245efbaf95431cfeeced3419c20809a54be0e7d164c57e3d65f3",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch043.lean",
+      "sha256": "ebd3fc4dd9b93bd1a6ad84735382cfedf814f69262f6ecb7cfc3850b334954dd",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch044.lean",
+      "sha256": "3d1f4b22f9d97e71596da3f28f194065198bb0d7254142e4c43259e6d66dd3c1",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch045.lean",
+      "sha256": "2431a65760457cfd6bada447b53bae399430932b88b5e644930730085055ce40",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch046.lean",
+      "sha256": "fc4b9d7d3dede8740f03b8b7b6a6aef7b8627af5d25df02a2762187b955c6c11",
+      "lines": 214,
+      "code_lines": 124,
+      "public_theorems": 44
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch047.lean",
+      "sha256": "54148ea7d3f71224654588c1b7e78878ec46dd70bf136c019bd909a6374b6cff",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch048.lean",
+      "sha256": "27c3a66e6a60ac8d0677f8aecf520a51daee2ac31dc7e92b39cf2cefc4ee38e9",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch049.lean",
+      "sha256": "30cca679b26248b4deb2229626621a6c435915d52120a195da367fbfc99f24db",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch050.lean",
+      "sha256": "f040705de049224a5781bbdff234c6813e58603a2d614a1b61241583b4ba2760",
+      "lines": 214,
+      "code_lines": 124,
+      "public_theorems": 44
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch051.lean",
+      "sha256": "1fe04c25e7f22b696198ca2d89643f92d6ab158f465bb0b785ca78bd7a8c0c7e",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch052.lean",
+      "sha256": "00c3399a29b964117c02d808fd1c7f4224a6fac01848e9812928a2bb1007edb8",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch053.lean",
+      "sha256": "b6e76ee8591d7ce1acc755b3dc26e9c2cd17362cbe8f045adb705e4cdb8f1a5e",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch054.lean",
+      "sha256": "44e6a2fd64e99e937d5c47fd3c8cbcf49f805a5bc7dbc906b0f40947d31f1a63",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch055.lean",
+      "sha256": "0494dbb5505dd83783197448ecf0c53473a1f6b1c019b51b060f356cde3b7b12",
+      "lines": 214,
+      "code_lines": 124,
+      "public_theorems": 44
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch056.lean",
+      "sha256": "6b0403d9ec845df29743fd594168e9c5fda7cc9409344f6f352bbb7a8e8ef07d",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch057.lean",
+      "sha256": "6fc904df71d3c171fb7a7b344ca41f631915131547b4f37f1c66898df4417d51",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch058.lean",
+      "sha256": "b421522203ac4cd01e286482842a9fdc217198151b65958843ab1b8eb5694a2c",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch059.lean",
+      "sha256": "d1d4e9718c909a83036302c774239168b394d9b98d78da7cc7c7860fdd17ba50",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch060.lean",
+      "sha256": "d2a80e9c83656fe5a5df7257518632c3df2c30b25520770ffdbe31e3030d498e",
+      "lines": 214,
+      "code_lines": 124,
+      "public_theorems": 44
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch061.lean",
+      "sha256": "ed2bb17ad3a38599d764a5b345dd06ad4eb981ef28f2e84f88b2788ea3209f0e",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch062.lean",
+      "sha256": "fafb610559d495612cdf91f8f626c14115e275d3a400d3e6da6dd0e2dfdd6018",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch063.lean",
+      "sha256": "66997959cf655880b316ca76b9e986e7e620f13918857fb1cb8c58ce3ebd69d4",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch064.lean",
+      "sha256": "44a1885f76eaabf5e16ab2a51f97ecdb699779de1729a1eb6ea670924ec96e25",
+      "lines": 214,
+      "code_lines": 124,
+      "public_theorems": 44
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch065.lean",
+      "sha256": "d29eb18418eb6ad36f8f5ae789b9ce629643dd765bb17e6ea475ab6dd70991a3",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch066.lean",
+      "sha256": "8c06a98f23b8d543b807fe6ee40d05bcdc8d58d96fc51d15c89c437ac023555e",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch067.lean",
+      "sha256": "193d5f81a079e68c89d28704416f8ec9f5ded657c7decb35655b2ad0a05b3e0a",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch068.lean",
+      "sha256": "cf3c146987014a44b24caaab5df9e97485d7fa63e86f8f29a6bdff4546de7b93",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch069.lean",
+      "sha256": "0601f912952e917d3070c7affa55831239dd0e4dcb114794e2ac750ba75fad1a",
+      "lines": 214,
+      "code_lines": 124,
+      "public_theorems": 44
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch070.lean",
+      "sha256": "84550bae77f71f28775104dc686fa432e61b7d033032791ac35f23e4b1eb340d",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch071.lean",
+      "sha256": "14b04696e2b7c293baebedcff37228208a9c4d3349ce16b63188adc4a497c4ba",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch072.lean",
+      "sha256": "8974f89aece0676b3505f6a30a422f6c7be17d30ad2673951e0e565f34663c36",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch073.lean",
+      "sha256": "79d45333aec6209a9ca1a736116419d184ef2c85175ea7a93ad9808b6aa47fff",
+      "lines": 214,
+      "code_lines": 124,
+      "public_theorems": 44
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch074.lean",
+      "sha256": "458119b2692d8f09b1db9b895fcaffa22109b7e6714fd891b50ab850fc0c3d63",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch075.lean",
+      "sha256": "c2b428923612dac1b8a6ad3d4bc2fef5294d37eca1bf0e821de4ecc06592eaca",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch076.lean",
+      "sha256": "95788820fe10e18927c78d17b96a2fec914bd6691044ccf6488df249798a8177",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch077.lean",
+      "sha256": "cf8bfb49e05b2a681c85a55ad67ef1bbc2ddc99e13e76982e449a68f1fab10f4",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch078.lean",
+      "sha256": "4fe968d759e814f2a5b6f898ce80542a24899def8e77e7f2215dbde994bbfb56",
+      "lines": 214,
+      "code_lines": 124,
+      "public_theorems": 44
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch079.lean",
+      "sha256": "8e70d609d055530ce3ee67eacf1c46b97c3c6bb2919667ae5fd66a0aaa1c9d7c",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch080.lean",
+      "sha256": "48cda1c9dbea7319dc4227b75883a6c415f2ef110350163dc2205f9214cf7fd0",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch081.lean",
+      "sha256": "31b90977a7ac6738a832e3569e497ce4b0747f0e207b5a2792b44859d45a6ccd",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch082.lean",
+      "sha256": "a4a70497aa66b162753ae3b7dddafa569d5bdcbfee5b9685153cc915dfe8c7b4",
+      "lines": 214,
+      "code_lines": 124,
+      "public_theorems": 44
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch083.lean",
+      "sha256": "c6918b69aac1b93359fa84a2e7cb8291ec547c940c7e45c9656e392ce06ee5c2",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch084.lean",
+      "sha256": "89bfa8f78605535cb7f39cd3ca1944757bff86aaa99c2241856bef9675c1b296",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch085.lean",
+      "sha256": "98457e2fc4a0b3110a1dd511524747e9c2c5ee4f88ca9390624402d37e46d3e1",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch086.lean",
+      "sha256": "be4f3f4366ec199acc03608d43452b57e6c86c460e0781a674e4ac838df788a6",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch087.lean",
+      "sha256": "20a9c14b51cee79951eb3371e42350d77d8abc71fd7543838093f83ff1d8160e",
+      "lines": 214,
+      "code_lines": 124,
+      "public_theorems": 44
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch088.lean",
+      "sha256": "ff25d60b84c34d0d4ee19ce829868212bbdc0cf45829badeff009196178e2119",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch089.lean",
+      "sha256": "6dd9aef427c3c2f34d918e18743ff824d6d204f140e91ea58ab94a5ed235ee96",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch090.lean",
+      "sha256": "21ae50cc25f33c2c05f6fc0a94d5ed19a8b1a1e2ead0e5058c0a0bb88a1d8b70",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch091.lean",
+      "sha256": "6e456e4cab8d2083bc61ad3ef8af832e92fb2fe4eaf531bea873cbbbc9f320d7",
+      "lines": 214,
+      "code_lines": 124,
+      "public_theorems": 44
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch092.lean",
+      "sha256": "70477a5b5205fd803767a6b4e3684f91790df5f4bf7f1c4d470bcfd462b820d4",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch093.lean",
+      "sha256": "2c96b2428e18987b6e3f756dc7fd9e0e703fde435a6a3aaa5fb878bbe616f2f4",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch094.lean",
+      "sha256": "c5a2500ba2da9e1eb7a61933ed0d29d3bbb3c4cb48e0a2a2bcebeefaee1249a1",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch095.lean",
+      "sha256": "d6a13139e6db7b5c7cabc6d538c38cf3e878ddc062411176ae7b63720acebc21",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch096.lean",
+      "sha256": "8f0720f861027e52f41bd64b1e2b9d031206466547e03af405fa1cb3a6996347",
+      "lines": 214,
+      "code_lines": 124,
+      "public_theorems": 44
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch097.lean",
+      "sha256": "bed1bb6a61c4332dfd3cf8515922a99d8d40219bfd48babea5900e94c5a9f2d7",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch098.lean",
+      "sha256": "6962f4e6b1d2b589dbf58fbe7449e9caaf2cfacb498e98d025959dc8a560aef7",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch099.lean",
+      "sha256": "ce9db1fb08257d5181efb4a5d9c36670403bbc773da8bbcb99f1fcd477a37d91",
+      "lines": 195,
+      "code_lines": 113,
+      "public_theorems": 40
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Batch100.lean",
+      "sha256": "8b538bc8c94617afaafc0b29735fc41044fa10d9bf988bf81f0860518898bcb6",
+      "lines": 214,
+      "code_lines": 124,
+      "public_theorems": 44
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Classifier.lean",
+      "sha256": "842a8d0add91642563c800960a2cad9b40b92d0a84e7130c13e78c3ed2f6192e",
+      "lines": 103,
+      "code_lines": 69,
+      "public_theorems": 9
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Cycles.lean",
+      "sha256": "a8bdf2264dd788307941f78e55b6c888e0a77a9233a17db07c91b3dcc1b49ce2",
+      "lines": 78,
+      "code_lines": 54,
+      "public_theorems": 6
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Examples.lean",
+      "sha256": "d7ff49629c1cd0c922e780c79360d63d011be18167268145d252aa7fe519765d",
+      "lines": 84,
+      "code_lines": 51,
+      "public_theorems": 19
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Mass.lean",
+      "sha256": "61618d3e8f7740fcf262f5316b5fd07b97e75595a26f03f1048e2f840a1e0cd4",
+      "lines": 85,
+      "code_lines": 57,
+      "public_theorems": 7
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Refinement.lean",
+      "sha256": "af08ff5efecb1697470cdfd964fd65ff193d3f27a3d49f10f98b27b930395412",
+      "lines": 84,
+      "code_lines": 61,
+      "public_theorems": 9
+    },
+    {
+      "path": "Collatz/Research/DescentIntervals/Universal.lean",
+      "sha256": "b536309d85904077cfb8f67d408840b8a308b7a2a225f45c44676482a349beff",
+      "lines": 91,
+      "code_lines": 66,
+      "public_theorems": 7
+    }
+  ],
+  "limits": [
+    "No proof of Collatz or infinite coverage.",
+    "Historical literature results are context, not new formalizations.",
+    "Generated certificate lines are reported separately from conceptual results.",
+    "This audit builds the new aggregate and its dependencies, not every existing repository target."
+  ]
+}

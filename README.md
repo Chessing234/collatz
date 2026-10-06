@@ -12,6 +12,7 @@ to proposed proof strategies.
 ## Start here
 
 - [Research frontier](RESEARCH.md): proved results, open hypotheses, and failed approaches.
+- [Exact first-descent intervals](Research/DescentIntervals/README.md): complete interval classifier, refinement conservation, cycle candidates, and the remaining universal coverage obligation.
 - [Concept index](INDEX.md): a map of the main Lean development.
 - [Mathlib-based extension](ProofAtlasAttack/README.md): predecessor-density and Syracuse-distribution results, attribution, and verification reports.
 - [Research notes](Devices/): explanations of individual arguments and their limits.

@@ -1,0 +1,160 @@
+{
+  "scope": "Finite Python census, not a Lean proof or a general theorem",
+  "max_depth": 16,
+  "canonical_classes_examined": 131070,
+  "rows": [
+    {
+      "depth": 1,
+      "canonical_classes": 2,
+      "empty": 1,
+      "tail": 1,
+      "finite": 0,
+      "tail_cutoffs": {
+        "1": 1
+      }
+    },
+    {
+      "depth": 2,
+      "canonical_classes": 4,
+      "empty": 3,
+      "tail": 1,
+      "finite": 0,
+      "tail_cutoffs": {
+        "1": 1
+      }
+    },
+    {
+      "depth": 3,
+      "canonical_classes": 8,
+      "empty": 8,
+      "tail": 0,
+      "finite": 0,
+      "tail_cutoffs": {}
+    },
+    {
+      "depth": 4,
+      "canonical_classes": 16,
+      "empty": 15,
+      "tail": 1,
+      "finite": 0,
+      "tail_cutoffs": {
+        "0": 1
+      }
+    },
+    {
+      "depth": 5,
+      "canonical_classes": 32,
+      "empty": 30,
+      "tail": 2,
+      "finite": 0,
+      "tail_cutoffs": {
+        "0": 2
+      }
+    },
+    {
+      "depth": 6,
+      "canonical_classes": 64,
+      "empty": 64,
+      "tail": 0,
+      "finite": 0,
+      "tail_cutoffs": {}
+    },
+    {
+      "depth": 7,
+      "canonical_classes": 128,
+      "empty": 125,
+      "tail": 3,
+      "finite": 0,
+      "tail_cutoffs": {
+        "0": 3
+      }
+    },
+    {
+      "depth": 8,
+      "canonical_classes": 256,
+      "empty": 249,
+      "tail": 7,
+      "finite": 0,
+      "tail_cutoffs": {
+        "0": 7
+      }
+    },
+    {
+      "depth": 9,
+      "canonical_classes": 512,
+      "empty": 512,
+      "tail": 0,
+      "finite": 0,
+      "tail_cutoffs": {}
+    },
+    {
+      "depth": 10,
+      "canonical_classes": 1024,
+      "empty": 1012,
+      "tail": 12,
+      "finite": 0,
+      "tail_cutoffs": {
+        "0": 12
+      }
+    },
+    {
+      "depth": 11,
+      "canonical_classes": 2048,
+      "empty": 2048,
+      "tail": 0,
+      "finite": 0,
+      "tail_cutoffs": {}
+    },
+    {
+      "depth": 12,
+      "canonical_classes": 4096,
+      "empty": 4066,
+      "tail": 30,
+      "finite": 0,
+      "tail_cutoffs": {
+        "0": 30
+      }
+    },
+    {
+      "depth": 13,
+      "canonical_classes": 8192,
+      "empty": 8107,
+      "tail": 85,
+      "finite": 0,
+      "tail_cutoffs": {
+        "0": 85
+      }
+    },
+    {
+      "depth": 14,
+      "canonical_classes": 16384,
+      "empty": 16384,
+      "tail": 0,
+      "finite": 0,
+      "tail_cutoffs": {}
+    },
+    {
+      "depth": 15,
+      "canonical_classes": 32768,
+      "empty": 32595,
+      "tail": 173,
+      "finite": 0,
+      "tail_cutoffs": {
+        "0": 173
+      }
+    },
+    {
+      "depth": 16,
+      "canonical_classes": 65536,
+      "empty": 65060,
+      "tail": 476,
+      "finite": 0,
+      "tail_cutoffs": {
+        "0": 476
+      }
+    }
+  ],
+  "finite_nonempty_examples": [],
+  "open_question": "Can a canonical exact first-descent interval be finite and nonempty at any depth?",
+  "coverage_warning": "Empty at a specified depth does not mean never descends. No finite maximum depth covers every input."
+}

@@ -25,3 +25,9 @@ jobs:
 
       - name: Check integrity
         run: ./scripts/check_integrity.sh
+
+      - name: Check exact first-descent intervals
+        run: |
+          python3 scripts/descent_intervals.py --check
+          python3 scripts/test_descent_intervals.py
+          python3 scripts/audit_descent_intervals.py
