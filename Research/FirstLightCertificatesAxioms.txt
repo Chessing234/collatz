@@ -1,0 +1,14 @@
+'Collatz.FirstLightCertificates.descent_of_certificates' depends on axioms: [propext, Quot.sound]
+'Collatz.FirstLightCertificates.gap_table_256' does not depend on any axioms
+'Collatz.FirstLightCertificates.small_starts_6701' depends on axioms: [propext, Quot.sound]
+'Collatz.FirstLightCertificates.descent_at_first_light_le_256' depends on axioms: [propext, Quot.sound]
+'Collatz.FirstLightCertificates.small_scan_6701' does not depend on any axioms
+'Collatz.FirstLightScan.scan_sound' depends on axioms: [propext, Quot.sound]
+'Collatz.FirstLightScan.check_sound' depends on axioms: [propext, Quot.sound]
+'Collatz.FirstLightScan.checkRange_sound' depends on axioms: [propext, Quot.sound]
+'Collatz.FirstLightScan.scan_complete' depends on axioms: [propext, Quot.sound]
+'Collatz.FirstLightScan.check_iff' depends on axioms: [propext, Quot.sound]
+'Collatz.FirstLightScan.check_mono' depends on axioms: [propext, Quot.sound]
+'Collatz.FirstLightScan.check_zero_horizon' does not depend on any axioms
+'Collatz.FirstLightScan.check_three_boundary' does not depend on any axioms
+'Collatz.FirstLightScan.check_one_not_descent' does not depend on any axioms

@@ -1,0 +1,34 @@
+import Collatz.Strategy.FirstLightDensityBound
+import Collatz.Strategy.FirstLightEventual
+import Collatz.Structure.NaturalDensityCounting
+import Collatz.Structure.DensityPrecision
+import Collatz.Structure.StoppingNaturalDensity
+import Collatz.Papers.Terras1976
+
+#print axioms Collatz.FirstLightCounting.survival_period_count
+#print axioms Collatz.FirstLightCounting.survival_count_le_heavy
+#print axioms Collatz.FirstLightCounting.survival_count_pow_five
+#print axioms Collatz.FirstLightCounting.survival_count_pow_five_ratio
+#print axioms Collatz.FirstLightCounting.survival_count_cutoff_bound
+#print axioms Collatz.FirstLightCounting.survival_count_mono
+#print axioms Collatz.FirstLightEventual.descent_above_threshold
+#print axioms Collatz.FirstLightEventual.descent_by_light_above_threshold
+#print axioms Collatz.FirstLightEventual.no_descent_iff_heavy_above_threshold
+#print axioms Collatz.FirstLightEventual.first_descent_iff_first_light_above_threshold
+#print axioms Collatz.FirstLightEventual.first_descent_congr_above_threshold
+#print axioms Collatz.FirstLightEventual.actual_iff_periodic_eventually
+#print axioms Collatz.FirstLightEventual.actual_count_upper
+#print axioms Collatz.FirstLightEventual.periodic_count_upper
+#print axioms Collatz.FirstLightEventual.actual_count_heavy_bound
+#print axioms Collatz.NaturalDensity.predicateCount_bool
+#print axioms Collatz.NaturalDensity.predicateCount_complement
+#print axioms Collatz.DensityPrecision.block_gain
+#print axioms Collatz.DensityPrecision.iterated_gain
+#print axioms Collatz.DensityPrecision.heavy_precision
+#print axioms Collatz.StoppingNaturalDensity.noDrop_count_bound
+#print axioms Collatz.StoppingNaturalDensity.eventuallyDrops_of_not_noDrop
+#print axioms Collatz.StoppingNaturalDensity.noDrop_precision
+#print axioms Collatz.StoppingNaturalDensity.eventuallyDrops_density_one
+#print axioms Collatz.StoppingNaturalDensity.eventuallyDrops_iff_hasFiniteStoppingTime
+#print axioms Collatz.StoppingNaturalDensity.finite_stopping_time_density_one
+#print axioms Collatz.Papers.Terras1976.terrasDensityOne_proved

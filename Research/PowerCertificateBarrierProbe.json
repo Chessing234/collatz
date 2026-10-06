@@ -1,0 +1,15 @@
+{
+  "all_checks_passed": true,
+  "low_threshold_weight_checks": 3234,
+  "strict_moment_gaps_found": 1790,
+  "multiplier_conditions_checked": 144990,
+  "valid_certificates_found": 56548,
+  "distinct_exponent_pairs_certified": 45,
+  "three_quarters_certificate_found": false,
+  "invalidates_three_quarters_collatz_density": false,
+  "search_limits": {
+    "maximum_odd_weight": 10,
+    "maximum_block": 12,
+    "maximum_numerator_and_denominator": 8
+  }
+}

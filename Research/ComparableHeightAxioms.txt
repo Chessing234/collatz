@@ -1,0 +1,13 @@
+'Collatz.ComparableHeightObstruction.linear_growth_bound' depends on axioms: [propext, Quot.sound]
+'Collatz.ComparableHeightObstruction.power_ratio_exceeds' depends on axioms: [propext, Quot.sound]
+'Collatz.ComparableHeightObstruction.odd_run_exceeds' depends on axioms: [propext, Quot.sound]
+'Collatz.ComparableHeightObstruction.concatenate_descent' depends on axioms: [propext, Quot.sound]
+'Collatz.ComparableHeightObstruction.no_bounded_comparable_height_nonincrease' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Collatz.ComparableHeightObstruction.no_bounded_comparable_height_descent' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Collatz.ComparableHeightObstruction.no_bounded_two_sided_comparable_height' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

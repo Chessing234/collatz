@@ -1,0 +1,12 @@
+import Collatz.Strategy.PowerStoppingTimeBarrier
+
+#print axioms Collatz.PowerStoppingTimeBarrier.orbit_halving_lower
+#print axioms Collatz.PowerStoppingTimeBarrier.power_gap_bound_of_hit
+#print axioms Collatz.PowerStoppingTimeBarrier.input_bound_of_power_hit
+#print axioms Collatz.PowerStoppingTimeBarrier.no_power_hit_through
+#print axioms Collatz.PowerStoppingTimeBarrier.success_sparse_of_tight
+#print axioms Collatz.PowerStoppingTimeBarrier.not_tight_of_power_success
+#print axioms Collatz.PowerStoppingTimeBarrier.power_success_forces_large_times
+#print axioms Collatz.PowerStoppingTimeBarrier.powerTime_spec
+#print axioms Collatz.PowerStoppingTimeBarrier.powerTime_success_density
+#print axioms Collatz.PowerStoppingTimeBarrier.powerTime_not_tight

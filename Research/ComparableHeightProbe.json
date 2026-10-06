@@ -1,0 +1,40 @@
+{
+  "odd_run_formula_cases": 2268,
+  "schedule_cases": 216,
+  "all_checks_passed": true,
+  "families": [
+    {
+      "height": "size",
+      "factor": 1,
+      "cases": 54,
+      "max_successful_choices_before_obstruction": 0,
+      "max_elapsed_time_before_obstruction": 0,
+      "max_obstruction_input_bits": 54
+    },
+    {
+      "height": "parity_oscillation",
+      "factor": 2,
+      "cases": 54,
+      "max_successful_choices_before_obstruction": 0,
+      "max_elapsed_time_before_obstruction": 0,
+      "max_obstruction_input_bits": 80
+    },
+    {
+      "height": "residue_oscillation",
+      "factor": 7,
+      "cases": 54,
+      "max_successful_choices_before_obstruction": 1,
+      "max_elapsed_time_before_obstruction": 3,
+      "max_obstruction_input_bits": 210
+    },
+    {
+      "height": "binary_digit_oscillation",
+      "factor": 4,
+      "cases": 54,
+      "max_successful_choices_before_obstruction": 1,
+      "max_elapsed_time_before_obstruction": 3,
+      "max_obstruction_input_bits": 132
+    }
+  ],
+  "proves_collatz": false
+}

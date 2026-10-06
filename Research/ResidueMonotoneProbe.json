@@ -1,0 +1,13 @@
+{
+  "status": "passed",
+  "starting_values": 5280,
+  "positive_time_checks": 84480,
+  "moduli": [
+    1,
+    40
+  ],
+  "horizons": [
+    0,
+    32
+  ]
+}

@@ -1,0 +1,11 @@
+'Collatz.PowerCertificateBarrier.four_mul_le_square' depends on axioms: [propext, Quot.sound]
+'Collatz.PowerCertificateBarrier.low_weight_square' depends on axioms: [propext, Quot.sound]
+'Collatz.PowerCertificateBarrier.no_moment_gap_at_half' depends on axioms: [propext, Quot.sound]
+'Collatz.PowerCertificateBarrier.threshold_above_half' depends on axioms: [propext, Quot.sound]
+'Collatz.PowerCertificateBarrier.exponent_condition' depends on axioms: [propext, Quot.sound]
+'Collatz.PowerCertificateBarrier.certificate_iff_exponent_condition' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Collatz.PowerCertificateBarrier.no_three_quarters_certificate' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

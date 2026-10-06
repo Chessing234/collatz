@@ -1,0 +1,12 @@
+{
+  "all_checks_passed": true,
+  "geometric_inequalities_checked": 1760,
+  "scale_selections_checked": 560,
+  "prefix_period_estimates_checked": 4096,
+  "actual_orbit_upper_bounds_checked": 280,
+  "power_targets_certified_by_scale_gap": 86,
+  "maximum_sample_input_bits": 8007,
+  "starts_2_through_9999_reaching_power_target": 9998,
+  "maximum_first_power_target_time_in_finite_probe": 111,
+  "proves_universal_convergence": false
+}

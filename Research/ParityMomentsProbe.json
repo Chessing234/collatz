@@ -1,0 +1,16 @@
+{
+  "complete_residue_checks": 8191,
+  "moment_identities_checked": 78,
+  "tail_bounds_checked": 624,
+  "all_checks_passed": true,
+  "four_fifths_parameters": {
+    "block_length": 125,
+    "odd_threshold": 63,
+    "odd_weight": 63,
+    "even_weight": 62,
+    "normalized_tail_bound_ratio_approx": 0.9960079468465636,
+    "fifth_power_multiplier_ratio_approx": 0.600063767937118,
+    "both_gaps_verified_with_exact_integers": true
+  },
+  "full_four_fifths_density_theorem_proved_by_this_probe": false
+}

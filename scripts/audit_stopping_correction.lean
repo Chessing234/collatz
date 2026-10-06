@@ -1,0 +1,8 @@
+import Collatz.Strategy.StoppingCorrectionBounds
+
+#print axioms Collatz.StoppingCorrectionBounds.odd_step_scaled_upper
+#print axioms Collatz.StoppingCorrectionBounds.prefix_scaled_upper
+#print axioms Collatz.StoppingCorrectionBounds.odd_states_ge_three
+#print axioms Collatz.StoppingCorrectionBounds.total_stopping_scaled_upper
+#print axioms Collatz.StoppingCorrectionBounds.total_stopping_two_sided
+#print axioms Collatz.StoppingCorrectionBounds.later_return_needs_hypothesis

@@ -1,0 +1,12 @@
+'Collatz.VerifiedOrbitCorridor.repeat_gap_ge' depends on axioms: [propext, Quot.sound]
+'Collatz.VerifiedOrbitCorridor.corridor_escape' depends on axioms: [propext, Quot.sound]
+'Collatz.VerifiedOrbitCorridor.current_corridor_escape' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.VerifiedOrbitCorridor.every_window_exit' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.VerifiedOrbitCorridor.repeat_certificate_constraints' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Collatz.VerifiedOrbitCorridor.reject_short_repeat' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.VerifiedOrbitCorridor.staysBelow_iff' depends on axioms: [propext, Quot.sound]
+'Collatz.VerifiedOrbitCorridor.corridor_check_sound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.VerifiedOrbitCorridor.corridor_check_twenty_seven' does not depend on any axioms
+'Collatz.VerifiedOrbitCorridor.corridor_failure_can_converge' depends on axioms: [propext, Quot.sound]

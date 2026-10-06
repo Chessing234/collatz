@@ -1,0 +1,9 @@
+import Collatz.Strategy.ComparableHeightObstruction
+
+#print axioms Collatz.ComparableHeightObstruction.linear_growth_bound
+#print axioms Collatz.ComparableHeightObstruction.power_ratio_exceeds
+#print axioms Collatz.ComparableHeightObstruction.odd_run_exceeds
+#print axioms Collatz.ComparableHeightObstruction.concatenate_descent
+#print axioms Collatz.ComparableHeightObstruction.no_bounded_comparable_height_nonincrease
+#print axioms Collatz.ComparableHeightObstruction.no_bounded_comparable_height_descent
+#print axioms Collatz.ComparableHeightObstruction.no_bounded_two_sided_comparable_height

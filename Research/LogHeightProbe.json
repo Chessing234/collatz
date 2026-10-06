@@ -1,0 +1,40 @@
+{
+  "pointwise_comparison_checks": 40000,
+  "schedule_cases": 216,
+  "all_checks_passed": true,
+  "families": [
+    {
+      "height": "binary_log",
+      "max_additive_error": 0,
+      "cases": 54,
+      "max_successful_choices_before_obstruction": 1,
+      "max_elapsed_time_before_obstruction": 1,
+      "max_obstruction_input_bits": 80
+    },
+    {
+      "height": "residue_correction",
+      "max_additive_error": 2,
+      "cases": 54,
+      "max_successful_choices_before_obstruction": 0,
+      "max_elapsed_time_before_obstruction": 0,
+      "max_obstruction_input_bits": 860
+    },
+    {
+      "height": "digit_correction",
+      "max_additive_error": 2,
+      "cases": 54,
+      "max_successful_choices_before_obstruction": 2,
+      "max_elapsed_time_before_obstruction": 4,
+      "max_obstruction_input_bits": 860
+    },
+    {
+      "height": "signed_correction",
+      "max_additive_error": 2,
+      "cases": 54,
+      "max_successful_choices_before_obstruction": 1,
+      "max_elapsed_time_before_obstruction": 1,
+      "max_obstruction_input_bits": 860
+    }
+  ],
+  "proves_collatz": false
+}

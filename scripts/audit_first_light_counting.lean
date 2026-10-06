@@ -1,0 +1,42 @@
+import Collatz.Strategy.FirstLightConsequences
+import Collatz.Strategy.FirstLightPeriodicity
+import Collatz.Structure.PeriodicCounting
+import Collatz.Strategy.FirstLightCounting
+
+#print axioms Collatz.FirstLightConsequences.exists_first_light
+#print axioms Collatz.FirstLightConsequences.no_descent_before_first_light
+#print axioms Collatz.FirstLightConsequences.first_light_is_first_descent
+#print axioms Collatz.FirstLightConsequences.descent_by_light_prefix
+#print axioms Collatz.FirstLightConsequences.first_descent_is_first_light
+#print axioms Collatz.FirstLightConsequences.first_descent_iff_first_light
+#print axioms Collatz.FirstLightConsequences.no_descent_iff_heavy_prefix
+#print axioms Collatz.FirstLightConsequences.exactThrough_mono
+#print axioms Collatz.FirstLightConsequences.exactThrough_256
+#print axioms Collatz.FirstLightPeriodicity.oddCount_congr
+#print axioms Collatz.FirstLightPeriodicity.firstLight_transport
+#print axioms Collatz.FirstLightPeriodicity.firstLight_congr
+#print axioms Collatz.FirstLightPeriodicity.firstDescent_congr
+#print axioms Collatz.FirstLightPeriodicity.noDescent_congr
+#print axioms Collatz.FirstLightPeriodicity.noDescent_add_period
+#print axioms Collatz.FirstLightPeriodicity.noDescent_256_congr
+#print axioms Collatz.PeriodicCounting.count_zero
+#print axioms Collatz.PeriodicCounting.count_succ
+#print axioms Collatz.PeriodicCounting.count_le
+#print axioms Collatz.PeriodicCounting.count_mono
+#print axioms Collatz.PeriodicCounting.count_add_period
+#print axioms Collatz.PeriodicCounting.count_mul_add
+#print axioms Collatz.PeriodicCounting.count_div_mod
+#print axioms Collatz.PeriodicCounting.periodic_count_bounds
+#print axioms Collatz.PeriodicCounting.count_empty
+#print axioms Collatz.PeriodicCounting.count_full
+#print axioms Collatz.PeriodicCounting.scaled_count_error
+#print axioms Collatz.PeriodicCounting.periodic_density_precision
+#print axioms Collatz.FirstLightCounting.heavyCheck_iff
+#print axioms Collatz.FirstLightCounting.heavyCheck_congr
+#print axioms Collatz.FirstLightCounting.heavyCheck_period
+#print axioms Collatz.FirstLightCounting.heavyCheck_iff_noDescent
+#print axioms Collatz.FirstLightCounting.survives_iff
+#print axioms Collatz.FirstLightCounting.survives_period
+#print axioms Collatz.FirstLightCounting.survival_count_div_mod
+#print axioms Collatz.FirstLightCounting.survival_count_bounds
+#print axioms Collatz.FirstLightCounting.survives_mono

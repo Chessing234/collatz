@@ -1,0 +1,40 @@
+{
+  "all_checks_passed": true,
+  "exact_branch_counts_checked": 6006,
+  "preimage_count_bounds_checked": 6006,
+  "stride_count_bounds_checked": 16968,
+  "iterate_count_bounds_checked": 1836,
+  "positive_starts_with_verified_terminal_never_dropper": 9999,
+  "maximum_first_one_time": 165,
+  "stopping_window_counts": [
+    {
+      "cutoff_exclusive": 1000,
+      "counts_by_window": {
+        "0": 998,
+        "1": 997,
+        "2": 996,
+        "5": 990,
+        "10": 956,
+        "20": 724,
+        "50": 325,
+        "100": 3,
+        "200": 0
+      }
+    },
+    {
+      "cutoff_exclusive": 10000,
+      "counts_by_window": {
+        "0": 9998,
+        "1": 9997,
+        "2": 9996,
+        "5": 9990,
+        "10": 9955,
+        "20": 9398,
+        "50": 4945,
+        "100": 767,
+        "200": 0
+      }
+    }
+  ],
+  "proves_universal_convergence": false
+}

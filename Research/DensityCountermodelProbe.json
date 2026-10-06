@@ -1,0 +1,11 @@
+{
+  "status": "passed",
+  "cutoff_max": 10000,
+  "target_max": 32,
+  "density_checks": 319471,
+  "positive_start_basin_counts": {
+    "1": 5904,
+    "3": 4095
+  },
+  "map": "fixed at 1 and 3; otherwise floor(n/2)"
+}

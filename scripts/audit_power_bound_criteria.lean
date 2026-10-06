@@ -1,0 +1,15 @@
+import Collatz.Structure.CofiniteNaturalDensity
+import Collatz.Papers.PowerBoundCriteria
+
+#print axioms Collatz.NaturalDensity.predicateCount_eventual_lower
+#print axioms Collatz.NaturalDensity.cofinite_precision
+#print axioms Collatz.NaturalDensity.densityOne_of_eventually
+#print axioms Collatz.NaturalDensity.densityOne_tail
+#print axioms Collatz.NaturalDensity.densityOne_not_universal
+#print axioms Collatz.NaturalDensity.predicateCount_eventual_mono
+#print axioms Collatz.NaturalDensity.densityOne_eventual_mono
+#print axioms Collatz.NaturalDensity.densityOne_iff_eventually_equal
+#print axioms Collatz.Papers.Korec1994.below_power_of_reaches_one
+#print axioms Collatz.Papers.Korec1994.reaches_one_iff_all_reciprocal_powers
+#print axioms Collatz.Papers.Korec1994.density_below_power_of_universal_convergence
+#print axioms Collatz.Papers.Korec1994.rational_statement_of_universal_convergence

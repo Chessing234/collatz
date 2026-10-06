@@ -1,0 +1,9 @@
+{
+  "all_checks_passed": true,
+  "search_combinations": 6565,
+  "successful_repeat_searches": 65,
+  "simultaneous_hit_and_exit": 3093,
+  "repeat_reduction_checks": 2241954,
+  "positive_nonconvergence_certificates_found": 0,
+  "finite_exit_proves_divergence": false
+}

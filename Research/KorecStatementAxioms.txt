@@ -1,0 +1,19 @@
+'Collatz.PeriodicCounting.count_add_shift' depends on axioms: [propext, Quot.sound]
+'Collatz.PeriodicCounting.count_shift_period' depends on axioms: [propext, Quot.sound]
+'Collatz.PeriodicCounting.count_le_of_imp' depends on axioms: [propext, Quot.sound]
+'Collatz.PeriodicCounting.count_eq_countRange' depends on axioms: [propext]
+'Collatz.NaturalDensity.predicateCount_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.NaturalDensity.predicateCount_mono' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.NaturalDensity.predicateCount_univ' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.NaturalDensity.predicateCount_empty' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.NaturalDensity.densityOne_univ' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.NaturalDensity.not_densityOne_empty' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.NaturalDensity.densityOne_mono' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.Papers.Korec1994.four_fifths_admissible' does not depend on any axioms
+'Collatz.Papers.Korec1994.four_fifths_of_statement' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.Papers.Korec1994.orbitBelowPower_mono' does not depend on any axioms
+'Collatz.Papers.Korec1994.two_below_four_fifths' does not depend on any axioms
+'Collatz.Papers.Korec1994.one_not_below_power' depends on axioms: [propext, Quot.sound]
+'Collatz.Papers.Journal_1994_Korec_a_density_estimate_for_the_3x.four_fifths_of_mainStatement' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

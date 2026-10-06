@@ -1,0 +1,8 @@
+'Collatz.InverseInterval.path_as_forward' depends on axioms: [propext, Quot.sound]
+'Collatz.InverseInterval.cycle_of_long_path' depends on axioms: [propext, Quot.sound]
+'Collatz.InverseInterval.survives_decision_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.InverseInterval.survives_decision_positive_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.InverseInterval.survives_stable' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.InverseInterval.all_depths_iff_decision' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Collatz.InverseInterval.zero_decision_rejected' does not depend on any axioms
+'Collatz.InverseInterval.seven_decision_rejected' does not depend on any axioms
