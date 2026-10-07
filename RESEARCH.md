@@ -16010,3 +16010,15 @@ and two false controls. For sources 2..2000 through horizon 200, 1995 first
 certificates matched actual first descent, four lagged, none was missing;
 the largest lag was six accelerated steps (n=27, descent 59, certificate 65).
 These finite measurements are not density or completeness results.
+
+### Exact first-event delay certificates
+
+`ProductDelayCertificates.lean` proves first accelerated descent and first
+source-floor product certificate at (59,65), (56,61), (54,55), (54,56) for
+sources 27,31,47,63 respectively. Bounded quantification checks every earlier
+horizon in Lean. The general soundness theorem applies to any first certificate.
+Independent exact exploration of sources 2..1,000,000 through horizon 1000
+found precisely those four delays and 999,995 matches. This finite observation
+does not establish that those are the only exceptions globally. The reusable
+script `explore_product_descent_delay.py` supports arbitrary bounds.
+Audit: five theorem footprints and two false first-event controls rejected.
