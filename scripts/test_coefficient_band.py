@@ -65,6 +65,22 @@ def witness_check(N,r,bits):
     return duration+1
 
 
+def gap_witness_check(N,r,bits):
+    A=2**K
+    m=0 if N<r else (N-r)//A+1
+    n=A*m+r
+    assert R*K+Q<=r and 1<r
+    assert N<n and 1<n and n<=N+A
+    if N==r:
+        assert n==N+A
+    x=n
+    duration=K+sum(bits)
+    for _ in range(duration+1):
+        assert n<=x and 200*x<=1199*n
+        x=ordinary(x)
+    return duration+1
+
+
 def main():
     comparisons=0
     for k in range(9):
@@ -84,12 +100,16 @@ def main():
     thresholds=[0,1,10**120]+[rng.randrange(10**120) for _ in range(32)]
     for N in thresholds:
         states+=witness_check(N,r,bits)
+    A=2**K
+    gap_thresholds=[0,1,r-1,r,r+1,A-1,A,A+1,10**2000]+[rng.getrandbits(6000) for _ in range(32)]
+    for N in gap_thresholds:
+        states+=gap_witness_check(N,r,bits)
     # The coefficient ceiling alone does not absorb the additive +1 error.
     assert checker(45,10,2,3)
     assert 10*ordinary(ordinary(ordinary(3)))>46*3
     # A lighter input cannot be accepted even with a generous upper ceiling.
     assert not checker(100,1,1,2)
-    print(f'{comparisons} checker/trace comparisons; {len(thresholds)} fixed-width witnesses; {states} ordinary states; ceiling/budget controls passed')
+    print(f'{comparisons} checker/trace comparisons; {len(thresholds)} scaled witnesses; {len(gap_thresholds)} bounded-gap threshold cases; {states} ordinary states; ceiling/budget controls passed')
 
 
 if __name__=='__main__':

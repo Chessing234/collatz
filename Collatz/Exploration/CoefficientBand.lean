@@ -180,4 +180,37 @@ theorem prefixOdds_eq (K n : Nat) : prefixOdds K n = oddCount n K := by
     · rw [Congruence.oddCount_succ_of_even he, he]; omega
     · rw [Congruence.oddCount_succ_of_odd ho, ho]; omega
 
+/-- Every interval (N,N+A] contains a member of a residue class modulo A. -/
+theorem next_class_member {A r : Nat} (hA : 0 < A) (hr : r < A) (N : Nat) :
+    ∃ m, N < A*m+r ∧ A*m+r ≤ N+A := by
+  by_cases hNr : N < r
+  · refine ⟨0,?_,?_⟩ <;> simp only [Nat.mul_zero, Nat.zero_add] <;> omega
+  · let m := (N-r)/A+1
+    have hdiv := Nat.mod_add_div (N-r) A
+    have hmod := Nat.mod_lt (N-r) hA
+    have hsub : N-r+r = N := Nat.sub_add_cancel (by omega)
+    refine ⟨m,?_,?_⟩ <;> dsimp [m] <;> rw [Nat.mul_add, Nat.mul_one] <;> omega
+
+/-- A budget paid by the residue remains paid by every nonnegative class lift. -/
+theorem budget_class_prefix {R Q G K r : Nat} (hr : r < 2^K)
+    (hc : coefficientCheck R Q K r 1 1 = true) (hQ : 0 < Q)
+    (hbudget : R*K+Q ≤ G*r) (m : Nat) :
+    ∀ k, k ≤ K+oddCount r K → 2^K*m+r ≤ orbit k (2^K*m+r) ∧
+      Q*orbit k (2^K*m+r) ≤ (R+G)*(2^K*m+r) := by
+  have hv := vector_class K m r hr
+  have ht := trace_of_vector hv (checker_sound hc)
+  have hpay := Nat.mul_le_mul_left G (show r ≤ 2^K*m+r by omega)
+  have hcount := counts_of_vector hv K (by omega)
+  intro k hk
+  exact profile_prefix ht hQ (Nat.le_trans hbudget hpay) k (by omega)
+
+/-- If the residue pays the error budget, every modulus-sized interval has a survivor. -/
+theorem bounded_gap_witness {R Q G K r : Nat} (hr : r < 2^K)
+    (hc : coefficientCheck R Q K r 1 1 = true) (hQ : 0 < Q)
+    (hbudget : R*K+Q ≤ G*r) (hrpos : 1 < r) (N : Nat) :
+    ∃ n, N < n ∧ 1 < n ∧ n ≤ N+2^K ∧
+      ∀ k, k ≤ K+oddCount r K → n ≤ orbit k n ∧ Q*orbit k n ≤ (R+G)*n := by
+  obtain ⟨m,hm,hu⟩ := next_class_member (Nat.pow_pos (by decide)) hr N
+  refine ⟨2^K*m+r,hm,by omega,hu,budget_class_prefix hr hc hQ hbudget m⟩
+
 end Collatz.Exploration.CoefficientBand

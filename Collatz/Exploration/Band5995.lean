@@ -24,13 +24,17 @@ theorem count_profile : prefixOdds 5754 seed5754 = 3631 := by decide
 theorem exact_odd_count : oddCount seed5754 5754 = 3631 := by
   rw [← prefixOdds_eq, count_profile]
 
+theorem seed5754_positive : 1 < seed5754 := by decide
+
+theorem seed5754_budget : 119899*5754+20000 ≤ 1*seed5754 := by decide
+
 /-- Every size threshold admits a compact finite survivor in the fixed width 1199/200. -/
 theorem fixed_width_witness (N : Nat) :
-    ∃ n, N < n ∧ 1 < n ∧ n ≤ 2^5754*(N+689918849) ∧
+    ∃ n, N < n ∧ 1 < n ∧ n ≤ N+2^5754 ∧
       ∀ k, k ≤ 9385 → n ≤ orbit k n ∧ 200*orbit k n ≤ 1199*n := by
-  obtain ⟨n,hN,hn,hsize,hprefix⟩ := certified_witness (G := 1) seed5754_lt
-    coefficient_profile (by decide) (by decide) N
-  refine ⟨n,hN,hn,by simpa only [Nat.reduceMul, Nat.reduceAdd] using hsize,?_⟩
+  obtain ⟨n,hN,hn,hsize,hprefix⟩ := bounded_gap_witness (G := 1) seed5754_lt
+    coefficient_profile (by decide) seed5754_budget seed5754_positive N
+  refine ⟨n,hN,hn,hsize,?_⟩
   intro k hk
   have hv := hprefix k (by rw [exact_odd_count]; omega)
   exact ⟨hv.1,by omega⟩

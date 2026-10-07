@@ -11,7 +11,7 @@ unreachable by the stated method.
 accelerated steps with exactly 3,631 odd steps. It produces, above every
 size threshold N, an integer n with
 
-    N < n,    1 < n,    n ≤ 2^5754*(N+689918849),
+    N < n,    1 < n,    n ≤ N+2^5754,
     n ≤ orbit(k,n),    200*orbit(k,n) ≤ 1199*n    for k ≤ 9385.
 
 Therefore `no_fixed_width_clock` excludes every universal ordinary exit
@@ -19,7 +19,7 @@ clock of duration at most 9,385 in the fixed-width band [b,5.995b]. If
 such a clock exists, its duration is at least 9,386. No universal upper
 clock at this width, optimality assertion, or Collatz convergence theorem
 is supplied. The source depends on the horizon, even though the width is
-fixed in this theorem.
+fixed in this theorem. Every interval (N,N+2^5754] contains a survivor.
 
 The reusable development `CoefficientBand` proves a certificate-to-class
 transfer with three ingredients: all prefix coefficients are heavy; all
@@ -33,7 +33,12 @@ into the ordinary band of width (R+G)/Q, retaining every intermediate odd
 peak. Every sufficiently large representative `2^K*m+r` of a certified
 parity class inherits the whole finite trace. `certified_class_prefix`
 proves the arithmetic-progression statement, and `certified_witness`
-gives an explicit bounded source above each N. This transfer does not
+gives an explicit bounded source above each N. If the certified residue
+itself pays the budget, `budget_class_prefix` covers every nonnegative
+class lift. A division-with-remainder argument (`next_class_member`) and
+`bounded_gap_witness` then give a survivor within one parity modulus
+above each threshold, replacing the earlier larger sufficient size bound.
+This transfer does not
 assume that the profile continues beyond its certified horizon.
 
 The concrete certificate uses R=119899, Q=20000, G=1: an inner coefficient
@@ -51,14 +56,17 @@ and do not introduce axioms or bypass kernel checking.
 
 Independent tests compare the checker with direct trace calculations in
 9,216 cases, reproduce the complete source residue and odd count, verify
-35 scaled witnesses and 328,510 ordinary states, and check exact affine
+35 scaled witnesses plus 41 bounded-gap threshold cases, totaling 713,336
+ordinary states, and check exact affine
 class identities, normalized bounds, and odd-peak bounds throughout the
 profile. Decreasing the inner numerator by one fails the scalar checker.
 A separate counterexample shows that coefficient ceilings alone cannot
 replace the additive-error budget: n=3 has the two-step inner profile
 R/Q=45/10, but its ordinary time-three value 16 violates the outer width
-46/10. The Lean audit checks fourteen theorem footprints and rejects four
-false claims, including this invalid transfer.
+46/10. The Lean audit checks nineteen theorem footprints and rejects five
+false claims, including this invalid transfer. An additional control shows that the
+inclusive modulus-sized endpoint cannot be replaced by a strict endpoint
+for every threshold in a residue class.
 
 Parity-vector realization and affine traces are established methods.
 This is a quantified improvement within this repository, not an established

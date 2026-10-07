@@ -19,6 +19,7 @@ def main():
         'example : Collatz.Exploration.CoefficientBand.coefficientCheck 100 1 1 2 1 1 = true := by decide\n',
         'example : Collatz.Exploration.CoefficientBand.prefixOdds 2 3 = 1 := by decide\n',
         'example : 10*Collatz.orbit 3 3 ≤ 46*3 := by decide\n',
+        'example : ∃ m : Fin 2, 3 < 4*m.val+3 ∧ 4*m.val+3 < 3+4 := by decide\n',
     ]
     rejected=check_false_certificates(PREFIX+'Band5995',bad)
     print(f'{count} theorem axiom footprints checked; {rejected} false claims rejected')
