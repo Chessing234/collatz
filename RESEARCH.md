@@ -15965,3 +15965,13 @@ certificates, with 44,824 product certificates absent from the linear set.
 These sets need not be nested; these are sampled certificates, not distinct
 orbits or a density theorem. All certified conclusions were checked directly.
 The kernel audit now covers six theorem footprints.
+
+### Product-spread obstruction
+
+`ProductSpreadObstruction.lean` proves that if `Q H D ≤ P E L`, the
+product correction cannot yield strict spread: `Q H D v^k ≤ P E L w^k`.
+Consequently a coefficient corridor [1,R] prevents width-R product-spread
+certificates for all floor choices and odd counts. This is a limitation of
+the sufficient exit test, not a proof of actual survival or a counterexample
+to Collatz. Balanced parity prefixes at lengths 16,64,256,1024 are independently
+checked using exact integer comparisons. Three general Lean lemmas are audited.
