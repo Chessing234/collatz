@@ -2111,3 +2111,4 @@ import Collatz.Exploration.TwoStepCapacity
 import Collatz.Exploration.FloorExcursion
 import Collatz.Exploration.FiveBandClock
 import Collatz.Exploration.RationalBandObstruction
+import Collatz.Exploration.WiderBandClock
