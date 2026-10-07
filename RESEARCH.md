@@ -5,6 +5,67 @@ Persistent checkpoint. Update at every synthesis round. Status codes:
 **CONJ** = conjectural. **REFUTED** = killed, with counterexample. **CLOSED** = provably
 unreachable by the stated method.
 
+## Fixed width 5.995 requires more than 9,385 steps, 2026-10-07 (PROVED)
+
+`Collatz.Exploration.Band5995` kernel-checks a coefficient profile for 5,754
+accelerated steps with exactly 3,631 odd steps. It produces, above every
+size threshold N, an integer n with
+
+    N < n,    1 < n,    n ≤ 2^5754*(N+689918849),
+    n ≤ orbit(k,n),    200*orbit(k,n) ≤ 1199*n    for k ≤ 9385.
+
+Therefore `no_fixed_width_clock` excludes every universal ordinary exit
+clock of duration at most 9,385 in the fixed-width band [b,5.995b]. If
+such a clock exists, its duration is at least 9,386. No universal upper
+clock at this width, optimality assertion, or Collatz convergence theorem
+is supplied. The source depends on the horizon, even though the width is
+fixed in this theorem.
+
+The reusable development `CoefficientBand` proves a certificate-to-class
+transfer with three ingredients: all prefix coefficients are heavy; all
+state and odd-peak coefficients are at most R/Q; and a positive margin
+G/Q absorbs additive errors. The condition
+
+    R*K+Q ≤ G*n
+
+makes the normalized error estimate strong enough to transfer a profile
+into the ordinary band of width (R+G)/Q, retaining every intermediate odd
+peak. Every sufficiently large representative `2^K*m+r` of a certified
+parity class inherits the whole finite trace. `certified_class_prefix`
+proves the arithmetic-progression statement, and `certified_witness`
+gives an explicit bounded source above each N. This transfer does not
+assume that the profile continues beyond its certified horizon.
+
+The concrete certificate uses R=119899, Q=20000, G=1: an inner coefficient
+ceiling of 5.99495 leaves a margin of 0.00005 to the outer width 5.995.
+The source residue is written as an exact integer and reproducibly
+reconstructed by the existing balanced-residue algorithm. The new
+`coefficientCheck` runs through the profile once, carrying numerator and
+denominator weights. Lean proves that its rows describe the actual parity
+trace. `prefixOdds` supplies a similarly one-pass count and is proved
+equal to the library's odd count. These routines use one arithmetic update
+per step; no bit-complexity estimate is claimed. Closed certificates use `decide`, not
+`native_decide`; the proof kernel checks their reductions. Increased
+recursion and arithmetic evaluation limits permit the long certificate
+and do not introduce axioms or bypass kernel checking.
+
+Independent tests compare the checker with direct trace calculations in
+9,216 cases, reproduce the complete source residue and odd count, verify
+35 scaled witnesses and 328,510 ordinary states, and check exact affine
+class identities, normalized bounds, and odd-peak bounds throughout the
+profile. Decreasing the inner numerator by one fails the scalar checker.
+A separate counterexample shows that coefficient ceilings alone cannot
+replace the additive-error budget: n=3 has the two-step inner profile
+R/Q=45/10, but its ordinary time-three value 16 violates the outer width
+46/10. The Lean audit checks fourteen theorem footprints and rejects four
+false claims, including this invalid transfer.
+
+Parity-vector realization and affine traces are established methods.
+This is a quantified improvement within this repository, not an established
+priority claim or evidence that the requested 50% frontier novelty target
+has been reached. The sharp finite-clock question at width 5.995 and
+asymptotic coefficient-record gap estimates remain open here.
+
 ## Quantitative clock obstruction below six, 2026-10-07 (PROVED)
 
 `Collatz.Exploration.BalancedNearSix.near_six_witness` strengthens the
