@@ -35,6 +35,9 @@ own verification instructions.
   a hypothetical orbit floor to exceed five times its starting value. Every
   arbitrary-start orbit exits `[b,5b]` within twelve steps for `b>1`; the
   clock is sharp and yields conditional high-visit witnesses.
+- [Sharp wider-band clock](Research/WiderBandClock.md) — the ratio-21/4
+  band has a sharp seventeen-step exit clock, with reusable finite witness
+  transfer for lower-surviving prefixes.
 - [Rational band obstruction](Research/RationalBandObstruction.md) — a
   denominator-aware cycle certificate, exact closure classification, and
   why the integer floor bound does not extend to rational floors.
