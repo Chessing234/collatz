@@ -35,6 +35,9 @@ own verification instructions.
   a hypothetical orbit floor to exceed five times its starting value. Every
   arbitrary-start orbit exits `[b,5b]` within twelve steps for `b>1`; the
   clock is sharp and yields conditional high-visit witnesses.
+- [Rational band obstruction](Research/RationalBandObstruction.md) — a
+  denominator-aware cycle certificate, exact closure classification, and
+  why the integer floor bound does not extend to rational floors.
 
 - [First passage through 2,592 steps](Research/PassageAtlas/README.md) —
   a stronger conditional descent theorem, an exact residual condition
