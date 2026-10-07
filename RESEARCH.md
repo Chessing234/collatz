@@ -16072,3 +16072,13 @@ No frontier novelty has been established for this elementary improvement.
 Audit: four theorem footprints, 53,361 scalar cases, 16,043 valid scalar
 certificates, 179,303 descent cases, 2,924 first-light cutoff cases,
 and two false controls rejected.
+
+### Survival classification at the sharper cutoff
+
+`SharpFirstLightEventual.lean` propagates 3*n>H*2^H to exact finite-horizon
+no-descent/heavy-prefix equivalence, first-descent/first-light equivalence,
+and first-stopping-time agreement for equal residues modulo 2^H above the
+cutoff. It reuses existing residue and accumulator theory and improves the
+sufficient source interval; it proves no eventual crossing for every source.
+Audit: four theorem footprints, 2,050 paired residue checks through horizon
+40, and two false controls rejected. Frontier novelty is not established.
