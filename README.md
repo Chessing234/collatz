@@ -41,6 +41,9 @@ own verification instructions.
 - [Sharp thirty-step plateau](Research/ElevenHalvesClock.md) — a universal
   clock at ratio 11/2, an infinite family of sharp witnesses, and a whole
   rational-width interval with the same optimal duration.
+- [Smaller six-band witnesses](RESEARCH.md) — balanced additive-error control
+  reduces the sufficient witness-size growth from `8^K` to `4^K`, with
+  the same expanded ordinary-time duration.
 - [Arbitrarily long six-band prefixes](Research/SixBandPrefixes.md) — for every
   finite horizon, an entire sufficiently large residue class stays in `[n,6n]`.
   This rules out every uniform finite exit clock at ratio six or above, with

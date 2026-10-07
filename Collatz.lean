@@ -2114,3 +2114,4 @@ import Collatz.Exploration.RationalBandObstruction
 import Collatz.Exploration.WiderBandClock
 import Collatz.Exploration.SixBandPrefixes
 import Collatz.Exploration.ElevenHalvesFamily
+import Collatz.Exploration.BalancedOffset

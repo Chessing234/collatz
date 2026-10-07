@@ -5,6 +5,63 @@ Persistent checkpoint. Update at every synthesis round. Status codes:
 **CONJ** = conjectural. **REFUTED** = killed, with counterexample. **CLOSED** = provably
 unreachable by the stated method.
 
+## Balanced additive offsets, 2026-10-07 (PROVED)
+
+`Collatz.Exploration.BalancedOffset` improves the sufficient size bound for
+six-band witnesses from `2^K*N + 10*8^K` to `2^K*N + 28*4^K`, preserving
+survival through `K + ceil(3K/5)` ordinary steps. The exact statement is
+`square_quantitative_prefixes`; the corresponding finite-domain obstruction
+is `square_domain_obstruction`. This is a stronger quantitative result in
+this repository, not a convergence proof or an established priority claim.
+
+The central estimate is
+
+    2^j * acceleratedOrbit j r ≤ 3^oddCount(r,j) * (r+j).
+
+It requires heavy homogeneous coefficients at every earlier time. In the
+odd-step induction, the additive term `2^j` is absorbed by `3^oddCount(r,j)`;
+an even step adds no error. Balanced coefficient bounds then give
+`acceleratedOrbit j r < 3*(r+K+1)` for `j ≤ K`. This replaces the crude
+exponential growth bound for the small residue. Choosing
+`m = N+r+12*(r+K+1)+2` makes all affine coefficient gaps large enough to
+absorb the offsets, including ordinary odd peaks. Since `r < 2^K` and
+`K+1 ≤ 2^K`, the constructed source `n=2^K*m+r` has the claimed square
+modulus bound. Constants are sufficient, not asserted optimal. The new
+bound is smaller than the previous bound for every `K ≥ 2`.
+
+Independent exact-integer tests check 1,995 witnesses and 298,905 ordinary
+states through accelerated horizon 2048, including size thresholds with
+120 decimal digits. The audit checks all seven new theorem footprints
+and rejects three false claims. The negative controls expose the missing
+heavy-prefix assumption and the invalid inference from finite survival to
+permanent survival: the horizon-one witness 79 descends below its starting
+value at ordinary time thirteen.
+
+### Notable literature and next mathematical obligations
+
+- Riho Terras, [A stopping time problem on the positive integers](https://www.impan.pl/en/publishing-house/journals-and-series/acta-arithmetica/all/30/3/101028/a-stopping-time-problem-on-the-positive-integers),
+  is established background for parity-vector and stopping-time methods.
+  Our balanced construction uses that established congruence framework.
+- [Tao's almost-bounded-orbits theorem](https://arxiv.org/abs/1909.03562)
+  shows that orbit minima are below every diverging function for a set
+  of logarithmic density one. The paper also recalls Korec's natural-density
+  bound with exponent greater than `log(3)/log(4)`. These permit exceptional
+  starts and do not supply universal convergence.
+- [Barina's computation project](https://pcbarina.fit.vut.cz/) reports
+  convergence below `2075*2^60` on the page read on 2026-10-07. This is
+  external computational evidence, not a Lean theorem in this repository.
+  No external range is silently introduced as an axiom.
+
+Next investigate sharper additive-error estimates and source-size lower
+bounds, then the gap between the proved width-11/2 clock and the width-six
+obstruction. Analytic density arguments, inverse-tree bounds, cycle
+constraints, and parity-language methods already have separate repository
+entry points. No finite investigation can certify use of all possible
+techniques. Neither generated proof volume nor commit count measures
+mathematical originality; the requested 50% frontier novelty remains
+unverified. At session start, main contained 136,981 tracked Lean lines
+and 3,669 commits; these are existing totals, not new work in this session.
+
 ## Stopping atlas extension, 2026-10-06 (PROVED)
 
 The [stopping atlas report](Research/StoppingAtlas/README.md) records a new
