@@ -2129,3 +2129,4 @@ import Collatz.Exploration.ProductDelayCertificates
 import Collatz.Exploration.ProductThresholds
 import Collatz.Exploration.CoefficientGapThreshold
 import Collatz.Exploration.SharpFirstLightEventual
+import Collatz.Exploration.SharpSurvivalCounts
