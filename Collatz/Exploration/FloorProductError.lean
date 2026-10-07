@@ -1,4 +1,5 @@
 import Collatz.Exploration.FloorAffineError
+import Collatz.Structure.AffineBound
 
 /-! Multiplicative floor control keeps the error budget nontrivial at all odd counts. -/
 namespace Collatz.Exploration.FloorProductError
@@ -54,5 +55,29 @@ theorem offset_product {n b j B : Nat}
   rw [he,Nat.mul_add] at hp
   rw [Nat.sub_mul]
   omega
+
+/-- Source elimination with multiplicative error control; no initial upper bound is needed. -/
+theorem product_band_budget {n b a c P Q : Nat}
+    (hb : 0 < b)
+    (hf : ∀ i, i < a → b ≤ acceleratedOrbit i n)
+    (hl : b ≤ acceleratedOrbit a n)
+    (hu : Q*acceleratedOrbit c n ≤ P*b) :
+    Q*3^oddCount n c*2^a*base b^oddCount n a ≤
+      P*2^c*3^oddCount n a*weight b^oddCount n a := by
+  have hp := survival_product n b a hf
+  obtain ⟨B,he,_⟩ := AffineBound.exists_affine_bounded n c
+  have hh : 3^oddCount n c*n ≤ 2^c*acceleratedOrbit c n := by omega
+  have h1 := Nat.mul_le_mul_left (base b^oddCount n a*2^a) hl
+  have h2 := Nat.mul_le_mul_left (Q*3^oddCount n c) hp
+  have h3 := Nat.mul_le_mul_left (Q*weight b^oddCount n a*3^oddCount n a) hh
+  have h4 := Nat.mul_le_mul_left (weight b^oddCount n a*3^oddCount n a*2^c) hu
+  have h5 := Nat.mul_le_mul_left (Q*3^oddCount n c) h1
+  simp only [Nat.mul_assoc,Nat.mul_left_comm,Nat.mul_comm] at h2 h3 h4 h5
+  have hz :
+      (Q*3^oddCount n c*2^a*base b^oddCount n a)*b ≤
+      (P*2^c*3^oddCount n a*weight b^oddCount n a)*b := by
+    simp only [Nat.mul_assoc,Nat.mul_left_comm,Nat.mul_comm]
+    omega
+  exact Nat.le_of_mul_le_mul_right hz hb
 
 end Collatz.Exploration.FloorProductError

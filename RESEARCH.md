@@ -15944,3 +15944,14 @@ convergence. This elementary product method has not been assessed for priority.
 The independent audit checks 278,684 products, including 192,568 cases
 beyond the linear budget, 1,001 sharp factor controls, three Lean theorem
 footprints, and two false statements rejected by the kernel.
+
+`product_band_budget` additionally removes the source from two endpoints:
+finite lower survival through a and an upper band constraint at c imply
+`Q H 2^a v^k ≤ P 2^c L w^k`, where k counts odd steps through a.
+No initial source upper bound is required. Four theorem footprints are audited.
+
+Priority note: products of step-error factors bounded using a minimum are
+established in Simons and de Weger's cycle analysis, §3.2, Lemma 4 and
+Corollary 5 ([author-hosted version 1.44](https://deweger.net/papers/%5B35a%5DSidW-3n%2B1-v1.44%5B2010%5D.pdf)).
+Our finite-prefix core-Lean formulations are not evidence that this method,
+or their exact corollaries, constitute new mathematics.

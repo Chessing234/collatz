@@ -30,6 +30,26 @@ def main():
         v, w = 3*m, 3*m+1
         assert v*(3*m+1) == 3*w*m
         assert (v+1)*(3*m+1) > 3*w*m
+    bands = 0
+    for n in range(1, 201):
+        states, coeffs, counts = [n], [1], [0]
+        for j in range(20):
+            x = states[-1]
+            odd = x % 2
+            states.append((3*x+1)//2 if odd else x//2)
+            coeffs.append(coeffs[-1]*(3 if odd else 1))
+            counts.append(counts[-1]+odd)
+        for a in range(1, 21):
+            b = min(states[:a+1])
+            v = 3*(b+1 if b % 2 == 0 else b)
+            w = v+1
+            for c in range(21):
+                Q = 3
+                P = (Q*states[c]+b-1)//b
+                assert Q*states[c] <= P*b
+                assert Q*coeffs[c]*2**a*v**counts[a] <= P*2**c*coeffs[a]*w**counts[a]
+                bands += 1
+    print(f'{bands} two-endpoint product band budgets')
     print(f'{cases} product checks; {exhausted} cases beyond the linear budget; 1001 factor controls')
 
 if __name__ == '__main__': main()
