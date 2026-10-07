@@ -2130,3 +2130,4 @@ import Collatz.Exploration.ProductThresholds
 import Collatz.Exploration.CoefficientGapThreshold
 import Collatz.Exploration.SharpFirstLightEventual
 import Collatz.Exploration.SharpSurvivalCounts
+import Collatz.Exploration.GapTenThousand

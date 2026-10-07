@@ -57,6 +57,7 @@ jobs:
           python3 scripts/audit_coefficient_gap_threshold.py
           python3 scripts/audit_sharp_finite_survival.py
           python3 scripts/audit_sharp_survival_counts.py
+          python3 scripts/audit_gap_endpoint_certificates.py
           python3 scripts/audit_eleven_halves_clock.py
 
       - name: Check exact first-descent intervals

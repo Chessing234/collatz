@@ -16094,3 +16094,19 @@ interval from H*3^H; it neither strengthens the asymptotic density conclusion
 nor proves universal crossing. Audit: four theorem footprints, 39,013 count
 cutoffs through H=12 and N=3000, and two false rounding controls rejected.
 Frontier novelty remains unestablished.
+### One-dimensional endpoint certificate through horizon 10000
+
+`GapEndpointCertificates.lean` proves scalar gap monotonicity in the odd count
+and a computable upper cap for light prefixes. `GapEndpointScan.lean` carries
+powers of 3 and 2 forward, verifies a power bracket and gap at each endpoint,
+and proves sequential-checker soundness. `GapTenThousand.lean` evaluates the
+full scan in the Lean kernel: any n≥3,330,950 descends at a first coefficient
+crossing if that crossing occurs by horizon 10000. No crossing existence is
+asserted; smaller sources remain a separate obligation. No frontier novelty
+or universal convergence claim is made.
+The cutoff is minimal for this scalar scan (the audit rejects 3,330,949),
+not claimed optimal for actual descent. Independent integer computation
+locates its record at (j,a)=(9971,6291). The scan is one-dimensional rather
+than enumerating all odd counts at every horizon.
+Audit: ten theorem footprints; 10000 independently reproduced endpoints;
+5272 lower-odd-count checks; two false scan certificates rejected.
