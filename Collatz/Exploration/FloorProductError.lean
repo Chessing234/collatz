@@ -1,5 +1,6 @@
 import Collatz.Exploration.FloorAffineError
 import Collatz.Structure.AffineBound
+import Collatz.Exploration.TimeChange
 
 /-! Multiplicative floor control keeps the error budget nontrivial at all odd counts. -/
 namespace Collatz.Exploration.FloorProductError
@@ -79,5 +80,42 @@ theorem product_band_budget {n b a c P Q : Nat}
     simp only [Nat.mul_assoc,Nat.mul_left_comm,Nat.mul_comm]
     omega
   exact Nat.le_of_mul_le_mul_right hz hb
+
+/-- Strict product spread forces a finite exit, at any odd-step count. -/
+theorem product_accelerated_exit {n b a c P Q : Nat}
+    (hb : 0 < b)
+    (hs : P*2^c*3^oddCount n a*weight b^oddCount n a <
+      Q*3^oddCount n c*2^a*base b^oddCount n a) :
+    ∃ i, i ≤ max a c ∧
+      (acceleratedOrbit i n < b ∨ P*b < Q*acceleratedOrbit i n) := by
+  by_cases hf : ∀ i, i ≤ a → b ≤ acceleratedOrbit i n
+  · by_cases hu : Q*acceleratedOrbit c n ≤ P*b
+    · have hh := product_band_budget hb (fun i hi => hf i (by omega))
+        (hf a (by omega)) hu
+      omega
+    · exact ⟨c,Nat.le_max_right a c,Or.inr (by omega)⟩
+  · have hex : ∃ i, i ≤ a ∧ acceleratedOrbit i n < b := by
+      apply Classical.byContradiction
+      intro hno
+      apply hf
+      intro i hi
+      by_cases hlo : b ≤ acceleratedOrbit i n
+      · exact hlo
+      · exact False.elim (hno ⟨i,hi,by omega⟩)
+    obtain ⟨i,hi,hlo⟩ := hex
+    exact ⟨i,Nat.le_trans hi (Nat.le_max_left a c),Or.inl hlo⟩
+
+/-- The product-certified exit has an explicit ordinary-step horizon. -/
+theorem product_standard_exit {n b a c P Q : Nat}
+    (hb : 0 < b)
+    (hs : P*2^c*3^oddCount n a*weight b^oddCount n a <
+      Q*3^oddCount n c*2^a*base b^oddCount n a) :
+    ∃ t, t ≤ 2*max a c ∧ (orbit t n < b ∨ P*b < Q*orbit t n) := by
+  obtain ⟨i,hi,he⟩ := product_accelerated_exit hb hs
+  refine ⟨TimeChange.clock n i,?_,?_⟩
+  · have ht := (TimeChange.clock_bounds n i).2
+    omega
+  · rw [TimeChange.orbit_at_clock]
+    exact he
 
 end Collatz.Exploration.FloorProductError

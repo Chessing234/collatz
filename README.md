@@ -136,3 +136,13 @@ established in Simons and de Weger's cycle analysis, §3.2, Lemma 4 and
 Corollary 5 ([author-hosted version 1.44](https://deweger.net/papers/%5B35a%5DSidW-3n%2B1-v1.44%5B2010%5D.pdf)).
 Our finite-prefix core-Lean formulations are not evidence that this method,
 or their exact corollaries, constitute new mathematics.
+
+The product criterion now formally produces accelerated and standard band
+exits (`product_accelerated_exit`, `product_standard_exit`) within twice the
+accelerated horizon. No initial source upper-band assumption is needed.
+The bounded sample n=1..300, the three specified floor choices, and horizons
+below 30 produced 98,910 product exit certificates versus 55,137 linear
+certificates, with 44,824 product certificates absent from the linear set.
+These sets need not be nested; these are sampled certificates, not distinct
+orbits or a density theorem. All certified conclusions were checked directly.
+The kernel audit now covers six theorem footprints.
