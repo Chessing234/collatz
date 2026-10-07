@@ -16073,6 +16073,27 @@ Audit: four theorem footprints, 53,361 scalar cases, 16,043 valid scalar
 certificates, 179,303 descent cases, 2,924 first-light cutoff cases,
 and two false controls rejected.
 
+### Survival classification at the sharper cutoff
+
+`SharpFirstLightEventual.lean` propagates 3*n>H*2^H to exact finite-horizon
+no-descent/heavy-prefix equivalence, first-descent/first-light equivalence,
+and first-stopping-time agreement for equal residues modulo 2^H above the
+cutoff. It reuses existing residue and accumulator theory and improves the
+sufficient source interval; it proves no eventual crossing for every source.
+Audit: four theorem footprints, 2,050 paired residue checks through horizon
+40, and two false controls rejected. Frontier novelty is not established.
+
+### Smaller finite survival-count exceptional interval
+
+`SharpSurvivalCounts.lean` uses natural cutoff `H*2^H/3-1` (truncated
+at zero), accounting for shifted sources n+2. Actual survival equals the
+periodic coefficient test above this cutoff. Both directions of count
+comparison have this additive error, and the actual count is at most this
+error plus `(N/2^H+1)*heavyCount H`. This improves the finite exceptional
+interval from H*3^H; it neither strengthens the asymptotic density conclusion
+nor proves universal crossing. Audit: four theorem footprints, 39,013 count
+cutoffs through H=12 and N=3000, and two false rounding controls rejected.
+Frontier novelty remains unestablished.
 ### One-dimensional endpoint certificate through horizon 10000
 
 `GapEndpointCertificates.lean` proves scalar gap monotonicity in the odd count
