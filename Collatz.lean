@@ -2134,3 +2134,6 @@ import Collatz.Exploration.GapTenThousand
 
 import Collatz.Exploration.BalancedFirstLightScan
 import Collatz.Exploration.FiniteBeattyBarrier
+
+import Collatz.Exploration.AllSourceTenThousand
+import Collatz.Exploration.CertifiedFirstCrossing
