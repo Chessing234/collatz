@@ -42,6 +42,7 @@ jobs:
           python3 scripts/audit_five_band_clock.py
           python3 scripts/audit_rational_band_obstruction.py
           python3 scripts/audit_wider_band_clock.py
+          python3 scripts/audit_six_band_prefixes.py
 
       - name: Check exact first-descent intervals
         run: |

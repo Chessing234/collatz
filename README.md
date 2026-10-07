@@ -38,6 +38,9 @@ own verification instructions.
 - [Sharp wider-band clock](Research/WiderBandClock.md) — the ratio-21/4
   band has a sharp seventeen-step exit clock, with reusable finite witness
   transfer for lower-surviving prefixes.
+- [Arbitrarily long six-band prefixes](Research/SixBandPrefixes.md) — for every
+  finite horizon, an entire sufficiently large residue class stays in `[n,6n]`.
+  This rules out every uniform finite exit clock at ratio six or above.
 - [Rational band obstruction](Research/RationalBandObstruction.md) — a
   denominator-aware cycle certificate, exact closure classification, and
   why the integer floor bound does not extend to rational floors.
