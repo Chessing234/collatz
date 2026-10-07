@@ -165,4 +165,15 @@ theorem square_domain_obstruction (K B : Nat) (hB : 28*4^K ≤ B) :
   obtain ⟨hl,hu⟩ := hprefix k hk
   rcases hexit with h | h <;> omega
 
+/-- Given an ordinary duration H, ceil(5H/8) accelerated steps suffice. -/
+theorem ordinary_duration_witness (H N : Nat) :
+    ∃ n, N < n ∧ 1 < n ∧
+      n ≤ 2^((5*H+7)/8)*N+28*4^((5*H+7)/8) ∧
+      ∀ k, k ≤ H → n ≤ orbit k n ∧ orbit k n ≤ 6*n := by
+  obtain ⟨n,hN,hn,hsize,hprefix⟩ := square_quantitative_prefixes ((5*H+7)/8) N
+  refine ⟨n,hN,hn,hsize,?_⟩
+  intro k hk
+  apply hprefix k
+  omega
+
 end Collatz.Exploration.BalancedOffset

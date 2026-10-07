@@ -26,12 +26,14 @@ exponential growth bound for the small residue. Choosing
 `m = N+r+12*(r+K+1)+2` makes all affine coefficient gaps large enough to
 absorb the offsets, including ordinary odd peaks. Since `r < 2^K` and
 `K+1 ≤ 2^K`, the constructed source `n=2^K*m+r` has the claimed square
-modulus bound. Constants are sufficient, not asserted optimal. The new
+modulus bound. Constants are sufficient, not asserted optimal. `ordinary_duration_witness` gives a prescribed duration H using
+`K=ceil(5H/8)`, hence a zero-threshold size bound `28*4^ceil(5H/8)`.
+The new
 bound is smaller than the previous bound for every `K ≥ 2`.
 
 Independent exact-integer tests check 1,995 witnesses and 298,905 ordinary
 states through accelerated horizon 2048, including size thresholds with
-120 decimal digits. The audit checks all seven new theorem footprints
+120 decimal digits. The audit checks all eight new theorem footprints
 and rejects three false claims. The negative controls expose the missing
 heavy-prefix assumption and the invalid inference from finite survival to
 permanent survival: the horizon-one witness 79 descends below its starting

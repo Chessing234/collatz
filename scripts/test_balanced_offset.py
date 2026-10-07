@@ -35,6 +35,9 @@ def main():
         for N in [0,1,10**120]+[rng.randrange(10**60) for _ in range(12)]:
             states += check(K,N,r,bits)
             witnesses += 1
+    for H in range(10001):
+        K=(5*H+7)//8
+        assert H <= K+(3*K+4)//5
     # The heavy-prefix assumption is essential for normalized_bound.
     r,j = 16,5
     x=r
