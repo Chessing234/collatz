@@ -5,6 +5,61 @@ Persistent checkpoint. Update at every synthesis round. Status codes:
 **CONJ** = conjectural. **REFUTED** = killed, with counterexample. **CLOSED** = provably
 unreachable by the stated method.
 
+## Quantitative clock obstruction below six, 2026-10-07 (PROVED)
+
+`Collatz.Exploration.BalancedNearSix.near_six_witness` strengthens the
+compact-prefix theorem without increasing source size. For every K,N,
+there is n>N, n>1, n≤2^K*(N+6K+4), such that through ordinary time
+`K+ceil(3K/5)` the orbit satisfies
+
+    n ≤ orbit(k,n),
+    2^K * orbit(k,n) ≤ (6*2^K-2)*n.
+
+Thus the witness band has width `6-2/2^K`, strictly below six for every
+finite K. The width changes with K. This gives no infinite trapped orbit,
+and does not classify whether any particular fixed width below six has
+a universal exit clock.
+
+The new estimate keeps the integer coefficient gap before an odd step.
+With D=2^j and C=3^oddCount(n,j), safety gives `3C+3≤6D`.
+The normalized affine estimate and the same source threshold as before
+then give
+
+    D*(3*acceleratedOrbit(j,n)+1) + 2n ≤ 6D*n.
+
+Enlarging D to 2^K preserves this margin, and accelerated states retain
+the same margin. The ordinary-time transfer therefore covers every state
+and every odd peak. No new residue certificates or external axiom are used.
+
+`clock_width_necessary` proves that any exit clock of duration
+`H≤K+ceil(3K/5)` and width P/Q must satisfy
+
+    P*2^K < (6*2^K-2)*Q.
+
+For P=6Q-d, with d≤6Q, this becomes the strict inequality
+`2Q < d*2^K`. In terms of ordinary duration alone,
+`deficit_duration_necessary` gives
+
+    2Q < d * 2^ceil(5H/8).
+
+This is a necessary condition on a hypothetical clock, not a sufficient
+condition for one. It quantifies how a clock must lengthen as its width
+approaches six. These bounds are not asserted optimal. Priority relative
+to existing balanced-word and finite-parity methods remains unverified.
+
+Independent exact-integer tests check 1,995 witnesses, 298,905 ordinary
+states, scaled accelerated/peak margins, 10,001 duration conversions,
+and cross-multiplied deficit equivalences. The audit checks all ten new
+theorem axiom footprints and rejects four deliberately false claims.
+The controls show that the margin cannot simply be raised to 3n for the
+same sources (n=19 at time three), and that both hypotheses in denominator
+enlargement matter, including the positive-denominator requirement.
+
+Next explore the exact record gaps of the balanced coefficient sequence:
+these may yield substantially wider margins than the coarse integer gap,
+with explicit finite certificates. This is a research direction, not a
+proved asymptotic estimate.
+
 ## Balanced additive offsets and compact witnesses, 2026-10-07 (PROVED)
 
 `Collatz.Exploration.BalancedCompact.compact_quantitative_prefixes` improves
