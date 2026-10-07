@@ -2122,3 +2122,4 @@ import Collatz.Exploration.Band5995
 import Collatz.Exploration.AffineBandExit
 import Collatz.Exploration.FloorProductError
 import Collatz.Exploration.ProductSpreadObstruction
+import Collatz.Exploration.FloorBudgetComparison

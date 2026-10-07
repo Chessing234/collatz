@@ -156,3 +156,14 @@ certificates for all floor choices and odd counts. This is a limitation of
 the sufficient exit test, not a proof of actual survival or a counterexample
 to Collatz. Balanced parity prefixes at lengths 16,64,256,1024 are independently
 checked using exact integer comparisons. Three general Lean lemmas are audited.
+
+### Comparison of floor-error budgets
+
+`FloorBudgetComparison.lean` proves a classical cleared-denominator Bernoulli
+inequality and deduces `(w-k)w^k ≤ w v^k` and
+`(w-k)(w^k-v^k) ≤ k v^k` for k≤w, where w=v+1 is the floor weight.
+Thus the multiplicative paid-offset ratio is no worse than the linear ratio
+where the linear denominator is positive. This compares bounds, not exit
+certificate sets (the sets use different additional assumptions).
+Audit: 20,301 exact integer comparisons including v=0, three theorem footprints,
+and two false controls rejected. This is classical mathematics, not frontier novelty.
