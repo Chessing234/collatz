@@ -166,3 +166,76 @@ experiment is to study higher-step capacity with a sound symbolic-interval
 enumerator, measuring whether the additional pruning justifies its cost.
 Any claim that the capacity eventually vanishes requires a new argument;
 the exact formulas above do not imply it.
+
+## Affine excursions from a hypothetical orbit floor
+
+`Collatz/Exploration/FloorExcursion.lean` moves beyond counting finite
+interval sources. It proves, using the ordinary Collatz map `C`, that
+
+`m>1 ∧ (∀ k≤8, m≤C^k(m))`
+
+implies the exact dichotomy
+
+`4C^5(m)=27m+19` or `16C^8(m)=81m+85`.
+
+In particular, some `k≤8` satisfies `16C^k(m)≥81m+85`, and hence
+`C^k(m)>5m`. The assumption is only eight-step survival; a hypothetical
+attained floor of a failed orbit supplies that assumption automatically.
+The result applies to the attained minimum of an unbounded failed orbit
+as well as to a cycle minimum. It is a necessary excursion, not a proof
+of descent or convergence.
+
+The forcing argument is arithmetic. A state below twice the anchor
+must be odd if its successor stays above the anchor. The initial two
+odd expansions and their forced halvings give `4C^4(m)=9m+5`.
+If this state is odd, the first branch follows. If it is even, survival
+forces the subsequent odd/even/odd pattern and gives the second branch.
+Starts 2, 3, 4, and 5 violate the survival assumption within eight steps;
+the remaining argument uses `m≥6`. No finite verification frontier is
+imported as an assumption.
+
+The affine lower bound and its eight-step horizon are sharp for this
+finite-survival statement. The infinite family `m=32q+27` has trace
+
+`m, 96q+82, 48q+41, 144q+124, 72q+62, 36q+31, 108q+94, 54q+47, 162q+142`.
+
+Every listed value is at least `m`. At time eight, equality in the
+bound holds; every earlier value is below the bound. Thus increasing
+the additive constant 85 while retaining coefficient 81/16 fails,
+and shortening the horizon to seven fails. This does not establish
+sharpness among actual nontrivial orbit floors, whose existence is unknown.
+
+Taking an attained minimum of an arbitrary orbit also proves that no
+entire ordinary orbit remains in `[b,5b]` for `b>1`. The exit theorem
+explicitly permits either `C^k(n)<b` or `C^k(n)>5b`; discarding the
+growth alternative would be an invalid step toward a Collatz proof.
+Its statement gives no uniform exit time for arbitrary starts. The
+eight-step bound above is for the start equal to the anchor.
+
+Run `python3 scripts/audit_floor_excursion.py`. The scalar experiment
+checks 199,999 ordinary starts and the exact dichotomy on 25,000
+eight-step survivors. Their first bound-attainment times are 5 (18,750
+starts) and 8 (6,250 starts). It checks 4,099 affine-family samples,
+including very large integers, and 125,745 arbitrary-start band exits.
+The largest exit time observed in the latter finite experiment is 12;
+this is not a universal theorem. The audit inspects all named theorem
+axiom footprints and requires rejection of four false claims.
+
+The trivial cycle shows why `m>1` is necessary. A separate scalar control
+uses the `3n-1` cycle `5→14→7→20→10→5`, which stays in `[5,25]` and
+violates the excursion bound. The sign and additive constants matter.
+
+Related primary literature includes [Halbeisen and Hungerbühler's
+optimal bounds for the length of rational Collatz cycles](https://people.math.ethz.ch/~halorenz/publications/pdf/collatz.pdf).
+That paper develops affine parity-word arithmetic and estimates cycle
+length in terms of the minimum. This note does not identify the new
+short-prefix theorem with their cycle-length results or assert literature
+priority. The present proofs are new additions to this repository; the
+requested proportion of frontier-innovative mathematics is still unverified.
+
+The next substantive question is whether longer forced prefixes produce
+stronger excursion bounds with useful, controlled exceptional ranges.
+Finite exploration suggests coefficient bounds approaching six in an
+idealized multiplicative model. That model omits the additive correction
+and is not a theorem about actual Collatz orbits. A general transfer
+argument would need to control those corrections and integer realizability.
