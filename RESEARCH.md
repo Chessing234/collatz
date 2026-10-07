@@ -62,6 +62,18 @@ descends below its starting value at ordinary time thirteen.
   of logarithmic density one. The paper also recalls Korec's natural-density
   bound with exponent greater than `log(3)/log(4)`. These permit exceptional
   starts and do not supply universal convergence.
+- [Inselmann's 2024 approximation theorem](https://arxiv.org/abs/2402.03276)
+  obtains orbit values below `n^epsilon` for almost all starts in natural
+  density, for every positive epsilon, together with a longer approximation
+  window and an average total-stopping-time lower bound. This is a notable
+  density refinement beyond the older Korec exponent bound; it still
+  permits exceptions.
+- [Fernández and Ibáñez's 2026 Christoffel-word preprint](https://arxiv.org/abs/2607.24844)
+  studies extremal rotation classes of fixed-density parity words and
+  derives cycle-minimum bounds. Its balanced-word setting is relevant
+  prior art to compare before making novelty claims for balanced prefixes.
+  Those preprint results have not been formalized or independently
+  re-proved in this change.
 - [Barina's computation project](https://pcbarina.fit.vut.cz/) reports
   convergence below `2075*2^60` on the page read on 2026-10-07. This is
   external computational evidence, not a Lean theorem in this repository.
