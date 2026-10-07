@@ -102,3 +102,67 @@ batch commits. These exceed the requested numerical thresholds in the
 existing project, but generated certificates and audit commands must not
 be counted as independent discoveries. The 50% novelty requirement is not
 established, and "all possible techniques" has no finite exhaustive audit.
+
+## Collatz-specific interval capacities
+
+The follow-up modules `IntervalCapacity.lean` and `TwoStepCapacity.lean`
+replace the raw interval width with the exact number of sources that
+survive one or two transitions. These are additional proved structural
+findings. Mathematical priority or frontier novelty is not established.
+
+For positive `b`, one-step sources split into two disjoint bands:
+
+- Even sources `2q` with `b≤q≤⌊u/2⌋`.
+- Odd sources `2q+1` with `⌊b/2⌋≤q<⌊(u+2)/6⌋`.
+
+Let `E=max(⌊u/2⌋+1-b,0)` and
+`O=max(⌊(u+2)/6⌋-⌊b/2⌋,0)`. The exact one-step capacity is `M₁=E+O`.
+Lean proves an explicit bijection between viable states and integers
+`0≤r<M₁`, including empty bands and reversed intervals. A prefix confined
+to `[b,u]` through time `M₁+1` yields a repeated state by time `M₁`.
+The extra endpoint checks the successor of the final source. It cannot
+simply be omitted: in `[1,2]`, `M₁=1` and the prefix `2→1` has no repetition.
+
+Above `u≥3b+1`, the exact rounding correction is
+
+`6M₁ + 9b + 3(u mod 2) + ((u+2) mod 6) = 4u + 8 + 3(b mod 2)`.
+
+Below that threshold, `u≤3b`, every viable source is even. Three consecutive
+orbit points cannot all lie in `[b,u]`: two viable even sources would force
+the first point to be at least `4b`, contradicting the cap. Lean proves
+`intervalCheck b u 2 n = false` for all `b>0`, `u≤3b`, and `n`.
+
+Two-step sources split into three disjoint families:
+
+- `4q` with `b≤q≤⌊u/4⌋`.
+- `4q+2` with `⌊b/2⌋≤q<⌊(u+2)/6⌋`.
+- `2q+1` with the same bounds as the preceding family.
+
+The equal sizes of the latter two families follow from the forced halving
+after odd expansion. If an odd source and its expansion are in the
+interval, the next halved value is at least the source and no greater
+than the expansion. The exact two-step capacity is therefore
+
+`M₂=max(⌊u/4⌋+1-b,0)+2O`.
+
+Lean proves the compact bijection, `M₂≤M₁`, and cycle extraction from
+an interval prefix through time `M₂+2`, with repetition by time `M₂`.
+For `[100,1000]`, the raw budget is 901, the one-step budget 519, and
+the two-step budget 387. These are sample-budget reductions; no runtime
+benchmark or asymptotic improvement is claimed.
+
+Run `python3 scripts/audit_interval_capacity.py`. Independent direct-map
+enumeration checks both exact bijections on 12,080 intervals, including
+174,725 one-step and 98,403 two-step viable states. It checks 3,675
+remainder identities and 5,065 accepted cycle prefixes for each budget.
+The audit inspects every named theorem's axiom footprint and requires
+Lean to reject four false formulas/certificates. The earlier barrier
+audit is rerun to verify the shared audit helper. CI runs both audits.
+
+The obstruction remains an unbounded orbit or an unknown large cycle.
+These capacities do not provide a global upper bound on a failed orbit,
+and no finite interval census eliminates all intervals. A promising next
+experiment is to study higher-step capacity with a sound symbolic-interval
+enumerator, measuring whether the additional pruning justifies its cost.
+Any claim that the capacity eventually vanishes requires a new argument;
+the exact formulas above do not imply it.

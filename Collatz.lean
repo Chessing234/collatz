@@ -2106,3 +2106,5 @@ import Collatz.Research.StoppingAtlas.All
 
 import Collatz.Research.PassageAtlas.All
 import Collatz.Exploration.BarrierKernel
+import Collatz.Exploration.IntervalCapacity
+import Collatz.Exploration.TwoStepCapacity

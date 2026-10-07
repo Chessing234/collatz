@@ -30,7 +30,8 @@ own verification instructions.
 
 - [Anchored barriers and finite cycle extraction](Research/BarrierKernel.md) —
   exact window splitting, the greatest invariant barrier kernel, an executable
-  interval checker, and controls against invalid forward-survival reasoning.
+  interval checker, exact one- and two-step capacities, and smaller verified
+  budgets for cycle extraction.
 
 - [First passage through 2,592 steps](Research/PassageAtlas/README.md) —
   a stronger conditional descent theorem, an exact residual condition
