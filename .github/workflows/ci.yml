@@ -50,6 +50,7 @@ jobs:
           python3 scripts/audit_floor_product_error.py
           python3 scripts/audit_product_spread_obstruction.py
           python3 scripts/audit_floor_budget_comparison.py
+          python3 scripts/audit_exact_trace_product.py
           python3 scripts/audit_eleven_halves_clock.py
 
       - name: Check exact first-descent intervals
