@@ -39,6 +39,7 @@ jobs:
           python3 scripts/audit_barrier_kernel.py
           python3 scripts/audit_interval_capacity.py
           python3 scripts/audit_floor_excursion.py
+          python3 scripts/audit_five_band_clock.py
 
       - name: Check exact first-descent intervals
         run: |

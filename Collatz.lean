@@ -2109,3 +2109,4 @@ import Collatz.Exploration.BarrierKernel
 import Collatz.Exploration.IntervalCapacity
 import Collatz.Exploration.TwoStepCapacity
 import Collatz.Exploration.FloorExcursion
+import Collatz.Exploration.FiveBandClock
