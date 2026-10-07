@@ -32,7 +32,9 @@ own verification instructions.
   exact window splitting, the greatest invariant barrier kernel, an executable
   interval checker, exact one- and two-step capacities, and smaller verified
   budgets for cycle extraction. A sharp eight-step excursion theorem forces
-  a hypothetical orbit floor to exceed five times its starting value.
+  a hypothetical orbit floor to exceed five times its starting value. Every
+  arbitrary-start orbit exits `[b,5b]` within twelve steps for `b>1`; the
+  clock is sharp and yields conditional high-visit witnesses.
 
 - [First passage through 2,592 steps](Research/PassageAtlas/README.md) —
   a stronger conditional descent theorem, an exact residual condition

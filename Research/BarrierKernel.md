@@ -209,8 +209,9 @@ Taking an attained minimum of an arbitrary orbit also proves that no
 entire ordinary orbit remains in `[b,5b]` for `b>1`. The exit theorem
 explicitly permits either `C^k(n)<b` or `C^k(n)>5b`; discarding the
 growth alternative would be an invalid step toward a Collatz proof.
-Its statement gives no uniform exit time for arbitrary starts. The
-eight-step bound above is for the start equal to the anchor.
+That attained-minimum argument gives no uniform exit time for arbitrary
+starts. The eight-step bound above is for the start equal to the anchor.
+The separate twelve-step certificate below supplies the uniform clock.
 
 Run `python3 scripts/audit_floor_excursion.py`. The scalar experiment
 checks 199,999 ordinary starts and the exact dichotomy on 25,000
@@ -218,7 +219,7 @@ eight-step survivors. Their first bound-attainment times are 5 (18,750
 starts) and 8 (6,250 starts). It checks 4,099 affine-family samples,
 including very large integers, and 125,745 arbitrary-start band exits.
 The largest exit time observed in the latter finite experiment is 12;
-this is not a universal theorem. The audit inspects all named theorem
+this observation motivated the universal theorem below. The audit inspects all named theorem
 axiom footprints and requires rejection of four false claims.
 
 The trivial cycle shows why `m>1` is necessary. A separate scalar control
@@ -239,3 +240,56 @@ Finite exploration suggests coefficient bounds approaching six in an
 idealized multiplicative model. That model omits the additive correction
 and is not a theorem about actual Collatz orbits. A general transfer
 argument would need to control those corrections and integer realizability.
+
+
+## Sharp twelve-step band clock and high-visit frequency
+
+`FiveBandClock.exit_twelve` strengthens the arbitrary-start band exit:
+for every natural start `n` and integer barrier `b>1`, some `k≤12` satisfies
+
+`C^k(n)<b ∨ 5b<C^k(n)`.
+
+The clock is sharp. At barrier 40 the trajectory from 114 is
+
+`114→57→172→86→43→130→65→196→98→49→148→74→37`.
+
+Times 0 through 11 all lie in `[40,200]`; time 12 exits downward. An
+upper exit alone would be false, even for a positive start in the band.
+
+The arithmetic certificate is stronger than the actual map: it only needs
+thirteen natural states in the band and, at each transition, either
+`2x_(k+1)=x_k` or `x_(k+1)=3x_k+1`. The odd/even guard on the latter
+alternative is unnecessary for this contradiction. The generator uses
+exact rational feasibility of `x_k=a_k*x_0+c_k` to select fifty terminal
+prefixes. Only two or three interval-bound premises are necessary for
+each terminal certificate, keeping the arithmetic proofs small. Each
+prefix is independently proved impossible by Lean, and
+`impossible_trace` combines them by case analysis. Python supplies the
+branch guide, never a trusted axiom or unchecked proof certificate.
+
+If a whole orbit retains a fixed lower barrier `b>1`, each thirteen-point
+window must contain a value greater than `5b`. The file gives explicit
+increasing witnesses in disjoint blocks `[13q,13(q+1))`. Consequently,
+for any `N`, there are `N` distinct high times below `13N`. The same finite
+conclusion already follows from `Survives(b,13N−1,n)`; no assumption about
+the unobserved future is needed. At `N=0`, the conclusion is vacuous.
+
+The existing `Strategy/LocalOrbitCorridor.lean` supplies a related
+three-state exclusion in the narrower accelerated band `[V,2V)`. The
+present certificate concerns the ordinary map, the inclusive ratio-five
+band, and its sharp arbitrary-start clock; it uses no verified-range axiom.
+
+This is a conditional frequency bound at one fixed threshold. It proves
+neither that the kernel is nonempty nor that orbit values are unbounded.
+It does not eliminate growth exits or establish convergence. Literature
+priority and the requested frontier-novel proportion remain unverified.
+
+Run `python3 scripts/audit_five_band_clock.py`. The audit reproduces the
+exact-rational branch generator, builds both Lean files, checks all 61
+named theorem axiom footprints, and requires rejection of four false
+claims. Independent scalar tests cover 627,742 exhaustive ordinary-map
+starts, 60,000 large-integer starts, 20,295 starts under the relaxed
+transition relation, 150,670 lower-surviving windows, and 13,565 distinct
+block witnesses. Controls include the excluded anchor 1, removal of lower
+survival, and the different `3n−1` map. Counts are test evidence; Lean
+proofs establish the universal statements.
