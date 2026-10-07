@@ -46,6 +46,7 @@ jobs:
           python3 scripts/audit_balanced_offset.py
           python3 scripts/audit_balanced_near_six.py
           python3 scripts/audit_coefficient_band.py
+          python3 scripts/audit_floor_affine_error.py
           python3 scripts/audit_eleven_halves_clock.py
 
       - name: Check exact first-descent intervals
