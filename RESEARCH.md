@@ -16022,3 +16022,26 @@ found precisely those four delays and 999,995 matches. This finite observation
 does not establish that those are the only exceptions globally. The reusable
 script `explore_product_descent_delay.py` supports arbitrary bounds.
 Audit: five theorem footprints and two false first-event controls rejected.
+
+### Priority assessment: product descent versus coefficient stopping time
+
+Primary source inspected on 2026-10-07:
+Rozier and Terracol, *Paradoxical behavior in Collatz sequences*,
+[arXiv:2502.00948v2](https://arxiv.org/html/2502.00948v2), §§1,4.
+Their Definition 1.2 distinguishes first actual descent from first uncorrected
+coefficient descent, and records Terras' conjectured equality for n≥2.
+Our first *corrected floor-product certificate* is a third event. Its four
+observed delays are not counterexamples to Terras' conjecture.
+
+Their Theorem 4.1 bounds the additive error using the harmonic mean h of the
+odd states, with the factor (3+1/h)^q. Under finite floor survival, the least
+admissible odd state m satisfies h≥m, so replacing h by m gives the factor
+(3+1/m)^q used by our cleared-denominator floor-product argument.
+This specialization is an inference from their bound, not an assertion that
+the paper states our exact Lean theorem. The core-Lean proof, parity rounding,
+finite-prefix interfaces and ordinary-step time bounds are formalization work;
+we have no evidence that this underlying product method is frontier mathematics.
+
+The next research question must distinguish useful arithmetic information
+beyond this known harmonic-mean bound from equivalent reformulations. Finite
+exception exploration alone provides no global four-exception theorem.
