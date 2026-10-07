@@ -15927,3 +15927,7 @@ convergence is established. Mathematical priority has not been assessed.
 Validation: `python3 scripts/audit_floor_affine_error.py` checks 11 theorem
 axiom footprints, 576,960 floor budgets, 25,699 endpoint exits, 2,001 sharpness
 controls, 84,817 source-elimination cases, and rejects three false statements.
+
+The coefficient-gap criterion now formally produces a band exit within twice
+the accelerated horizon in the ordinary orbit (`standard_exit`). Universal
+coverage remains unproved. The audit includes both exit theorems (13 total).

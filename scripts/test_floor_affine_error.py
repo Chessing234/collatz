@@ -46,6 +46,26 @@ def main():
                                     if g >= 0 and Q*y <= P*b:
                                         assert g*b <= Q*H*B
                                         spread += 1
+    exits = 0
+    for n in range(1, 301):
+        states, coeffs, counts = [n], [1], [0]
+        for j in range(30):
+            x = states[-1]
+            odd = x % 2
+            states.append((3*x+1)//2 if odd else x//2)
+            coeffs.append(coeffs[-1]*(3 if odd else 1))
+            counts.append(counts[-1]+odd)
+        for b in {1, max(1, n//6), n}:
+            if n > 6*b: continue
+            w = 3*(b+1 if b % 2 == 0 else b)+1
+            for a in range(1, 30):
+                for c in range(1, 30):
+                    g = coeffs[c]*2**a-6*coeffs[a]*2**c
+                    if g > 0 and 6*coeffs[c]*counts[a]*coeffs[a] < g*max(w-counts[a], 0):
+                        assert any(x < b or 6*b < x for x in states[:max(a,c)+1])
+                        exits += 1
+    assert exits > 0
+    print(f'{exits} nonvacuous conditional exit instances')
     print(f'{checked} floor budgets; {exited} endpoint exits; 2001 sharpness controls; {spread} spread cases')
 
 if __name__ == '__main__': main()
