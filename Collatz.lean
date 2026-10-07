@@ -2127,3 +2127,4 @@ import Collatz.Exploration.ExactTraceProduct
 import Collatz.Exploration.FloorProductDescent
 import Collatz.Exploration.ProductDelayCertificates
 import Collatz.Exploration.ProductThresholds
+import Collatz.Exploration.CoefficientGapThreshold

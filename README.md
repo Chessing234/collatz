@@ -216,3 +216,17 @@ the thresholds are exact for this test, not optimal for actual descent.
 Audit: eight theorem footprints, 12,006 threshold checks, 1,893 matching
 odd-count descent cases, two false controls rejected. The method remains a
 specialization of known product bounds, with no established frontier novelty.
+
+### Scalar gap criterion and improved finite first-light cutoff
+
+`CoefficientGapThreshold.lean` proves that `a D < (D-C) w(n)` suffices
+for descent by j when C=3^a≤D=2^j. The scalar margin implies the full
+product test by the classical Bernoulli comparison.
+A separate corollary uses the existing first-light accumulator bound to
+improve the coarse repository cutoff n>H*3^H to 3*n>H*2^H:
+if a first coefficient crossing occurs by H, descent occurs at that crossing.
+It proves no existence of a crossing and no universal convergence.
+No frontier novelty has been established for this elementary improvement.
+Audit: four theorem footprints, 53,361 scalar cases, 16,043 valid scalar
+certificates, 179,303 descent cases, 2,924 first-light cutoff cases,
+and two false controls rejected.
