@@ -240,3 +240,15 @@ cutoff. It reuses existing residue and accumulator theory and improves the
 sufficient source interval; it proves no eventual crossing for every source.
 Audit: four theorem footprints, 2,050 paired residue checks through horizon
 40, and two false controls rejected. Frontier novelty is not established.
+
+### Smaller finite survival-count exceptional interval
+
+`SharpSurvivalCounts.lean` uses natural cutoff `H*2^H/3-1` (truncated
+at zero), accounting for shifted sources n+2. Actual survival equals the
+periodic coefficient test above this cutoff. Both directions of count
+comparison have this additive error, and the actual count is at most this
+error plus `(N/2^H+1)*heavyCount H`. This improves the finite exceptional
+interval from H*3^H; it neither strengthens the asymptotic density conclusion
+nor proves universal crossing. Audit: four theorem footprints, 39,013 count
+cutoffs through H=12 and N=3000, and two false rounding controls rejected.
+Frontier novelty remains unestablished.
