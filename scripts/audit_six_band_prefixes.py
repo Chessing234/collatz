@@ -15,6 +15,7 @@ def main():
     subprocess.run(['python3',str(ROOT/'scripts/test_six_band_prefixes.py')],cwd=ROOT,check=True)
     count=sum(check_axioms(ROOT/f'Collatz/Exploration/{name}.lean',PREFIX+name) for name in NAMES)
     claims=[
+        'example : 10*8^1 ≤ 10*2^1 := by decide\n',
         'example : Collatz.orbit 1 3 ≤ 5 := by decide\n',
         'example : 3 ≤ Collatz.orbit 6 3 := by decide\n',
         'example : 2*10+11 < 3*10 := by decide\n',
