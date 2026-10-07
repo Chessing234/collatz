@@ -2116,3 +2116,4 @@ import Collatz.Exploration.SixBandPrefixes
 import Collatz.Exploration.ElevenHalvesFamily
 import Collatz.Exploration.BalancedOffset
 import Collatz.Exploration.BalancedCompact
+import Collatz.Exploration.BalancedNearSix
