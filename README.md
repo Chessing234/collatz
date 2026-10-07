@@ -87,3 +87,24 @@ own verification instructions.
 
 Conditional theorems keep their hypotheses explicit. Finite computations and
 almost-everywhere results do not prove convergence for every positive input.
+
+### Sharp finite-floor affine error budget
+
+`FloorAffineError.lean` proves that if accelerated states before time j stay
+above b, then their exact affine offset B satisfies
+`w B ≤ a (3^a n + B)` and `(w-a) B ≤ a 3^a n`, where a is the
+number of odd steps and w = 3 times the least odd integer at least b, plus 1.
+Natural subtraction is used in the second inequality. The endpoint need not
+stay above b. The first odd step at that least odd integer proves w is the
+largest valid uniform weight; this classification is formalized in Lean.
+
+`AffineBandExit.lean` eliminates a common source between two affine endpoints.
+A positive coefficient gap g, finite lower survival, and upper-band assumptions
+imply `g (w-a) ≤ P H a L` (L and H are the two powers of 3).
+A strict violation therefore rules out those joint survival assumptions.
+This is conditional: no universal coverage of coefficient gaps or Collatz
+convergence is established. Mathematical priority has not been assessed.
+
+Validation: `python3 scripts/audit_floor_affine_error.py` checks 11 theorem
+axiom footprints, 576,960 floor budgets, 25,699 endpoint exits, 2,001 sharpness
+controls, 84,817 source-elimination cases, and rejects three false statements.
