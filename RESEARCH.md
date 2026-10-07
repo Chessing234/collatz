@@ -16110,3 +16110,19 @@ locates its record at (j,a)=(9971,6291). The scan is one-dimensional rather
 than enumerating all odd counts at every horizon.
 Audit: ten theorem footprints; 10000 independently reproduced endpoints;
 5272 lower-odd-count checks; two false scan certificates rejected.
+
+### Finite-prefix Beatty accumulator barriers
+
+`FiniteBeattyBarrier.lean` localizes the inherited `RealizableBound` argument.
+Its time cap assumes non-descent only at the current index; its accumulator
+cap assumes it only through a finite horizon. Neither requires an explicit
+positivity premise. A first coefficient crossing inside the certified odd-count
+reach must descend, and a power bracket converts that reach to a time horizon.
+These results do not prove that every source has a crossing. They adapt existing
+Beatty arguments; frontier novelty is not established.
+
+`BalancedFirstLightScan.lean` independently proves soundness of a balanced
+interval checker whose leaves reuse the existing orbit scan.
+Audit: four Beatty theorem footprints, 344,004 exact non-descent prefixes for
+reach 64 and cutoff 868, and two false cap/time controls rejected. The balanced
+checker has one audited theorem footprint and two false controls rejected.

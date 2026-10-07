@@ -2131,3 +2131,6 @@ import Collatz.Exploration.CoefficientGapThreshold
 import Collatz.Exploration.SharpFirstLightEventual
 import Collatz.Exploration.SharpSurvivalCounts
 import Collatz.Exploration.GapTenThousand
+
+import Collatz.Exploration.BalancedFirstLightScan
+import Collatz.Exploration.FiniteBeattyBarrier
