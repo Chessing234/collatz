@@ -40,7 +40,8 @@ own verification instructions.
   transfer for lower-surviving prefixes.
 - [Arbitrarily long six-band prefixes](Research/SixBandPrefixes.md) — for every
   finite horizon, an entire sufficiently large residue class stays in `[n,6n]`.
-  This rules out every uniform finite exit clock at ratio six or above.
+  This rules out every uniform finite exit clock at ratio six or above, with
+  explicit witness size and expanded ordinary-time duration bounds.
 - [Rational band obstruction](Research/RationalBandObstruction.md) — a
   denominator-aware cycle certificate, exact closure classification, and
   why the integer floor bound does not extend to rational floors.

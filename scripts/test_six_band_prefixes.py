@@ -44,7 +44,7 @@ def verify_safe(K, r, bits):
 
 
 def witness(K, N, r):
-    bound = 4**K*(r+1)
+    bound = 2**K*(r+1)
     m = N+r+6*bound+2
     return 2**K*m+r
 
@@ -52,20 +52,25 @@ def witness(K, N, r):
 def check_prefix(K, N, r, bits):
     n = witness(K,N,r)
     assert n>N and n>1
+    assert n <= 2**K*N+10*8**K
+    if N==0:
+        assert n <= 10*8**K
+    assert (3*K+4)//5 <= sum(bits)
+    duration=K+sum(bits)
     x = n
-    for _ in range(K+1):
+    for _ in range(duration+1):
         assert n <= x <= 6*n
         x = ordinary(x)
     x = n
     for j in range(K+1):
         assert n <= x < 3*n
-        assert x == 3**sum(bits[:j])*2**(K-j)*(N+r+6*4**K*(r+1)+2)+iterate_acc(r,j)
+        assert x == 3**sum(bits[:j])*2**(K-j)*(N+r+6*2**K*(r+1)+2)+iterate_acc(r,j)
         if j<K:
             assert x%2 == bits[j]
             if x%2:
                 assert 3*x+1 <= 6*n
             x = accelerated(x)
-    return K+1
+    return duration+1
 
 
 def iterate_acc(n,j):

@@ -61,40 +61,41 @@ theorem gap_lower {a b r m : Nat} (hab : b < a) (hr : r ≤ m) : b*m+r ≤ a*m :
   rw [Nat.add_mul, Nat.one_mul] at hm
   omega
 
-theorem acc_step_growth (n : Nat) : acceleratedStep n+1 ≤ 4*(n+1) := by
+theorem acc_step_growth (n : Nat) : acceleratedStep n+1 ≤ 2*(n+1) := by
   unfold acceleratedStep
   split <;> omega
 
 /-- A coarse value bound, used only to choose a large source representative. -/
-theorem acc_growth_bound (k r : Nat) : acceleratedOrbit k r+1 ≤ 4^k*(r+1) := by
+theorem acc_growth_bound (k r : Nat) : acceleratedOrbit k r+1 ≤ 2^k*(r+1) := by
   induction k with
   | zero => simp
   | succ k ih =>
     rw [acceleratedOrbit_succ_step]
     have hstep := acc_step_growth (acceleratedOrbit k r)
-    have hm := Nat.mul_le_mul_left 4 ih
-    have hp : (4:Nat)^(k+1)*(r+1) = 4*(4^k*(r+1)) := by
+    have hm := Nat.mul_le_mul_left 2 ih
+    have hp : (2:Nat)^(k+1)*(r+1) = 2*(2^k*(r+1)) := by
       rw [Nat.pow_succ]
       ac_rfl
     rw [hp]
     exact Nat.le_trans hstep hm
 
 theorem acc_prefix_bound {j K : Nat} (hj : j ≤ K) (r : Nat) :
-    acceleratedOrbit j r < 4^K*(r+1) := by
+    acceleratedOrbit j r < 2^K*(r+1) := by
   have h0 := acc_growth_bound j r
-  have hp : (4:Nat)^j ≤ 4^K := Nat.pow_le_pow_right (by decide) hj
+  have hp : (2:Nat)^j ≤ 2^K := Nat.pow_le_pow_right (by decide) hj
   have hm := Nat.mul_le_mul_right (r+1) hp
   omega
 
 /-- Transfer bounded accelerated states and bounded odd peaks to an ordinary prefix. -/
-theorem ordinary_coverage (K b u n : Nat)
+theorem expanded_coverage (K b u n : Nat)
     (ha : ∀ j, j ≤ K → b ≤ acceleratedOrbit j n ∧ acceleratedOrbit j n ≤ u)
     (hp : ∀ j, j < K → acceleratedOrbit j n % 2 = 1 →
       3*acceleratedOrbit j n+1 ≤ u) :
-    ∀ k, k ≤ K → b ≤ orbit k n ∧ orbit k n ≤ u := by
+    ∀ k, k ≤ K+oddCount n K → b ≤ orbit k n ∧ orbit k n ≤ u := by
   induction K generalizing n with
   | zero =>
     intro k hk
+    have hc : oddCount n 0 = 0 := by simp [oddCount,parityVector]
     have : k = 0 := by omega
     subst k
     exact ha 0 (by decide)
@@ -114,12 +115,14 @@ theorem ordinary_coverage (K b u n : Nat)
     by_cases hk0 : k = 0
     · subst k; exact ha0
     · rcases Arith.mod_two_eq_zero_or_one n with he | ho
-      · have hstep := Reach.accStep_eq_step_of_even he
+      · rw [Congruence.oddCount_succ_of_even he] at hk
+        have hstep := Reach.accStep_eq_step_of_even he
         have hv := hi (k-1) (by omega)
         have heq : k = (k-1)+1 := by omega
         rw [heq, orbit_succ_steps, ← hstep]
         exact hv
-      · have hn : 0 < n := by omega
+      · rw [Congruence.oddCount_succ_of_odd ho] at hk
+        have hn : 0 < n := by omega
         have hstep := Reach.step_odd hn ho
         by_cases hk1 : k = 1
         · subst k
@@ -133,10 +136,19 @@ theorem ordinary_coverage (K b u n : Nat)
             ← Reach.accStep_eq_step_step_of_odd hn ho]
           exact hv
 
+/-- A shorter ordinary-time version of the complete expanded coverage theorem. -/
+theorem ordinary_coverage (K b u n : Nat)
+    (ha : ∀ j, j ≤ K → b ≤ acceleratedOrbit j n ∧ acceleratedOrbit j n ≤ u)
+    (hp : ∀ j, j < K → acceleratedOrbit j n % 2 = 1 →
+      3*acceleratedOrbit j n+1 ≤ u) :
+    ∀ k, k ≤ K → b ≤ orbit k n ∧ orbit k n ≤ u := by
+  intro k hk
+  exact expanded_coverage K b u n ha hp k (by omega)
+
 /-- All sufficiently large members of a balanced residue class have the desired prefix. -/
-theorem large_class_prefix {K r m : Nat} (hr : r < 2^K) (hs : Safe K r)
-    (hm : r+6*(4^K*(r+1))+1 ≤ m) :
-    ∀ k, k ≤ K → 2^K*m+r ≤ orbit k (2^K*m+r) ∧
+theorem large_class_expanded_prefix {K r m : Nat} (hr : r < 2^K) (hs : Safe K r)
+    (hm : r+6*(2^K*(r+1))+1 ≤ m) :
+    ∀ k, k ≤ K+oddCount r K → 2^K*m+r ≤ orbit k (2^K*m+r) ∧
       orbit k (2^K*m+r) ≤ 6*(2^K*m+r) := by
   let n := 2^K*m+r
   have ha : ∀ j, j ≤ K → n ≤ acceleratedOrbit j n ∧ acceleratedOrbit j n ≤ 6*n := by
@@ -178,13 +190,23 @@ theorem large_class_prefix {K r m : Nat} (hr : r < 2^K) (hs : Safe K r)
     have hh : (3*slope K r j)*m+(3*acceleratedOrbit j r+1) < 6*(2^K*m) := by
       simpa only [Nat.mul_assoc] using hu
     omega
-  exact ordinary_coverage K n (6*n) n ha hp
+  have hc := counts_of_vector (vector_class K m r hr) K (by omega)
+  intro k hk
+  exact expanded_coverage K n (6*n) n ha hp k (by dsimp [n]; omega)
+
+/-- Restrict the expanded class prefix to the original K ordinary steps. -/
+theorem large_class_prefix {K r m : Nat} (hr : r < 2^K) (hs : Safe K r)
+    (hm : r+6*(2^K*(r+1))+1 ≤ m) :
+    ∀ k, k ≤ K → 2^K*m+r ≤ orbit k (2^K*m+r) ∧
+      orbit k (2^K*m+r) ≤ 6*(2^K*m+r) := by
+  intro k hk
+  exact large_class_expanded_prefix hr hs hm k (by omega)
 
 /-- Horizons and size thresholds are arbitrary, but their witnesses may differ. -/
 theorem arbitrarily_long_prefixes (K N : Nat) :
     ∃ n, N < n ∧ 1 < n ∧ ∀ k, k ≤ K → n ≤ orbit k n ∧ orbit k n ≤ 6*n := by
   obtain ⟨r,hr,hs⟩ := exists_safe K
-  let m := N+r+6*(4^K*(r+1))+2
+  let m := N+r+6*(2^K*(r+1))+2
   let n := 2^K*m+r
   have hp : 0 < (2:Nat)^K := Nat.pow_pos (by decide)
   have hlarge : m ≤ 2^K*m := Nat.le_mul_of_pos_left m hp
@@ -192,12 +214,92 @@ theorem arbitrarily_long_prefixes (K N : Nat) :
   refine ⟨n, Nat.lt_of_lt_of_le ?_ hmn, Nat.lt_of_lt_of_le ?_ hmn,
     large_class_prefix hr hs (by dsimp [m]; omega)⟩ <;> dsimp [m] <;> omega
 
+/-- An explicit size bound for the finite-prefix construction. -/
+theorem witness_size {K r : Nat} (hr : r < 2^K) :
+    2^K*(r+6*(2^K*(r+1))+2)+r ≤ 10*8^K := by
+  let a := (2:Nat)^K
+  have ha : 1 ≤ a := Nat.one_le_pow K 2 (by decide)
+  have hr0 : r ≤ a := by dsimp [a]; omega
+  have hr1 : r+1 ≤ a := by dsimp [a]; omega
+  have hm0 := Nat.mul_le_mul_left a hr1
+  have hm1 : r+6*(a*(r+1))+2 ≤ a+6*(a*a)+2 := by omega
+  have hm2 := Nat.mul_le_mul_left a hm1
+  have ha2 : a ≤ a*a := Nat.le_mul_of_pos_left a (by omega)
+  have ha3 : a*a ≤ a*(a*a) := Nat.le_mul_of_pos_left (a*a) (by omega)
+  have hp : (8:Nat)^K = a*(a*a) := by
+    dsimp [a]
+    rw [show (8:Nat) = 2* (2*2) from rfl, Nat.mul_pow, Nat.mul_pow]
+  have he : a*(a+6*(a*a)+2) = a*a+6*(a*(a*a))+2*a := by
+    simp only [Nat.mul_add]
+    ac_rfl
+  change a*(r+6*(a*(r+1))+2)+r ≤ 10*8^K
+  rw [hp]
+  rw [he] at hm2
+  omega
+
+/-- Balanced coefficients force at least ceil(3K/5) odd accelerated steps. -/
+theorem safe_clock_lower {K r : Nat} (hs : Safe K r) :
+    (3*K+4)/5 ≤ oddCount r K := by
+  have h := Density.three_mul_le_five_mul_of_heavy (hs.1 K (by omega)).1
+  omega
+
+/-- Quantitative witnesses retain every ordinary step hidden by acceleration. -/
+theorem quantitative_prefixes (K N : Nat) :
+    ∃ n, N < n ∧ 1 < n ∧ n ≤ 2^K*N+10*8^K ∧
+      ∀ k, k ≤ K+(3*K+4)/5 → n ≤ orbit k n ∧ orbit k n ≤ 6*n := by
+  obtain ⟨r,hr,hs⟩ := exists_safe K
+  let m := N+r+6*(2^K*(r+1))+2
+  let n := 2^K*m+r
+  have hp : 0 < (2:Nat)^K := Nat.pow_pos (by decide)
+  have hlarge : m ≤ n := Nat.le_trans (Nat.le_mul_of_pos_left m hp) (Nat.le_add_right _ _)
+  have hsize := witness_size hr
+  have he : n = 2^K*N+(2^K*(r+6*(2^K*(r+1))+2)+r) := by
+    dsimp [n,m]
+    simp only [Nat.mul_add]
+    omega
+  have hclock := safe_clock_lower hs
+  refine ⟨n,Nat.lt_of_lt_of_le ?_ hlarge,Nat.lt_of_lt_of_le ?_ hlarge,?_,?_⟩
+  · dsimp [m]; omega
+  · dsimp [m]; omega
+  · rw [he]; omega
+  · intro k hk
+    exact large_class_expanded_prefix hr hs (by dsimp [m]; omega) k (by omega)
+
+/-- Delay through K is witnessed by an integer of size at most 10·8^K. -/
+theorem bounded_prefix_witness (K : Nat) :
+    ∃ n, 1 < n ∧ n ≤ 10*8^K ∧
+      ∀ k, k ≤ K → n ≤ orbit k n ∧ orbit k n ≤ 6*n := by
+  obtain ⟨n,_,hn,hsize,hprefix⟩ := quantitative_prefixes K 0
+  refine ⟨n,hn,by simpa using hsize,?_⟩
+  intro k hk
+  exact hprefix k (by omega)
+
+/-- The same construction above N pays only a linear 2^K·N size cost. -/
+theorem bounded_prefix_above (K N : Nat) :
+    ∃ n, N < n ∧ 1 < n ∧ n ≤ 2^K*N+10*8^K ∧
+      ∀ k, k ≤ K → n ≤ orbit k n ∧ orbit k n ≤ 6*n := by
+  obtain ⟨n,hN,hn,hsize,hprefix⟩ := quantitative_prefixes K N
+  refine ⟨n,hN,hn,hsize,?_⟩
+  intro k hk
+  exact hprefix k (by omega)
+
+/-- The explicit bounded domain has no clock through the expanded duration. -/
+theorem bounded_domain_obstruction (K B : Nat) (hB : 10*8^K ≤ B) :
+    ¬ (∀ n, 1 < n → n ≤ B → ∃ k, k ≤ K+(3*K+4)/5 ∧
+      (orbit k n < n ∨ 6*n < orbit k n)) := by
+  intro hc
+  obtain ⟨n,_,hn,hsize,hprefix⟩ := quantitative_prefixes K 0
+  have hnsize : n ≤ 10*8^K := by simpa using hsize
+  obtain ⟨k,hk,hexit⟩ := hc n hn (Nat.le_trans hnsize hB)
+  obtain ⟨hl,hu⟩ := hprefix k hk
+  rcases hexit with h | h <;> omega
+
 /-- Each finite horizon has an entire large arithmetic progression of witnesses. -/
 theorem exists_class (K : Nat) :
     ∃ r M, r < 2^K ∧ ∀ m, M ≤ m → ∀ k, k ≤ K →
       2^K*m+r ≤ orbit k (2^K*m+r) ∧ orbit k (2^K*m+r) ≤ 6*(2^K*m+r) := by
   obtain ⟨r,hr,hs⟩ := exists_safe K
-  exact ⟨r,r+6*(4^K*(r+1))+1,hr,fun m hm => large_class_prefix hr hs hm⟩
+  exact ⟨r,r+6*(2^K*(r+1))+1,hr,fun m hm => large_class_prefix hr hs hm⟩
 
 /-- The obstruction persists at every rational threshold at least six. -/
 theorem no_clock_at_least_six (P Q K : Nat) (hP : 6*Q ≤ P) :

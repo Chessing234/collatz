@@ -3,7 +3,8 @@
 For the ordinary Collatz map, Lean proves
 
 > For every horizon K and size threshold N, there is an integer n > N,
-> with n > 1, such that n ≤ orbit(k,n) ≤ 6n for every k ≤ K.
+> with n > 1 and n ≤ 2^K·N + 10·8^K, such that
+> n ≤ orbit(k,n) ≤ 6n for every k ≤ K + ceil(3K/5).
 
 Consequently no uniform finite exit clock exists for bands [b,6b]. More
 generally, no clock exists for a rational threshold P/Q with Q positive and
@@ -43,17 +44,35 @@ three therefore puts the corresponding ordinary odd peak strictly below
 6·2^K m, up to an additive offset. This peak condition matters: bounding
 only accelerated values would omit the intermediate ordinary value 3x+1.
 
-Lean uses the coarse bound T^j(r) < 4^K(r+1) and the explicit sufficient
+Lean uses the coarse bound T^j(r) < 2^K(r+1) and the explicit sufficient
 threshold
 
-    m ≥ r + 6·4^K(r+1) + 1.
+    m ≥ r + 6·2^K(r+1) + 1.
 
 Integer coefficient gaps absorb every offset above this threshold.
-`ordinary_coverage` then transfers accelerated-state and odd-peak bounds
-to all ordinary times through K. Thus each K gives an entire sufficiently
+`expanded_coverage` transfers accelerated-state and odd-peak bounds
+to all ordinary times through K+a(K). The parity count forces 3K ≤ 5a(K),
+using the existing power-comparison theorem in `Density`; consequently
+a(K) ≥ ceil(3K/5). Thus each K gives an entire sufficiently
 large arithmetic progression of witnesses, not just one isolated input.
-A witness above N follows by taking m = N+r+6·4^K(r+1)+2. These bounds
+A witness above N follows by taking m = N+r+6·2^K(r+1)+2. These bounds
 are sufficient; no optimal witness-size claim is made.
+
+## Quantitative exit-time obstruction
+
+The sharper step bound T(x)+1 ≤ 2(x+1) replaces the earlier factor-four
+bound. Combining r+1 ≤ 2^K with the explicit witness formula gives
+
+    n ≤ 2^K·N + 10·8^K.
+
+`quantitative_prefixes` proves this bound together with survival through
+K+ceil(3K/5) ordinary steps. For example, K=20 guarantees a source no larger
+than 10·8^20 that survives 32 ordinary steps in its own six-band. Thus
+exit-time obstructions have an explicit exponential witness-size bound;
+this is stronger information than mere existence for every horizon.
+`bounded_domain_obstruction` also rules out a uniform clock through K+ceil(3K/5) steps even
+when sources are restricted to the finite domain 2 ≤ n ≤ B whenever
+B ≥ 10·8^K. No optimal duration, size, or asymptotic growth rate is asserted.
 
 ## Verification
 
@@ -67,12 +86,12 @@ Sources:
 - `scripts/audit_six_band_prefixes.py`: Lean builds, axiom footprints, and
   deliberately false claims that must fail.
 
-The audit checks 22 named theorem footprints, accepting only Lean's usual
+The audit checks 30 named theorem footprints, accepting only Lean's usual
 `propext`, `Quot.sound`, and `Classical.choice` axioms. The independent tests
 verify 133 constructed residues through horizon 2048 and 2,133 scaled
 witnesses, including randomly chosen size thresholds below 10^120. They
-check 143,992 ordinary prefix states, the exact accelerated affine traces,
-and the intermediate odd peaks. Four false closed claims are rejected.
+check 234,532 ordinary prefix states, the exact accelerated affine traces,
+and the intermediate odd peaks. Five false closed claims are rejected.
 The universal claims depend on Lean proofs, not the finite Python samples.
 
 ## Literature and scope
