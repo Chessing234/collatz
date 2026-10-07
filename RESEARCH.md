@@ -5,39 +5,52 @@ Persistent checkpoint. Update at every synthesis round. Status codes:
 **CONJ** = conjectural. **REFUTED** = killed, with counterexample. **CLOSED** = provably
 unreachable by the stated method.
 
-## Balanced additive offsets, 2026-10-07 (PROVED)
+## Balanced additive offsets and compact witnesses, 2026-10-07 (PROVED)
 
-`Collatz.Exploration.BalancedOffset` improves the sufficient size bound for
-six-band witnesses from `2^K*N + 10*8^K` to `2^K*N + 28*4^K`, preserving
-survival through `K + ceil(3K/5)` ordinary steps. The exact statement is
-`square_quantitative_prefixes`; the corresponding finite-domain obstruction
-is `square_domain_obstruction`. This is a stronger quantitative result in
-this repository, not a convergence proof or an established priority claim.
+`Collatz.Exploration.BalancedCompact.compact_quantitative_prefixes` improves
+the sufficient size bound for six-band witnesses from `2^K*N + 10*8^K` to
 
-The central estimate is
+    n ≤ 2^K*(N+6K+4),    n>N,    n>1,
+    n ≤ orbit(k,n) ≤ 6n for k ≤ K+ceil(3K/5).
 
-    2^j * acceleratedOrbit j r ≤ 3^oddCount(r,j) * (r+j).
+The corresponding finite-domain obstruction is `compact_domain_obstruction`.
+For a prescribed ordinary duration H, `compact_duration_witness` uses
+`K=ceil(5H/8)`. This is a stronger quantitative result in this repository,
+not a convergence proof or an established priority claim. The source still
+depends on the horizon. Constants are sufficient, not asserted optimal.
+
+The central estimate in `BalancedOffset.normalized_bound` is
+
+    2^j * acceleratedOrbit j n ≤ 3^oddCount(n,j) * (n+j).
 
 It requires heavy homogeneous coefficients at every earlier time. In the
-odd-step induction, the additive term `2^j` is absorbed by `3^oddCount(r,j)`;
-an even step adds no error. Balanced coefficient bounds then give
-`acceleratedOrbit j r < 3*(r+K+1)` for `j ≤ K`. This replaces the crude
-exponential growth bound for the small residue. Choosing
-`m = N+r+12*(r+K+1)+2` makes all affine coefficient gaps large enough to
-absorb the offsets, including ordinary odd peaks. Since `r < 2^K` and
-`K+1 ≤ 2^K`, the constructed source `n=2^K*m+r` has the claimed square
-modulus bound. Constants are sufficient, not asserted optimal. `ordinary_duration_witness` gives a prescribed duration H using
-`K=ceil(5H/8)`, hence a zero-threshold size bound `28*4^ceil(5H/8)`.
-The new
-bound is smaller than the previous bound for every `K ≥ 2`.
+odd-step induction, the additive term `2^j` is absorbed by `3^oddCount(n,j)`;
+an even step adds no error. Balanced coefficient bounds first give a linear
+bound on the small residue's values, which yields the intermediate
+square-modulus estimate `2^K*N+28*4^K` in `BalancedOffset`.
 
-Independent exact-integer tests check 1,995 witnesses and 298,905 ordinary
-states through accelerated horizon 2048, including size thresholds with
-120 decimal digits. The audit checks all eight new theorem footprints
-and rejects three false claims. The negative controls expose the missing
+The stronger result applies the estimate directly to the large source.
+Before an odd step, write D=2^j and C=3^oddCount(n,j). Safety gives C<2D.
+The ordinary odd peak is bounded after multiplication by D by
+
+    3C*n + 3C*j + D.
+
+The integral coefficient gap gives `3C*n+n ≤ 6D*n`. The entire remaining
+error is at most `D*(6K+1)`, hence at most n whenever
+`n ≥ 2^K*(6K+1)`. Heavy coefficients and the nonnegative affine constant
+also ensure no accelerated state descends below n. Transfer to ordinary
+time retains every intermediate odd peak. Parity-vector invariance lets
+us take `n = 2^K*(N+6K+3)+r` for a balanced residue `r < 2^K`.
+This avoids discarding the source's own contribution to the upper band.
+
+Independent exact-integer tests check 1,995 parameter sets, 3,990 witnesses,
+and 597,810 ordinary states through accelerated horizon 2048, including
+size thresholds with 120 decimal digits. They check 10,001 duration
+conversions. The audit checks all fourteen new theorem footprints and
+rejects three false claims. Negative controls expose the missing
 heavy-prefix assumption and the invalid inference from finite survival to
-permanent survival: the horizon-one witness 79 descends below its starting
-value at ordinary time thirteen.
+permanent survival: a horizon-one square-construction witness, 79,
+descends below its starting value at ordinary time thirteen.
 
 ### Notable literature and next mathematical obligations
 

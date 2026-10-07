@@ -23,7 +23,15 @@ def check(K, N, r, bits):
     for _ in range(duration+1):
         assert n <= x <= 6*n
         x = ordinary(x)
-    return duration+1
+    # Stronger construction applies the estimate to the source itself.
+    compact = modulus*(N+6*K+3)+r
+    assert N < compact and 1 < compact
+    assert compact <= modulus*(N+6*K+4)
+    x=compact
+    for _ in range(duration+1):
+        assert compact <= x <= 6*compact
+        x=ordinary(x)
+    return 2*(duration+1)
 
 
 def main():
@@ -52,7 +60,7 @@ def main():
     for _ in range(13):
         x=ordinary(x)
     assert x<n
-    print(f'{witnesses} smaller witnesses; {states} ordinary states; assumption/exit controls passed')
+    print(f'{witnesses} parameter sets; {2*witnesses} witnesses; {states} ordinary states; assumption/exit controls passed')
 
 
 if __name__ == '__main__':

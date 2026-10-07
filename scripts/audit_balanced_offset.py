@@ -9,10 +9,12 @@ MODULE = 'Collatz.Exploration.BalancedOffset'
 
 def main():
     source=ROOT/'Collatz/Exploration/BalancedOffset.lean'
+    compact=ROOT/'Collatz/Exploration/BalancedCompact.lean'
     assert not violations(source.read_text())
-    subprocess.run(['lake','build',MODULE],cwd=ROOT,check=True)
+    assert not violations(compact.read_text())
+    subprocess.run(['lake','build','Collatz.Exploration.BalancedCompact'],cwd=ROOT,check=True)
     subprocess.run(['python3',str(ROOT/'scripts/test_balanced_offset.py')],cwd=ROOT,check=True)
-    count=check_axioms(source,MODULE)
+    count=check_axioms(source,MODULE)+check_axioms(compact,'Collatz.Exploration.BalancedCompact')
     claims=[
         'example : 2^5 * Collatz.acceleratedOrbit 5 16 ≤ 3*(16+5) := by decide\n',
         'example : 28*4^0 < 10*8^0 := by decide\n',

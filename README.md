@@ -42,7 +42,7 @@ own verification instructions.
   clock at ratio 11/2, an infinite family of sharp witnesses, and a whole
   rational-width interval with the same optimal duration.
 - [Smaller six-band witnesses](RESEARCH.md) — balanced additive-error control
-  reduces the sufficient witness-size growth from `8^K` to `4^K`, with
+  reduces the sufficient witness-size bound from `10*8^K` to `(6K+4)*2^K`, with
   the same expanded ordinary-time duration.
 - [Arbitrarily long six-band prefixes](Research/SixBandPrefixes.md) — for every
   finite horizon, an entire sufficiently large residue class stays in `[n,6n]`.
