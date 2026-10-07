@@ -15931,3 +15931,16 @@ controls, 84,817 source-elimination cases, and rejects three false statements.
 The coefficient-gap criterion now formally produces a band exit within twice
 the accelerated horizon in the ordinary orbit (`standard_exit`). Universal
 coverage remains unproved. The audit includes both exit theorems (13 total).
+
+### Multiplicative floor-error budget
+
+`FloorProductError.lean` proves `v^a (3^a n+B) ≤ w^a 3^a n`
+and consequently `v^a B ≤ (w^a-v^a)3^a n`, with v = 3 times the
+least odd integer at least the finite prefix floor b, and w = v+1.
+This follows by multiplying the one-step odd factors. Unlike the linear
+paid bound, it remains informative when a reaches or exceeds w.
+It assumes finite lower survival and proves neither universal descent nor
+convergence. This elementary product method has not been assessed for priority.
+The independent audit checks 278,684 products, including 192,568 cases
+beyond the linear budget, 1,001 sharp factor controls, three Lean theorem
+footprints, and two false statements rejected by the kernel.
