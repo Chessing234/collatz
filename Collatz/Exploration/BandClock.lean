@@ -8,6 +8,21 @@ open BarrierKernel
 def ExitClock (P Q K : Nat) : Prop :=
   ∀ b n : Nat, 1 < b → ∃ k, k ≤ K ∧ (orbit k n < b ∨ P*b < Q*orbit k n)
 
+/-- A proved clock transfers to every narrower positive-denominator band. -/
+theorem narrower_ratio {P Q A B K : Nat} (hc : ExitClock P Q K)
+    (hB : 0 < B) (hcross : A*Q ≤ P*B) : ExitClock A B K := by
+  intro b n hb
+  obtain ⟨k,hk,hl | hu⟩ := hc b n hb
+  · exact ⟨k,hk,Or.inl hl⟩
+  · refine ⟨k,hk,Or.inr ?_⟩
+    have hm : Q*(A*b) < Q*(B*orbit k n) := calc
+      Q*(A*b) = (A*Q)*b := by ac_rfl
+      _ ≤ (P*B)*b := Nat.mul_le_mul_right b hcross
+      _ = B*(P*b) := by ac_rfl
+      _ < B*(Q*orbit k n) := Nat.mul_lt_mul_of_pos_left hu hB
+      _ = Q*(B*orbit k n) := by ac_rfl
+    exact Nat.lt_of_mul_lt_mul_left hm
+
 theorem no_band_through {P Q K b n : Nat} (hc : ExitClock P Q K) (hb : 1 < b)
     (h : ∀ k, k ≤ K → b ≤ orbit k n ∧ Q*orbit k n ≤ P*b) : False := by
   obtain ⟨k,hk,hl | hu⟩ := hc b n hb

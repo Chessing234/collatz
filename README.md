@@ -38,6 +38,9 @@ own verification instructions.
 - [Sharp wider-band clock](Research/WiderBandClock.md) — the ratio-21/4
   band has a sharp seventeen-step exit clock, with reusable finite witness
   transfer for lower-surviving prefixes.
+- [Sharp thirty-step plateau](Research/ElevenHalvesClock.md) — a universal
+  clock at ratio 11/2, an infinite family of sharp witnesses, and a whole
+  rational-width interval with the same optimal duration.
 - [Arbitrarily long six-band prefixes](Research/SixBandPrefixes.md) — for every
   finite horizon, an entire sufficiently large residue class stays in `[n,6n]`.
   This rules out every uniform finite exit clock at ratio six or above, with

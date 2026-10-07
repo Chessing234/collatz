@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Exact congruence-aware branch guide; Lean checks every parametric trace and leaf."""
 import argparse
+import re
 from fractions import Fraction as F
 from itertools import combinations
 from math import ceil
@@ -9,6 +10,17 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / 'Collatz/Exploration/WiderBandArithmetic.lean'
 P, Q, HORIZON = 21, 4, 17
+MODULE, EXPECTED_LEAVES = 'WiderBandArithmetic', 76
+PRUNE_CONTEXT = False
+
+
+def configure(p, q, horizon, module, expected_leaves):
+    global P, Q, HORIZON, MODULE, EXPECTED_LEAVES, SOURCE
+    assert p > 0 and q > 0 and horizon > 0 and expected_leaves > 0
+    assert module.isidentifier()
+    P, Q, HORIZON = p, q, horizon
+    MODULE, EXPECTED_LEAVES = module, expected_leaves
+    SOURCE = ROOT / f'Collatz/Exploration/{module}.lean'
 
 
 def domain(states, residue, modulus):
@@ -87,11 +99,23 @@ def header(name, word, bounds=None):
 def certificate():
     nodes = tree()
     out = ['import Collatz.Basic\n\n',
-           '/-! Generated residue-and-affine certificates for the inclusive ratio-21/4 band.\n',
+           f'/-! Generated residue-and-affine certificates for the inclusive ratio-{P}/{Q} band.\n',
            'Every branch and arithmetic conclusion is independently checked by Lean. -/\n',
-           'namespace Collatz.Exploration.WiderBandArithmetic\n\n',
+           f'namespace Collatz.Exploration.{MODULE}\n\n',
            'set_option maxHeartbeats 2000000\n',
            'set_option linter.unusedVariables false\n\n']
+    if PRUNE_CONTEXT:
+        out += ["""/-- Lift one affine identity across a source residue refinement. -/
+theorem lift_affine {x q a c e : Nat} (hx : x = a*q+c)
+    (hq : q = 2*(q/2)+e) : x = (2*a)*(q/2)+(a*e+c) := by
+  calc
+    x = a*q+c := hx
+    _ = a*(2*(q/2)+e)+c := congrArg (fun u => a*u+c) hq
+    _ = (2*a)*(q/2)+(a*e+c) := by
+      simp only [Nat.mul_add]
+      ac_rfl
+
+"""]
     # Prefix lemmas are emitted in increasing length, so parent proofs are available.
     for word in sorted(nodes, key=lambda w: (len(w), w)):
         if not word or not nodes[word]['valid']:
@@ -103,7 +127,9 @@ def certificate():
                 header('parameters_'+word, word),
                 '    : ∃ q : Nat, '+' ∧ '.join(f'x{i} = {a}*q+{c}' for i,(a,c) in enumerate(ps))+' := by\n']
         if depth == 1:
-            out += ['  let q := x0\n', '  have p0 : x0 = q := rfl\n']
+            out += ['  let q := x0\n',
+                    '  have p0 : x0 = 1*q+0 := by omega\n' if PRUNE_CONTEXT else
+                    '  have p0 : x0 = q := rfl\n']
         else:
             args = ' '.join([f'x{i}' for i in range(depth)]+[f'r{i}' for i in range(depth-1)])
             binders = ','.join(['q']+[f'p{i}' for i in range(depth)])
@@ -113,12 +139,27 @@ def certificate():
         if node['modulus'] > parent['modulus']:
             epsilon = (node['residue']-parent['residue'])//parent['modulus']
             assert epsilon in (0,1)
-            out += [f'  have hq : q = 2*(q/2)+{epsilon} := by omega\n']
+            if PRUNE_CONTEXT:
+                discard = ['hstep']+[f'p{i}' for i in range(depth-1)]
+                out += [f'  have hq : q = 2*(q/2)+{epsilon} := by\n',
+                        '    clear '+' '.join(discard)+'\n    omega\n']
+            else:
+                out += [f'  have hq : q = 2*(q/2)+{epsilon} := by omega\n']
             witness = 'q/2'
         else:
             witness = 'q'
         out += ['  clear hparity\n']
-        out += ['  refine ⟨'+witness+','+','.join('?_' for _ in range(depth+1))+'⟩ <;> omega\n\n']
+        if PRUNE_CONTEXT:
+            out += ['  refine ⟨'+witness+','+','.join('?_' for _ in range(depth+1))+'⟩\n']
+            for i in range(depth):
+                if witness == 'q':
+                    out += [f'  · exact p{i}\n']
+                else:
+                    out += [f'  · simpa only [Nat.reduceMul,Nat.reduceAdd] using lift_affine p{i} hq\n']
+            discard = [f'p{i}' for i in range(depth-1)]
+            out += ['  · '+('clear '+' '.join(discard)+'\n    ' if discard else '')+'omega\n\n']
+        else:
+            out += ['  refine ⟨'+witness+','+','.join('?_' for _ in range(depth+1))+'⟩ <;> omega\n\n']
     leaves = [w for w,n in nodes.items() if n['terminal']]
     for word in leaves:
         node = nodes[word]
@@ -130,13 +171,21 @@ def certificate():
             args = ' '.join([f'x{i}' for i in range(depth+1)]+[f'r{i}' for i in range(depth)])
             binders = ','.join(['q']+[f'p{i}' for i in range(depth+1)])
             out += [f'  obtain ⟨{binders}⟩ := parameters_{word} {args}\n',
-                    '  clear '+' '.join(f'r{i}' for i in range(depth))+'\n', '  omega\n\n']
+                    '  clear '+' '.join(f'r{i}' for i in range(depth))+'\n']
+            if PRUNE_CONTEXT:
+                discard = [f'p{i}' for i in range(depth+1) if i not in core]
+                if discard:
+                    out += ['  clear '+' '.join(discard)+'\n']
+            out += ['  omega\n\n']
         else:
             args = ' '.join([f'x{i}' for i in range(depth)]+[f'r{i}' for i in range(depth-1)])
             binders = ','.join(['q']+[f'p{i}' for i in range(depth)])
             out += [f'  obtain ⟨{binders}⟩ := parameters_{word[:-1]} {args}\n',
                     f'  have hparity := r{depth-1}.2\n',
-                    '  clear '+' '.join(f'r{i}' for i in range(depth))+'\n', '  omega\n\n']
+                    '  clear '+' '.join(f'r{i}' for i in range(depth))+'\n']
+            if PRUNE_CONTEXT and depth > 1:
+                out += ['  clear '+' '.join(f'p{i}' for i in range(depth-1))+'\n']
+            out += ['  omega\n\n']
     out += ['theorem impossible_trace\n',
             '    (b '+' '.join(f'x{i}' for i in range(HORIZON+1))+' : Nat) (hb : 1 < b)\n']
     out += [f'    (h{i} : b ≤ x{i} ∧ {Q}*x{i} ≤ {P}*b)\n' for i in range(HORIZON+1)]
@@ -157,22 +206,68 @@ def certificate():
             out.append(' '*indent+f'· -- branch {bit} at time {k}\n')
             emit(word+str(bit), indent+2)
     emit('', 2)
-    out += ['\nend Collatz.Exploration.WiderBandArithmetic\n']
-    assert len(leaves) == 76 and max(map(len, leaves)) == HORIZON
+    out += [f'\nend Collatz.Exploration.{MODULE}\n']
+    assert len(leaves) == EXPECTED_LEAVES and max(map(len, leaves)) == HORIZON
     assert sum(F(1,2**len(w)) for w in leaves) == 1
     return ''.join(out), nodes
+
+
+def split_sources(expected, line_budget):
+    """Keep certificate dependencies in order while limiting each Lean source size."""
+    preamble = expected.split('set_option linter.unusedVariables false\n\n', 1)[0]
+    body = expected.split('set_option linter.unusedVariables false\n\n', 1)[1]
+    prefix, conclusion = body.split('theorem impossible_trace\n', 1)
+    conclusion = 'theorem impossible_trace\n'+conclusion
+    blocks = [b for b in re.split(r'(?=/--)', prefix) if b.strip()]
+    groups, group, count = [], [], 0
+    for block in blocks:
+        size = len(block.splitlines())
+        if group and count+size > line_budget:
+            groups.append(''.join(group));group=[];count=0
+        group.append(block);count+=size
+    if group:
+        groups.append(''.join(group))
+    outputs = {}
+    previous = 'Collatz.Basic'
+    for index, group in enumerate(groups):
+        part = f'Part{index:02d}'
+        path = ROOT/f'Collatz/Exploration/{MODULE}/{part}.lean'
+        outputs[path] = (f'import {previous}\n\n'
+            f'namespace Collatz.Exploration.{MODULE}\n\n'
+            'set_option maxHeartbeats 2000000\n'
+            'set_option linter.unusedVariables false\n\n'+group+
+            f'\nend Collatz.Exploration.{MODULE}\n')
+        previous = f'Collatz.Exploration.{MODULE}.{part}'
+    outputs[SOURCE] = preamble.replace('import Collatz.Basic',f'import {previous}')+ \
+        'set_option linter.unusedVariables false\n\n'+conclusion
+    return outputs
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--write', action='store_true')
+    parser.add_argument('--split-lines', type=int, default=0)
+    parser.add_argument('--prune-context', action='store_true')
+    parser.add_argument('--numerator', type=int, default=21)
+    parser.add_argument('--denominator', type=int, default=4)
+    parser.add_argument('--horizon', type=int, default=17)
+    parser.add_argument('--module', default='WiderBandArithmetic')
+    parser.add_argument('--leaves', type=int, default=76)
     args = parser.parse_args()
+    configure(args.numerator,args.denominator,args.horizon,args.module,args.leaves)
+    global PRUNE_CONTEXT
+    PRUNE_CONTEXT = args.prune_context
     expected, nodes = certificate()
-    if args.write:
-        SOURCE.write_text(expected)
-    else:
-        assert SOURCE.read_text() == expected, 'Generated certificate differs'
-    print(f'{len(nodes)} tree nodes; 76 terminal branches; maximum depth {HORIZON}; source reproduced')
+    outputs = split_sources(expected,args.split_lines) if args.split_lines else {SOURCE:expected}
+    for path, content in outputs.items():
+        if args.write:
+            path.parent.mkdir(parents=True,exist_ok=True)
+            path.write_text(content)
+        else:
+            assert path.read_text() == content, f'Generated certificate differs: {path}'
+    if args.split_lines:
+        assert set(SOURCE.with_suffix('').glob('Part*.lean')) == set(outputs)-{SOURCE}
+    print(f'{len(nodes)} tree nodes; {EXPECTED_LEAVES} terminal branches; maximum depth {HORIZON}; source reproduced')
 
 
 if __name__ == '__main__':
