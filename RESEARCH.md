@@ -15986,3 +15986,14 @@ where the linear denominator is positive. This compares bounds, not exit
 certificate sets (the sets use different additional assumptions).
 Audit: 20,301 exact integer comparisons including v=0, three theorem footprints,
 and two false controls rejected. This is classical mathematics, not frontier novelty.
+
+### Exact trace-product descent test
+
+`ExactTraceProduct.lean` retains A = product of 3x and Z = product of 3x+1
+at the odd states of a finite accelerated trace. It proves
+`A 2^j T_j(n) = Z 3^a n`, positivity of A for n>0, and the exact test
+`T_j(n)<n` iff `Z 3^a < A 2^j`. This is a trace-dependent telescoping identity,
+not a prediction independent of the orbit, and establishes no universal descent.
+The product method is classical; no novelty claim is made.
+Audit: 61,061 exact identities including n=0; 61,000 positive-source descent
+equivalences; three theorem footprints; two false controls rejected.
