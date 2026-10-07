@@ -178,3 +178,16 @@ not a prediction independent of the orbit, and establishes no universal descent.
 The product method is classical; no novelty claim is made.
 Audit: 61,061 exact identities including n=0; 61,000 positive-source descent
 equivalences; three theorem footprints; two false controls rejected.
+
+### Descent from source floor and odd count
+
+`FloorProductDescent.lean` proves that `3^a w(n)^a < 2^j v(n)^a`
+forces some accelerated descent by j and ordinary descent by 2j.
+Here a is the actual prefix odd count and v(n),w(n) are the floor bases.
+The criterion requires no individual odd-state product, but still uses the
+actual prefix odd count. No universal eventual certificate is proved.
+Audit: 202,000 horizons, 179,921 valid certificates, two theorem footprints,
+and two false controls. For sources 2..2000 through horizon 200, 1995 first
+certificates matched actual first descent, four lagged, none was missing;
+the largest lag was six accelerated steps (n=27, descent 59, certificate 65).
+These finite measurements are not density or completeness results.

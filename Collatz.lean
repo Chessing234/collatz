@@ -2124,3 +2124,4 @@ import Collatz.Exploration.FloorProductError
 import Collatz.Exploration.ProductSpreadObstruction
 import Collatz.Exploration.FloorBudgetComparison
 import Collatz.Exploration.ExactTraceProduct
+import Collatz.Exploration.FloorProductDescent
