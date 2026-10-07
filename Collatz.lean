@@ -2105,3 +2105,4 @@ import Collatz.Strategy.ProductDescentCheck
 import Collatz.Research.StoppingAtlas.All
 
 import Collatz.Research.PassageAtlas.All
+import Collatz.Exploration.BarrierKernel

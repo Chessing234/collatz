@@ -34,6 +34,9 @@ jobs:
       - name: Check integrity
         run: ./scripts/check_integrity.sh
 
+      - name: Check anchored barriers and finite cycle certificates
+        run: python3 scripts/audit_barrier_kernel.py
+
       - name: Check exact first-descent intervals
         run: |
           python3 scripts/descent_intervals.py --check

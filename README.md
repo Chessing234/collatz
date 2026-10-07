@@ -28,6 +28,10 @@ own verification instructions.
 
 ## Research entry points
 
+- [Anchored barriers and finite cycle extraction](Research/BarrierKernel.md) —
+  exact window splitting, the greatest invariant barrier kernel, an executable
+  interval checker, and controls against invalid forward-survival reasoning.
+
 - [First passage through 2,592 steps](Research/PassageAtlas/README.md) —
   a stronger conditional descent theorem, an exact residual condition
   equivalent to Collatz, and 32,768 new depth-fifteen class certificates.
