@@ -260,7 +260,7 @@ powers of 3 and 2 forward, verifies a power bracket and gap at each endpoint,
 and proves sequential-checker soundness. `GapTenThousand.lean` evaluates the
 full scan in the Lean kernel: any n≥3,330,950 descends at a first coefficient
 crossing if that crossing occurs by horizon 10000. No crossing existence is
-asserted; smaller sources remain a separate obligation. No frontier novelty
+asserted by this scan alone; the smaller-source obligation is closed below. No frontier novelty
 or universal convergence claim is made.
 The cutoff is minimal for this scalar scan (the audit rejects 3,330,949),
 not claimed optimal for actual descent. Independent integer computation
@@ -284,3 +284,21 @@ interval checker whose leaves reuse the existing orbit scan.
 Audit: four Beatty theorem footprints, 344,004 exact non-descent prefixes for
 reach 64 and cutoff 868, and two false cap/time controls rejected. The balanced
 checker has one audited theorem footprint and two false controls rejected.
+
+### Certified first-crossing descent through horizon 14186
+
+`AllSourceTenThousand.lean` closes the exceptional-source obligation in the
+endpoint scan by reusing `AssetA.drops_within_224`. Its inherited range covers
+every source below 3,998,720. `CertifiedFirstCrossing.lean` then combines that
+range with the localized Beatty barrier and the banked 8951-odd-step certificate.
+For every n>1, a first coefficient crossing by 14186 is the first actual descent.
+Any discrepancy must occur later. The theorem does not prove crossing existence
+for every source; it adapts existing accumulator arguments without a priority
+claim. The inherited stopping record at 1,126,015 is also proved to be a first
+coefficient crossing at step 224.
+
+Both CI runs passed complete Lean compilation and the audit: 12 theorem
+footprints, 3,998,718 independently checked sources, and three false controls
+rejected. An additional independent census found that step 224 is attained by
+both 1,126,015 and 2,252,031 in this range; the second observation is computational,
+not separately a Lean theorem in this addition.
