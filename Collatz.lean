@@ -2117,3 +2117,4 @@ import Collatz.Exploration.ElevenHalvesFamily
 import Collatz.Exploration.BalancedOffset
 import Collatz.Exploration.BalancedCompact
 import Collatz.Exploration.BalancedNearSix
+import Collatz.Exploration.Band5995

@@ -41,6 +41,9 @@ own verification instructions.
 - [Sharp thirty-step plateau](Research/ElevenHalvesClock.md) — a universal
   clock at ratio 11/2, an infinite family of sharp witnesses, and a whole
   rational-width interval with the same optimal duration.
+- [Fixed-width clock lower bound](RESEARCH.md) — an infinite class survives
+  in width 5.995 through 9,385 ordinary steps, using a kernel-checked finite
+  coefficient profile and a reusable rational-band transfer theorem.
 - [Clock obstruction below six](RESEARCH.md) — compact witnesses survive in
   horizon-dependent widths `6-2/2^K`, giving a necessary inequality between
   width deficit and ordinary exit-clock duration.
