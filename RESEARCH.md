@@ -86,7 +86,7 @@ constraints, and parity-language methods already have separate repository
 entry points. No finite investigation can certify use of all possible
 techniques. Neither generated proof volume nor commit count measures
 mathematical originality; the requested 50% frontier novelty remains
-unverified. At session start, main contained 136,981 tracked Lean lines
+unverified. At session start, main contained 1,640,137 tracked Lean lines
 and 3,669 commits; these are existing totals, not new work in this session.
 
 ## Stopping atlas extension, 2026-10-06 (PROVED)
