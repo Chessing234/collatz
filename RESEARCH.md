@@ -15931,3 +15931,37 @@ controls, 84,817 source-elimination cases, and rejects three false statements.
 The coefficient-gap criterion now formally produces a band exit within twice
 the accelerated horizon in the ordinary orbit (`standard_exit`). Universal
 coverage remains unproved. The audit includes both exit theorems (13 total).
+
+### Multiplicative floor-error budget
+
+`FloorProductError.lean` proves `v^a (3^a n+B) ≤ w^a 3^a n`
+and consequently `v^a B ≤ (w^a-v^a)3^a n`, with v = 3 times the
+least odd integer at least the finite prefix floor b, and w = v+1.
+This follows by multiplying the one-step odd factors. Unlike the linear
+paid bound, it remains informative when a reaches or exceeds w.
+It assumes finite lower survival and proves neither universal descent nor
+convergence. This elementary product method has not been assessed for priority.
+The independent audit checks 278,684 products, including 192,568 cases
+beyond the linear budget, 1,001 sharp factor controls, three Lean theorem
+footprints, and two false statements rejected by the kernel.
+
+`product_band_budget` additionally removes the source from two endpoints:
+finite lower survival through a and an upper band constraint at c imply
+`Q H 2^a v^k ≤ P 2^c L w^k`, where k counts odd steps through a.
+No initial source upper bound is required. Four theorem footprints are audited.
+
+Priority note: products of step-error factors bounded using a minimum are
+established in Simons and de Weger's cycle analysis, §3.2, Lemma 4 and
+Corollary 5 ([author-hosted version 1.44](https://deweger.net/papers/%5B35a%5DSidW-3n%2B1-v1.44%5B2010%5D.pdf)).
+Our finite-prefix core-Lean formulations are not evidence that this method,
+or their exact corollaries, constitute new mathematics.
+
+The product criterion now formally produces accelerated and standard band
+exits (`product_accelerated_exit`, `product_standard_exit`) within twice the
+accelerated horizon. No initial source upper-band assumption is needed.
+The bounded sample n=1..300, the three specified floor choices, and horizons
+below 30 produced 98,910 product exit certificates versus 55,137 linear
+certificates, with 44,824 product certificates absent from the linear set.
+These sets need not be nested; these are sampled certificates, not distinct
+orbits or a density theorem. All certified conclusions were checked directly.
+The kernel audit now covers six theorem footprints.
