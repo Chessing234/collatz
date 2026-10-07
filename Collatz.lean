@@ -2126,3 +2126,4 @@ import Collatz.Exploration.FloorBudgetComparison
 import Collatz.Exploration.ExactTraceProduct
 import Collatz.Exploration.FloorProductDescent
 import Collatz.Exploration.ProductDelayCertificates
+import Collatz.Exploration.ProductThresholds

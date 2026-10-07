@@ -53,6 +53,7 @@ jobs:
           python3 scripts/audit_exact_trace_product.py
           python3 scripts/audit_floor_product_descent.py
           python3 scripts/audit_product_delay_certificates.py
+          python3 scripts/audit_product_thresholds.py
           python3 scripts/audit_eleven_halves_clock.py
 
       - name: Check exact first-descent intervals

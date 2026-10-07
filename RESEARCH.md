@@ -16045,3 +16045,16 @@ we have no evidence that this underlying product method is frontier mathematics.
 The next research question must distinguish useful arithmetic information
 beyond this known harmonic-mean bound from equivalent reformulations. Finite
 exception exploration alone provides no global four-exception theorem.
+
+### Exact coefficient-specific floor thresholds
+
+`ProductThresholds.lean` proves floor-factor and certificate monotonicity.
+Two adjacent boundary checks then classify all natural floors. For coefficient
+pair (j,a)=(65,41), the test passes exactly for b≥1192; for (59,37), exactly
+for b≥50. The least admissible odd states are 1193 and 51 respectively.
+The descent corollaries apply to any source above the stated threshold whose
+actual prefix has that odd count. These are sufficient conditional results;
+the thresholds are exact for this test, not optimal for actual descent.
+Audit: eight theorem footprints, 12,006 threshold checks, 1,893 matching
+odd-count descent cases, two false controls rejected. The method remains a
+specialization of known product bounds, with no established frontier novelty.
