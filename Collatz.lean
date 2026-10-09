@@ -2137,3 +2137,6 @@ import Collatz.Exploration.FiniteBeattyBarrier
 
 import Collatz.Exploration.AllSourceTenThousand
 import Collatz.Exploration.CertifiedFirstCrossing
+
+import Collatz.Exploration.ExactSurvivalCounts
+import Collatz.Exploration.CertifiedSurvivalCounts
