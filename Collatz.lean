@@ -326,6 +326,7 @@ import Collatz.Strategy.ExcursionLightK
 import Collatz.Strategy.ExcursionLandOneNext
 import Collatz.Strategy.ExcursionLyapunov
 import Collatz.Strategy.ExcursionTelescope
+import Collatz.Strategy.ExcursionHeavy
 import Collatz.Strategy.ExcursionChain
 import Collatz.Strategy.DeviceCollision
 import Collatz.Strategy.DeviceTower
