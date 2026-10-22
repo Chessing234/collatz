@@ -21,7 +21,13 @@ Specialisations:
 * `(3, 1)` then `(1, 1)` always grows (two-step negative law);
 * `(3, 1)` then `(1, 1)` then `v'' = 1` drops (three-step, any `W''`);
 * `(2, 1)` then leftover `v' = 6`, `W' ≥ 4` is a drop RemTwo missed;
-* `(4, 1)` then `(1, 1)` always grows; `(4, 1)` then `(1, W' ≥ 2)` drops.
+* `(4, 1)` then `(1, 1)` always grows; `(4, 1)` then `(1, W' ≥ 2)` drops;
+* `(v, 1)` with `v ≥ 2`, followed by any run whose extra halvings reach
+  the binary ceiling of `3^{v+v'}`, drops below the original start;
+* a light run of length `v ≥ 4`, any extra-halving count, followed by a
+  run meeting `3^{v+v'} < 2^{v+v'+W+W'−1}`, drops below the original start;
+* the same light run, when that second step misses the exponent and the
+  third meets `3^{v+v'+v''} < 2^{v+v'+v''+W+W'+W''−1}`, drops in three steps.
 -/
 
 namespace Collatz
@@ -741,6 +747,638 @@ theorem grows_of_four_one_then_one_one {n u e u' e' : Nat}
     exact hcmp
   exact Nat.lt_of_mul_lt_mul_left this
 
+
+/-! ## 6b.  One light step, then a run past the combined ceiling -/
+
+/-- Nine copies of `3^{v'}` fit inside `3^{v+v'}` once `v ≥ 2`. -/
+private theorem nine_le_pow_of_two {v v' : Nat} (hv : 2 ≤ v) :
+    9 * 3 ^ v' ≤ 3 ^ (v + v') := by
+  have hpow : (9 : Nat) * 3 ^ v' = 3 ^ (v' + 2) := by
+    calc
+      (9 : Nat) * 3 ^ v' = 3 ^ 2 * 3 ^ v' := by rw [show (9 : Nat) = 3 ^ 2 by decide]
+      _ = 3 ^ (2 + v') := by rw [← Nat.pow_add]
+      _ = 3 ^ (v' + 2) := by rw [Nat.add_comm]
+  rw [hpow]
+  exact Nat.pow_le_pow_right (by decide : (1 : Nat) ≤ 3) (by omega)
+
+/-- If `A + C ≤ B` and `A ≤ B`, the same gap absorbs every larger cofactor. -/
+private theorem add_le_mul_of_add_le {A B C u : Nat} (hAB : A ≤ B) (hC : A + C ≤ B)
+    (hu : 1 ≤ u) : A * u + C ≤ B * u := by
+  have hsplit : A * u + C = A * (u - 1) + (A + C) := by
+    calc
+      A * u + C = A * ((u - 1) + 1) + C :=
+        congrArg (fun t => A * t + C) (Nat.sub_add_cancel hu).symm
+      _ = A * (u - 1) + A * 1 + C := by rw [Nat.mul_add]
+      _ = A * (u - 1) + A + C := by rw [Nat.mul_one]
+      _ = A * (u - 1) + (A + C) := by rw [Nat.add_assoc]
+  rw [hsplit]
+  have h1 : A * (u - 1) ≤ B * (u - 1) := Nat.mul_le_mul_right _ hAB
+  have h2 : A * (u - 1) + (A + C) ≤ B * (u - 1) + B := Nat.add_le_add h1 hC
+  have h3 : B * (u - 1) + B = B * u := by
+    calc
+      B * (u - 1) + B = B * (u - 1) + B * 1 := by rw [Nat.mul_one]
+      _ = B * ((u - 1) + 1) := by rw [← Nat.mul_add]
+      _ = B * u := congrArg (fun t => B * t) (Nat.sub_add_cancel hu)
+  rwa [h3] at h2
+
+/-- **Coefficient form.**  For `v ≥ 2` and a single extra halving, if
+`3^{v+v'} < 2^{v+v'+W'}`, every positive cofactor satisfies the two-step
+drop inequality. -/
+private theorem one_then_long_coeff {v v' W' u : Nat} (hv : 2 ≤ v) (hu : 1 ≤ u)
+    (hpow : 3 ^ (v + v') < 2 ^ (v + v' + W')) :
+    3 ^ v' * (3 ^ v * u + 1) + 2 ^ (v' + W' + 1) ≤
+      2 ^ (v + v' + W' + 1) * u := by
+  have hone : 3 ^ (v + v') + 1 ≤ 2 ^ (v + v' + W') := Nat.succ_le_of_lt hpow
+  have hAm : 3 ^ (v + v') ≤ 2 ^ (v + v' + W') - 1 := Nat.le_sub_of_add_le hone
+  have hnine := nine_le_pow_of_two (v' := v') hv
+  have hexp : v' + W' + 1 ≤ v + v' + W' - 1 :=
+    Nat.le_sub_of_add_le (by omega : v' + W' + 1 + 1 ≤ v + v' + W')
+  have h2le : 2 ^ (v' + W' + 1) ≤ 2 ^ (v + v' + W' - 1) := two_pow_le_two_pow hexp
+  have hq : (v + v' + W' - 1) + 1 = v + v' + W' := by omega
+  have hdouble : 2 ^ (v + v' + W') = 2 * 2 ^ (v + v' + W' - 1) := by
+    calc
+      2 ^ (v + v' + W') = 2 ^ ((v + v' + W' - 1) + 1) :=
+        congrArg (fun t => 2 ^ t) hq.symm
+      _ = 2 * 2 ^ (v + v' + W' - 1) := two_pow_succ _
+  have hten : 9 * 3 ^ (v + v') + 3 ^ (v + v') = 10 * 3 ^ (v + v') := by
+    calc
+      9 * 3 ^ (v + v') + 3 ^ (v + v')
+          = 9 * 3 ^ (v + v') + 1 * 3 ^ (v + v') := by rw [Nat.one_mul]
+      _ = (9 + 1) * 3 ^ (v + v') := by rw [← Nat.add_mul]
+      _ = 10 * 3 ^ (v + v') := by rw [show (9 + 1 : Nat) = 10 by decide]
+  have hpair : 9 * 3 ^ (v + v') + 9 * 3 ^ v' ≤ 10 * 3 ^ (v + v') := by
+    have hle : 9 * 3 ^ (v + v') + 9 * 3 ^ v' ≤
+        9 * 3 ^ (v + v') + 3 ^ (v + v') := Nat.add_le_add_left hnine _
+    rwa [hten] at hle
+  have h10 : 10 * 3 ^ (v + v') ≤ 10 * 2 ^ (v + v' + W') - 10 := by
+    have hmul := Nat.mul_le_mul_left 10 hAm
+    have hdist : 10 * (2 ^ (v + v' + W') - 1) =
+        10 * 2 ^ (v + v' + W') - 10 := by
+      rw [Nat.mul_sub_left_distrib, Nat.mul_one]
+    rwa [hdist] at hmul
+  have h20 : 10 * 2 ^ (v + v' + W') = 20 * 2 ^ (v + v' + W' - 1) := by
+    rw [hdouble, ← Nat.mul_assoc]
+  have h29 : 10 * 2 ^ (v + v' + W') + 9 * 2 ^ (v + v' + W' - 1) =
+      29 * 2 ^ (v + v' + W' - 1) := by
+    rw [h20, ← Nat.add_mul, show (20 + 9 : Nat) = 29 by decide]
+  have h36 : 36 * 2 ^ (v + v' + W' - 1) = 9 * 2 ^ (v + v' + W' + 1) := by
+    have hadd : (v + v' + W' - 1) + 2 = v + v' + W' + 1 := by omega
+    calc
+      36 * 2 ^ (v + v' + W' - 1)
+          = (9 * 4) * 2 ^ (v + v' + W' - 1) := by
+            rw [show (36 : Nat) = 9 * 4 by decide]
+      _ = 9 * (4 * 2 ^ (v + v' + W' - 1)) := by rw [Nat.mul_assoc]
+      _ = 9 * (2 ^ 2 * 2 ^ (v + v' + W' - 1)) := by
+            rw [show (4 : Nat) = 2 ^ 2 by decide]
+      _ = 9 * 2 ^ (2 + (v + v' + W' - 1)) := by rw [← Nat.pow_add]
+      _ = 9 * 2 ^ ((v + v' + W' - 1) + 2) := by rw [Nat.add_comm]
+      _ = 9 * 2 ^ (v + v' + W' + 1) := by rw [hadd]
+  have hscaled : 9 * (3 ^ (v + v') + 3 ^ v' + 2 ^ (v' + W' + 1)) ≤
+      9 * 2 ^ (v + v' + W' + 1) := by
+    have hleft : 9 * (3 ^ (v + v') + 3 ^ v' + 2 ^ (v' + W' + 1)) =
+        9 * 3 ^ (v + v') + 9 * 3 ^ v' + 9 * 2 ^ (v' + W' + 1) := by
+      calc
+        9 * (3 ^ (v + v') + 3 ^ v' + 2 ^ (v' + W' + 1))
+            = 9 * (3 ^ (v + v') + 3 ^ v') + 9 * 2 ^ (v' + W' + 1) := by
+              rw [Nat.mul_add]
+        _ = 9 * 3 ^ (v + v') + 9 * 3 ^ v' + 9 * 2 ^ (v' + W' + 1) := by
+              rw [Nat.mul_add]
+    rw [hleft]
+    have hstep1 : 9 * 3 ^ (v + v') + 9 * 3 ^ v' + 9 * 2 ^ (v' + W' + 1) ≤
+        10 * 3 ^ (v + v') + 9 * 2 ^ (v' + W' + 1) :=
+      Nat.add_le_add_right hpair _
+    have hstep2 : 10 * 3 ^ (v + v') + 9 * 2 ^ (v' + W' + 1) ≤
+        10 * 2 ^ (v + v' + W') - 10 + 9 * 2 ^ (v' + W' + 1) :=
+      Nat.add_le_add_right h10 _
+    have hstep3 : 10 * 2 ^ (v + v' + W') - 10 + 9 * 2 ^ (v' + W' + 1) ≤
+        10 * 2 ^ (v + v' + W') - 10 + 9 * 2 ^ (v + v' + W' - 1) :=
+      Nat.add_le_add_left (Nat.mul_le_mul_left 9 h2le) _
+    have hstep4 : 10 * 2 ^ (v + v' + W') - 10 + 9 * 2 ^ (v + v' + W' - 1) ≤
+        10 * 2 ^ (v + v' + W') + 9 * 2 ^ (v + v' + W' - 1) :=
+      Nat.add_le_add_right (Nat.sub_le _ _) _
+    have hstep5 : 10 * 2 ^ (v + v' + W') + 9 * 2 ^ (v + v' + W' - 1) ≤
+        9 * 2 ^ (v + v' + W' + 1) := by
+      rw [h29, ← h36]
+      exact Nat.mul_le_mul_right _ (by decide : (29 : Nat) ≤ 36)
+    exact Nat.le_trans hstep1 (Nat.le_trans hstep2
+      (Nat.le_trans hstep3 (Nat.le_trans hstep4 hstep5)))
+  have hC : 3 ^ (v + v') + (3 ^ v' + 2 ^ (v' + W' + 1)) ≤
+      2 ^ (v + v' + W' + 1) := by
+    have h9pos : 0 < (9 : Nat) := by decide
+    have hle := Nat.le_of_mul_le_mul_left hscaled h9pos
+    simpa [Nat.add_assoc] using hle
+  have hAB : 3 ^ (v + v') ≤ 2 ^ (v + v' + W' + 1) :=
+    Nat.le_trans hAm (Nat.le_trans (Nat.sub_le _ _)
+      (two_pow_le_two_pow (Nat.le_succ _)))
+  have hmul := add_le_mul_of_add_le hAB hC hu
+  calc
+    3 ^ v' * (3 ^ v * u + 1) + 2 ^ (v' + W' + 1)
+        = 3 ^ v' * (3 ^ v * u) + 3 ^ v' + 2 ^ (v' + W' + 1) := by
+          rw [Nat.mul_add, Nat.mul_one]
+    _ = 3 ^ v' * 3 ^ v * u + 3 ^ v' + 2 ^ (v' + W' + 1) := by
+          rw [← Nat.mul_assoc]
+    _ = 3 ^ (v' + v) * u + 3 ^ v' + 2 ^ (v' + W' + 1) := by
+          rw [← Nat.pow_add]
+    _ = 3 ^ (v + v') * u + (3 ^ v' + 2 ^ (v' + W' + 1)) := by
+          rw [Nat.add_comm v' v, ← Nat.add_assoc]
+    _ ≤ 2 ^ (v + v' + W' + 1) * u := hmul
+
+/-- **One light step, then a long run.**  An excursion with a single extra
+halving and run length at least `2`, followed by a run whose extra halvings
+meet `⌈log₂(3^{v+v'})⌉ − (v + v')`, lands strictly below the original
+start. -/
+theorem drop_of_W_one_then_long {n v u e v' u' W' e' : Nat}
+    (h : IsExcursion n v u 1 e) (h' : IsExcursion e v' u' W' e')
+    (hv : 2 ≤ v) (hpow : 3 ^ (v + v') < 2 ^ (v + v' + W')) : e' < n := by
+  have hu : 1 ≤ u := by
+    have : u % 2 = 1 := h.2.1
+    omega
+  refine (drop_iff_two_expanded h h').mpr ?_
+  have hineq := one_then_long_coeff hv hu hpow
+  have hsub : 3 ^ v * u + 2 ^ 1 - 1 = 3 ^ v * u + 1 := by
+    rw [Nat.pow_one]
+    omega
+  have hexp1 : 1 + v' + W' = v' + W' + 1 := by omega
+  have hexp2 : v + 1 + v' + W' = v + v' + W' + 1 := by omega
+  rw [hsub, hexp1, hexp2]
+  exact hineq
+
+/-- Nine copies of the light error `3^{v'} (2^W − 1)` fit in `3^{v+v'}`. -/
+private theorem nine_light_error {v W v' : Nat} (hv : 4 ≤ v)
+    (hlight : 2 ^ W * (2 ^ v - 1) < 3 ^ v) :
+    9 * (3 ^ v' * (2 ^ W - 1)) ≤ 3 ^ (v + v') := by
+  have h16 : (16 : Nat) ≤ 2 ^ v := by
+    simpa using two_pow_le_two_pow hv
+  have h9mod : (9 : Nat) ≤ 2 ^ v - 1 := by
+    have h15 : (15 : Nat) ≤ 2 ^ v - 1 := Nat.le_sub_of_add_le h16
+    exact Nat.le_trans (by decide : (9 : Nat) ≤ 15) h15
+  have hprod : 2 ^ W * (2 ^ v - 1) ≤ 3 ^ v - 1 :=
+    Nat.le_sub_of_add_le (Nat.succ_le_of_lt hlight)
+  have h9W : 9 * 2 ^ W ≤ 3 ^ v - 1 := by
+    have hmul : 9 * 2 ^ W ≤ (2 ^ v - 1) * 2 ^ W :=
+      Nat.mul_le_mul_right _ h9mod
+    have hcomm : (2 ^ v - 1) * 2 ^ W = 2 ^ W * (2 ^ v - 1) := Nat.mul_comm _ _
+    exact Nat.le_trans hmul (hcomm ▸ hprod)
+  have h81 : (81 : Nat) ≤ 3 ^ v := by
+    simpa using Nat.pow_le_pow_right (by decide : (1 : Nat) ≤ 3) hv
+  have h9base : (9 : Nat) ≤ 3 ^ v - 1 :=
+    Nat.le_sub_of_add_le (Nat.le_trans (by decide : (10 : Nat) ≤ 81) h81)
+  have hsub : 9 * (2 ^ W - 1) ≤ 3 ^ v := by
+    have hdist : 9 * (2 ^ W - 1) = 9 * 2 ^ W - 9 := by
+      rw [Nat.mul_sub_left_distrib, Nat.mul_one]
+    rw [hdist]
+    have hle : 9 * 2 ^ W - 9 ≤ 3 ^ v - 1 - 9 := Nat.sub_le_sub_right h9W 9
+    have hten : 3 ^ v - 1 - 9 = 3 ^ v - 10 := by rw [Nat.sub_sub]
+    exact Nat.le_trans (hten ▸ hle) (Nat.sub_le _ _)
+  have hmul := Nat.mul_le_mul_left (3 ^ v') hsub
+  have hre : 3 ^ v' * (9 * (2 ^ W - 1)) = 9 * (3 ^ v' * (2 ^ W - 1)) := by
+    calc
+      3 ^ v' * (9 * (2 ^ W - 1)) = 3 ^ v' * 9 * (2 ^ W - 1) := by
+        rw [← Nat.mul_assoc]
+      _ = 9 * 3 ^ v' * (2 ^ W - 1) := by rw [Nat.mul_comm (3 ^ v')]
+      _ = 9 * (3 ^ v' * (2 ^ W - 1)) := by rw [Nat.mul_assoc]
+  have hpow : 3 ^ v' * 3 ^ v = 3 ^ (v + v') := by
+    rw [← Nat.pow_add, Nat.add_comm]
+  exact hpow ▸ hre ▸ hmul
+
+/-- **Coefficient form.**  A light run of length at least `4`, followed by a
+run meeting `3^{v+v'} < 2^{v+v'+W+W'−1}`, satisfies the two-step drop
+inequality for every positive cofactor. -/
+private theorem light_then_long_coeff {v u W v' W' : Nat}
+    (hv : 4 ≤ v) (hu : 1 ≤ u)
+    (hlight : 2 ^ W * (2 ^ v - 1) < 3 ^ v)
+    (hpow : 3 ^ (v + v') < 2 ^ (v + v' + W + W' - 1)) :
+    3 ^ v' * (3 ^ v * u + 2 ^ W - 1) + 2 ^ (W + v' + W') ≤
+      2 ^ (v + W + v' + W') * u := by
+  have hone : 3 ^ (v + v') + 1 ≤ 2 ^ (v + v' + W + W' - 1) :=
+    Nat.succ_le_of_lt hpow
+  have hAm : 3 ^ (v + v') ≤ 2 ^ (v + v' + W + W' - 1) - 1 :=
+    Nat.le_sub_of_add_le hone
+  have herr := nine_light_error (v' := v') hv hlight
+  have hexp : W + v' + W' ≤ v + v' + W + W' - 4 :=
+    Nat.le_sub_of_add_le (by omega : W + v' + W' + 4 ≤ v + v' + W + W')
+  have h2le : 2 ^ (W + v' + W') ≤ 2 ^ (v + v' + W + W' - 4) :=
+    two_pow_le_two_pow hexp
+  have hq3 : v + v' + W + W' - 4 + 3 = v + v' + W + W' - 1 := by omega
+  have hq4 : v + v' + W + W' - 4 + 4 = v + v' + W + W' := by omega
+  have h8 : 2 ^ (v + v' + W + W' - 1) = 8 * 2 ^ (v + v' + W + W' - 4) := by
+    calc
+      2 ^ (v + v' + W + W' - 1)
+          = 2 ^ (v + v' + W + W' - 4 + 3) :=
+            congrArg (fun t => 2 ^ t) hq3.symm
+      _ = 2 ^ (v + v' + W + W' - 4) * 2 ^ 3 := Nat.pow_add _ _ _
+      _ = 2 ^ (v + v' + W + W' - 4) * 8 := by rw [show 2 ^ 3 = 8 by decide]
+      _ = 8 * 2 ^ (v + v' + W + W' - 4) := Nat.mul_comm _ _
+  have h16 : 2 ^ (v + v' + W + W') = 16 * 2 ^ (v + v' + W + W' - 4) := by
+    calc
+      2 ^ (v + v' + W + W')
+          = 2 ^ (v + v' + W + W' - 4 + 4) :=
+            congrArg (fun t => 2 ^ t) hq4.symm
+      _ = 2 ^ (v + v' + W + W' - 4) * 2 ^ 4 := Nat.pow_add _ _ _
+      _ = 2 ^ (v + v' + W + W' - 4) * 16 := by rw [show 2 ^ 4 = 16 by decide]
+      _ = 16 * 2 ^ (v + v' + W + W' - 4) := Nat.mul_comm _ _
+  have hten : 9 * 3 ^ (v + v') + 3 ^ (v + v') = 10 * 3 ^ (v + v') := by
+    calc
+      9 * 3 ^ (v + v') + 3 ^ (v + v')
+          = 9 * 3 ^ (v + v') + 1 * 3 ^ (v + v') := by rw [Nat.one_mul]
+      _ = (9 + 1) * 3 ^ (v + v') := by rw [← Nat.add_mul]
+      _ = 10 * 3 ^ (v + v') := by rw [show (9 + 1 : Nat) = 10 by decide]
+  have hpair : 9 * 3 ^ (v + v') + 9 * (3 ^ v' * (2 ^ W - 1)) ≤
+      10 * 3 ^ (v + v') := by
+    have hle : 9 * 3 ^ (v + v') + 9 * (3 ^ v' * (2 ^ W - 1)) ≤
+        9 * 3 ^ (v + v') + 3 ^ (v + v') := Nat.add_le_add_left herr _
+    rwa [hten] at hle
+  have h10 : 10 * 3 ^ (v + v') ≤ 10 * 2 ^ (v + v' + W + W' - 1) - 10 := by
+    have hmul := Nat.mul_le_mul_left 10 hAm
+    have hdist : 10 * (2 ^ (v + v' + W + W' - 1) - 1) =
+        10 * 2 ^ (v + v' + W + W' - 1) - 10 := by
+      rw [Nat.mul_sub_left_distrib, Nat.mul_one]
+    rwa [hdist] at hmul
+  have h80 : 10 * 2 ^ (v + v' + W + W' - 1) =
+      80 * 2 ^ (v + v' + W + W' - 4) := by
+    rw [h8, ← Nat.mul_assoc]
+  have h89 : 10 * 2 ^ (v + v' + W + W' - 1) + 9 * 2 ^ (v + v' + W + W' - 4) =
+      89 * 2 ^ (v + v' + W + W' - 4) := by
+    rw [h80, ← Nat.add_mul, show (80 + 9 : Nat) = 89 by decide]
+  have h144 : 144 * 2 ^ (v + v' + W + W' - 4) =
+      9 * 2 ^ (v + v' + W + W') := by
+    calc
+      144 * 2 ^ (v + v' + W + W' - 4)
+          = (9 * 16) * 2 ^ (v + v' + W + W' - 4) := by
+            rw [show (144 : Nat) = 9 * 16 by decide]
+      _ = 9 * (16 * 2 ^ (v + v' + W + W' - 4)) := by rw [Nat.mul_assoc]
+      _ = 9 * 2 ^ (v + v' + W + W') := by rw [← h16]
+  have hscaled : 9 * (3 ^ (v + v') + 3 ^ v' * (2 ^ W - 1) +
+      2 ^ (W + v' + W')) ≤ 9 * 2 ^ (v + v' + W + W') := by
+    have hleft : 9 * (3 ^ (v + v') + 3 ^ v' * (2 ^ W - 1) +
+        2 ^ (W + v' + W')) =
+        9 * 3 ^ (v + v') + 9 * (3 ^ v' * (2 ^ W - 1)) +
+          9 * 2 ^ (W + v' + W') := by
+      calc
+        9 * (3 ^ (v + v') + 3 ^ v' * (2 ^ W - 1) + 2 ^ (W + v' + W'))
+            = 9 * (3 ^ (v + v') + 3 ^ v' * (2 ^ W - 1)) +
+                9 * 2 ^ (W + v' + W') := by rw [Nat.mul_add]
+        _ = 9 * 3 ^ (v + v') + 9 * (3 ^ v' * (2 ^ W - 1)) +
+              9 * 2 ^ (W + v' + W') := by rw [Nat.mul_add]
+    rw [hleft]
+    have hstep1 : 9 * 3 ^ (v + v') + 9 * (3 ^ v' * (2 ^ W - 1)) +
+        9 * 2 ^ (W + v' + W') ≤
+        10 * 3 ^ (v + v') + 9 * 2 ^ (W + v' + W') :=
+      Nat.add_le_add_right hpair _
+    have hstep2 : 10 * 3 ^ (v + v') + 9 * 2 ^ (W + v' + W') ≤
+        10 * 2 ^ (v + v' + W + W' - 1) - 10 + 9 * 2 ^ (W + v' + W') :=
+      Nat.add_le_add_right h10 _
+    have hstep3 : 10 * 2 ^ (v + v' + W + W' - 1) - 10 +
+        9 * 2 ^ (W + v' + W') ≤
+        10 * 2 ^ (v + v' + W + W' - 1) - 10 +
+          9 * 2 ^ (v + v' + W + W' - 4) :=
+      Nat.add_le_add_left (Nat.mul_le_mul_left 9 h2le) _
+    have hstep4 : 10 * 2 ^ (v + v' + W + W' - 1) - 10 +
+        9 * 2 ^ (v + v' + W + W' - 4) ≤
+        10 * 2 ^ (v + v' + W + W' - 1) +
+          9 * 2 ^ (v + v' + W + W' - 4) :=
+      Nat.add_le_add_right (Nat.sub_le _ _) _
+    have hstep5 : 10 * 2 ^ (v + v' + W + W' - 1) +
+        9 * 2 ^ (v + v' + W + W' - 4) ≤
+        9 * 2 ^ (v + v' + W + W') := by
+      rw [h89, ← h144]
+      exact Nat.mul_le_mul_right _ (by decide : (89 : Nat) ≤ 144)
+    exact Nat.le_trans hstep1 (Nat.le_trans hstep2
+      (Nat.le_trans hstep3 (Nat.le_trans hstep4 hstep5)))
+  have hC : 3 ^ (v + v') + (3 ^ v' * (2 ^ W - 1) + 2 ^ (W + v' + W')) ≤
+      2 ^ (v + v' + W + W') := by
+    have h9pos : 0 < (9 : Nat) := by decide
+    have hle := Nat.le_of_mul_le_mul_left hscaled h9pos
+    simpa [Nat.add_assoc] using hle
+  have hAB : 3 ^ (v + v') ≤ 2 ^ (v + v' + W + W') :=
+    Nat.le_trans hAm (Nat.le_trans (Nat.sub_le _ _)
+      (two_pow_le_two_pow (Nat.sub_le _ _)))
+  have hmul := add_le_mul_of_add_le hAB hC hu
+  have hsplit : 3 ^ v * u + 2 ^ W - 1 = 3 ^ v * u + (2 ^ W - 1) :=
+    Nat.add_sub_assoc (Nat.one_le_pow W 2 (by decide)) _
+  calc
+    3 ^ v' * (3 ^ v * u + 2 ^ W - 1) + 2 ^ (W + v' + W')
+        = 3 ^ v' * (3 ^ v * u + (2 ^ W - 1)) + 2 ^ (W + v' + W') := by
+          rw [hsplit]
+    _ = 3 ^ v' * (3 ^ v * u) + 3 ^ v' * (2 ^ W - 1) + 2 ^ (W + v' + W') := by
+          rw [Nat.mul_add]
+    _ = 3 ^ v' * 3 ^ v * u + 3 ^ v' * (2 ^ W - 1) + 2 ^ (W + v' + W') := by
+          rw [← Nat.mul_assoc]
+    _ = 3 ^ (v' + v) * u + 3 ^ v' * (2 ^ W - 1) + 2 ^ (W + v' + W') := by
+          rw [← Nat.pow_add]
+    _ = 3 ^ (v + v') * u + (3 ^ v' * (2 ^ W - 1) + 2 ^ (W + v' + W')) := by
+          rw [Nat.add_comm v' v, ← Nat.add_assoc]
+    _ ≤ 2 ^ (v + v' + W + W') * u := hmul
+    _ = 2 ^ (v + W + v' + W') * u := by
+          rw [show v + v' + W + W' = v + W + v' + W' by omega]
+
+/-- **A light step, then a long run.**  Run length at least `4`, a light
+extra-halving count, and a next run meeting
+`3^{v+v'} < 2^{v+v'+W+W'−1}`, land strictly below the original start. -/
+theorem drop_of_light_then_long {n v u W e v' u' W' e' : Nat}
+    (h : IsExcursion n v u W e) (h' : IsExcursion e v' u' W' e')
+    (hv : 4 ≤ v) (hlight : 2 ^ W * (2 ^ v - 1) < 3 ^ v)
+    (hpow : 3 ^ (v + v') < 2 ^ (v + v' + W + W' - 1)) : e' < n := by
+  have hu : 1 ≤ u := by
+    have : u % 2 = 1 := h.2.1
+    omega
+  exact (drop_iff_two_expanded h h').mpr
+    (light_then_long_coeff hv hu hlight hpow)
+
+/-- Eight copies of the first-step error still fit in `3^{v+v'+v''}`. -/
+private theorem eight_first_error {v W v' v'' : Nat} (hv : 4 ≤ v)
+    (hlight : 2 ^ W * (2 ^ v - 1) < 3 ^ v) :
+    8 * (3 ^ v'' * (3 ^ v' * (2 ^ W - 1))) ≤ 3 ^ (v + v' + v'') := by
+  have h9 := nine_light_error (v' := v') hv hlight
+  have hmul := Nat.mul_le_mul_left (3 ^ v'') h9
+  have hre : 3 ^ v'' * (9 * (3 ^ v' * (2 ^ W - 1))) =
+      9 * (3 ^ v'' * (3 ^ v' * (2 ^ W - 1))) := by
+    calc
+      3 ^ v'' * (9 * (3 ^ v' * (2 ^ W - 1)))
+          = 3 ^ v'' * 9 * (3 ^ v' * (2 ^ W - 1)) := by rw [← Nat.mul_assoc]
+      _ = 9 * 3 ^ v'' * (3 ^ v' * (2 ^ W - 1)) := by rw [Nat.mul_comm (3 ^ v'')]
+      _ = 9 * (3 ^ v'' * (3 ^ v' * (2 ^ W - 1))) := by rw [Nat.mul_assoc]
+  have hpow : 3 ^ v'' * 3 ^ (v + v') = 3 ^ (v + v' + v'') := by
+    rw [← Nat.pow_add, Nat.add_comm]
+  have h9m : 9 * (3 ^ v'' * (3 ^ v' * (2 ^ W - 1))) ≤
+      3 ^ (v + v' + v'') := by
+    rw [← hre, ← hpow]
+    exact hmul
+  exact Nat.le_trans (Nat.mul_le_mul_right _ (by decide : (8 : Nat) ≤ 9)) h9m
+
+/-- A short second step keeps eight copies of its error inside `3^{v+v'+v''}`. -/
+private theorem eight_middle_error {v W v' W' v'' : Nat} (hv : 4 ≤ v)
+    (hshort : 2 ^ (v + v' + W + W' - 1) ≤ 3 ^ (v + v')) :
+    8 * (3 ^ v'' * ((2 ^ W' - 1) * 2 ^ (W + v'))) ≤ 3 ^ (v + v' + v'') := by
+  have h3 : 3 ≤ v - 1 := Nat.le_sub_of_add_le (by omega : (3 : Nat) + 1 ≤ v)
+  have h8le : (8 : Nat) ≤ 2 ^ (v - 1) := by
+    simpa using two_pow_le_two_pow h3
+  have hmul8 : 8 * (3 ^ v'' * ((2 ^ W' - 1) * 2 ^ (W + v'))) ≤
+      2 ^ (v - 1) * (3 ^ v'' * ((2 ^ W' - 1) * 2 ^ (W + v'))) :=
+    Nat.mul_le_mul_right _ h8le
+  have hadd : v - 1 + (W + v') = v + v' + W - 1 := by omega
+  have hjoin : 2 ^ (v - 1) * 2 ^ (W + v') = 2 ^ (v + v' + W - 1) := by
+    rw [← Nat.pow_add, hadd]
+  have hexp : v + v' + W - 1 + W' = v + v' + W + W' - 1 :=
+    (Nat.sub_add_comm (by omega : (1 : Nat) ≤ v + v' + W)).symm
+  have hdist : 2 ^ (v + v' + W - 1) * (2 ^ W' - 1) =
+      2 ^ (v + v' + W + W' - 1) - 2 ^ (v + v' + W - 1) := by
+    calc
+      2 ^ (v + v' + W - 1) * (2 ^ W' - 1)
+          = 2 ^ (v + v' + W - 1) * 2 ^ W' - 2 ^ (v + v' + W - 1) := by
+            rw [Nat.mul_sub_left_distrib, Nat.mul_one]
+      _ = 2 ^ (v + v' + W - 1 + W') - 2 ^ (v + v' + W - 1) := by
+            rw [← Nat.pow_add]
+      _ = 2 ^ (v + v' + W + W' - 1) - 2 ^ (v + v' + W - 1) := by rw [hexp]
+  have hhalf : (2 ^ W' - 1) * 2 ^ (v + v' + W - 1) ≤ 3 ^ (v + v') := by
+    have hcomm : (2 ^ W' - 1) * 2 ^ (v + v' + W - 1) =
+        2 ^ (v + v' + W - 1) * (2 ^ W' - 1) := Nat.mul_comm _ _
+    have hle : 2 ^ (v + v' + W - 1) * (2 ^ W' - 1) ≤
+        2 ^ (v + v' + W + W' - 1) := by
+      rw [hdist]
+      exact Nat.sub_le _ _
+    exact Nat.le_trans (hcomm ▸ hle) hshort
+  exact Nat.le_trans hmul8 (by
+    have hpush : 2 ^ (v - 1) * (3 ^ v'' * ((2 ^ W' - 1) * 2 ^ (W + v'))) =
+        3 ^ v'' * ((2 ^ W' - 1) * 2 ^ (v + v' + W - 1)) := by
+      calc
+        2 ^ (v - 1) * (3 ^ v'' * ((2 ^ W' - 1) * 2 ^ (W + v')))
+            = 3 ^ v'' * (2 ^ (v - 1) * ((2 ^ W' - 1) * 2 ^ (W + v'))) :=
+              Nat.mul_left_comm _ _ _
+        _ = 3 ^ v'' * ((2 ^ W' - 1) * (2 ^ (v - 1) * 2 ^ (W + v'))) :=
+              congrArg (fun t => 3 ^ v'' * t) (Nat.mul_left_comm _ _ _)
+        _ = 3 ^ v'' * ((2 ^ W' - 1) * 2 ^ (v + v' + W - 1)) := by
+              rw [hjoin]
+    have hpow : 3 ^ v'' * 3 ^ (v + v') = 3 ^ (v + v' + v'') := by
+      rw [← Nat.pow_add, Nat.add_comm]
+    have hle : 3 ^ v'' * ((2 ^ W' - 1) * 2 ^ (v + v' + W - 1)) ≤
+        3 ^ (v + v' + v'') := by
+      rw [← hpow]
+      exact Nat.mul_le_mul_left _ hhalf
+    rwa [hpush])
+
+/-- **Coefficient form.**  A light length of at least `4`, a second run
+short of `3^{v+v'} < 2^{v+v'+W+W'−1}`, and a third run meeting
+`3^{v+v'+v''} < 2^{v+v'+v''+W+W'+W''−1}`, satisfy the three-step drop
+inequality for every positive cofactor. -/
+private theorem short_then_long_coeff {v u W v' W' v'' W'' : Nat}
+    (hv : 4 ≤ v) (hu : 1 ≤ u)
+    (hlight : 2 ^ W * (2 ^ v - 1) < 3 ^ v)
+    (hshort : 2 ^ (v + v' + W + W' - 1) ≤ 3 ^ (v + v'))
+    (hpow : 3 ^ (v + v' + v'') < 2 ^ (v + v' + v'' + W + W' + W'' - 1)) :
+    3 ^ v'' * (3 ^ v' * (3 ^ v * u + 2 ^ W - 1) +
+        (2 ^ W' - 1) * 2 ^ (W + v')) +
+      2 ^ (W + v' + W' + v'' + W'') ≤
+      2 ^ (v + W + v' + W' + v'' + W'') * u := by
+  have hone : 3 ^ (v + v' + v'') + 1 ≤
+      2 ^ (v + v' + v'' + W + W' + W'' - 1) := Nat.succ_le_of_lt hpow
+  have hAm : 3 ^ (v + v' + v'') ≤
+      2 ^ (v + v' + v'' + W + W' + W'' - 1) - 1 := Nat.le_sub_of_add_le hone
+  have hE1 := eight_first_error (v' := v') (v'' := v'') hv hlight
+  have hE2 := eight_middle_error (v' := v') (v'' := v'') hv hshort
+  have hexp : W + v' + W' + v'' + W'' ≤
+      v + v' + v'' + W + W' + W'' - 4 :=
+    Nat.le_sub_of_add_le (by omega :
+      W + v' + W' + v'' + W'' + 4 ≤ v + v' + v'' + W + W' + W'')
+  have h2le : 2 ^ (W + v' + W' + v'' + W'') ≤
+      2 ^ (v + v' + v'' + W + W' + W'' - 4) := two_pow_le_two_pow hexp
+  have hq : v + v' + v'' + W + W' + W'' - 4 + 3 =
+      v + v' + v'' + W + W' + W'' - 1 := by omega
+  have hfull : v + v' + v'' + W + W' + W'' - 1 + 1 =
+      v + v' + v'' + W + W' + W'' := by omega
+  have h8pow : 8 * 2 ^ (v + v' + v'' + W + W' + W'' - 4) =
+      2 ^ (v + v' + v'' + W + W' + W'' - 1) := by
+    calc
+      8 * 2 ^ (v + v' + v'' + W + W' + W'' - 4)
+          = 2 ^ 3 * 2 ^ (v + v' + v'' + W + W' + W'' - 4) := by
+            rw [show (8 : Nat) = 2 ^ 3 by decide]
+      _ = 2 ^ (3 + (v + v' + v'' + W + W' + W'' - 4)) := by rw [← Nat.pow_add]
+      _ = 2 ^ (v + v' + v'' + W + W' + W'' - 4 + 3) := by rw [Nat.add_comm]
+      _ = 2 ^ (v + v' + v'' + W + W' + W'' - 1) := by rw [hq]
+  have h2p : 8 * 2 ^ (W + v' + W' + v'' + W'') ≤
+      2 ^ (v + v' + v'' + W + W' + W'' - 1) :=
+    Nat.le_trans (Nat.mul_le_mul_left 8 h2le) (Nat.le_of_eq h8pow)
+  have hten : 8 * 3 ^ (v + v' + v'') + 3 ^ (v + v' + v'') +
+      3 ^ (v + v' + v'') = 10 * 3 ^ (v + v' + v'') := by
+    calc
+      8 * 3 ^ (v + v' + v'') + 3 ^ (v + v' + v'') + 3 ^ (v + v' + v'')
+          = 8 * 3 ^ (v + v' + v'') + 1 * 3 ^ (v + v' + v'') +
+              3 ^ (v + v' + v'') := by rw [Nat.one_mul]
+      _ = (8 + 1) * 3 ^ (v + v' + v'') + 3 ^ (v + v' + v'') := by
+            rw [← Nat.add_mul]
+      _ = (8 + 1) * 3 ^ (v + v' + v'') + 1 * 3 ^ (v + v' + v'') := by
+            rw [Nat.one_mul]
+      _ = (8 + 1 + 1) * 3 ^ (v + v' + v'') := by rw [← Nat.add_mul]
+      _ = 10 * 3 ^ (v + v' + v'') := by
+            rw [show (8 + 1 + 1 : Nat) = 10 by decide]
+  have hboth : 8 * 3 ^ (v + v' + v'') +
+      8 * (3 ^ v'' * (3 ^ v' * (2 ^ W - 1))) +
+      8 * (3 ^ v'' * ((2 ^ W' - 1) * 2 ^ (W + v'))) ≤
+      10 * 3 ^ (v + v' + v'') := by
+    have h1 : 8 * 3 ^ (v + v' + v'') +
+        8 * (3 ^ v'' * (3 ^ v' * (2 ^ W - 1))) ≤
+        8 * 3 ^ (v + v' + v'') + 3 ^ (v + v' + v'') :=
+      Nat.add_le_add_left hE1 _
+    have h2 : 8 * 3 ^ (v + v' + v'') +
+        8 * (3 ^ v'' * (3 ^ v' * (2 ^ W - 1))) +
+        8 * (3 ^ v'' * ((2 ^ W' - 1) * 2 ^ (W + v'))) ≤
+        8 * 3 ^ (v + v' + v'') + 3 ^ (v + v' + v'') +
+          3 ^ (v + v' + v'') :=
+      Nat.add_le_add h1 hE2
+    rwa [hten] at h2
+  have h10 : 10 * 3 ^ (v + v' + v'') ≤
+      10 * 2 ^ (v + v' + v'' + W + W' + W'' - 1) - 10 := by
+    have hmul := Nat.mul_le_mul_left 10 hAm
+    have hdist : 10 * (2 ^ (v + v' + v'' + W + W' + W'' - 1) - 1) =
+        10 * 2 ^ (v + v' + v'' + W + W' + W'' - 1) - 10 := by
+      rw [Nat.mul_sub_left_distrib, Nat.mul_one]
+    rwa [hdist] at hmul
+  have h11 : 10 * 2 ^ (v + v' + v'' + W + W' + W'' - 1) +
+      2 ^ (v + v' + v'' + W + W' + W'' - 1) =
+      11 * 2 ^ (v + v' + v'' + W + W' + W'' - 1) := by
+    calc
+      10 * 2 ^ (v + v' + v'' + W + W' + W'' - 1) +
+          2 ^ (v + v' + v'' + W + W' + W'' - 1)
+          = 10 * 2 ^ (v + v' + v'' + W + W' + W'' - 1) +
+              1 * 2 ^ (v + v' + v'' + W + W' + W'' - 1) := by rw [Nat.one_mul]
+      _ = (10 + 1) * 2 ^ (v + v' + v'' + W + W' + W'' - 1) := by
+            rw [← Nat.add_mul]
+      _ = 11 * 2 ^ (v + v' + v'' + W + W' + W'' - 1) := by
+            rw [show (10 + 1 : Nat) = 11 by decide]
+  have h16 : 16 * 2 ^ (v + v' + v'' + W + W' + W'' - 1) =
+      8 * 2 ^ (v + v' + v'' + W + W' + W'') := by
+    calc
+      16 * 2 ^ (v + v' + v'' + W + W' + W'' - 1)
+          = 8 * 2 * 2 ^ (v + v' + v'' + W + W' + W'' - 1) := by
+            rw [show (16 : Nat) = 8 * 2 by decide]
+      _ = 8 * (2 * 2 ^ (v + v' + v'' + W + W' + W'' - 1)) := by
+            rw [Nat.mul_assoc]
+      _ = 8 * 2 ^ (v + v' + v'' + W + W' + W'' - 1 + 1) := by
+            rw [← two_pow_succ]
+      _ = 8 * 2 ^ (v + v' + v'' + W + W' + W'') := by rw [hfull]
+  have hscaled : 8 * (3 ^ (v + v' + v'') +
+      3 ^ v'' * (3 ^ v' * (2 ^ W - 1)) +
+      3 ^ v'' * ((2 ^ W' - 1) * 2 ^ (W + v')) +
+      2 ^ (W + v' + W' + v'' + W'')) ≤
+      8 * 2 ^ (v + v' + v'' + W + W' + W'') := by
+    have hleft : 8 * (3 ^ (v + v' + v'') +
+        3 ^ v'' * (3 ^ v' * (2 ^ W - 1)) +
+        3 ^ v'' * ((2 ^ W' - 1) * 2 ^ (W + v')) +
+        2 ^ (W + v' + W' + v'' + W'')) =
+        8 * 3 ^ (v + v' + v'') +
+          8 * (3 ^ v'' * (3 ^ v' * (2 ^ W - 1))) +
+          8 * (3 ^ v'' * ((2 ^ W' - 1) * 2 ^ (W + v'))) +
+          8 * 2 ^ (W + v' + W' + v'' + W'') := by
+      calc
+        8 * (3 ^ (v + v' + v'') + 3 ^ v'' * (3 ^ v' * (2 ^ W - 1)) +
+            3 ^ v'' * ((2 ^ W' - 1) * 2 ^ (W + v')) +
+            2 ^ (W + v' + W' + v'' + W''))
+            = 8 * (3 ^ (v + v' + v'') + 3 ^ v'' * (3 ^ v' * (2 ^ W - 1)) +
+                3 ^ v'' * ((2 ^ W' - 1) * 2 ^ (W + v'))) +
+              8 * 2 ^ (W + v' + W' + v'' + W'') := by rw [Nat.mul_add]
+        _ = 8 * (3 ^ (v + v' + v'') + 3 ^ v'' * (3 ^ v' * (2 ^ W - 1))) +
+              8 * (3 ^ v'' * ((2 ^ W' - 1) * 2 ^ (W + v'))) +
+              8 * 2 ^ (W + v' + W' + v'' + W'') := by rw [Nat.mul_add]
+        _ = 8 * 3 ^ (v + v' + v'') + 8 * (3 ^ v'' * (3 ^ v' * (2 ^ W - 1))) +
+              8 * (3 ^ v'' * ((2 ^ W' - 1) * 2 ^ (W + v'))) +
+              8 * 2 ^ (W + v' + W' + v'' + W'') := by rw [Nat.mul_add]
+    rw [hleft]
+    have hstep1 : 8 * 3 ^ (v + v' + v'') +
+        8 * (3 ^ v'' * (3 ^ v' * (2 ^ W - 1))) +
+        8 * (3 ^ v'' * ((2 ^ W' - 1) * 2 ^ (W + v'))) +
+        8 * 2 ^ (W + v' + W' + v'' + W'') ≤
+        10 * 3 ^ (v + v' + v'') + 8 * 2 ^ (W + v' + W' + v'' + W'') :=
+      Nat.add_le_add_right hboth _
+    have hstep2 : 10 * 3 ^ (v + v' + v'') +
+        8 * 2 ^ (W + v' + W' + v'' + W'') ≤
+        10 * 2 ^ (v + v' + v'' + W + W' + W'' - 1) - 10 +
+          8 * 2 ^ (W + v' + W' + v'' + W'') :=
+      Nat.add_le_add_right h10 _
+    have hstep3 : 10 * 2 ^ (v + v' + v'' + W + W' + W'' - 1) - 10 +
+        8 * 2 ^ (W + v' + W' + v'' + W'') ≤
+        10 * 2 ^ (v + v' + v'' + W + W' + W'' - 1) - 10 +
+          2 ^ (v + v' + v'' + W + W' + W'' - 1) :=
+      Nat.add_le_add_left h2p _
+    have hstep4 : 10 * 2 ^ (v + v' + v'' + W + W' + W'' - 1) - 10 +
+        2 ^ (v + v' + v'' + W + W' + W'' - 1) ≤
+        10 * 2 ^ (v + v' + v'' + W + W' + W'' - 1) +
+          2 ^ (v + v' + v'' + W + W' + W'' - 1) :=
+      Nat.add_le_add_right (Nat.sub_le _ _) _
+    have hstep5 : 10 * 2 ^ (v + v' + v'' + W + W' + W'' - 1) +
+        2 ^ (v + v' + v'' + W + W' + W'' - 1) ≤
+        8 * 2 ^ (v + v' + v'' + W + W' + W'') := by
+      rw [h11, ← h16]
+      exact Nat.mul_le_mul_right _ (by decide : (11 : Nat) ≤ 16)
+    exact Nat.le_trans hstep1 (Nat.le_trans hstep2
+      (Nat.le_trans hstep3 (Nat.le_trans hstep4 hstep5)))
+  have hC : 3 ^ (v + v' + v'') +
+      (3 ^ v'' * (3 ^ v' * (2 ^ W - 1)) +
+        (3 ^ v'' * ((2 ^ W' - 1) * 2 ^ (W + v')) +
+          2 ^ (W + v' + W' + v'' + W''))) ≤
+      2 ^ (v + v' + v'' + W + W' + W'') := by
+    have h8pos : 0 < (8 : Nat) := by decide
+    have hle := Nat.le_of_mul_le_mul_left hscaled h8pos
+    simpa [Nat.add_assoc] using hle
+  have hAB : 3 ^ (v + v' + v'') ≤ 2 ^ (v + v' + v'' + W + W' + W'') :=
+    Nat.le_trans hAm (Nat.le_trans (Nat.sub_le _ _)
+      (two_pow_le_two_pow (Nat.le_trans (Nat.le_succ _) (Nat.le_of_eq hfull))))
+  have hmul := add_le_mul_of_add_le hAB hC hu
+  have hsplit : 3 ^ v * u + 2 ^ W - 1 = 3 ^ v * u + (2 ^ W - 1) :=
+    Nat.add_sub_assoc (Nat.one_le_pow W 2 (by decide)) _
+  calc
+    3 ^ v'' * (3 ^ v' * (3 ^ v * u + 2 ^ W - 1) +
+        (2 ^ W' - 1) * 2 ^ (W + v')) + 2 ^ (W + v' + W' + v'' + W'')
+        = 3 ^ v'' * (3 ^ v' * (3 ^ v * u + (2 ^ W - 1)) +
+            (2 ^ W' - 1) * 2 ^ (W + v')) +
+          2 ^ (W + v' + W' + v'' + W'') := by rw [hsplit]
+    _ = 3 ^ v'' * (3 ^ v' * (3 ^ v * u + (2 ^ W - 1))) +
+          3 ^ v'' * ((2 ^ W' - 1) * 2 ^ (W + v')) +
+          2 ^ (W + v' + W' + v'' + W'') := by rw [Nat.mul_add]
+    _ = 3 ^ v'' * (3 ^ v' * (3 ^ v * u) + 3 ^ v' * (2 ^ W - 1)) +
+          3 ^ v'' * ((2 ^ W' - 1) * 2 ^ (W + v')) +
+          2 ^ (W + v' + W' + v'' + W'') := by rw [Nat.mul_add]
+    _ = 3 ^ v'' * (3 ^ v' * (3 ^ v * u)) +
+          3 ^ v'' * (3 ^ v' * (2 ^ W - 1)) +
+          3 ^ v'' * ((2 ^ W' - 1) * 2 ^ (W + v')) +
+          2 ^ (W + v' + W' + v'' + W'') := by rw [Nat.mul_add]
+    _ = 3 ^ v'' * 3 ^ v' * 3 ^ v * u +
+          3 ^ v'' * (3 ^ v' * (2 ^ W - 1)) +
+          3 ^ v'' * ((2 ^ W' - 1) * 2 ^ (W + v')) +
+          2 ^ (W + v' + W' + v'' + W'') := by rw [Nat.mul_assoc, Nat.mul_assoc]
+    _ = 3 ^ (v'' + v' + v) * u +
+          3 ^ v'' * (3 ^ v' * (2 ^ W - 1)) +
+          3 ^ v'' * ((2 ^ W' - 1) * 2 ^ (W + v')) +
+          2 ^ (W + v' + W' + v'' + W'') := by rw [← Nat.pow_add, ← Nat.pow_add]
+    _ = 3 ^ (v + v' + v'') * u +
+          (3 ^ v'' * (3 ^ v' * (2 ^ W - 1)) +
+            (3 ^ v'' * ((2 ^ W' - 1) * 2 ^ (W + v')) +
+              2 ^ (W + v' + W' + v'' + W''))) := by
+            rw [show v'' + v' + v = v + v' + v'' by omega, ← Nat.add_assoc,
+              ← Nat.add_assoc]
+    _ ≤ 2 ^ (v + v' + v'' + W + W' + W'') * u := hmul
+    _ = 2 ^ (v + W + v' + W' + v'' + W'') * u := by
+          rw [show v + v' + v'' + W + W' + W'' =
+            v + W + v' + W' + v'' + W'' by omega]
+
+/-- **A short second step, then a long third.**  A light run of length at
+least `4` whose next run misses `3^{v+v'} < 2^{v+v'+W+W'−1}`, followed by
+a third run meeting `3^{v+v'+v''} < 2^{v+v'+v''+W+W'+W''−1}`, lands strictly
+below the original start. -/
+theorem drop_of_short_then_long
+    {n v u W e v' u' W' e' v'' u'' W'' e'' : Nat}
+    (h : IsExcursion n v u W e) (h' : IsExcursion e v' u' W' e')
+    (h'' : IsExcursion e' v'' u'' W'' e'')
+    (hv : 4 ≤ v) (hlight : 2 ^ W * (2 ^ v - 1) < 3 ^ v)
+    (hshort : 2 ^ (v + v' + W + W' - 1) ≤ 3 ^ (v + v'))
+    (hpow : 3 ^ (v + v' + v'') < 2 ^ (v + v' + v'' + W + W' + W'' - 1)) :
+    e'' < n := by
+  have hu : 1 ≤ u := by
+    have : u % 2 = 1 := h.2.1
+    omega
+  exact (drop_iff_three_expanded h h' h'').mpr
+    (short_then_long_coeff hv hu hlight hshort hpow)
+
+
 /-! ## 7.  Witnesses -/
 
 /-- LandOne heavy, recovered: `7 → 13 → 5`. -/
@@ -787,6 +1425,39 @@ theorem one_seventy_five_two_step_drops :
   ⟨⟨rfl, rfl, rfl, by omega, by omega, rfl, rfl⟩,
     ⟨rfl, rfl, rfl, by omega, by omega, rfl, rfl⟩, by omega⟩
 
+/-- `(4, 1)` then a run on the combined ceiling: `431 → 1093 → 205`.
+`3^5 = 243 < 256 = 2^{5+3}`. -/
+theorem four_thirty_one_two_step_drops :
+    IsExcursion 431 4 27 1 1093 ∧
+    IsExcursion 1093 1 547 3 205 ∧ 205 < 431 ∧
+    3 ^ (4 + 1) < 2 ^ (4 + 1 + 3) :=
+  ⟨⟨rfl, rfl, rfl, by omega, by omega, rfl, rfl⟩,
+   ⟨rfl, rfl, rfl, by omega, by omega, rfl, rfl⟩, by omega, by decide⟩
+
+/-- Light `(4, 2)` then a run on the shifted ceiling: `79 → 101 → 19`.
+`3^5 = 243 < 512 = 2^{4+1+2+3−1}`. -/
+theorem seventy_nine_two_step_drops :
+    IsExcursion 79 4 5 2 101 ∧
+    IsExcursion 101 1 51 3 19 ∧ 19 < 79 ∧
+    2 ^ 2 * (2 ^ 4 - 1) < 3 ^ 4 ∧
+    3 ^ (4 + 1) < 2 ^ (4 + 1 + 2 + 3 - 1) :=
+  ⟨⟨rfl, rfl, rfl, by omega, by omega, rfl, rfl⟩,
+   ⟨rfl, rfl, rfl, by omega, by omega, rfl, rfl⟩, by omega, by decide, by decide⟩
+
+/-- Short second step, long third: `463 → 587 → 661 → 31`.
+`2^8 = 256 ≤ 729 = 3^6`, and `3^7 = 2187 < 16384 = 2^{14}`. -/
+theorem four_sixty_three_three_step_drops :
+    IsExcursion 463 4 29 2 587 ∧
+    IsExcursion 587 2 147 1 661 ∧
+    IsExcursion 661 1 331 5 31 ∧ 31 < 463 ∧
+    2 ^ 2 * (2 ^ 4 - 1) < 3 ^ 4 ∧
+    2 ^ (4 + 2 + 2 + 1 - 1) ≤ 3 ^ (4 + 2) ∧
+    3 ^ (4 + 2 + 1) < 2 ^ (4 + 2 + 1 + 2 + 1 + 5 - 1) :=
+  ⟨⟨rfl, rfl, rfl, by omega, by omega, rfl, rfl⟩,
+   ⟨rfl, rfl, rfl, by omega, by omega, rfl, rfl⟩,
+   ⟨rfl, rfl, rfl, by omega, by omega, rfl, rfl⟩,
+   by omega, by decide, by decide, by decide⟩
+
 /-- `(4, 1)` then `(1, 1)` grows: `47 → 121 → 91`. -/
 theorem forty_seven_two_step_grows :
     IsExcursion 47 4 3 1 121 ∧ IsExcursion 121 1 61 1 91 ∧ 47 < 91 :=
@@ -812,4 +1483,10 @@ open Collatz.ExcursionTelescope
 #print axioms lemmaX_of_two_one_then_v_six
 #print axioms drop_of_four_one_then_v_one_heavy
 #print axioms grows_of_four_one_then_one_one
+#print axioms drop_of_W_one_then_long
+#print axioms four_thirty_one_two_step_drops
+#print axioms drop_of_light_then_long
+#print axioms seventy_nine_two_step_drops
+#print axioms drop_of_short_then_long
+#print axioms four_sixty_three_three_step_drops
 end AxiomAudit

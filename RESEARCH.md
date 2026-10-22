@@ -5,6 +5,188 @@ Persistent checkpoint. Update at every synthesis round. Status codes:
 **CONJ** = conjectural. **REFUTED** = killed, with counterexample. **CLOSED** = provably
 unreachable by the stated method.
 
+## A short second step then a long third drops, 2026-10-22 (PROVED)
+
+A light excursion of length `v ≥ 4` whose next run misses
+
+    3^{v+v'} < 2^{v+v'+W+W'−1},
+
+and whose third run meets
+
+    3^{v+v'+v''} < 2^{v+v'+v''+W+W'+W''−1},
+
+lands strictly below the original start, for every positive cofactor.
+The missed second exponent is what bounds the middle error: eight copies
+of it fit inside `3^{v+v'+v''}`, and the first-step error is already
+bounded by the light test. The resulting coefficient `10` sits under `16`
+once length at least `4` leaves three spare bits. `463 → 587 → 661 → 31`
+misses the two-step exponent (`256 ≤ 729`) and meets the three-step one
+(`2187 < 16384`). `47 → 121 → 91 → 103` misses both and stays open. A
+third run that also misses the exponent stays open. The length-`2` and
+length-`3` clocks stay open. The coprime one-step boundary past length
+`128` stays open. This does not prove Collatz.
+
+## Every light step then a long run drops, 2026-10-22 (PROVED)
+
+A light excursion of length `v ≥ 4`, with any extra-halving count `W`,
+followed by a run meeting
+
+    3^{v+v'} < 2^{v+v'+W+W'−1},
+
+lands strictly below the original start, for every positive cofactor.
+The light test `2^W (2^v − 1) < 3^v` is what makes the error small:
+`9 · (2^W − 1) ≤ 3^v`, so nine copies of the two-step expansion still
+have coefficient `10`. Length at least `4` leaves three spare bits under
+the target power of two, and `89` sits under `144`. For a single extra
+halving the exponent is the older ceiling `3^{v+v'} < 2^{v+v'+W'}`.
+`79 → 101 → 19` has two extra halvings and drops (`243 < 512`).
+`47 → 121 → 91` misses the exponent and still grows. The same exponent
+fails for some length-`2` runs with three extra halvings, so the length
+hypothesis is sharp. A short second run stays open. The coprime
+one-step boundary past length `128` stays open. This does not prove
+Collatz.
+
+## One light step then a long run drops, 2026-10-21 (PROVED)
+
+An excursion with a single extra halving and run length `v ≥ 2`, followed
+by any run whose extra halvings meet the combined ceiling,
+
+    3^{v+v'} < 2^{v+v'+W'},
+
+lands strictly below the original start, for every positive cofactor.
+That threshold is `W' ≥ ⌈log₂(3^{v+v'})⌉ − (v+v')`. The argument clears a
+factor of nine: `9 · 3^{v'} ≤ 3^{v+v'}`, and the resulting `10` still sits
+under `36`. `431 → 1093 → 205` is on the ceiling (`243 < 256`) and drops.
+`47 → 121 → 91` misses it and still grows. Runs of length at least 4 stay
+in `OpenRemainder` only when the first step is light and this second step
+does not fire. Light runs with a shorter second count stay open. This does
+not prove Collatz.
+
+## The one-step boundary reduces to an isolated growth, 2026-10-21 (PROVED)
+
+From one run length to the next, the binary ceiling of `3^v` grows by one
+or by two. A growth of one cannot be adjacent to another: for `v ≥ 2` it is
+followed by a growth of two, and for `v ≥ 3` it is preceded by one. The
+boundary count is therefore heavy except possibly when the ceiling grows by
+exactly one and shares no factor with the length. Through length `128` that
+remaining case is heavy as well. Length `5` is the shape that stays open
+past the checked range: ceiling `8 = 7 + 1`, surrounded by growths of two,
+and `gcd(5, 8) = 1`. Light runs, including every `(v, 1)` with `v ≥ 2`,
+stay open. This does not prove Collatz.
+
+## A ceiling jump of two makes the boundary heavy, 2026-10-21 (PROVED)
+
+For every run length `v ≥ 2`, if the binary ceiling grows by two,
+
+    ⌈log₂(3^v)⌉ = ⌈log₂(3^{v−1})⌉ + 2,
+
+then the single boundary count `W = ⌈log₂(3^v)⌉ − v` is heavy, and the
+one-step dichotomy holds for every extra-halving count. The previous
+power of three sits strictly below its own ceiling, so
+
+    2^{k} − 3^v ≥ 2^{k₀} ≥ 2^{k − v},
+
+where `k₀` is the previous ceiling and `k = k₀ + 2`. Length `4` is such
+a jump, and `gcd(4, ⌈log₂(81)⌉) = 1`, so the shared-factor theorem does
+not cover it. A ceiling that grows by only one, such as length `5`, is
+not covered. Once `v ≥ 4` that one boundary count is outside
+`OpenRemainder`. Shorter counts can still be light, and light runs,
+including every `(v, 1)` with `v ≥ 2`, stay open. This does not prove
+Collatz.
+
+## A shared factor makes the boundary heavy, 2026-10-21 (PROVED)
+
+For every run length `v ≥ 2`, if `k = ⌈log₂(3^v)⌉` and `gcd(v, k) ≥ 2`,
+then
+
+    2^k − 3^v ≥ 2^{k − v},
+
+so the single boundary count `W = k − v` is heavy: every positive cofactor
+drops in one step, and the one-step dichotomy holds for every extra-halving
+count. The argument is the difference of powers. Writing `d = gcd(v, k)`,
+`a = 2^{k/d}` and `b = 3^{v/d}` gives `b < a` and
+
+    a^d − b^d ≥ a^{d − 1} + 1 = 2^{k − k/d} + 1,
+
+which is at least `2^{k − v}`. It does not use logarithms. Odd length `9`
+shares the factor `3` with its ceiling `15`; the even-pair theorem does
+not cover that length. A ceiling coprime to `v`, such as length `5`, is
+not covered. Once `v ≥ 4` that one boundary count is outside
+`OpenRemainder`. Shorter counts can still be light, and light runs,
+including every `(v, 1)` with `v ≥ 2`, stay open. This does not prove
+Collatz.
+
+## The linear margin meets the logarithm, 2026-10-21 (PROVED)
+
+For every run length `v ≥ 2`,
+
+    3^v ≤ 2^{v − ⌊127v/306⌋} (2^v − 1).
+
+Every excursion with `W ≥ v − ⌊127v/306⌋` therefore drops in one step, for
+every positive cofactor. Once `v ≥ 4` those runs are outside
+`OpenRemainder`. The fraction `127/306` is the continued-fraction
+convergent of `2 − log₂ 3` lying just below it, so the cutoff
+`v − ⌊127v/306⌋` tracks the single boundary count `⌈log₂(3^v)⌉ − v`. The
+proof does not use logarithms: one block is the integer inequality
+`3^306 ≤ 2^485`, checked for the 306 residue classes from length 2 through
+307, then repeated. An integer scan finds that this cutoff is at most the
+boundary count for every length from 2 through 970. That scan is not a
+proof, and the kernel check of the boundary still stops at 128. Past 970
+the boundary can sit strictly below the cutoff, and that gap is open.
+Light runs, including every `(v, 1)` with `v ≥ 2`, stay open. This does
+not prove Collatz.
+
+## A third of the extra halvings may be missing, 2026-10-21 (PROVED)
+
+For every run length `v ≥ 3`,
+
+    3^v ≤ 2^{v − ⌊v/3⌋} (2^v − 1).
+
+Every excursion with `W ≥ v − ⌊v/3⌋` is therefore heavy: the one-step drop
+holds for every positive cofactor. Once `v ≥ 4` those runs are outside
+`OpenRemainder`. The inequality is proved by a block step of length 3 from
+the base `27 ≤ 28`, together with a same-margin step for the two residues
+between multiples of 3. It thickens the earlier band `W ≥ v` down to the
+top third of the halving counts below `v`, for every length. It does not
+reach the single boundary count `⌈log₂(3^v)⌉ − v`, which sits near
+`0.585 v` and stays strictly below `(2/3) v` for large `v`. Light runs,
+including every `(v, 1)` with `v ≥ 2`, stay open. This does not prove
+Collatz.
+
+## One-step behavior is uniform off one halving count, 2026-10-21 (PROVED)
+
+For every run length `v ≥ 2` there is at most one extra-halving count `W`
+that the cofactor-free test does not already classify. If
+`k = ⌈log₂(3^v)⌉`, then `W < k − v` is absolutely light (`2^{v+W} ≤ 3^v`,
+so no positive cofactor drops) and `W > k − v` is heavy (every positive
+cofactor drops). `W ≥ v ≥ 2` is always heavy. The single boundary
+`W = k − v` is classified for every even pair `(v, W)`, by comparing
+squares, and for every `v` from 2 through 128, by a kernel-checked
+computation of that one `W`. The pair `(v, W) = (1, 1)` remains the
+exception where `u = 1` fails and larger odd cofactors still drop.
+Light runs, including every `(v, 1)` with `v ≥ 2`, stay open. This does
+not prove Collatz. Past run length 128 the odd-length boundary is open;
+closing it for every `v` is a Diophantine statement about `|2^a − 3^b|`
+and is not claimed.
+
+## Heavy excursions drop in one step, 2026-10-21 (PROVED)
+
+`Collatz.ExcursionHeavy` proves that an excursion with odd-run length `v` and
+`W` extra halvings lands strictly below its start whenever
+
+    3^v ≤ 2^W (2^v − 1).
+
+The same inequality is necessary and sufficient for the exact drop test to
+hold for every positive cofactor. It is applied in `OpenRemainder`: a first
+run of length at least 4 remains an open Lemma X input only when the
+inequality fails. `15` (heavy, lands at `5`) leaves that input; `47` (light
+`(4, 1)`, lands at `121`) stays. This does not prove Collatz. Every light
+run is untouched, including every `(v, 1)` with `v ≥ 2`.
+
+The same file now proves there is no such gap for even `(v, W)`, nor for
+any `v` from 2 through 128. A direct integer scan through `v = 40` agrees.
+The scan is not the proof.
+
 ## Fixed width 5.995 requires more than 9,385 steps, 2026-10-07 (PROVED)
 
 `Collatz.Exploration.Band5995` kernel-checks a coefficient profile for 5,754

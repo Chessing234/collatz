@@ -57,6 +57,25 @@ own verification instructions.
 - [Rational band obstruction](Research/RationalBandObstruction.md) — a
   denominator-aware cycle certificate, exact closure classification, and
   why the integer floor bound does not extend to rational floors.
+- Heavy one-step drop — if an excursion satisfies `3^v ≤ 2^W (2^v − 1)`,
+  it lands below its start for every positive cofactor. For run length
+  `v ≥ 2` at most one extra-halving count can sit between that test and
+  outright failure; that count is settled for every even pair and for
+  every `v ≤ 128`, every `W ≥ v − ⌊127v/306⌋` is heavy for `v ≥ 2`,
+  and the boundary count is heavy whenever it shares a factor with `v`
+  or the ceiling grew by two from the previous length. A growth of one
+  is isolated between growths of two. The one-step boundary past length
+  `128` remains only for that isolated growth when the ceiling is coprime
+  to the length.
+  A light run of length at least 4 drops in two steps when the next run
+  meets `3^{v+v'} < 2^{v+v'+W+W'−1}`, for every extra-halving count on the
+  first step. When that second run misses the exponent and the third meets
+  `3^{v+v'+v''} < 2^{v+v'+v''+W+W'+W''−1}`, the start drops in three steps.
+  `431 → 1093 → 205` and `79 → 101 → 19` are two-step drops.
+  `463 → 587 → 661 → 31` is a three-step drop. `47 → 121 → 91 → 103` misses
+  both exponents and stays open. Runs of length at least 4 stay in the
+  remaining Lemma X input only when the one-step test fails and neither
+  later step fires. The conjecture remains open.
 
 - [First passage through 2,592 steps](Research/PassageAtlas/README.md) —
   a stronger conditional descent theorem, an exact residual condition

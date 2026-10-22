@@ -4,6 +4,7 @@ import Collatz.Strategy.ExcursionLandVal2
 import Collatz.Strategy.ExcursionLandTwo
 import Collatz.Strategy.ExcursionRemTwoLeft
 import Collatz.Strategy.ExcursionTelescope
+import Collatz.Strategy.ExcursionHeavy
 
 /-!
 # Chaining Lemma X: one named remainder, strictly inside plus-five
@@ -22,7 +23,19 @@ named predicate `OpenRemainder` for the families those theorems do not close:
 * `(3, 1)` fuel 8 with next `W' = 2`;
 * longer leftover chains (fuel `≥ 9`);
 * longer `(2, 1)` chains (fuel `7`, `8`, or `≥ 10`);
-* first-excursion `v ≥ 4` (including `(4, 1)` light).
+* first-excursion `v ≥ 4` with a light halving count,
+  `2^W (2^v - 1) < 3^v`, except a next run meeting
+  `3^{v+v'} < 2^{v+v'+W+W'−1}` (two-step drop,
+  `ExcursionTelescope.drop_of_light_then_long`) and, when that second
+  run misses the exponent, a third run meeting
+  `3^{v+v'+v''} < 2^{v+v'+v''+W+W'+W''−1}` (three-step drop,
+  `ExcursionTelescope.drop_of_short_then_long`).
+  Heavy runs drop in one step (`ExcursionHeavy.drop_of_heavy`).  In
+  particular `W ≥ v − ⌊127v/306⌋` is heavy for every `v ≥ 2`.  The
+  boundary count `W = ⌈log₂(3^v)⌉ − v` is heavy when that ceiling shares
+  a factor with `v`, and also when the ceiling grew by two from length
+  `v − 1`.  A growth of one is isolated between growths of two.  Shorter
+  counts can still be light.
 
 This is not a proof of Collatz.  It is a smaller Lemma X input.
 -/
@@ -37,6 +50,7 @@ open Collatz.ExcursionLandVal2 Collatz.ExcursionLandTwo
 open Collatz.ExcursionRemTwo Collatz.ExcursionRemTwoLeft
 open Collatz.ExcursionLTE Collatz.ExcursionExit Collatz.ExcursionOddLight
 open Collatz.ExcursionTelescope
+open Collatz.ExcursionHeavy
 
 
 /-! ## 1.  The remaining predicate, named honestly -/
@@ -77,7 +91,11 @@ def OpenRemainder (n : Nat) : Prop :=
   ∃ v u W e : Nat, IsExcursion n v u W e ∧
     ((v = 2 ∧ W = 1 ∧ OpenClock n u e) ∨
      (v = 3 ∧ W = 1 ∧ OpenLeftover n u e) ∨
-     4 ≤ v)
+     (4 ≤ v ∧ 2 ^ W * (2 ^ v - 1) < 3 ^ v ∧
+       ∀ v' u' W' e' : Nat, IsExcursion e v' u' W' e' →
+         2 ^ (v + v' + W + W' - 1) ≤ 3 ^ (v + v') ∧
+           ∀ v'' u'' W'' e'' : Nat, IsExcursion e' v'' u'' W'' e'' →
+             2 ^ (v + v' + v'' + W + W' + W'' - 1) ≤ 3 ^ (v + v' + v'')))
 
 
 /-! ## 2.  Constructors, so the case-split inhabits the predicate cleanly -/
@@ -91,8 +109,14 @@ theorem open_of_leftover {n u e : Nat}
   ⟨3, u, 1, e, h, Or.inr (Or.inl ⟨rfl, rfl, hl⟩)⟩
 
 theorem open_of_v_ge_four {n v u W e : Nat}
-    (h : IsExcursion n v u W e) (hv : 4 ≤ v) : OpenRemainder n :=
-  ⟨v, u, W, e, h, Or.inr (Or.inr hv)⟩
+    (h : IsExcursion n v u W e) (hv : 4 ≤ v)
+    (hlight : 2 ^ W * (2 ^ v - 1) < 3 ^ v)
+    (hshort : ∀ v' u' W' e' : Nat, IsExcursion e v' u' W' e' →
+      2 ^ (v + v' + W + W' - 1) ≤ 3 ^ (v + v') ∧
+        ∀ v'' u'' W'' e'' : Nat, IsExcursion e' v'' u'' W'' e'' →
+          2 ^ (v + v' + v'' + W + W' + W'' - 1) ≤ 3 ^ (v + v' + v'')) :
+    OpenRemainder n :=
+  ⟨v, u, W, e, h, Or.inr (Or.inr ⟨hv, hlight, hshort⟩)⟩
 
 theorem open_clock_rem_two {n u e v' u' W' e' : Nat}
     (hr : Val2 (n + 5) 5) (h' : IsExcursion e v' u' W' e')
@@ -139,6 +163,13 @@ theorem pack_two {n v u W e v' u' W' e' : Nat}
     (h : IsExcursion n v u W e) (h' : IsExcursion e v' u' W' e')
     (hlt : e' < n) : ∃ eout : Nat, ExChain n eout ∧ eout < n :=
   ⟨e', ExChain.cons ⟨v, u, W, h⟩ (ExChain.one ⟨v', u', W', h'⟩), hlt⟩
+
+theorem pack_three {n v u W e v' u' W' e' v'' u'' W'' e'' : Nat}
+    (h : IsExcursion n v u W e) (h' : IsExcursion e v' u' W' e')
+    (h'' : IsExcursion e' v'' u'' W'' e'') (hlt : e'' < n) :
+    ∃ eout : Nat, ExChain n eout ∧ eout < n :=
+  ⟨e'', ExChain.cons ⟨v, u, W, h⟩
+      (ExChain.cons ⟨v', u', W', h'⟩ (ExChain.one ⟨v'', u'', W'', h''⟩)), hlt⟩
 
 
 /-! ## 3.  Glue lemmas that chain existing theorem statements -/
@@ -459,11 +490,51 @@ theorem lemmaX_of_not_open {n : Nat} (hn : 1 < n) (hodd : n % 2 = 1)
       · have hu4 := u_three_mod_four_of_v_three_heavy h rfl hWge
         have ⟨hchain, hlt⟩ := lemmaX_of_excursion_v_three h rfl hu4 hn
         exact ⟨e, hchain, hlt⟩
-    · exact hX (open_of_v_ge_four h hv4)
+    · have hv4' : 4 ≤ v := by omega
+      rcases Nat.lt_or_ge (2 ^ W * (2 ^ v - 1)) (3 ^ v) with hlight | hheavy
+      · have heodd : e % 2 = 1 := h.2.2.1
+        obtain ⟨v', u', W', e', h'⟩ := exists_excursion heodd
+        by_cases hlong : 3 ^ (v + v') < 2 ^ (v + v' + W + W' - 1)
+        · exact pack_two h h'
+            (drop_of_light_then_long h h' hv4' hlight hlong)
+        · have hshort : 2 ^ (v + v' + W + W' - 1) ≤ 3 ^ (v + v') :=
+            Nat.le_of_not_gt hlong
+          have he'odd : e' % 2 = 1 := h'.2.2.1
+          obtain ⟨v'', u'', W'', e'', h''⟩ := exists_excursion he'odd
+          by_cases hlong3 : 3 ^ (v + v' + v'') <
+              2 ^ (v + v' + v'' + W + W' + W'' - 1)
+          · exact pack_three h h' h''
+              (drop_of_short_then_long h h' h'' hv4' hlight hshort hlong3)
+          · apply hX
+            refine open_of_v_ge_four h hv4' hlight ?_
+            intro va ua Wa ea ha
+            have hva := excursion_v_unique ha h'
+            subst hva
+            have hua := excursion_u_unique ha h'
+            subst hua
+            have hWa := Val2.unique (val2_peak_of ha) (val2_peak_of h')
+            subst hWa
+            have hea := next_odd_unique ha h'
+            subst hea
+            refine And.intro hshort ?_
+            intro vb ub Wb eb hb
+            have hvb := excursion_v_unique hb h''
+            subst hvb
+            have hub := excursion_u_unique hb h''
+            subst hub
+            have hWb := Val2.unique (val2_peak_of hb) (val2_peak_of h'')
+            subst hWb
+            exact Nat.le_of_not_gt fun hlt => hlong3 hlt
+      · have hlt := drop_of_heavy h hheavy
+        exact ⟨e, ExChain.one ⟨v, u, W, h⟩, hlt⟩
 
 /-- **Collatz follows from Lemma X on `OpenRemainder`.**  The plus-five
-leftover `{ v₂ = 2 } ∪ { v₂ ≥ 4 }` is split by the first excursion and the
-two clocks; every closed letter is an existing lemmaX theorem. -/
+leftover is split by the first excursion and the two clocks.  Runs of length
+at least four drop in one step when `3^v ≤ 2^W (2^v - 1)`.  A light
+run whose next run meets `3^{v+v'} < 2^{v+v'+W+W'−1}` drops in two steps.
+When that second run misses the exponent and the third meets
+`3^{v+v'+v''} < 2^{v+v'+v''+W+W'+W''−1}`, the start drops in three steps.
+Only the remaining light complement stays in that branch. -/
 theorem collatz_of_open_remainder
     (hX : ∀ n : Nat, 1 < n → n % 2 = 1 → OpenRemainder n →
       ∃ e : Nat, ExChain n e ∧ e < n) :
@@ -478,7 +549,7 @@ theorem open_remainder_in_plus_five {n : Nat}
     (_hodd : n % 2 = 1) (hopen : OpenRemainder n) :
     ∃ r : Nat, Val2 (n + 5) r ∧ (r = 2 ∨ 4 ≤ r) := by
   obtain ⟨v, u, W, e, h, hcases⟩ := hopen
-  rcases hcases with ⟨hv, hW, _⟩ | ⟨hv, hW, _⟩ | hv4
+  rcases hcases with ⟨hv, hW, _⟩ | ⟨hv, hW, _⟩ | ⟨hv4, _, _⟩
   · obtain ⟨r, hr⟩ := Val2.exists_of_pos (by omega : 0 < n + 5)
     refine ⟨r, hr, Or.inr ?_⟩
     have h21 : IsExcursion n 2 u 1 e := hv ▸ hW ▸ h
@@ -493,7 +564,7 @@ theorem eleven_not_open : ¬ OpenRemainder 11 := by
   intro hopen
   obtain ⟨v, u, W, e, h, hcases⟩ := hopen
   have hvuniq := excursion_v_unique h eleven_val2.2
-  rcases hcases with ⟨hv2, hW, hc⟩ | ⟨hv3, _, _⟩ | hv4
+  rcases hcases with ⟨hv2, hW, hc⟩ | ⟨hv3, _, _⟩ | ⟨hv4, _, _⟩
   · subst hv2
     subst hW
     obtain ⟨r, hr, hfuel⟩ := hc
@@ -506,6 +577,169 @@ theorem eleven_not_open : ¬ OpenRemainder 11 := by
     · omega
   · omega
   · omega
+
+/-- `15` is a heavy run of length four, so it is no longer remaining input. -/
+theorem fifteen_not_open : ¬ OpenRemainder 15 := by
+  intro hopen
+  obtain ⟨v, u, W, e, h, hcases⟩ := hopen
+  have hv := excursion_v_unique h fifteen_excursion
+  subst hv
+  have hu := excursion_u_unique h fifteen_excursion
+  subst hu
+  have hW := Val2.unique (val2_peak_of h) (val2_peak_of fifteen_excursion)
+  subst hW
+  rcases hcases with ⟨hv2, _, _⟩ | ⟨hv3, _, _⟩ | ⟨_, hlight, _⟩
+  · omega
+  · omega
+  · exact absurd hlight (by decide : ¬ (2 ^ 4 * (2 ^ 4 - 1) < 3 ^ 4))
+
+/-- Run length at least 4 and at least as many extra halvings as odd steps
+is heavy, so it is outside the remaining input. -/
+theorem not_open_of_W_ge_v {n v u W e : Nat}
+    (h : IsExcursion n v u W e) (hv : 4 ≤ v) (hW : v ≤ W) :
+    ¬ OpenRemainder n := by
+  intro hopen
+  obtain ⟨v', u', W', e', h', hcases⟩ := hopen
+  have hv' := excursion_v_unique h' h
+  subst hv'
+  have hu' := excursion_u_unique h' h
+  subst hu'
+  have hW' := Val2.unique (val2_peak_of h') (val2_peak_of h)
+  subst hW'
+  rcases hcases with ⟨_, _, _⟩ | ⟨_, _, _⟩ | ⟨_, hlight, _⟩
+  · omega
+  · omega
+  · exact absurd hlight (Nat.not_lt.mpr (heavy_of_W_ge_v (by omega) hW))
+
+/-- Run length at least 4 with `W ≥ v − ⌊v/3⌋` is heavy, so it is outside
+the remaining input. -/
+theorem not_open_of_margin_third {n v u W e : Nat}
+    (h : IsExcursion n v u W e) (hv : 4 ≤ v) (hW : v - v / 3 ≤ W) :
+    ¬ OpenRemainder n := by
+  intro hopen
+  obtain ⟨v', u', W', e', h', hcases⟩ := hopen
+  have hv' := excursion_v_unique h' h
+  subst hv'
+  have hu' := excursion_u_unique h' h
+  subst hu'
+  have hW' := Val2.unique (val2_peak_of h') (val2_peak_of h)
+  subst hW'
+  rcases hcases with ⟨_, _, _⟩ | ⟨_, _, _⟩ | ⟨_, hlight, _⟩
+  · omega
+  · omega
+  · exact absurd hlight (Nat.not_lt.mpr (heavy_of_margin_third (by omega) hW))
+
+/-- Run length at least 4 with `W ≥ v − ⌊127v/306⌋` is heavy, so it is
+outside the remaining input. -/
+theorem not_open_of_margin_306 {n v u W e : Nat}
+    (h : IsExcursion n v u W e) (hv : 4 ≤ v) (hW : v - 127 * v / 306 ≤ W) :
+    ¬ OpenRemainder n := by
+  intro hopen
+  obtain ⟨v', u', W', e', h', hcases⟩ := hopen
+  have hv' := excursion_v_unique h' h
+  subst hv'
+  have hu' := excursion_u_unique h' h
+  subst hu'
+  have hW' := Val2.unique (val2_peak_of h') (val2_peak_of h)
+  subst hW'
+  rcases hcases with ⟨_, _, _⟩ | ⟨_, _, _⟩ | ⟨_, hlight, _⟩
+  · omega
+  · omega
+  · exact absurd hlight (Nat.not_lt.mpr (heavy_of_margin_306 (by omega) hW))
+
+/-- Run length at least 4 whose boundary count shares a factor with `v`
+is heavy, so that one halving count is outside the remaining input. -/
+theorem not_open_of_common_factor {n v u W e : Nat}
+    (h : IsExcursion n v u W e) (hv : 4 ≤ v)
+    (hW : W = twoCeil (3 ^ v) - v)
+    (hfac : 2 ≤ Nat.gcd v (twoCeil (3 ^ v))) :
+    ¬ OpenRemainder n := by
+  intro hopen
+  obtain ⟨v', u', W', e', h', hcases⟩ := hopen
+  have hv' := excursion_v_unique h' h
+  subst hv'
+  have hu' := excursion_u_unique h' h
+  subst hu'
+  have hW' := Val2.unique (val2_peak_of h') (val2_peak_of h)
+  subst hW'
+  rcases hcases with ⟨_, _, _⟩ | ⟨_, _, _⟩ | ⟨_, hlight, _⟩
+  · omega
+  · omega
+  · exact absurd hlight (Nat.not_lt.mpr (by
+      rw [hW]
+      exact heavy_boundary_of_common_factor (by omega) hfac))
+
+/-- Run length at least 4 whose ceiling grew by two from the previous
+length has a heavy boundary count, so that one halving count is outside
+the remaining input. -/
+theorem not_open_of_ceiling_jump {n v u W e : Nat}
+    (h : IsExcursion n v u W e) (hv : 4 ≤ v)
+    (hW : W = twoCeil (3 ^ v) - v)
+    (hjump : twoCeil (3 ^ (v - 1)) + 2 = twoCeil (3 ^ v)) :
+    ¬ OpenRemainder n := by
+  intro hopen
+  obtain ⟨v', u', W', e', h', hcases⟩ := hopen
+  have hv' := excursion_v_unique h' h
+  subst hv'
+  have hu' := excursion_u_unique h' h
+  subst hu'
+  have hW' := Val2.unique (val2_peak_of h') (val2_peak_of h)
+  subst hW'
+  rcases hcases with ⟨_, _, _⟩ | ⟨_, _, _⟩ | ⟨_, hlight, _⟩
+  · omega
+  · omega
+  · exact absurd hlight (Nat.not_lt.mpr (by
+      rw [hW]
+      exact heavy_boundary_of_ceiling_jump (by omega) hjump))
+
+/-- Run length at least 4 is outside the remaining input when its boundary
+count is a ceiling jump of two or shares a factor with the length. -/
+theorem not_open_of_jump_or_factor {n v u W e : Nat}
+    (h : IsExcursion n v u W e) (hv : 4 ≤ v)
+    (hW : W = twoCeil (3 ^ v) - v)
+    (hcase : twoCeil (3 ^ (v - 1)) + 2 = twoCeil (3 ^ v) ∨
+        2 ≤ Nat.gcd v (twoCeil (3 ^ v))) :
+    ¬ OpenRemainder n := by
+  intro hopen
+  obtain ⟨v', u', W', e', h', hcases⟩ := hopen
+  have hv' := excursion_v_unique h' h
+  subst hv'
+  have hu' := excursion_u_unique h' h
+  subst hu'
+  have hW' := Val2.unique (val2_peak_of h') (val2_peak_of h)
+  subst hW'
+  rcases hcases with ⟨_, _, _⟩ | ⟨_, _, _⟩ | ⟨_, hlight, _⟩
+  · omega
+  · omega
+  · exact absurd hlight (Nat.not_lt.mpr (by
+      rw [hW]
+      exact heavy_boundary_outside_one_jump (by omega) hcase))
+
+/-- `47` stays open: light `(4, 1)`, first landing above the start. -/
+theorem forty_seven_open : OpenRemainder 47 := by
+  refine open_of_v_ge_four forty_seven_excursion (by omega) forty_seven_light ?_
+  intro v' u' W' e' h'
+  have h121 := (forty_seven_two_step_grows).2.1
+  have hv' := excursion_v_unique h' h121
+  subst hv'
+  have hu' := excursion_u_unique h' h121
+  subst hu'
+  have hW' := Val2.unique (val2_peak_of h') (val2_peak_of h121)
+  subst hW'
+  have he' := next_odd_unique h' h121
+  subst he'
+  refine And.intro ?_ ?_
+  · decide
+  · intro v'' u'' W'' e'' h''
+    have h91 : IsExcursion 91 2 23 1 103 :=
+      ⟨rfl, rfl, rfl, by omega, by omega, rfl, rfl⟩
+    have hv'' := excursion_v_unique h'' h91
+    subst hv''
+    have hu'' := excursion_u_unique h'' h91
+    subst hu''
+    have hW'' := Val2.unique (val2_peak_of h'') (val2_peak_of h91)
+    subst hW''
+    decide
 
 end ExcursionChain
 end Collatz
